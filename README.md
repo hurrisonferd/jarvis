@@ -119,6 +119,17 @@ Restart the local server if Python code changed
 
 `jarvis_repo_sync` only supports `status` and fast-forward `pull`. It refuses to pull over uncommitted local changes.
 
+## Heartbeat Watcher
+
+The first live-mesh heartbeat is observe-only:
+
+```powershell
+python scripts\jarvis_heartbeat.py --once
+python scripts\jarvis_heartbeat.py --interval 60
+```
+
+It watches repo and `intake/` changes, writes local state to `%LOCALAPPDATA%\JARVIS\heartbeat\heartbeat_state.json`, and records recent events in `%LOCALAPPDATA%\JARVIS\heartbeat\heartbeat_log.json`. It does not pull, edit, process intake, or mutate Supabase automatically.
+
 ## Keep Private
 
 Do not commit:
