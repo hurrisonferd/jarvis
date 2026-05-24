@@ -23,8 +23,122 @@ from fastapi.responses import StreamingResponse, JSONResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
-BASE_DIR   = Path(__file__).parent
-CHAOS_PATH = BASE_DIR / "chaos" / "chaos_seed.json"
+BASE_DIR        = Path(__file__).parent
+CHAOS_PATH      = BASE_DIR / "chaos" / "chaos_seed.json"
+INTAKE_RECYCLE  = BASE_DIR / "intake" / "recycle"
+
+GRID_CANON = [
+    {
+        "file": "the-grid-mythic-design-bible.md",
+        "region": "The Neon Frontier",
+        "district": "Grid Design Bible",
+        "keywords": ["grid", "mythic", "tron", "dante", "oda", "design", "bible", "vision", "regions", "navigation", "navigation grammar", "interface"],
+        "nearby_paths": [
+            "the-grid-future-plan.md — Grid timeline and build order",
+            "the-grid-advanced-substrates.md — Research substrate map",
+            "jarvis-governed-workflow.md — How governed intake works",
+        ],
+        "warnings": [
+            "The Grid is not yet the main build. Current priority: Pachinko Bounce + JARVIS stability.",
+            "Gold Law #7: No expansion without simplification. Every new region must earn its place.",
+        ],
+        "suggested_ascent": "Keep feeding JARVIS clean memory and decisions. The Grid's terrain is built now.",
+    },
+    {
+        "file": "the-grid-future-plan.md",
+        "region": "The Neon Frontier",
+        "district": "Grid Future Plan",
+        "keywords": ["grid", "future", "plan", "timeline", "build order", "phase", "gbrain", "godot", "ar", "vr", "spatial", "virgil", "honest"],
+        "nearby_paths": [
+            "the-grid-mythic-design-bible.md — Full design vision",
+            "the-grid-advanced-substrates.md — Advanced substrate research",
+            "jarvis-governed-workflow.md — Current active workflow",
+        ],
+        "warnings": [
+            "Build after: Pachinko Bounce ships, Supabase stable, JARVIS mature.",
+            "Personal Grid data layer is buildable now — full spatial interface is 5-10 years out.",
+        ],
+        "suggested_ascent": "Focus on Phase 1: jarvis_grid text navigation. The map is already here.",
+    },
+    {
+        "file": "the-grid-advanced-substrates.md",
+        "region": "The Neon Frontier",
+        "district": "Advanced Substrates",
+        "keywords": ["substrate", "advanced", "causal", "vector field", "topology", "fractal", "quantum", "hypergraph", "4d", "lattice", "continuous field", "spatial graph"],
+        "nearby_paths": [
+            "the-grid-future-plan.md — Practical build order",
+            "the-grid-mythic-design-bible.md — Where substrates fit the vision",
+        ],
+        "warnings": [
+            "Every substrate must answer: what does this make easier to navigate, remember, predict, simplify, or govern?",
+            "Gold Law #7 applies. If it only sounds impressive, ERIS rejects it.",
+        ],
+        "suggested_ascent": "Spatial graph first. Build causal edges next. Everything else is later.",
+    },
+    {
+        "file": "codex-jarvis-agent-brief.md",
+        "region": "The Law Chamber",
+        "district": "Codex Authority / Kang",
+        "keywords": ["codex", "kang", "agent", "brief", "gpt", "production", "platform", "execution", "authority"],
+        "nearby_paths": [
+            "jarvis-governed-workflow.md — How Codex fits the governed pipeline",
+            "jarvis-stats-triggers.md — What Codex should track",
+            "live-mesh-heartbeat.md — Observe-only watcher Codex runs",
+        ],
+        "warnings": [
+            "Do not confuse execution authority with final authority.",
+            "Raven remains the deciding layer. Codex executes — it does not govern.",
+        ],
+        "suggested_ascent": "Log significant implementation decisions through PROMETHEUS before sealing.",
+    },
+    {
+        "file": "jarvis-governed-workflow.md",
+        "region": "The Routing Gate",
+        "district": "Governed Workflow",
+        "keywords": ["workflow", "governed", "intake", "review", "pipeline", "route", "promotion", "gold law", "aegis"],
+        "nearby_paths": [
+            "codex-jarvis-agent-brief.md — Who executes in this workflow",
+            "jarvis-stats-triggers.md — Event-driven tracking in the workflow",
+            "live-mesh-heartbeat.md — Passive observation layer",
+        ],
+        "warnings": [
+            "All intake promoted into code, memory, migrations, or automation must follow the governed workflow.",
+            "No silent state mutation. Every promotion requires review against Gold Law.",
+        ],
+        "suggested_ascent": "Before acting on intake, route it through AEGIS. Log the decision to PROMETHEUS.",
+    },
+    {
+        "file": "jarvis-stats-triggers.md",
+        "region": "The Signal Spire",
+        "district": "Stats and Event Triggers",
+        "keywords": ["stats", "triggers", "supabase", "events", "metrics", "tracking", "god system", "session", "event-driven"],
+        "nearby_paths": [
+            "jarvis-governed-workflow.md — What events to track",
+            "live-mesh-heartbeat.md — Passive observation alongside stats",
+            "codex-jarvis-agent-brief.md — Who fires the events",
+        ],
+        "warnings": [
+            "Stats are observation, not control. Do not let metrics drive decisions without PROMETHEUS rationale.",
+        ],
+        "suggested_ascent": "Verify Supabase triggers are firing correctly before relying on stats in decisions.",
+    },
+    {
+        "file": "live-mesh-heartbeat.md",
+        "region": "The Signal Spire",
+        "district": "Live Mesh Heartbeat",
+        "keywords": ["heartbeat", "watcher", "observe", "mesh", "live", "monitor", "passive", "file watch", "watch"],
+        "nearby_paths": [
+            "jarvis-stats-triggers.md — Active event tracking alongside passive watch",
+            "jarvis-governed-workflow.md — When observation triggers review",
+            "codex-jarvis-agent-brief.md — Who runs the watcher",
+        ],
+        "warnings": [
+            "Observe-only. The heartbeat watcher must not mutate state.",
+            "Gold Law: no_silent_state_mutation. Observation is not permission to act.",
+        ],
+        "suggested_ascent": "Use heartbeat signals as prompts to review — never as triggers for automatic action.",
+    },
+]
 
 
 def load_env_file(path: Path = BASE_DIR / ".env") -> None:
@@ -532,6 +646,24 @@ TOOLS = [
             "required": []
         }
     },
+    {
+        "name": "jarvis_grid",
+        "description": (
+            "Navigate THE GRID — a text-based spatial interface over JARVIS canon. "
+            "Returns your current location, nearby paths, warnings, and suggested ascent. "
+            "Omit query to see the full map. Pass a natural-language query to enter a region."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "description": "Where you want to go, e.g. 'codex authority', 'grid design', 'heartbeat watcher'"
+                }
+            },
+            "required": []
+        }
+    },
 ]
 
 PLATFORM_ARCHETYPES = {
@@ -931,6 +1063,99 @@ async def handle_jarvis_stats(args: dict) -> str:
     return "\n".join(lines)
 
 
+async def handle_jarvis_grid(args: dict) -> str:
+    query = args.get("query", "").lower().strip()
+
+    if not query:
+        lines = [
+            "YOU ARE AT: The Grid — Entrance",
+            "═" * 43,
+            "THE GRID v0 — Text Navigation Layer",
+            "JARVIS is your guide. Ask where you want to go.",
+            "",
+            "KNOWN LOCATIONS:",
+        ]
+        seen_regions: set = set()
+        for node in GRID_CANON:
+            label = f"{node['region']} / {node['district']}"
+            if node["region"] not in seen_regions:
+                lines.append(f"")
+                lines.append(f"  [{node['region']}]")
+                seen_regions.add(node["region"])
+            lines.append(f"    • {node['district']}  →  intake/recycle/{node['file']}")
+        lines += [
+            "",
+            "SUGGESTED NAVIGATION:",
+            "  jarvis_grid(query='codex authority')",
+            "  jarvis_grid(query='grid design bible')",
+            "  jarvis_grid(query='heartbeat watcher')",
+            "  jarvis_grid(query='governed workflow')",
+        ]
+        return "\n".join(lines)
+
+    best_node = None
+    best_score = 0
+
+    for node in GRID_CANON:
+        score = sum(1 for kw in node["keywords"] if kw in query)
+        if node["file"].replace("-", " ").replace(".md", "") in query:
+            score += 3
+        if score > best_score:
+            best_score = score
+            best_node = node
+
+    if best_score == 0:
+        query_words = set(query.split())
+        for node in GRID_CANON:
+            for kw in node["keywords"]:
+                if query_words & set(kw.split()):
+                    best_node = node
+                    best_score = 1
+                    break
+            if best_node:
+                break
+
+    if not best_node:
+        lines = [
+            f"JARVIS GRID — No location found for: '{query}'",
+            "═" * 43,
+            "Known regions:",
+        ]
+        for node in GRID_CANON:
+            lines.append(f"  • {node['region']} / {node['district']}")
+        lines += ["", "Try: codex, grid, workflow, heartbeat, stats, substrates, governed"]
+        return "\n".join(lines)
+
+    excerpt = ""
+    canon_file = INTAKE_RECYCLE / best_node["file"]
+    if canon_file.exists():
+        try:
+            content_lines = [
+                l.strip() for l in canon_file.read_text(encoding="utf-8").splitlines()
+                if l.strip() and not l.startswith("#")
+            ][:2]
+            excerpt = " ".join(content_lines)[:140]
+        except Exception:
+            pass
+
+    lines = [
+        f"YOU ARE ENTERING: {best_node['region']} / {best_node['district']}",
+        "═" * 43,
+    ]
+    if excerpt:
+        lines += [f"  {excerpt}", ""]
+    lines.append("NEARBY PATHS:")
+    for path in best_node["nearby_paths"]:
+        lines.append(f"  → {path}")
+    lines += ["", "WARNINGS:"]
+    for warning in best_node["warnings"]:
+        lines.append(f"  ⚠ {warning}")
+    lines += ["", "SUGGESTED ASCENT:"]
+    lines.append(f"  ↑ {best_node['suggested_ascent']}")
+    lines += ["", f"CANON SOURCE: intake/recycle/{best_node['file']}"]
+    return "\n".join(lines)
+
+
 TOOL_HANDLERS = {
     "jarvis_status":     handle_jarvis_status,
     "jarvis_entropy":    handle_jarvis_entropy,
@@ -942,6 +1167,7 @@ TOOL_HANDLERS = {
     "jarvis_recall":     handle_jarvis_recall,
     "jarvis_repo_sync":  handle_jarvis_repo_sync,
     "jarvis_stats":      handle_jarvis_stats,
+    "jarvis_grid":       handle_jarvis_grid,
 }
 
 
