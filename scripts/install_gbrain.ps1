@@ -16,6 +16,8 @@ if (-not (Get-Command bun -ErrorAction SilentlyContinue)) {
 
 bun install -g github:garrytan/gbrain
 
+$env:PATH = "$env:USERPROFILE\.bun\bin;$env:PATH"
+
 if ($env:OPENAI_API_KEY -or $env:ZEROENTROPY_API_KEY -or $env:VOYAGE_API_KEY) {
     gbrain init --pglite
 } else {

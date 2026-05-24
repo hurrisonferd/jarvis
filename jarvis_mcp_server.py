@@ -163,6 +163,11 @@ SUPABASE_KEY = (
     or ""
 )
 
+# ── Neo4j config ──────────────────────────────────────────────────────────
+NEO4J_URI  = os.environ.get("NEO4J_URI",      "bolt://localhost:7687")
+NEO4J_USER = os.environ.get("NEO4J_USER",     "neo4j")
+NEO4J_PASS = os.environ.get("NEO4J_PASSWORD", "")
+
 def supabase_enabled() -> bool:
     return bool(SUPABASE_URL and SUPABASE_KEY)
 
@@ -385,6 +390,35 @@ def update_mnemos_retrieval_stats() -> dict:
     return update_system_stats("MNEMOS", lambda stats: stats.update({
         "retrieval_count": int(stats.get("retrieval_count", 0)) + 1
     }), touches=1)
+
+
+# ── Neo4j helpers ─────────────────────────────────────────────────────────
+_neo4j_driver = None
+
+def get_neo4j_driver():
+    global _neo4j_driver
+    if _neo4j_driver is not None:
+        return _neo4j_driver
+    try:
+        from neo4j import GraphDatabase
+    except ImportError:
+        raise RuntimeError("neo4j package not installed. Run: pip install neo4j>=5.0.0")
+    if not NEO4J_PASS:
+        raise RuntimeError(
+            "NEO4J_PASSWORD not configured.\n"
+            "Add NEO4J_PASSWORD=<password> to C:\\Users\\JB\\jarvis\\.env\n"
+            "Then open Neo4j Desktop, start a local DBMS, and note the password."
+        )
+    _neo4j_driver = GraphDatabase.driver(NEO4J_URI, auth=(NEO4J_USER, NEO4J_PASS))
+    _neo4j_driver.verify_connectivity()
+    return _neo4j_driver
+
+
+def neo4j_run(cypher: str, params: dict | None = None) -> list[dict]:
+    driver = get_neo4j_driver()
+    with driver.session() as session:
+        result = session.run(cypher, params or {})
+        return [dict(r) for r in result]
 
 
 def find_git() -> str | None:
@@ -644,6 +678,38 @@ TOOLS = [
                 }
             },
             "required": []
+        }
+    },
+    {
+        "name": "jarvis_neo4j",
+        "description": (
+            "JARVIS knowledge graph (Neo4j). "
+            "Programmatic graph for God System interaction maps, session entity graphs, "
+            "and HUGINN cross-session diffs. "
+            "Boundary (NEMESIS-ratified): GBrain owns personal brain pages; "
+            "Neo4j owns JARVIS-native structured graphs. "
+            "Actions: query (raw Cypher), upsert_node, upsert_edge, traverse, init_god_systems."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": ["query", "upsert_node", "upsert_edge", "traverse", "init_god_systems"],
+                    "description": "Operation to perform"
+                },
+                "cypher":     {"type": "string",  "description": "Cypher query string (action=query)"},
+                "params":     {"type": "object",  "description": "Cypher parameters (action=query)"},
+                "label":      {"type": "string",  "description": "Node label, e.g. GodSystem, Session, Decision (action=upsert_node)"},
+                "node_id":    {"type": "string",  "description": "Unique node identifier (action=upsert_node | traverse)"},
+                "properties": {"type": "object",  "description": "Node or edge properties"},
+                "from_id":    {"type": "string",  "description": "Source node id (action=upsert_edge)"},
+                "to_id":      {"type": "string",  "description": "Target node id (action=upsert_edge)"},
+                "rel_type":   {"type": "string",  "description": "Relationship type, e.g. PIPELINE_NEXT, TOUCHED, DECIDED (action=upsert_edge)"},
+                "depth":      {"type": "integer", "description": "Traversal depth 1-4 (action=traverse, default 1)"},
+                "direction":  {"type": "string",  "enum": ["out", "in", "both"], "description": "Traversal direction (action=traverse, default both)"}
+            },
+            "required": ["action"]
         }
     },
     {
@@ -1156,6 +1222,177 @@ async def handle_jarvis_grid(args: dict) -> str:
     return "\n".join(lines)
 
 
+async def handle_jarvis_neo4j(args: dict) -> str:
+    action = args.get("action", "").strip()
+    if not action:
+        return "action required: query | upsert_node | upsert_edge | traverse | init_god_systems"
+
+    try:
+        get_neo4j_driver()
+    except Exception as e:
+        return (
+            f"Neo4j unavailable: {e}\n\n"
+            "Setup steps:\n"
+            "  1. Open Neo4j Desktop and start a local DBMS\n"
+            "  2. Add NEO4J_PASSWORD=<your-password> to C:\\Users\\JB\\jarvis\\.env\n"
+            "  3. Optionally set NEO4J_URI / NEO4J_USER (defaults: bolt://localhost:7687 / neo4j)\n"
+            "  4. Restart the JARVIS MCP server"
+        )
+
+    try:
+        if action == "query":
+            cypher = args.get("cypher", "").strip()
+            if not cypher:
+                return "cypher parameter required for action=query"
+            records = neo4j_run(cypher, args.get("params") or {})
+            if not records:
+                return f"Query returned no results.\nCypher: {cypher}"
+            lines = [f"NEO4J QUERY — {len(records)} record(s)", "═" * 43]
+            for i, r in enumerate(records[:20], 1):
+                lines.append(f"[{i}] {json.dumps(r, default=str)}")
+            if len(records) > 20:
+                lines.append(f"... {len(records) - 20} more rows omitted")
+            return "\n".join(lines)
+
+        elif action == "upsert_node":
+            label   = (args.get("label") or "Node").strip()
+            node_id = args.get("node_id", "").strip()
+            if not node_id:
+                return "node_id required for action=upsert_node"
+            props = dict(args.get("properties") or {})
+            props["id"]         = node_id
+            props["updated_at"] = now()
+            records = neo4j_run(
+                f"MERGE (n:{label} {{id: $id}}) SET n += $props RETURN n.id AS id, labels(n) AS labels",
+                {"id": node_id, "props": props}
+            )
+            r = records[0] if records else {}
+            return "\n".join([
+                "NEO4J UPSERT NODE", "═" * 43,
+                f"Node:       {r.get('id','?')} [{', '.join(r.get('labels') or [])}]",
+                f"Properties: {json.dumps({k: v for k, v in props.items() if k not in ('id','updated_at')}, default=str)}",
+            ])
+
+        elif action == "upsert_edge":
+            from_id  = args.get("from_id", "").strip()
+            to_id    = args.get("to_id",   "").strip()
+            rel_type = (args.get("rel_type") or "RELATES_TO").upper().replace(" ", "_")
+            if not from_id or not to_id:
+                return "from_id and to_id required for action=upsert_edge"
+            props = dict(args.get("properties") or {})
+            props["updated_at"] = now()
+            records = neo4j_run(
+                f"MATCH (a {{id: $from_id}}), (b {{id: $to_id}}) "
+                f"MERGE (a)-[r:{rel_type}]->(b) SET r += $props "
+                f"RETURN a.id AS from_id, type(r) AS rel, b.id AS to_id",
+                {"from_id": from_id, "to_id": to_id, "props": props}
+            )
+            if not records:
+                return (
+                    f"Edge not created — nodes not found.\n"
+                    f"Verify '{from_id}' and '{to_id}' exist (action=query or upsert_node first)."
+                )
+            r = records[0]
+            return "\n".join([
+                "NEO4J UPSERT EDGE", "═" * 43,
+                f"{r['from_id']} -[{r['rel']}]-> {r['to_id']}",
+            ])
+
+        elif action == "traverse":
+            node_id   = args.get("node_id", "").strip()
+            if not node_id:
+                return "node_id required for action=traverse"
+            depth     = max(1, min(int(args.get("depth") or 1), 4))
+            direction = args.get("direction", "both")
+            if direction == "out":
+                pattern = f"-[*1..{depth}]->"
+            elif direction == "in":
+                pattern = f"<-[*1..{depth}]-"
+            else:
+                pattern = f"-[*1..{depth}]-"
+            records = neo4j_run(
+                f"MATCH (n {{id: $id}}){pattern}(m) "
+                f"RETURN DISTINCT m.id AS id, labels(m) AS labels LIMIT 50",
+                {"id": node_id}
+            )
+            if not records:
+                return f"No neighbors found for '{node_id}' (depth={depth}, direction={direction})."
+            lines = [f"NEO4J TRAVERSE — '{node_id}' depth={depth} [{direction}]", "═" * 43]
+            for r in records:
+                lines.append(f"  {r.get('id','?')} [{', '.join(r.get('labels') or [])}]")
+            return "\n".join(lines)
+
+        elif action == "init_god_systems":
+            chaos       = load_chaos()
+            god_systems = chaos.get("god_systems", {})
+            if not god_systems:
+                return "No God Systems found in chaos_seed.json."
+            pipeline  = chaos.get("pipeline", {}).get("order", [])
+            parallel  = chaos.get("pipeline", {}).get("parallel", [])
+            forbidden = chaos.get("interaction_graph", {}).get("forbidden_edges", [])
+
+            nodes_written = edges_written = 0
+
+            for name, data in god_systems.items():
+                neo4j_run(
+                    "MERGE (n:GodSystem {id: $id}) SET n += $props",
+                    {"id": name, "props": {
+                        "id":          name,
+                        "tier":        data.get("tier", ""),
+                        "function":    data.get("function", data.get("role", "")),
+                        "cannot":      json.dumps(data.get("cannot", [])),
+                        "always_active": data.get("always_active", False),
+                        "updated_at":  now(),
+                    }}
+                )
+                nodes_written += 1
+
+            for i in range(len(pipeline) - 1):
+                a, b = pipeline[i], pipeline[i + 1]
+                if a in god_systems and b in god_systems:
+                    neo4j_run(
+                        "MATCH (a:GodSystem {id: $a}), (b:GodSystem {id: $b}) "
+                        "MERGE (a)-[:PIPELINE_NEXT {order: $order}]->(b)",
+                        {"a": a, "b": b, "order": i}
+                    )
+                    edges_written += 1
+
+            for sys_name in parallel:
+                if sys_name in god_systems and "ODIN" in god_systems:
+                    neo4j_run(
+                        "MATCH (a:GodSystem {id: $a}), (b:GodSystem {id: $b}) "
+                        "MERGE (a)-[:PARALLEL_WITH]->(b)",
+                        {"a": "ODIN", "b": sys_name}
+                    )
+                    edges_written += 1
+
+            for edge in forbidden:
+                if len(edge) == 2 and edge[0] in god_systems and edge[1] in god_systems:
+                    neo4j_run(
+                        "MATCH (a:GodSystem {id: $a}), (b:GodSystem {id: $b}) "
+                        "MERGE (a)-[:FORBIDDEN {reason: 'Gold Law constraint'}]->(b)",
+                        {"a": edge[0], "b": edge[1]}
+                    )
+                    edges_written += 1
+
+            return "\n".join([
+                "NEO4J INIT — God Systems", "═" * 43,
+                f"Nodes upserted: {nodes_written}",
+                f"Edges upserted: {edges_written}",
+                f"  Pipeline:  {' → '.join(pipeline)}",
+                f"  Parallel:  {', '.join(parallel)}",
+                f"  Forbidden: {len(forbidden)} edge(s)",
+                "✓ JARVIS knowledge graph seeded",
+                "Next: jarvis_neo4j(action='traverse', node_id='ERIS') to verify",
+            ])
+
+        else:
+            return f"Unknown action: {action}\nValid: query | upsert_node | upsert_edge | traverse | init_god_systems"
+
+    except Exception as e:
+        return f"Neo4j error [{action}]: {e}"
+
+
 TOOL_HANDLERS = {
     "jarvis_status":     handle_jarvis_status,
     "jarvis_entropy":    handle_jarvis_entropy,
@@ -1168,6 +1405,7 @@ TOOL_HANDLERS = {
     "jarvis_repo_sync":  handle_jarvis_repo_sync,
     "jarvis_stats":      handle_jarvis_stats,
     "jarvis_grid":       handle_jarvis_grid,
+    "jarvis_neo4j":      handle_jarvis_neo4j,
 }
 
 
