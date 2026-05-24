@@ -99,6 +99,20 @@ Use `intake/` for AI-generated uploads that should be reviewed before they becom
 
 Do not commit secrets, service-role keys, private seeds, or raw private logs in intake files.
 
+## Repo Sync Loop
+
+Codex can make targeted repo changes, commit them to GitHub, and JARVIS can pull the updated code through its MCP tool:
+
+```text
+Describe the change in Codex
+Codex edits and pushes hurrisonferd/jarvis
+Call jarvis_repo_sync with action=status
+Call jarvis_repo_sync with action=pull when ready
+Restart the local server if Python code changed
+```
+
+`jarvis_repo_sync` only supports `status` and fast-forward `pull`. It refuses to pull over uncommitted local changes.
+
 ## Keep Private
 
 Do not commit:

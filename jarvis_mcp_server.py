@@ -9,6 +9,8 @@ import uuid
 import hashlib
 import asyncio
 import os
+import shutil
+import subprocess
 import urllib.error
 import urllib.request
 from datetime import datetime, timezone
@@ -111,6 +113,44 @@ def supabase_update_stats(system_id: str, touches: int = 1) -> dict:
         return {"ok": False, "status": e.code, "error": e.read().decode(errors="replace")}
     except Exception as e:
         return {"ok": False, "status": None, "error": str(e)}
+
+
+def find_git() -> str | None:
+    candidates = [
+        shutil.which("git"),
+        r"C:\Program Files\Git\cmd\git.exe",
+        r"C:\Program Files\Git\bin\git.exe",
+        str(Path.home() / "AppData" / "Local" / "Programs" / "Git" / "cmd" / "git.exe"),
+    ]
+    for candidate in candidates:
+        if candidate and Path(candidate).exists():
+            return candidate
+    return None
+
+
+def run_git(args: list[str], timeout: int = 20) -> dict:
+    git = find_git()
+    if not git:
+        return {"ok": False, "code": None, "out": "", "err": "git executable not found"}
+    try:
+        proc = subprocess.run(
+            [git, *args],
+            cwd=BASE_DIR,
+            capture_output=True,
+            text=True,
+            timeout=timeout,
+            check=False,
+        )
+        return {
+            "ok": proc.returncode == 0,
+            "code": proc.returncode,
+            "out": proc.stdout.strip(),
+            "err": proc.stderr.strip(),
+        }
+    except subprocess.TimeoutExpired:
+        return {"ok": False, "code": None, "out": "", "err": f"git {' '.join(args)} timed out"}
+    except Exception as e:
+        return {"ok": False, "code": None, "out": "", "err": str(e)}
 
 # ── Local fallback ────────────────────────────────────────────────────────
 LOG_PATH  = BASE_DIR / "chaos" / "session_log.json"
@@ -299,6 +339,25 @@ TOOLS = [
                 }
             },
             "required": ["query"]
+        }
+    },
+    {
+        "name": "jarvis_repo_sync",
+        "description": (
+            "Inspect or pull the local JARVIS GitHub checkout. "
+            "Use action=status to check branch/dirty state; use action=pull "
+            "only when the user wants the MCP server to update local code from origin."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "action": {
+                    "type": "string",
+                    "enum": ["status", "pull"],
+                    "description": "status checks local Git state; pull fetches and fast-forwards from origin"
+                }
+            },
+            "required": []
         }
     },
 ]
@@ -586,6 +645,55 @@ async def handle_jarvis_recall(args: dict) -> str:
     return "\n".join(lines)
 
 
+async def handle_jarvis_repo_sync(args: dict) -> str:
+    action = args.get("action", "status")
+    if action not in {"status", "pull"}:
+        return "Unknown repo sync action. Use action=status or action=pull."
+
+    root = run_git(["rev-parse", "--show-toplevel"])
+    if not root["ok"]:
+        return f"JARVIS repo sync unavailable: {root['err'] or root['out']}"
+
+    branch = run_git(["branch", "--show-current"])
+    status = run_git(["status", "--short", "--branch"])
+    remote = run_git(["remote", "get-url", "origin"])
+
+    if action == "status":
+        return "\n".join([
+            "JARVIS REPO STATUS",
+            "=" * 18,
+            f"repo:   {root['out']}",
+            f"branch: {branch['out'] or 'unknown'}",
+            f"origin: {remote['out'] or 'unknown'}",
+            "",
+            status["out"] or "clean",
+        ])
+
+    dirty = run_git(["status", "--porcelain"])
+    if not dirty["ok"]:
+        return f"Could not inspect working tree before pull: {dirty['err'] or dirty['out']}"
+    if dirty["out"]:
+        return "\n".join([
+            "Pull blocked: local working tree has uncommitted changes.",
+            "Commit, stash, or review these files first:",
+            dirty["out"],
+        ])
+
+    pull = run_git(["pull", "--ff-only", "origin", branch["out"] or "main"], timeout=60)
+    if not pull["ok"]:
+        return "\n".join([
+            "JARVIS repo pull failed.",
+            pull["err"] or pull["out"] or "No output from git.",
+        ])
+
+    after = run_git(["rev-parse", "--short", "HEAD"])
+    return "\n".join([
+        "JARVIS repo pull complete.",
+        pull["out"] or "Already up to date.",
+        f"HEAD: {after['out'] or 'unknown'}",
+    ])
+
+
 TOOL_HANDLERS = {
     "jarvis_status":     handle_jarvis_status,
     "jarvis_entropy":    handle_jarvis_entropy,
@@ -595,6 +703,7 @@ TOOL_HANDLERS = {
     "jarvis_overlap":    handle_jarvis_overlap,
     "jarvis_sessions":   handle_jarvis_sessions,
     "jarvis_recall":     handle_jarvis_recall,
+    "jarvis_repo_sync":  handle_jarvis_repo_sync,
 }
 
 
