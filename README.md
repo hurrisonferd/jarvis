@@ -105,6 +105,8 @@ Codex is the JARVIS execution layer for local implementation work. Its archetype
 
 JARVIS stats are event-driven, not decorative. Trigger definitions live in `intake/recycle/jarvis-stats-triggers.md`, and MCP clients can read stats with `jarvis_stats`.
 
+Long-range concepts live in `intake/recycle/`. THE GRID is tracked there as a future navigable knowledge space with JARVIS-as-Virgil guidance, Tron-inspired interface language, and Oda-scale worldbuilding.
+
 ## Repo Sync Loop
 
 Codex can make targeted repo changes, commit them to GitHub, and JARVIS can pull the updated code through its MCP tool:

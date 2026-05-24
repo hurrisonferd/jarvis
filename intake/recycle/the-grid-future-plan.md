@@ -104,3 +104,7 @@ ERIS prevents complexity from accumulating without purpose.
 - Gun Gale Online: real-world monetary integration
 - Tron: aesthetic and spatial navigation feel
 - Battle Network: layered digital space alongside physical space
+- Oda-scale worldbuilding: distinct regions with coherent rules, histories, and routes
+- Dante Alighieri: guided traversal through layered meaning, with JARVIS as Virgil
+
+See `the-grid-mythic-design-bible.md` for the full imaginative north star.
