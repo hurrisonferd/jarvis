@@ -213,6 +213,14 @@ belongs_to
 references
 ```
 
+## Advanced Substrates
+
+The Grid can eventually use spatial graphs, causal graphs, continuous fields, vector fields, hypergraphs, 4D lattice views, topology, and quantum-inspired optimization.
+
+These are research layers, not immediate build targets. Each must make the Grid easier to navigate, remember, predict, simplify, or govern.
+
+See `the-grid-advanced-substrates.md`.
+
 ## Build Path
 
 Phase 0: Canon
