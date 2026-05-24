@@ -38,9 +38,13 @@ http://localhost:7777/health
 Set these environment variables before starting the server:
 
 ```powershell
-$env:SUPABASE_URL="https://your-project.supabase.co"
-$env:SUPABASE_KEY="your-supabase-key"
+$env:SUPABASE_URL="https://oexghfsvhnggddllgvrt.supabase.co"
+$env:SUPABASE_SERVICE_ROLE_KEY="your-private-service-role-key"
 ```
+
+Use a service-role key for server-side JARVIS sync. Do not commit it. Public anon/publishable keys should only be used after Row Level Security policies are configured.
+
+You can also put the same values in a local `.env`; the MCP server and MNEMOS loader read it automatically.
 
 ## Optional MNEMOS Vector Search
 
@@ -50,6 +54,37 @@ MNEMOS expects Ollama with `nomic-embed-text`:
 ollama pull nomic-embed-text
 ollama serve
 ```
+
+`jarvis_end` and `jarvis_log` write local JSON, Supabase rows, and MNEMOS vectors when the required services are available.
+
+## Continue.dev
+
+Workspace MCP configs live in `.continue/mcpServers/`:
+
+- `jarvis.yaml` connects Continue to the local JARVIS server at `http://localhost:7777/sse`.
+- `gbrain.yaml` connects Continue to `gbrain serve` after GBrain is installed.
+
+MCP tools only load in Continue agent mode. Start JARVIS before opening the tools:
+
+```powershell
+python jarvis_mcp_server.py
+```
+
+## GBrain
+
+GBrain requires Bun. Install Bun first if needed:
+
+```powershell
+powershell -c "irm bun.sh/install.ps1 | iex"
+```
+
+Then run:
+
+```powershell
+.\scripts\install_gbrain.ps1
+```
+
+The script follows the upstream standalone path: `bun install -g github:garrytan/gbrain`, `gbrain init --pglite`, then `gbrain doctor`.
 
 ## Keep Private
 

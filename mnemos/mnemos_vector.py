@@ -18,6 +18,7 @@ Usage:
 
 import json
 import math
+import os
 import sqlite3
 import urllib.request
 import urllib.error
@@ -28,6 +29,67 @@ from pathlib import Path
 OLLAMA_EMBED_URL = "http://localhost:11434/api/embeddings"
 EMBED_MODEL      = "nomic-embed-text"
 DB_PATH          = Path(__file__).parent.parent / "chaos" / "mnemos_vectors.db"
+
+
+def load_env_file(path: Path = Path(__file__).parent.parent / ".env") -> None:
+    if not path.exists():
+        return
+    for raw_line in path.read_text().splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+load_env_file()
+
+SUPABASE_URL     = os.environ.get("SUPABASE_URL", "").rstrip("/")
+SUPABASE_KEY     = (
+    os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    or os.environ.get("SUPABASE_KEY")
+    or os.environ.get("SUPABASE_ANON_KEY")
+    or ""
+)
+
+
+def supabase_enabled() -> bool:
+    return bool(SUPABASE_URL and SUPABASE_KEY)
+
+
+def supabase_upsert_memory(entry: dict) -> dict:
+    if not supabase_enabled():
+        return {"ok": False, "status": None, "error": "Supabase credentials not configured"}
+
+    payload = {
+        "id": entry["id"],
+        "source_id": entry["source_id"],
+        "source_type": entry["source_type"],
+        "text": entry["text"],
+        "vector_json": entry["vector"],
+        "entropy": entry["entropy"],
+        "platform": entry["platform"],
+        "timestamp": entry["timestamp"],
+        "metadata": entry.get("metadata", {}),
+    }
+    req = urllib.request.Request(
+        f"{SUPABASE_URL}/rest/v1/mnemos_memories?on_conflict=id",
+        data=json.dumps(payload).encode(),
+        headers={
+            "Content-Type": "application/json",
+            "apikey": SUPABASE_KEY,
+            "Authorization": f"Bearer {SUPABASE_KEY}",
+            "Prefer": "resolution=merge-duplicates,return=minimal",
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=5) as r:
+            return {"ok": r.status in (200, 201, 204), "status": r.status, "error": None}
+    except urllib.error.HTTPError as e:
+        return {"ok": False, "status": e.code, "error": e.read().decode(errors="replace")}
+    except Exception as e:
+        return {"ok": False, "status": None, "error": str(e)}
 
 
 # ─────────────────────────────────────────────────────────────────────────────
@@ -150,6 +212,17 @@ class MNEMOSVector:
         entry_id = f"{source_type}:{source_id}"
         ts = datetime.now(timezone.utc).isoformat()
 
+        full_entry = {
+            "id":          entry_id,
+            "source_id":   source_id,
+            "source_type": source_type,
+            "text":        text,
+            "vector":      vector,
+            "entropy":     entropy,
+            "platform":    platform,
+            "timestamp":   ts,
+        }
+
         with sqlite3.connect(self.db_path) as conn:
             conn.execute("""
                 INSERT OR REPLACE INTO vector_store
@@ -167,13 +240,16 @@ class MNEMOSVector:
             ))
             conn.commit()
 
+        supabase_sync = supabase_upsert_memory(full_entry)
+
         return {
             "id":          entry_id,
             "source_type": source_type,
             "text":        text[:80] + "..." if len(text) > 80 else text,
             "entropy":     entropy,
             "timestamp":   ts,
-            "vector_dims": len(vector)
+            "vector_dims": len(vector),
+            "supabase":    supabase_sync["ok"],
         }
 
     def search(

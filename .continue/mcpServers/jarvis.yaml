@@ -1,0 +1,8 @@
+name: JARVIS MCP
+version: 0.0.1
+schema: v1
+mcpServers:
+  - name: JARVIS Local
+    type: sse
+    url: http://localhost:7777/sse
+    connectionTimeout: 10000

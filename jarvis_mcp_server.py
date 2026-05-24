@@ -9,6 +9,7 @@ import uuid
 import hashlib
 import asyncio
 import os
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -22,13 +23,35 @@ import uvicorn
 BASE_DIR   = Path(__file__).parent
 CHAOS_PATH = BASE_DIR / "chaos" / "chaos_seed.json"
 
-# ── Supabase config ───────────────────────────────────────────────────────
-SUPABASE_URL = os.environ.get("SUPABASE_URL", "")
-SUPABASE_KEY = os.environ.get("SUPABASE_KEY", "")
 
-def supabase_insert(table: str, data: dict) -> bool:
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        return False
+def load_env_file(path: Path = BASE_DIR / ".env") -> None:
+    if not path.exists():
+        return
+    for raw_line in path.read_text().splitlines():
+        line = raw_line.strip()
+        if not line or line.startswith("#") or "=" not in line:
+            continue
+        key, value = line.split("=", 1)
+        os.environ.setdefault(key.strip(), value.strip().strip('"').strip("'"))
+
+
+load_env_file()
+
+# ── Supabase config ───────────────────────────────────────────────────────
+SUPABASE_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
+SUPABASE_KEY = (
+    os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+    or os.environ.get("SUPABASE_KEY")
+    or os.environ.get("SUPABASE_ANON_KEY")
+    or ""
+)
+
+def supabase_enabled() -> bool:
+    return bool(SUPABASE_URL and SUPABASE_KEY)
+
+def supabase_insert(table: str, data: dict) -> dict:
+    if not supabase_enabled():
+        return {"ok": False, "status": None, "error": "Supabase credentials not configured"}
     try:
         req = urllib.request.Request(
             f"{SUPABASE_URL}/rest/v1/{table}",
@@ -42,9 +65,11 @@ def supabase_insert(table: str, data: dict) -> bool:
             method="POST"
         )
         with urllib.request.urlopen(req, timeout=5) as r:
-            return r.status in (200, 201)
-    except Exception:
-        return False
+            return {"ok": r.status in (200, 201), "status": r.status, "error": None}
+    except urllib.error.HTTPError as e:
+        return {"ok": False, "status": e.code, "error": e.read().decode(errors="replace")}
+    except Exception as e:
+        return {"ok": False, "status": None, "error": str(e)}
 
 def supabase_select(table: str, limit: int = 10, order: str = "created_at") -> list:
     if not SUPABASE_URL or not SUPABASE_KEY:
@@ -62,9 +87,9 @@ def supabase_select(table: str, limit: int = 10, order: str = "created_at") -> l
     except Exception:
         return []
 
-def supabase_update_stats(system_id: str, touches: int = 1) -> bool:
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        return False
+def supabase_update_stats(system_id: str, touches: int = 1) -> dict:
+    if not supabase_enabled():
+        return {"ok": False, "status": None, "error": "Supabase credentials not configured"}
     try:
         req = urllib.request.Request(
             f"{SUPABASE_URL}/rest/v1/god_system_stats?system_id=eq.{system_id}",
@@ -81,9 +106,11 @@ def supabase_update_stats(system_id: str, touches: int = 1) -> bool:
             method="PATCH"
         )
         with urllib.request.urlopen(req, timeout=5) as r:
-            return r.status in (200, 204)
-    except Exception:
-        return False
+            return {"ok": r.status in (200, 204), "status": r.status, "error": None}
+    except urllib.error.HTTPError as e:
+        return {"ok": False, "status": e.code, "error": e.read().decode(errors="replace")}
+    except Exception as e:
+        return {"ok": False, "status": None, "error": str(e)}
 
 # ── Local fallback ────────────────────────────────────────────────────────
 LOG_PATH  = BASE_DIR / "chaos" / "session_log.json"
@@ -101,6 +128,26 @@ def load_log(path: Path) -> list:
 
 def save_log(path: Path, data: list) -> None:
     path.write_text(json.dumps(data, indent=2))
+
+
+def store_mnemos_session(entry: dict) -> dict:
+    try:
+        import sys as _sys
+        _sys.path.insert(0, str(BASE_DIR / "mnemos"))
+        from mnemos_vector import MNEMOSVector
+        return {"ok": True, "entry": MNEMOSVector().store_session(entry), "error": None}
+    except Exception as e:
+        return {"ok": False, "entry": None, "error": str(e)}
+
+
+def store_mnemos_prometheus(entry: dict) -> dict:
+    try:
+        import sys as _sys
+        _sys.path.insert(0, str(BASE_DIR / "mnemos"))
+        from mnemos_vector import MNEMOSVector
+        return {"ok": True, "entry": MNEMOSVector().store_prometheus(entry), "error": None}
+    except Exception as e:
+        return {"ok": False, "entry": None, "error": str(e)}
 
 
 def now() -> str:
@@ -367,7 +414,7 @@ async def handle_jarvis_end(args: dict) -> str:
     }
 
     # Write to Supabase
-    supabase_insert("session_log", {
+    session_sync = supabase_insert("session_log", {
         "platform":          entry["platform"],
         "archetype":         entry["archetype"],
         "sealed_at":         entry["sealed_at"],
@@ -376,19 +423,20 @@ async def handle_jarvis_end(args: dict) -> str:
         "entropy_status":    entry["entropy_status"],
         "decisions":         entry["decisions"]
     })
-    supabase_insert("eris_entropy_log", {
+    entropy_sync = supabase_insert("eris_entropy_log", {
         "score":      entropy["score"],
         "status":     entropy["status"],
         "dimensions": entropy["dimensions"],
         "timestamp":  now()
     })
     # Update system touches for platforms
-    supabase_update_stats("MNEMOS")
-    supabase_update_stats("ERIS")
+    mnemos_stats = supabase_update_stats("MNEMOS")
+    eris_stats = supabase_update_stats("ERIS")
     # Local fallback
     log = load_log(LOG_PATH)
     log.append(entry)
     save_log(LOG_PATH, log)
+    mnemos_vector = store_mnemos_session(entry)
 
     return f"""SESSION SEALED — {entry['sealed_at']}
 ═══════════════════════════════════════════
@@ -420,7 +468,7 @@ async def handle_jarvis_log(args: dict) -> str:
     }
 
     # Write to Supabase
-    supabase_insert("prometheus_log", {
+    prometheus_sync = supabase_insert("prometheus_log", {
         "decision":        entry["decision"],
         "rationale":       entry["rationale"],
         "system_affected": entry["system_affected"],
@@ -428,11 +476,12 @@ async def handle_jarvis_log(args: dict) -> str:
         "raven_approved":  False,
         "timestamp":       entry["timestamp"]
     })
-    supabase_update_stats(entry["system_affected"])
+    stats_sync = supabase_update_stats(entry["system_affected"])
     # Local fallback
     log = load_log(PROM_PATH)
     log.append(entry)
     save_log(PROM_PATH, log)
+    mnemos_vector = store_mnemos_prometheus(entry)
 
     return f"""PROMETHEUS LOG — Entry #{len(log)}
 ═══════════════════════════════════════════
@@ -600,6 +649,7 @@ async def health():
         "eris_status":  entropy["status"],
         "chaos_loaded": bool(chaos),
         "god_systems":  len(chaos.get("god_systems", {})),
+        "supabase":     supabase_enabled(),
         "timestamp":    now()
     }
 
