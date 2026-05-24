@@ -1,0 +1,86 @@
+{
+  "chaos_version": "1.1",
+  "jarvis_version": "2.5",
+  "classification": "SANITIZED_EXAMPLE_SEED",
+  "mission_statement": {
+    "primary": "Build JARVIS. Build useful AI workflows. Keep human authority explicit.",
+    "guardian": "ERIS - mission and entropy guardian",
+    "raven": "Human operator - final authority"
+  },
+  "gold_law": {
+    "definition": "Immutable constraint rule set for local JARVIS operation.",
+    "rules": [
+      "no_autonomous_self_modification",
+      "no_cross_role_authority_override",
+      "no_implicit_state_persistence",
+      "no_unvalidated_execution",
+      "no_silent_state_mutation",
+      "deterministic_evaluation_required",
+      "human_final_authority",
+      "implementation_before_expansion",
+      "no_expansion_without_simplification"
+    ]
+  },
+  "pipeline": {
+    "order": ["AYRE", "AEGIS", "ODIN", "KRONOS", "SKADI", "MNEMOS", "HUGINN", "OUTPUT"],
+    "parallel": ["HALO", "MIMIR", "BIFROST"],
+    "post_execution": ["DANTE", "APOLLO", "JANUS"],
+    "note": "AEGIS validates before ODIN routes. BIFROST is transport fabric, not a sequential stage."
+  },
+  "interaction_graph": {
+    "forbidden_edges": [
+      ["SKADI", "AEGIS"],
+      ["ODIN", "AEGIS"],
+      ["MNEMOS", "SKADI"]
+    ]
+  },
+  "god_systems": {
+    "ERIS": {
+      "tier": "GUARDIAN",
+      "function": "Gold Law embodiment, entropy reduction, mission guardian",
+      "always_active": true,
+      "cannot": ["execute tasks", "mutate memory", "override human authority"]
+    },
+    "AYRE": {
+      "tier": "EXECUTION",
+      "function": "Intake and interpretation; parses input into structured task objects",
+      "cannot": ["decide solution strategy", "validate correctness", "route"]
+    },
+    "AEGIS": {
+      "tier": "EXECUTION",
+      "function": "Constraint enforcement; validates authority and blocks unsafe execution",
+      "output": "PASS | FAIL | REDIRECT",
+      "cannot": ["execute tasks", "route tasks", "store memory", "modify Gold Law"]
+    },
+    "ODIN": {
+      "tier": "EXECUTION",
+      "function": "Central orchestration router; selects execution paths and coordinates systems",
+      "cannot": ["override AEGIS", "mutate memory directly", "execute tasks"]
+    },
+    "SKADI": {
+      "tier": "EXECUTION",
+      "function": "Execution runtime; invokes tools and sequences actions",
+      "cannot": ["reroute logic", "validate itself", "modify ODIN decisions"]
+    },
+    "MNEMOS": {
+      "tier": "MEMORY",
+      "function": "Persistent memory; long-term semantic continuity and indexed knowledge",
+      "cannot": ["execute logic", "decide routing"]
+    },
+    "HUGINN": {
+      "tier": "MEMORY",
+      "function": "Cross-session diff and reconciliation",
+      "cannot": ["mutate state directly", "execute tasks", "make binding resolution decisions"]
+    },
+    "PROMETHEUS": {
+      "tier": "GOVERNANCE",
+      "function": "Controlled capability expansion and rationale ledger",
+      "cannot": ["approve speculative systems", "approve duplicate abstractions"]
+    },
+    "NEMESIS": {
+      "tier": "INTEGRITY",
+      "function": "Drift correction and overlap detection",
+      "cannot": ["reject proposals", "resolve conflicts"]
+    }
+  }
+}
