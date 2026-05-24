@@ -10,6 +10,7 @@ The public repository contains the code and safe examples. Local runtime state, 
 - `mnemos/mnemos_vector.py` - semantic memory layer backed by SQLite and Ollama embeddings.
 - `chaos/session_sync.py` - session start/end helpers and HUGINN-style diff logic.
 - `chaos/chaos_seed.example.json` - sanitized sample seed for local setup.
+- `intake/` - GitHub-backed review lane for GPT, Claude, Codex, and other AI handoffs.
 
 ## Local Setup
 
@@ -85,6 +86,18 @@ Then run:
 ```
 
 The script follows the upstream standalone path: `bun install -g github:garrytan/gbrain`, `gbrain init --pglite`, then `gbrain doctor`.
+
+## AI Intake
+
+Use `intake/` for AI-generated uploads that should be reviewed before they become JARVIS memory, issues, migrations, or code changes.
+
+- Put GPT handoffs in `intake/gpt/`.
+- Put Claude handoffs in `intake/claude/`.
+- Put Codex handoffs in `intake/codex/`.
+- Move reviewed files to `intake/processed/`.
+- Copy reusable prompts, patterns, and decisions to `intake/recycle/`.
+
+Do not commit secrets, service-role keys, private seeds, or raw private logs in intake files.
 
 ## Keep Private
 
