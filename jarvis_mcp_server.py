@@ -12,6 +12,7 @@ import os
 import shutil
 import subprocess
 import urllib.error
+import urllib.parse
 import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
@@ -89,30 +90,187 @@ def supabase_select(table: str, limit: int = 10, order: str = "created_at") -> l
     except Exception:
         return []
 
-def supabase_update_stats(system_id: str, touches: int = 1) -> dict:
+DEFAULT_STATS = {
+    "JARVIS": {"sessions_sealed": 0, "decisions_logged": 0, "entropy_current": 0.0, "entropy_trend": "stable", "gold_law_violations": 0, "platforms_active": 0, "days_since_start": 0, "build_vs_theory_ratio": 0.0, "build_sessions": 0, "theory_sessions": 0, "platforms_seen": []},
+    "ERIS": {"entropy_signals_sent": 0, "mission_alignment_score": 1.0, "last_signal_reason": None, "gold_law_checks": 0, "drift_events_caught": 0},
+    "AEGIS": {"constraints_enforced": 0, "vetoes_issued": 0, "gold_law_violations_blocked": 0, "pass_rate": 1.0, "last_veto_reason": None},
+    "ODIN": {"routing_decisions": 0, "routes_to_skadi": 0, "routes_to_mnemos": 0, "failed_routes": 0, "avg_route_depth": 0.0},
+    "SKADI": {"tasks_executed": 0, "tasks_completed": 0, "tasks_failed": 0, "completion_rate": 1.0, "last_task_type": None},
+    "MNEMOS": {"sessions_stored": 0, "vector_count": 0, "retrieval_count": 0, "avg_drift_score": 0.0, "oldest_memory_days": 0},
+    "PROMETHEUS": {"decisions_logged": 0, "systems_most_affected": [], "avg_eris_weight": 0.0, "pending_raven_approval": 0, "last_decision_system": None},
+    "JANUS": {"proposals_generated": 0, "proposals_accepted": 0, "proposals_rejected": 0, "acceptance_rate": 0.0, "last_proposal_topic": None},
+    "HUGINN": {"diffs_computed": 0, "drift_detected_count": 0, "avg_drift_score": 0.0, "cross_platform_syncs": 0, "last_sync_platform": None},
+    "HALO": {"structure_checks": 0, "violations_found": 0, "clean_rate": 1.0, "last_violation_type": None, "iris_flags_received": 0},
+    "MIMIR": {"semantic_checks": 0, "contradictions_found": 0, "consistency_score": 1.0, "last_check_system": None, "false_positives": 0},
+    "NEMESIS": {"overlap_checks": 0, "warnings_issued": 0, "conflicts_found": 0, "highest_overlap_pair": None, "highest_overlap_score": 0.0},
+    "LOKI": {"rollbacks_executed": 0, "rollback_success_rate": 1.0, "deepest_rollback_depth": 0, "last_rollback_reason": None, "tidal_marks_used": 0},
+    "DANTE": {"interpretations": 0, "philosophy_queries": 0, "frames_applied": 0, "havenos_queries": 0, "last_frame_type": None},
+    "ATLAS": {"uptime_sessions": 0, "substrate_failures": 0, "avg_response_ms": 0.0, "ollama_calls": 0, "last_model_used": None},
+}
+
+
+def default_stats_for(system_id: str) -> dict:
+    return dict(DEFAULT_STATS.get(system_id.upper(), {}))
+
+
+def stats_columns(stats: dict) -> dict:
+    numeric_items = [
+        (key, value)
+        for key, value in stats.items()
+        if isinstance(value, (int, float)) and not isinstance(value, bool)
+    ][:5]
+    payload = {"stats_json": stats}
+    for index, (key, value) in enumerate(numeric_items):
+        letter = chr(ord("a") + index)
+        payload[f"stat_{letter}_key"] = key
+        payload[f"stat_{letter}_val"] = value
+    return payload
+
+
+def supabase_get_stats(system_id: str) -> dict | None:
+    if not supabase_enabled():
+        return None
+    try:
+        encoded = urllib.parse.quote(system_id.upper(), safe="")
+        req = urllib.request.Request(
+            f"{SUPABASE_URL}/rest/v1/god_system_stats?system_id=eq.{encoded}&select=stats_json,session_touches&limit=1",
+            headers={"apikey": SUPABASE_KEY, "Authorization": f"Bearer {SUPABASE_KEY}"}
+        )
+        with urllib.request.urlopen(req, timeout=5) as r:
+            rows = json.loads(r.read().decode())
+        return rows[0] if rows else None
+    except Exception:
+        return None
+
+
+def supabase_upsert_stats(system_id: str, stats: dict, touches: int = 0) -> dict:
     if not supabase_enabled():
         return {"ok": False, "status": None, "error": "Supabase credentials not configured"}
+    current = supabase_get_stats(system_id) or {}
+    session_touches = int(current.get("session_touches") or 0) + touches
+    payload = {
+        "system_id": system_id.upper(),
+        "session_touches": session_touches,
+        "last_updated": now(),
+        **stats_columns(stats),
+    }
     try:
         req = urllib.request.Request(
-            f"{SUPABASE_URL}/rest/v1/god_system_stats?system_id=eq.{system_id}",
-            data=json.dumps({
-                "session_touches": touches,
-                "last_updated": now()
-            }).encode(),
+            f"{SUPABASE_URL}/rest/v1/god_system_stats?on_conflict=system_id",
+            data=json.dumps(payload).encode(),
             headers={
                 "Content-Type": "application/json",
                 "apikey": SUPABASE_KEY,
                 "Authorization": f"Bearer {SUPABASE_KEY}",
-                "Prefer": "return=minimal"
+                "Prefer": "resolution=merge-duplicates,return=minimal"
             },
-            method="PATCH"
+            method="POST"
         )
         with urllib.request.urlopen(req, timeout=5) as r:
-            return {"ok": r.status in (200, 204), "status": r.status, "error": None}
+            return {"ok": r.status in (200, 201, 204), "status": r.status, "error": None}
     except urllib.error.HTTPError as e:
         return {"ok": False, "status": e.code, "error": e.read().decode(errors="replace")}
     except Exception as e:
         return {"ok": False, "status": None, "error": str(e)}
+
+
+def update_system_stats(system_id: str, update_fn, touches: int = 0) -> dict:
+    system_id = system_id.upper()
+    current = supabase_get_stats(system_id) or {}
+    stats = default_stats_for(system_id)
+    stats.update(current.get("stats_json") or {})
+    update_fn(stats)
+    return supabase_upsert_stats(system_id, stats, touches=touches)
+
+
+def supabase_update_stats(system_id: str, touches: int = 1) -> dict:
+    return update_system_stats(system_id, lambda _stats: None, touches=touches)
+
+
+def is_build_session(narrative: str, decisions: list) -> bool:
+    text = f"{narrative} {' '.join(str(d) for d in decisions)}".lower()
+    build_words = ["build", "code", "commit", "push", "ship", "implement", "fix", "test", "migration", "deploy"]
+    return any(word in text for word in build_words)
+
+
+def update_jarvis_session_stats(platform: str, entropy: dict, narrative: str, decisions: list) -> dict:
+    def mutate(stats: dict) -> None:
+        stats["sessions_sealed"] = int(stats.get("sessions_sealed", 0)) + 1
+        stats["entropy_current"] = entropy["score"]
+        stats["entropy_trend"] = "watch" if entropy["score"] >= 0.6 else "stable"
+        platforms = set(stats.get("platforms_seen") or [])
+        platforms.add(platform)
+        stats["platforms_seen"] = sorted(platforms)
+        stats["platforms_active"] = len(platforms)
+        if is_build_session(narrative, decisions):
+            stats["build_sessions"] = int(stats.get("build_sessions", 0)) + 1
+        else:
+            stats["theory_sessions"] = int(stats.get("theory_sessions", 0)) + 1
+        theory = max(int(stats.get("theory_sessions", 0)), 1)
+        stats["build_vs_theory_ratio"] = round(int(stats.get("build_sessions", 0)) / theory, 3)
+
+    return update_system_stats("JARVIS", mutate, touches=1)
+
+
+def update_jarvis_decision_stats() -> dict:
+    return update_system_stats("JARVIS", lambda stats: stats.update({
+        "decisions_logged": int(stats.get("decisions_logged", 0)) + 1
+    }), touches=1)
+
+
+def update_eris_session_stats(entropy: dict) -> dict:
+    def mutate(stats: dict) -> None:
+        stats["gold_law_checks"] = int(stats.get("gold_law_checks", 0)) + 1
+        stats["mission_alignment_score"] = round(max(0.0, 1.0 - float(entropy["score"])), 3)
+        if entropy.get("eris_action"):
+            stats["entropy_signals_sent"] = int(stats.get("entropy_signals_sent", 0)) + 1
+            stats["last_signal_reason"] = entropy["eris_action"]
+
+    return update_system_stats("ERIS", mutate, touches=1)
+
+
+def update_mnemos_session_stats(vector_saved: bool) -> dict:
+    def mutate(stats: dict) -> None:
+        stats["sessions_stored"] = int(stats.get("sessions_stored", 0)) + 1
+        if vector_saved:
+            stats["vector_count"] = int(stats.get("vector_count", 0)) + 1
+
+    return update_system_stats("MNEMOS", mutate, touches=1)
+
+
+def update_prometheus_decision_stats(system: str, eris_weight: float = 0.9) -> dict:
+    def mutate(stats: dict) -> None:
+        previous_count = int(stats.get("decisions_logged", 0))
+        stats["decisions_logged"] = previous_count + 1
+        affected = list(stats.get("systems_most_affected") or [])
+        if system and system not in affected:
+            affected.append(system)
+        stats["systems_most_affected"] = affected[-10:]
+        stats["avg_eris_weight"] = round(((float(stats.get("avg_eris_weight", 0.0)) * previous_count) + eris_weight) / max(previous_count + 1, 1), 3)
+        stats["pending_raven_approval"] = int(stats.get("pending_raven_approval", 0)) + 1
+        stats["last_decision_system"] = system
+
+    return update_system_stats("PROMETHEUS", mutate, touches=1)
+
+
+def update_nemesis_overlap_stats(system_a: str, system_b: str, score: float, status: str) -> dict:
+    def mutate(stats: dict) -> None:
+        stats["overlap_checks"] = int(stats.get("overlap_checks", 0)) + 1
+        if score > 0.45:
+            stats["warnings_issued"] = int(stats.get("warnings_issued", 0)) + 1
+        if status == "canonical_conflict":
+            stats["conflicts_found"] = int(stats.get("conflicts_found", 0)) + 1
+        if score > float(stats.get("highest_overlap_score", 0.0)):
+            stats["highest_overlap_pair"] = f"{system_a}/{system_b}"
+            stats["highest_overlap_score"] = score
+
+    return update_system_stats("NEMESIS", mutate, touches=1)
+
+
+def update_mnemos_retrieval_stats() -> dict:
+    return update_system_stats("MNEMOS", lambda stats: stats.update({
+        "retrieval_count": int(stats.get("retrieval_count", 0)) + 1
+    }), touches=1)
 
 
 def find_git() -> str | None:
@@ -246,7 +404,7 @@ TOOLS = [
         "inputSchema": {
             "type": "object",
             "properties": {
-                "platform": {"type": "string", "enum": ["claude", "gpt", "gemini"]}
+                "platform": {"type": "string", "enum": ["claude", "gpt", "gemini", "codex"]}
             },
             "required": []
         }
@@ -271,7 +429,7 @@ TOOLS = [
         "inputSchema": {
             "type": "object",
             "properties": {
-                "platform": {"type": "string", "enum": ["claude", "gpt", "gemini"]},
+                "platform": {"type": "string", "enum": ["claude", "gpt", "gemini", "codex"]},
                 "narrative": {"type": "string"},
                 "decisions": {"type": "array", "items": {"type": "string"}}
             },
@@ -360,12 +518,27 @@ TOOLS = [
             "required": []
         }
     },
+    {
+        "name": "jarvis_stats",
+        "description": "Read JARVIS/God System stats from Supabase. Use without system_id for a compact system list.",
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "system_id": {
+                    "type": "string",
+                    "description": "Optional system id such as JARVIS, ERIS, MNEMOS, PROMETHEUS, or NEMESIS"
+                }
+            },
+            "required": []
+        }
+    },
 ]
 
 PLATFORM_ARCHETYPES = {
     "claude": {"archetype": "Shiroe", "role": "vetting, audit, consistency enforcement"},
     "gpt":    {"archetype": "Kang",   "role": "production, execution, organized JARVIS spec"},
     "gemini": {"archetype": "Aizen",  "role": "ideation, interpretation, instance demonstration"},
+    "codex":  {"archetype": "JARVIS", "role": "local execution, implementation, repo control, governed automation"},
 }
 
 
@@ -488,14 +661,15 @@ async def handle_jarvis_end(args: dict) -> str:
         "dimensions": entropy["dimensions"],
         "timestamp":  now()
     })
-    # Update system touches for platforms
-    mnemos_stats = supabase_update_stats("MNEMOS")
-    eris_stats = supabase_update_stats("ERIS")
     # Local fallback
     log = load_log(LOG_PATH)
     log.append(entry)
     save_log(LOG_PATH, log)
     mnemos_vector = store_mnemos_session(entry)
+    # Update meaningful stats after the real work has happened.
+    jarvis_stats = update_jarvis_session_stats(platform, entropy, narrative, decisions)
+    mnemos_stats = update_mnemos_session_stats(bool(mnemos_vector.get("ok")))
+    eris_stats = update_eris_session_stats(entropy)
 
     return f"""SESSION SEALED — {entry['sealed_at']}
 ═══════════════════════════════════════════
@@ -535,12 +709,14 @@ async def handle_jarvis_log(args: dict) -> str:
         "raven_approved":  False,
         "timestamp":       entry["timestamp"]
     })
-    stats_sync = supabase_update_stats(entry["system_affected"])
     # Local fallback
     log = load_log(PROM_PATH)
     log.append(entry)
     save_log(PROM_PATH, log)
     mnemos_vector = store_mnemos_prometheus(entry)
+    stats_sync = supabase_update_stats(entry["system_affected"])
+    jarvis_stats = update_jarvis_decision_stats()
+    prometheus_stats = update_prometheus_decision_stats(entry["system_affected"])
 
     return f"""PROMETHEUS LOG — Entry #{len(log)}
 ═══════════════════════════════════════════
@@ -580,6 +756,7 @@ async def handle_jarvis_overlap(args: dict) -> str:
         "eris_review"        if score < 0.66 else
         "canonical_conflict"
     )
+    nemesis_stats = update_nemesis_overlap_stats(a, b, score, status)
 
     return f"""NEMESIS OVERLAP: {a} ↔ {b}
 ═══════════════════════════════════════════
@@ -642,6 +819,7 @@ async def handle_jarvis_recall(args: dict) -> str:
         lines.append(f"     {r['text'][:100]}")
         lines.append(f"     {r['timestamp'][:16]}")
         lines.append("")
+    mnemos_stats = update_mnemos_retrieval_stats()
     return "\n".join(lines)
 
 
@@ -694,6 +872,65 @@ async def handle_jarvis_repo_sync(args: dict) -> str:
     ])
 
 
+async def handle_jarvis_stats(args: dict) -> str:
+    if not supabase_enabled():
+        return "JARVIS stats unavailable: Supabase credentials are not configured."
+
+    system_id = args.get("system_id")
+    try:
+        if system_id:
+            encoded = urllib.parse.quote(system_id.upper(), safe="")
+            url = (
+                f"{SUPABASE_URL}/rest/v1/god_system_stats"
+                f"?system_id=eq.{encoded}"
+                "&select=system_id,session_touches,last_updated,stats_json"
+                "&limit=1"
+            )
+        else:
+            url = (
+                f"{SUPABASE_URL}/rest/v1/god_system_stats"
+                "?select=system_id,session_touches,last_updated,stat_a_key,stat_a_val,stat_b_key,stat_b_val,stats_json"
+                "&order=system_id.asc"
+            )
+        req = urllib.request.Request(
+            url,
+            headers={"apikey": SUPABASE_KEY, "Authorization": f"Bearer {SUPABASE_KEY}"}
+        )
+        with urllib.request.urlopen(req, timeout=5) as r:
+            rows = json.loads(r.read().decode())
+    except urllib.error.HTTPError as e:
+        return f"JARVIS stats query failed: {e.read().decode(errors='replace')}"
+    except Exception as e:
+        return f"JARVIS stats query failed: {e}"
+
+    if not rows:
+        return f"No stats found for {system_id.upper() if system_id else 'JARVIS systems'}."
+
+    if system_id:
+        row = rows[0]
+        stats = row.get("stats_json") or {}
+        lines = [
+            f"JARVIS STATS: {row.get('system_id')}",
+            "=" * 24,
+            f"session_touches: {row.get('session_touches', 0)}",
+            f"last_updated: {row.get('last_updated', '?')}",
+            "",
+        ]
+        lines.extend(f"{key}: {value}" for key, value in stats.items())
+        return "\n".join(lines)
+
+    lines = ["JARVIS SYSTEM STATS", "=" * 20]
+    for row in rows:
+        stats = row.get("stats_json") or {}
+        primary = row.get("stat_a_key") or next(iter(stats.keys()), "session_touches")
+        primary_val = row.get("stat_a_val", stats.get(primary, row.get("session_touches", 0)))
+        secondary = row.get("stat_b_key")
+        secondary_val = row.get("stat_b_val")
+        tail = f" | {secondary}: {secondary_val}" if secondary else ""
+        lines.append(f"{row.get('system_id')}: touches={row.get('session_touches', 0)} | {primary}: {primary_val}{tail}")
+    return "\n".join(lines)
+
+
 TOOL_HANDLERS = {
     "jarvis_status":     handle_jarvis_status,
     "jarvis_entropy":    handle_jarvis_entropy,
@@ -704,6 +941,7 @@ TOOL_HANDLERS = {
     "jarvis_sessions":   handle_jarvis_sessions,
     "jarvis_recall":     handle_jarvis_recall,
     "jarvis_repo_sync":  handle_jarvis_repo_sync,
+    "jarvis_stats":      handle_jarvis_stats,
 }
 
 
