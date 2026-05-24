@@ -45,3 +45,15 @@ Requested action: review | implement | remember | archive
 - Prefer summaries over full chat transcripts.
 - Move reviewed files into `processed/` after JARVIS/Codex has handled them.
 - Copy reusable fragments into `recycle/` when they should influence future work.
+
+## Governance
+
+All intake that becomes code, memory, migrations, policies, or automation should follow the JARVIS governed workflow:
+
+- review against Gold Law
+- identify relevant God Systems
+- log important rationale through PROMETHEUS/JARVIS when available
+- check for ERIS drift or NEMESIS overlap when responsibilities blur
+- preserve user control, privacy boundaries, and narrow tool permissions
+
+See `recycle/jarvis-governed-workflow.md`.

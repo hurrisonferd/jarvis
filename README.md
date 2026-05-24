@@ -99,6 +99,8 @@ Use `intake/` for AI-generated uploads that should be reviewed before they becom
 
 Do not commit secrets, service-role keys, private seeds, or raw private logs in intake files.
 
+All intake promoted into code, memory, migrations, policies, or automation should follow the JARVIS governed workflow in `intake/recycle/jarvis-governed-workflow.md`: review against Gold Law, identify relevant God Systems, log important rationale, and preserve user control.
+
 ## Repo Sync Loop
 
 Codex can make targeted repo changes, commit them to GitHub, and JARVIS can pull the updated code through its MCP tool:

@@ -34,6 +34,22 @@ Use Codex to build Pachinko Bounce against a well-defined GDD, RGB encoding spec
 Review output against Gold Law before committing.
 ```
 
+## General Workflow
+
+This recommendation is not Pachinko-specific. Pachinko Bounce is one example project that should pass through the standard JARVIS governed workflow:
+
+```text
+intake
+JARVIS/God System context
+Gold Law review
+scoped implementation
+verification
+PROMETHEUS rationale logging when needed
+GitHub commit/push
+JARVIS repo sync
+processed/recycle
+```
+
 ## Suggested Next Step
 
 Add the Pachinko Bounce GDD and RGB encoding spec to intake, then start with the smallest playable Godot slice:
