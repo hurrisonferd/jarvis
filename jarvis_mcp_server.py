@@ -421,6 +421,55 @@ def neo4j_run(cypher: str, params: dict | None = None) -> list[dict]:
         return [dict(r) for r in result]
 
 
+def neo4j_write_session(entry: dict) -> None:
+    sid = entry["session_id"]
+    neo4j_run(
+        "MERGE (s:Session {id: $id}) SET s += $props",
+        {"id": sid, "props": {
+            "id":             sid,
+            "platform":       entry.get("platform", ""),
+            "archetype":      entry.get("archetype", ""),
+            "sealed_at":      entry.get("sealed_at", ""),
+            "narrative":      (entry.get("narrative", "") or "")[:200],
+            "entropy":        entry.get("entropy", 0.0),
+            "entropy_status": entry.get("entropy_status", ""),
+        }}
+    )
+    chaos       = load_chaos()
+    known       = set(chaos.get("god_systems", {}).keys())
+    search_text = (
+        " ".join(entry.get("decisions", [])) + " " + entry.get("narrative", "")
+    ).upper()
+    for sys_name in known:
+        if sys_name in search_text:
+            neo4j_run(
+                "MATCH (s:Session {id: $sid}), (g:GodSystem {id: $gid}) "
+                "MERGE (s)-[:TOUCHED]->(g)",
+                {"sid": sid, "gid": sys_name}
+            )
+
+
+def neo4j_write_decision(entry: dict) -> None:
+    did    = entry["id"]
+    system = (entry.get("system_affected") or "GENERAL").upper()
+    neo4j_run(
+        "MERGE (d:Decision {id: $id}) SET d += $props",
+        {"id": did, "props": {
+            "id":              did,
+            "decision":        (entry.get("decision", "") or "")[:200],
+            "rationale":       (entry.get("rationale", "") or "")[:200],
+            "system_affected": system,
+            "timestamp":       entry.get("timestamp", ""),
+            "raven_approved":  entry.get("raven_approved", False),
+        }}
+    )
+    neo4j_run(
+        "MATCH (d:Decision {id: $did}), (g:GodSystem {id: $gid}) "
+        "MERGE (d)-[:AFFECTS]->(g)",
+        {"did": did, "gid": system}
+    )
+
+
 def find_git() -> str | None:
     candidates = [
         shutil.which("git"),
@@ -864,6 +913,10 @@ async def handle_jarvis_end(args: dict) -> str:
     log.append(entry)
     save_log(LOG_PATH, log)
     mnemos_vector = store_mnemos_session(entry)
+    try:
+        neo4j_write_session(entry)
+    except Exception:
+        pass
     # Update meaningful stats after the real work has happened.
     jarvis_stats = update_jarvis_session_stats(platform, entropy, narrative, decisions)
     mnemos_stats = update_mnemos_session_stats(bool(mnemos_vector.get("ok")))
@@ -912,6 +965,10 @@ async def handle_jarvis_log(args: dict) -> str:
     log.append(entry)
     save_log(PROM_PATH, log)
     mnemos_vector = store_mnemos_prometheus(entry)
+    try:
+        neo4j_write_decision(entry)
+    except Exception:
+        pass
     stats_sync = supabase_update_stats(entry["system_affected"])
     jarvis_stats = update_jarvis_decision_stats()
     prometheus_stats = update_prometheus_decision_stats(entry["system_affected"])
