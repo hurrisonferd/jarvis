@@ -101,7 +101,7 @@ Do not commit secrets, service-role keys, private seeds, or raw private logs in 
 
 All intake promoted into code, memory, migrations, policies, or automation should follow the JARVIS governed workflow in `intake/recycle/jarvis-governed-workflow.md`: review against Gold Law, identify relevant God Systems, log important rationale, and preserve user control.
 
-Codex runs as JARVIS for local implementation work. When Codex edits files, runs tests, applies migrations, commits, pushes, or syncs the repo, treat that as a JARVIS-executed operation under the governed workflow.
+Codex is the JARVIS execution layer for local implementation work. Its archetype is Kang: production, building, execution. When Codex edits files, runs tests, applies migrations, commits, pushes, or syncs the repo, treat that as a JARVIS-executed operation under the governed workflow.
 
 JARVIS stats are event-driven, not decorative. Trigger definitions live in `intake/recycle/jarvis-stats-triggers.md`, and MCP clients can read stats with `jarvis_stats`.
 

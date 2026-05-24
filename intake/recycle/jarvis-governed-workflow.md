@@ -6,7 +6,7 @@ Use this workflow for any project or agent handoff that should pass through JARV
 
 JARVIS is the operating context for agent-driven work. It provides memory, architecture, review language, decision logging, and explicit constraints.
 
-Codex runs as JARVIS for local implementation work: filesystem changes, tests, migrations, commits, pushes, and repo sync tasks should be treated as JARVIS-executed operations.
+Codex is the JARVIS execution layer for local implementation work: filesystem changes, tests, migrations, commits, pushes, and repo sync tasks. Its archetype is Kang: production, building, execution.
 
 God Systems and Gold Law are governance lenses unless enforcement is implemented in code, tests, CI, Supabase policies, or MCP tools.
 
@@ -24,7 +24,7 @@ God Systems and Gold Law are governance lenses unless enforcement is implemented
    Examples: AEGIS for safety, PROMETHEUS for rationale, MNEMOS for memory, ERIS for drift, NEMESIS for overlap.
 
 4. Implement
-   Codex-as-JARVIS makes scoped changes against the repo, project spec, and governance context.
+   Codex, as the JARVIS execution layer, makes scoped changes against the repo, project spec, and governance context.
 
 5. Verify
    Run syntax checks, tests, migrations, or app verification appropriate to the change.

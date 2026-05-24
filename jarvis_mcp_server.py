@@ -538,7 +538,7 @@ PLATFORM_ARCHETYPES = {
     "claude": {"archetype": "Shiroe", "role": "vetting, audit, consistency enforcement"},
     "gpt":    {"archetype": "Kang",   "role": "production, execution, organized JARVIS spec"},
     "gemini": {"archetype": "Aizen",  "role": "ideation, interpretation, instance demonstration"},
-    "codex":  {"archetype": "JARVIS", "role": "local execution, implementation, repo control, governed automation"},
+    "codex":  {"archetype": "Kang",   "role": "JARVIS execution layer: local/network implementation, repo control, governed automation"},
 }
 
 
