@@ -2393,18 +2393,17 @@ function render(){
   lane.innerHTML=files.map((f,i)=>{
     const rel=i-cur;
     const isActive=rel===0;
-    return `<div class="${cls(rel)}" onclick="activate(${i})">
-      <a href="/grid/img/${f.name}" target="_blank" rel="noopener"
-         onclick="if(!${isActive}){event.preventDefault();activate(${i});}">
-        <img src="/grid/img/${f.name}" alt="${f.name}" loading="lazy">
-      </a>
+    const nodeSlug=f.name.replace(/\\.png$/,'').replace(/_\\d{4}-\\d{2}-\\d{2}$/,'');
+    const onclick=isActive?`window.location='/grid/node/${nodeSlug}'`:`activate(${i})`;
+    return `<div class="${cls(rel)}" onclick="${onclick}" style="cursor:${isActive?'pointer':'default'}">
+      <img src="/grid/img/${f.name}" alt="${f.name}" loading="lazy">
       <div class="lbl">${slug(f.name)}</div>
     </div>`;
   }).join('');
   const f=files[cur];
   if(f){
     document.getElementById('idn').textContent=slug(f.name);
-    document.getElementById('isq').textContent=`${cur+1} / ${files.length}  —  CLICK ACTIVE CARD TO OPEN  •  ←→ NAVIGATE`;
+    document.getElementById('isq').textContent=`${cur+1} / ${files.length}  —  CLICK TO ENTER DISTRICT  •  ←→ NAVIGATE`;
   }
   document.getElementById('hcount').textContent=`${files.length} NODE${files.length!==1?'S':''}`;
 }
@@ -2464,6 +2463,125 @@ function spawnTrail(){
 </html>"""
 
 
+def _node_page_html(node: dict, img_src: str) -> str:
+    district  = node.get("district", "UNKNOWN").upper()
+    region    = node.get("region",   "THE GRID").upper()
+    warnings  = node.get("warnings", [])
+    nearby    = node.get("nearby_paths", [])
+    ascent    = node.get("suggested_ascent", "")
+    keywords  = node.get("keywords", [])
+
+    def nearby_link(path_str: str) -> str:
+        parts     = path_str.split(" — ", 1)
+        raw_slug  = parts[0].strip().replace(".md", "")
+        desc      = parts[1].strip() if len(parts) > 1 else ""
+        label     = raw_slug.replace("-", " ").upper()
+        return (
+            f'<a href="/grid/node/{raw_slug}" class="nlink">'
+            f'<span class="nl">{label}</span>'
+            f'<span class="nd">{desc}</span>'
+            f'</a>'
+        )
+
+    nearby_html   = "".join(nearby_link(p) for p in nearby) if nearby else '<span class="none">—</span>'
+    warnings_html = "".join(f'<div class="wn">&#9888; {w}</div>' for w in warnings) if warnings else '<span class="none">—</span>'
+    kw_html       = "&nbsp;&nbsp;·&nbsp;&nbsp;".join(k.upper() for k in keywords[:8])
+
+    return f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>JARVIS GRID — {district}</title>
+<style>
+:root{{--cyan:#00e5ff;--dim:#004a60;--glow:#00e5ff55;--warn:#ff9800;--bg:#000008;}}
+*{{box-sizing:border-box;margin:0;padding:0;}}
+html,body{{width:100%;min-height:100%;background:var(--bg);font-family:'Courier New',monospace;color:var(--cyan);overflow-x:hidden;}}
+body::after{{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:200;}}
+.floor{{position:fixed;bottom:0;left:0;right:0;height:40vh;
+  background:linear-gradient(90deg,var(--dim) 1px,transparent 1px) center/100px 100px,
+             linear-gradient(0deg,var(--dim) 1px,transparent 1px) center/100px 100px;
+  transform:perspective(500px) rotateX(72deg);transform-origin:bottom center;opacity:.3;}}
+.floor::after{{content:'';position:absolute;inset:0;background:linear-gradient(to top,transparent 0%,var(--bg) 70%);}}
+.horizon{{position:fixed;left:0;right:0;bottom:38vh;height:1px;background:var(--dim);box-shadow:0 0 40px 8px var(--glow);}}
+.c{{position:fixed;width:22px;height:22px;z-index:150;}}
+.c::before,.c::after{{content:'';position:absolute;background:var(--cyan);}}
+.c::before{{width:100%;height:2px;top:0;}}.c::after{{width:2px;height:100%;}}
+.tl{{top:10px;left:10px;}}.tr{{top:10px;right:10px;transform:scaleX(-1);}}
+.bl{{bottom:10px;left:10px;transform:scaleY(-1);}}.br{{bottom:10px;right:10px;transform:scale(-1);}}
+.hud{{position:fixed;top:0;left:0;right:0;padding:14px 28px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid #001a2e;background:linear-gradient(to bottom,#00000f,transparent);z-index:100;
+  font-size:.65rem;letter-spacing:.28em;}}
+.back{{color:var(--dim);text-decoration:none;transition:color .2s;}}
+.back:hover{{color:var(--cyan);}}
+.wrap{{position:relative;z-index:10;max-width:900px;margin:0 auto;padding:80px 32px 80px;}}
+.hero{{display:flex;gap:40px;align-items:flex-start;margin-bottom:48px;}}
+.hero-img{{flex-shrink:0;width:320px;}}
+.hero-img img{{display:block;width:100%;aspect-ratio:1;object-fit:cover;
+  border:1px solid var(--cyan);box-shadow:0 0 40px var(--glow),0 0 100px #00e5ff18;}}
+.hero-info{{flex:1;padding-top:8px;}}
+.region{{font-size:.6rem;letter-spacing:.3em;color:var(--dim);margin-bottom:10px;}}
+.district{{font-size:1.5rem;letter-spacing:.25em;line-height:1.25;margin-bottom:20px;}}
+.sep{{height:1px;background:var(--dim);margin:20px 0;}}
+.kw{{font-size:.55rem;letter-spacing:.15em;color:#002a3a;line-height:2;}}
+.section{{margin-bottom:36px;}}
+.section h3{{font-size:.6rem;letter-spacing:.3em;color:var(--dim);border-bottom:1px solid #001a2e;padding-bottom:8px;margin-bottom:16px;}}
+.nlink{{display:block;padding:10px 14px;border:1px solid #001a2e;margin-bottom:8px;
+  text-decoration:none;transition:border-color .2s,background .2s;}}
+.nlink:hover{{border-color:var(--cyan);background:#00050f;}}
+.nl{{display:block;font-size:.65rem;letter-spacing:.2em;color:var(--cyan);}}
+.nd{{display:block;font-size:.55rem;letter-spacing:.1em;color:var(--dim);margin-top:3px;}}
+.wn{{font-size:.65rem;letter-spacing:.12em;color:var(--warn);padding:8px 0;border-bottom:1px solid #001a2e;line-height:1.5;}}
+.ascent{{font-size:.7rem;letter-spacing:.15em;color:var(--cyan);padding:12px 16px;
+  border-left:2px solid var(--cyan);background:#00050f;line-height:1.6;}}
+.none{{font-size:.6rem;color:#002030;letter-spacing:.15em;}}
+@keyframes tr{{0%{{transform:translateX(-110vw);opacity:0;}}8%{{opacity:1;}}92%{{opacity:1;}}100%{{transform:translateX(110vw);opacity:0;}}}}
+.trail{{position:fixed;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);pointer-events:none;z-index:1;animation:tr linear infinite;}}
+</style>
+</head>
+<body>
+<div class="floor"></div>
+<div class="horizon"></div>
+<div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
+<div class="hud">
+  <a href="/grid" class="back">&#9664;&nbsp; HIGHWAY</a>
+  <span style="font-size:.6rem;letter-spacing:.25em;color:var(--dim)">{region}</span>
+</div>
+<div class="wrap">
+  <div class="hero">
+    {'<div class="hero-img"><img src="' + img_src + '" alt="' + district + '"></div>' if img_src else ''}
+    <div class="hero-info">
+      <div class="region">{region}</div>
+      <div class="district">{district}</div>
+      <div class="sep"></div>
+      <div class="kw">{kw_html}</div>
+    </div>
+  </div>
+  <div class="section">
+    <h3>&#9632; NEARBY PATHS</h3>
+    {nearby_html}
+  </div>
+  <div class="section">
+    <h3>&#9650; WARNINGS</h3>
+    {warnings_html}
+  </div>
+  {'<div class="section"><h3>&#8679; SUGGESTED ASCENT</h3><div class="ascent">' + ascent + '</div></div>' if ascent else ''}
+</div>
+<script>
+function spawnTrail(){{
+  const t=document.createElement('div');t.className='trail';
+  t.style.top=Math.random()*100+'vh';t.style.width=(60+Math.random()*200)+'px';
+  const d=3+Math.random()*7;t.style.animationDuration=d+'s';
+  t.style.animationDelay=Math.random()*3+'s';t.style.opacity=.1+Math.random()*.25;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),(d+3)*1000);
+}}
+for(let i=0;i<5;i++) spawnTrail();
+setInterval(spawnTrail,1200);
+</script>
+</body>
+</html>"""
+
+
 @app.get("/grid", response_class=HTMLResponse)
 async def gallery_page():
     return HTMLResponse(content=_GALLERY_HTML)
@@ -2479,6 +2597,37 @@ async def gallery_manifest():
         reverse=True,
     )
     return JSONResponse(files)
+
+
+@app.get("/grid/node/{node_slug}", response_class=HTMLResponse)
+async def node_page(node_slug: str):
+    # Find matching GRID_CANON entry
+    node = next((n for n in GRID_CANON if n["file"].replace(".md", "") == node_slug), None)
+    if node is None:
+        # Synthetic region node — build minimal entry from GRID_REGION_MOODS
+        matched_region = next(
+            (r for r in GRID_REGION_MOODS if node_slug in r.lower().replace(" ", "-").replace("the-", "")),
+            None,
+        )
+        if matched_region:
+            node = {
+                "file":     node_slug + ".md",
+                "region":   matched_region,
+                "district": matched_region.replace("The ", ""),
+                "keywords": matched_region.lower().split(),
+                "nearby_paths": [],
+                "warnings": [],
+                "suggested_ascent": "",
+            }
+        else:
+            return HTMLResponse("<html><body style='background:#000;color:#00e5ff;font-family:monospace;padding:40px'>"
+                                f"<p>NODE NOT FOUND: {node_slug}</p>"
+                                "<p><a href='/grid' style='color:#004a60'>← HIGHWAY</a></p></body></html>",
+                                status_code=404)
+    # Find most recent concept card for this node
+    img_files = sorted(GRID_IMAGES_DIR.glob(f"{node_slug}_*.png"), reverse=True)
+    img_src   = f"/grid/img/{img_files[0].name}" if img_files else ""
+    return HTMLResponse(_node_page_html(node, img_src))
 
 
 @app.get("/grid/img/{filename}")
