@@ -2972,6 +2972,350 @@ async def live_log_post(request: Request):
         return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
 
 
+@app.get("/grid/frame/{filename}")
+async def grid_frame(filename: str):
+    """Serve a Pillow-annotated version of a grid image with scanline overlay + label."""
+    img_path = GRID_IMAGES_DIR / filename
+    if not img_path.exists() or img_path.suffix != ".png":
+        return JSONResponse({"error": "not found"}, status_code=404)
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+        import io
+        img = Image.open(img_path).convert("RGBA")
+        w, h = img.size
+
+        # scanline overlay
+        overlay = Image.new("RGBA", (w, h), (0, 0, 0, 0))
+        draw = ImageDraw.Draw(overlay)
+        for y in range(0, h, 4):
+            draw.line([(0, y), (w, y)], fill=(0, 0, 0, 40))
+
+        # amber label bar at bottom
+        bar_h = 22
+        draw.rectangle([(0, h - bar_h), (w, h)], fill=(10, 15, 24, 200))
+
+        label = img_path.stem.replace("_", " ").replace("-", " ").upper()[:48]
+        ts    = now()[:16]
+        try:
+            font = ImageFont.truetype("cour.ttf", 11)
+        except Exception:
+            font = ImageFont.load_default()
+        draw.text((6, h - bar_h + 4), label, fill=(245, 166, 35, 220), font=font)
+        draw.text((w - 90, h - bar_h + 4), ts, fill=(30, 58, 82, 200), font=font)
+
+        composite = Image.alpha_composite(img, overlay).convert("RGB")
+        buf = io.BytesIO()
+        composite.save(buf, format="PNG", optimize=True)
+        buf.seek(0)
+        from fastapi.responses import Response
+        return Response(content=buf.read(), media_type="image/png")
+    except ImportError:
+        return FileResponse(str(img_path), media_type="image/png")
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+
+_DASHBOARD_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS — Command Center</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
+  :root{
+    --bg:#020408;--surface:#080f18;--card:#0c1520;--border:#0f2035;
+    --amber:#f5a623;--green:#00ff88;--red:#ff3355;--blue:#0af;
+    --dim:#1e3a52;--text:#4a7a99;--bright:#a0c8e0;
+    --mono:'Share Tech Mono',monospace;--display:'Orbitron',sans-serif;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:11px;
+       height:100vh;display:grid;grid-template-rows:48px 1fr;overflow:hidden;}
+  body::before{content:'';position:fixed;inset:0;
+    background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);
+    pointer-events:none;z-index:1000;}
+  /* ── topbar ── */
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);
+          display:flex;align-items:center;padding:0 20px;gap:16px;}
+  .logo{font-family:var(--display);font-size:15px;font-weight:900;letter-spacing:5px;
+        color:var(--amber);text-shadow:0 0 15px rgba(245,166,35,.3);}
+  .logo span{color:var(--dim);}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);
+            box-shadow:0 0 8px var(--green);animation:blink 1.5s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  .topbar-nav{margin-left:auto;display:flex;gap:12px;}
+  .nav-btn{font-family:var(--mono);font-size:9px;letter-spacing:2px;color:var(--dim);
+           background:transparent;border:1px solid var(--border);padding:5px 10px;
+           cursor:pointer;text-decoration:none;}
+  .nav-btn:hover{color:var(--amber);border-color:var(--amber);}
+  /* ── 3-column main ── */
+  .main{display:grid;grid-template-columns:280px 1fr 260px;gap:1px;background:var(--border);overflow:hidden;}
+  /* ── LIVE FEED (left) ── */
+  .feed-col{background:var(--bg);display:flex;flex-direction:column;overflow:hidden;}
+  .col-header{background:var(--surface);padding:7px 12px;font-size:8px;letter-spacing:4px;
+              color:var(--dim);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;}
+  .feed-scroll{flex:1;overflow-y:auto;padding:8px;display:flex;flex-direction:column;gap:3px;}
+  .feed-scroll::-webkit-scrollbar{width:2px;}.feed-scroll::-webkit-scrollbar-thumb{background:var(--border);}
+  .entry{display:grid;grid-template-columns:58px 1fr 48px;gap:6px;padding:5px 7px;
+         border-left:2px solid var(--border);background:var(--card);animation:fadeIn .3s ease;align-items:center;}
+  @keyframes fadeIn{from{opacity:0;transform:translateX(-6px)}to{opacity:1}}
+  .entry.done{border-left-color:var(--green)}.entry.working{border-left-color:var(--amber)}.entry.failed{border-left-color:var(--red)}
+  .e-time{color:var(--dim);font-size:8px;}
+  .e-action{color:var(--bright);font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .e-status{font-size:7px;letter-spacing:2px;text-align:right;}
+  .s-done{color:var(--green)}.s-working{color:var(--amber)}.s-failed{color:var(--red)}
+  .empty-state{color:var(--dim);font-size:9px;letter-spacing:2px;text-align:center;padding:30px 12px;line-height:2;}
+  .cursor{display:inline-block;width:7px;height:11px;background:var(--amber);
+          animation:cblink 1s step-end infinite;vertical-align:middle;margin-left:3px;}
+  @keyframes cblink{0%,100%{opacity:1}50%{opacity:0}}
+  /* ── IMAGE (center) ── */
+  .img-col{background:var(--bg);display:flex;flex-direction:column;overflow:hidden;}
+  .img-stage{flex:1;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+  .img-stage img{max-width:100%;max-height:100%;object-fit:contain;display:block;
+                 border:1px solid var(--border);image-rendering:pixelated;}
+  .img-overlay{position:absolute;inset:0;pointer-events:none;
+    background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,200,255,.015) 3px,rgba(0,200,255,.015) 4px);}
+  .img-controls{background:var(--surface);border-top:1px solid var(--border);
+                padding:8px 16px;display:flex;align-items:center;gap:12px;}
+  .img-name{flex:1;color:var(--bright);font-size:9px;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .img-counter{color:var(--dim);font-size:8px;white-space:nowrap;}
+  .ctrl-btn{background:transparent;border:1px solid var(--border);color:var(--dim);
+            font-family:var(--mono);font-size:11px;padding:4px 10px;cursor:pointer;}
+  .ctrl-btn:hover{border-color:var(--amber);color:var(--amber);}
+  .auto-badge{font-size:7px;letter-spacing:2px;padding:3px 6px;border:1px solid var(--border);color:var(--dim);}
+  .auto-badge.on{border-color:var(--green);color:var(--green);}
+  .no-images{color:var(--dim);text-align:center;padding:40px;font-size:10px;line-height:2;}
+  /* ── GRID NAV (right) ── */
+  .grid-col{background:var(--surface);display:flex;flex-direction:column;overflow-y:auto;}
+  .grid-col::-webkit-scrollbar{width:2px;}.grid-col::-webkit-scrollbar-thumb{background:var(--border);}
+  .district-card{border-bottom:1px solid var(--border);padding:10px 12px;cursor:pointer;transition:background .15s;}
+  .district-card:hover{background:var(--card);}
+  .district-card a{text-decoration:none;display:block;}
+  .d-region{font-size:7px;letter-spacing:3px;color:var(--dim);margin-bottom:3px;}
+  .d-name{color:var(--bright);font-size:10px;margin-bottom:4px;}
+  .d-keywords{color:var(--text);font-size:8px;line-height:1.6;overflow:hidden;
+              display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;}
+  .d-img-thumb{width:100%;height:60px;object-fit:cover;margin-bottom:6px;border:1px solid var(--border);display:block;}
+  .grid-footer{padding:12px;border-top:1px solid var(--border);}
+  .grid-all-btn{display:block;text-align:center;font-size:8px;letter-spacing:3px;color:var(--dim);
+               padding:8px;border:1px solid var(--border);text-decoration:none;}
+  .grid-all-btn:hover{color:var(--amber);border-color:var(--amber);}
+  /* ── stat strip ── */
+  .stat-strip{background:var(--card);border-top:1px solid var(--border);
+              display:flex;gap:1px;padding:0;}
+  .stat-cell{flex:1;padding:5px 8px;border-right:1px solid var(--border);font-size:8px;letter-spacing:1px;}
+  .stat-cell:last-child{border-right:none;}
+  .stat-cell .sk{color:var(--dim)}.stat-cell .sv{color:var(--green);}
+  .stat-cell .sv.warn{color:var(--amber)}.stat-cell .sv.err{color:var(--red)}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo">JARVIS <span>CMD</span></div>
+  <div class="live-dot"></div>
+  <span style="font-size:9px;color:var(--dim);letter-spacing:3px">COMMAND CENTER</span>
+  <div class="topbar-nav">
+    <a href="/grid" class="nav-btn">GRID</a>
+    <a href="/live" class="nav-btn">LIVE</a>
+    <a href="/health" class="nav-btn">HEALTH</a>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ── LEFT: LIVE FEED ── -->
+  <div class="feed-col">
+    <div class="col-header">
+      <span>LIVE FEED</span>
+      <span id="feed-ts" style="color:var(--dim);font-size:7px">—</span>
+    </div>
+    <div class="feed-scroll" id="feed">
+      <div class="empty-state" id="feed-empty">
+        Waiting for activity<span class="cursor"></span>
+      </div>
+    </div>
+    <div class="stat-strip">
+      <div class="stat-cell"><div class="sk">TOTAL</div><div class="sv" id="s-total">0</div></div>
+      <div class="stat-cell"><div class="sk">DONE</div><div class="sv" id="s-done">0</div></div>
+      <div class="stat-cell"><div class="sk">WORK</div><div class="sv warn" id="s-work">0</div></div>
+      <div class="stat-cell"><div class="sk">FAIL</div><div class="sv err" id="s-fail">0</div></div>
+    </div>
+  </div>
+
+  <!-- ── CENTER: PILLOW IMAGE DISPLAY ── -->
+  <div class="img-col">
+    <div class="col-header">
+      <span>GRID IMAGES</span>
+      <span id="img-status" style="font-size:7px;color:var(--dim)">Polling /grid/manifest…</span>
+    </div>
+    <div class="img-stage" id="img-stage">
+      <div class="no-images" id="no-images">
+        No images yet.<br>Run <span style="color:var(--amber)">jarvis_image</span> to generate grid cards.
+      </div>
+      <img id="main-img" src="" alt="" style="display:none">
+      <div class="img-overlay"></div>
+    </div>
+    <div class="img-controls">
+      <button class="ctrl-btn" id="btn-prev">&#8592;</button>
+      <button class="ctrl-btn" id="btn-next">&#8594;</button>
+      <div class="img-name" id="img-name">—</div>
+      <div class="img-counter" id="img-counter">0 / 0</div>
+      <div class="auto-badge on" id="auto-badge">AUTO</div>
+    </div>
+  </div>
+
+  <!-- ── RIGHT: GRID NAV ── -->
+  <div class="grid-col">
+    <div class="col-header" style="position:sticky;top:0;z-index:10;">
+      <span>GRID DISTRICTS</span>
+      <span style="font-size:7px" id="district-count">—</span>
+    </div>
+    <div id="district-list"></div>
+    <div class="grid-footer">
+      <a href="/grid" class="grid-all-btn">&#9632; FULL GRID HIGHWAY</a>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ── LIVE FEED ──────────────────────────────────────────────────────────────
+let lastFeedLen = 0;
+function renderFeed(entries) {
+  const feed  = document.getElementById('feed');
+  const empty = document.getElementById('feed-empty');
+  if (!entries.length) { empty.style.display=''; return; }
+  empty.style.display = 'none';
+
+  const existing = feed.querySelectorAll('.entry').length;
+  entries.slice(existing).forEach(e => {
+    const el = document.createElement('div');
+    el.className = 'entry ' + (e.status || 'done');
+    const action = (e.action || '').substring(0, 38);
+    el.innerHTML = `
+      <div class="e-time">${e.time || '--:--:--'}</div>
+      <div class="e-action" title="${e.action || ''}">${action}</div>
+      <div class="e-status s-${e.status || 'done'}">${(e.status||'done').toUpperCase()}</div>
+    `;
+    feed.appendChild(el);
+  });
+  feed.scrollTop = feed.scrollHeight;
+
+  document.getElementById('s-total').textContent = entries.length;
+  document.getElementById('s-done').textContent  = entries.filter(e=>e.status==='done').length;
+  document.getElementById('s-work').textContent  = entries.filter(e=>e.status==='working').length;
+  document.getElementById('s-fail').textContent  = entries.filter(e=>e.status==='failed').length;
+  document.getElementById('feed-ts').textContent = new Date().toLocaleTimeString();
+}
+async function pollFeed() {
+  try {
+    const r = await fetch('/live_log.json');
+    if (r.ok) renderFeed(await r.json());
+  } catch(e) {}
+}
+setInterval(pollFeed, 2000);
+pollFeed();
+
+// ── IMAGE CAROUSEL ─────────────────────────────────────────────────────────
+let images   = [];
+let imgIdx   = 0;
+let autoPlay = true;
+let autoTimer = null;
+
+function showImage(idx) {
+  if (!images.length) return;
+  imgIdx = ((idx % images.length) + images.length) % images.length;
+  const img   = document.getElementById('main-img');
+  const name  = document.getElementById('img-name');
+  const ctr   = document.getElementById('img-counter');
+  const noImg = document.getElementById('no-images');
+  const entry = images[imgIdx];
+  img.style.display = 'block';
+  noImg.style.display = 'none';
+  // Use /grid/frame for Pillow-annotated version
+  img.src = '/grid/frame/' + entry.name + '?t=' + Date.now();
+  name.textContent = entry.name.replace(/_/g,' ').replace(/-/g,' ').replace('.png','');
+  ctr.textContent  = (imgIdx + 1) + ' / ' + images.length;
+  resetAutoTimer();
+}
+
+function resetAutoTimer() {
+  if (autoTimer) clearInterval(autoTimer);
+  if (autoPlay) autoTimer = setInterval(() => showImage(imgIdx + 1), 4000);
+}
+
+document.getElementById('btn-prev').onclick = () => { showImage(imgIdx - 1); };
+document.getElementById('btn-next').onclick = () => { showImage(imgIdx + 1); };
+document.getElementById('auto-badge').onclick = function() {
+  autoPlay = !autoPlay;
+  this.textContent = autoPlay ? 'AUTO' : 'PAUSED';
+  this.className   = 'auto-badge' + (autoPlay ? ' on' : '');
+  resetAutoTimer();
+};
+
+async function pollImages() {
+  try {
+    const r = await fetch('/grid/manifest');
+    if (!r.ok) return;
+    const data = await r.json();
+    document.getElementById('img-status').textContent = data.length + ' images';
+    if (data.length !== images.length) {
+      images = data.sort((a,b) => b.mtime - a.mtime);
+      if (data.length) showImage(0);
+    }
+  } catch(e) {}
+}
+setInterval(pollImages, 5000);
+pollImages();
+
+// ── GRID DISTRICTS ─────────────────────────────────────────────────────────
+async function loadDistricts() {
+  try {
+    const r = await fetch('/grid/districts');
+    if (!r.ok) return;
+    const districts = await r.json();
+    document.getElementById('district-count').textContent = districts.length + ' nodes';
+    const list = document.getElementById('district-list');
+    list.innerHTML = '';
+    districts.forEach(d => {
+      const slug  = d.file.replace('.md','');
+      const imgs  = d.images || [];
+      const thumb = imgs.length ? `<img class="d-img-thumb" src="/grid/frame/${imgs[0]}" loading="lazy">` : '';
+      const el    = document.createElement('div');
+      el.className = 'district-card';
+      el.innerHTML = `<a href="/grid/node/${slug}">
+        ${thumb}
+        <div class="d-region">${d.region || ''}</div>
+        <div class="d-name">${d.district || slug}</div>
+        <div class="d-keywords">${(d.keywords||[]).slice(0,6).join(', ')}</div>
+      </a>`;
+      list.appendChild(el);
+    });
+  } catch(e) {}
+}
+loadDistricts();
+</script>
+</body>
+</html>"""
+
+
+@app.get("/grid/districts")
+async def grid_districts():
+    """GRID_CANON with matched image filenames for the dashboard."""
+    result = []
+    for node in GRID_CANON:
+        slug   = node["file"].replace(".md", "")
+        imgs   = sorted(GRID_IMAGES_DIR.glob(f"{slug}_*.png"), reverse=True)
+        result.append({**node, "images": [p.name for p in imgs]})
+    return JSONResponse(result)
+
+
+@app.get("/dashboard", response_class=HTMLResponse)
+async def dashboard_page():
+    return HTMLResponse(content=_DASHBOARD_HTML)
+
+
 if __name__ == "__main__":
     print("═" * 50)
     print("JARVIS MCP SERVER v1.0")
