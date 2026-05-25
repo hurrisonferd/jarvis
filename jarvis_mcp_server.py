@@ -309,18 +309,22 @@ def supabase_upsert(table: str, data: dict) -> dict:
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
-def send_push(title: str, body: str, url: str = "/gameboy") -> None:
-    """Fire-and-forget Web Push to all stored subscriptions. Cleans up 410 Gone rows."""
-    if not VAPID_PRIVATE_KEY or not VAPID_PUBLIC_KEY:
-        return
+def push_enabled() -> bool:
+    return bool(VAPID_PRIVATE_KEY and VAPID_PUBLIC_KEY and supabase_enabled())
+
+def send_push_sync(title: str, body: str, tag: str = "jarvis") -> int:
+    """Send Web Push to all stored subscriptions. Returns count sent. Uses subscription_info jsonb."""
+    if not push_enabled():
+        return 0
     try:
         from pywebpush import webpush, WebPushException
     except ImportError:
-        return
+        return 0
     subs = supabase_select("push_subscriptions", limit=200, order="created_at")
-    payload = json.dumps({"title": title, "body": body, "url": url})
-    for row in subs:
-        sub_info = row.get("subscription_info")
+    payload = json.dumps({"title": title, "body": body, "tag": tag})
+    sent = 0
+    for sub in subs:
+        sub_info = sub.get("subscription_info")
         if not sub_info:
             continue
         if isinstance(sub_info, str):
@@ -332,13 +336,20 @@ def send_push(title: str, body: str, url: str = "/gameboy") -> None:
                 vapid_private_key=VAPID_PRIVATE_KEY,
                 vapid_claims={"sub": VAPID_CLAIMS_SUB},
             )
-        except WebPushException as exc:
-            if exc.response is not None and exc.response.status_code == 410:
-                endpoint = sub_info.get("endpoint", "")
+            sent += 1
+        except Exception as ex:
+            # Remove expired/gone subscriptions (410 Gone, 404 Not Found)
+            resp = getattr(getattr(ex, "response", None), "status_code", None)
+            if resp in (404, 410):
+                endpoint = sub_info.get("endpoint", "") if isinstance(sub_info, dict) else ""
                 if endpoint:
                     supabase_delete("push_subscriptions", {"endpoint": endpoint})
-        except Exception:
-            pass
+    return sent
+
+
+async def send_push(title: str, body: str, tag: str = "jarvis") -> int:
+    loop = asyncio.get_event_loop()
+    return await loop.run_in_executor(None, send_push_sync, title, body, tag)
 
 DEFAULT_STATS = {
     "JARVIS": {"sessions_sealed": 0, "decisions_logged": 0, "entropy_current": 0.0, "entropy_trend": "stable", "gold_law_violations": 0, "platforms_active": 0, "days_since_start": 0, "build_vs_theory_ratio": 0.0, "build_sessions": 0, "theory_sessions": 0, "platforms_seen": []},
@@ -1529,7 +1540,7 @@ async def handle_jarvis_log(args: dict) -> str:
     save_log(PROM_PATH, log)
     live_log_append(f"PROMETHEUS: {decision[:60]}", system, "done")
     await sse_broadcast("prometheus", {"decision": decision[:80], "system": system, "ts": now()})
-    threading.Thread(target=send_push, args=(f"PROMETHEUS — {system}", decision[:80]), daemon=True).start()
+    asyncio.create_task(send_push(f"PROMETHEUS — {system}", decision[:80], tag="prometheus"))
     mnemos_vector = store_mnemos_prometheus(entry)
     try:
         neo4j_write_decision(entry)
@@ -3563,6 +3574,11 @@ _GAMEBOY_HTML = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JARVIS HANDHELD</title>
+<link rel="manifest" href="/gameboy/manifest.json">
+<meta name="theme-color" content="#f5a623">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JARVIS">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 :root {
@@ -3921,7 +3937,7 @@ function ok(){
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='gridD'&&detail){ window.open('/grid/node/'+detail.slug,'_blank'); return; }
-  if(S==='alerts'){ toggleAlerts(); return; }
+  if(S==='alerts'){ subscribePush(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
 }
@@ -3964,75 +3980,59 @@ document.addEventListener('keydown',e=>{
   if(k===' ') start();
 });
 
-// ── push / alerts
-let pushStatus='CHECKING...', pushSubbed=false, pushSub=null;
+// ── push alerts
+let pushSub=null, pushAvail=false;
 
-function rAlerts(){
-  const hint=pushSubbed?'A:UNSUBSCRIBE':'A:SUBSCRIBE';
-  const lines=pushStatus.split('\\n');
-  return `<div class="panel">
-    <div class="s-header"><span>ALERTS</span><span style="color:${pushSubbed?'var(--green)':'var(--amber)'}">PUSH ${pushSubbed?'ON':'OFF'}</span></div>
-    <div class="s-body" style="padding-top:14px">
-      ${lines.map(l=>`<div style="color:var(--bright);font-size:6px;line-height:2;padding:2px 4px">${l}</div>`).join('')}
-      ${!('serviceWorker' in navigator)||!('PushManager' in window)?`<div style="color:var(--amber);font-size:5px;margin-top:8px;padding:0 4px">REQUIRES HTTPS + MODERN BROWSER</div>`:''}
-    </div>
-    <div class="s-footer">${hint} &nbsp; B:BACK</div>
-  </div>`;
-}
-
-function urlBase64ToUint8Array(b64){
+function urlB64ToUint8Array(b64){
   const pad='='.repeat((4-b64.length%4)%4);
   const b=(b64+pad).replace(/-/g,'+').replace(/_/g,'/');
-  const raw=atob(b);
-  return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
+  const raw=atob(b); const out=new Uint8Array(raw.length);
+  for(let i=0;i<raw.length;i++) out[i]=raw.charCodeAt(i);
+  return out;
 }
 
 async function checkPushSupport(){
-  if(!('serviceWorker' in navigator)||!('PushManager' in window)){
-    pushStatus='NOT SUPPORTED\\nREQUIRES HTTPS';
-    if(S==='alerts') draw();
-    return;
-  }
+  if(!('serviceWorker' in navigator)||!('PushManager' in window)) return;
   try{
+    const r=await fetch('/push/vapid-public'); const d=await r.json();
+    if(!d.enabled) return;
+    pushAvail=true;
     const reg=await navigator.serviceWorker.ready;
     pushSub=await reg.pushManager.getSubscription();
-    if(pushSub){ pushSubbed=true; pushStatus='SUBSCRIBED\\nPUSH ACTIVE'; }
-    else { pushStatus='NOT SUBSCRIBED'; }
-  }catch(e){ pushStatus='ERROR:\\n'+e.message; }
-  if(S==='alerts') draw();
+    if(S==='alerts') draw();
+  }catch(e){}
 }
 
-async function toggleAlerts(){
-  if(pushSubbed) await unsubscribeAlerts();
-  else await subscribeAlerts();
-}
-
-async function subscribeAlerts(){
-  pushStatus='SUBSCRIBING...'; draw();
+async function subscribePush(){
+  if(!pushAvail){ beep(220,60); return; }
+  if(pushSub){ beep(880,60); draw(); return; }
   try{
-    const kr=await fetch('/push/vapid-public-key');
-    const {key}=await kr.json();
+    const r=await fetch('/push/vapid-public'); const {publicKey}=await r.json();
     const reg=await navigator.serviceWorker.ready;
-    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(key)});
-    await fetch('/push/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscription:sub.toJSON()})});
-    pushSub=sub; pushSubbed=true; pushStatus='SUBSCRIBED\\nPUSH ACTIVE';
-    beep(880,120);
-  }catch(e){ pushStatus='FAILED:\\n'+e.message; }
-  draw();
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlB64ToUint8Array(publicKey)});
+    await fetch('/push/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(sub)});
+    pushSub=sub; beep(880,100); draw();
+  }catch(e){ beep(220,80); }
 }
 
-async function unsubscribeAlerts(){
-  pushStatus='UNSUBSCRIBING...'; draw();
-  try{
-    if(pushSub){
-      await fetch('/push/unsubscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({endpoint:pushSub.endpoint})});
-      await pushSub.unsubscribe();
-      pushSub=null;
-    }
-    pushSubbed=false; pushStatus='UNSUBSCRIBED';
-    beep(220,120);
-  }catch(e){ pushStatus='FAILED:\\n'+e.message; }
-  draw();
+function rAlerts(){
+  const perm=('Notification' in window)?Notification.permission:'unsupported';
+  const active=!!pushSub;
+  const col=active?'var(--green)':'var(--red)';
+  const subs=active?'ACTIVE':'NONE';
+  const hint=!pushAvail?'NOT AVAILABLE':active?'ONLINE':'A:SUBSCRIBE';
+  return `<div class="panel">
+    <div class="s-header"><span>ALERTS</span><span style="color:${col}">${subs}</span></div>
+    <div class="s-body" style="padding-top:10px">
+      <div class="dl">PERMISSION</div>
+      <div class="dv">${perm.toUpperCase()}</div>
+      <div class="dl">PUSH SUBSCRIPTION</div>
+      <div class="dv" style="color:${col}">${active?'ACTIVE — delivery online':'NONE — press A to enable'}</div>
+      <div class="dl">SOURCES</div>
+      <div class="dv">PROMETHEUS decisions<br>Heartbeat events<br>Failures &amp; violations</div>
+    </div>
+    <div class="s-footer">${hint} &nbsp; B:BACK</div>
+  </div>`;
 }
 
 // ── GitHub state & renderers ──────────────────────────────────────────────
@@ -4068,7 +4068,7 @@ function rGithub(){
   if(ghLoading) return `<div class="boot-panel"><div class="boot-logo">GITHUB</div><div style="color:var(--amber);margin-top:8px">LOADING...</div></div>`;
   let h=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--dim);padding-bottom:4px;margin-bottom:6px">`;
   GH_TABS.forEach((t,i)=>{
-    h+=`<span style="color:${i===ghTab?'var(--amber)':'var(--dim)');font-size:9px;cursor:pointer" onclick="ghTab=${i};if(ghTab===3){S='ghIssue';ghIssueTitle='';ghIssueBody='';ghIssueField='title';ghResult='';} draw()">${t}</span>`;
+    h+=`<span style="color:${i===ghTab?'var(--amber)':'var(--dim)'};font-size:9px;cursor:pointer" onclick="ghTab=${i};if(ghTab===3){S='ghIssue';ghIssueTitle='';ghIssueBody='';ghIssueField='title';ghResult='';} draw()">${t}</span>`;
   });
   h+=`</div>`;
   if(ghError) return h+`<div style="color:var(--red)">${ghError}</div><div style="color:var(--dim);font-size:9px;margin-top:8px">CONFIGURE GITHUB_TOKEN + GITHUB_REPO</div>`;
@@ -4207,13 +4207,8 @@ loadGithub();
 connectSSE();
 setInterval(loadGithub,60000);
 runBoot();
-
 if('serviceWorker' in navigator){
-  navigator.serviceWorker.register('/gameboy-sw.js')
-    .then(()=>checkPushSupport())
-    .catch(()=>{ pushStatus='SW REG FAILED'; });
-} else {
-  pushStatus='NOT SUPPORTED';
+  navigator.serviceWorker.register('/gameboy/sw.js').then(()=>checkPushSupport()).catch(()=>{});
 }
 </script>
 </body>
@@ -4223,38 +4218,6 @@ if('serviceWorker' in navigator){
 @app.get("/gameboy-sw.js")
 async def gameboy_sw():
     return Response(content=_GAMEBOY_SW_JS, media_type="application/javascript")
-
-@app.get("/push/vapid-public-key")
-async def push_vapid_key():
-    return JSONResponse({"key": VAPID_PUBLIC_KEY})
-
-@app.post("/push/subscribe")
-async def push_subscribe(request: Request):
-    try:
-        body = await request.json()
-        sub = body.get("subscription")
-        if not sub:
-            return JSONResponse({"ok": False, "error": "missing subscription"}, status_code=400)
-        endpoint = sub.get("endpoint", "")
-        result = supabase_insert("push_subscriptions", {
-            "endpoint": endpoint,
-            "subscription_info": json.dumps(sub),
-        })
-        return JSONResponse({"ok": result.get("ok", False)})
-    except Exception as e:
-        return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
-
-@app.post("/push/unsubscribe")
-async def push_unsubscribe(request: Request):
-    try:
-        body = await request.json()
-        endpoint = body.get("endpoint", "")
-        if not endpoint:
-            return JSONResponse({"ok": False, "error": "missing endpoint"}, status_code=400)
-        result = supabase_delete("push_subscriptions", {"endpoint": endpoint})
-        return JSONResponse({"ok": result.get("ok", False)})
-    except Exception as e:
-        return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
 
 @app.get("/events")
 async def sse_events(request: Request):
@@ -4306,6 +4269,278 @@ async def github_create_issue(request: Request):
 @app.get("/gameboy", response_class=HTMLResponse)
 async def gameboy_page():
     return HTMLResponse(content=_GAMEBOY_HTML)
+
+
+@app.get("/gameboy/manifest.json")
+async def gameboy_manifest():
+    return JSONResponse({
+        "name": "JARVIS HANDHELD",
+        "short_name": "JARVIS",
+        "description": "JARVIS God System Interface",
+        "start_url": "/gameboy",
+        "display": "standalone",
+        "background_color": "#020408",
+        "theme_color": "#f5a623",
+        "orientation": "portrait-primary",
+        "icons": [{"src": "/gameboy/icon.svg", "sizes": "any", "type": "image/svg+xml"}],
+    })
+
+
+@app.get("/gameboy/icon.svg")
+async def gameboy_icon():
+    svg = (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">'
+        '<rect width="192" height="192" fill="#020408"/>'
+        '<text x="96" y="130" font-size="100" text-anchor="middle" fill="#f5a623" font-family="monospace" font-weight="bold">J</text>'
+        '</svg>'
+    )
+    from fastapi.responses import Response
+    return Response(content=svg, media_type="image/svg+xml")
+
+
+@app.get("/gameboy/sw.js")
+async def gameboy_sw():
+    sw = """
+const CACHE='jarvis-gb-v2';
+const SHELL=['/gameboy'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL))));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET') return;
+  e.respondWith(fetch(e.request).then(r=>{
+    const rc=r.clone();
+    caches.open(CACHE).then(c=>c.put(e.request,rc));
+    return r;
+  }).catch(()=>caches.match(e.request)));
+});
+self.addEventListener('push',e=>{
+  const d=e.data?e.data.json():{title:'JARVIS',body:'Event'};
+  e.waitUntil(self.registration.showNotification(d.title||'JARVIS',{
+    body:d.body||'',
+    icon:'/gameboy/icon.svg',
+    badge:'/gameboy/icon.svg',
+    tag:d.tag||'jarvis',
+    vibrate:[100,50,100],
+    data:{url:'/gameboy'}
+  }));
+});
+self.addEventListener('notificationclick',e=>{
+  e.notification.close();
+  e.waitUntil(clients.openWindow((e.notification.data&&e.notification.data.url)||'/gameboy'));
+});
+""".strip()
+    from fastapi.responses import Response
+    return Response(content=sw, media_type="application/javascript")
+
+
+# ── Web Push endpoints ────────────────────────────────────────────────────
+
+@app.get("/push/vapid-public")
+async def push_vapid_public():
+    return JSONResponse({"publicKey": VAPID_PUBLIC_KEY, "enabled": push_enabled()})
+
+
+@app.post("/push/subscribe")
+async def push_subscribe(request: Request):
+    from fastapi import HTTPException
+    try:
+        body = await request.json()
+    except Exception:
+        raise HTTPException(status_code=400, detail="invalid JSON")
+    endpoint = body.get("endpoint", "")
+    if not endpoint:
+        raise HTTPException(status_code=400, detail="missing endpoint")
+    supabase_insert("push_subscriptions", {
+        "endpoint":        endpoint,
+        "subscription_info": body,  # full PushSubscription.toJSON() object
+    })
+    return JSONResponse({"status": "subscribed"})
+
+
+@app.post("/push/unsubscribe")
+async def push_unsubscribe(request: Request):
+    try:
+        body = await request.json()
+        endpoint = body.get("endpoint", "")
+        if endpoint:
+            supabase_delete("push_subscriptions", {"endpoint": endpoint})
+    except Exception:
+        pass
+    return JSONResponse({"status": "unsubscribed"})
+
+
+@app.post("/push/test")
+async def push_test():
+    count = await send_push("JARVIS ONLINE", "Push notifications active. Gold Law armed.", tag="jarvis-test")
+    return JSONResponse({"sent": count, "push_enabled": push_enabled()})
+
+
+# ── Mobile Intake Form ──────────────────────────────────────────────────────
+
+_INTAKE_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>JARVIS INTAKE</title>
+<meta name="theme-color" content="#020408">
+<style>
+:root {
+  --amber:#f5a623; --green:#00ff88; --dim:#1e3a52; --text:#4a7a99;
+  --bright:#a0c8e0; --bg:#020408; --surface:#080f18; --border:#0f2035;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--bright);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;}
+.shell{max-width:480px;margin:0 auto;padding:16px;}
+header{border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.logo{font-size:11px;letter-spacing:4px;color:var(--amber);font-family:monospace;font-weight:bold;}
+.sub{font-size:10px;color:var(--text);letter-spacing:2px;}
+label{display:block;font-size:10px;letter-spacing:2px;color:var(--text);margin-bottom:5px;margin-top:14px;}
+input,select,textarea{
+  width:100%;background:var(--surface);border:1px solid var(--border);
+  color:var(--bright);font-size:14px;padding:10px 12px;border-radius:4px;
+  font-family:inherit;outline:none;-webkit-appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--amber);}
+select{background-image:none;}
+textarea{resize:vertical;min-height:80px;line-height:1.5;}
+.submit{
+  display:block;width:100%;margin-top:24px;padding:14px;
+  background:var(--amber);color:#020408;font-size:12px;letter-spacing:3px;
+  font-weight:bold;border:none;border-radius:4px;cursor:pointer;font-family:monospace;
+}
+.submit:active{opacity:.8;}
+.submit:disabled{opacity:.4;cursor:not-allowed;}
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:var(--green);color:#020408;padding:12px 24px;border-radius:6px;
+  font-size:11px;letter-spacing:2px;font-family:monospace;font-weight:bold;
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.toast.show{opacity:1;}
+.err{color:#ff3355;font-size:10px;margin-top:4px;letter-spacing:1px;}
+.aegis{font-size:9px;color:var(--dim);letter-spacing:1px;text-align:center;margin-top:16px;}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div>
+      <div class="logo">JARVIS</div>
+      <div class="sub">INTAKE // MOBILE</div>
+    </div>
+  </header>
+
+  <form id="form">
+    <label>TITLE</label>
+    <input type="text" id="title" placeholder="short descriptive title" required>
+
+    <label>REQUESTED ACTION</label>
+    <select id="action">
+      <option value="review">review</option>
+      <option value="implement">implement</option>
+      <option value="remember">remember</option>
+      <option value="archive">archive</option>
+    </select>
+
+    <label>SUMMARY</label>
+    <textarea id="summary" placeholder="what is this about?" required></textarea>
+
+    <label>DETAILS</label>
+    <textarea id="details" placeholder="full context, constraints, relevant links..." style="min-height:120px;"></textarea>
+
+    <label>SUGGESTED NEXT STEP</label>
+    <textarea id="next" placeholder="what should JARVIS or Codex do with this?"></textarea>
+
+    <button type="submit" class="submit" id="btn">SUBMIT TO INTAKE</button>
+    <div class="err" id="err"></div>
+    <div class="aegis">AEGIS — routed to intake/claude/ — governed workflow applies</div>
+  </form>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+document.getElementById('form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn=document.getElementById('btn');
+  const err=document.getElementById('err');
+  err.textContent='';
+  btn.disabled=true; btn.textContent='SUBMITTING...';
+  const payload={
+    title:    document.getElementById('title').value.trim(),
+    action:   document.getElementById('action').value,
+    summary:  document.getElementById('summary').value.trim(),
+    details:  document.getElementById('details').value.trim(),
+    next:     document.getElementById('next').value.trim(),
+  };
+  try{
+    const r=await fetch('/intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const j=await r.json();
+    if(r.ok){
+      document.getElementById('form').reset();
+      const t=document.getElementById('toast');
+      t.textContent='FILED: '+j.file;
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),3500);
+    } else {
+      err.textContent=j.detail||'submit failed';
+    }
+  }catch(ex){ err.textContent='network error'; }
+  btn.disabled=false; btn.textContent='SUBMIT TO INTAKE';
+});
+</script>
+</body>
+</html>"""
+
+
+@app.get("/intake", response_class=HTMLResponse)
+async def intake_form():
+    return HTMLResponse(content=_INTAKE_HTML)
+
+
+@app.post("/intake")
+async def intake_submit(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail="invalid JSON body")
+
+    title   = (body.get("title") or "").strip()
+    action  = (body.get("action") or "review").strip()
+    summary = (body.get("summary") or "").strip()
+    details = (body.get("details") or "").strip()
+    next_step = (body.get("next") or "").strip()
+
+    if not title or not summary:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail="title and summary required")
+
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")[:48]
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    filename = f"{date_str}_claude_{slug}.md"
+
+    intake_dir = BASE_DIR / "intake" / "claude"
+    intake_dir.mkdir(parents=True, exist_ok=True)
+    filepath = intake_dir / filename
+
+    content = f"""# {title}
+
+Source: Claude
+Date: {date_str}
+Requested action: {action}
+
+## Summary
+
+{summary}
+"""
+    if details:
+        content += f"\n## Details\n\n{details}\n"
+    if next_step:
+        content += f"\n## Suggested Next Step\n\n{next_step}\n"
+
+    filepath.write_text(content, encoding="utf-8")
+    return JSONResponse({"file": f"intake/claude/{filename}", "status": "filed"})
 
 
 if __name__ == "__main__":
