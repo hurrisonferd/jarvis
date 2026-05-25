@@ -3362,6 +3362,11 @@ _GAMEBOY_HTML = """<!DOCTYPE html>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>JARVIS HANDHELD</title>
+<link rel="manifest" href="/gameboy/manifest.json">
+<meta name="theme-color" content="#f5a623">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JARVIS">
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 :root {
@@ -3791,6 +3796,7 @@ loadData();
 loadLive();
 setInterval(loadLive,3000);
 runBoot();
+if('serviceWorker' in navigator) navigator.serviceWorker.register('/gameboy/sw.js').catch(()=>{});
 </script>
 </body>
 </html>"""
@@ -3799,6 +3805,221 @@ runBoot();
 @app.get("/gameboy", response_class=HTMLResponse)
 async def gameboy_page():
     return HTMLResponse(content=_GAMEBOY_HTML)
+
+
+@app.get("/gameboy/manifest.json")
+async def gameboy_manifest():
+    return JSONResponse({
+        "name": "JARVIS HANDHELD",
+        "short_name": "JARVIS",
+        "description": "JARVIS God System Interface",
+        "start_url": "/gameboy",
+        "display": "standalone",
+        "background_color": "#020408",
+        "theme_color": "#f5a623",
+        "orientation": "portrait-primary",
+        "icons": [{"src": "/gameboy/icon.svg", "sizes": "any", "type": "image/svg+xml"}],
+    })
+
+
+@app.get("/gameboy/icon.svg")
+async def gameboy_icon():
+    svg = (
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 192 192">'
+        '<rect width="192" height="192" fill="#020408"/>'
+        '<text x="96" y="130" font-size="100" text-anchor="middle" fill="#f5a623" font-family="monospace" font-weight="bold">J</text>'
+        '</svg>'
+    )
+    from fastapi.responses import Response
+    return Response(content=svg, media_type="image/svg+xml")
+
+
+@app.get("/gameboy/sw.js")
+async def gameboy_sw():
+    sw = """
+const CACHE='jarvis-gb-v1';
+const SHELL=['/gameboy'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL))));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k))))));
+self.addEventListener('fetch',e=>{
+  if(e.request.method!=='GET') return;
+  e.respondWith(fetch(e.request).then(r=>{
+    const rc=r.clone();
+    caches.open(CACHE).then(c=>c.put(e.request,rc));
+    return r;
+  }).catch(()=>caches.match(e.request)));
+});
+""".strip()
+    from fastapi.responses import Response
+    return Response(content=sw, media_type="application/javascript")
+
+
+# ── Mobile Intake Form ──────────────────────────────────────────────────────
+
+_INTAKE_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>JARVIS INTAKE</title>
+<meta name="theme-color" content="#020408">
+<style>
+:root {
+  --amber:#f5a623; --green:#00ff88; --dim:#1e3a52; --text:#4a7a99;
+  --bright:#a0c8e0; --bg:#020408; --surface:#080f18; --border:#0f2035;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:var(--bg);color:var(--bright);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;}
+.shell{max-width:480px;margin:0 auto;padding:16px;}
+header{border-bottom:1px solid var(--border);padding-bottom:12px;margin-bottom:20px;display:flex;align-items:center;gap:10px;}
+.logo{font-size:11px;letter-spacing:4px;color:var(--amber);font-family:monospace;font-weight:bold;}
+.sub{font-size:10px;color:var(--text);letter-spacing:2px;}
+label{display:block;font-size:10px;letter-spacing:2px;color:var(--text);margin-bottom:5px;margin-top:14px;}
+input,select,textarea{
+  width:100%;background:var(--surface);border:1px solid var(--border);
+  color:var(--bright);font-size:14px;padding:10px 12px;border-radius:4px;
+  font-family:inherit;outline:none;-webkit-appearance:none;
+}
+input:focus,select:focus,textarea:focus{border-color:var(--amber);}
+select{background-image:none;}
+textarea{resize:vertical;min-height:80px;line-height:1.5;}
+.submit{
+  display:block;width:100%;margin-top:24px;padding:14px;
+  background:var(--amber);color:#020408;font-size:12px;letter-spacing:3px;
+  font-weight:bold;border:none;border-radius:4px;cursor:pointer;font-family:monospace;
+}
+.submit:active{opacity:.8;}
+.submit:disabled{opacity:.4;cursor:not-allowed;}
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  background:var(--green);color:#020408;padding:12px 24px;border-radius:6px;
+  font-size:11px;letter-spacing:2px;font-family:monospace;font-weight:bold;
+  opacity:0;transition:opacity .3s;pointer-events:none;
+}
+.toast.show{opacity:1;}
+.err{color:#ff3355;font-size:10px;margin-top:4px;letter-spacing:1px;}
+.aegis{font-size:9px;color:var(--dim);letter-spacing:1px;text-align:center;margin-top:16px;}
+</style>
+</head>
+<body>
+<div class="shell">
+  <header>
+    <div>
+      <div class="logo">JARVIS</div>
+      <div class="sub">INTAKE // MOBILE</div>
+    </div>
+  </header>
+
+  <form id="form">
+    <label>TITLE</label>
+    <input type="text" id="title" placeholder="short descriptive title" required>
+
+    <label>REQUESTED ACTION</label>
+    <select id="action">
+      <option value="review">review</option>
+      <option value="implement">implement</option>
+      <option value="remember">remember</option>
+      <option value="archive">archive</option>
+    </select>
+
+    <label>SUMMARY</label>
+    <textarea id="summary" placeholder="what is this about?" required></textarea>
+
+    <label>DETAILS</label>
+    <textarea id="details" placeholder="full context, constraints, relevant links..." style="min-height:120px;"></textarea>
+
+    <label>SUGGESTED NEXT STEP</label>
+    <textarea id="next" placeholder="what should JARVIS or Codex do with this?"></textarea>
+
+    <button type="submit" class="submit" id="btn">SUBMIT TO INTAKE</button>
+    <div class="err" id="err"></div>
+    <div class="aegis">AEGIS — routed to intake/claude/ — governed workflow applies</div>
+  </form>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+document.getElementById('form').addEventListener('submit', async function(e){
+  e.preventDefault();
+  const btn=document.getElementById('btn');
+  const err=document.getElementById('err');
+  err.textContent='';
+  btn.disabled=true; btn.textContent='SUBMITTING...';
+  const payload={
+    title:    document.getElementById('title').value.trim(),
+    action:   document.getElementById('action').value,
+    summary:  document.getElementById('summary').value.trim(),
+    details:  document.getElementById('details').value.trim(),
+    next:     document.getElementById('next').value.trim(),
+  };
+  try{
+    const r=await fetch('/intake',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(payload)});
+    const j=await r.json();
+    if(r.ok){
+      document.getElementById('form').reset();
+      const t=document.getElementById('toast');
+      t.textContent='FILED: '+j.file;
+      t.classList.add('show');
+      setTimeout(()=>t.classList.remove('show'),3500);
+    } else {
+      err.textContent=j.detail||'submit failed';
+    }
+  }catch(ex){ err.textContent='network error'; }
+  btn.disabled=false; btn.textContent='SUBMIT TO INTAKE';
+});
+</script>
+</body>
+</html>"""
+
+
+@app.get("/intake", response_class=HTMLResponse)
+async def intake_form():
+    return HTMLResponse(content=_INTAKE_HTML)
+
+
+@app.post("/intake")
+async def intake_submit(request: Request):
+    try:
+        body = await request.json()
+    except Exception:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail="invalid JSON body")
+
+    title   = (body.get("title") or "").strip()
+    action  = (body.get("action") or "review").strip()
+    summary = (body.get("summary") or "").strip()
+    details = (body.get("details") or "").strip()
+    next_step = (body.get("next") or "").strip()
+
+    if not title or not summary:
+        from fastapi import HTTPException
+        raise HTTPException(status_code=400, detail="title and summary required")
+
+    slug = re.sub(r"[^a-z0-9]+", "-", title.lower()).strip("-")[:48]
+    date_str = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    filename = f"{date_str}_claude_{slug}.md"
+
+    intake_dir = BASE_DIR / "intake" / "claude"
+    intake_dir.mkdir(parents=True, exist_ok=True)
+    filepath = intake_dir / filename
+
+    content = f"""# {title}
+
+Source: Claude
+Date: {date_str}
+Requested action: {action}
+
+## Summary
+
+{summary}
+"""
+    if details:
+        content += f"\n## Details\n\n{details}\n"
+    if next_step:
+        content += f"\n## Suggested Next Step\n\n{next_step}\n"
+
+    filepath.write_text(content, encoding="utf-8")
+    return JSONResponse({"file": f"intake/claude/{filename}", "status": "filed"})
 
 
 if __name__ == "__main__":
