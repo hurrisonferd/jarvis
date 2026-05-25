@@ -3802,6 +3802,9 @@ async def gameboy_page():
 
 
 if __name__ == "__main__":
+    import sys
+    if sys.stdout.encoding and sys.stdout.encoding.lower() != "utf-8":
+        sys.stdout.reconfigure(encoding="utf-8", errors="replace")
     print("═" * 50)
     print("JARVIS MCP SERVER v1.0")
     print("═" * 50)
