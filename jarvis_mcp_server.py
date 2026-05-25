@@ -620,7 +620,27 @@ def neo4j_seed_grid() -> dict:
 # ── Multimodal / image gen helpers ───────────────────────────────────────
 IMAGE_GEN_URL  = os.environ.get("IMAGE_GEN_URL", "http://localhost:7860")
 GRID_IMAGES_DIR = BASE_DIR / "grid_images"
+LIVE_LOG_PATH  = BASE_DIR / "chaos" / "live_log.json"
 OLLAMA_BASE    = "http://localhost:11434"
+
+
+def live_log_append(action: str, file: str = "", status: str = "done") -> None:
+    try:
+        LIVE_LOG_PATH.parent.mkdir(exist_ok=True)
+        data = json.loads(LIVE_LOG_PATH.read_text(encoding="utf-8")) if LIVE_LOG_PATH.exists() else []
+        if not isinstance(data, list):
+            data = []
+        data.append({
+            "time":   datetime.now().strftime("%H:%M:%S"),
+            "action": action[:80],
+            "file":   file[:60],
+            "status": status,
+        })
+        if len(data) > 500:
+            data = data[-500:]
+        LIVE_LOG_PATH.write_text(json.dumps(data), encoding="utf-8")
+    except Exception:
+        pass
 
 
 def detect_vision_model() -> str | None:
@@ -1313,6 +1333,7 @@ async def handle_jarvis_log(args: dict) -> str:
     log = load_log(PROM_PATH)
     log.append(entry)
     save_log(PROM_PATH, log)
+    live_log_append(f"PROMETHEUS: {decision[:60]}", system, "done")
     mnemos_vector = store_mnemos_prometheus(entry)
     try:
         neo4j_write_decision(entry)
@@ -2636,6 +2657,212 @@ async def gallery_image(filename: str):
     if not img_path.exists() or img_path.suffix != ".png":
         return JSONResponse({"error": "not found"}, status_code=404)
     return FileResponse(str(img_path), media_type="image/png")
+
+
+_LIVE_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS — Live Feed</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@700;900&display=swap');
+  :root{--bg:#020408;--surface:#080f18;--card:#0c1520;--border:#0f2035;--amber:#f5a623;--green:#00ff88;--red:#ff3355;--blue:#0af;--dim:#1e3a52;--text:#4a7a99;--bright:#a0c8e0;--mono:'Share Tech Mono',monospace;--display:'Orbitron',sans-serif;}
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:var(--mono);font-size:11px;height:100vh;display:grid;grid-template-rows:48px 1fr;overflow:hidden;}
+  body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.04) 2px,rgba(0,0,0,.04) 4px);pointer-events:none;z-index:1000;}
+  .topbar{background:var(--surface);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:20px;}
+  .logo{font-family:var(--display);font-size:16px;font-weight:900;letter-spacing:5px;color:var(--amber);text-shadow:0 0 15px rgba(245,166,35,.3);}
+  .logo span{color:var(--dim);}
+  .live-dot{width:6px;height:6px;border-radius:50%;background:var(--green);box-shadow:0 0 8px var(--green);animation:blink 1.5s infinite;}
+  @keyframes blink{0%,100%{opacity:1}50%{opacity:.2}}
+  .topbar-right{margin-left:auto;display:flex;align-items:center;gap:16px;font-size:9px;color:var(--dim);letter-spacing:2px;}
+  .main{display:grid;grid-template-columns:1fr 320px;gap:1px;background:var(--border);overflow:hidden;}
+  .feed-panel{background:var(--bg);display:flex;flex-direction:column;overflow:hidden;}
+  .feed-header{background:var(--surface);padding:8px 16px;font-size:8px;letter-spacing:4px;color:var(--dim);border-bottom:1px solid var(--border);display:flex;justify-content:space-between;}
+  .feed-scroll{flex:1;overflow-y:auto;padding:12px;display:flex;flex-direction:column;gap:4px;}
+  .feed-scroll::-webkit-scrollbar{width:3px;}.feed-scroll::-webkit-scrollbar-thumb{background:var(--border);}
+  .entry{display:grid;grid-template-columns:70px 80px 1fr 60px;gap:8px;padding:6px 8px;border-left:2px solid var(--border);background:var(--card);animation:fadeIn .3s ease;align-items:center;}
+  @keyframes fadeIn{from{opacity:0;transform:translateX(-8px)}to{opacity:1}}
+  .entry.done{border-left-color:var(--green)}.entry.working{border-left-color:var(--amber);animation:pulse-border 1s infinite}.entry.failed{border-left-color:var(--red)}
+  @keyframes pulse-border{0%,100%{border-left-color:var(--amber)}50%{border-left-color:rgba(245,166,35,.3)}}
+  .entry-time{color:var(--dim);font-size:9px}.entry-action{color:var(--bright);font-size:10px}.entry-file{color:var(--text);font-size:9px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+  .entry-status{font-size:8px;letter-spacing:2px;text-align:right}
+  .status-done{color:var(--green)}.status-working{color:var(--amber)}.status-failed{color:var(--red)}
+  .sidebar{background:var(--surface);padding:16px;display:flex;flex-direction:column;gap:16px;overflow-y:auto;}
+  .card{background:var(--card);border:1px solid var(--border);padding:12px;}
+  .card-label{font-size:8px;letter-spacing:4px;color:var(--dim);border-bottom:1px solid var(--border);padding-bottom:6px;margin-bottom:10px;text-transform:uppercase;}
+  .stat-row{display:flex;justify-content:space-between;padding:4px 0;border-bottom:1px solid var(--border);font-size:10px;}.stat-row:last-child{border-bottom:none;}
+  .stat-k{color:var(--text)}.stat-v.ok{color:var(--green)}.stat-v.warn{color:var(--amber)}.stat-v.err{color:var(--red)}
+  .activity-bar{display:flex;gap:2px;align-items:flex-end;height:40px;}
+  .bar{flex:1;background:var(--amber);opacity:.6;min-height:2px;transition:height .3s ease;}
+  .empty-state{color:var(--dim);font-size:9px;letter-spacing:2px;text-align:center;padding:40px 20px;line-height:2;}
+  .cursor{display:inline-block;width:8px;height:12px;background:var(--amber);animation:cursor-blink 1s step-end infinite;vertical-align:middle;margin-left:4px;}
+  @keyframes cursor-blink{0%,100%{opacity:1}50%{opacity:0}}
+  .btn{width:100%;padding:8px;background:transparent;border:1px solid #7a4f0a;color:var(--amber);font-family:var(--mono);font-size:9px;letter-spacing:2px;cursor:pointer;text-align:left;}
+  .btn:hover{background:var(--amber);color:var(--bg);}
+  .instruction{font-size:9px;line-height:1.8;color:var(--text);}
+  .instruction code{color:var(--amber);background:var(--bg);padding:1px 4px;}
+  .nav-links{display:flex;gap:8px;flex-wrap:wrap;}
+  .nav-link{font-size:9px;letter-spacing:2px;color:var(--dim);text-decoration:none;padding:6px 10px;border:1px solid var(--border);}
+  .nav-link:hover{color:var(--amber);border-color:var(--amber);}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo">JARVIS <span>LIVE</span></div>
+  <div class="live-dot"></div>
+  <span style="font-size:9px;color:var(--dim);letter-spacing:2px">CLAUDE CODE FEED</span>
+  <div class="topbar-right">
+    <span id="entry-count">0 ENTRIES</span>
+    <span id="last-update">—</span>
+    <span id="connection-status" style="color:var(--amber)">WAITING</span>
+  </div>
+</div>
+<div class="main">
+  <div class="feed-panel">
+    <div class="feed-header">
+      <span>LIVE FEED</span>
+      <span id="feed-status">Connecting to /live_log.json...</span>
+    </div>
+    <div class="feed-scroll" id="feed">
+      <div class="empty-state">Waiting for JARVIS activity<span class="cursor"></span><br><br>PROMETHEUS decisions appear here automatically.<br>POST to /live_log to push custom entries.</div>
+    </div>
+  </div>
+  <div class="sidebar">
+    <div class="card">
+      <div class="card-label">Session Stats</div>
+      <div class="stat-row"><span class="stat-k">Total Actions</span><span class="stat-v ok" id="stat-total">0</span></div>
+      <div class="stat-row"><span class="stat-k">Completed</span><span class="stat-v ok" id="stat-done">0</span></div>
+      <div class="stat-row"><span class="stat-k">In Progress</span><span class="stat-v warn" id="stat-working">0</span></div>
+      <div class="stat-row"><span class="stat-k">Failed</span><span class="stat-v err" id="stat-failed">0</span></div>
+      <div class="stat-row"><span class="stat-k">Success Rate</span><span class="stat-v ok" id="stat-rate">—</span></div>
+    </div>
+    <div class="card">
+      <div class="card-label">Activity</div>
+      <div class="activity-bar" id="activity-bar">
+        <div class="bar" style="height:2px"></div><div class="bar" style="height:2px"></div>
+        <div class="bar" style="height:2px"></div><div class="bar" style="height:2px"></div>
+        <div class="bar" style="height:2px"></div><div class="bar" style="height:2px"></div>
+        <div class="bar" style="height:2px"></div><div class="bar" style="height:2px"></div>
+        <div class="bar" style="height:2px"></div><div class="bar" style="height:2px"></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Navigate</div>
+      <div class="nav-links">
+        <a href="/grid" class="nav-link">&#9632; GRID</a>
+        <a href="/health" class="nav-link">&#9632; HEALTH</a>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Hook Setup</div>
+      <div class="instruction">
+        Add to <code>~/.claude/settings.json</code>:<br><br>
+        <code>"PostToolUse"</code> hook → POST to<br>
+        <code>localhost:7777/live_log</code><br><br>
+        Body: <code>{"action":"...","file":"...","status":"done"}</code><br><br>
+        PROMETHEUS decisions auto-appear via <code>jarvis_log</code>.
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-label">Controls</div>
+      <div style="display:flex;flex-direction:column;gap:6px;">
+        <button class="btn" onclick="clearFeed()">&#9658; CLEAR FEED</button>
+        <button class="btn" onclick="testEntry()">&#9658; TEST ENTRY</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+let entries=[], lastLen=0, activityHistory=new Array(10).fill(0);
+
+async function pollLog(){
+  try{
+    const r=await fetch('/live_log.json?t='+Date.now());
+    if(!r.ok) throw new Error();
+    const data=await r.json();
+    document.getElementById('connection-status').textContent='CONNECTED';
+    document.getElementById('connection-status').style.color='var(--green)';
+    document.getElementById('feed-status').textContent='Live — /live_log.json';
+    if(data.length!==lastLen){entries=data.slice(-100);lastLen=data.length;renderFeed();updateStats();document.getElementById('last-update').textContent=new Date().toLocaleTimeString();}
+  }catch{
+    document.getElementById('connection-status').textContent='WAITING';
+    document.getElementById('connection-status').style.color='var(--amber)';
+  }
+}
+
+function renderFeed(){
+  const feed=document.getElementById('feed');
+  if(!entries.length) return;
+  feed.innerHTML=[...entries].reverse().map(e=>`
+    <div class="entry ${e.status||'done'}">
+      <span class="entry-time">${e.time||'—'}</span>
+      <span class="entry-action">${(e.action||'').slice(0,24)}</span>
+      <span class="entry-file">${e.file||''}</span>
+      <span class="entry-status status-${e.status||'done'}">${(e.status||'DONE').toUpperCase()}</span>
+    </div>`).join('');
+  document.getElementById('entry-count').textContent=`${entries.length} ENTRIES`;
+}
+
+function updateStats(){
+  const done=entries.filter(e=>e.status==='done').length;
+  const working=entries.filter(e=>e.status==='working').length;
+  const failed=entries.filter(e=>e.status==='failed').length;
+  const total=entries.length;
+  document.getElementById('stat-total').textContent=total;
+  document.getElementById('stat-done').textContent=done;
+  document.getElementById('stat-working').textContent=working;
+  document.getElementById('stat-failed').textContent=failed;
+  document.getElementById('stat-rate').textContent=total>0?Math.round(done/total*100)+'%':'—';
+  activityHistory.push(total);activityHistory=activityHistory.slice(-10);
+  const max=Math.max(...activityHistory,1);
+  document.querySelectorAll('#activity-bar .bar').forEach((b,i)=>{b.style.height=Math.max(2,activityHistory[i]/max*40)+'px';});
+}
+
+function clearFeed(){entries=[];lastLen=0;document.getElementById('feed').innerHTML='<div class="empty-state">Feed cleared<span class="cursor"></span></div>';updateStats();}
+
+function testEntry(){
+  entries.push({time:new Date().toLocaleTimeString(),action:'Test entry fired',file:'jarvis_mcp_server.py',status:'done'});
+  lastLen=entries.length;renderFeed();updateStats();
+}
+
+setInterval(pollLog,1000);
+pollLog();
+</script>
+</body>
+</html>"""
+
+
+@app.get("/live", response_class=HTMLResponse)
+async def live_feed_page():
+    return HTMLResponse(content=_LIVE_HTML)
+
+
+@app.get("/live_log.json")
+async def live_log_get():
+    if LIVE_LOG_PATH.exists():
+        try:
+            data = json.loads(LIVE_LOG_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            data = []
+    else:
+        data = []
+    return JSONResponse(data)
+
+
+@app.post("/live_log")
+async def live_log_post(request: Request):
+    try:
+        entry = await request.json()
+        live_log_append(
+            entry.get("action", ""),
+            entry.get("file", ""),
+            entry.get("status", "done"),
+        )
+        return JSONResponse({"ok": True})
+    except Exception as e:
+        return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
 
 
 if __name__ == "__main__":
