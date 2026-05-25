@@ -189,7 +189,14 @@ def main() -> int:
     parser.add_argument("--interval", type=int, default=60, help="Polling interval in seconds.")
     parser.add_argument("--jarvis-url", default="http://localhost:7777",
                         help="JARVIS MCP server URL for live_log POSTs.")
+    parser.add_argument("--test-push", action="store_true", help="Fire a test push and exit.")
     args = parser.parse_args()
+
+    if args.test_push:
+        post_live_log(args.jarvis_url, "Heartbeat test push — all systems nominal",
+                      push=True, push_title="JARVIS — Heartbeat Test")
+        print("[heartbeat] test push sent")
+        return 0
 
     while True:
         try:
