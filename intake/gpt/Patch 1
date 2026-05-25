@@ -1,0 +1,66 @@
+PATCH_ID: 001
+TYPE: architecture_setup
+
+INTENT:
+Establish deterministic GitHub intake + Claude Code execution pipeline.
+
+CONTEXT:
+Repo is used as a structured execution queue. GPT produces patch packets, GitHub stores intent, Claude Code processes and outputs diffs/files.
+
+SCOPE:
+- github/intake structure
+- github/outbox structure
+- patch format standard
+- processing rules
+
+CHANGES:
+
+- Create folder structure:
+  - github/intake/gpt/
+  - github/intake/claude/
+  - github/outbox/claude/
+  - github/outbox/gpt/
+  - github/archive/
+
+- Define standard patch packet format:
+  - PATCH_ID (unique)
+  - TYPE (feature/refactor/fix/cleanup)
+  - INTENT (single sentence)
+  - CONTEXT (minimal)
+  - SCOPE (max 5 files recommended)
+  - CHANGES (atomic list)
+  - CONSTRAINTS (mandatory)
+  - OUTPUT EXPECTED
+
+- Define intake processing rules:
+  - GPT writes intent-only packets into /intake/gpt
+  - Claude validates and may split tasks
+  - Valid tasks move to /intake/claude
+  - Execution outputs go to /outbox/claude
+
+- Define Claude execution contract:
+  - Input: scoped files + constraints
+  - Output: unified diff OR full file replacement
+  - Must not expand architecture
+  - Must remain within requested scope
+
+- Define splitting rule:
+  - If >1 intent → split patch
+  - If >5 files → split patch
+  - If ambiguous → reject or request clarification
+
+- Define safety constraint:
+  - no new systems or architecture layers
+  - no global refactors unless explicitly requested
+  - no hidden dependencies
+
+CONSTRAINTS:
+- no runtime changes required
+- no emulator integration yet
+- no execution code required
+- documentation-level setup only
+
+OUTPUT EXPECTATION:
+- GitHub folder structure ready for intake pipeline
+- Claude Code can consume /intake/gpt as queue
+- deterministic patch → execution → outbox flow established
