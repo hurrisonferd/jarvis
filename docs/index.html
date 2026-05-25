@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>JARVIS ALERTS</title>
+<meta name="theme-color" content="#020408">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<link rel="icon" type="image/svg+xml" href="/jarvis/icon.svg">
+<style>
+:root{--amber:#f5a623;--green:#00ff88;--red:#ff3355;--dim:#1e3a52;--text:#4a7a99;--bright:#a0c8e0;--bg:#020408;--surface:#080f18;--border:#0f2035;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{background:radial-gradient(ellipse at center,#0a0f1a 0%,#020408 100%);color:var(--bright);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;}
+.card{width:100%;max-width:360px;padding:32px 24px;text-align:center;}
+.logo{font-size:13px;letter-spacing:6px;color:var(--amber);font-family:monospace;font-weight:bold;animation:glow 2s ease-in-out infinite;}
+@keyframes glow{0%,100%{text-shadow:0 0 10px rgba(245,166,35,.3)}50%{text-shadow:0 0 30px rgba(245,166,35,.8)}}
+.sub{font-size:10px;letter-spacing:3px;color:var(--text);margin-top:6px;}
+.divider{border:none;border-top:1px solid var(--border);margin:28px 0;}
+.status-ring{width:80px;height:80px;border-radius:50%;border:3px solid var(--border);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:32px;transition:border-color .3s;}
+.status-ring.active{border-color:var(--green);box-shadow:0 0 20px rgba(0,255,136,.2);}
+.status-ring.error{border-color:var(--red);}
+.status-text{font-size:11px;letter-spacing:2px;color:var(--text);min-height:36px;line-height:1.8;}
+.btn{display:block;width:100%;padding:16px;margin-top:24px;background:var(--amber);color:#020408;font-size:11px;letter-spacing:3px;font-weight:bold;border:none;border-radius:6px;cursor:pointer;font-family:monospace;transition:opacity .2s;}
+.btn:active{opacity:.75;}
+.btn:disabled{opacity:.35;cursor:not-allowed;}
+.btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text);margin-top:12px;}
+.detail{font-size:9px;color:var(--dim);letter-spacing:1px;margin-top:20px;line-height:1.9;}
+.detail a{color:var(--text);text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">JARVIS</div>
+  <div class="sub">ALERT SUBSCRIPTION</div>
+  <hr class="divider">
+
+  <div class="status-ring" id="ring">⚡</div>
+  <div class="status-text" id="status">Checking push support...</div>
+
+  <button class="btn" id="btn" disabled>CHECKING...</button>
+  <button class="btn secondary" id="test-btn" style="display:none" onclick="sendTest()">SEND TEST PUSH</button>
+
+  <div class="detail">
+    Notifications fire on:<br>
+    PROMETHEUS decisions &nbsp;·&nbsp; heartbeat events<br>
+    AEGIS blocks &nbsp;·&nbsp; Gold Law violations<br><br>
+    <a href="/jarvis/gameboy">Open JARVIS Handheld →</a>
+  </div>
+</div>
+
+<script>
+const VAPID_PUBLIC = 'BE4-zlXUnK_zKcuQLB-kR-2_0QRwzDUUiV8ss2yZxtDM7kCI5GAF4Ku4Jf7ZjaKsaasNwQodHw4PPSyeyqjH-Ok';
+const SB_URL  = 'https://oexghfsvhnggddllgvrt.supabase.co';
+const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.jRFMf-C9ps72Bi_9IpiC3eOZD6Aj6wU4IF-j3svKTfQ';
+
+const ring   = document.getElementById('ring');
+const status = document.getElementById('status');
+const btn    = document.getElementById('btn');
+const testBtn = document.getElementById('test-btn');
+
+function urlB64(b64){
+  const pad='='.repeat((4-b64.length%4)%4);
+  const b=(b64+pad).replace(/-/g,'+').replace(/_/g,'/');
+  const raw=atob(b); const out=new Uint8Array(raw.length);
+  for(let i=0;i<raw.length;i++) out[i]=raw.charCodeAt(i);
+  return out;
+}
+
+async function saveToSupabase(sub){
+  const j = sub.toJSON();
+  const res = await fetch(`${SB_URL}/rest/v1/push_subscriptions`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SB_ANON,
+      'Authorization': `Bearer ${SB_ANON}`,
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({
+      endpoint:   j.endpoint,
+      p256dh:     j.keys.p256dh,
+      auth:       j.keys.auth,
+      user_agent: navigator.userAgent.substring(0, 255)
+    })
+  });
+  return res.status < 300 || res.status === 409; // 409 = already exists, ok
+}
+
+async function init(){
+  if(!('serviceWorker' in navigator) || !('PushManager' in window)){
+    ring.textContent = '✗';
+    ring.classList.add('error');
+    status.textContent = 'Push not supported\nin this browser.';
+    btn.textContent = 'NOT SUPPORTED';
+    return;
+  }
+
+  const reg = await navigator.serviceWorker.register('/jarvis/sw.js');
+  await navigator.serviceWorker.ready;
+
+  const existing = await reg.pushManager.getSubscription();
+  if(existing){
+    setActive('Already subscribed.\nNotifications are armed.', existing);
+    return;
+  }
+
+  const perm = Notification.permission;
+  if(perm === 'denied'){
+    ring.textContent = '✗';
+    ring.classList.add('error');
+    status.textContent = 'Notifications blocked.\nEnable in browser settings.';
+    btn.textContent = 'BLOCKED';
+    return;
+  }
+
+  status.textContent = 'Tap to enable\npush notifications.';
+  btn.textContent = 'ENABLE PUSH ALERTS';
+  btn.disabled = false;
+  btn.onclick = () => subscribe(reg);
+}
+
+async function subscribe(reg){
+  btn.disabled = true;
+  btn.textContent = 'SUBSCRIBING...';
+  status.textContent = 'Requesting permission...';
+  try{
+    const sub = await reg.pushManager.subscribe({
+      userVisibleOnly: true,
+      applicationServerKey: urlB64(VAPID_PUBLIC)
+    });
+    status.textContent = 'Saving to JARVIS...';
+    const ok = await saveToSupabase(sub);
+    if(ok){
+      setActive('Subscription active.\nJARVIS will reach you.', sub);
+    } else {
+      throw new Error('Supabase save failed');
+    }
+  } catch(e){
+    ring.textContent = '✗';
+    ring.classList.add('error');
+    status.textContent = 'Failed: ' + (e.message || 'unknown error');
+    btn.textContent = 'RETRY';
+    btn.disabled = false;
+    btn.onclick = () => subscribe(reg);
+  }
+}
+
+function setActive(msg, sub){
+  ring.textContent = '✓';
+  ring.classList.add('active');
+  status.textContent = msg;
+  btn.textContent = 'UNSUBSCRIBE';
+  btn.disabled = false;
+  btn.classList.add('secondary');
+  btn.onclick = () => unsubscribe(sub);
+  testBtn.style.display = 'block';
+}
+
+async function unsubscribe(sub){
+  await sub.unsubscribe();
+  await fetch(`${SB_URL}/rest/v1/push_subscriptions?endpoint=eq.${encodeURIComponent(sub.endpoint)}`, {
+    method: 'DELETE',
+    headers: {'apikey': SB_ANON, 'Authorization': `Bearer ${SB_ANON}`}
+  });
+  location.reload();
+}
+
+async function sendTest(){
+  testBtn.textContent = 'SENDING...';
+  testBtn.disabled = true;
+  // Posts to Supabase live_log table to trigger a push from the JARVIS server
+  await fetch(`${SB_URL}/rest/v1/live_log`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'apikey': SB_ANON,
+      'Authorization': `Bearer ${SB_ANON}`,
+      'Prefer': 'return=minimal'
+    },
+    body: JSON.stringify({action:'TEST: push notification from JARVIS mobile page', status:'done', type:'test'})
+  });
+  setTimeout(()=>{ testBtn.textContent = 'SEND TEST PUSH'; testBtn.disabled = false; }, 2000);
+}
+
+init().catch(e => { status.textContent = 'Error: '+e.message; });
+</script>
+</body>
+</html>

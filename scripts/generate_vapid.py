@@ -4,27 +4,34 @@ Run once, paste output into .env.
 
     python scripts/generate_vapid.py
 """
-from py_vapid import Vapid
+import subprocess
+import base64
 
 
 def main():
-    v = Vapid()
-    v.generate_keys()
+    ec_pem = subprocess.run(
+        ['openssl', 'ecparam', '-name', 'prime256v1', '-genkey', '-noout'],
+        capture_output=True, check=True
+    ).stdout.decode()
 
-    private_pem = v.private_pem().decode().strip()
-    public_key  = v.public_key
+    pub_der = subprocess.run(
+        ['openssl', 'ec', '-pubout', '-outform', 'DER'],
+        input=ec_pem.encode(), capture_output=True, check=True
+    ).stdout
+    pub_b64 = base64.urlsafe_b64encode(pub_der[-65:]).rstrip(b'=').decode()
 
-    from cryptography.hazmat.primitives.serialization import Encoding, PublicFormat
-    import base64
-    raw = public_key.public_bytes(Encoding.X962, PublicFormat.UncompressedPoint)
-    pub_b64 = base64.urlsafe_b64encode(raw).rstrip(b"=").decode()
+    priv_der = subprocess.run(
+        ['openssl', 'ec', '-outform', 'DER'],
+        input=ec_pem.encode(), capture_output=True, check=True
+    ).stdout
+    idx = priv_der.index(b'\x04\x20') + 2
+    priv_b64 = base64.urlsafe_b64encode(priv_der[idx:idx+32]).rstrip(b'=').decode()
 
     print("Add these lines to your .env:\n")
-    print(f"VAPID_PRIVATE_KEY={private_pem!r}")
     print(f"VAPID_PUBLIC_KEY={pub_b64}")
-    print(f'VAPID_CLAIMS_SUB=mailto:johnbarber720@gmail.com')
-    print("\nVAPID_PRIVATE_KEY must include the full PEM including header/footer.")
-    print("Store it as a single line with \\n escapes, or use a .env multiline block.")
+    print(f"VAPID_PRIVATE_KEY={priv_b64}")
+    print(f"VAPID_CLAIMS_SUB=mailto:johnbarber720@gmail.com")
+    print("\nIf you regenerate these keys, update VAPID_PUBLIC_KEY in docs/index.html too.")
 
 
 if __name__ == "__main__":
