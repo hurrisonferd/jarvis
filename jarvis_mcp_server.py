@@ -11,6 +11,7 @@ import asyncio
 import os
 import shutil
 import subprocess
+import re
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -468,6 +469,69 @@ def neo4j_write_decision(entry: dict) -> None:
         "MERGE (d)-[:AFFECTS]->(g)",
         {"did": did, "gid": system}
     )
+
+
+def neo4j_seed_grid() -> dict:
+    """Seed GRID_CANON into Neo4j as :GridNode nodes with :ROUTES_TO and :GOVERNS edges."""
+    nodes_written = 0
+    edges_written = 0
+
+    def node_id(filename: str) -> str:
+        return filename.replace(".md", "")
+
+    for node in GRID_CANON:
+        nid = node_id(node["file"])
+        neo4j_run(
+            "MERGE (n:GridNode {id: $id}) SET n += $props",
+            {"id": nid, "props": {
+                "id":              nid,
+                "file":            node["file"],
+                "region":          node["region"],
+                "district":        node["district"],
+                "suggested_ascent": node["suggested_ascent"],
+                "keywords":        ",".join(node["keywords"][:10]),
+                "updated_at":      now(),
+            }}
+        )
+        nodes_written += 1
+
+    for node in GRID_CANON:
+        from_id = node_id(node["file"])
+        for path_str in node["nearby_paths"]:
+            fname = path_str.split(" — ")[0].strip()
+            if fname.endswith(".md"):
+                to_id = node_id(fname)
+                try:
+                    neo4j_run(
+                        "MATCH (a:GridNode {id: $a}), (b:GridNode {id: $b}) "
+                        "MERGE (a)-[:ROUTES_TO]->(b)",
+                        {"a": from_id, "b": to_id}
+                    )
+                    edges_written += 1
+                except Exception:
+                    pass
+
+    region_to_god = {
+        "The Signal Spire": "ERIS",
+        "The Routing Gate": "ODIN",
+        "The Law Chamber":  "AEGIS",
+        "The Neon Frontier": "JANUS",
+    }
+    for node in GRID_CANON:
+        god = region_to_god.get(node["region"])
+        if god:
+            nid = node_id(node["file"])
+            try:
+                neo4j_run(
+                    "MATCH (g:GodSystem {id: $gid}), (n:GridNode {id: $nid}) "
+                    "MERGE (g)-[:GOVERNS]->(n)",
+                    {"gid": god, "nid": nid}
+                )
+                edges_written += 1
+            except Exception:
+                pass
+
+    return {"nodes": nodes_written, "edges": edges_written}
 
 
 def find_git() -> str | None:
@@ -1189,6 +1253,99 @@ async def handle_jarvis_stats(args: dict) -> str:
 async def handle_jarvis_grid(args: dict) -> str:
     query = args.get("query", "").lower().strip()
 
+    def keyword_match(q: str):
+        best_node = None
+        best_score = 0
+        for node in GRID_CANON:
+            score = sum(1 for kw in node["keywords"] if kw in q)
+            if node["file"].replace("-", " ").replace(".md", "") in q:
+                score += 3
+            if score > best_score:
+                best_score = score
+                best_node = node
+        if best_score == 0:
+            q_words = set(q.split())
+            for node in GRID_CANON:
+                for kw in node["keywords"]:
+                    if q_words & set(kw.split()):
+                        best_node = node
+                        best_score = 1
+                        break
+                if best_node:
+                    break
+        return best_node
+
+    def node_id(n: dict) -> str:
+        return n["file"].replace(".md", "")
+
+    # ── ODIN route query ───────────────────────────────────────────────────
+    route_m = re.search(
+        r'(?:from|route|path from|take me from)\s+(.+?)\s+(?:to|toward|towards)\s+(.+)',
+        query
+    )
+    if route_m:
+        from_q    = route_m.group(1).strip()
+        to_q      = route_m.group(2).strip()
+        from_node = keyword_match(from_q)
+        to_node   = keyword_match(to_q)
+
+        if not from_node or not to_node:
+            missing = []
+            if not from_node: missing.append(f"'{from_q}'")
+            if not to_node:   missing.append(f"'{to_q}'")
+            return (
+                f"ODIN ROUTE — Location not found: {', '.join(missing)}\n"
+                "Run jarvis_grid() for the full map."
+            )
+
+        from_id = node_id(from_node)
+        to_id   = node_id(to_node)
+
+        if from_id == to_id:
+            return f"ODIN ROUTE — Already there: {from_node['region']} / {from_node['district']}"
+
+        try:
+            records = neo4j_run(
+                "MATCH path = shortestPath((a:GridNode {id: $a})-[*..6]-(b:GridNode {id: $b})) "
+                "RETURN [n IN nodes(path) | n.district + ' / ' + n.region] AS stops, "
+                "       length(path) AS hops",
+                {"a": from_id, "b": to_id}
+            )
+            if records:
+                r     = records[0]
+                stops = r.get("stops") or []
+                hops  = r.get("hops", 0)
+                lines = [
+                    f"ODIN ROUTE  {from_node['district']} → {to_node['district']}",
+                    "═" * 43,
+                    f"Shortest path — {hops} hop{'s' if hops != 1 else ''}:",
+                ]
+                for i, stop in enumerate(stops):
+                    marker = "◉" if i in (0, len(stops) - 1) else "·"
+                    lines.append(f"  {marker} {stop}")
+                lines += [
+                    "",
+                    "GOVERNED BY: Neo4j shortestPath(GridNode → GridNode)",
+                    f"Explore: jarvis_neo4j(action='traverse', node_id='{from_id}')",
+                ]
+                return "\n".join(lines)
+        except Exception:
+            pass
+
+        # Neo4j offline fallback
+        lines = [
+            f"ODIN ROUTE  {from_node['district']} → {to_node['district']}",
+            "═" * 43,
+            "(Neo4j offline — showing direct links only)",
+            "",
+            f"FROM: {from_node['region']} / {from_node['district']}",
+        ]
+        for p in from_node["nearby_paths"][:3]:
+            lines.append(f"  → {p}")
+        lines += ["", f"TO: {to_node['region']} / {to_node['district']}"]
+        return "\n".join(lines)
+
+    # ── Empty query — show full map ────────────────────────────────────────
     if not query:
         lines = [
             "YOU ARE AT: The Grid — Entrance",
@@ -1200,9 +1357,8 @@ async def handle_jarvis_grid(args: dict) -> str:
         ]
         seen_regions: set = set()
         for node in GRID_CANON:
-            label = f"{node['region']} / {node['district']}"
             if node["region"] not in seen_regions:
-                lines.append(f"")
+                lines.append("")
                 lines.append(f"  [{node['region']}]")
                 seen_regions.add(node["region"])
             lines.append(f"    • {node['district']}  →  intake/recycle/{node['file']}")
@@ -1211,32 +1367,14 @@ async def handle_jarvis_grid(args: dict) -> str:
             "SUGGESTED NAVIGATION:",
             "  jarvis_grid(query='codex authority')",
             "  jarvis_grid(query='grid design bible')",
+            "  jarvis_grid(query='route from codex authority to grid design bible')",
             "  jarvis_grid(query='heartbeat watcher')",
             "  jarvis_grid(query='governed workflow')",
         ]
         return "\n".join(lines)
 
-    best_node = None
-    best_score = 0
-
-    for node in GRID_CANON:
-        score = sum(1 for kw in node["keywords"] if kw in query)
-        if node["file"].replace("-", " ").replace(".md", "") in query:
-            score += 3
-        if score > best_score:
-            best_score = score
-            best_node = node
-
-    if best_score == 0:
-        query_words = set(query.split())
-        for node in GRID_CANON:
-            for kw in node["keywords"]:
-                if query_words & set(kw.split()):
-                    best_node = node
-                    best_score = 1
-                    break
-            if best_node:
-                break
+    # ── Keyword match ──────────────────────────────────────────────────────
+    best_node = keyword_match(query)
 
     if not best_node:
         lines = [
@@ -1254,8 +1392,8 @@ async def handle_jarvis_grid(args: dict) -> str:
     if canon_file.exists():
         try:
             content_lines = [
-                l.strip() for l in canon_file.read_text(encoding="utf-8").splitlines()
-                if l.strip() and not l.startswith("#")
+                ln.strip() for ln in canon_file.read_text(encoding="utf-8").splitlines()
+                if ln.strip() and not ln.startswith("#")
             ][:2]
             excerpt = " ".join(content_lines)[:140]
         except Exception:
@@ -1267,15 +1405,42 @@ async def handle_jarvis_grid(args: dict) -> str:
     ]
     if excerpt:
         lines += [f"  {excerpt}", ""]
+
+    # Try Neo4j for live neighbor paths
+    nid = node_id(best_node)
+    neo4j_paths: list[str] = []
+    try:
+        records = neo4j_run(
+            "MATCH (n:GridNode {id: $id})-[:ROUTES_TO]->(m:GridNode) "
+            "RETURN m.district AS district, m.region AS region, m.file AS file LIMIT 6",
+            {"id": nid}
+        )
+        neo4j_paths = [
+            f"{r['district']} ({r['region']})  →  {r['file']}"
+            for r in records
+        ]
+    except Exception:
+        pass
+
     lines.append("NEARBY PATHS:")
-    for path in best_node["nearby_paths"]:
-        lines.append(f"  → {path}")
+    if neo4j_paths:
+        for p in neo4j_paths:
+            lines.append(f"  → {p}")
+        lines.append("  [live from Neo4j graph]")
+    else:
+        for path in best_node["nearby_paths"]:
+            lines.append(f"  → {path}")
+
     lines += ["", "WARNINGS:"]
     for warning in best_node["warnings"]:
         lines.append(f"  ⚠ {warning}")
     lines += ["", "SUGGESTED ASCENT:"]
     lines.append(f"  ↑ {best_node['suggested_ascent']}")
-    lines += ["", f"CANON SOURCE: intake/recycle/{best_node['file']}"]
+    lines += [
+        "",
+        f"CANON SOURCE: intake/recycle/{best_node['file']}",
+        f"ODIN: jarvis_grid(query='route from {best_node['district'].lower()} to ...')",
+    ]
     return "\n".join(lines)
 
 
@@ -1443,8 +1608,21 @@ async def handle_jarvis_neo4j(args: dict) -> str:
                 "Next: jarvis_neo4j(action='traverse', node_id='ERIS') to verify",
             ])
 
+        elif action == "init_grid":
+            result = neo4j_seed_grid()
+            lines = [
+                "NEO4J INIT — Grid Nodes", "═" * 43,
+                f"GridNodes upserted: {result['nodes']}",
+                f"Edges upserted:     {result['edges']}",
+                "  (:GridNode)-[:ROUTES_TO]->(:GridNode)",
+                "  (:GodSystem)-[:GOVERNS]->(:GridNode)",
+                "✓ Grid graph seeded",
+                "Next: jarvis_grid(query='route from codex authority to grid design bible')",
+            ]
+            return "\n".join(lines)
+
         else:
-            return f"Unknown action: {action}\nValid: query | upsert_node | upsert_edge | traverse | init_god_systems"
+            return f"Unknown action: {action}\nValid: query | upsert_node | upsert_edge | traverse | init_god_systems | init_grid"
 
     except Exception as e:
         return f"Neo4j error [{action}]: {e}"
@@ -1570,6 +1748,13 @@ if __name__ == "__main__":
         print(f"Guardian:      {chaos.get('mission_statement',{}).get('guardian','?')}")
     else:
         print(f"⚠  CHAOS seed not found — expected: {CHAOS_PATH}")
+
+    # Seed Grid nodes into Neo4j (fire-and-forget — skips silently if Neo4j is offline)
+    try:
+        grid_result = neo4j_seed_grid()
+        print(f"Grid seeded:   {grid_result['nodes']} nodes, {grid_result['edges']} edges")
+    except Exception as _grid_err:
+        print(f"Grid seed skipped (Neo4j offline): {_grid_err}")
 
     print()
     print("Running on http://localhost:7777")
