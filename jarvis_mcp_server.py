@@ -3138,15 +3138,21 @@ async def live_log_get():
 async def live_log_post(request: Request):
     try:
         entry = await request.json()
-        status = entry.get("status", "done")
         action = entry.get("action", "")
+        status = entry.get("status", "done")
+        etype  = entry.get("type", "")
         live_log_append(action, entry.get("file", ""), status)
         await sse_broadcast("live_log", {"action": action, "status": status, "ts": now()})
+        # Push on failures, explicit push flag, or notable heartbeat events
         if status == "failed":
-            threading.Thread(target=send_push, args=("JARVIS ALERT", action[:80]), daemon=True).start()
+            asyncio.create_task(send_push("JARVIS ALERT", action[:80], tag="alert"))
         elif entry.get("push"):
             push_title = entry.get("push_title", "JARVIS")
-            threading.Thread(target=send_push, args=(push_title, action[:80]), daemon=True).start()
+            asyncio.create_task(send_push(push_title, action[:80], tag=etype or "jarvis"))
+        elif etype in ("heartbeat_failure", "gold_law_violation", "aegis_block"):
+            asyncio.create_task(send_push(f"JARVIS — {etype.replace('_', ' ').upper()}", action[:80], tag=etype))
+        elif etype in ("repo_state_changed", "intake_file_added"):
+            asyncio.create_task(send_push(f"JARVIS — {etype.replace('_', ' ').title()}", action[:80], tag=etype))
         return JSONResponse({"ok": True})
     except Exception as e:
         return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
