@@ -1146,6 +1146,37 @@ TOOLS = [
             "required": []
         }
     },
+    {
+        "name": "jarvis_gemini_handoff",
+        "description": (
+            "Route a task to Gemini (Aizen — ideation, interpretation, instance demonstration). "
+            "Writes a governed intake file to intake/gemini/ and returns the file path plus "
+            "a ready-to-paste Gemini prompt. Review the intake file before acting on Gemini output."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "task": {
+                    "type": "string",
+                    "description": "What you want Gemini to do — ideate, interpret, or demonstrate"
+                },
+                "task_type": {
+                    "type": "string",
+                    "enum": ["ideation", "interpretation", "concept", "brainstorm"],
+                    "description": "Aizen mode to invoke (default: ideation)"
+                },
+                "context": {
+                    "type": "string",
+                    "description": "Optional background context to include in the Gemini prompt"
+                },
+                "topic_slug": {
+                    "type": "string",
+                    "description": "Short kebab-case label for the intake filename, e.g. 'pachinko-monetization'"
+                }
+            },
+            "required": ["task"]
+        }
+    },
 ]
 
 PLATFORM_ARCHETYPES = {
@@ -2173,6 +2204,81 @@ async def handle_jarvis_neo4j(args: dict) -> str:
         return f"Neo4j error [{action}]: {e}"
 
 
+async def handle_jarvis_gemini_handoff(args: dict) -> str:
+    task       = args.get("task", "").strip()
+    task_type  = args.get("task_type", "ideation")
+    context    = args.get("context", "").strip()
+    topic_slug = args.get("topic_slug", "task")
+
+    if not task:
+        return "task is required. Describe what you want Gemini to do."
+
+    date_str  = now()[:10]
+    safe_slug = "".join(c if c.isalnum() or c == "-" else "-" for c in topic_slug.lower())[:40]
+    filename  = f"{date_str}_gemini_{safe_slug}.md"
+    intake_path = BASE_DIR / "intake" / "gemini" / filename
+
+    aizen_intros = {
+        "ideation":       "You are Aizen — ideation engine. Generate novel ideas and strategic directions.",
+        "interpretation": "You are Aizen — interpreter. Analyze and explain the following with depth and nuance.",
+        "concept":        "You are Aizen — concept architect. Build a structured concept or design around the following.",
+        "brainstorm":     "You are Aizen — brainstorm facilitator. Produce a broad set of possibilities without filtering.",
+    }
+    system_line = aizen_intros.get(task_type, aizen_intros["ideation"])
+
+    prompt_block = f"{system_line}\n\nTask: {task}"
+    if context:
+        prompt_block += f"\n\nContext:\n{context}"
+
+    intake_content = f"""# Gemini Handoff — {topic_slug}
+
+Source: Gemini (Aizen)
+Date: {date_str}
+Task type: {task_type}
+Requested action: review
+
+## Task
+
+{task}
+"""
+    if context:
+        intake_content += f"\n## Context\n\n{context}\n"
+
+    intake_content += f"""
+## Gemini Prompt
+
+```
+{prompt_block}
+```
+
+## Suggested Next Step
+
+1. Paste the prompt above into Gemini (or invoke via mcp__gemini__gemini-query / gemini-brainstorm).
+2. Review output against Gold Law before promoting to code, memory, or decisions.
+3. Move this file to intake/processed/ once handled.
+4. Copy reusable patterns to intake/recycle/.
+"""
+
+    try:
+        intake_path.write_text(intake_content, encoding="utf-8")
+    except Exception as e:
+        return f"Failed to write intake file: {e}"
+
+    return "\n".join([
+        f"GEMINI HANDOFF — {task_type.upper()}",
+        "=" * 40,
+        f"Intake file: intake/gemini/{filename}",
+        "",
+        "Gemini prompt ready:",
+        "─" * 40,
+        prompt_block,
+        "─" * 40,
+        "",
+        "Next: paste prompt into Gemini or call mcp__gemini__gemini-query.",
+        "Review output against Gold Law before promoting.",
+    ])
+
+
 TOOL_HANDLERS = {
     "jarvis_status":     handle_jarvis_status,
     "jarvis_entropy":    handle_jarvis_entropy,
@@ -2184,10 +2290,11 @@ TOOL_HANDLERS = {
     "jarvis_recall":     handle_jarvis_recall,
     "jarvis_repo_sync":  handle_jarvis_repo_sync,
     "jarvis_stats":      handle_jarvis_stats,
-    "jarvis_grid":       handle_jarvis_grid,
-    "jarvis_vision":     handle_jarvis_vision,
-    "jarvis_image":      handle_jarvis_image,
-    "jarvis_neo4j":      handle_jarvis_neo4j,
+    "jarvis_grid":            handle_jarvis_grid,
+    "jarvis_vision":          handle_jarvis_vision,
+    "jarvis_image":           handle_jarvis_image,
+    "jarvis_neo4j":           handle_jarvis_neo4j,
+    "jarvis_gemini_handoff":  handle_jarvis_gemini_handoff,
 }
 
 

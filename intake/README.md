@@ -1,6 +1,6 @@
 # AI Intake
 
-Use this folder as a GitHub-backed intake lane for artifacts from GPT, Claude, Codex, Continue, and other AI clients.
+Use this folder as a GitHub-backed intake lane for artifacts from GPT, Claude, Codex, Gemini, Continue, and other AI clients.
 
 The goal is to make uploads easy to review without letting raw AI output overwrite JARVIS state directly.
 
@@ -9,6 +9,7 @@ The goal is to make uploads easy to review without letting raw AI output overwri
 - `gpt/` - uploads or handoffs from GPT.
 - `claude/` - uploads or handoffs from Claude.
 - `codex/` - Codex-generated handoffs that should be reviewed before promotion.
+- `gemini/` - ideation and interpretation outputs from Gemini (Aizen). Created via `jarvis_gemini_handoff` MCP tool.
 - `processed/` - reviewed intake files that have already been converted into issues, code changes, memory, or Supabase rows.
 - `recycle/` - reusable prompts, patterns, decisions, or snippets extracted from reviewed intake.
 
@@ -20,6 +21,7 @@ Prefer Markdown files named with a date, source, and short topic:
 2026-05-24_gpt_mnemos-policy-notes.md
 2026-05-24_claude_supabase-rls-review.md
 2026-05-24_codex_intake-plan.md
+2026-05-24_gemini_pachinko-monetization-ideation.md
 ```
 
 Start each file with:
