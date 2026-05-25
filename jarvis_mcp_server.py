@@ -142,6 +142,56 @@ GRID_CANON = [
 ]
 
 
+# ── Grid image aesthetics ─────────────────────────────────────────────────
+GRID_REGION_MOODS = {
+    "The Neon Frontier": (
+        "vast digital frontier, experimental geometry on the horizon, "
+        "speculative neon structures, sense of endless possibility, pre-dawn light"
+    ),
+    "The Law Chamber": (
+        "monolithic obsidian chamber, golden constraint seals on the walls, "
+        "weight of governance, towering columns of authority, cold austere light"
+    ),
+    "The Routing Gate": (
+        "branching gateway arch, luminous path network radiating outward, "
+        "wayfinding node clusters, data flow channels, convergence point architecture"
+    ),
+    "The Signal Spire": (
+        "tall signal tower, red and amber warning beams, entropy meter rings, "
+        "alignment field visualization, alert indicators suspended in the void"
+    ),
+    "The Archive Sea": (
+        "endless digital ocean, memory nodes floating like islands, "
+        "deep retrieval currents, ancient data preserved in amber light"
+    ),
+    "The Forge": (
+        "industrial build chamber, active construction arcs, "
+        "scaffolding of code made visible, artifact crystallization in progress"
+    ),
+    "The Mirror District": (
+        "two reflective planes facing each other, diff visualization streams, "
+        "reconciliation bridges, past and present resolving into alignment"
+    ),
+    "The Rationale Hall": (
+        "hall of recorded decisions, floating decision tablets in ordered rows, "
+        "causal chain architecture, why-light connecting cause to effect"
+    ),
+}
+
+TRON_BASE_STYLE = (
+    "Tron Legacy aesthetic, digital landscape, pure black void background, "
+    "luminous cyan and electric blue neon circuit paths, perfect geometric precision, "
+    "glowing identity disc motifs, light trail streaks, "
+    "no people, no text, dramatic cinematic lighting, concept art, 8K ultra-detailed"
+)
+
+TRON_NEGATIVE = (
+    "people, human figures, faces, photorealistic skin, organic shapes, "
+    "warm earthy tones, clutter, text overlays, logos, watermark, "
+    "low quality, blurry, cartoon, anime"
+)
+
+
 def load_env_file(path: Path = BASE_DIR / ".env") -> None:
     if not path.exists():
         return
@@ -567,6 +617,76 @@ def neo4j_seed_grid() -> dict:
     return {"nodes": nodes_written, "edges": edges_written}
 
 
+# ── Multimodal / image gen helpers ───────────────────────────────────────
+IMAGE_GEN_URL  = os.environ.get("IMAGE_GEN_URL", "http://localhost:7860")
+GRID_IMAGES_DIR = BASE_DIR / "grid_images"
+OLLAMA_BASE    = "http://localhost:11434"
+
+
+def detect_vision_model() -> str | None:
+    try:
+        req = urllib.request.Request(f"{OLLAMA_BASE}/api/tags")
+        with urllib.request.urlopen(req, timeout=5) as r:
+            data = json.loads(r.read().decode())
+        hints = ("llava", "moondream", "bakllava", "cogvlm", "qwen-vl", "minicpm")
+        for m in data.get("models", []):
+            if any(h in m.get("name", "").lower() for h in hints):
+                return m["name"]
+    except Exception:
+        pass
+    return None
+
+
+def ollama_vision(image_b64: str, question: str, model: str) -> str:
+    payload = json.dumps({
+        "model": model,
+        "messages": [{"role": "user", "content": question, "images": [image_b64]}],
+        "stream": False,
+    }).encode()
+    req = urllib.request.Request(
+        f"{OLLAMA_BASE}/api/chat",
+        data=payload,
+        headers={"Content-Type": "application/json"},
+        method="POST",
+    )
+    with urllib.request.urlopen(req, timeout=120) as r:
+        result = json.loads(r.read().decode())
+    return result.get("message", {}).get("content", "").strip()
+
+
+def build_grid_image_prompt(node: dict) -> tuple[str, str]:
+    mood   = GRID_REGION_MOODS.get(node["region"], "mysterious digital district, glowing pathways")
+    prompt = f"{node['district']} — {node['region']}. {mood}. {TRON_BASE_STYLE}."
+    return prompt, TRON_NEGATIVE
+
+
+def call_image_gen(prompt: str, negative: str, width: int = 512, height: int = 512) -> dict:
+    try:
+        payload = json.dumps({
+            "prompt":          prompt,
+            "negative_prompt": negative,
+            "width":           width,
+            "height":          height,
+            "steps":           20,
+            "cfg_scale":       7,
+            "sampler_name":    "Euler a",
+        }).encode()
+        req = urllib.request.Request(
+            f"{IMAGE_GEN_URL}/sdapi/v1/txt2img",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=120) as r:
+            data = json.loads(r.read().decode())
+        images = data.get("images", [])
+        if not images:
+            return {"ok": False, "image_b64": None, "error": "No images in response"}
+        return {"ok": True, "image_b64": images[0], "error": None}
+    except Exception as e:
+        return {"ok": False, "image_b64": None, "error": str(e)}
+
+
 def find_git() -> str | None:
     candidates = [
         shutil.which("git"),
@@ -879,6 +999,46 @@ TOOLS = [
                         "'history of routing gate', 'why codex authority'"
                     )
                 }
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jarvis_vision",
+        "description": (
+            "Multimodal image analysis via Ollama. "
+            "Accepts a local image path or base64 data and returns a description "
+            "using the best available vision model (moondream, llava, etc.). "
+            "Pull a model first: `ollama pull moondream` (~1 GB)."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "image_path":   {"type": "string", "description": "Absolute path to a local image file"},
+                "image_base64": {"type": "string", "description": "Base64-encoded image data (alternative to image_path)"},
+                "question":     {"type": "string", "description": "What to ask about the image (default: general JARVIS-context description)"},
+                "model":        {"type": "string", "description": "Ollama vision model override (default: auto-detect)"},
+            },
+            "required": []
+        }
+    },
+    {
+        "name": "jarvis_image",
+        "description": (
+            "Grid location card image generation. "
+            "Builds Tron-aesthetic prompts from Grid district metadata. "
+            "action=prompt returns the prompt for manual use (works immediately). "
+            "action=generate calls a local SD-compatible endpoint (set IMAGE_GEN_URL in .env). "
+            "action=list_models shows vision and image gen status."
+        ),
+        "inputSchema": {
+            "type": "object",
+            "properties": {
+                "action":        {"type": "string", "enum": ["prompt", "generate", "list_models"], "description": "Operation to perform"},
+                "district":      {"type": "string", "description": "Grid district keyword, e.g. 'routing gate', 'signal spire', 'neon frontier'"},
+                "custom_prompt": {"type": "string", "description": "Override the auto-generated prompt"},
+                "width":         {"type": "integer", "description": "Image width in pixels (256–1024, default 512)"},
+                "height":        {"type": "integer", "description": "Image height in pixels (256–1024, default 512)"},
             },
             "required": []
         }
@@ -1537,8 +1697,155 @@ async def handle_jarvis_grid(args: dict) -> str:
         "",
         f"CANON SOURCE: intake/recycle/{best_node['file']}",
         f"ODIN: jarvis_grid(query='route from {best_node['district'].lower()} to ...')",
+        f"IMAGE: jarvis_image(action='prompt', district='{best_node['district'].lower()}')",
     ]
     return "\n".join(lines)
+
+
+async def handle_jarvis_vision(args: dict) -> str:
+    import base64 as _b64
+
+    question = (args.get("question") or "").strip() or (
+        "Describe this image in detail. What does it show? "
+        "Is anything here relevant to AI governance, software architecture, or system design?"
+    )
+    model     = (args.get("model") or "").strip()
+    image_b64 = (args.get("image_base64") or "").strip()
+
+    if not image_b64:
+        image_path = (args.get("image_path") or "").strip()
+        if not image_path:
+            return "jarvis_vision requires image_path or image_base64."
+        p = Path(image_path)
+        if not p.exists():
+            return f"Image file not found: {image_path}"
+        image_b64 = _b64.b64encode(p.read_bytes()).decode()
+
+    if not model:
+        model = detect_vision_model()
+    if not model:
+        return "\n".join([
+            "JARVIS VISION — No vision model available",
+            "═" * 43,
+            "Pull a vision model via Ollama to enable image analysis:",
+            "  ollama pull moondream    (~1.7B, ~1 GB — fast, edge-optimised)",
+            "  ollama pull llava:7b     (~7B,   ~4.7 GB — higher quality)",
+            "Then retry: jarvis_vision(image_path='path/to/image.png')",
+        ])
+
+    try:
+        answer = ollama_vision(image_b64, question, model)
+        return "\n".join([
+            f"JARVIS VISION — {model}",
+            "═" * 43,
+            f"Q: {question[:120]}",
+            "",
+            answer,
+        ])
+    except Exception as e:
+        return f"JARVIS VISION error [{model}]: {e}"
+
+
+async def handle_jarvis_image(args: dict) -> str:
+    import base64 as _b64
+
+    action        = (args.get("action") or "prompt").strip()
+    district_q    = (args.get("district") or "").strip().lower()
+    custom_prompt = (args.get("custom_prompt") or "").strip()
+    width         = max(256, min(int(args.get("width")  or 512), 1024))
+    height        = max(256, min(int(args.get("height") or 512), 1024))
+
+    if action == "list_models":
+        vision = detect_vision_model()
+        return "\n".join([
+            "JARVIS MULTIMODAL — Status",
+            "═" * 43,
+            f"Vision model:  {vision or 'none  (pull moondream or llava)'}",
+            f"Image gen URL: {IMAGE_GEN_URL}",
+            "Image gen:     configure via IMAGE_GEN_URL in .env (SD-compatible endpoint)",
+        ])
+
+    # Find target Grid node by keyword
+    target_node = None
+    if district_q:
+        best_score = 0
+        q_words    = set(district_q.split())
+        for node in GRID_CANON:
+            score = sum(1 for kw in node["keywords"] if kw in district_q)
+            if node["file"].replace("-", " ").replace(".md", "") in district_q:
+                score += 3
+            region_words   = set(node["region"].lower().split()) - {"the"}
+            district_words = set(node["district"].lower().split())
+            score += 2 * len(q_words & (region_words | district_words))
+            if score > best_score:
+                best_score  = score
+                target_node = node
+
+    if not target_node and not custom_prompt:
+        return (
+            "jarvis_image requires district= (to auto-generate a Tron prompt from a Grid location) "
+            "or custom_prompt= to supply your own.\n"
+            "Example: jarvis_image(action='prompt', district='routing gate')"
+        )
+
+    if custom_prompt:
+        prompt   = custom_prompt
+        negative = TRON_NEGATIVE
+    else:
+        prompt, negative = build_grid_image_prompt(target_node)
+
+    if action == "prompt":
+        lines = ["JARVIS IMAGE — Prompt Builder", "═" * 43]
+        if target_node:
+            lines.append(f"District: {target_node['region']} / {target_node['district']}")
+            lines.append("")
+        lines += [
+            "PROMPT:",
+            f"  {prompt}",
+            "",
+            "NEGATIVE:",
+            f"  {negative}",
+            "",
+            f"Generate: jarvis_image(action='generate', district='{district_q or 'your-district'}')",
+            f"Requires: SD WebUI at {IMAGE_GEN_URL}  (or set IMAGE_GEN_URL in .env)",
+        ]
+        return "\n".join(lines)
+
+    elif action == "generate":
+        result = call_image_gen(prompt, negative, width, height)
+        if not result["ok"]:
+            return "\n".join([
+                "JARVIS IMAGE — Generation failed",
+                "═" * 43,
+                f"Error: {result['error']}",
+                f"Endpoint: {IMAGE_GEN_URL}/sdapi/v1/txt2img",
+                "",
+                "Setup options:",
+                "  • Install Automatic1111 SD WebUI — runs at http://localhost:7860",
+                "  • Set IMAGE_GEN_URL=<your endpoint> in .env",
+                "",
+                "Prompt (paste into any image gen tool):",
+                f"  {prompt}",
+            ])
+
+        GRID_IMAGES_DIR.mkdir(exist_ok=True)
+        slug      = (target_node["file"].replace(".md", "") if target_node else "custom")
+        img_path  = GRID_IMAGES_DIR / f"{slug}_{now()[:10]}.png"
+        img_path.write_bytes(_b64.b64decode(result["image_b64"]))
+
+        label = f"{target_node['region']} / {target_node['district']}" if target_node else "custom"
+        return "\n".join([
+            "JARVIS IMAGE — Generated",
+            "═" * 43,
+            f"District: {label}",
+            f"Saved:    {img_path}",
+            f"Size:     {width}×{height}",
+            "",
+            f"Prompt:   {prompt[:160]}...",
+        ])
+
+    else:
+        return f"Unknown action: {action}\nValid: prompt | generate | list_models"
 
 
 async def handle_jarvis_neo4j(args: dict) -> str:
@@ -1737,6 +2044,8 @@ TOOL_HANDLERS = {
     "jarvis_repo_sync":  handle_jarvis_repo_sync,
     "jarvis_stats":      handle_jarvis_stats,
     "jarvis_grid":       handle_jarvis_grid,
+    "jarvis_vision":     handle_jarvis_vision,
+    "jarvis_image":      handle_jarvis_image,
     "jarvis_neo4j":      handle_jarvis_neo4j,
 }
 
