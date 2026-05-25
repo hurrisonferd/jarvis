@@ -1117,7 +1117,8 @@ TOOLS = [
             "type": "object",
             "properties": {
                 "action":        {"type": "string", "enum": ["prompt", "generate", "list_models"], "description": "Operation to perform"},
-                "district":      {"type": "string", "description": "Grid district keyword, e.g. 'routing gate', 'signal spire', 'neon frontier'"},
+                "district":      {"type": "string", "description": "Grid district keyword, e.g. 'routing gate', 'heartbeat watcher'"},
+                "region":        {"type": "string", "description": "Grid region name for a region-level card, e.g. 'signal spire', 'neon frontier', 'law chamber'"},
                 "custom_prompt": {"type": "string", "description": "Override the auto-generated prompt"},
                 "width":         {"type": "integer", "description": "Image width in pixels (256–1024, default 512)"},
                 "height":        {"type": "integer", "description": "Image height in pixels (256–1024, default 512)"},
@@ -1833,6 +1834,7 @@ async def handle_jarvis_image(args: dict) -> str:
 
     action        = (args.get("action") or "prompt").strip()
     district_q    = (args.get("district") or "").strip().lower()
+    region_q      = (args.get("region")   or "").strip().lower()
     custom_prompt = (args.get("custom_prompt") or "").strip()
     width         = max(256, min(int(args.get("width")  or 512), 1024))
     height        = max(256, min(int(args.get("height") or 512), 1024))
@@ -1863,11 +1865,28 @@ async def handle_jarvis_image(args: dict) -> str:
                 best_score  = score
                 target_node = node
 
+    # Region-level card — build a synthetic node from GRID_REGION_MOODS
+    if not target_node and region_q:
+        matched_region = None
+        for region_name in GRID_REGION_MOODS:
+            if region_q in region_name.lower() or region_name.lower().replace("the ", "") in region_q:
+                matched_region = region_name
+                break
+        if matched_region:
+            slug = matched_region.lower().replace(" ", "-").replace("the-", "")
+            target_node = {
+                "file":     f"{slug}-region.md",
+                "region":   matched_region,
+                "district": matched_region.replace("The ", ""),
+                "keywords": matched_region.lower().split(),
+            }
+
     if not target_node and not custom_prompt:
+        regions = ", ".join(r.replace("The ", "").lower() for r in GRID_REGION_MOODS)
         return (
-            "jarvis_image requires district= (to auto-generate a Tron prompt from a Grid location) "
-            "or custom_prompt= to supply your own.\n"
-            "Example: jarvis_image(action='prompt', district='routing gate')"
+            "jarvis_image requires district=, region=, or custom_prompt=.\n"
+            f"Regions: {regions}\n"
+            "Example: jarvis_image(action='generate', region='signal spire')"
         )
 
     if custom_prompt:
