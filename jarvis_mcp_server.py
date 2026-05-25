@@ -503,6 +503,25 @@ def update_mnemos_retrieval_stats() -> dict:
     }), touches=1)
 
 
+# ── SSE broadcaster ───────────────────────────────────────────────────────
+_sse_clients: list[asyncio.Queue] = []
+
+async def sse_broadcast(event_type: str, data: dict) -> None:
+    if not _sse_clients:
+        return
+    payload = f"event: {event_type}\ndata: {json.dumps(data)}\n\n"
+    dead = []
+    for q in _sse_clients:
+        try:
+            q.put_nowait(payload)
+        except asyncio.QueueFull:
+            dead.append(q)
+    for q in dead:
+        try:
+            _sse_clients.remove(q)
+        except ValueError:
+            pass
+
 # ── GitHub helpers ────────────────────────────────────────────────────────
 
 def _gh_request(path: str, method: str = "GET", body: dict | None = None):
@@ -1487,6 +1506,7 @@ async def handle_jarvis_log(args: dict) -> str:
     log.append(entry)
     save_log(PROM_PATH, log)
     live_log_append(f"PROMETHEUS: {decision[:60]}", system, "done")
+    await sse_broadcast("prometheus", {"decision": decision[:80], "system": system, "ts": now()})
     threading.Thread(target=send_push, args=(f"PROMETHEUS — {system}", decision[:80]), daemon=True).start()
     mnemos_vector = store_mnemos_prometheus(entry)
     try:
@@ -3088,6 +3108,7 @@ async def live_log_post(request: Request):
         status = entry.get("status", "done")
         action = entry.get("action", "")
         live_log_append(action, entry.get("file", ""), status)
+        await sse_broadcast("live_log", {"action": action, "status": status, "ts": now()})
         if status == "failed":
             threading.Thread(target=send_push, args=("JARVIS ALERT", action[:80]), daemon=True).start()
         elif entry.get("push"):
@@ -3685,7 +3706,7 @@ html, body {
   <div class="led"></div>
 
   <div class="screen-housing">
-    <div class="screen-label">JARVIS GRID INTERFACE</div>
+    <div class="screen-label">JARVIS GRID INTERFACE &nbsp;<span id="sse-dot" style="color:#333">●</span></div>
     <div class="screen">
       <div id="screen-inner"></div>
     </div>
@@ -3725,6 +3746,7 @@ html, body {
 
 // ── state
 let S='boot', cur=0, detail=null, gdata=null, lives=[];
+let sseConnected=false, _sse=null;
 const PG=7;
 
 const MENU=[
@@ -4084,6 +4106,41 @@ async function ghSubmitIssue(){
   ghSubmitting=false; draw(); beep(880,120);
 }
 
+// ── neural mesh SSE ───────────────────────────────────────────────────────
+function sseDot(on){
+  const d=document.getElementById('sse-dot');
+  if(d){ d.style.color=on?'#00ff88':'#333'; d.title=on?'NEURAL MESH LIVE':'DISCONNECTED'; }
+}
+
+function connectSSE(){
+  if(_sse){ _sse.close(); _sse=null; }
+  _sse=new EventSource('/events');
+  _sse.onopen=()=>{ sseConnected=true; sseDot(true); };
+  _sse.onerror=()=>{
+    sseConnected=false; sseDot(false);
+    setTimeout(connectSSE,5000);
+  };
+  _sse.addEventListener('live_log', e=>{
+    try{
+      const d=JSON.parse(e.data);
+      lives.unshift(d);
+      if(lives.length>100) lives=lives.slice(0,100);
+      if(S==='live') draw();
+    }catch(_){}
+  });
+  _sse.addEventListener('prometheus', e=>{
+    try{
+      const d=JSON.parse(e.data);
+      lives.unshift({action:'PROMETHEUS: '+d.decision, status:'done', ts:d.ts, system:d.system});
+      if(lives.length>100) lives=lives.slice(0,100);
+      if(S==='live') draw();
+    }catch(_){}
+  });
+  _sse.addEventListener('github', e=>{
+    loadGithub();
+  });
+}
+
 // ── boot sequence
 const BOOT_LINES=[
   'INITIALIZING...',
@@ -4125,7 +4182,7 @@ async function loadLive(){
 loadData();
 loadLive();
 loadGithub();
-setInterval(loadLive,3000);
+connectSSE();
 setInterval(loadGithub,60000);
 runBoot();
 
@@ -4177,6 +4234,32 @@ async def push_unsubscribe(request: Request):
     except Exception as e:
         return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
 
+@app.get("/events")
+async def sse_events(request: Request):
+    q: asyncio.Queue = asyncio.Queue(maxsize=100)
+    _sse_clients.append(q)
+    async def generator():
+        try:
+            yield "event: ping\ndata: {}\n\n"
+            while True:
+                if await request.is_disconnected():
+                    break
+                try:
+                    msg = await asyncio.wait_for(q.get(), timeout=25.0)
+                    yield msg
+                except asyncio.TimeoutError:
+                    yield "event: ping\ndata: {}\n\n"
+        finally:
+            try:
+                _sse_clients.remove(q)
+            except ValueError:
+                pass
+    return StreamingResponse(
+        generator(),
+        media_type="text/event-stream",
+        headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"},
+    )
+
 @app.get("/github/summary")
 async def github_summary_endpoint():
     try:
@@ -4193,6 +4276,7 @@ async def github_create_issue(request: Request):
         if not title:
             return JSONResponse({"ok": False, "error": "title required"}, status_code=400)
         result = _gh_request("issues", method="POST", body={"title": title, "body": description})
+        await sse_broadcast("github", {"type": "issue_created", "number": result["number"], "title": title})
         return JSONResponse({"ok": True, "number": result["number"], "url": result["html_url"]})
     except Exception as e:
         return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
