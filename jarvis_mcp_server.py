@@ -638,20 +638,22 @@ def detect_vision_model() -> str | None:
 
 
 def ollama_vision(image_b64: str, question: str, model: str) -> str:
+    # Try generate endpoint first (works for moondream and llava)
     payload = json.dumps({
-        "model": model,
-        "messages": [{"role": "user", "content": question, "images": [image_b64]}],
+        "model":  model,
+        "prompt": question,
+        "images": [image_b64],
         "stream": False,
     }).encode()
     req = urllib.request.Request(
-        f"{OLLAMA_BASE}/api/chat",
+        f"{OLLAMA_BASE}/api/generate",
         data=payload,
         headers={"Content-Type": "application/json"},
         method="POST",
     )
     with urllib.request.urlopen(req, timeout=120) as r:
         result = json.loads(r.read().decode())
-    return result.get("message", {}).get("content", "").strip()
+    return result.get("response", "").strip()
 
 
 def build_grid_image_prompt(node: dict) -> tuple[str, str]:
