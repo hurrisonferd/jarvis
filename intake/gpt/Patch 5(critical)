@@ -1,0 +1,341 @@
+GRID — Advanced Substrates (Applied Interpretation Layer)
+
+This is a build translation pass, not a rewrite. Focus: what actually becomes implementable in your emulator + GitHub + Supabase mesh.
+
+
+---
+
+1. Core Reality Shift
+
+Your document is already converging on a key structure:
+
+> The Grid is not UI. It is a multi-layer graph system with overlays.
+
+
+
+So the implementation becomes:
+
+GRAPH (nodes + edges)
++ TIME LAYER (versioning)
++ FIELD LAYER (metrics)
++ ROUTING LAYER (vectors)
++ CAUSAL LAYER (history)
+
+Everything else is visualization.
+
+
+---
+
+2. Minimal Viable Substrate Stack (build order)
+
+L0 — Spatial Graph (FOUNDATION)
+
+This is your actual system backbone.
+
+Node {
+  id
+  type
+  position
+  links[]
+}
+
+Used by:
+
+Grid navigation
+
+cartridge mapping
+
+ROM selection UI
+
+intake browsing
+
+
+
+---
+
+L1 — Causal Graph (WHY layer)
+
+Add edge typing:
+
+Edge {
+  from
+  to
+  type: "relates" | "causes" | "derived_from" | "conflicts_with"
+  timestamp
+}
+
+This turns your system from:
+
+> navigation UI
+
+
+
+into:
+
+> explainable system memory
+
+
+
+Used by:
+
+PROMETHEUS logic
+
+rollback analysis
+
+patch lineage tracking (GitHub intake → Claude output chain)
+
+
+
+---
+
+L2 — Continuous Fields (STATE overlay)
+
+This is Supabase territory.
+
+Field {
+  nodeId
+  entropy
+  alignment
+  load
+  instability
+}
+
+Used for:
+
+glowing intensity in grid
+
+node “pressure”
+
+active hotspots
+
+system health visualization
+
+
+
+---
+
+L3 — Vector Field (DIRECTION layer)
+
+This is where Grid becomes “alive”.
+
+Vector {
+  nodeId
+  dx
+  dy
+  magnitude
+  targetNode
+}
+
+Meaning:
+
+where the system is pulling toward
+
+suggested navigation
+
+auto-routing hints
+
+
+Used by:
+
+grid autopilot
+
+“next node suggestion”
+
+JARVIS guidance overlay
+
+
+
+---
+
+L4 — Hypergraph (multi-link logic)
+
+This is your intake + patch system backbone.
+
+Hyperedge {
+  id
+  nodes[]
+  relation: "decision" | "patch" | "system_change"
+}
+
+Used by:
+
+PATCH packets (your system already matches this)
+
+Claude Code execution traceability
+
+multi-file refactors
+
+GitHub intake grouping
+
+
+
+---
+
+L5 — Time / 4D Layer (versioning)
+
+This maps directly to GitHub + Supabase hybrid.
+
+NodeState {
+  nodeId
+  version
+  timestamp
+  snapshotRef
+}
+
+Used for:
+
+memory replay
+
+system rollback
+
+evolution tracing
+
+
+
+---
+
+3. What actually becomes your “Grid”
+
+The Grid is not a renderer.
+
+It becomes:
+
+GRAPH ENGINE
++ FIELD OVERLAY SYSTEM
++ CAUSAL HISTORY TRACKER
++ VECTOR ROUTER
+
+Everything else (GB emulator, JARVIS, intake) plugs into it.
+
+
+---
+
+4. Direct mapping to your existing system
+
+GitHub → Hypergraph layer
+
+each patch = hyperedge
+
+each file = node
+
+each commit = timestamped causal event
+
+
+
+---
+
+Supabase → Field + Vector layer
+
+live state
+
+activity pressure
+
+active node position
+
+realtime movement vectors
+
+
+
+---
+
+Emulator → Node execution layer
+
+GB ROM = node runtime
+
+GBA ROM = node runtime
+
+JARVIS cartridge = node runtime
+
+
+
+---
+
+5. What becomes “TRON-like”
+
+Not graphics first.
+
+The TRON effect comes from:
+
+vector field motion (nodes feel directional)
+
+field intensity (glow = state pressure)
+
+causal trails (light paths = history edges)
+
+hypergraph jumps (multi-node activation bursts)
+
+
+
+---
+
+6. Minimal implementation priority (no overbuild)
+
+Phase 1 (real build)
+
+Spatial graph (nodes + edges)
+
+basic grid renderer
+
+ROM + JARVIS nodes
+
+
+Phase 2
+
+Supabase field overlay
+
+causal edges from GitHub patches
+
+
+Phase 3
+
+vector routing (auto navigation)
+
+“alive grid” behavior
+
+
+Phase 4 (optional)
+
+hypergraph + full patch lineage visualization
+
+
+
+---
+
+7. Critical constraint (your Gold Law alignment)
+
+Everything must answer:
+
+> “Does this reduce navigation or improve system understanding?”
+
+
+
+If not:
+
+ERIS rejects it
+
+it stays conceptual only
+
+
+
+---
+
+8. Final synthesis
+
+Your system is converging into:
+
+GRID = multi-layer graph engine
+JARVIS = semantic runtime nodes
+GITHUB = causal history ledger
+SUPABASE = live field + vector state
+EMULATOR = execution nodes (GB/GBA)
+
+
+---
+
+If next step is needed, I can turn this into:
+
+actual TypeScript graph engine skeleton (production-ready)
+
+Supabase schema for fields + vectors
+
+or Grid renderer spec (TRON visual behavior mapped to data layers)
