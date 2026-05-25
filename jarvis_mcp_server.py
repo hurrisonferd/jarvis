@@ -2278,7 +2278,8 @@ _GALLERY_HTML = """<!DOCTYPE html>
   .card { border: 1px solid var(--dim); padding: 6px; background: #00060f;
           transition: border-color .2s; }
   .card:hover { border-color: var(--cyan); }
-  .card img { display: block; width: 256px; height: 256px; object-fit: cover; }
+  .card a { display: block; outline: none; }
+  .card img { display: block; width: 256px; height: 256px; object-fit: cover; cursor: zoom-in; }
   .card .label { font-size: .65rem; color: var(--dim); padding: 4px 2px;
                  letter-spacing: .1em; overflow: hidden; white-space: nowrap; }
   .empty { color: var(--dim); font-size: .8rem; margin-top: 40px; letter-spacing: .15em; }
@@ -2300,7 +2301,9 @@ _GALLERY_HTML = """<!DOCTYPE html>
       if (!files.length) { g.innerHTML = '<div class="empty">NO IMAGES YET — run: jarvis_image(action=\\'generate\\', district=\\'routing gate\\')</div>'; return; }
       g.innerHTML = files.map(f => `
         <div class="card">
-          <img src="/grid/img/${f.name}" alt="${f.name}" loading="lazy">
+          <a href="/grid/img/${f.name}" target="_blank" rel="noopener">
+            <img src="/grid/img/${f.name}" alt="${f.name}" loading="lazy">
+          </a>
           <div class="label">${f.name.replace(/_/g,' ').replace(/\\.png$/,'')}</div>
         </div>`).join('');
     } catch(e) { console.error(e); }
