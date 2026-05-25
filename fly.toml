@@ -1,16 +1,22 @@
-app = "jarvis-mcp"
-primary_region = "ewr"
+# fly.toml app configuration file generated for jarvis-mcp on 2026-05-25T17:03:47Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'jarvis-mcp'
+primary_region = 'ewr'
 
 [build]
 
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = false
+  auto_stop_machines = 'off'
   auto_start_machines = true
   min_machines_running = 1
 
 [[vm]]
-  memory = "256mb"
-  cpu_kind = "shared"
+  memory = '256mb'
+  cpu_kind = 'shared'
   cpus = 1
+  memory_mb = 256
