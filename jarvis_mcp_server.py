@@ -144,7 +144,7 @@ GRID_CANON = [
 def load_env_file(path: Path = BASE_DIR / ".env") -> None:
     if not path.exists():
         return
-    for raw_line in path.read_text().splitlines():
+    for raw_line in path.read_text(encoding="utf-8-sig").splitlines():
         line = raw_line.strip()
         if not line or line.startswith("#") or "=" not in line:
             continue
