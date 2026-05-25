@@ -15,6 +15,8 @@ import os
 import shutil
 import subprocess
 import time
+import urllib.error
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -154,15 +156,57 @@ def heartbeat_once() -> list[dict]:
     return events
 
 
+def post_live_log(jarvis_url: str, action: str, status: str = "done",
+                  push: bool = False, push_title: str = "JARVIS") -> None:
+    payload: dict = {"action": action, "status": status}
+    if push:
+        payload["push"] = True
+        payload["push_title"] = push_title
+    try:
+        req = urllib.request.Request(
+            f"{jarvis_url}/live_log",
+            data=json.dumps(payload).encode(),
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=5):
+            pass
+    except Exception as exc:
+        print(f"[heartbeat] POST failed: {exc}")
+
+
+_EVENT_PUSH: dict[str, tuple[str, str]] = {
+    "repo_state_changed": ("JARVIS — Repo State Changed", "Repo changed"),
+    "intake_file_added":  ("JARVIS — Intake File Added",  "New intake file"),
+    "intake_file_changed":("JARVIS — Intake File Changed","Intake file updated"),
+    "intake_file_removed":("JARVIS — Intake File Removed","Intake file removed"),
+}
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Observe JARVIS repo/intake changes.")
     parser.add_argument("--once", action="store_true", help="Run one heartbeat and exit.")
     parser.add_argument("--interval", type=int, default=60, help="Polling interval in seconds.")
+    parser.add_argument("--jarvis-url", default="http://localhost:7777",
+                        help="JARVIS MCP server URL for live_log POSTs.")
     args = parser.parse_args()
 
     while True:
-        events = heartbeat_once()
-        print(json.dumps({"timestamp": now(), "events": events}, indent=2))
+        try:
+            events = heartbeat_once()
+            print(json.dumps({"timestamp": now(), "events": events}, indent=2))
+            for event in events:
+                etype = event.get("type", "")
+                push_title, action_base = _EVENT_PUSH.get(etype, ("JARVIS", etype))
+                detail = event.get("path") or event.get("head", "")
+                action = f"{action_base}: {detail}" if detail else action_base
+                post_live_log(args.jarvis_url, action, push=True, push_title=push_title)
+        except Exception as exc:
+            try:
+                post_live_log(args.jarvis_url, f"Heartbeat error: {exc}", status="failed",
+                              push=True, push_title="JARVIS — HEARTBEAT FAILURE")
+            except Exception:
+                pass
         if args.once:
             return 0
         time.sleep(max(args.interval, 5))

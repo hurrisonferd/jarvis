@@ -5,6 +5,7 @@ Runs locally on port 7777.
 """
 
 import json
+import threading
 import uuid
 import hashlib
 import asyncio
@@ -20,7 +21,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, Request
-from fastapi.responses import StreamingResponse, JSONResponse, HTMLResponse, FileResponse
+from fastapi.responses import StreamingResponse, JSONResponse, HTMLResponse, FileResponse, Response
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -214,6 +215,11 @@ SUPABASE_KEY = (
     or ""
 )
 
+# ── VAPID / Web Push ──────────────────────────────────────────────────────
+VAPID_PRIVATE_KEY = os.environ.get("VAPID_PRIVATE_KEY", "")
+VAPID_PUBLIC_KEY  = os.environ.get("VAPID_PUBLIC_KEY",  "")
+VAPID_CLAIMS_SUB  = os.environ.get("VAPID_CLAIMS_SUB",  "mailto:johnbarber720@gmail.com")
+
 # ── Neo4j config ──────────────────────────────────────────────────────────
 NEO4J_URI  = os.environ.get("NEO4J_URI",      "bolt://localhost:7687")
 NEO4J_USER = os.environ.get("NEO4J_USER",     "neo4j")
@@ -259,6 +265,56 @@ def supabase_select(table: str, limit: int = 10, order: str = "created_at") -> l
             return json.loads(r.read().decode())
     except Exception:
         return []
+
+def supabase_delete(table: str, match: dict) -> dict:
+    if not supabase_enabled():
+        return {"ok": False, "error": "Supabase not configured"}
+    try:
+        params = "&".join(f"{k}=eq.{urllib.parse.quote(str(v))}" for k, v in match.items())
+        req = urllib.request.Request(
+            f"{SUPABASE_URL}/rest/v1/{table}?{params}",
+            method="DELETE",
+            headers={
+                "apikey": SUPABASE_KEY,
+                "Authorization": f"Bearer {SUPABASE_KEY}",
+                "Prefer": "return=minimal",
+            }
+        )
+        with urllib.request.urlopen(req, timeout=5) as r:
+            return {"ok": r.status in (200, 204), "status": r.status}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
+def send_push(title: str, body: str, url: str = "/gameboy") -> None:
+    """Fire-and-forget Web Push to all stored subscriptions. Cleans up 410 Gone rows."""
+    if not VAPID_PRIVATE_KEY or not VAPID_PUBLIC_KEY:
+        return
+    try:
+        from pywebpush import webpush, WebPushException
+    except ImportError:
+        return
+    subs = supabase_select("push_subscriptions", limit=200, order="created_at")
+    payload = json.dumps({"title": title, "body": body, "url": url})
+    for row in subs:
+        sub_info = row.get("subscription_info")
+        if not sub_info:
+            continue
+        if isinstance(sub_info, str):
+            sub_info = json.loads(sub_info)
+        try:
+            webpush(
+                subscription_info=sub_info,
+                data=payload,
+                vapid_private_key=VAPID_PRIVATE_KEY,
+                vapid_claims={"sub": VAPID_CLAIMS_SUB},
+            )
+        except WebPushException as exc:
+            if exc.response is not None and exc.response.status_code == 410:
+                endpoint = sub_info.get("endpoint", "")
+                if endpoint:
+                    supabase_delete("push_subscriptions", {"endpoint": endpoint})
+        except Exception:
+            pass
 
 DEFAULT_STATS = {
     "JARVIS": {"sessions_sealed": 0, "decisions_logged": 0, "entropy_current": 0.0, "entropy_trend": "stable", "gold_law_violations": 0, "platforms_active": 0, "days_since_start": 0, "build_vs_theory_ratio": 0.0, "build_sessions": 0, "theory_sessions": 0, "platforms_seen": []},
@@ -1365,6 +1421,7 @@ async def handle_jarvis_log(args: dict) -> str:
     log.append(entry)
     save_log(PROM_PATH, log)
     live_log_append(f"PROMETHEUS: {decision[:60]}", system, "done")
+    threading.Thread(target=send_push, args=(f"PROMETHEUS — {system}", decision[:80]), daemon=True).start()
     mnemos_vector = store_mnemos_prometheus(entry)
     try:
         neo4j_write_decision(entry)
@@ -2962,11 +3019,14 @@ async def live_log_get():
 async def live_log_post(request: Request):
     try:
         entry = await request.json()
-        live_log_append(
-            entry.get("action", ""),
-            entry.get("file", ""),
-            entry.get("status", "done"),
-        )
+        status = entry.get("status", "done")
+        action = entry.get("action", "")
+        live_log_append(action, entry.get("file", ""), status)
+        if status == "failed":
+            threading.Thread(target=send_push, args=("JARVIS ALERT", action[:80]), daemon=True).start()
+        elif entry.get("push"):
+            push_title = entry.get("push_title", "JARVIS")
+            threading.Thread(target=send_push, args=(push_title, action[:80]), daemon=True).start()
         return JSONResponse({"ok": True})
     except Exception as e:
         return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
@@ -3356,6 +3416,38 @@ async def gameboy_data():
     })
 
 
+_GAMEBOY_SW_JS = """
+const CACHE = 'jarvis-gb-v3';
+const STATIC = ['/gameboy'];
+
+self.addEventListener('install', e => {
+  e.waitUntil(caches.open(CACHE).then(c => c.addAll(STATIC)));
+  self.skipWaiting();
+});
+self.addEventListener('activate', e => {
+  e.waitUntil(caches.keys().then(keys =>
+    Promise.all(keys.filter(k => k !== CACHE).map(k => caches.delete(k)))
+  ));
+  self.clients.claim();
+});
+self.addEventListener('fetch', e => {
+  e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+});
+self.addEventListener('push', e => {
+  const d = e.data ? e.data.json() : {title:'JARVIS',body:'Alert',url:'/gameboy'};
+  e.waitUntil(self.registration.showNotification(d.title, {
+    body: d.body,
+    data: {url: d.url || '/gameboy'},
+    tag: 'jarvis-alert',
+    renotify: true,
+  }));
+});
+self.addEventListener('notificationclick', e => {
+  e.notification.close();
+  e.waitUntil(clients.openWindow(e.notification.data.url || '/gameboy'));
+});
+"""
+
 _GAMEBOY_HTML = """<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -3574,6 +3666,7 @@ const MENU=[
   {label:'GOLD LAW',    state:'gold'},
   {label:'THE GRID',    state:'grid'},
   {label:'LIVE FEED',   state:'live'},
+  {label:'ALERTS',      state:'alerts'},
 ];
 
 // ── render
@@ -3586,6 +3679,7 @@ function draw(){
   else if(S==='grid')  el.innerHTML=rGrid();
   else if(S==='gridD') el.innerHTML=rGridDetail();
   else if(S==='live')  el.innerHTML=rLive();
+  else if(S==='alerts') el.innerHTML=rAlerts();
 }
 
 function cursor(i,sel){ return `<span style="color:${sel?'var(--amber)':'var(--dim)'}">${sel?'&#9658;':' '}</span>`; }
@@ -3595,7 +3689,8 @@ function rMenu(){
     gdata?gdata.god_systems.length+' NODES':'...',
     gdata?gdata.gold_law.length+' RULES':'...',
     gdata?gdata.districts.length+' DISTRICTS':'...',
-    lives.length+' ENTRIES'
+    lives.length+' ENTRIES',
+    pushSubbed?'ON':'OFF',
   ];
   return `<div class="panel">
     <div class="s-header"><span>JARVIS v2.5</span><span style="color:var(--green)">&#9632; ONLINE</span></div>
@@ -3700,6 +3795,7 @@ function nav(d){
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
+  if(S==='alerts') return;
   if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
 }
 
@@ -3710,13 +3806,14 @@ function ok(){
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='gridD'&&detail){ window.open('/grid/node/'+detail.slug,'_blank'); return; }
+  if(S==='alerts'){ toggleAlerts(); return; }
 }
 
 function back(){
   beep(220,40);
   if(S==='godD')  { S='god';  draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
-  if(['god','gold','grid','live'].includes(S)){ S='menu'; cur=0; draw(); return; }
+  if(['god','gold','grid','live','alerts'].includes(S)){ S='menu'; cur=0; draw(); return; }
 }
 
 function start(){
@@ -3748,6 +3845,77 @@ document.addEventListener('keydown',e=>{
   if(k==='ArrowLeft' ||k==='x'||k==='X'||k==='Escape') back();
   if(k===' ') start();
 });
+
+// ── push / alerts
+let pushStatus='CHECKING...', pushSubbed=false, pushSub=null;
+
+function rAlerts(){
+  const hint=pushSubbed?'A:UNSUBSCRIBE':'A:SUBSCRIBE';
+  const lines=pushStatus.split('\\n');
+  return `<div class="panel">
+    <div class="s-header"><span>ALERTS</span><span style="color:${pushSubbed?'var(--green)':'var(--amber)'}">PUSH ${pushSubbed?'ON':'OFF'}</span></div>
+    <div class="s-body" style="padding-top:14px">
+      ${lines.map(l=>`<div style="color:var(--bright);font-size:6px;line-height:2;padding:2px 4px">${l}</div>`).join('')}
+      ${!('serviceWorker' in navigator)||!('PushManager' in window)?`<div style="color:var(--amber);font-size:5px;margin-top:8px;padding:0 4px">REQUIRES HTTPS + MODERN BROWSER</div>`:''}
+    </div>
+    <div class="s-footer">${hint} &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function urlBase64ToUint8Array(b64){
+  const pad='='.repeat((4-b64.length%4)%4);
+  const b=(b64+pad).replace(/-/g,'+').replace(/_/g,'/');
+  const raw=atob(b);
+  return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
+}
+
+async function checkPushSupport(){
+  if(!('serviceWorker' in navigator)||!('PushManager' in window)){
+    pushStatus='NOT SUPPORTED\\nREQUIRES HTTPS';
+    if(S==='alerts') draw();
+    return;
+  }
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    pushSub=await reg.pushManager.getSubscription();
+    if(pushSub){ pushSubbed=true; pushStatus='SUBSCRIBED\\nPUSH ACTIVE'; }
+    else { pushStatus='NOT SUBSCRIBED'; }
+  }catch(e){ pushStatus='ERROR:\\n'+e.message; }
+  if(S==='alerts') draw();
+}
+
+async function toggleAlerts(){
+  if(pushSubbed) await unsubscribeAlerts();
+  else await subscribeAlerts();
+}
+
+async function subscribeAlerts(){
+  pushStatus='SUBSCRIBING...'; draw();
+  try{
+    const kr=await fetch('/push/vapid-public-key');
+    const {key}=await kr.json();
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(key)});
+    await fetch('/push/subscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({subscription:sub.toJSON()})});
+    pushSub=sub; pushSubbed=true; pushStatus='SUBSCRIBED\\nPUSH ACTIVE';
+    beep(880,120);
+  }catch(e){ pushStatus='FAILED:\\n'+e.message; }
+  draw();
+}
+
+async function unsubscribeAlerts(){
+  pushStatus='UNSUBSCRIBING...'; draw();
+  try{
+    if(pushSub){
+      await fetch('/push/unsubscribe',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({endpoint:pushSub.endpoint})});
+      await pushSub.unsubscribe();
+      pushSub=null;
+    }
+    pushSubbed=false; pushStatus='UNSUBSCRIBED';
+    beep(220,120);
+  }catch(e){ pushStatus='FAILED:\\n'+e.message; }
+  draw();
+}
 
 // ── boot sequence
 const BOOT_LINES=[
@@ -3791,10 +3959,54 @@ loadData();
 loadLive();
 setInterval(loadLive,3000);
 runBoot();
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/gameboy-sw.js')
+    .then(()=>checkPushSupport())
+    .catch(()=>{ pushStatus='SW REG FAILED'; });
+} else {
+  pushStatus='NOT SUPPORTED';
+}
 </script>
 </body>
 </html>"""
 
+
+@app.get("/gameboy-sw.js")
+async def gameboy_sw():
+    return Response(content=_GAMEBOY_SW_JS, media_type="application/javascript")
+
+@app.get("/push/vapid-public-key")
+async def push_vapid_key():
+    return JSONResponse({"key": VAPID_PUBLIC_KEY})
+
+@app.post("/push/subscribe")
+async def push_subscribe(request: Request):
+    try:
+        body = await request.json()
+        sub = body.get("subscription")
+        if not sub:
+            return JSONResponse({"ok": False, "error": "missing subscription"}, status_code=400)
+        endpoint = sub.get("endpoint", "")
+        result = supabase_insert("push_subscriptions", {
+            "endpoint": endpoint,
+            "subscription_info": json.dumps(sub),
+        })
+        return JSONResponse({"ok": result.get("ok", False)})
+    except Exception as e:
+        return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
+
+@app.post("/push/unsubscribe")
+async def push_unsubscribe(request: Request):
+    try:
+        body = await request.json()
+        endpoint = body.get("endpoint", "")
+        if not endpoint:
+            return JSONResponse({"ok": False, "error": "missing endpoint"}, status_code=400)
+        result = supabase_delete("push_subscriptions", {"endpoint": endpoint})
+        return JSONResponse({"ok": result.get("ok", False)})
+    except Exception as e:
+        return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
 
 @app.get("/gameboy", response_class=HTMLResponse)
 async def gameboy_page():
