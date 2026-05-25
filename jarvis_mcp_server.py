@@ -20,7 +20,7 @@ from pathlib import Path
 from typing import Any
 
 from fastapi import FastAPI, Request
-from fastapi.responses import StreamingResponse, JSONResponse
+from fastapi.responses import StreamingResponse, JSONResponse, HTMLResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 import uvicorn
 
@@ -687,6 +687,86 @@ def call_image_gen(prompt: str, negative: str, width: int = 512, height: int = 5
         return {"ok": True, "image_b64": images[0], "error": None}
     except Exception as e:
         return {"ok": False, "image_b64": None, "error": str(e)}
+
+
+def generate_concept_card(node: dict) -> Path | None:
+    try:
+        from PIL import Image, ImageDraw, ImageFont
+    except ImportError:
+        return None
+
+    w, h = 512, 512
+    bg   = (0, 2, 10)
+    img  = Image.new("RGB", (w, h), bg)
+    draw = ImageDraw.Draw(img)
+
+    # Subtle grid lines
+    for x in range(0, w, 32):
+        draw.line([(x, 0), (x, h)], fill=(0, 12, 22))
+    for y in range(0, h, 32):
+        draw.line([(0, y), (w, y)], fill=(0, 12, 22))
+
+    # Outer borders
+    draw.rectangle([2, 2, w-3, h-3], outline=(0, 160, 210))
+    draw.rectangle([6, 6, w-7, h-7], outline=(0, 60, 90))
+
+    # Corner brackets
+    cs, cyan = 20, (0, 240, 255)
+    for pts in [
+        ((6, 6+cs), (6, 6), (6+cs, 6)),
+        ((w-7-cs, 6), (w-7, 6), (w-7, 6+cs)),
+        ((6, h-7-cs), (6, h-7), (6+cs, h-7)),
+        ((w-7-cs, h-7), (w-7, h-7), (w-7, h-7-cs)),
+    ]:
+        draw.line(pts, fill=cyan, width=2)
+
+    # Fonts
+    try:
+        font_lg = ImageFont.load_default(size=30)
+        font_md = ImageFont.load_default(size=14)
+        font_sm = ImageFont.load_default(size=11)
+    except TypeError:
+        font_lg = font_md = font_sm = ImageFont.load_default()
+
+    def center_text(text, y, font, color):
+        bb = draw.textbbox((0, 0), text, font=font)
+        x  = (w - (bb[2] - bb[0])) // 2
+        draw.text((x, y), text, fill=color, font=font)
+
+    region   = node.get("region", "THE GRID").upper()
+    district = node.get("district", "UNKNOWN").upper()
+
+    center_text(region, 28, font_sm, (0, 90, 140))
+    draw.line([(40, 56), (w-40, 56)], fill=(0, 60, 90))
+
+    # Word-wrapped district name
+    words    = district.split()
+    lines_d, line = [], ""
+    for word in words:
+        test = (line + " " + word).strip()
+        bb   = draw.textbbox((0, 0), test, font=font_lg)
+        if bb[2] - bb[0] > w - 60 and line:
+            lines_d.append(line)
+            line = word
+        else:
+            line = test
+    if line:
+        lines_d.append(line)
+
+    y0 = h // 2 - (len(lines_d) * 38) // 2
+    for ln in lines_d:
+        center_text(ln, y0, font_lg, (0, 230, 255))
+        y0 += 38
+
+    draw.line([(40, h-98), (w-40, h-98)], fill=(0, 60, 90))
+    center_text("CONCEPT CARD  —  JARVIS GRID", h-82, font_sm, (0, 55, 80))
+    center_text(now()[:10], h-58, font_sm, (0, 40, 60))
+
+    GRID_IMAGES_DIR.mkdir(exist_ok=True)
+    slug     = node.get("file", "custom").replace(".md", "")
+    img_path = GRID_IMAGES_DIR / f"{slug}_{now()[:10]}.png"
+    img.save(str(img_path))
+    return img_path
 
 
 def find_git() -> str | None:
@@ -1815,7 +1895,26 @@ async def handle_jarvis_image(args: dict) -> str:
 
     elif action == "generate":
         result = call_image_gen(prompt, negative, width, height)
+        label  = f"{target_node['region']} / {target_node['district']}" if target_node else "custom"
+
         if not result["ok"]:
+            # SD unavailable — fall back to Pillow concept card
+            if target_node:
+                card_path = generate_concept_card(target_node)
+            else:
+                card_path = None
+
+            if card_path:
+                return "\n".join([
+                    "JARVIS IMAGE — Concept Card (SD unavailable)",
+                    "═" * 43,
+                    f"District: {label}",
+                    f"Saved:    {card_path}",
+                    f"Gallery:  http://localhost:7777/grid",
+                    "",
+                    f"SD error: {result['error']}",
+                    "To use SD: set IMAGE_GEN_URL in .env (Automatic1111 default: http://localhost:7860)",
+                ])
             return "\n".join([
                 "JARVIS IMAGE — Generation failed",
                 "═" * 43,
@@ -1835,13 +1934,13 @@ async def handle_jarvis_image(args: dict) -> str:
         img_path  = GRID_IMAGES_DIR / f"{slug}_{now()[:10]}.png"
         img_path.write_bytes(_b64.b64decode(result["image_b64"]))
 
-        label = f"{target_node['region']} / {target_node['district']}" if target_node else "custom"
         return "\n".join([
             "JARVIS IMAGE — Generated",
             "═" * 43,
             f"District: {label}",
             f"Saved:    {img_path}",
             f"Size:     {width}×{height}",
+            f"Gallery:  http://localhost:7777/grid",
             "",
             f"Prompt:   {prompt[:160]}...",
         ])
@@ -2141,6 +2240,81 @@ async def sse_endpoint(request: Request):
         media_type="text/event-stream",
         headers={"Cache-Control": "no-cache", "X-Accel-Buffering": "no"}
     )
+
+
+_GALLERY_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta http-equiv="refresh" content="3">
+<title>JARVIS GRID — Live Gallery</title>
+<style>
+  :root { --cyan: #00e5ff; --dim: #004a60; --bg: #00020a; }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--cyan); font-family: 'Courier New', monospace; padding: 24px; }
+  h1 { font-size: 1.1rem; letter-spacing: .3em; border-bottom: 1px solid var(--dim);
+       padding-bottom: 10px; margin-bottom: 20px; }
+  .meta { font-size: .7rem; color: var(--dim); margin-bottom: 20px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 16px; }
+  .card { border: 1px solid var(--dim); padding: 6px; background: #00060f;
+          transition: border-color .2s; }
+  .card:hover { border-color: var(--cyan); }
+  .card img { display: block; width: 256px; height: 256px; object-fit: cover; }
+  .card .label { font-size: .65rem; color: var(--dim); padding: 4px 2px;
+                 letter-spacing: .1em; overflow: hidden; white-space: nowrap; }
+  .empty { color: var(--dim); font-size: .8rem; margin-top: 40px; letter-spacing: .15em; }
+</style>
+</head>
+<body>
+<h1>&#9632; JARVIS GRID — CONCEPT GALLERY</h1>
+<div class="meta">AUTO-REFRESH EVERY 3s &nbsp;|&nbsp; <span id="ts"></span></div>
+<div class="grid" id="gallery">
+  <div class="empty">Loading…</div>
+</div>
+<script>
+  document.getElementById('ts').textContent = new Date().toLocaleTimeString();
+  async function refresh() {
+    try {
+      const r = await fetch('/grid/manifest');
+      const files = await r.json();
+      const g = document.getElementById('gallery');
+      if (!files.length) { g.innerHTML = '<div class="empty">NO IMAGES YET — run: jarvis_image(action=\\'generate\\', district=\\'routing gate\\')</div>'; return; }
+      g.innerHTML = files.map(f => `
+        <div class="card">
+          <img src="/grid/img/${f.name}" alt="${f.name}" loading="lazy">
+          <div class="label">${f.name.replace(/_/g,' ').replace(/\\.png$/,'')}</div>
+        </div>`).join('');
+    } catch(e) { console.error(e); }
+  }
+  refresh();
+</script>
+</body>
+</html>"""
+
+
+@app.get("/grid", response_class=HTMLResponse)
+async def gallery_page():
+    return HTMLResponse(content=_GALLERY_HTML)
+
+
+@app.get("/grid/manifest")
+async def gallery_manifest():
+    GRID_IMAGES_DIR.mkdir(exist_ok=True)
+    files = sorted(
+        [{"name": p.name, "size": p.stat().st_size, "mtime": p.stat().st_mtime}
+         for p in GRID_IMAGES_DIR.glob("*.png")],
+        key=lambda x: x["mtime"],
+        reverse=True,
+    )
+    return JSONResponse(files)
+
+
+@app.get("/grid/img/{filename}")
+async def gallery_image(filename: str):
+    img_path = GRID_IMAGES_DIR / filename
+    if not img_path.exists() or img_path.suffix != ".png":
+        return JSONResponse({"error": "not found"}, status_code=404)
+    return FileResponse(str(img_path), media_type="image/png")
 
 
 if __name__ == "__main__":
