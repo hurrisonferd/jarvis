@@ -2265,50 +2265,200 @@ _GALLERY_HTML = """<!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="refresh" content="3">
-<title>JARVIS GRID — Live Gallery</title>
+<title>JARVIS GRID — Digital Highway</title>
 <style>
-  :root { --cyan: #00e5ff; --dim: #004a60; --bg: #00020a; }
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body { background: var(--bg); color: var(--cyan); font-family: 'Courier New', monospace; padding: 24px; }
-  h1 { font-size: 1.1rem; letter-spacing: .3em; border-bottom: 1px solid var(--dim);
-       padding-bottom: 10px; margin-bottom: 20px; }
-  .meta { font-size: .7rem; color: var(--dim); margin-bottom: 20px; }
-  .grid { display: flex; flex-wrap: wrap; gap: 16px; }
-  .card { border: 1px solid var(--dim); padding: 6px; background: #00060f;
-          transition: border-color .2s; }
-  .card:hover { border-color: var(--cyan); }
-  .card a { display: block; outline: none; }
-  .card img { display: block; width: 256px; height: 256px; object-fit: cover; cursor: zoom-in; }
-  .card .label { font-size: .65rem; color: var(--dim); padding: 4px 2px;
-                 letter-spacing: .1em; overflow: hidden; white-space: nowrap; }
-  .empty { color: var(--dim); font-size: .8rem; margin-top: 40px; letter-spacing: .15em; }
+:root{--cyan:#00e5ff;--dim:#004a60;--glow:#00e5ff55;--bg:#000008;}
+*{box-sizing:border-box;margin:0;padding:0;}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:'Courier New',monospace;color:var(--cyan);}
+
+/* scanline overlay */
+body::after{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.07) 2px,rgba(0,0,0,.07) 4px);pointer-events:none;z-index:200;}
+
+/* perspective floor */
+.floor{position:fixed;bottom:0;left:0;right:0;height:52vh;
+  background:linear-gradient(90deg,var(--dim) 1px,transparent 1px) center/100px 100px,
+             linear-gradient(0deg,var(--dim) 1px,transparent 1px) center/100px 100px;
+  transform:perspective(500px) rotateX(72deg);transform-origin:bottom center;opacity:.45;}
+.floor::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,transparent 0%,var(--bg) 65%);}
+
+/* horizon glow */
+.horizon{position:fixed;left:0;right:0;top:46vh;height:1px;
+  background:var(--dim);box-shadow:0 0 60px 12px var(--glow),0 0 140px 30px #001a2e;}
+
+/* corner brackets */
+.c{position:fixed;width:22px;height:22px;z-index:150;}
+.c::before,.c::after{content:'';position:absolute;background:var(--cyan);}
+.c::before{width:100%;height:2px;top:0;}.c::after{width:2px;height:100%;}
+.tl{top:10px;left:10px;}.tr{top:10px;right:10px;transform:scaleX(-1);}
+.bl{bottom:10px;left:10px;transform:scaleY(-1);}.br{bottom:10px;right:10px;transform:scale(-1);}
+
+/* HUD */
+.hud{position:fixed;top:0;left:0;right:0;padding:14px 28px;
+  display:flex;justify-content:space-between;align-items:center;
+  border-bottom:1px solid #001a2e;background:linear-gradient(to bottom,#00000f,transparent);z-index:100;
+  font-size:.65rem;letter-spacing:.28em;}
+.hud-r{color:var(--dim);}
+
+/* highway stage */
+.stage{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;
+  perspective:1100px;perspective-origin:50% 42%;}
+.lane{display:flex;align-items:center;transform-style:preserve-3d;transition:none;}
+
+/* cards */
+.card{position:relative;flex-shrink:0;width:300px;margin:0 28px;cursor:pointer;
+  transform-style:preserve-3d;transition:transform .55s cubic-bezier(.4,0,.2,1),opacity .55s ease,filter .55s ease;}
+.card img{display:block;width:100%;aspect-ratio:1;object-fit:cover;
+  border:1px solid var(--dim);transition:all .4s ease;}
+/* corner brackets on card */
+.card::before,.card::after{content:'';position:absolute;width:16px;height:16px;z-index:2;pointer-events:none;
+  border-style:solid;border-color:var(--dim);transition:border-color .3s;}
+.card::before{top:-1px;left:-1px;border-width:2px 0 0 2px;}
+.card::after{bottom:-1px;right:-1px;border-width:0 2px 2px 0;}
+.card .lbl{position:absolute;bottom:0;left:0;right:0;padding:28px 10px 8px;
+  background:linear-gradient(to top,rgba(0,0,0,.9),transparent);
+  font-size:.55rem;letter-spacing:.2em;color:var(--dim);text-align:center;opacity:0;transition:opacity .3s;}
+
+/* states */
+.card.active{transform:translateZ(80px) scale(1.1);z-index:10;}
+.card.active img{border-color:var(--cyan);box-shadow:0 0 28px var(--glow),0 0 80px #00e5ff18;filter:brightness(1) saturate(1.5);}
+.card.active::before,.card.active::after{border-color:var(--cyan);}
+.card.active .lbl{opacity:1;color:var(--cyan);}
+.card.p1,.card.n1{transform:translateZ(-60px) scale(.82);opacity:.55;filter:brightness(.6);}
+.card.p2,.card.n2{transform:translateZ(-180px) scale(.62);opacity:.3;filter:brightness(.4);}
+.card.p3,.card.n3{transform:translateZ(-320px) scale(.44);opacity:.14;filter:brightness(.3);}
+.card.far{transform:translateZ(-460px) scale(.3);opacity:.05;filter:brightness(.2);}
+.card.hide{opacity:0;pointer-events:none;transform:translateZ(-600px) scale(.2);}
+
+/* nav */
+.nav{position:fixed;top:50%;transform:translateY(-50%);z-index:100;
+  background:none;border:none;color:var(--dim);font-size:1.2rem;letter-spacing:.1em;
+  cursor:pointer;padding:14px 22px;transition:color .2s;}
+.nav:hover{color:var(--cyan);}
+.navL{left:12px;}.navR{right:12px;}
+
+/* node info */
+.info{position:fixed;bottom:28px;left:50%;transform:translateX(-50%);
+  text-align:center;z-index:100;pointer-events:none;min-width:340px;}
+.info .dn{font-size:.85rem;letter-spacing:.32em;}
+.info .sq{font-size:.55rem;letter-spacing:.18em;color:var(--dim);margin-top:6px;}
+
+/* light trails */
+@keyframes tr{0%{transform:translateX(-110vw);opacity:0;}8%{opacity:1;}92%{opacity:1;}100%{transform:translateX(110vw);opacity:0;}}
+.trail{position:fixed;height:1px;background:linear-gradient(90deg,transparent,var(--cyan),transparent);
+  pointer-events:none;z-index:1;animation:tr linear infinite;}
 </style>
 </head>
 <body>
-<h1>&#9632; JARVIS GRID — CONCEPT GALLERY</h1>
-<div class="meta">AUTO-REFRESH EVERY 3s &nbsp;|&nbsp; <span id="ts"></span></div>
-<div class="grid" id="gallery">
-  <div class="empty">Loading…</div>
+
+<div class="floor"></div>
+<div class="horizon"></div>
+<div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
+
+<div class="hud">
+  <span>&#9632;&nbsp; JARVIS GRID &mdash; DIGITAL HIGHWAY</span>
+  <span class="hud-r" id="hcount">&#8213;</span>
 </div>
+
+<div class="stage"><div class="lane" id="lane"></div></div>
+
+<button class="nav navL" onclick="move(-1)">&#9664;</button>
+<button class="nav navR" onclick="move(1)">&#9654;</button>
+
+<div class="info">
+  <div class="dn" id="idn">&nbsp;</div>
+  <div class="sq" id="isq">&nbsp;</div>
+</div>
+
 <script>
-  document.getElementById('ts').textContent = new Date().toLocaleTimeString();
-  async function refresh() {
-    try {
-      const r = await fetch('/grid/manifest');
-      const files = await r.json();
-      const g = document.getElementById('gallery');
-      if (!files.length) { g.innerHTML = '<div class="empty">NO IMAGES YET — run: jarvis_image(action=\\'generate\\', district=\\'routing gate\\')</div>'; return; }
-      g.innerHTML = files.map(f => `
-        <div class="card">
-          <a href="/grid/img/${f.name}" target="_blank" rel="noopener">
-            <img src="/grid/img/${f.name}" alt="${f.name}" loading="lazy">
-          </a>
-          <div class="label">${f.name.replace(/_/g,' ').replace(/\\.png$/,'')}</div>
-        </div>`).join('');
-    } catch(e) { console.error(e); }
+let files=[], cur=0, timer;
+
+function slug(name){
+  return name.replace(/\\.png$/,'').replace(/_\\d{4}-\\d{2}-\\d{2}$/,'').replace(/[-_]/g,' ').toUpperCase();
+}
+
+function cls(rel){
+  if(rel===0)  return 'card active';
+  if(rel===1)  return 'card n1';
+  if(rel===-1) return 'card p1';
+  if(rel===2)  return 'card n2';
+  if(rel===-2) return 'card p2';
+  if(rel===3)  return 'card n3';
+  if(rel===-3) return 'card p3';
+  if(Math.abs(rel)===4) return 'card far';
+  return 'card hide';
+}
+
+function render(){
+  const lane=document.getElementById('lane');
+  lane.innerHTML=files.map((f,i)=>{
+    const rel=i-cur;
+    const isActive=rel===0;
+    return `<div class="${cls(rel)}" onclick="activate(${i})">
+      <a href="/grid/img/${f.name}" target="_blank" rel="noopener"
+         onclick="if(!${isActive}){event.preventDefault();activate(${i});}">
+        <img src="/grid/img/${f.name}" alt="${f.name}" loading="lazy">
+      </a>
+      <div class="lbl">${slug(f.name)}</div>
+    </div>`;
+  }).join('');
+  const f=files[cur];
+  if(f){
+    document.getElementById('idn').textContent=slug(f.name);
+    document.getElementById('isq').textContent=`${cur+1} / ${files.length}  —  CLICK ACTIVE CARD TO OPEN  •  ←→ NAVIGATE`;
   }
-  refresh();
+  document.getElementById('hcount').textContent=`${files.length} NODE${files.length!==1?'S':''}`;
+}
+
+function activate(i){
+  if(i===cur){ return; }
+  cur=i; render(); resetTimer();
+}
+
+function move(d){
+  if(!files.length) return;
+  cur=(cur+d+files.length)%files.length;
+  render(); resetTimer();
+}
+
+function resetTimer(){
+  clearInterval(timer);
+  timer=setInterval(()=>move(1),5000);
+}
+
+async function poll(){
+  try{
+    const r=await fetch('/grid/manifest');
+    const d=await r.json();
+    if(d.length!==files.length){ files=d; if(cur>=files.length)cur=0; render(); }
+  }catch(e){}
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='ArrowLeft'||e.key==='a') move(-1);
+  if(e.key==='ArrowRight'||e.key==='d') move(1);
+});
+
+function spawnTrail(){
+  const t=document.createElement('div');
+  t.className='trail';
+  t.style.top=Math.random()*100+'vh';
+  t.style.width=(60+Math.random()*220)+'px';
+  const dur=3+Math.random()*7;
+  t.style.animationDuration=dur+'s';
+  t.style.animationDelay=Math.random()*3+'s';
+  t.style.opacity=.15+Math.random()*.35;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),(dur+3)*1000);
+}
+
+(async()=>{
+  const r=await fetch('/grid/manifest');
+  files=await r.json();
+  render(); resetTimer();
+  setInterval(poll,3000);
+  setInterval(spawnTrail,900);
+  for(let i=0;i<6;i++) spawnTrail();
+})();
 </script>
 </body>
 </html>"""
