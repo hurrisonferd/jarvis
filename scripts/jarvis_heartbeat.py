@@ -15,6 +15,7 @@ import os
 import shutil
 import subprocess
 import time
+import urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -154,15 +155,44 @@ def heartbeat_once() -> list[dict]:
     return events
 
 
+def post_live_log(jarvis_url: str, action: str, etype: str, status: str = "done") -> None:
+    try:
+        payload = json.dumps({"action": action, "type": etype, "status": status}).encode()
+        req = urllib.request.Request(
+            f"{jarvis_url.rstrip('/')}/live_log",
+            data=payload,
+            headers={"Content-Type": "application/json"},
+            method="POST",
+        )
+        urllib.request.urlopen(req, timeout=5)
+    except Exception:
+        pass
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Observe JARVIS repo/intake changes.")
     parser.add_argument("--once", action="store_true", help="Run one heartbeat and exit.")
     parser.add_argument("--interval", type=int, default=60, help="Polling interval in seconds.")
+    parser.add_argument("--jarvis-url", default="http://localhost:7777",
+                        help="JARVIS MCP server URL for live_log push (default: http://localhost:7777)")
     args = parser.parse_args()
 
     while True:
-        events = heartbeat_once()
-        print(json.dumps({"timestamp": now(), "events": events}, indent=2))
+        try:
+            events = heartbeat_once()
+            print(json.dumps({"timestamp": now(), "events": events}, indent=2))
+            for event in events:
+                etype  = event.get("type", "heartbeat_event")
+                action = f"heartbeat: {etype}"
+                if "path" in event:
+                    action += f" — {event['path']}"
+                elif "head" in event:
+                    action += f" — {event.get('head', '')}"
+                post_live_log(args.jarvis_url, action, etype)
+        except Exception as exc:
+            msg = f"heartbeat error: {exc}"
+            print(msg)
+            post_live_log(args.jarvis_url, msg, "heartbeat_failure", status="failed")
         if args.once:
             return 0
         time.sleep(max(args.interval, 5))
