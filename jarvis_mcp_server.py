@@ -220,6 +220,10 @@ VAPID_PRIVATE_KEY = os.environ.get("VAPID_PRIVATE_KEY", "")
 VAPID_PUBLIC_KEY  = os.environ.get("VAPID_PUBLIC_KEY",  "")
 VAPID_CLAIMS_SUB  = os.environ.get("VAPID_CLAIMS_SUB",  "mailto:johnbarber720@gmail.com")
 
+# ── GitHub config ─────────────────────────────────────────────────────────
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_REPO  = os.environ.get("GITHUB_REPO", "")   # e.g. "hurrisonferd/jarvis"
+
 # ── Neo4j config ──────────────────────────────────────────────────────────
 NEO4J_URI  = os.environ.get("NEO4J_URI",      "bolt://localhost:7687")
 NEO4J_USER = os.environ.get("NEO4J_USER",     "neo4j")
@@ -497,6 +501,68 @@ def update_mnemos_retrieval_stats() -> dict:
     return update_system_stats("MNEMOS", lambda stats: stats.update({
         "retrieval_count": int(stats.get("retrieval_count", 0)) + 1
     }), touches=1)
+
+
+# ── GitHub helpers ────────────────────────────────────────────────────────
+
+def _gh_request(path: str, method: str = "GET", body: dict | None = None):
+    """Raw GitHub API call. Returns parsed JSON or raises."""
+    if not GITHUB_TOKEN or not GITHUB_REPO:
+        raise RuntimeError("GITHUB_TOKEN or GITHUB_REPO not configured")
+    url = f"https://api.github.com/repos/{GITHUB_REPO}/{path.lstrip('/')}"
+    data = json.dumps(body).encode() if body else None
+    req = urllib.request.Request(
+        url,
+        data=data,
+        headers={
+            "Authorization": f"Bearer {GITHUB_TOKEN}",
+            "Accept": "application/vnd.github+json",
+            "X-GitHub-Api-Version": "2022-11-28",
+            "Content-Type": "application/json",
+            "User-Agent": "JARVIS-MCP/1.0",
+        },
+        method=method,
+    )
+    with urllib.request.urlopen(req, timeout=10) as resp:
+        return json.loads(resp.read().decode())
+
+
+def github_summary() -> dict:
+    """Returns recent commits, open PRs, and open issues for the gameboy."""
+    try:
+        commits_raw = _gh_request("commits?per_page=5")
+        commits = [
+            {
+                "sha": c["sha"][:7],
+                "message": c["commit"]["message"].split("\n")[0][:60],
+                "author": c["commit"]["author"]["name"],
+                "date": c["commit"]["author"]["date"][:10],
+            }
+            for c in commits_raw
+        ]
+    except Exception as e:
+        commits = [{"error": str(e)}]
+
+    try:
+        prs_raw = _gh_request("pulls?state=open&per_page=5")
+        prs = [
+            {"number": pr["number"], "title": pr["title"][:60], "user": pr["user"]["login"]}
+            for pr in prs_raw
+        ]
+    except Exception as e:
+        prs = [{"error": str(e)}]
+
+    try:
+        issues_raw = _gh_request("issues?state=open&per_page=5&filter=all")
+        issues = [
+            {"number": i["number"], "title": i["title"][:60], "user": i["user"]["login"]}
+            for i in issues_raw
+            if "pull_request" not in i
+        ]
+    except Exception as e:
+        issues = [{"error": str(e)}]
+
+    return {"commits": commits, "prs": prs, "issues": issues}
 
 
 # ── Neo4j helpers ─────────────────────────────────────────────────────────
@@ -3667,6 +3733,7 @@ const MENU=[
   {label:'THE GRID',    state:'grid'},
   {label:'LIVE FEED',   state:'live'},
   {label:'ALERTS',      state:'alerts'},
+  {label:'GITHUB',      state:'github'},
 ];
 
 // ── render
@@ -3680,6 +3747,8 @@ function draw(){
   else if(S==='gridD') el.innerHTML=rGridDetail();
   else if(S==='live')  el.innerHTML=rLive();
   else if(S==='alerts') el.innerHTML=rAlerts();
+  else if(S==='github') el.innerHTML=rGithub();
+  else if(S==='ghIssue') el.innerHTML=rGhIssue();
 }
 
 function cursor(i,sel){ return `<span style="color:${sel?'var(--amber)':'var(--dim)'}">${sel?'&#9658;':' '}</span>`; }
@@ -3796,6 +3865,8 @@ function nav(d){
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
   if(S==='alerts') return;
+  if(S==='github'){ ghNav(d); return; }
+  if(S==='ghIssue') return;
   if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
 }
 
@@ -3807,13 +3878,16 @@ function ok(){
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='gridD'&&detail){ window.open('/grid/node/'+detail.slug,'_blank'); return; }
   if(S==='alerts'){ toggleAlerts(); return; }
+  if(S==='github'){ ghOk(); return; }
+  if(S==='ghIssue'){ ghSubmitIssue(); return; }
 }
 
 function back(){
   beep(220,40);
   if(S==='godD')  { S='god';  draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
-  if(['god','gold','grid','live','alerts'].includes(S)){ S='menu'; cur=0; draw(); return; }
+  if(['god','gold','grid','live','alerts','github'].includes(S)){ S='menu'; cur=0; draw(); return; }
+  if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
 }
 
 function start(){
@@ -3917,6 +3991,99 @@ async function unsubscribeAlerts(){
   draw();
 }
 
+// ── GitHub state & renderers ──────────────────────────────────────────────
+let ghData=null, ghTab=0, ghLoading=false, ghError='';
+let ghIssueTitle='', ghIssueBody='', ghIssueField='title', ghSubmitting=false, ghResult='';
+
+const GH_TABS=['COMMITS','PRS','ISSUES','NEW ISSUE'];
+
+async function loadGithub(){
+  ghLoading=true; ghError=''; if(S==='github') draw();
+  try{
+    const r=await fetch('/github/summary');
+    if(!r.ok){ ghError='HTTP '+r.status; ghLoading=false; if(S==='github') draw(); return; }
+    ghData=await r.json();
+    if(ghData.error){ ghError=ghData.error; ghData=null; }
+  }catch(e){ ghError=e.message; }
+  ghLoading=false;
+  if(S==='github') draw();
+}
+
+function ghNav(d){
+  ghTab=((ghTab+d)%GH_TABS.length+GH_TABS.length)%GH_TABS.length;
+  if(ghTab===3){ S='ghIssue'; ghIssueTitle=''; ghIssueBody=''; ghIssueField='title'; ghResult=''; }
+  draw(); beep(d>0?440:400,40);
+}
+
+function ghOk(){
+  if(ghTab===3){ S='ghIssue'; ghIssueTitle=''; ghIssueBody=''; ghIssueField='title'; ghResult=''; draw(); return; }
+  loadGithub();
+}
+
+function rGithub(){
+  if(ghLoading) return `<div class="boot-panel"><div class="boot-logo">GITHUB</div><div style="color:var(--amber);margin-top:8px">LOADING...</div></div>`;
+  let h=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--dim);padding-bottom:4px;margin-bottom:6px">`;
+  GH_TABS.forEach((t,i)=>{
+    h+=`<span style="color:${i===ghTab?'var(--amber)':'var(--dim)');font-size:9px;cursor:pointer" onclick="ghTab=${i};if(ghTab===3){S='ghIssue';ghIssueTitle='';ghIssueBody='';ghIssueField='title';ghResult='';} draw()">${t}</span>`;
+  });
+  h+=`</div>`;
+  if(ghError) return h+`<div style="color:var(--red)">${ghError}</div><div style="color:var(--dim);font-size:9px;margin-top:8px">CONFIGURE GITHUB_TOKEN + GITHUB_REPO</div>`;
+  if(!ghData) return h+`<div style="color:var(--dim)">PRESS A TO LOAD</div>`;
+  if(ghTab===0){
+    h+=`<div style="font-size:9px;color:var(--green);margin-bottom:4px">RECENT COMMITS</div>`;
+    (ghData.commits||[]).forEach(c=>{
+      if(c.error){ h+=`<div style="color:var(--red);font-size:9px">${c.error}</div>`; return; }
+      h+=`<div style="margin-bottom:5px"><span style="color:var(--amber);font-size:9px">${c.sha}</span> <span style="font-size:9px">${c.message}</span><br><span style="color:var(--dim);font-size:8px">${c.author} · ${c.date}</span></div>`;
+    });
+  } else if(ghTab===1){
+    h+=`<div style="font-size:9px;color:var(--green);margin-bottom:4px">OPEN PULL REQUESTS</div>`;
+    const prs=ghData.prs||[];
+    if(!prs.length) h+=`<div style="color:var(--dim);font-size:9px">NO OPEN PRS</div>`;
+    prs.forEach(p=>{
+      if(p.error){ h+=`<div style="color:var(--red);font-size:9px">${p.error}</div>`; return; }
+      h+=`<div style="margin-bottom:5px"><span style="color:var(--amber);font-size:9px">#${p.number}</span> <span style="font-size:9px">${p.title}</span><br><span style="color:var(--dim);font-size:8px">${p.user}</span></div>`;
+    });
+  } else if(ghTab===2){
+    h+=`<div style="font-size:9px;color:var(--green);margin-bottom:4px">OPEN ISSUES</div>`;
+    const issues=ghData.issues||[];
+    if(!issues.length) h+=`<div style="color:var(--dim);font-size:9px">NO OPEN ISSUES</div>`;
+    issues.forEach(i=>{
+      if(i.error){ h+=`<div style="color:var(--red);font-size:9px">${i.error}</div>`; return; }
+      h+=`<div style="margin-bottom:5px"><span style="color:var(--amber);font-size:9px">#${i.number}</span> <span style="font-size:9px">${i.title}</span><br><span style="color:var(--dim);font-size:8px">${i.user}</span></div>`;
+    });
+  }
+  h+=`<div style="color:var(--dim);font-size:8px;margin-top:6px">A=REFRESH  ◄►=TAB  B=BACK</div>`;
+  return h;
+}
+
+function rGhIssue(){
+  let h=`<div style="color:var(--amber);font-size:10px;border-bottom:1px solid var(--dim);padding-bottom:4px;margin-bottom:6px">NEW GITHUB ISSUE</div>`;
+  if(ghResult) return h+`<div style="color:var(--green);font-size:9px">${ghResult}</div><div style="color:var(--dim);font-size:8px;margin-top:8px">B=BACK</div>`;
+  if(ghSubmitting) return h+`<div style="color:var(--amber)">SUBMITTING...</div>`;
+  h+=`<div style="font-size:9px;color:${ghIssueField==='title'?'var(--amber)':'var(--dim)'};margin-bottom:2px">TITLE ${ghIssueField==='title'?'▲':''}</div>`;
+  h+=`<div style="font-size:9px;min-height:16px;border:1px solid ${ghIssueField==='title'?'var(--amber)':'var(--dim)'};padding:2px;margin-bottom:6px">${ghIssueTitle||'<span style="color:var(--dim)">tap to type</span>'}</div>`;
+  h+=`<div style="font-size:9px;color:${ghIssueField==='body'?'var(--amber)':'var(--dim)'};margin-bottom:2px">BODY ${ghIssueField==='body'?'▲':''}</div>`;
+  h+=`<div style="font-size:9px;min-height:24px;border:1px solid ${ghIssueField==='body'?'var(--amber)':'var(--dim)'};padding:2px">${ghIssueBody||'<span style="color:var(--dim)">optional</span>'}</div>`;
+  h+=`<div style="color:var(--dim);font-size:8px;margin-top:8px">TAP FIELD TO EDIT · A=SUBMIT · B=BACK</div>`;
+  h+=`<input id="gh-title-input" style="position:absolute;opacity:0;pointer-events:none" type="text" value="${ghIssueTitle.replace(/"/g,'&quot;')}" oninput="ghIssueTitle=this.value;draw()" onblur="draw()">`;
+  h+=`<input id="gh-body-input" style="position:absolute;opacity:0;pointer-events:none" type="text" value="${ghIssueBody.replace(/"/g,'&quot;')}" oninput="ghIssueBody=this.value;draw()" onblur="draw()">`;
+  h+=`<div onclick="ghIssueField='title';document.getElementById('gh-title-input').focus()" style="position:absolute;top:60px;left:8px;right:8px;height:22px;cursor:pointer"></div>`;
+  h+=`<div onclick="ghIssueField='body';document.getElementById('gh-body-input').focus()" style="position:absolute;top:108px;left:8px;right:8px;height:28px;cursor:pointer"></div>`;
+  return h;
+}
+
+async function ghSubmitIssue(){
+  if(!ghIssueTitle.trim()){ beep(200,100); return; }
+  ghSubmitting=true; draw();
+  try{
+    const r=await fetch('/github/create-issue',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({title:ghIssueTitle,body:ghIssueBody})});
+    const d=await r.json();
+    if(d.ok) ghResult=`CREATED #${d.number}\\n${d.url}`;
+    else ghResult='ERROR: '+d.error;
+  }catch(e){ ghResult='ERROR: '+e.message; }
+  ghSubmitting=false; draw(); beep(880,120);
+}
+
 // ── boot sequence
 const BOOT_LINES=[
   'INITIALIZING...',
@@ -3957,7 +4124,9 @@ async function loadLive(){
 
 loadData();
 loadLive();
+loadGithub();
 setInterval(loadLive,3000);
+setInterval(loadGithub,60000);
 runBoot();
 
 if('serviceWorker' in navigator){
@@ -4008,6 +4177,26 @@ async def push_unsubscribe(request: Request):
     except Exception as e:
         return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
 
+@app.get("/github/summary")
+async def github_summary_endpoint():
+    try:
+        return JSONResponse(github_summary())
+    except Exception as e:
+        return JSONResponse({"error": str(e)}, status_code=500)
+
+@app.post("/github/create-issue")
+async def github_create_issue(request: Request):
+    try:
+        body = await request.json()
+        title = body.get("title", "").strip()
+        description = body.get("body", "").strip()
+        if not title:
+            return JSONResponse({"ok": False, "error": "title required"}, status_code=400)
+        result = _gh_request("issues", method="POST", body={"title": title, "body": description})
+        return JSONResponse({"ok": True, "number": result["number"], "url": result["html_url"]})
+    except Exception as e:
+        return JSONResponse({"ok": False, "error": str(e)}, status_code=400)
+
 @app.get("/gameboy", response_class=HTMLResponse)
 async def gameboy_page():
     return HTMLResponse(content=_GAMEBOY_HTML)
@@ -4041,4 +4230,5 @@ if __name__ == "__main__":
     print("Running on http://localhost:7777")
     print("═" * 50)
 
-    uvicorn.run(app, host="0.0.0.0", port=7777, log_level="warning")
+    port = int(os.environ.get("PORT", 7777))
+    uvicorn.run(app, host="0.0.0.0", port=port, log_level="warning")
