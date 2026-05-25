@@ -3316,6 +3316,491 @@ async def dashboard_page():
     return HTMLResponse(content=_DASHBOARD_HTML)
 
 
+@app.get("/gameboy/data")
+async def gameboy_data():
+    chaos    = load_chaos()
+    god_syss = chaos.get("god_systems", {})
+    gold_law = chaos.get("gold_law", {}).get("rules", [])
+    pipeline = chaos.get("pipeline", {}).get("order", [])
+    pipe_pos = {name: i for i, name in enumerate(pipeline)}
+
+    systems = []
+    for name, info in god_syss.items():
+        systems.append({
+            "name":        name,
+            "description": info.get("description", ""),
+            "domain":      info.get("domain", ""),
+            "inputs":      info.get("inputs", []),
+            "outputs":     info.get("outputs", []),
+            "forbidden":   info.get("forbidden_edges", []),
+            "pipeline_pos": pipe_pos.get(name, 99),
+        })
+    systems.sort(key=lambda s: s["pipeline_pos"])
+
+    districts = [
+        {
+            "district": n.get("district", ""),
+            "region":   n.get("region", ""),
+            "keywords": n.get("keywords", [])[:5],
+            "slug":     n["file"].replace(".md", ""),
+            "warnings": n.get("warnings", []),
+        }
+        for n in GRID_CANON
+    ]
+
+    return JSONResponse({
+        "god_systems": systems,
+        "gold_law":    gold_law,
+        "pipeline":    pipeline,
+        "districts":   districts,
+    })
+
+
+_GAMEBOY_HTML = """<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS HANDHELD</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+:root {
+  --pixel: 'Press Start 2P', monospace;
+  --amber: #f5a623; --green: #00ff88; --blue: #0af; --red: #ff3355;
+  --dim: #1e3a52; --text: #4a7a99; --bright: #a0c8e0;
+  --bg: #020408; --surface: #080f18;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: radial-gradient(ellipse at center, #0a0f1a 0%, #020408 100%);
+  display: flex; align-items: center; justify-content: center;
+  min-height: 100vh; font-family: var(--pixel); user-select: none;
+}
+
+/* ── DEVICE SHELL ── */
+.device {
+  width: 340px;
+  background: linear-gradient(160deg, #4a4a4a 0%, #2d2d2d 60%, #222 100%);
+  border-radius: 14px 14px 52px 52px;
+  padding: 18px 18px 32px;
+  position: relative;
+  box-shadow: 5px 5px 0 #111, 9px 9px 0 #0a0a0a,
+    inset 0 1px 0 rgba(255,255,255,.13), inset 0 -2px 0 rgba(0,0,0,.5);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px);
+}
+
+.led {
+  position: absolute; top: 18px; right: 22px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+  animation: led-blink 2s infinite;
+}
+@keyframes led-blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+/* ── SCREEN HOUSING (Minecraft item-frame) ── */
+.screen-housing {
+  background: #120a02;
+  border: 6px solid #6b4420;
+  box-shadow: inset 0 0 0 2px #2e1a08, inset 0 0 0 4px #8a5a30,
+    0 0 0 1px #1a0a00, 0 4px 14px rgba(0,0,0,.7);
+  border-radius: 3px; padding: 8px; margin-bottom: 4px;
+}
+.screen-label {
+  text-align: center; font-size: 5px; letter-spacing: 4px;
+  color: #5a3d1c; margin-bottom: 6px;
+}
+
+/* ── LCD SCREEN ── */
+.screen {
+  width: 100%; height: 216px;
+  background: var(--bg); border: 2px solid #0a0f1a;
+  position: relative; overflow: hidden;
+}
+.screen::before {
+  content: ''; position: absolute; inset: 0; z-index: 100; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.09) 2px, rgba(0,0,0,.09) 4px);
+}
+.screen::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 50%; height: 45%;
+  background: linear-gradient(135deg, rgba(255,255,255,.04), transparent);
+  z-index: 101; pointer-events: none;
+}
+#screen-inner { position: absolute; inset: 0; overflow: hidden; font-family: var(--pixel); font-size: 7px; color: var(--text); }
+
+/* ── SCREEN PANELS ── */
+.panel { display: flex; flex-direction: column; height: 100%; }
+.s-header {
+  background: var(--surface); border-bottom: 1px solid #0f2035;
+  padding: 5px 8px; font-size: 7px; color: var(--amber); letter-spacing: 2px;
+  display: flex; justify-content: space-between; flex-shrink: 0;
+}
+.s-body { flex: 1; padding: 6px 8px; overflow: hidden; }
+.s-body.scroll { overflow-y: auto; }
+.s-body.scroll::-webkit-scrollbar { width: 2px; }
+.s-body.scroll::-webkit-scrollbar-thumb { background: var(--dim); }
+.s-footer {
+  background: var(--surface); border-top: 1px solid #0f2035;
+  padding: 4px 8px; font-size: 5px; color: var(--dim); letter-spacing: 1px; flex-shrink: 0;
+}
+.row {
+  padding: 3px 4px; font-size: 7px; line-height: 1.7;
+  overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  color: var(--bright); display: flex; align-items: center; gap: 4px;
+}
+.row.sel { color: var(--amber); background: rgba(245,166,35,.07); }
+.row .sub { color: var(--dim); font-size: 5px; }
+.dl { color: var(--dim); font-size: 5px; letter-spacing: 2px; margin: 6px 0 2px; }
+.dv { color: var(--bright); font-size: 6px; line-height: 1.8; word-break: break-word; margin-bottom: 4px; }
+.rule { padding: 2px 0; border-bottom: 1px solid #0f2035; font-size: 6px; line-height: 1.9; }
+.rule.sel { color: var(--amber); }
+.live-e { display: flex; gap: 5px; padding: 2px 0; border-bottom: 1px solid #080f18; font-size: 6px; }
+.lt { color: var(--dim); flex-shrink: 0; }
+.la { color: var(--bright); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ls-done { color: var(--green); flex-shrink: 0; }
+.ls-working { color: var(--amber); flex-shrink: 0; }
+.ls-failed { color: var(--red); flex-shrink: 0; }
+
+/* ── BOOT ── */
+.boot-panel {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  height: 100%; gap: 10px; padding: 0 16px;
+}
+.boot-logo {
+  font-size: 22px; color: var(--amber); letter-spacing: 10px;
+  text-shadow: 0 0 20px rgba(245,166,35,.5); animation: gbglow 2s ease-in-out infinite;
+}
+@keyframes gbglow { 0%,100%{text-shadow:0 0 10px rgba(245,166,35,.3)} 50%{text-shadow:0 0 30px rgba(245,166,35,.8)} }
+.boot-sub { font-size: 5px; color: var(--dim); letter-spacing: 3px; }
+.boot-lines { width: 100%; min-height: 72px; font-size: 6px; line-height: 2; }
+.boot-line { color: var(--green); animation: gbfade .3s ease; }
+@keyframes gbfade { from{opacity:0} to{opacity:1} }
+.boot-hint { font-size: 5px; color: var(--dim); animation: gblink 1s step-end infinite; }
+@keyframes gblink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* ── BRAND + CONTROLS ── */
+.brand { text-align: center; font-size: 6px; letter-spacing: 7px; color: #3a3a3a; padding: 6px 0 10px; text-shadow: 0 1px 0 #555; }
+
+.ctrl-row { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; margin-bottom: 14px; }
+
+/* D-pad */
+.dpad { position: relative; width: 78px; height: 78px; flex-shrink: 0; }
+.dph, .dpv { position: absolute; background: #1e1e1e; border-radius: 2px; }
+.dph { width: 78px; height: 26px; top: 26px; left: 0; box-shadow: 0 3px 0 #111, inset 0 1px 0 rgba(255,255,255,.08); }
+.dpv { width: 26px; height: 78px; left: 26px; top: 0; box-shadow: 2px 0 0 #111; }
+.dpc { position: absolute; width: 26px; height: 26px; background: #161616; top: 26px; left: 26px; z-index: 2; }
+.dpb { position: absolute; background: transparent; border: none; cursor: pointer; z-index: 3;
+       color: #3a3a3a; font-size: 9px; display: flex; align-items: center; justify-content: center; }
+.dpb:active { background: rgba(255,255,255,.08); }
+.dpb.up    { width: 26px; height: 26px; top: 0; left: 26px; }
+.dpb.dn    { width: 26px; height: 26px; bottom: 0; left: 26px; }
+.dpb.lf    { width: 26px; height: 26px; left: 0; top: 26px; }
+.dpb.rt    { width: 26px; height: 26px; right: 0; top: 26px; }
+
+/* Face buttons */
+.face { position: relative; width: 88px; height: 78px; flex-shrink: 0; }
+.fb { position: absolute; width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
+      font-family: var(--pixel); font-size: 9px; }
+.fb:active { transform: translateY(2px); }
+.fb.a { background: linear-gradient(145deg, #c83322, #881811); box-shadow: 0 4px 0 #550f00, 0 4px 10px rgba(0,0,0,.5); color: #ffccaa; right: 0; top: 22px; }
+.fb.b { background: linear-gradient(145deg, #223caa, #111e66); box-shadow: 0 4px 0 #001040, 0 4px 10px rgba(0,0,0,.5); color: #aac8ff; left: 0; top: 22px; }
+.fbl { position: absolute; font-size: 5px; color: #4a4a4a; letter-spacing: 1px; }
+.fbl.a { right: 6px; top: 6px; }
+.fbl.b { left: 8px; top: 6px; }
+
+/* Select/Start */
+.menu-row { display: flex; justify-content: center; gap: 22px; margin-bottom: 18px; }
+.mb { background: #1e1e1e; border: 1px solid #2e2e2e; border-radius: 10px; padding: 5px 14px;
+      color: #4a4a4a; font-family: var(--pixel); font-size: 5px; letter-spacing: 1px;
+      cursor: pointer; box-shadow: 0 2px 0 #111; transform: rotate(-12deg); }
+.mb:active { transform: rotate(-12deg) translateY(1px); box-shadow: none; }
+
+/* Speaker */
+.speaker { position: absolute; bottom: 22px; right: 20px;
+           display: grid; grid-template-columns: repeat(5, 4px); grid-template-rows: repeat(3, 4px); gap: 3px; }
+.sp { width: 4px; height: 4px; border-radius: 50%; background: #1a1a1a; box-shadow: inset 0 1px 0 rgba(0,0,0,.9); }
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="led"></div>
+
+  <div class="screen-housing">
+    <div class="screen-label">JARVIS GRID INTERFACE</div>
+    <div class="screen">
+      <div id="screen-inner"></div>
+    </div>
+  </div>
+
+  <div class="brand">JARVIS</div>
+
+  <div class="ctrl-row">
+    <div class="dpad">
+      <div class="dph"></div>
+      <div class="dpv"></div>
+      <div class="dpc"></div>
+      <button class="dpb up" onclick="nav(-1)">&#9650;</button>
+      <button class="dpb dn" onclick="nav(1)">&#9660;</button>
+      <button class="dpb lf" onclick="back()">&#9664;</button>
+      <button class="dpb rt" onclick="ok()">&#9654;</button>
+    </div>
+    <div class="face">
+      <span class="fbl b">B</span>
+      <span class="fbl a">A</span>
+      <button class="fb b" onclick="back()">B</button>
+      <button class="fb a" onclick="ok()">A</button>
+    </div>
+  </div>
+
+  <div class="menu-row">
+    <button class="mb" onclick="back()">SELECT</button>
+    <button class="mb" onclick="start()">START</button>
+  </div>
+
+  <div class="speaker" id="spk"></div>
+</div>
+
+<script>
+// ── speaker dots
+(function(){ const s=document.getElementById('spk'); for(let i=0;i<15;i++){const d=document.createElement('div');d.className='sp';s.appendChild(d);} })();
+
+// ── state
+let S='boot', cur=0, detail=null, gdata=null, lives=[];
+const PG=7;
+
+const MENU=[
+  {label:'GOD SYSTEMS', state:'god'},
+  {label:'GOLD LAW',    state:'gold'},
+  {label:'THE GRID',    state:'grid'},
+  {label:'LIVE FEED',   state:'live'},
+];
+
+// ── render
+function draw(){
+  const el=document.getElementById('screen-inner');
+  if(S==='menu')       el.innerHTML=rMenu();
+  else if(S==='god')   el.innerHTML=rGodList();
+  else if(S==='godD')  el.innerHTML=rGodDetail();
+  else if(S==='gold')  el.innerHTML=rGold();
+  else if(S==='grid')  el.innerHTML=rGrid();
+  else if(S==='gridD') el.innerHTML=rGridDetail();
+  else if(S==='live')  el.innerHTML=rLive();
+}
+
+function cursor(i,sel){ return `<span style="color:${sel?'var(--amber)':'var(--dim)'}">${sel?'&#9658;':' '}</span>`; }
+
+function rMenu(){
+  const subs=[
+    gdata?gdata.god_systems.length+' NODES':'...',
+    gdata?gdata.gold_law.length+' RULES':'...',
+    gdata?gdata.districts.length+' DISTRICTS':'...',
+    lives.length+' ENTRIES'
+  ];
+  return `<div class="panel">
+    <div class="s-header"><span>JARVIS v2.5</span><span style="color:var(--green)">&#9632; ONLINE</span></div>
+    <div class="s-body" style="padding-top:10px">
+      ${MENU.map((m,i)=>`<div class="row ${cur===i?'sel':''}">${cursor(i,cur===i)} ${m.label} <span class="sub">${subs[i]}</span></div>`).join('')}
+    </div>
+    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>
+  </div>`;
+}
+
+function rGodList(){
+  if(!gdata) return rLoad();
+  const sys=gdata.god_systems, pip=gdata.pipeline||[];
+  const st=Math.floor(cur/PG)*PG, pg=sys.slice(st,st+PG);
+  return `<div class="panel">
+    <div class="s-header"><span>GOD SYSTEMS</span><span>${cur+1}/${sys.length}</span></div>
+    <div class="s-body">
+      ${pg.map((s,i)=>{const idx=st+i,inP=pip.includes(s.name);return `<div class="row ${cur===idx?'sel':''}">${cursor(idx,cur===idx)}<span style="color:${inP?'var(--green)':'var(--bright)'}">${s.name}</span><span class="sub">${(s.description||'').substring(0,18)}</span></div>`;}).join('')}
+    </div>
+    <div class="s-footer">A:VIEW &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+  </div>`;
+}
+
+function rGodDetail(){
+  if(!detail) return rLoad();
+  const d=detail;
+  const desc=(d.description||'—').substring(0,180);
+  const dom=(d.domain||'—').substring(0,80);
+  const ins=(d.inputs||[]).join(', ').substring(0,60)||'—';
+  const outs=(d.outputs||[]).join(', ').substring(0,60)||'—';
+  const forb=(d.forbidden||[]).join(', ')||'none';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--amber)">${d.name}</span><span style="color:var(--dim)">SYS</span></div>
+    <div class="s-body scroll">
+      <div class="dl">DOMAIN</div><div class="dv">${dom}</div>
+      <div class="dl">DESCRIPTION</div><div class="dv">${desc}</div>
+      <div class="dl">INPUTS</div><div class="dv">${ins}</div>
+      <div class="dl">OUTPUTS</div><div class="dv">${outs}</div>
+      <div class="dl">FORBIDDEN EDGES</div><div class="dv" style="color:var(--red)">${forb}</div>
+    </div>
+    <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+  </div>`;
+}
+
+function rGold(){
+  if(!gdata) return rLoad();
+  const rules=gdata.gold_law, st=Math.floor(cur/PG)*PG, pg=rules.slice(st,st+PG);
+  return `<div class="panel">
+    <div class="s-header"><span>GOLD LAW</span><span>${rules.length} RULES</span></div>
+    <div class="s-body">
+      ${pg.map((r,i)=>{const idx=st+i;return `<div class="rule ${cur===idx?'sel':''}"><span style="color:var(--amber);margin-right:3px">${cur===idx?'&#9658;':String(idx+1).padStart(2,'0')}</span>${r.substring(0,52)}</div>`;}).join('')}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+  </div>`;
+}
+
+function rGrid(){
+  if(!gdata) return rLoad();
+  const ds=gdata.districts, st=Math.floor(cur/PG)*PG, pg=ds.slice(st,st+PG);
+  return `<div class="panel">
+    <div class="s-header"><span>THE GRID</span><span>${cur+1}/${ds.length}</span></div>
+    <div class="s-body">
+      ${pg.map((d,i)=>{const idx=st+i;return `<div class="row ${cur===idx?'sel':''}">${cursor(idx,cur===idx)}<span style="color:var(--blue)">${d.district}</span><span class="sub">[${(d.region||'').split(' ').pop()}]</span></div>`;}).join('')}
+    </div>
+    <div class="s-footer">A:VIEW &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+  </div>`;
+}
+
+function rGridDetail(){
+  if(!detail) return rLoad();
+  const d=detail, kw=(d.keywords||[]).join(', ')||'—';
+  const warns=(d.warnings||[]).slice(0,2);
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">${d.district}</span><span style="color:var(--dim)">NODE</span></div>
+    <div class="s-body scroll">
+      <div class="dl">REGION</div><div class="dv">${d.region}</div>
+      <div class="dl">KEYWORDS</div><div class="dv">${kw}</div>
+      ${warns.length?`<div class="dl">WARNINGS</div>${warns.map(w=>`<div class="dv" style="color:var(--amber)">${w.substring(0,80)}</div>`).join('')}`:''}
+      <div style="margin-top:10px"><a href="/grid/node/${d.slug}" style="color:var(--blue);font-size:6px;text-decoration:none">&#9654; OPEN IN GRID</a></div>
+    </div>
+    <div class="s-footer">B:BACK &nbsp; A:OPEN</div>
+  </div>`;
+}
+
+function rLive(){
+  const ents=lives.slice(-PG);
+  return `<div class="panel">
+    <div class="s-header"><span>LIVE FEED</span><span style="color:var(--green)">&#9632; LIVE</span></div>
+    <div class="s-body">
+      ${ents.length?ents.map(e=>`<div class="live-e"><span class="lt">${(e.time||'').substring(0,5)}</span><span class="la">${(e.action||'').substring(0,28)}</span><span class="ls-${e.status||'done'}">${(e.status||'OK').toUpperCase().substring(0,4)}</span></div>`).join(''):'<div style="color:var(--dim);font-size:6px;padding:20px;text-align:center">NO ACTIVITY YET</div>'}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; AUTO-REFRESH 3S</div>
+  </div>`;
+}
+
+function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
+
+// ── navigation
+function nav(d){
+  let mx=0;
+  if(S==='menu') mx=MENU.length;
+  if(S==='god'&&gdata)  mx=gdata.god_systems.length;
+  if(S==='gold'&&gdata) mx=gdata.gold_law.length;
+  if(S==='grid'&&gdata) mx=gdata.districts.length;
+  if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
+}
+
+function ok(){
+  beep(880,60);
+  if(S==='boot'){ S='menu'; cur=0; draw(); return; }
+  if(S==='menu'){ S=MENU[cur].state; cur=0; draw(); return; }
+  if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
+  if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
+  if(S==='gridD'&&detail){ window.open('/grid/node/'+detail.slug,'_blank'); return; }
+}
+
+function back(){
+  beep(220,40);
+  if(S==='godD')  { S='god';  draw(); return; }
+  if(S==='gridD') { S='grid'; draw(); return; }
+  if(['god','gold','grid','live'].includes(S)){ S='menu'; cur=0; draw(); return; }
+}
+
+function start(){
+  beep(660,80);
+  S='menu'; cur=0; draw();
+}
+
+// ── 8-bit beep
+let actx=null;
+function beep(f,ms){
+  try{
+    if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.connect(g); g.connect(actx.destination);
+    o.type='square'; o.frequency.value=f;
+    g.gain.setValueAtTime(0.07,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+ms/1000);
+    o.start(); o.stop(actx.currentTime+ms/1000);
+  }catch(e){}
+}
+
+// ── keyboard
+document.addEventListener('keydown',e=>{
+  const k=e.key;
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(k)||k==='Enter') e.preventDefault();
+  if(k==='ArrowUp')   nav(-1);
+  if(k==='ArrowDown') nav(1);
+  if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
+  if(k==='ArrowLeft' ||k==='x'||k==='X'||k==='Escape') back();
+  if(k===' ') start();
+});
+
+// ── boot sequence
+const BOOT_LINES=[
+  'INITIALIZING...',
+  'LOADING GOD SYSTEMS...',
+  'CHECKING GOLD LAW...',
+  'MOUNTING THE GRID...',
+  'ERIS ENTROPY CHECK...',
+  'READY.',
+];
+
+function runBoot(){
+  const el=document.getElementById('screen-inner');
+  el.innerHTML=`<div class="boot-panel">
+    <div class="boot-logo">JARVIS</div>
+    <div class="boot-sub">GOD SYSTEM INTERFACE v2.5</div>
+    <div class="boot-lines" id="blines"></div>
+    <div class="boot-hint">PRESS START</div>
+  </div>`;
+  let i=0;
+  function tick(){
+    if(i>=BOOT_LINES.length){ setTimeout(()=>{S='menu';cur=0;draw();},700); return; }
+    const ln=document.createElement('div');
+    ln.className='boot-line';
+    ln.textContent=BOOT_LINES[i++];
+    document.getElementById('blines').appendChild(ln);
+    setTimeout(tick,220);
+  }
+  setTimeout(tick,350);
+}
+
+// ── data
+async function loadData(){
+  try{ const r=await fetch('/gameboy/data'); if(r.ok){ gdata=await r.json(); if(S!=='boot') draw(); } }catch(e){}
+}
+async function loadLive(){
+  try{ const r=await fetch('/live_log.json'); if(r.ok){ lives=await r.json(); if(S==='live') draw(); } }catch(e){}
+}
+
+loadData();
+loadLive();
+setInterval(loadLive,3000);
+runBoot();
+</script>
+</body>
+</html>"""
+
+
+@app.get("/gameboy", response_class=HTMLResponse)
+async def gameboy_page():
+    return HTMLResponse(content=_GAMEBOY_HTML)
+
+
 if __name__ == "__main__":
     print("═" * 50)
     print("JARVIS MCP SERVER v1.0")
