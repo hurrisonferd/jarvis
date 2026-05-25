@@ -289,6 +289,26 @@ def supabase_delete(table: str, match: dict) -> dict:
     except Exception as e:
         return {"ok": False, "error": str(e)}
 
+def supabase_upsert(table: str, data: dict) -> dict:
+    if not supabase_enabled():
+        return {"ok": False, "error": "Supabase not configured"}
+    try:
+        req = urllib.request.Request(
+            f"{SUPABASE_URL}/rest/v1/{table}",
+            data=json.dumps(data).encode(),
+            method="POST",
+            headers={
+                "apikey": SUPABASE_KEY,
+                "Authorization": f"Bearer {SUPABASE_KEY}",
+                "Content-Type": "application/json",
+                "Prefer": "resolution=merge-duplicates,return=minimal",
+            }
+        )
+        with urllib.request.urlopen(req, timeout=5) as r:
+            return {"ok": r.status in (200, 201, 204)}
+    except Exception as e:
+        return {"ok": False, "error": str(e)}
+
 def send_push(title: str, body: str, url: str = "/gameboy") -> None:
     """Fire-and-forget Web Push to all stored subscriptions. Cleans up 410 Gone rows."""
     if not VAPID_PRIVATE_KEY or not VAPID_PUBLIC_KEY:
@@ -766,22 +786,24 @@ OLLAMA_BASE    = "http://localhost:11434"
 
 
 def live_log_append(action: str, file: str = "", status: str = "done") -> None:
+    entry = {
+        "time":   datetime.now().strftime("%H:%M:%S"),
+        "action": action[:80],
+        "file":   file[:60],
+        "status": status,
+    }
     try:
         LIVE_LOG_PATH.parent.mkdir(exist_ok=True)
         data = json.loads(LIVE_LOG_PATH.read_text(encoding="utf-8")) if LIVE_LOG_PATH.exists() else []
         if not isinstance(data, list):
             data = []
-        data.append({
-            "time":   datetime.now().strftime("%H:%M:%S"),
-            "action": action[:80],
-            "file":   file[:60],
-            "status": status,
-        })
+        data.append(entry)
         if len(data) > 500:
             data = data[-500:]
         LIVE_LOG_PATH.write_text(json.dumps(data), encoding="utf-8")
     except Exception:
         pass
+    threading.Thread(target=supabase_insert, args=("live_log", entry), daemon=True).start()
 
 
 def detect_vision_model() -> str | None:
@@ -4302,6 +4324,45 @@ if __name__ == "__main__":
         print(f"Guardian:      {chaos.get('mission_statement',{}).get('guardian','?')}")
     else:
         print(f"⚠  CHAOS seed not found — expected: {CHAOS_PATH}")
+
+    # Sync gameboy snapshot to Supabase (static gameboy reads this)
+    try:
+        chaos = load_chaos()
+        if chaos:
+            god_syss = chaos.get("god_systems", {})
+            gold_law = chaos.get("gold_law", {}).get("rules", [])
+            pipeline = chaos.get("pipeline", {}).get("order", [])
+            pipe_pos = {name: i for i, name in enumerate(pipeline)}
+            systems = sorted([
+                {
+                    "name": name,
+                    "description": info.get("description", ""),
+                    "domain": info.get("domain", ""),
+                    "inputs": info.get("inputs", []),
+                    "outputs": info.get("outputs", []),
+                    "forbidden": info.get("forbidden_edges", []),
+                    "pipeline_pos": pipe_pos.get(name, 99),
+                }
+                for name, info in god_syss.items()
+            ], key=lambda s: s["pipeline_pos"])
+            districts = [
+                {
+                    "district": n.get("district", ""),
+                    "region": n.get("region", ""),
+                    "keywords": n.get("keywords", [])[:5],
+                    "slug": n["file"].replace(".md", ""),
+                    "warnings": n.get("warnings", []),
+                }
+                for n in GRID_CANON
+            ]
+            snap_result = supabase_upsert("gameboy_snapshot", {
+                "id": 1,
+                "data": {"god_systems": systems, "gold_law": gold_law, "pipeline": pipeline, "districts": districts},
+                "updated_at": now(),
+            })
+            print(f"Gameboy snapshot: {'synced to Supabase' if snap_result.get('ok') else 'sync failed — ' + str(snap_result.get('error',''))}")
+    except Exception as _snap_err:
+        print(f"Gameboy snapshot skipped: {_snap_err}")
 
     # Seed Grid nodes into Neo4j (fire-and-forget — skips silently if Neo4j is offline)
     try:
