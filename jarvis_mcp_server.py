@@ -469,6 +469,39 @@ def neo4j_write_decision(entry: dict) -> None:
         "MERGE (d)-[:AFFECTS]->(g)",
         {"did": did, "gid": system}
     )
+    # Link decision to any Grid districts it mentions
+    search_text = (
+        (entry.get("decision", "") or "") + " " +
+        (entry.get("rationale", "") or "")
+    ).lower()
+    for node in GRID_CANON:
+        matched = any(kw in search_text for kw in node["keywords"])
+        if not matched:
+            matched = (
+                node["district"].lower() in search_text or
+                node["region"].lower() in search_text
+            )
+        if matched:
+            nid = node["file"].replace(".md", "")
+            try:
+                neo4j_run(
+                    "MATCH (d:Decision {id: $did}), (n:GridNode {id: $nid}) "
+                    "MERGE (d)-[:AFFECTS_DISTRICT]->(n)",
+                    {"did": did, "nid": nid}
+                )
+            except Exception:
+                pass
+    # Causal chain: link this decision to the one that caused it
+    caused_by = (entry.get("caused_by") or "").strip()
+    if caused_by:
+        try:
+            neo4j_run(
+                "MATCH (d:Decision {id: $did}), (p:Decision {id: $pid}) "
+                "MERGE (d)-[:CAUSED_BY]->(p)",
+                {"did": did, "pid": caused_by}
+            )
+        except Exception:
+            pass
 
 
 def neo4j_seed_grid() -> dict:
@@ -703,9 +736,10 @@ TOOLS = [
         "inputSchema": {
             "type": "object",
             "properties": {
-                "decision": {"type": "string"},
-                "rationale": {"type": "string"},
-                "system_affected": {"type": "string"}
+                "decision":        {"type": "string"},
+                "rationale":       {"type": "string"},
+                "system_affected": {"type": "string"},
+                "caused_by":       {"type": "string", "description": "ID of a prior decision this one follows from (creates CAUSED_BY edge in Neo4j)"}
             },
             "required": ["decision", "rationale"]
         }
@@ -829,15 +863,21 @@ TOOLS = [
         "name": "jarvis_grid",
         "description": (
             "Navigate THE GRID — a text-based spatial interface over JARVIS canon. "
-            "Returns your current location, nearby paths, warnings, and suggested ascent. "
-            "Omit query to see the full map. Pass a natural-language query to enter a region."
+            "Returns location, nearby paths (live from Neo4j), warnings, and suggested ascent. "
+            "Modes: enter a region (keyword query), ODIN route ('route from X to Y'), "
+            "or PROMETHEUS causal history ('history of X', 'why X', 'decisions in X'). "
+            "Omit query to see the full map."
         ),
         "inputSchema": {
             "type": "object",
             "properties": {
                 "query": {
                     "type": "string",
-                    "description": "Where you want to go, e.g. 'codex authority', 'grid design', 'heartbeat watcher'"
+                    "description": (
+                        "Navigation query. Examples: 'codex authority', "
+                        "'route from governed workflow to grid design bible', "
+                        "'history of routing gate', 'why codex authority'"
+                    )
                 }
             },
             "required": []
@@ -1005,6 +1045,7 @@ async def handle_jarvis_log(args: dict) -> str:
     decision  = args.get("decision", "")
     rationale = args.get("rationale", "")
     system    = args.get("system_affected", "GENERAL")
+    caused_by = (args.get("caused_by") or "").strip()
 
     entry = {
         "id":              str(uuid.uuid4())[:8],
@@ -1012,7 +1053,8 @@ async def handle_jarvis_log(args: dict) -> str:
         "decision":        decision,
         "rationale":       rationale,
         "system_affected": system,
-        "raven_approved":  False
+        "raven_approved":  False,
+        "caused_by":       caused_by,
     }
 
     # Write to Supabase
@@ -1256,15 +1298,19 @@ async def handle_jarvis_grid(args: dict) -> str:
     def keyword_match(q: str):
         best_node = None
         best_score = 0
+        q_words = set(q.split())
         for node in GRID_CANON:
             score = sum(1 for kw in node["keywords"] if kw in q)
             if node["file"].replace("-", " ").replace(".md", "") in q:
                 score += 3
+            # Score on region/district name word overlap (strips "the" from region)
+            region_words  = set(node["region"].lower().split()) - {"the"}
+            district_words = set(node["district"].lower().split())
+            score += 2 * len(q_words & (region_words | district_words))
             if score > best_score:
                 best_score = score
                 best_node = node
         if best_score == 0:
-            q_words = set(q.split())
             for node in GRID_CANON:
                 for kw in node["keywords"]:
                     if q_words & set(kw.split()):
@@ -1345,6 +1391,57 @@ async def handle_jarvis_grid(args: dict) -> str:
         lines += ["", f"TO: {to_node['region']} / {to_node['district']}"]
         return "\n".join(lines)
 
+    # ── Causal history query ───────────────────────────────────────────────
+    history_m = re.search(
+        r'(?:history(?:\s+of)?|decisions?(?:\s+in)?|why|caused|what (?:changed|shaped)|shaped)\s+(?:the\s+)?(.+)',
+        query
+    )
+    if history_m:
+        hist_q  = history_m.group(1).strip()
+        target  = keyword_match(hist_q)
+        if not target:
+            return (
+                f"PROMETHEUS HISTORY — Location not found: '{hist_q}'\n"
+                "Run jarvis_grid() for the full map."
+            )
+        nid = node_id(target)
+        try:
+            records = neo4j_run(
+                "MATCH (d:Decision)-[:AFFECTS_DISTRICT]->(n:GridNode {id: $id}) "
+                "RETURN d.id AS id, d.decision AS decision, d.rationale AS rationale, "
+                "       d.timestamp AS ts, d.system_affected AS system "
+                "ORDER BY d.timestamp DESC LIMIT 10",
+                {"id": nid}
+            )
+            if records:
+                lines = [
+                    f"PROMETHEUS HISTORY — {target['region']} / {target['district']}",
+                    "═" * 43,
+                    f"{len(records)} decision(s) shaped this district:",
+                    "",
+                ]
+                for r in records:
+                    ts = (r.get("ts") or "")[:16]
+                    lines += [
+                        f"[{r['id']}]  {ts}  [{r.get('system','?')}]",
+                        f"  DECIDED: {(r.get('decision') or '')[:120]}",
+                        f"  BECAUSE: {(r.get('rationale') or '')[:120]}",
+                        "",
+                    ]
+                lines.append("Causal chain: jarvis_neo4j(action='traverse', node_id='<id>', direction='out')")
+                return "\n".join(lines)
+            else:
+                return (
+                    f"PROMETHEUS HISTORY — {target['district']}\n"
+                    "No decisions linked to this district yet.\n"
+                    "Use jarvis_log with decisions mentioning this region to build causal history."
+                )
+        except Exception:
+            return (
+                f"PROMETHEUS HISTORY — Neo4j offline\n"
+                f"Cannot retrieve decision history for: {target['district']}"
+            )
+
     # ── Empty query — show full map ────────────────────────────────────────
     if not query:
         lines = [
@@ -1366,10 +1463,10 @@ async def handle_jarvis_grid(args: dict) -> str:
             "",
             "SUGGESTED NAVIGATION:",
             "  jarvis_grid(query='codex authority')",
-            "  jarvis_grid(query='grid design bible')",
             "  jarvis_grid(query='route from codex authority to grid design bible')",
+            "  jarvis_grid(query='history of routing gate')",
+            "  jarvis_grid(query='why governed workflow')",
             "  jarvis_grid(query='heartbeat watcher')",
-            "  jarvis_grid(query='governed workflow')",
         ]
         return "\n".join(lines)
 
