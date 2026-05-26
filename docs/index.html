@@ -1,10 +1,684 @@
-PCFET0NUWVBFIGh0bWw+CjxodG1sIGxhbmc9ImVuIj4KPGhlYWQ+CjxtZXRhIGNoYXJzZXQ9IlVURi04Ij4KPG1ldGEgbmFtZT0idmlld3BvcnQiIGNvbnRlbnQ9IndpZHRoPWRldmljZS13aWR0aCwgaW5pdGlhbC1zY2FsZT0xLjAiPgo8dGl0bGU+SkFSVklTIEhBTkRIRUxEPC90aXRsZT4KPHNjcmlwdCBzcmM9Imh0dHBzOi8vY2RuLmpzZGVsaXZyLm5ldC9ucG0vQHN1cGFiYXNlL3N1cGFiYXNlLWpzQDIvZGlzdC91bWQvc3VwYWJhc2UubWluLmpzIj48L3NjcmlwdD4KPHN0eWxlPgpAaW1wb3J0IHVybCgnaHR0cHM6Ly9mb250cy5nb29nbGVhcGlzLmNvbS9jc3MyP2ZhbWlseT1QcmVzcytTdGFydCsyUCZkaXNwbGF5PXN3YXAnKTsKOnJvb3QgewogIC0tcGl4ZWw6ICdQcmVzcyBTdGFydCAyUCcsIG1vbm9zcGFjZTsKICAtLWFtYmVyOiAjZjVhNjIzOyAtLWdyZWVuOiAjMDBmZjg4OyAtLWJsdWU6ICMwYWY7IC0tcmVkOiAjZmYzMzU1OwogIC0tZGltOiAjMWUzYTUyOyAtLXRleHQ6ICM0YTdhOTk7IC0tYnJpZ2h0OiAjYTBjOGUwOwogIC0tYmc6ICMwMjA0MDg7IC0tc3VyZmFjZTogIzA4MGYxODsKfQoqIHsgYm94LXNpemluZzogYm9yZGVyLWJveDsgbWFyZ2luOiAwOyBwYWRkaW5nOiAwOyB9Cmh0bWwsIGJvZHkgewogIGJhY2tncm91bmQ6IHJhZGlhbC1ncmFkaWVudChlbGxpcHNlIGF0IGNlbnRlciwgIzBhMGYxYSAwJSwgIzAyMDQwOCAxMDAlKTsKICBkaXNwbGF5OiBmbGV4OyBhbGlnbi1pdGVtczogZmxleC1zdGFydDsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7CiAgbWluLWhlaWdodDogMTAwdmg7IGZvbnQtZmFtaWx5OiB2YXIoLS1waXhlbCk7IHVzZXItc2VsZWN0OiBub25lOwogIG92ZXJmbG93LXk6IGF1dG87IHBhZGRpbmc6IDhweCAwOwp9Ci5kZXZpY2UgewogIHdpZHRoOiBtaW4oNDIwcHgsIGNhbGMoMTAwdncgLSA4cHgpKTsKICBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoMTYwZGVnLCAjNGE0YTRhIDAlLCAjMmQyZDJkIDYwJSwgIzIyMiAxMDAlKTsKICBib3JkZXItcmFkaXVzOiAxNHB4IDE0cHggNTJweCA1MnB4OwogIHBhZGRpbmc6IDE4cHggMThweCAzMnB4OwogIHBvc2l0aW9uOiByZWxhdGl2ZTsKICBib3gtc2hhZG93OiA1cHggNXB4IDAgIzExMSwgOXB4IDlweCAwICMwYTBhMGEsCiAgICBpbnNldCAwIDFweCAwIHJnYmEoMjU1LDI1NSwyNTUsLjEzKSwgaW5zZXQgMCAtMnB4IDAgcmdiYSgwLDAsMCwuNSk7CiAgYmFja2dyb3VuZC1pbWFnZToKICAgIHJlcGVhdGluZy1saW5lYXItZ3JhZGllbnQoMGRlZywgcmdiYSgwLDAsMCwuMDUpIDAsIHJnYmEoMCwwLDAsLjA1KSAxcHgsIHRyYW5zcGFyZW50IDFweCwgdHJhbnNwYXJlbnQgNHB4KSwKICAgIHJlcGVhdGluZy1saW5lYXItZ3JhZGllbnQoOTBkZWcsIHJnYmEoMCwwLDAsLjA1KSAwLCByZ2JhKDAsMCwwLC4wNSkgMXB4LCB0cmFuc3BhcmVudCAxcHgsIHRyYW5zcGFyZW50IDRweCk7Cn0KLmxlZCB7CiAgcG9zaXRpb246IGFic29sdXRlOyB0b3A6IDE4cHg7IHJpZ2h0OiAyMnB4OwogIHdpZHRoOiA2cHg7IGhlaWdodDogNnB4OyBib3JkZXItcmFkaXVzOiA1MCU7CiAgYmFja2dyb3VuZDogdmFyKC0tZ3JlZW4pOyBib3gtc2hhZG93OiAwIDAgOHB4IHZhcigtLWdyZWVuKTsKICBhbmltYXRpb246IGxlZC1ibGluayAycyBpbmZpbml0ZTsKfQpAa2V5ZnJhbWVzIGxlZC1ibGluayB7IDAl
-LDEwMCV7b3BhY2l0eToxfSA1MCV7b3BhY2l0eTouM30gfQouc2NyZWVuLWhvdXNpbmcgewogIGJhY2tncm91bmQ6ICMxMjBhMDI7CiAgYm9yZGVyOiA2cHggc29saWQgIzZiNDQyMDsKICBib3gtc2hhZG93OiBpbnNldCAwIDAgMCAycHggIzJlMWEwOCwgaW5zZXQgMCAwIDAgNHB4ICM4YTVhMzAsCiAgICAwIDAgMCAxcHggIzFhMGEwMCwgMCA0cHggMTRweCByZ2JhKDAsMCwwLC43KTsKICBib3JkZXItcmFkaXVzOiAzcHg7IHBhZGRpbmc6IDhweDsgbWFyZ2luLWJvdHRvbTogNHB4Owp9Ci5zY3JlZW4tbGFiZWwgewogIHRleHQtYWxpZ246IGNlbnRlcjsgZm9udC1zaXplOiA1cHg7IGxldHRlci1zcGFjaW5nOiA0cHg7CiAgY29sb3I6ICM1YTNkMWM7IG1hcmdpbi1ib3R0b206IDZweDsKfQouc2NyZWVuIHsKICB3aWR0aDogMTAwJTsgaGVpZ2h0OiAzMDBweDsKICBiYWNrZ3JvdW5kOiB2YXIoLS1iZyk7IGJvcmRlcjogMnB4IHNvbGlkICMwYTBmMWE7CiAgcG9zaXRpb246IHJlbGF0aXZlOyBvdmVyZmxvdzogaGlkZGVuOwp9Ci5zY3JlZW46OmJlZm9yZSB7CiAgY29udGVudDogJyc7IHBvc2l0aW9uOiBhYnNvbHV0ZTsgaW5zZXQ6IDA7IHotaW5kZXg6IDEwMDsgcG9pbnRlci1ldmVudHM6IG5vbmU7CiAgYmFja2dyb3VuZDogcmVwZWF0aW5nLWxpbmVhci1ncmFkaWVudCgwZGVnLCB0cmFuc3BhcmVudCwgdHJhbnNwYXJlbnQgMnB4LCByZ2JhKDAsMCwwLC4wOSkgMnB4LCByZ2JhKDAsMCwwLC4wOSkgNHB4KTsKfQouc2NyZWVuOjphZnRlciB7CiAgY29udGVudDogJyc7IHBvc2l0aW9uOiBhYnNvbHV0ZTsgdG9wOiAwOyBsZWZ0OiAwOyByaWdodDogNTAlOyBoZWlnaHQ6IDQ1JTsKICBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoMTM1ZGVnLCByZ2JhKDI1NSwyNTUsMjU1LC4wNCksIHRyYW5zcGFyZW50KTsKICB6LWluZGV4OiAxMDE7IHBvaW50ZXItZXZlbnRzOiBub25lOwp9CiNzY3JlZW4taW5uZXIgeyBwb3NpdGlvbjogYWJzb2x1dGU7IGluc2V0OiAwOyBvdmVyZmxvdzogaGlkZGVuOyBmb250LWZhbWlseTogdmFyKC0tcGl4ZWwpOyBmb250LXNpemU6IDdweDsgY29sb3I6IHZhcigtLXRleHQpOyB9Ci5wYW5lbCB7IGRpc3BsYXk6IGZsZXg7IGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47IGhlaWdodDogMTAwJTsgfQouc19oZWFkZXIgewogIGJhY2tncm91bmQ6IHZhcigtLXN1cmZhY2UpOyBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzBmMjAzNTsKICBwYWRkaW5nOiA1cHggOHB4OyBmb250LXNpemU6IDdweDsgY29sb3I6IHZhcigtLWFtYmVyKTsgbGV0dGVyLXNwYWNpbmc6IDJweDsKICBkaXNwbGF5OiBmbGV4OyBqdXN0aWZ5LWNvbnRlbnQ6IHNwYWNlLWJldHdlZW47IGZsZXgtc2hyaW5rOiAwOwp9Ci5zX2JvZHkgeyBmbGV4OiAxOyBwYWRkaW5nOiA2cHggOHB4OyBvdmVyZmxvdzogaGlkZGVuOyB9Ci5zX2JvZHkuc2Nyb2xsIHsgb3ZlcmZsb3cteTogYXV0bzsgfQouc19ib2R5LnNjcm9sbDo6LXdlYmtpdC1zY3JvbGxiYXIgeyB3aWR0aDogMnB4OyB9Ci5zX2JvZHkuc2Nyb2xsOjotd2Via2l0LXNjcm9sbGJhci10aHVtYiB7IGJhY2tncm91bmQ6IHZhcigtLWRpbSk7IH0KLnNfZm9vdGVyIHsKICBiYWNrZ3JvdW5kOiB2YXIoLS1zdXJmYWNlKTsgYm9yZGVyLXRvcDogMXB4IHNvbGlkICMwZjIwMzU7CiAgcGFkZGluZzogNHB4IDhweDsgZm9udC1zaXplOiA1cHg7IGNvbG9yOiB2YXIoLS1kaW0pOyBsZXR0ZXItc3BhY2luZzogMXB4OyBmbGV4LXNocmluazogMDsKfQoucm93IHsgcGFkZGluZzogM3B4IDRweDsgZm9udC1zaXplOiA3cHg7IGxpbmUtaGVpZ2h0OiAxLjc7IG92ZXJmbG93OiBoaWRkZW47IHRleHQtb3ZlcmZsb3c6IGVsbGlwc2lzOyB3aGl0ZS1zcGFjZTogbm93cmFwOyBjb2xvcjogdmFyKC0tYnJpZ2h0KTsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsgZ2FwOiA0cHg7IH0KLnJvdy5zZWwgeyBjb2xvcjogdmFyKC0tYW1iZXIpOyBiYWNrZ3JvdW5kOiByZ2JhKDI0NSwxNjYsMzUsLjA3KTsgfQoucm93IC5zdWIgeyBjb2xvcjogdmFyKC0tZGltKTsgZm9udC1zaXplOiA1cHg7IH0KLmRsIHsgY29sb3I6IHZhcigtLWRpbSk7IGZvbnQtc2l6ZTogNXB4OyBsZXR0ZXItc3BhY2luZzogMnB4OyBtYXJnaW46IDZweCAwIDJweDsgfQouZHYgeyBjb2xvcjogdmFyKC0tYnJpZ2h0KTsgZm9udC1zaXplOiA2cHg7IGxpbmUtaGVpZ2h0OiAxLjg7IHdvcmQtYnJlYWs6IGJyZWFrLXdvcmQ7IG1hcmdpbi1ib3R0b206IDRweDsgfQoucnVsZSB7IHBhZGRpbmc6IDJweCAwOyBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzBmMjAzNTsgZm9udC1zaXplOiA2cHg7IGxpbmUtaGVpZ2h0OiAxLjk7IH0KLnJ1bGUuc2VsIHsgY29sb3I6IHZhcigtLWFtYmVyKTsgfQoubGl2ZS1lIHsgZGlzcGxheTogZmxleDsgZ2FwOiA1cHg7IHBhZGRpbmc6IDJweCAwOyBib3JkZXItYm90dG9tOiAxcHggc29saWQgIzA4MGYxODsgZm9udC1zaXplOiA2cHg7IH0KLmx0IHsgY29sb3I6IHZhcigtLWRpbSk7IGZsZXgtc2hyaW5rOiAwOyB9Ci5sYSB7IGNvbG9yOiB2YXIoLS1icmlnaHQpOyBmbGV4OiAxOyBvdmVyZmxvdzogaGlkZGVuOyB0ZXh0LW92ZXJmbG93OiBlbGxpcHNpczsgd2hpdGUtc3BhY2U6IG5vd3JhcDsgfQoubHMtZG9uZSB7IGNvbG9yOiB2YXIoLS1ncmVlbik7IGZsZXgtc2hyaW5rOiAwOyB9Ci5scy13b3JraW5nIHsgY29sb3I6IHZhcigtLWFtYmVyKTsgZmxleC1zaHJpbms6IDA7IH0KLmxzLWZhaWxlZCB7IGNvbG9yOiB2YXIoLS1yZWQpOyBmbGV4LXNocmluazogMDsgfQouYm9vdC1wYW5lbCB7IGRpc3BsYXk6IGZsZXg7IGZsZXgtZGlyZWN0aW9uOiBjb2x1bW47IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGp1c3RpZnktY29udGVudDogY2VudGVyOyBoZWlnaHQ6IDEwMCU7IGdhcDogMTBweDsgcGFkZGluZzogMCAxNnB4OyB9Ci5ib290LWxvZ28geyBmb250LXNpemU6IDIycHg7IGNvbG9yOiB2YXIoLS1hbWJlcik7IGxldHRlci1zcGFjaW5nOiAxMHB4OyB0ZXh0LXNoYWRvdzogMCAwIDIwcHggcmdiYSgyNDUsMTY2LDM1LC41KTsgYW5pbWF0aW9uOiBnYmdsb3cgMnMgZWFzZS1pbi1vdXQgaW5maW5pdGU7IH0KQGtleWZyYW1lcyBnYmdsb3cgeyAwJSwxMDAle3RleHQtc2hhZG93OjAgMCAxMHB4IHJnYmEoMjQ1LDE2NiwzNSwuMyl9IDUwJXt0ZXh0LXNoYWRvdzowIDAgMzBweCByZ2JhKDI0NSwxNjYsMzUsLjgpfSB9Ci5ib290LXN1YiB7IGZvbnQtc2l6ZTogNXB4OyBjb2xvcjogdmFyKC0tZGltKTsgbGV0dGVyLXNwYWNpbmc6IDNweDsgfQouYm9vdC1saW5lcyB7IHdpZHRoOiAxMDAlOyBtaW4taGVpZ2h0OiA3MnB4OyBmb250LXNpemU6IDZweDsgbGluZS1oZWlnaHQ6IDI7IH0KLmJvb3QtbGluZSB7IGNvbG9yOiB2YXIoLS1ncmVlbik7IGFuaW1hdGlvbjogZ2JmYWRlIC4zcyBlYXNlOyB9CkBrZXlmcmFtZXMgZ2JmYWRlIHsgZnJvbXtvcGFjaXR5OjB9IHRve29wYWNpdHk6MX0gfQouYm9vdC1oaW50IHsgZm9udC1zaXplOiA1cHg7IGNvbG9yOiB2YXIoLS1kaW0pOyBhbmltYXRpb246IGdibGluayAxcyBzdGVwLWVuZCBpbmZpbml0ZTsgfQpAa2V5ZnJhbWVzIGdibGluayB7IDAl
-LDEwMCV7b3BhY2l0eToxfSA1MCV7b3BhY2l0eTowfSB9Ci5icmFuZCB7IHRleHQtYWxpZ246IGNlbnRlcjsgZm9udC1zaXplOiA2cHg7IGxldHRlci1zcGFjaW5nOiA3cHg7IGNvbG9yOiAjM2EzYTNhOyBwYWRkaW5nOiA2cHggMCAxMHB4OyB0ZXh0LXNoYWRvdzogMCAxcHggMCAjNTU1OyB9Ci5jdHJsLXJvdyB7IGRpc3BsYXk6IGZsZXg7IGFsaWduLWl0ZW1zOiBjZW50ZXI7IGp1c3RpZnktY29udGVudDogc3BhY2UtYmV0d2VlbjsgcGFkZGluZzogMCA4cHg7IG1hcmdpbi1ib3R0b206IDE0cHg7IH0KLmRwYWQgeyBwb3NpdGlvbjogcmVsYXRpdmU7IHdpZHRoOiAxMTBweDsgaGVpZ2h0OiAxMTBweDsgZmxleC1zaHJpbms6IDA7IH0KLmRwaCwgLmRwdiB7IHBvc2l0aW9uOiBhYnNvbHV0ZTsgYmFja2dyb3VuZDogIzFlMWUxZTsgYm9yZGVyLXJhZGl1czogMnB4OyB9Ci5kcGggeyB3aWR0aDogMTEwcHg7IGhlaWdodDogMzZweDsgdG9wOiAzN3B4OyBsZWZ0OiAwOyBib3gtc2hhZG93OiAwIDNweCAwICMxMTEsIGluc2V0IDAgMXB4IDAgcmdiYSgyNTUsMjU1LDI1NSwuMDgpOyB9Ci5kcHYgeyB3aWR0aDogMzZweDsgaGVpZ2h0OiAxMTBweDsgbGVmdDogMzdweDsgdG9wOiAwOyBib3gtc2hhZG93OiAycHggMCAwICMxMTE7IH0KLmRwYyB7IHBvc2l0aW9uOiBhYnNvbHV0ZTsgd2lkdGg6IDM2cHg7IGhlaWdodDogMzZweDsgYmFja2dyb3VuZDogIzE2MTYxNjsgdG9wOiAzN3B4OyBsZWZ0OiAzN3B4OyB6LWluZGV4OiAyOyB9Ci5kcGIgeyBwb3NpdGlvbjogYWJzb2x1dGU7IGJhY2tncm91bmQ6IHRyYW5zcGFyZW50OyBib3JkZXI6IG5vbmU7IGN1cnNvcjogcG9pbnRlcjsgei1pbmRleDogMzsgY29sb3I6ICMzYTNhM2E7IGZvbnQtc2l6ZTogMTJweDsgZGlzcGxheTogZmxleDsgYWxpZ24taXRlbXM6IGNlbnRlcjsganVzdGlmeS1jb250ZW50OiBjZW50ZXI7IH0KLmRwYjphY3RpdmUgeyBiYWNrZ3JvdW5kOiByZ2JhKDI1NSwyNTUsMjU1LC4wOCk7IH0KLmRwYi51cCB7IHdpZHRoOiAzNnB4OyBoZWlnaHQ6IDM2cHg7IHRvcDogMDsgbGVmdDogMzdweDsgfQouZHBiLmRuIHsgd2lkdGg6IDM2cHg7IGhlaWdodDogMzZweDsgYm90dG9tOiAwOyBsZWZ0OiAzN3B4OyB9Ci5kcGIubGYgeyB3aWR0aDogMzZweDsgaGVpZ2h0OiAzNnB4OyBsZWZ0OiAwOyB0b3A6IDM3cHg7IH0KLmRwYi5ydCB7IHdpZHRoOiAzNnB4OyBoZWlnaHQ6IDM2cHg7IHJpZ2h0OiAwOyB0b3A6IDM3cHg7IH0KLmZhY2UgeyBwb3NpdGlvbjogcmVsYXRpdmU7IHdpZHRoOiAxMTBweDsgaGVpZ2h0OiAxMDBweDsgZmxleC1zaHJpbms6IDA7IH0KLmZiIHsgcG9zaXRpb246IGFic29sdXRlOyB3aWR0aDogNDhweDsgaGVpZ2h0OiA0OHB4OyBib3JkZXItcmFkaXVzOiA1MCU7IGJvcmRlcjogbm9uZTsgY3Vyc29yOiBwb2ludGVyOyBmb250LWZhbWlseTogdmFyKC0tcGl4ZWwpOyBmb250LXNpemU6IDEycHg7IH0KLmZiOmFjdGl2ZSB7IHRyYW5zZm9ybTogdHJhbnNsYXRlWSgycHgpOyB9Ci5mYi5hIHsgYmFja2dyb3VuZDogbGluZWFyLWdyYWRpZW50KDE0NWRlZywgI2M4MzMyMiwgIzg4MTgxMSk7IGJveC1zaGFkb3c6IDAgNHB4IDAgIzU1MGYwMCwgMCA0cHggMTBweCByZ2JhKDAsMCwwLC41KTsgY29sb3I6ICNmZmNjYWE7IHJpZ2h0OiAwOyB0b3A6IDI2cHg7IH0KLmZiLmIgeyBiYWNrZ3JvdW5kOiBsaW5lYXItZ3JhZGllbnQoMTQ1ZGVnLCAjMjIzY2FhLCAjMTExZTY2KTsgYm94LXNoYWRvdzogMCA0cHggMCAjMDAxMDQwLCAwIDRweCAxMHB4IHJnYmEoMCwwLDAsLjUpOyBjb2xvcjogI2FhYzhmZjsgbGVmdDogMDsgdG9wOiAyNnB4OyB9Ci5mYmwgeyBwb3NpdGlvbjogYWJzb2x1dGU7IGZvbnQtc2l6ZTogNXB4OyBjb2xvcjogIzRhNGE0YTsgbGV0dGVyLXNwYWNpbmc6IDFweDsgfQouZmJsLmEgeyByaWdodDogNnB4OyB0b3A6IDZweDsgfQouZmJsLmIgeyBsZWZ0OiA4cHg7IHRvcDogNnB4OyB9Ci5tZW51LXJvdyB7IGRpc3BsYXk6IGZsZXg7IGp1c3RpZnktY29udGVudDogY2VudGVyOyBnYXA6IDIycHg7IG1hcmdpbi1ib3R0b206IDE4cHg7IH0KLm1iIHsgYmFja2dyb3VuZDogIzFlMWUxZTsgYm9yZGVyOiAxcHggc29saWQgIzJlMmUyZTsgYm9yZGVyLXJhZGl1czogMTBweDsgcGFkZGluZzogNXB4IDE0cHg7IGNvbG9yOiAjNGE0YTRhOyBmb250LWZhbWlseTogdmFyKC0tcGl4ZWwpOyBmb250LXNpemU6IDVweDsgbGV0dGVyLXNwYWNpbmc6IDFweDsgY3Vyc29yOiBwb2ludGVyOyBib3gtc2hhZG93OiAwIDJweCAwICMxMTE7IHRyYW5zZm9ybTogcm90YXRlKC0xMmRlZyk7IH0KLm1iOmFjdGl2ZSB7IHRyYW5zZm9ybTogcm90YXRlKC0xMmRlZykgdHJhbnNsYXRlWSgxcHgpOyBib3gtc2hhZG93OiBub25lOyB9Ci5zcGVha2VyIHsgcG9zaXRpb246IGFic29sdXRlOyBib3R0b206IDIycHg7IHJpZ2h0OiAyMHB4OyBkaXNwbGF5OiBncmlkOyBncmlkLXRlbXBsYXRlLWNvbHVtbnM6IHJlcGVhdCg1LCA0cHgpOyBncmlkLXRlbXBsYXRlLXJvd3M6IHJlcGVhdCgzLCA0cHgpOyBnYXA6IDNweDsgfQouc3AgeyB3aWR0aDogNHB4OyBoZWlnaHQ6IDRweDsgYm9yZGVyLXJhZGl1czogNTAlOyBiYWNrZ3JvdW5kOiAjMWExYTFhOyBib3gtc2hhZG93OiBpbnNldCAwIDFweCAwIHJnYmEoMCwwLDAsLjkpOyB9Cjwvc3R5bGU+CjwvaGVhZD4KPGJvZHk+CjxkaXYgY2xhc3M9ImRldmljZSI+CiAgPGRpdiBjbGFzcz0ibGVkIj48L2Rpdj4KICA8ZGl2IGNsYXNzPSJzY3JlZW4taG91c2luZyI+CiAgICA8ZGl2IGNsYXNzPSJzY3JlZW4tbGFiZWwiPkpBUlZJUyBHUklEIElOVEVSRkFDRSAmbmJzcDs8c3BhbiBpZD0ic3NlLWRvdCIgc3R5bGU9ImNvbG9yOiMzMzMiPuKXj
-TwVC9zcGFuPjwvZGl2PgogICAgPGRpdiBjbGFzcz0ic2NyZWVuIj48ZGl2IGlkPSJzY3JlZW4taW5uZXIiPjwvZGl2PjwvZGl2PgogIDwvZGl2PgogIDxkaXYgY2xhc3M9ImJyYW5kIj5KQVJWSVM8L2Rpdj4KICA8ZGl2IGNsYXNzPSJjdHJsLXJvdyI+CiAgICA8ZGl2IGNsYXNzPSJkcGFkIj4KICAgICAgPGRpdiBjbGFzcz0iZHBoIj48L2Rpdj48ZGl2IGNsYXNzPSJkcHYiPjwvZGl2PjxkaXYgY2xhc3M9ImRwYyI+PC9kaXY+CiAgICAgIDxidXR0b24gY2xhc3M9ImRwYiB1cCIgb25jbGljaz0ibmF2KC0xKSI+JiM5NjUwOzwvYnV0dG9uPgogICAgICA8YnV0dG9uIGNsYXNzPSJkcGIgZG4iIG9uY2xpY2s9Im5hdigxKSI+JiM5NjYwOzwvYnV0dG9uPgogICAgICA8YnV0dG9uIGNsYXNzPSJkcGIgbGYiIG9uY2xpY2s9ImJhY2soKSI+JiM5NjY0OzwvYnV0dG9uPgogICAgICA8YnV0dG9uIGNsYXNzPSJkcGIgcnQiIG9uY2xpY2s9Im9rKCkiPiYjOTY1NDs8L2J1dHRvbj4KICAgIDwvZGl2PgogICAgPGRpdiBjbGFzcz0iZmFjZSI+CiAgICAgIDxzcGFuIGNsYXNzPSJmYmwgYiI+Qjwvc3Bhbj48c3BhbiBjbGFzcz0iZmJsIGEiPkE8L3NwYW4+CiAgICAgIDxidXR0b24gY2xhc3M9ImZiIGIiIG9uY2xpY2s9ImJhY2soKSI+QjwvYnV0dG9uPgogICAgICA8YnV0dG9uIGNsYXNzPSJmYiBhIiBvbmNsaWNrPSJvaygpIj5BPC9idXR0b24+CiAgICA8L2Rpdj4KICA8L2Rpdj4KICA8ZGl2IGNsYXNzPSJtZW51LXJvdyI+CiAgICA8YnV0dG9uIGNsYXNzPSJtYiIgb25jbGljaz0iYmFjaygpIj5TRUxFQ1Q8L2J1dHRvbj4KICAgIDxidXR0b24gY2xhc3M9Im1iIiBvbmNsaWNrPSJzdGFydCgpIj5TVEFSVDwvYnV0dG9uPgogIDwvZGl2PgogIDxkaXYgY2xhc3M9InNwZWFrZXIiIGlkPSJzcGsiPjwvZGl2Pgo8L2Rpdj4KCjxzY3JpcHQ+Ci8vIOKUgOKUgCBjb25maWcgKHNhZmUgZm9yIGNsaWVudC1zaWRlKQpjb25zdCBTVVBBQkFTRV9VUkwgICAgID0gJ2h0dHBzOi8vb2V4Z2hmc3ZobmdnZGRsbGd2cnQuc3VwYWJhc2UuY28nOwpjb25zdCBTVVBBQkFTRV9BTk9OICAgID0gJ2V5SmhiR2NpT2lKSVV6STFOaUlzSW5SNWNDSTZJa3BYVkNKOS5leUpwYzNNaU9pSnpkWEJoWW1GelpTSXNJbkpsWmlJNkltOWxlR2RvWm5OMloyNTNaR2xzYkhkMlluUWlMQ0p5YjJ4bElqb2lZVzV2YmlJc0ltbGhkQ0k2TVRjM09UWXpOREE1T0N3aVpYQndJam95TURrMU1qRXdNRGs0Zld3aWpSRk1mLUM5cHM3MkJpXzlJcGlDM2VPWkQ2QWo2d1U0SUYtajNzdktUZlEnOwpjb25zdCBWQVBJRF9QVUJMSUNfS0VZID0gJ0JPTTM0Tk9aN0REeS1mTll4akl
-vMVhjM3hNZkZRWV9Sb2RSNDN
-xTTY4dG1QVTJIQURYV1ZGbEFMbFFpT0c4TVl4a1kyK3VLMUMyZXVINUtaM3Y5SlBkWmRRJzsKY29uc3QgR0lUSFVCX1JFUE8gICAgICA9ICdodXJyaXNvbmZlcmQvamFydmlzJzsKY29uc3QgUFVTSF9GTl9VUkwgICAgICA9IGAke1NVUEFCQVNFX1VSTH0vZnVuY3Rpb25zL3YxL3NlbmQtcHVzaGA7Cgpjb25zdCBzYiA9IHN1cGFiYXNlLmNyZWF0ZUNsaWVudChTVVBBQkFTRV9VUkwsIFNVUEFCQVNFX0FOT04pOwoKLy8g4pSA4pSAIHNwZWFrZXIgZG90cwooZnVuY3Rpb24oKXsgY29uc3Qgcz1kb2N1bWVudC5nZXRFbGVtZW50QnlJZCgnc3BrJyk7IGZvcihsZXQgaT0wO2k8MTU7aSsrKXtjb25zdCBkPWRvY3VtZW50LmNyZWF0ZUVsZW1lbnQoJ2RpdicpO2QuY2xhc3NOYW1lPSdzcCc7cy5hcHBlbmRDaGlsZChkKTt9IH0pKCk7CgovLyDilIDilAAgUGF0Y2ggNDogTW9kZUNvbnRyb2xsZXIgKGdyaWRfaG9tZSB8IGdiX3JvbSB8IGdiYV9yb20gfCBqYXJ2aXNfdWkpCmNvbnN0IE1vZGVDb250cm9sbGVyID0gewogIG1vZGU6ICdqYXJ2aXNfdWknLAogIHNldChtKXsgdGhpcy5tb2RlPW07IHNiRXZlbnQoJ21vZGVfc3dpdGNoJyx7bW9kZTptfSk7IH0sCiAgaXMobSl7IHJldHVybiB0aGlzLm1vZGU9PT1tOyB9LAp9OwoKLy8g4pSA4pSAIFBhdGNoIDQ6IG5ldXJhbCBtZXNoIHNlc3Npb24KbGV0IHNlc3Npb25JZCA9IG51bGw7CmFzeW5jIGZ1bmN0aW9uIHN0YXJ0U2Vzc2lvbigpewogIHRyeXsKICAgIGNvbnN0IHtkYXRhfT1hd2FpdCBzYi5mcm9tKCdzZXNzaW9ucycpLmluc2VydCh7bW9kZTpNb2RlQ29udHJvbGxlci5tb2RlLGFjdGl2ZV9ub2RlOidCT09UJ30pLnNlbGVjdCgnaWQnKS5zaW5nbGUoKTsKICAgIGlmKGRhdGEpIHNlc3Npb25JZD1kYXRhLmlkOwogIH1jYXRjaChlKXt9Cn0KYXN5bmMgZnVuY3Rpb24gdXBkYXRlU2Vzc2lvbihub2RlKXsKICBpZighc2Vzc2lvbklkKSByZXR1cm47CiAgdHJ5eyBhd2FpdCBzYi5mcm9tKCdzZXNzaW9ucycpLnVwZGF0ZSh7YWN0aXZlX25vZGU6bm9kZSx1cGRhdGVkX2F0Om5ldyBEYXRlKCkudG9JU09TdHJpbmcoKX0pLmVxKCdpZCcsc2Vzc2lvbklkKTsgfWNhdGNoKGUpe30KfQphc3luYyBmdW5jdGlvbiBzYkV2ZW50KHR5cGUscGF5bG9hZD17fSl7CiAgdHJ5eyBhd2FpdCBzYi5mcm9tKCdldmVudHMnKS5pbnNlcnQoe3R5cGUscGF5bG9hZCxzZXNzaW9uX2lkOnNlc3Npb25JZH0pOyB9Y2F0Y2goZSl7fQp9CgovLyDilIDilAAgUGF0Y2ggNSBQaGFzZSAxOiBMMCBzcGF0aWFsIGdyYXBoIChzdGF0aWMgc2VlZCDigJQgZ3Jvd3MgZnJvbSBTdXBhYmFzZSBzbmFwc2hvdCkKY29uc3QgTDBfTk9ERVMgPSBbCiAge2lkOidBWVJFJywgICB0eXBlOidleGVjdXRpb24nLCB4OjAuNSwgeTowLjEsIGxpbmtzOlsnQUVHSVMnXX0sCiAge2lkOidBRUdJUycsICB0eXBlOidleGVjdXRpb24nLCB4OjAuNSwgeTowLjI1LGxpbmtzOlsnT0RJTiddfSwKICB7aWQ6J09ESU4nLCAgIHR5cGU6J2V4ZWN1dGlvbicsIHg6MC41LCB5OjAuNCwgbGlua3M6WydLUk9OT1MnXX0sCiAge2lkOidLUk9OT1MnLCB0eXBlOidleGVjdXRpb24nLCB4OjAuNSwgeTowLjU1LGxpbmtzOlsnU0tBREknXX0sCiAge2lkOidTS0FESScsICB0eXBlOidleGVjdXRpb24nLCB4OjAuNSwgeTowLjcsIGxpbmtzOlsnTU5FTU9TJ119LAogIHtpZDonTU5FTU9TJywgIHR5cGU6J21lbW9yeScsICAgIHg6MC4zLCB5OjAuODUsbGlua3M6WydIVUdJTk4nXX0sCiAge2lkOidIVUdJTk4nLCB0eXBlOidtZW1vcnknLCAgICB4OjAuNywgeTowLjg1LGxpbmtzOltdfSwKICB7aWQ6J0hBTE8nLCAgIHR5cGU6J3BhcmFsbGVsJywgIHg6MC4xLCB5OjAuNCwgbGlua3M6WydPRElOJ119LAogIHtpZDonTUlNSVInLCAgdHlwZToncGFyYWxsZWwnLCAgeDowLjksIHk6MC40LCBsaW5rczpbJ09ESU4nXX0sCiAge2lkOidCSUZST1NUJyx0eXBlOidwYXJhbGxlbCcsICB4OjAuMSwgeTowLjYsIGxpbmtzOlsnU0tBREknXX0sCiAge2lkOidFUklTJywgICB0eXBlOidndWFyZGlhbicsICB4OjAuMSwgeTowLjEsIGxpbmtzOltdfSwKICB7aWQ6J1BST01FVEhFVVMnLHR5cGU6J2dvdmVybmFuY2UnLHg6MC45LHk6MC4xLGxpbmtzOltdfSwKICB7aWQ6J05FTUVTSVMnLHR5cGU6J2ludGVncml0eScsIHg6MC45LCB5OjAuMjUsbGlua3M6W119LAogIHtpZDonREFOVEUnLCAgdHlwZToncG9zdCcsICAgICAgeDowLjIsIHk6MC45NSxsaW5rczpbXX0sCiAge2lkOidBUE9MTE8nLCB0eXBlOidwb3N0JywgICAgICB4OjAuNSwgeTowLjk3LGxpbmtzOltdfSwKICB7aWQ6J0pBTlVTJywgIHR5cGU6J3Bvc3QnLCAgICAgIHg6MC44LCB5OjAuOTUsbGlua3M6W119LApdOwpjb25zdCBOT0RFX0NPTE9SUz17ZXhlY3V0aW9uOid2YXIoLS1hbWJlciknLG1lbW9yeTondmFyKC0tYmx1ZSknLHBhcmFsbGVsOid2YXIoLS1ncmVlbiknLGd1YXJkaWFuOid2YXIoLS1yZWQpJyxnb3Zlcm5hbmNlOicjYzBmJyxpbnRlZ3JpdHk6JyNmODAnLHBvc3Q6J3ZhcigtLWRpbSknfTsKCi8vIOKUgOKUgCBmYWxsYmFjayBnb2Qgc3lzdGVtcyAoZnJvbSBjaGFvc19zZWVkLmV4YW1wbGUg4oCUIFN1cGFiYXNlIHNuYXBzaG90IG92ZXJyaWRlcykKY29uc3QgRkFMTEJBQ0tfREFUQSA9IHsKICBwaXBlbGluZTogWydBWVJFJywnQUVHSVMnLCdPRElOJywnS1JPTk9TJywnU0tBREknLCdNTkVNT1MnLCdIVUdJTk4nXSwKICBnb2Rfc3lzdGVtczogWwogICAge25hbWU6J0VSSVMnLCAgICBkZXNjcmlwdGlvbjol
-R29sZCBMYXcgZ3VhcmRpYW4nLCAgICAgZG9tYWluOidHb3Zlcm5hbmNlIC8gRW50cm9weSd9LAogICAge25hbWU6J0FZUkUnLCAgICBkZXNjcmlwdGlvbjonSW50YWtlICYgcGFyc2luZycsICAgICAgZG9tYWluOidFeGVjdXRpb24g4oCUIGludGFrZSBpbnRlcnByZXRhdGlvbid9LAogICAge25hbWU6J0FFR0lTJywgICBkZXNjcmlwdGlvbjonQ29uc3RyYWludCBlbmZvcmNlcicsICAgZG9tYWluOidFeGVjdXRpb24g4oCUIHZhbGlkYXRpb24gZ2F0ZSd9LAogICAge25hbWU6J09ESU4nLCAgICBkZXNjcmlwdGlvbjonT3JjaGVzdHJhdGlvbiByb3V0ZXInLCAgZG9tYWluOidFeGVjdXRpb24g4oCUIHRhc2sgcm91dGluZyd9LAogICAge25hbWU6J0tST05PUycsICBkZXNjcmlwdGlvbjonU2NoZWR1bGVyIC8gdGltaW5nJywgICAgZG9tYWluOidFeGVjdXRpb24g4oCUIHNlcXVlbmNpbmcnfSwKICAgIHtuYW1lOidTS0FESScsICAgZGVzY3JpcHRpb246J0V4ZWN1dGlvbiBydW50aW1lJywgICAgIGRvbWFpbjonRXhlY3V0aW9uIOKAlCB0b29sIGludm9jYXRpb24nfSwKICAgIHtuYW1lOidNTkVNT1MnLCAgZGVzY3JpcHRpb246J1BlcnNpc3RlbnQgbWVtb3J5JywgICAgIGRvbWFpbjonTWVtb3J5IOKAlCBzZW1hbnRpYyBzdG9yZSd9LAogICAge25hbWU6J0hVR0lOTicsICBkZXNjcmlwdGlvbjonU2Vzc2lvbiByZWNvbmNpbGlhdGlvbicsZG9tYWluOidNZW1vcnkg4oCUIGNyb3NzLXNlc3Npb24gZGlmZid9LAogICAge25hbWU6J0hBTE8nLCAgICBkZXNjcmlwdGlvbjonQW1iaWVudCBtb25pdG9yaW5nJywgICAgZG9tYWluOidQYXJhbGxlbCDigJQgYWx3YXlzLW9uIG9ic2VydmVyJ30sCiAgICB7bmFtZTonTUlNSVInLCAgIGRlc2NyaXB0aW9uOidLbm93bGVkZ2UgZmFicmljJywgICAgICBkb21haW46J1BhcmFsbGVsIOKAlCBjb250ZXh0IGFjY2Vzcyd9LAogICAge25hbWU6J0JJRlJPU1QnLCBkZXNjcmlwdGlvbjonVHJhbnNwb3J0IGJyaWRnZScsICAgICAgZG9tYWluOidQYXJhbGxlbCDigJQgaW50ZXItc3lzdGVtIHJlbGF5J30sCiAgICB7bmFtZTonUFJPTUVUSEVVUycsZGVzY3JpcHRpb246J0V4cGFuc2lvbiBsZWRnZXInLCAgIGRvbWFpbjonR292ZXJuYW5jZSDigJQgcmF0aW9uYWxlIGxvZyd9LAogICAge25hbWU6J05FTUVTSVNQ
-nLCBkZXNjcmlwdGlvbjonRHJpZnQgY29ycmVjdGlvbicsICAgICAgZG9tYWluOidJbnRlZ3JpdHkg4oCUIGFuYWx5c2lzIHBhc3MnfSwKICAgIHtuYW1lOidEQU5URScsICBkZXNjcmlwdGlvbjonUG9zdC1leGVjIHJldmlldycsICAgICAgZG9tYWluOidQb3N0IOKAlCBhbmFseXNpcyBwYXNzJ30sCiAgICB7bmFtZTonQVBPTExPJywgZGVzY3JpcHRpb246J091dHB1dCBmb3JtYXR0aW5nJywgICAgIGRvbWFpbjonUG9zdCDigJQgcmVuZGVyICYgZGVsaXZlcid9LAogICAge25hbWU6J0pBTlVTJywgICBkZXNjcmlwdGlvbjonVHJhbnNpdGlvbiBoYW5kbGVyJywgICAgZG9tYWluOidQb3N0IOKAlCBoYW5kb2ZmIC8gbW9kZSBzd2l0Y2gnfSwKICAgIHtuYW1lOidMT0tJJywgICAgZGVzY3JpcHRpb246J0NoYW9zIHByb2JlJywgICAgICAgICAgIGRvbWFpbjonVGVzdCDigJQgYWR2ZXJzYXJpYWwgaW5qZWN0aW9uJ30sCiAgICB7bmFtZTonSEFERVMnLCAgIGRlc2NyaXB0aW9uOidBcmNoaXZhbCBzaW5rJywgICAgICAgICBkb21haW46J0FyY2hpdmUg4oCUIGNvbGQgc3RvcmFnZSd9LAogIF0sCiAgZ29sZF9sYXc6IFsKICAgICdHTDE6IG5vIGF1dG9ub21vdXMgc2VsZi1tb2RpZmljYXRpb24nLAogICAgJ0dMMjogbm8gY3Jvc3Mtcm9sZSBhdXRob3JpdHkgb3ZlcnJpZGUnLAogICAgJ0dMMzogbm8gaW1wbGljaXQgc3RhdGUgcGVyc2lzdGVuY2UnLAogICAgJ0dMNDogbm8gdW52YWxpZGF0ZWQgZXhlY3V0aW9uJywKICAgICdHTDU6IG5vIHNpbGVudCBzdGF0ZSBtdXRhdGlvbicsCiAgICAnR0w2OiBkZXRlcm1pbmlzdGljIGV2YWx1YXRpb24gcmVxdWlyZWQnLAogICAgJ0dMNzogaHVtYW4gZmluYWwgYXV0aG9yaXR5IChSYXZlbiknLAogICAgJ0dMNyBTVVBSRU1FOiBubyBleHBhbnNpb24gd2l0aG91dCBzaW1wbGlmaWNhdGlvbicsCiAgICAnR0w4OiBpbXBsZW1lbnRhdGlvbiBiZWZvcmUgZXhwYW5zaW9uJywKICBdLAogIGRpc3RyaWN0czogWwogICAge2Rpc3RyaWN0OidMMCBTUEFUSUFMJywgIHJlZ2lvbjonR3JhcGggRm91bmRhdGlvbicsICAga2V5d29yZHM6Wydub2RlcycsJ2VkZ2VzJywnbmF2aWdhdGlvbiddfSwKICAgIHtkaXN0cmljdDonTDEgQ0FVU0FMJywgICByZWdpb246J0NhdXNhbCBHcmFwaCcsICAgICAgIGtleXdvcmRzOlsnY2F1c2UnLCdlZmZlY3QnLCdsaW5lYWdlJ119LAogICAge2Rpc3RyaWN0OidMMiBGSUVMRFMnLCAgIHJlZ2lvbjonU3RhdGUgT3ZlcmxheScsICAgICAga2V5d29yZHM6WydlbnRyb3B5JywnYWxpZ25tZW50JywncHJlc3N1cmUnXX0sCiAgICB7ZGlzdHJpY3Q6J0wzIFZFQ1RPUlMnLCAgcmVnaW9uOidEaXJlY3Rpb24gTGF5ZXInLCAgICBrZXl3b3JkczpbJ3JvdXRpbmcnLCdhdXRvcGlsb3QnLCdmbG93J119LAogICAge2Rpc3RyaWN0OidMNCBIWVBFUkdSQVBIJyxyZWdpb246J011bHRpLWxpbmsgTG9naWMnLCAga2V5d29yZHM6WydwYXRjaGVzJywnZGVjaXNpb25zJywnZ3JvdXBzJ119LAogICAge2Rpc3RyaWN0OidMNSBURU1QT1JBTCcsIHJlZ2lvbjonVGltZSAvIFZlcnNpb25pbmcnLCAgIGtleXdvcmRzOlsncmVwbGF5Jywncm9sbGJhY2snLCdzbmFwc2hvdHMnXX0sCiAgXSwKfTsKCi8vIOKUgOKUgCBzdGF0ZQpsZXQgUz0nYm9vdCcsIGN1cj0wLCBkZXRhaWw9bnVsbCwgZ2RhdGE9bnVsbCwgbGl2ZXM9W107CmxldCBzc2VDb25uZWN0ZWQ9ZmFsc2U7CmNvbnN0IFBHPTU7CgpjbnN0IE1FTlU9WwogIHtsYWJlbDonR09EIFNZU1RFTVMnLCBzdGF0ZTonZ29kJ30sCiAge2xhYmVsOidHT0xEIExBVycsICAgIHN0YXRlOidnb2xkJ30sCiAge2xhYmVsOidUSEUgR1JJRCcsICAgIHN0YXRlOidncmlkJ30sCiAge2xhYmVsOidMSVZFIEZFRUQnLCAgIHN0YXRlOidsaXZlJ30sCiAge2xhYmVsOidBTEVSVFMnLCAgICAgIHN0YXRlOidhbGVydHMnfSwKICB7bGFiZWw6J0dJVEhVQicsICAgICAgc3RhdGU6J2dpdGh1Yid9LApdOwoKLy8g4pSA4pSAIHJlbmRlcgpmdW5jdGlvbiBkcmF3KCl7CiAgY29uc3QgZWw9ZG9jdW1lbnQuZ2V0RWxlbWVudEJ5SWQoJ3NjcmVlbi1pbm5lcicpOwogIGlmKFM9PT0nbWVudScpICAgICAgICBlbC5pbm5lckhUTUw9ck1lbnUoKTsKICBlbHNlIGlmKFM9PT0nZ29kJykgICAgZWwuaW5uZXJIVE1MPXJHb2RMaXN0KCk7CiAgZWxzZSBpZihTPT09J2dvZEQnKSAgIGVsLmlubmVySFRNTD1yR29kRGV0YWlsKCk7CiAgZWxzZSBpZihTPT09J2dvbGQnKSAgIGVsLmlubmVySFRNTD1yR29sZCgpOwogIGVsc2UgaWYoUz09PSdncmlkJykgICBlbC5pbm5lckhUTUw9ckdyaWQoKTsKICBlbHNlIGlmKFM9PT0nZ3JhcGgnKSAgZWwuaW5uZXJIVE1MPXJMMEdyYXBoKCk7CiAgZWxzZSBpZihTPT09J2dyaWREJykgIGVsLmlubmVySFRNTD1yR3JpZERldGFpbCgpOwogIGVsc2UgaWYoUz09PSdsaXZlJykgICBlbC5pbm5lckhUTUw9ckxpdmUoKTsKICBlbHNlIGlmKFM9PT0nYWxlcnRzJykgZWwuaW5uZXJIVE1MPXJBbGVydHMoKTsKICBlbHNlIGlmKFM9PT0nZ2l0aHViJykgZWwuaW5uZXJIVE1MPXJHaXRodWIoKTsKICBlbHNlIGlmKFM9PT0nZ2hJc3N1ZScpIGVsLmlubmVySFRNTD1yR2hJc3N1ZSgpOwp9CgpmdW5jdGlvbiBjdXJzb3IoaSxzZWwpeyByZXR1cm4gYDxzcGFuIHN0eWxlPSJjb2xvcjoke3NlbD8ndmFyKC0tYW1iZXIpJzondmFyKC0tZGltKSd9Ij4ke3NlbD8nJiM5NjU4Oyc6JyAnfTwvc3Bhbj5gOyB9CgpmdW5jdGlvbiByTWVudSgpewogIGNvbnN0IHN1YnM9WwogICAgZ2RhdGE/Z2RhdGEuZ29kX3N5c3RlbXMubGVuZ3RoKycgTk9ERVMnOicuLi4nLAogICAgZ2RhdGE/Z2RhdGEuZ29sZF9sYXcubGVuZ3RoKycgUlVMRVMnOicuLi4nLAogICAgZ2RhdGE/Z2RhdGEuZGlzdHJpY3RzLmxlbmd0aCsnIERJU1RSSUNUUyc6Jy4uLicsCiAgICBsaXZlcy5sZW5ndGgrJyBFTlRSSUVTJywKICAgIHB1c2hTdWJiZWQ/J09OJzonT0ZGJywKICAgIGdoRGF0YT8nTE9BREVEJ
-6Jy4uLicsCiAgXTsKICByZXR1cm4gYDxkaXYgY2xhc3M9InBhbmVsIj4KICAgIDxkaXYgY2xhc3M9InNfaGVhZGVyIj48c3Bhbj5KQVJWSVMgdjIuNTwvc3Bhbj48c3BhbiBzdHlsZT0iY29sb3I6dmFyKC0tZ3JlZW4pIj4mIzk2MzI7IE9OTElORTwvc3Bhbj48L2Rpdj4KICAgIDxkaXYgY2xhc3M9InNfYm9keSIgc3R5bGU9InBhZGRpbmctdG9wOjEwcHgiPgogICAgICAke01FTlUubWFwKChtLGkpPT4nPGRpdiBjbGFzcz0icm93ICcrKGN1cj09PWk/J3NlbCc6JycpKyciPicrIGN1cnNvcihpLGN1cj09PWkpKycgJyttLmxhYmVsKycgPHNwYW4gY2xhc3M9InN1YiI+Jysoc3Vic1tpXXx8JycpKyc8L3NwYW4+PC9kaXY+Jykuam9pbignJyl9CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9InNfZm9vdGVyIj5BOlNFTEVDVCAmbmJzcDsgJiM4NTkzOyYjODU5NTs6TU9WRSAmbmJzcDsgU1RBUlQ6TUVOVTX8L2Rpdj4KICA8L2Rpdj5gOwp9CgpmdW5jdGlvbiByR29kTGlzdCgpewogIGlmKCFnZGF0YSkgcmV0dXJuIHJMb2FkKCk7CiAgY29uc3Qgc3lzPWdkYXRhLmdvZF9zeXN0ZW1zLCBwaXA9Z2RhdGEucGlwZWxpbmV8fFtdOwogIGNvbnN0IHN0PU1hdGguZmxvb3IoY3VyL1BHKSpQRywgcGc9c3lzLnNsaWNlKHN0LHN0K1BHKTsKICByZXR1cm4gYDxkaXYgY2xhc3M9InBhbmVsIj4KICAgIDxkaXYgY2xhc3M9InNfaGVhZGVyIj48c3Bhbj5HT0QgU1lTVEVNUzwvc3Bhbj48c3Bhbj4ke2N1cisxfS8ke3N5cy5sZW5ndGh9PC9zcGFuPjwvZGl2PgogICAgPGRpdiBjbGFzcz0ic19ib2R5Ij4KICAgICAgJHtwZy5tYXAoKHMsaSk9Pntjb25zdCBpZHg9c3QraSxpblA9cGlwLmluY2x1ZGVzKHMubmFtZSk7cmV0dXJuICc8ZGl2IGNsYXNzPSJyb3cgJysoY3VyPT09aWR4Pydz
-ZWwnOicnKSsnIj4nK2N1cnNvcihpZHgsY3VyPT09aWR4KSsnPHNwYW4gc3R5bGU9ImNvbG9yOicrKGluUD8ndmFyKC0tZ3JlZW4pJzondmFyKC0tYnJpZ2h0KScpKyciPicreC5uYW1lKyc8L3NwYW4+PHNwYW4gY2xhc3M9InN1YiI+JysoeC5kZXNjcmlwdGlvbnx8JycpLnN1YnN0cmluZygwLDE4KSsnPC9zcGFuPjwvZGl2Pjc7fSkuam9pbignJyl9CiAgICA8L2Rpdj4KICAgIDxkaXYgY2xhc3M9InNfZm9vdGVyIj5BOlZJRVcgJm5ic3A7IEI6QkFDSyAmbmJzcDsgJiM4NTkzOyYjODU5NTs6U0NST0xMPC9kaXY+CiAgPC9kaXY+YDsKfQo=
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS HANDHELD</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+:root {
+  --pixel: 'Press Start 2P', monospace;
+  --amber: #f5a623; --green: #00ff88; --blue: #0af; --red: #ff3355;
+  --dim: #1e3a52; --text: #4a7a99; --bright: #a0c8e0;
+  --bg: #020408; --surface: #080f18;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: radial-gradient(ellipse at center, #0a0f1a 0%, #020408 100%);
+  display: flex; align-items: flex-start; justify-content: center;
+  min-height: 100vh; font-family: var(--pixel); user-select: none;
+  overflow-y: auto; padding: 8px 0;
+}
+.device {
+  width: min(420px, calc(100vw - 8px));
+  background: linear-gradient(160deg, #4a4a4a 0%, #2d2d2d 60%, #222 100%);
+  border-radius: 14px 14px 52px 52px;
+  padding: 18px 18px 32px;
+  position: relative;
+  box-shadow: 5px 5px 0 #111, 9px 9px 0 #0a0a0a,
+    inset 0 1px 0 rgba(255,255,255,.13), inset 0 -2px 0 rgba(0,0,0,.5);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px);
+}
+.led {
+  position: absolute; top: 18px; right: 22px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+  animation: led-blink 2s infinite;
+}
+@keyframes led-blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.screen-housing {
+  background: #120a02;
+  border: 6px solid #6b4420;
+  box-shadow: inset 0 0 0 2px #2e1a08, inset 0 0 0 4px #8a5a30,
+    0 0 0 1px #1a0a00, 0 4px 14px rgba(0,0,0,.7);
+  border-radius: 3px; padding: 8px; margin-bottom: 4px;
+}
+.screen-label {
+  text-align: center; font-size: 5px; letter-spacing: 4px;
+  color: #5a3d1c; margin-bottom: 6px;
+}
+.screen {
+  width: 100%; height: 300px;
+  background: var(--bg); border: 2px solid #0a0f1a;
+  position: relative; overflow: hidden;
+}
+.screen::before {
+  content: ''; position: absolute; inset: 0; z-index: 100; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.09) 2px, rgba(0,0,0,.09) 4px);
+}
+.screen::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 50%; height: 45%;
+  background: linear-gradient(135deg, rgba(255,255,255,.04), transparent);
+  z-index: 101; pointer-events: none;
+}
+#screen-inner { position: absolute; inset: 0; overflow: hidden; font-family: var(--pixel); font-size: 7px; color: var(--text); }
+.panel { display: flex; flex-direction: column; height: 100%; }
+.s-header {
+  background: var(--surface); border-bottom: 1px solid #0f2035;
+  padding: 5px 8px; font-size: 7px; color: var(--amber); letter-spacing: 2px;
+  display: flex; justify-content: space-between; flex-shrink: 0;
+}
+.s-body { flex: 1; padding: 6px 8px; overflow: hidden; }
+.s-body.scroll { overflow-y: auto; }
+.s-body.scroll::-webkit-scrollbar { width: 2px; }
+.s-body.scroll::-webkit-scrollbar-thumb { background: var(--dim); }
+.s-footer {
+  background: var(--surface); border-top: 1px solid #0f2035;
+  padding: 4px 8px; font-size: 5px; color: var(--dim); letter-spacing: 1px; flex-shrink: 0;
+}
+.row { padding: 3px 4px; font-size: 7px; line-height: 1.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bright); display: flex; align-items: center; gap: 4px; }
+.row.sel { color: var(--amber); background: rgba(245,166,35,.07); }
+.row .sub { color: var(--dim); font-size: 5px; }
+.dl { color: var(--dim); font-size: 5px; letter-spacing: 2px; margin: 6px 0 2px; }
+.dv { color: var(--bright); font-size: 6px; line-height: 1.8; word-break: break-word; margin-bottom: 4px; }
+.rule { padding: 2px 0; border-bottom: 1px solid #0f2035; font-size: 6px; line-height: 1.9; }
+.rule.sel { color: var(--amber); }
+.live-e { display: flex; gap: 5px; padding: 2px 0; border-bottom: 1px solid #080f18; font-size: 6px; }
+.lt { color: var(--dim); flex-shrink: 0; }
+.la { color: var(--bright); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ls-done { color: var(--green); flex-shrink: 0; }
+.ls-working { color: var(--amber); flex-shrink: 0; }
+.ls-failed { color: var(--red); flex-shrink: 0; }
+.boot-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 10px; padding: 0 16px; }
+.boot-logo { font-size: 22px; color: var(--amber); letter-spacing: 10px; text-shadow: 0 0 20px rgba(245,166,35,.5); animation: gbglow 2s ease-in-out infinite; }
+@keyframes gbglow { 0%,100%{text-shadow:0 0 10px rgba(245,166,35,.3)} 50%{text-shadow:0 0 30px rgba(245,166,35,.8)} }
+.boot-sub { font-size: 5px; color: var(--dim); letter-spacing: 3px; }
+.boot-lines { width: 100%; min-height: 72px; font-size: 6px; line-height: 2; }
+.boot-line { color: var(--green); animation: gbfade .3s ease; }
+@keyframes gbfade { from{opacity:0} to{opacity:1} }
+.boot-hint { font-size: 5px; color: var(--dim); animation: gblink 1s step-end infinite; }
+@keyframes gblink { 0%,100%{opacity:1} 50%{opacity:0} }
+.brand { text-align: center; font-size: 6px; letter-spacing: 7px; color: #3a3a3a; padding: 6px 0 10px; text-shadow: 0 1px 0 #555; }
+.ctrl-row { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; margin-bottom: 14px; }
+.dpad { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
+.dph, .dpv { position: absolute; background: #1e1e1e; border-radius: 2px; }
+.dph { width: 110px; height: 36px; top: 37px; left: 0; box-shadow: 0 3px 0 #111, inset 0 1px 0 rgba(255,255,255,.08); }
+.dpv { width: 36px; height: 110px; left: 37px; top: 0; box-shadow: 2px 0 0 #111; }
+.dpc { position: absolute; width: 36px; height: 36px; background: #161616; top: 37px; left: 37px; z-index: 2; }
+.dpb { position: absolute; background: transparent; border: none; cursor: pointer; z-index: 3; color: #3a3a3a; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+.dpb:active { background: rgba(255,255,255,.08); }
+.dpb.up { width: 36px; height: 36px; top: 0; left: 37px; }
+.dpb.dn { width: 36px; height: 36px; bottom: 0; left: 37px; }
+.dpb.lf { width: 36px; height: 36px; left: 0; top: 37px; }
+.dpb.rt { width: 36px; height: 36px; right: 0; top: 37px; }
+.face { position: relative; width: 110px; height: 100px; flex-shrink: 0; }
+.fb { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer; font-family: var(--pixel); font-size: 12px; }
+.fb:active { transform: translateY(2px); }
+.fb.a { background: linear-gradient(145deg, #c83322, #881811); box-shadow: 0 4px 0 #550f00, 0 4px 10px rgba(0,0,0,.5); color: #ffccaa; right: 0; top: 26px; }
+.fb.b { background: linear-gradient(145deg, #223caa, #111e66); box-shadow: 0 4px 0 #001040, 0 4px 10px rgba(0,0,0,.5); color: #aac8ff; left: 0; top: 26px; }
+.fbl { position: absolute; font-size: 5px; color: #4a4a4a; letter-spacing: 1px; }
+.fbl.a { right: 6px; top: 6px; }
+.fbl.b { left: 8px; top: 6px; }
+.menu-row { display: flex; justify-content: center; gap: 22px; margin-bottom: 18px; }
+.mb { background: #1e1e1e; border: 1px solid #2e2e2e; border-radius: 10px; padding: 5px 14px; color: #4a4a4a; font-family: var(--pixel); font-size: 5px; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 0 #111; transform: rotate(-12deg); }
+.mb:active { transform: rotate(-12deg) translateY(1px); box-shadow: none; }
+.speaker { position: absolute; bottom: 22px; right: 20px; display: grid; grid-template-columns: repeat(5, 4px); grid-template-rows: repeat(3, 4px); gap: 3px; }
+.sp { width: 4px; height: 4px; border-radius: 50%; background: #1a1a1a; box-shadow: inset 0 1px 0 rgba(0,0,0,.9); }
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="led"></div>
+  <div class="screen-housing">
+    <div class="screen-label">JARVIS GRID INTERFACE &nbsp;<span id="sse-dot" style="color:#333">&#9679;</span></div>
+    <div class="screen"><div id="screen-inner"></div></div>
+  </div>
+  <div class="brand">JARVIS</div>
+  <div class="ctrl-row">
+    <div class="dpad">
+      <div class="dph"></div><div class="dpv"></div><div class="dpc"></div>
+      <button class="dpb up" onclick="nav(-1)">&#9650;</button>
+      <button class="dpb dn" onclick="nav(1)">&#9660;</button>
+      <button class="dpb lf" onclick="back()">&#9664;</button>
+      <button class="dpb rt" onclick="ok()">&#9654;</button>
+    </div>
+    <div class="face">
+      <span class="fbl b">B</span><span class="fbl a">A</span>
+      <button class="fb b" onclick="back()">B</button>
+      <button class="fb a" onclick="ok()">A</button>
+    </div>
+  </div>
+  <div class="menu-row">
+    <button class="mb" onclick="back()">SELECT</button>
+    <button class="mb" onclick="start()">START</button>
+  </div>
+  <div class="speaker" id="spk"></div>
+</div>
+
+<script>
+// ── config (safe for client-side)
+const SUPABASE_URL     = 'https://oexghfsvhnggddllgvrt.supabase.co';
+const SUPABASE_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.jRFMf-C9ps72Bi_9IpiC3eOZD6Aj6wU4IF-j3svKTfQ';
+const VAPID_PUBLIC_KEY = 'BOM33NOZ7DDy-fNYxjIo1Xc3xMfFQY_RodR47qM68tmPU2HBXWVFlALlQiOG8MYxkY2uK1C2euH5KZ3v9JPdZdQ';
+const GITHUB_REPO      = 'hurrisonferd/jarvis';
+const PUSH_FN_URL      = `${SUPABASE_URL}/functions/v1/send-push`;
+
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+
+// ── speaker dots
+(function(){ const s=document.getElementById('spk'); for(let i=0;i<15;i++){const d=document.createElement('div');d.className='sp';s.appendChild(d);} })();
+
+// ── Patch 4: ModeController (grid_home | gb_rom | gba_rom | jarvis_ui)
+const ModeController = {
+  mode: 'jarvis_ui',
+  set(m){ this.mode=m; sbEvent('mode_switch',{mode:m}); },
+  is(m){ return this.mode===m; },
+};
+
+// ── Patch 4: neural mesh session
+let sessionId = null;
+async function startSession(){
+  try{
+    const {data}=await sb.from('sessions').insert({mode:ModeController.mode,active_node:'BOOT'}).select('id').single();
+    if(data) sessionId=data.id;
+  }catch(e){}
+}
+async function updateSession(node){
+  if(!sessionId) return;
+  try{ await sb.from('sessions').update({active_node:node,updated_at:new Date().toISOString()}).eq('id',sessionId); }catch(e){}
+}
+async function sbEvent(type,payload={}){
+  try{ await sb.from('events').insert({type,payload,session_id:sessionId}); }catch(e){}
+}
+
+// ── Patch 5 Phase 1: L0 spatial graph (static seed — grows from Supabase snapshot)
+const L0_NODES = [
+  {id:'AYRE',   type:'execution', x:0.5, y:0.1, links:['AEGIS']},
+  {id:'AEGIS',  type:'execution', x:0.5, y:0.25,links:['ODIN']},
+  {id:'ODIN',   type:'execution', x:0.5, y:0.4, links:['KRONOS']},
+  {id:'KRONOS', type:'execution', x:0.5, y:0.55,links:['SKADI']},
+  {id:'SKADI',  type:'execution', x:0.5, y:0.7, links:['MNEMOS']},
+  {id:'MNEMOS', type:'memory',    x:0.3, y:0.85,links:['HUGINN']},
+  {id:'HUGINN', type:'memory',    x:0.7, y:0.85,links:[]},
+  {id:'HALO',   type:'parallel',  x:0.1, y:0.4, links:['ODIN']},
+  {id:'MIMIR',  type:'parallel',  x:0.9, y:0.4, links:['ODIN']},
+  {id:'BIFROST',type:'parallel',  x:0.1, y:0.6, links:['SKADI']},
+  {id:'ERIS',   type:'guardian',  x:0.1, y:0.1, links:[]},
+  {id:'PROMETHEUS',type:'governance',x:0.9,y:0.1,links:[]},
+  {id:'NEMESIS',type:'integrity', x:0.9, y:0.25,links:[]},
+  {id:'DANTE',  type:'post',      x:0.2, y:0.95,links:[]},
+  {id:'APOLLO', type:'post',      x:0.5, y:0.97,links:[]},
+  {id:'JANUS',  type:'post',      x:0.8, y:0.95,links:[]},
+];
+const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)'};
+
+// ── fallback god systems (from chaos_seed.example — Supabase snapshot overrides)
+const FALLBACK_DATA = {
+  pipeline: ['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'],
+  god_systems: [
+    {name:'ERIS',    description:'Gold Law guardian',     domain:'Governance / Entropy'},
+    {name:'AYRE',    description:'Intake & parsing',      domain:'Execution — intake interpretation'},
+    {name:'AEGIS',   description:'Constraint enforcer',   domain:'Execution — validation gate'},
+    {name:'ODIN',    description:'Orchestration router',  domain:'Execution — task routing'},
+    {name:'KRONOS',  description:'Scheduler / timing',    domain:'Execution — sequencing'},
+    {name:'SKADI',   description:'Execution runtime',     domain:'Execution — tool invocation'},
+    {name:'MNEMOS',  description:'Persistent memory',     domain:'Memory — semantic store'},
+    {name:'HUGINN',  description:'Session reconciliation',domain:'Memory — cross-session diff'},
+    {name:'HALO',    description:'Ambient monitoring',    domain:'Parallel — always-on observer'},
+    {name:'MIMIR',   description:'Knowledge fabric',      domain:'Parallel — context access'},
+    {name:'BIFROST', description:'Transport bridge',      domain:'Parallel — inter-system relay'},
+    {name:'PROMETHEUS',description:'Expansion ledger',   domain:'Governance — rationale log'},
+    {name:'NEMESIS', description:'Drift correction',      domain:'Integrity — overlap detection'},
+    {name:'DANTE',   description:'Post-exec review',      domain:'Post — analysis pass'},
+    {name:'APOLLO',  description:'Output formatting',     domain:'Post — render & deliver'},
+    {name:'JANUS',   description:'Transition handler',    domain:'Post — handoff / mode switch'},
+    {name:'LOKI',    description:'Chaos probe',           domain:'Test — adversarial injection'},
+    {name:'HADES',   description:'Archival sink',         domain:'Archive — cold storage'},
+  ],
+  gold_law: [
+    'GL1: no autonomous self-modification',
+    'GL2: no cross-role authority override',
+    'GL3: no implicit state persistence',
+    'GL4: no unvalidated execution',
+    'GL5: no silent state mutation',
+    'GL6: deterministic evaluation required',
+    'GL7: human final authority (Raven)',
+    'GL7 SUPREME: no expansion without simplification',
+    'GL8: implementation before expansion',
+  ],
+  districts: [
+    {district:'L0 SPATIAL',  region:'Graph Foundation',   keywords:['nodes','edges','navigation']},
+    {district:'L1 CAUSAL',   region:'Causal Graph',       keywords:['cause','effect','lineage']},
+    {district:'L2 FIELDS',   region:'State Overlay',      keywords:['entropy','alignment','pressure']},
+    {district:'L3 VECTORS',  region:'Direction Layer',    keywords:['routing','autopilot','flow']},
+    {district:'L4 HYPERGRAPH',region:'Multi-link Logic',  keywords:['patches','decisions','groups']},
+    {district:'L5 TEMPORAL', region:'Time / Versioning',  keywords:['replay','rollback','snapshots']},
+  ],
+};
+
+// ── state
+let S='boot', cur=0, detail=null, gdata=null, lives=[];
+let sseConnected=false;
+const PG=7;
+
+const MENU=[
+  {label:'GOD SYSTEMS', state:'god'},
+  {label:'GOLD LAW',    state:'gold'},
+  {label:'THE GRID',    state:'grid'},
+  {label:'LIVE FEED',   state:'live'},
+  {label:'ALERTS',      state:'alerts'},
+  {label:'GITHUB',      state:'github'},
+];
+
+// ── render
+function draw(){
+  const el=document.getElementById('screen-inner');
+  if(S==='menu')        el.innerHTML=rMenu();
+  else if(S==='god')    el.innerHTML=rGodList();
+  else if(S==='godD')   el.innerHTML=rGodDetail();
+  else if(S==='gold')   el.innerHTML=rGold();
+  else if(S==='grid')   el.innerHTML=rGrid();
+  else if(S==='graph')  el.innerHTML=rL0Graph();
+  else if(S==='gridD')  el.innerHTML=rGridDetail();
+  else if(S==='live')   el.innerHTML=rLive();
+  else if(S==='alerts') el.innerHTML=rAlerts();
+  else if(S==='github') el.innerHTML=rGithub();
+  else if(S==='ghIssue') el.innerHTML=rGhIssue();
+}
+
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+(sel?'&#9658;':' ')+'</span>'; }
+
+function rMenu(){
+  const subs=[
+    gdata?gdata.god_systems.length+' NODES':'...',
+    gdata?gdata.gold_law.length+' RULES':'...',
+    gdata?gdata.districts.length+' DISTRICTS':'...',
+    lives.length+' ENTRIES',
+    pushSubbed?'ON':'OFF',
+    ghData?'LOADED':'...',
+  ];
+  return '<div class="panel">\n    <div class="s-header"><span>JARVIS v2.5</span><span style="color:var(--green)">&#9632; ONLINE</span></div>\n    <div class="s-body" style="padding-top:10px">\n      '+MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')+'\n    </div>\n    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>\n  </div>';
+}
+
+function rGodList(){
+  if(!gdata) return rLoad();
+  const sys=gdata.god_systems, pip=gdata.pipeline||[];
+  const st=Math.floor(cur/PG)*PG, pg=sys.slice(st,st+PG);
+  return '<div class="panel">\n    <div class="s-header"><span>GOD SYSTEMS</span><span>'+(cur+1)+'/'+sys.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((s,i)=>{const idx=st+i,inP=pip.includes(s.name);return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:'+(inP?'var(--green)':'var(--bright)')+'">'+s.name+'</span><span class="sub">'+(s.description||'').substring(0,18)+'</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:VIEW &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
+}
+
+function rGodDetail(){
+  if(!detail) return rLoad();
+  const d=detail;
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--amber)">${d.name}</span><span style="color:var(--dim)">SYS</span></div>
+    <div class="s-body scroll">
+      <div class="dl">DOMAIN</div><div class="dv">${(d.domain||'—').substring(0,80)}</div>
+      <div class="dl">DESCRIPTION</div><div class="dv">${(d.description||'—').substring(0,180)}</div>
+      <div class="dl">INPUTS</div><div class="dv">${(d.inputs||[]).join(', ').substring(0,60)||'—'}</div>
+      <div class="dl">OUTPUTS</div><div class="dv">${(d.outputs||[]).join(', ').substring(0,60)||'—'}</div>
+      <div class="dl">FORBIDDEN EDGES</div><div class="dv" style="color:var(--red)">${(d.forbidden||[]).join(', ')||'none'}</div>
+    </div>
+    <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+  </div>`;
+}
+
+function rGold(){
+  if(!gdata) return rLoad();
+  const rules=gdata.gold_law, st=Math.floor(cur/PG)*PG, pg=rules.slice(st,st+PG);
+  return `<div class="panel">
+    <div class="s-header"><span>GOLD LAW</span><span>${rules.length} RULES</span></div>
+    <div class="s-body">
+      ${pg.map((r,i)=>{const idx=st+i;return `<div class="rule ${cur===idx?'sel':''}">\n        <span style="color:var(--amber);margin-right:3px">${cur===idx?'&#9658;':String(idx+1).padStart(2,'0')}</span>${r.substring(0,52)}</div>`;}).join('')}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+  </div>`;
+}
+
+function rGrid(){
+  if(!gdata) return rLoad();
+  const ds=gdata.districts, st=Math.floor(cur/PG)*PG, pg=ds.slice(st,st+PG);
+  return '<div class="panel">\n    <div class="s-header"><span>THE GRID</span><span>'+(cur+1)+'/'+ds.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((d,i)=>{const idx=st+i;return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:var(--blue)">'+d.district+'</span><span class="sub">['+(d.region||'').split(' ').pop()+']</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:L0 GRAPH &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
+}
+
+function rL0Graph(){
+  const W=310, H=250;
+  let lines='', circles='', labels='';
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
+    n.links.forEach(lid=>{
+      const t=L0_NODES.find(x=>x.id===lid);
+      if(t) lines+=`<line x1="${cx}" y1="${cy}" x2="${Math.round(t.x*W)}" y2="${Math.round(t.y*H)}" stroke="#0f2035" stroke-width="1"/>`;
+    });
+  });
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${col}" stroke-width="1.5"/>`;
+    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${col}" font-family="monospace">${n.id}</text>`;
+  });
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">L0 SPATIAL GRAPH</span><span>${L0_NODES.length} NODES</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${lines}${circles}${labels}</svg>
+    </div>
+    <div class="s-footer">B:BACK &nbsp; PIPELINE=AMBER</div>
+  </div>`;
+}
+
+function rGridDetail(){
+  if(!detail) return rLoad();
+  const d=detail, kw=(d.keywords||[]).join(', ')||'—';
+  const warns=(d.warnings||[]).slice(0,2);
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">${d.district}</span><span style="color:var(--dim)">NODE</span></div>
+    <div class="s-body scroll">
+      <div class="dl">REGION</div><div class="dv">${d.region||'—'}</div>
+      <div class="dl">KEYWORDS</div><div class="dv">${kw}</div>
+      ${warns.length?`<div class="dl">WARNINGS</div>${warns.map(w=>`<div class="dv" style="color:var(--amber)">${w.substring(0,80)}</div>`).join('')}`:''}
+    </div>
+    <div class="s-footer">B:BACK</div>
+  </div>`;
+}
+
+function rLive(){
+  const ents=lives.slice(0,PG);
+  return `<div class="panel">
+    <div class="s-header"><span>LIVE FEED</span><span style="color:${sseConnected?'var(--green)':'var(--amber)'}">&#9632; ${sseConnected?'LIVE':'SYNC'}</span></div>
+    <div class="s-body">
+      ${ents.length?ents.map(e=>`<div class="live-e"><span class="lt">${(e.time||'').substring(0,5)}</span><span class="la">${(e.action||'').substring(0,28)}</span><span class="ls-${e.status||'done'}">${(e.status||'OK').toUpperCase().substring(0,4)}</span></div>`).join(''):'<div style="color:var(--dim);font-size:6px;padding:20px;text-align:center">NO ACTIVITY YET</div>'}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; REALTIME</div>
+  </div>`;
+}
+
+function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
+
+// ── navigation
+function nav(d){
+  let mx=0;
+  if(S==='menu') mx=MENU.length;
+  if(S==='god'&&gdata)  mx=gdata.god_systems.length;
+  if(S==='gold'&&gdata) mx=gdata.gold_law.length;
+  if(S==='grid'&&gdata) mx=gdata.districts.length;
+  if(S==='alerts'||S==='graph') return;
+  if(S==='github'){ ghNav(d); return; }
+  if(S==='ghIssue') return;
+  if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
+}
+
+function ok(){
+  beep(880,60);
+  if(S==='boot'){ S='menu'; cur=0; draw(); return; }
+  if(S==='menu'){ S=MENU[cur].state; cur=0; ModeController.set(S); updateSession(S); draw(); return; }
+  if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
+  if(S==='grid'&&gdata){ S='graph'; draw(); return; }
+  if(S==='alerts'){ toggleAlerts(); return; }
+  if(S==='github'){ ghOk(); return; }
+  if(S==='ghIssue'){ ghSubmitIssue(); return; }
+}
+
+function back(){
+  beep(220,40);
+  if(S==='godD')  { S='god';  draw(); return; }
+  if(S==='graph') { S='grid'; draw(); return; }
+  if(S==='gridD') { S='grid'; draw(); return; }
+  if(['god','gold','grid','live','alerts','github'].includes(S)){ S='menu'; cur=0; draw(); return; }
+  if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
+}
+
+function start(){ beep(660,80); S='menu'; cur=0; draw(); }
+
+// ── 8-bit beep
+let actx=null;
+function beep(f,ms){
+  try{
+    if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.connect(g); g.connect(actx.destination);
+    o.type='square'; o.frequency.value=f;
+    g.gain.setValueAtTime(0.07,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+ms/1000);
+    o.start(); o.stop(actx.currentTime+ms/1000);
+  }catch(e){}
+}
+
+// ── keyboard
+document.addEventListener('keydown',e=>{
+  const k=e.key;
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(k)||k==='Enter') e.preventDefault();
+  if(k==='ArrowUp')   nav(-1);
+  if(k==='ArrowDown') nav(1);
+  if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
+  if(k==='ArrowLeft' ||k==='x'||k==='X'||k==='Escape') back();
+  if(k===' ') start();
+});
+
+// ── push / alerts
+let pushStatus='CHECKING...', pushSubbed=false, pushSub=null;
+
+function rAlerts(){
+  const hint=pushSubbed?'A:UNSUBSCRIBE':'A:SUBSCRIBE';
+  const lines=pushStatus.split('\n');
+  return `<div class="panel">
+    <div class="s-header"><span>ALERTS</span><span style="color:${pushSubbed?'var(--green)':'var(--amber)'}">PUSH ${pushSubbed?'ON':'OFF'}</span></div>
+    <div class="s-body" style="padding-top:14px">
+      ${lines.map(l=>`<div style="color:var(--bright);font-size:6px;line-height:2;padding:2px 4px">${l}</div>`).join('')}
+    </div>
+    <div class="s-footer">${hint} &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function urlBase64ToUint8Array(b64){
+  const pad='='.repeat((4-b64.length%4)%4);
+  const b=(b64+pad).replace(/-/g,'+').replace(/_/g,'/');
+  const raw=atob(b);
+  return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
+}
+
+async function checkPushSupport(){
+  if(!('serviceWorker' in navigator)||!('PushManager' in window)){
+    pushStatus='NOT SUPPORTED\nREQUIRES HTTPS'; if(S==='alerts') draw(); return;
+  }
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    pushSub=await reg.pushManager.getSubscription();
+    if(pushSub){ pushSubbed=true; pushStatus='SUBSCRIBED\nPUSH ACTIVE'; }
+    else { pushStatus='NOT SUBSCRIBED'; }
+  }catch(e){ pushStatus='ERROR:\n'+e.message; }
+  if(S==='alerts') draw();
+}
+
+async function toggleAlerts(){
+  if(pushSubbed) await unsubscribeAlerts(); else await subscribeAlerts();
+}
+
+async function subscribeAlerts(){
+  pushStatus='SUBSCRIBING...'; draw();
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(VAPID_PUBLIC_KEY)});
+    const subJson=sub.toJSON();
+    await sb.from('push_subscriptions').upsert({endpoint:subJson.endpoint,subscription_info:subJson},{onConflict:'endpoint'});
+    pushSub=sub; pushSubbed=true; pushStatus='SUBSCRIBED\nPUSH ACTIVE'; beep(880,120);
+  }catch(e){ pushStatus='FAILED:\n'+e.message; }
+  draw();
+}
+
+async function unsubscribeAlerts(){
+  pushStatus='UNSUBSCRIBING...'; draw();
+  try{
+    if(pushSub){
+      await sb.from('push_subscriptions').delete().eq('endpoint',pushSub.endpoint);
+      await pushSub.unsubscribe(); pushSub=null;
+    }
+    pushSubbed=false; pushStatus='UNSUBSCRIBED'; beep(220,120);
+  }catch(e){ pushStatus='FAILED:\n'+e.message; }
+  draw();
+}
+
+// ── GitHub
+let ghData=null, ghTab=0, ghLoading=false, ghError='';
+let ghIssueTitle='', ghIssueBody='', ghIssueField='title', ghSubmitting=false, ghResult='';
+const GH_TABS=['COMMITS','PRS','ISSUES','NEW ISSUE'];
+
+async function loadGithub(){
+  ghLoading=true; ghError=''; if(S==='github') draw();
+  try{
+    const [cr,pr,ir]=await Promise.all([
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/commits?per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/pulls?state=open&per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/issues?state=open&per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+    ]);
+    const commits=(await cr.json()).map?.(c=>({sha:c.sha.slice(0,7),message:c.commit.message.split('\n')[0].slice(0,60),author:c.commit.author.name,date:c.commit.author.date.slice(0,10)})) ?? [{error:'no data'}];
+    const prs=(await pr.json()).map?.(p=>({number:p.number,title:p.title.slice(0,60),user:p.user.login})) ?? [];
+    const issues=(await ir.json()).filter?.(i=>!i.pull_request).map(i=>({number:i.number,title:i.title.slice(0,60),user:i.user.login})) ?? [];
+    ghData={commits,prs,issues};
+  }catch(e){ ghError=e.message; }
+  ghLoading=false; if(S==='github') draw();
+}
+
+function ghNav(d){
+  ghTab=((ghTab+d)%GH_TABS.length+GH_TABS.length)%GH_TABS.length;
+  if(ghTab===3){ S='ghIssue'; ghIssueTitle=''; ghIssueBody=''; ghIssueField='title'; ghResult=''; }
+  draw(); beep(d>0?440:400,40);
+}
+function ghOk(){ if(ghTab===3){ S='ghIssue'; ghIssueTitle=''; ghIssueBody=''; ghIssueField='title'; ghResult=''; draw(); return; } loadGithub(); }
+
+function rGithub(){
+  if(ghLoading) return `<div class="boot-panel"><div class="boot-logo">GITHUB</div><div style="color:var(--amber);margin-top:8px;font-size:7px">LOADING...</div></div>`;
+  let h=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--dim);padding:4px 8px 4px;margin-bottom:4px">`;
+  GH_TABS.forEach((t,i)=>{ h+=`<span style="color:${i===ghTab?'var(--amber)':'var(--dim)'};font-size:8px;cursor:pointer" onclick="ghTab=${i};if(ghTab===3){S='ghIssue';ghIssueTitle='';ghIssueBody='';ghIssueField='title';ghResult='';} draw()">${t}</span>`; });
+  h+=`</div>`;
+  if(ghError) return h+`<div style="color:var(--red);font-size:7px;padding:8px">${ghError}</div><div style="color:var(--dim);font-size:8px;padding:4px 8px">PUBLIC REPO REQUIRED</div>`;
+  if(!ghData) return h+`<div style="color:var(--dim);padding:8px;font-size:7px">PRESS A TO LOAD</div>`;
+  const items=ghTab===0?ghData.commits:ghTab===1?ghData.prs:ghData.issues;
+  h+=`<div style="padding:4px 8px;overflow:hidden">`;
+  if(!items?.length){ h+=`<div style="color:var(--dim);font-size:7px">NONE</div>`; }
+  (items||[]).forEach(c=>{
+    if(c.error){ h+=`<div style="color:var(--red);font-size:7px">${c.error}</div>`; return; }
+    if(ghTab===0) h+=`<div style="margin-bottom:4px"><span style="color:var(--amber);font-size:8px">${c.sha}</span> <span style="font-size:7px">${c.message}</span><br><span style="color:var(--dim);font-size:7px">${c.author} · ${c.date}</span></div>`;
+    else h+=`<div style="margin-bottom:4px"><span style="color:var(--amber);font-size:8px">#${c.number}</span> <span style="font-size:7px">${c.title}</span></div>`;
+  });
+  h+=`</div><div style="color:var(--dim);font-size:7px;padding:2px 8px">A=REFRESH ◄►=TAB B=BACK</div>`;
+  return h;
+}
+
+function rGhIssue(){
+  let h=`<div style="color:var(--amber);font-size:8px;border-bottom:1px solid var(--dim);padding:4px 8px 4px;margin-bottom:4px">NEW GITHUB ISSUE</div>`;
+  if(ghResult) return h+`<div style="color:var(--green);font-size:7px;padding:8px">${ghResult}</div><div style="color:var(--dim);font-size:7px;padding:4px 8px">B=BACK</div>`;
+  if(ghSubmitting) return h+`<div style="color:var(--amber);padding:8px;font-size:7px">SUBMITTING...</div>`;
+  h+=`<div style="padding:0 8px">`;
+  h+=`<div style="font-size:7px;color:${ghIssueField==='title'?'var(--amber)':'var(--dim)'};margin-bottom:2px">TITLE</div>`;
+  h+=`<div style="font-size:7px;min-height:16px;border:1px solid ${ghIssueField==='title'?'var(--amber)':'var(--dim)'};padding:2px;margin-bottom:4px" onclick="ghIssueField='title';document.getElementById('gh-t').focus()">${ghIssueTitle||'<span style="color:var(--dim)">tap to type</span>'}</div>`;
+  h+=`<div style="font-size:7px;color:${ghIssueField==='body'?'var(--amber)':'var(--dim)'};margin-bottom:2px">BODY</div>`;
+  h+=`<div style="font-size:7px;min-height:22px;border:1px solid ${ghIssueField==='body'?'var(--amber)':'var(--dim)'};padding:2px" onclick="ghIssueField='body';document.getElementById('gh-b').focus()">${ghIssueBody||'<span style="color:var(--dim)">optional</span>'}</div>`;
+  h+=`</div>`;
+  h+=`<div style="color:var(--dim);font-size:7px;padding:4px 8px">TAP FIELD · A=SUBMIT · B=BACK</div>`;
+  h+=`<input id="gh-t" style="position:absolute;opacity:0;pointer-events:none" value="${ghIssueTitle.replace(/"/g,'&quot;')}" oninput="ghIssueTitle=this.value;draw()" onblur="draw()">`;
+  h+=`<input id="gh-b" style="position:absolute;opacity:0;pointer-events:none" value="${ghIssueBody.replace(/"/g,'&quot;')}" oninput="ghIssueBody=this.value;draw()" onblur="draw()">`;
+  return h;
+}
+
+async function ghSubmitIssue(){
+  if(!ghIssueTitle.trim()){ beep(200,100); return; }
+  ghSubmitting=true; draw();
+  try{
+    const r=await fetch(`${PUSH_FN_URL.replace('send-push','github-issue')}`,{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON}`},
+      body:JSON.stringify({title:ghIssueTitle,body:ghIssueBody,repo:GITHUB_REPO})
+    });
+    const d=await r.json();
+    ghResult=d.ok?`CREATED #${d.number}`:('ERROR: '+(d.error||'unknown'));
+  }catch(e){ ghResult='ERROR: '+e.message; }
+  ghSubmitting=false; draw(); beep(880,120);
+}
+
+// ── neural mesh dot
+function sseDot(on){
+  const d=document.getElementById('sse-dot');
+  if(d){ d.style.color=on?'#00ff88':'#333'; }
+}
+
+// ── Supabase Realtime (replaces SSE)
+function connectRealtime(){
+  sb.channel('jarvis-live')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'live_log'},payload=>{
+      lives.unshift(payload.new);
+      if(lives.length>100) lives=lives.slice(0,100);
+      if(S==='live') draw();
+    })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'prometheus_log'},payload=>{
+      const d=payload.new;
+      lives.unshift({action:'PROMETHEUS: '+(d.decision||'').slice(0,50),status:'done',time:new Date().toTimeString().slice(0,8)});
+      if(lives.length>100) lives=lives.slice(0,100);
+      if(S==='live') draw();
+    })
+    .subscribe(status=>{
+      sseConnected=(status==='SUBSCRIBED');
+      sseDot(sseConnected);
+      if(S==='live') draw();
+    });
+}
+
+// ── data loaders
+async function loadData(){
+  try{
+    const {data}=await sb.from('gameboy_snapshot').select('data').eq('id',1).single();
+    if(data?.data){ gdata=data.data; }
+    else { gdata=FALLBACK_DATA; }
+  }catch(e){ gdata=FALLBACK_DATA; }
+  if(S!=='boot') draw();
+}
+
+async function loadLive(){
+  try{
+    const {data}=await sb.from('live_log').select('*').order('created_at',{ascending:false}).limit(50);
+    if(data){ lives=data; if(S==='live') draw(); }
+  }catch(e){}
+}
+
+// ── boot sequence
+const BOOT_LINES=['INITIALIZING...','LOADING GOD SYSTEMS...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
+
+function runBoot(){
+  const el=document.getElementById('screen-inner');
+  el.innerHTML=`<div class="boot-panel">
+    <div class="boot-logo">JARVIS</div>
+    <div class="boot-sub">NEURAL MESH v2.5</div>
+    <div class="boot-lines" id="blines"></div>
+    <div class="boot-hint">PRESS ANY KEY</div>
+  </div>`;
+  let i=0;
+  function tick(){
+    if(i<BOOT_LINES.length){
+      const ln=document.createElement('div'); ln.className='boot-line';
+      ln.textContent='> '+BOOT_LINES[i++];
+      document.getElementById('blines').appendChild(ln);
+      setTimeout(tick,220);
+    }
+  }
+  setTimeout(tick,350);
+}
+
+loadData();
+loadLive();
+loadGithub();
+connectRealtime();
+setInterval(loadGithub,60000);
+startSession();
+runBoot();
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./gameboy-sw.js')
+    .then(()=>checkPushSupport())
+    .catch(()=>{ pushStatus='SW REG FAILED'; });
+} else {
+  pushStatus='NOT SUPPORTED';
+}
+</script>
+</body>
+</html>
