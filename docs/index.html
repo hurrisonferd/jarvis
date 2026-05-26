@@ -279,6 +279,7 @@ const MENU=[
   {label:'LIVE FEED',   state:'live'},
   {label:'ALERTS',      state:'alerts'},
   {label:'GITHUB',      state:'github'},
+  {label:'EMULATOR',    state:'emu'},
 ];
 
 function draw(){
@@ -294,6 +295,7 @@ function draw(){
   else if(S==='alerts') el.innerHTML=rAlerts();
   else if(S==='github') el.innerHTML=rGithub();
   else if(S==='ghIssue') el.innerHTML=rGhIssue();
+  else if(S==='emu')    el.innerHTML=rEmulator();
 }
 
 function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+  (sel?'&#9658;':' ')+'</span>'; }
@@ -306,6 +308,7 @@ function rMenu(){
     lives.length+' ENTRIES',
     pushSubbed?'ON':'OFF',
     ghData?'LOADED':'...',
+    EmulatorRouter.active?EmulatorRouter.active.toUpperCase():'IDLE',
   ];
   return '<div class="panel">\n    <div class="s-header"><span>JARVIS v2.5</span><span style="color:var(--green)">&#9632; ONLINE</span></div>\n    <div class="s-body" style="padding-top:10px">\n      '+MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')+'\n    </div>\n    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>\n  </div>';
 }
@@ -368,6 +371,49 @@ const ROMLoader={
   },
   route(buf){ const t=this.detect(buf); if(t) EmulatorRouter.load(t+'_core'); return t; },
 };
+
+let romName='', romType='';
+
+function rEmulator(){
+  const core=EmulatorRouter.active;
+  let body='';
+  if(core){
+    const label=core==='gba_core'?'GBA (32-bit)':'GB/GBC (8-bit)';
+    body=`<div style="color:var(--green);font-size:6px;margin-bottom:8px">&#9632; ROM LOADED</div>
+      <div class="dl">FILE</div><div class="dv">${romName||'unknown'}</div>
+      <div class="dl">TYPE</div><div class="dv" style="color:var(--amber)">${label}</div>
+      <div class="dl">CORE</div><div class="dv">${core}</div>
+      <div class="dl">ENGINE</div><div class="dv" style="color:var(--red)">NOT YET INTEGRATED&#10;Architecture stub only</div>`;
+  } else {
+    body=`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">EMULATOR CORE IDLE</div>
+      <div style="color:var(--bright);font-size:6px;line-height:2">PRESS A TO LOAD ROM</div>
+      <div style="color:var(--dim);font-size:5px;margin-top:8px;line-height:2">ACCEPTS: .gb  .gba  .rom</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">DETECTS TYPE VIA HEADER</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">ARM RESET → GBA &nbsp; else → GB</div>`;
+  }
+  const footer=core?'A:LOAD NEW &nbsp; B:STOP + BACK':'A:LOAD ROM &nbsp; B:BACK';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--green)">EMULATOR</span><span>${ModeController.mode.toUpperCase()}</span></div>
+    <div class="s-body scroll" style="padding-top:8px">${body}</div>
+    <div class="s-footer">${footer}</div>
+    <input id="rom-input" type="file" accept=".gb,.gba,.rom,.bin" style="position:absolute;opacity:0;pointer-events:none" onchange="handleROM(this)">
+  </div>`;
+}
+
+function handleROM(inp){
+  const file=inp.files[0];
+  if(!file) return;
+  romName=file.name;
+  const reader=new FileReader();
+  reader.onload=e=>{
+    const t=ROMLoader.route(e.target.result);
+    romType=t||'unknown';
+    beep(t?880:200, t?100:150);
+    draw();
+  };
+  reader.readAsArrayBuffer(file);
+  inp.value='';
+}
 
 function rL0Graph(){
   const W=310, H=250;
@@ -457,7 +503,7 @@ function nav(d){
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
-  if(S==='alerts'||S==='graph') return;
+  if(S==='alerts'||S==='graph'||S==='emu') return;
   if(S==='github'){ ghNav(d); return; }
   if(S==='ghIssue') return;
   if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
@@ -472,6 +518,7 @@ function ok(){
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
+  if(S==='emu'){ const inp=document.getElementById('rom-input'); if(inp) inp.click(); return; }
 }
 
 function back(){
@@ -479,7 +526,7 @@ function back(){
   if(S==='godD')  { S='god';  draw(); return; }
   if(S==='graph') { S='grid'; draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
-  if(['god','gold','grid','live','alerts','github'].includes(S)){ S='menu'; cur=0; draw(); return; }
+  if(['god','gold','grid','live','alerts','github','emu'].includes(S)){ if(S==='emu') EmulatorRouter.stop(); S='menu'; cur=0; draw(); return; }
   if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
 }
 
