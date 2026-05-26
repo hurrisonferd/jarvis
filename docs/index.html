@@ -2,7 +2,14 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f5a623">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="JARVIS">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon.svg">
 <title>JARVIS HANDHELD</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
@@ -194,7 +201,7 @@ async function sbEvent(type,payload={}){
   try{ await sb.from('events').insert({type,payload,session_id:sessionId}); }catch(e){}
 }
 
-// ── Patch 5 Phase 1: L0 spatial graph (static seed — grows from Supabase snapshot)
+// ── Patch 5 Phase 1: L0 spatial graph
 const L0_NODES = [
   {id:'AYRE',   type:'execution', x:0.5, y:0.1, links:['AEGIS']},
   {id:'AEGIS',  type:'execution', x:0.5, y:0.25,links:['ODIN']},
@@ -215,7 +222,7 @@ const L0_NODES = [
 ];
 const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)'};
 
-// ── fallback god systems (from chaos_seed.example — Supabase snapshot overrides)
+// ── fallback (Supabase gameboy_snapshot overrides)
 const FALLBACK_DATA = {
   pipeline: ['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'],
   god_systems: [
@@ -262,7 +269,7 @@ const FALLBACK_DATA = {
 // ── state
 let S='boot', cur=0, detail=null, gdata=null, lives=[];
 let sseConnected=false;
-let nodeFields={}; // node_id → {entropy,alignment,load,instability}
+let nodeFields={};
 const PG=7;
 
 const MENU=[
@@ -274,7 +281,6 @@ const MENU=[
   {label:'GITHUB',      state:'github'},
 ];
 
-// ── render
 function draw(){
   const el=document.getElementById('screen-inner');
   if(S==='menu')        el.innerHTML=rMenu();
@@ -348,7 +354,6 @@ function rGrid(){
 function rL0Graph(){
   const W=310, H=250;
   let lines='', glows='', circles='', labels='';
-  // L2 field summary for footer
   const fvals=Object.values(nodeFields);
   const avgLoad=fvals.length?Math.round(fvals.reduce((a,f)=>a+f.load,0)/fvals.length*100):0;
 
@@ -416,7 +421,6 @@ function rLive(){
 
 function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
 
-// ── navigation
 function nav(d){
   let mx=0;
   if(S==='menu') mx=MENU.length;
@@ -451,7 +455,6 @@ function back(){
 
 function start(){ beep(660,80); S='menu'; cur=0; draw(); }
 
-// ── 8-bit beep
 let actx=null;
 function beep(f,ms){
   try{
@@ -465,7 +468,6 @@ function beep(f,ms){
   }catch(e){}
 }
 
-// ── keyboard
 document.addEventListener('keydown',e=>{
   const k=e.key;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(k)||k==='Enter') e.preventDefault();
@@ -476,7 +478,6 @@ document.addEventListener('keydown',e=>{
   if(k===' ') start();
 });
 
-// ── push / alerts
 let pushStatus='CHECKING...', pushSubbed=false, pushSub=null;
 
 function rAlerts(){
@@ -539,7 +540,6 @@ async function unsubscribeAlerts(){
   draw();
 }
 
-// ── GitHub
 let ghData=null, ghTab=0, ghLoading=false, ghError='';
 let ghIssueTitle='', ghIssueBody='', ghIssueField='title', ghSubmitting=false, ghResult='';
 const GH_TABS=['COMMITS','PRS','ISSUES','NEW ISSUE'];
@@ -616,13 +616,11 @@ async function ghSubmitIssue(){
   ghSubmitting=false; draw(); beep(880,120);
 }
 
-// ── neural mesh dot
 function sseDot(on){
   const d=document.getElementById('sse-dot');
   if(d){ d.style.color=on?'#00ff88':'#333'; }
 }
 
-// ── Supabase Realtime
 function connectRealtime(){
   sb.channel('jarvis-live')
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'live_log'},payload=>{
@@ -651,7 +649,6 @@ function connectRealtime(){
     });
 }
 
-// ── data loaders
 async function loadData(){
   try{
     const {data}=await sb.from('gameboy_snapshot').select('data').eq('id',1).single();
@@ -676,7 +673,6 @@ async function loadNodeFields(){
   if(S==='graph') draw();
 }
 
-// ── boot sequence
 const BOOT_LINES=['INITIALIZING...','LOADING GOD SYSTEMS...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
 
 function runBoot(){
