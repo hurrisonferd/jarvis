@@ -1,0 +1,331 @@
+PATCH_009 — SAVE STATE + SESSION MEMORY GRAPH + SUPABASE PERSISTENCE LAYER
+
+# PATCH_TOOL_009 — EMULATOR MEMORY CONTINUITY + SESSION GRAPH SYSTEM
+
+STATUS:
+EXTENDS PATCH_006 → PATCH_008
+ADDS PERSISTENT STATE + SESSION MEMORY GRAPH
+OPTIONAL SUPABASE INTEGRATION (NON-BLOCKING)
+
+PRIMARY GOAL:
+Enable continuity across:
+- ROM sessions
+- GRID navigation history
+- emulator runtime states
+
+WITHOUT BREAKING LOCAL-FIRST EXECUTION MODEL
+
+---
+
+# 1. CORE PURPOSE
+
+Transform emulator from stateless runtime into:
+
+> deterministic session-based continuity system
+
+FEATURES:
+- save states per cartridge
+- session replay graph
+- last-played continuity chain
+- optional Supabase sync layer
+
+---
+
+# 2. SYSTEM BOUNDARY RULE
+
+SAVE SYSTEM MUST:
+
+- NOT affect emulator execution loop
+- NOT block rendering
+- NOT modify engine adapters directly
+- operate asynchronously ONLY
+
+---
+
+# 3. SAVE STATE ARCHITECTURE
+
+## savestate.js
+
+CAPTURE UNIT:
+
+```js id="state9"
+{
+  state_id,
+  cartridge_id,
+  system: "gb | gbc | gba",
+  timestamp,
+  emulator_state_blob,
+  input_state_snapshot,
+  checksum
+}
+
+
+---
+
+STATE CAPTURE FLOW
+
+emulator-core
+  ↓
+engine-adapter
+  ↓
+savestate.js
+  ↓
+state-registry.js
+  ↓
+(optional memory-sync.js → Supabase)
+
+
+---
+
+4. STATE REGISTRY (LOCAL FIRST)
+
+state-registry.js
+
+FUNCTIONS:
+
+save(state)
+
+load(state_id)
+
+list(cartridge_id)
+
+delete(state_id)
+
+
+RULE:
+
+append-only history
+
+no overwrite allowed
+
+versioned snapshots required
+
+
+
+---
+
+5. SESSION GRAPH SYSTEM (NEW LAYER)
+
+PURPOSE
+
+Track user traversal across:
+
+cartridges
+
+GRID nodes
+
+emulator sessions
+
+save states
+
+
+
+---
+
+session-graph.js
+
+NODE TYPES:
+
+SESSION_NODE:
+{
+  session_id,
+  cartridge_id,
+  system,
+  start_time,
+  end_time
+}
+
+EDGE TYPES:
+
+played_after
+
+resumed_from
+
+switched_system
+
+returned_to
+
+
+
+---
+
+6. CONTINUITY ENGINE
+
+session-continuity.js
+
+RESPONSIBILITIES:
+
+restore last session
+
+detect last active cartridge
+
+auto-resume state (optional toggle)
+
+
+FLOW:
+
+boot
+  ↓
+session lookup
+  ↓
+cartridge resolution
+  ↓
+state restore (if exists)
+  ↓
+emulator resume
+
+
+---
+
+7. GRID + MEMORY INTEGRATION
+
+GRID NOW TRACKS:
+
+last played node
+
+session history chain
+
+save-state availability per node
+
+
+NODE EXTENSION:
+
+{
+  node_id,
+  cartridge_id,
+  last_played_timestamp,
+  save_state_count
+}
+
+
+---
+
+8. SUPABASE BRIDGE (OPTIONAL LAYER)
+
+memory-sync.js
+
+ONLY PURPOSE: Mirror session + save-state metadata
+
+TABLES:
+
+session_log
+
+emulator_states
+
+cartridge_sessions
+
+
+
+---
+
+SYNC RULES
+
+async only (never blocks emulator)
+
+local storage is source of truth
+
+Supabase is mirror layer only
+
+failure-safe (ignore network failures)
+
+
+
+---
+
+9. SAVE STATE FLOW (FULL PIPELINE)
+
+INPUT STATE
+  ↓
+engine-adapter
+  ↓
+savestate.js
+  ↓
+state-registry.js
+  ↓
+session-graph.js
+  ↓
+GRID update (PATCH_007)
+  ↓
+(optional Supabase sync)
+
+
+---
+
+10. CONTINUITY RULES
+
+HARD RULES
+
+each cartridge maintains independent save history
+
+no cross-cartridge state merging
+
+state blobs must be deterministic
+
+no live mutation of past save states
+
+
+
+---
+
+11. PERFORMANCE CONSTRAINTS
+
+save states must NOT block frame loop
+
+serialization must be async
+
+compression optional but recommended later
+
+
+
+---
+
+12. GOLD LAW ENFORCEMENT
+
+GL2: compression-first state modeling
+
+GL5: implementation-only persistence layer
+
+GL6: no duplicate memory systems outside /save/
+
+GL7: no expansion unless improves continuity reliability
+
+GL8: strict separation (runtime ≠ persistence)
+
+GL9: full traceability of state transitions
+
+
+
+---
+
+13. SYSTEM OUTCOME
+
+After PATCH_009:
+
+✔ Emulator gains persistent memory system ✔ GRID gains session awareness ✔ Save states per cartridge become standard ✔ Resume functionality becomes possible ✔ Supabase becomes optional telemetry mirror ✔ Full play-session graph becomes navigable
+
+
+---
+
+14. FINAL STATE
+
+TYPE: PERSISTENCE + SESSION GRAPH LAYER STATUS: READY FOR CLAUDE CODE IMPLEMENTATION DEPENDENCIES:
+
+PATCH_006 (core emulator system)
+
+PATCH_007 (GRID routing)
+
+PATCH_008 (GitHub indexing optional enhancement)
+
+
+END PATCH_009
+
+---
+
+Next logical upgrade paths:
+
+### PATCH_010 options
+1. **0**
+2. **1**
+3. **2**
+
+Pick direction for continuation.
