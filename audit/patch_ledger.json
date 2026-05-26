@@ -1,0 +1,40 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-05-26",
+  "authority": "Raven (John Barber)",
+  "source_of_truth": "Supabase patch_log table (mirrored here for offline reference)",
+  "patches": [
+    {"id":"P00","name":"Patch 0 — Architectural Simplification","priority":"reference","status":"reference","summary":"Meta-analysis: collapse to 4 planes + 1 event spine. GRID = view-projection only. All modules = cartridges. Governs all architecture decisions.","commits":[],"notes":"Read-only. Shapes all other patches. Key rule: no new systems outside the 4-plane model."},
+    {"id":"P01","name":"Patch 1 — Intake Pipeline","priority":"low","status":"done","summary":"intake/gpt/ folder structure for AI handoff review lane.","commits":["initial"],"deployed_at":"2026-05-24"},
+    {"id":"P02","name":"Patch 2 — GB Emulator Stubs","priority":"normal","status":"done","summary":"ROMLoader + EmulatorRouter architecture stubs. GBA header detection via ARM reset vector (0x2E 0x00 0x00 0xEA).","commits":["2083337"],"deployed_at":"2026-05-26","notes":"Architecture only — no engine. GL7 compliant."},
+    {"id":"P03","name":"Patch 3 — EMULATOR UI","priority":"normal","status":"done","summary":"EMULATOR menu item (7th), ROM file picker, handleROM() FileReader, detection feedback screen. B=stop+back, A=load.","commits":["d4105a9","8383e60"],"deployed_at":"2026-05-26","notes":"Engine displays 'NOT YET INTEGRATED' until P06 engine is chosen."},
+    {"id":"P04","name":"Patch 4 — Neural Mesh (critical)","priority":"critical","status":"done","summary":"sessions/events/memory_state Supabase tables. ModeController. startSession/updateSession/sbEvent wiring. Realtime connected.","commits":["84b1348"],"deployed_at":"2026-05-26"},
+    {"id":"P05","name":"Patch 5 — GRID Spatial Graph (critical)","priority":"critical","status":"partial","summary":"L0 spatial graph (16 nodes), L2 field overlay (glow/pressure from node_fields), L3 vector routing (SVG arrowheads). L4 Hypergraph + L5 Temporal pending.","commits":["84afb9f","2083337"],"deployed_at":"2026-05-26","remaining":["L4 Hypergraph — patch lineage + multi-node decisions","L5 Temporal — GitHub versioning + snapshot replay"]},
+    {"id":"P06","name":"Patch 6 — Master Emulator Consolidation (critical)","priority":"critical","status":"pending","summary":"RetroArch-style unified emulator. Adapter pattern. Local-first ROM execution. GB/GBC/GBA under one interface.","commits":[],"notes":"Blocked until emulator engine chosen (WasmBoy, Emulicious WASM, or custom)."},
+    {"id":"P07","name":"Patch 7 — GRID Execution Bridge","priority":"normal","status":"pending","summary":"Bridge between GRID node state and emulator execution context.","commits":[]},
+    {"id":"P08","name":"Patch 8 — GitHub ROM Indexer","priority":"normal","status":"pending","summary":"Auto-index ROMs in repo via GitHub API. Feed into GRID node list.","commits":[]},
+    {"id":"P09","name":"Patch 9 — Save States","priority":"normal","status":"pending","summary":"Emulator save-state system. Snapshot storage in Supabase.","commits":[]},
+    {"id":"P10","name":"Patch 10 — Core Unification","priority":"normal","status":"pending","summary":"Unify GB/GBC/GBA cores under single adapter interface.","commits":[]},
+    {"id":"P11","name":"Patch 11 — TRON Frontend","priority":"normal","status":"pending","summary":"WASM emulator runtime + ES-DE-style launcher + TRON navigation layer.","commits":[]},
+    {"id":"P12","name":"Patch 12 — Intelligence + Multiplayer + Temporal Replay","priority":"normal","status":"pending","summary":"AI guidance overlay, multiplayer session sync, full replay engine.","commits":[]},
+    {"id":"P13","name":"Patch 13 — God System Governance Pipeline","priority":"normal","status":"pending","summary":"Full 27-node God System pipeline visible in GRID. AYRE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN flow UI.","commits":[]},
+    {"id":"P14","name":"Patch 14 — God Stats / Power Model","priority":"normal","status":"pending","summary":"Per-node stat model: entropy, load, alignment, power. node_fields table already deployed from P05.","commits":[],"notes":"node_fields Supabase table already exists — this patch adds the stat computation layer."},
+    {"id":"P15","name":"Patch 15 — Multimodal Layer","priority":"normal","status":"pending","summary":"Text adventure overlay. Image + text hybrid view in TRON navigation layer.","commits":[]},
+    {"id":"P16","name":"Patch 16 — Clean Hierarchy","priority":"normal","status":"pending","summary":"Briefing-aware hierarchy cleanup. Patch stack load order enforcement on boot.","commits":[]},
+    {"id":"P17","name":"Patch 17 — Audit + Log System","priority":"highest","status":"partial","summary":"Immutable audit_log + patch_log Supabase tables. GitHub Actions auto-log workflow. patch_ledger.json canonical tracker.","commits":["6a00618"],"deployed_at":"2026-05-26","notes":"Tables live and seeded. GitHub Actions workflow requires SUPABASE_SERVICE_KEY secret to be added in repo settings."},
+    {"id":"P18","name":"Patch 18 — Intelligence Growth Registry","priority":"normal","status":"pending","summary":"Agent capability registry. Per-session intelligence growth tracking.","commits":[]},
+    {"id":"P19","name":"Patch 19 — Quantum GRID Realm","priority":"normal","status":"pending","summary":"4D lattice structure. Folded space compression. L3-L6 GRID kernel layers. Per P00: GRID = view projection — quantum framing is conceptual.","commits":[]},
+    {"id":"P20","name":"Patch 20 — Stable Controller / Drift Elimination","priority":"normal","status":"pending","summary":"Control plane. Drift detection triggers event bus alerts. HUGINN reconciliation on mismatch.","commits":[]},
+    {"id":"P21","name":"Patch 21 — Execution Identity Layer","priority":"highest","status":"pending","summary":"Briefing-first boot sequence. All agents = JARVIS instances in role mode. AEGIS gate on all outputs. Traceability mandate.","commits":[],"notes":"Highest priority per intake. Defines mandatory boot sequence: load briefing → patches → gold laws → Supabase state → GitHub state → AEGIS → ODIN."},
+    {"id":"P22","name":"Patch 22 — Live Runtime Mesh","priority":"high","status":"pending","summary":"Replay engine + event bus + cartridge standard + push sync. System becomes fully replayable like a save-state engine.","commits":[],"notes":"2nd priority per intake."},
+    {"id":"P23","name":"Patch 23 — GRID/TRON Substrate Split","priority":"high","status":"pending","summary":"GRID = internal state kernel (L0-L6 layers). TRON = navigation/UI shell. Clean separation of substrate from interface.","commits":[]}
+  ],
+  "implementation_order": [
+    "P21 — Execution Identity (highest priority, boot contract)",
+    "P22 — Live Runtime Mesh (2nd priority, event bus)",
+    "P05 L4/L5 — Hypergraph + Temporal (extends existing GRID)",
+    "P23 — GRID/TRON Split (architectural clarity)",
+    "P06 — Emulator Engine (needs engine selection decision from Raven)",
+    "P17 — Audit completion (workflow active, UI view pending)"
+  ]
+}
