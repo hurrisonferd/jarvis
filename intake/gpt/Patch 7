@@ -1,0 +1,315 @@
+PATCH_007 — GRID → EMULATOR ROUTING + CARTRIDGE GRAPH EXECUTION LAYER
+
+# PATCH_TOOL_007 — GRID EXECUTION BRIDGE (JARVIS NAVIGATION → EMULATOR RUNTIME)
+
+STATUS:
+POST-MASTER PATCH_006 EXTENSION
+DEPENDS ON:
+- /emulator/runtime-controller.js
+- /emulator/cartridges/*
+- /emulator/romloader/romloader.js
+
+PURPOSE:
+Convert GRID from a UI selector into a deterministic **cartridge navigation graph**
+that routes directly into emulator runtime execution.
+
+---
+
+# 1. CORE PRINCIPLE
+
+GRID IS NOT UI.
+
+GRID IS A:
+
+> deterministic graph router for execution substrates
+
+GRID OUTPUT = EXECUTION INTENT
+
+NOT visualization-only.
+
+---
+
+# 2. GRID NODE CONTRACT (CANONICAL)
+
+Each GRID node represents a CARTRIDGE:
+
+```js
+{
+  node_id,
+  cartridge_id,
+  system: "gb | gbc | gba",
+  rom_ref,
+  source: "local",
+  metadata,
+  edges: []
+}
+
+
+---
+
+3. GRID GRAPH MODEL (L0 → L3 MINIMAL IMPLEMENTATION)
+
+L0 — NODE LAYER
+
+cartridges
+
+ROM entries
+
+save states
+
+
+L1 — RELATION LAYER
+
+same franchise
+
+system evolution (GB → GBC → GBA)
+
+folder grouping
+
+
+L2 — FLOW LAYER
+
+active selection path
+
+last played chain
+
+session history
+
+
+L3 — EXECUTION VECTOR
+
+“run this cartridge”
+
+“resume last session”
+
+“switch system context”
+
+
+
+---
+
+4. GRID ROUTER (CRITICAL SYSTEM)
+
+grid-router.js
+
+RESPONSIBILITY: Translate GRID events → runtime-controller calls
+
+FLOW:
+
+GRID_CLICK_EVENT → resolve node_id → lookup cartridge_registry → build execution intent → call runtime-controller
+
+
+---
+
+EXECUTION INTENT FORMAT
+
+{
+  action: "LOAD_CARTRIDGE",
+  cartridge_id,
+  system,
+  romBuffer | romRef,
+  source: "grid"
+}
+
+
+---
+
+5. GRID → EMULATOR FLOW (FINAL PIPELINE)
+
+USER INPUT
+   ↓
+GRID NODE CLICK
+   ↓
+grid-router.js
+   ↓
+cartridge-registry.js
+   ↓
+runtime-controller.js
+   ↓
+system-router.js
+   ↓
+engine-adapter (GB/GBC/GBA)
+   ↓
+emulator-core execution
+   ↓
+canvas output
+   ↓
+input-bridge loop
+
+
+---
+
+6. NODE GRAPH SYSTEM (STRUCTURAL MEMORY)
+
+node-graph.js
+
+RESPONSIBILITIES:
+
+store all cartridge relationships
+
+build traversal map
+
+support future “Tron Grid” visualization layer
+
+
+
+---
+
+EDGE TYPES
+
+EDGE_TYPE:
+- EVOLUTION (GB → GBC → GBA)
+- SERIES (Pokemon lineage)
+- SESSION (recently played chain)
+- SOURCE (local / future github)
+
+
+---
+
+7. GRID STATE MEMORY (OPTIONAL BUT IMPORTANT)
+
+grid-adapter.js
+
+SYNC LAYERS:
+
+active node
+
+last executed cartridge
+
+session history pointer
+
+
+OUTPUT:
+
+{
+  active_node,
+  last_cartridge,
+  execution_history
+}
+
+
+---
+
+8. GRID RULES (HARD CONSTRAINTS)
+
+GRID MUST:
+
+only resolve intent
+
+never execute ROMs
+
+never bypass runtime-controller
+
+never directly call emulator engines
+
+
+
+---
+
+GRID MUST NOT:
+
+load ROM buffers directly
+
+manipulate emulator memory
+
+instantiate engine adapters
+
+duplicate cartridge logic
+
+
+
+---
+
+9. CARTRIDGE RESOLUTION PIPELINE
+
+node_id
+  → cartridge_registry lookup
+  → validate system
+  → fetch ROM via romloader (if needed)
+  → send to runtime-controller
+
+
+---
+
+10. SYSTEM ROUTING ALIGNMENT (WITH PATCH_006)
+
+This patch enforces strict separation:
+
+Layer	Responsibility
+
+GRID	navigation + graph traversal
+CARTRIDGE SYSTEM	abstraction unit
+ROMLOADER	data acquisition
+RUNTIME CONTROLLER	execution orchestration
+ENGINE ADAPTERS	emulator execution
+INPUT BRIDGE	control normalization
+
+
+
+---
+
+11. EMERGENT BEHAVIOR ENABLED
+
+This patch enables:
+
+clickable ROM universe (GRID map)
+
+session replay navigation
+
+system evolution paths (GB → GBC → GBA traversal)
+
+cartridge graph exploration
+
+future Tron-style navigation layer
+
+
+
+---
+
+12. GOVERNANCE (UNCHANGED)
+
+GOLD LAW ENFORCEMENT
+
+GL2: compression-first graph structure
+
+GL5: execution-only in runtime-controller
+
+GL6: no duplicate routing systems outside GRID layer
+
+GL7: no expansion unless reduces routing complexity
+
+GL8: strict boundary separation enforced
+
+GL9: all execution paths must be traceable
+
+
+
+---
+
+13. OUTPUT STATE
+
+After Patch 007:
+
+✔ GRID becomes execution router (not UI-only) ✔ Cartridge graph becomes navigable system ✔ Emulator remains isolated execution core ✔ ROM loading stays ROMLOADER responsibility ✔ Runtime-controller becomes single execution authority ✔ System becomes graph-driven emulator OS
+
+
+---
+
+STATE
+
+TYPE: GRID EXECUTION BRIDGE STATUS: READY FOR CLAUDE CODE IMPLEMENTATION DEPENDENCY: PATCH_006 REQUIRED
+
+END PATCH_007
+
+---
+
+If you continue, next step is high-impact:
+
+### PATCH_008 (recommended next)
+- 0
+- 1
+
+or
+
+### PATCH_008 ALT
+- 2
