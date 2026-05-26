@@ -25,12 +25,12 @@
     {"id":"P18","name":"Patch 18 — Intelligence Growth Registry","priority":"normal","status":"pending","summary":"Agent capability registry. Per-session intelligence growth tracking.","commits":[]},
     {"id":"P19","name":"Patch 19 — Quantum GRID Realm","priority":"normal","status":"pending","summary":"4D lattice structure. Folded space compression. L3-L6 GRID kernel layers. Per P00: GRID = view projection — quantum framing is conceptual.","commits":[]},
     {"id":"P20","name":"Patch 20 — Stable Controller / Drift Elimination","priority":"normal","status":"pending","summary":"Control plane. Drift detection triggers event bus alerts. HUGINN reconciliation on mismatch.","commits":[]},
-    {"id":"P21","name":"Patch 21 — Execution Identity Layer","priority":"highest","status":"pending","summary":"Briefing-first boot sequence. All agents = JARVIS instances in role mode. AEGIS gate on all outputs. Traceability mandate.","commits":[],"notes":"Highest priority per intake. Defines mandatory boot sequence: load briefing → patches → gold laws → Supabase state → GitHub state → AEGIS → ODIN."},
+    {"id":"P21","name":"Patch 21 — Execution Identity Layer","priority":"highest","status":"partial","summary":"Briefing-first boot sequence. All agents = JARVIS instances in role mode. AEGIS gate on all outputs. Traceability mandate.","commits":["p21-boot"],"deployed_at":"2026-05-26","notes":"Boot sequence implemented: loadBriefing() fetches JarvisBriefing from GitHub raw → AYRE/AEGIS/ODIN/state-sync lines on boot → briefingLoaded status dot in menu header → BOOT event logged to events table. Remaining: AEGIS gate on all outputs (P22 territory), explicit role-mode tagging.","remaining":["AEGIS output gate — wrap all sbEvent/draw calls with constraint check","Role-mode identity tagging — agent metadata per session"]},
     {"id":"P22","name":"Patch 22 — Live Runtime Mesh","priority":"high","status":"pending","summary":"Replay engine + event bus + cartridge standard + push sync. System becomes fully replayable like a save-state engine.","commits":[],"notes":"2nd priority per intake."},
     {"id":"P23","name":"Patch 23 — GRID/TRON Substrate Split","priority":"high","status":"pending","summary":"GRID = internal state kernel (L0-L6 layers). TRON = navigation/UI shell. Clean separation of substrate from interface.","commits":[]}
   ],
   "implementation_order": [
-    "P21 — Execution Identity (highest priority, boot contract)",
+    "P21 — Execution Identity (PARTIAL: boot contract done, AEGIS output gate pending)",
     "P22 — Live Runtime Mesh (2nd priority, event bus)",
     "P05 L4/L5 — Hypergraph + Temporal (extends existing GRID)",
     "P23 — GRID/TRON Split (architectural clarity)",

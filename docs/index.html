@@ -172,6 +172,7 @@ const SUPABASE_ANON    = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhY
 const VAPID_PUBLIC_KEY = 'BOM33NOZ7DDy-fNYxjIo1Xc3xMfFQY_RodR47qM68tmPU2HBXWVFlALlQiOG8MYxkY2uK1C2euH5KZ3v9JPdZdQ';
 const GITHUB_REPO      = 'hurrisonferd/jarvis';
 const PUSH_FN_URL      = `${SUPABASE_URL}/functions/v1/send-push`;
+const BRIEFING_URL     = 'https://raw.githubusercontent.com/hurrisonferd/jarvis/main/JarvisBriefing';
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
@@ -199,6 +200,15 @@ async function updateSession(node){
 }
 async function sbEvent(type,payload={}){
   try{ await sb.from('events').insert({type,payload,session_id:sessionId}); }catch(e){}
+}
+
+// P21: briefing-first boot — fetch JarvisBriefing from GitHub as authoritative source
+async function loadBriefing(){
+  try{
+    const r=await fetch(BRIEFING_URL);
+    if(r.ok){ briefingLoaded=true; sbEvent('BOOT',{briefing:'loaded',source:'github'}); }
+    else { briefingLoaded=false; sbEvent('BOOT',{briefing:'fallback',source:'github_error',status:r.status}); }
+  }catch(e){ briefingLoaded=false; sbEvent('BOOT',{briefing:'fallback',source:'network_error'}); }
 }
 
 // ── Patch 5 Phase 1: L0 spatial graph
@@ -270,6 +280,7 @@ const FALLBACK_DATA = {
 let S='boot', cur=0, detail=null, gdata=null, lives=[];
 let sseConnected=false;
 let nodeFields={};
+let briefingLoaded=false;
 const PG=7;
 
 const MENU=[
@@ -310,7 +321,9 @@ function rMenu(){
     ghData?'LOADED':'...',
     EmulatorRouter.active?EmulatorRouter.active.toUpperCase():'IDLE',
   ];
-  return '<div class="panel">\n    <div class="s-header"><span>JARVIS v2.5</span><span style="color:var(--green)">&#9632; ONLINE</span></div>\n    <div class="s-body" style="padding-top:10px">\n      '+MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')+'\n    </div>\n    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>\n  </div>';
+  const bCol=briefingLoaded?'var(--green)':'var(--amber)';
+  const bLabel=briefingLoaded?'BRIEFED':'FALLBACK';
+  return '<div class="panel">\n    <div class="s-header"><span>JARVIS v2.5</span><span><span style="color:'+bCol+'">&#9632;</span> '+bLabel+'</span></div>\n    <div class="s-body" style="padding-top:10px">\n      '+MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')+'\n    </div>\n    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>\n  </div>';
 }
 
 function rGodList(){
@@ -342,7 +355,8 @@ function rGold(){
   return `<div class="panel">
     <div class="s-header"><span>GOLD LAW</span><span>${rules.length} RULES</span></div>
     <div class="s-body">
-      ${pg.map((r,i)=>{const idx=st+i;return `<div class="rule ${cur===idx?'sel':''}">\n        <span style="color:var(--amber);margin-right:3px">${cur===idx?'&#9658;':String(idx+1).padStart(2,'0')}</span>${r.substring(0,52)}</div>`;}).join('')}
+      ${pg.map((r,i)=>{const idx=st+i;return `<div class="rule ${cur===idx?'sel':''}">
+        <span style="color:var(--amber);margin-right:3px">${cur===idx?'&#9658;':String(idx+1).padStart(2,'0')}</span>${r.substring(0,52)}</div>`;}).join('')}
     </div>
     <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
   </div>`;
@@ -750,7 +764,8 @@ async function loadNodeFields(){
   if(S==='graph') draw();
 }
 
-const BOOT_LINES=['INITIALIZING...','LOADING GOD SYSTEMS...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
+// P21: boot sequence — AYRE→briefing→AEGIS→ODIN→state sync→READY
+const BOOT_LINES=['AYRE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
 
 function runBoot(){
   const el=document.getElementById('screen-inner');
@@ -772,6 +787,7 @@ function runBoot(){
   setTimeout(tick,350);
 }
 
+loadBriefing();
 loadData();
 loadLive();
 loadNodeFields();
