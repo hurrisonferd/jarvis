@@ -262,6 +262,7 @@ const FALLBACK_DATA = {
 // ── state
 let S='boot', cur=0, detail=null, gdata=null, lives=[];
 let sseConnected=false;
+let nodeFields={}; // node_id → {entropy,alignment,load,instability}
 const PG=7;
 
 const MENU=[
@@ -289,7 +290,7 @@ function draw(){
   else if(S==='ghIssue') el.innerHTML=rGhIssue();
 }
 
-function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+(sel?'&#9658;':' ')+'</span>'; }
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+  (sel?'&#9658;':' ')+'</span>'; }
 
 function rMenu(){
   const subs=[
@@ -346,26 +347,44 @@ function rGrid(){
 
 function rL0Graph(){
   const W=310, H=250;
-  let lines='', circles='', labels='';
+  let lines='', glows='', circles='', labels='';
+  // L2 field summary for footer
+  const fvals=Object.values(nodeFields);
+  const avgLoad=fvals.length?Math.round(fvals.reduce((a,f)=>a+f.load,0)/fvals.length*100):0;
+
   L0_NODES.forEach(n=>{
     const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
     n.links.forEach(lid=>{
       const t=L0_NODES.find(x=>x.id===lid);
-      if(t) lines+=`<line x1="${cx}" y1="${cy}" x2="${Math.round(t.x*W)}" y2="${Math.round(t.y*H)}" stroke="#0f2035" stroke-width="1"/>`;
+      if(!t) return;
+      const f=nodeFields[n.id]||{load:0};
+      const lw=(0.8+f.load*1.5).toFixed(1);
+      const lo=(0.4+f.load*0.5).toFixed(2);
+      lines+=`<line x1="${cx}" y1="${cy}" x2="${Math.round(t.x*W)}" y2="${Math.round(t.y*H)}" stroke="#0f2035" stroke-width="${lw}" opacity="${lo}"/>`;
     });
   });
+
   L0_NODES.forEach(n=>{
     const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
     const col=NODE_COLORS[n.type]||'var(--dim)';
-    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${col}" stroke-width="1.5"/>`;
-    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${col}" font-family="monospace">${n.id}</text>`;
+    const f=nodeFields[n.id]||{entropy:0,alignment:1,load:0,instability:0};
+    const glowR=Math.round(7+f.load*12);
+    const glowOp=(0.12+f.load*0.4).toFixed(2);
+    glows+=`<circle cx="${cx}" cy="${cy}" r="${glowR}" fill="none" stroke="${col}" stroke-width="1" opacity="${glowOp}"/>`;
+    const strokeCol=f.entropy>0.5?'var(--red)':col;
+    const sw=(1.5+f.load*2.5).toFixed(1);
+    const nodeOp=(0.5+f.alignment*0.5).toFixed(2);
+    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${strokeCol}" stroke-width="${sw}" opacity="${nodeOp}"/>`;
+    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${strokeCol}" opacity="${nodeOp}" font-family="monospace">${n.id}</text>`;
   });
+
+  const loadBar='█'.repeat(Math.round(avgLoad/10))+'░'.repeat(10-Math.round(avgLoad/10));
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--blue)">L0 SPATIAL GRAPH</span><span>${L0_NODES.length} NODES</span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
-      <svg width="${W}" height="${H}" style="overflow:visible">${lines}${circles}${labels}</svg>
+      <svg width="${W}" height="${H}" style="overflow:visible">${lines}${glows}${circles}${labels}</svg>
     </div>
-    <div class="s-footer">B:BACK &nbsp; PIPELINE=AMBER</div>
+    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; B:BACK</div>
   </div>`;
 }
 
@@ -603,7 +622,7 @@ function sseDot(on){
   if(d){ d.style.color=on?'#00ff88':'#333'; }
 }
 
-// ── Supabase Realtime (replaces SSE)
+// ── Supabase Realtime
 function connectRealtime(){
   sb.channel('jarvis-live')
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'live_log'},payload=>{
@@ -616,6 +635,14 @@ function connectRealtime(){
       lives.unshift({action:'PROMETHEUS: '+(d.decision||'').slice(0,50),status:'done',time:new Date().toTimeString().slice(0,8)});
       if(lives.length>100) lives=lives.slice(0,100);
       if(S==='live') draw();
+    })
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'node_fields'},payload=>{
+      const r=payload.new; nodeFields[r.node_id]=r;
+      if(S==='graph') draw();
+    })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'node_fields'},payload=>{
+      const r=payload.new; nodeFields[r.node_id]=r;
+      if(S==='graph') draw();
     })
     .subscribe(status=>{
       sseConnected=(status==='SUBSCRIBED');
@@ -639,6 +666,14 @@ async function loadLive(){
     const {data}=await sb.from('live_log').select('*').order('created_at',{ascending:false}).limit(50);
     if(data){ lives=data; if(S==='live') draw(); }
   }catch(e){}
+}
+
+async function loadNodeFields(){
+  try{
+    const {data}=await sb.from('node_fields').select('*');
+    if(data) data.forEach(r=>{ nodeFields[r.node_id]=r; });
+  }catch(e){}
+  if(S==='graph') draw();
 }
 
 // ── boot sequence
@@ -666,6 +701,7 @@ function runBoot(){
 
 loadData();
 loadLive();
+loadNodeFields();
 loadGithub();
 connectRealtime();
 setInterval(loadGithub,60000);
