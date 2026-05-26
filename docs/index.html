@@ -322,7 +322,7 @@ function draw(){
   else if(S==='emu')    el.innerHTML=rEmulator();
 }
 
-function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+  (sel?'&#9658;':' ')+'</span>'; }
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+(sel?'&#9658;':' ')+'</span>'; }
 
 function rMenu(){
   const subs=[
@@ -417,8 +417,10 @@ const MGBACore={
   name:'mGBA', types:['gba'], _m:null, _prev:new Set(),
   _map:{A:'A',B:'B',UP:'Up',DOWN:'Down',LEFT:'Left',RIGHT:'Right',START:'Start',SELECT:'Select',L:'L',R:'R'},
   async init(canvas){
-    await loadScript(MGBA_CDN+'mgba.js');
-    this._m=await mGBA({canvas,locateFile:f=>MGBA_CDN+f});
+    if(!self.crossOriginIsolated) throw new Error('COI_REQUIRED');
+    const mod=await import(MGBA_CDN+'mgba.js');
+    const factory=mod.default||mod.mGBA||Object.values(mod)[0];
+    this._m=await factory({canvas,locateFile:f=>MGBA_CDN+f});
     await this._m.FSInit();
   },
   async loadROM(buf){
@@ -480,12 +482,12 @@ function rEmulator(){
   } else if(emuState==='loading'){
     body=`<div style="color:var(--amber);font-size:6px;padding:20px;text-align:center">LOADING ENGINE...</div>
       <div style="color:var(--dim);font-size:5px;text-align:center">${romName.slice(0,24)}</div>`;
-  } else if(emuState==='pending'){
-    body=`<div style="color:var(--amber);font-size:6px;line-height:2;padding:8px">GBA ENGINE PENDING
-      <div style="color:var(--dim);font-size:5px;line-height:1.8;margin-top:4px">mGBA WASM CDN<br>not yet linked.<br>GB/GBC: WasmBoy active<br>GBA: P06 stub</div></div>`;
+  } else if(emuState==='coi'){
+    body=`<div style="color:var(--amber);font-size:6px;line-height:2;padding:8px">RELOAD REQUIRED</div>
+      <div style="color:var(--dim);font-size:5px;line-height:1.8;padding:0 8px">GBA needs security headers.<br>Hard-reload once to activate.<br>(Close tab + reopen)</div>`;
   } else if(emuState==='failed'){
     body=`<div style="color:var(--red);font-size:6px;padding:8px">ENGINE LOAD FAILED</div>
-      <div style="color:var(--dim);font-size:5px;padding:0 8px">Check console for CDN error</div>`;
+      <div style="color:var(--dim);font-size:5px;padding:0 8px">mGBA module unavailable.<br>Check network / console.</div>`;
   } else if(EmulatorRouter.active){
     const label=romType==='gba'?'GBA (32-bit)':'GB/GBC (8-bit)';
     body=`<div style="color:var(--green);font-size:6px;margin-bottom:8px">&#9632; ROM LOADED</div>
@@ -499,7 +501,7 @@ function rEmulator(){
       <div style="color:var(--dim);font-size:5px;line-height:2">DETECTS TYPE VIA HEADER</div>
       <div style="color:var(--dim);font-size:5px;line-height:2">ARM RESET → GBA &nbsp; else → GB</div>`;
   }
-  const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='pending'?'var(--red)':'var(--amber)';
+  const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='coi'?'var(--red)':'var(--amber)';
   let footer;
   if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; START:START';
   else if(EmulatorRouter.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
@@ -542,7 +544,7 @@ function handleROM(inp){
       BUS.emit('emu_start',{engine:core.name,type:t,file:romName});
     }catch(err){
       activeCore=null;
-      emuState=err.message==='GBA_ENGINE_PENDING'?'pending':'failed';
+      emuState=err.message==='COI_REQUIRED'?'coi':'failed';
       BUS.emit('emu_error',{engine:core?.name,error:err.message,type:t});
     }
     draw();
