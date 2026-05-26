@@ -1,4 +1,4 @@
-const CACHE = 'jarvis-static-v1';
+const CACHE = 'jarvis-static-v2';
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(['./'])));
@@ -11,6 +11,18 @@ self.addEventListener('activate', e => {
   self.clients.claim();
 });
 self.addEventListener('fetch', e => {
+  // COI headers on navigation responses — enables SharedArrayBuffer for mGBA WASM
+  if (e.request.mode === 'navigate') {
+    e.respondWith(
+      fetch(e.request).then(resp => {
+        const headers = new Headers(resp.headers);
+        headers.set('Cross-Origin-Opener-Policy', 'same-origin');
+        headers.set('Cross-Origin-Embedder-Policy', 'credentialless');
+        return new Response(resp.body, {status: resp.status, statusText: resp.statusText, headers});
+      }).catch(() => caches.match(e.request))
+    );
+    return;
+  }
   e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
 });
 self.addEventListener('push', e => {

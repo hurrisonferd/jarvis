@@ -1,6 +1,7 @@
 {
   "version": "1.0",
-  "last_updated": "2026-05-26T22:00:00Z",
+  "last_updated": "2026-05-26T23:00:00Z",
+  "intake_max_patch": "P23 (no patches 24-31 exist in intake/gpt as of this update)",
   "authority": "Raven (John Barber)",
   "source_of_truth": "Supabase patch_log table (mirrored here for offline reference)",
   "patches": [
@@ -10,7 +11,7 @@
     {"id":"P03","name":"Patch 3 — EMULATOR UI","priority":"normal","status":"done","summary":"EMULATOR menu item (7th), ROM file picker, handleROM() FileReader, detection feedback screen. B=stop+back, A=load.","commits":["d4105a9","8383e60"],"deployed_at":"2026-05-26","notes":"Engine displays 'NOT YET INTEGRATED' until P06 engine is chosen."},
     {"id":"P04","name":"Patch 4 — Neural Mesh (critical)","priority":"critical","status":"done","summary":"sessions/events/memory_state Supabase tables. ModeController. startSession/updateSession/sbEvent wiring. Realtime connected.","commits":["84b1348"],"deployed_at":"2026-05-26"},
     {"id":"P05","name":"Patch 5 — GRID Spatial Graph (critical)","priority":"critical","status":"partial","summary":"L0 spatial graph (16 nodes), L2 field overlay (glow/pressure from node_fields), L3 vector routing (SVG arrowheads). L4 Hypergraph + L5 Temporal pending.","commits":["84afb9f","2083337"],"deployed_at":"2026-05-26","remaining":["L4 Hypergraph — patch lineage + multi-node decisions","L5 Temporal — GitHub versioning + snapshot replay"]},
-    {"id":"P06","name":"Patch 6 — Master Emulator Consolidation (critical)","priority":"critical","status":"partial","summary":"RetroArch-style unified emulator. Adapter pattern. Local-first ROM execution. GB/GBC/GBA under one interface.","commits":["p22-p06"],"deployed_at":"2026-05-26","notes":"WasmBoyCore adapter active for GB/GBC (WasmBoy v0.7.1 via CDN). MGBACore stub for GBA throws GBA_ENGINE_PENDING — pending mGBA WASM CDN confirmation. Persistent canvas (outside screen-inner) survives draw() calls. IEmulatorCore interface: init/loadROM/play/pause/stop/setInput/snapshot/restore.","remaining":["GBA engine — confirm mGBA WASM CDN URL and implement MGBACore.init()","Save states — snapshot/restore wired to P09"]},
+    {"id":"P06","name":"Patch 6 — Master Emulator Consolidation (critical)","priority":"critical","status":"partial","summary":"RetroArch-style unified emulator. Adapter pattern. Local-first ROM execution. GB/GBC/GBA under one interface.","commits":["p22-p06","p06-mgba"],"deployed_at":"2026-05-26","notes":"WasmBoyCore: GB/GBC via WasmBoy v0.7.1. MGBACore: GBA via @thenick775/mgba-wasm v2.4.1 (jsDelivr CDN). COI headers (COOP same-origin + COEP credentialless) injected via gameboy-sw.js to enable SharedArrayBuffer. API: mGBA({canvas,locateFile}) → FSInit → uploadRom(arr,cb) → loadGame → resumeGame/pauseGame/quitGame. Button map: buttonPress/buttonUnpress with Up/Down/Left/Right/A/B/L/R/Start/Select. Requires one SW-controlled page load to activate COI.","remaining":["Verify GBA ROM loads in browser (COI headers active after first SW reload)","Save states — snapshot/restore wired to P09"]},
     {"id":"P07","name":"Patch 7 — GRID Execution Bridge","priority":"normal","status":"pending","summary":"Bridge between GRID node state and emulator execution context.","commits":[]},
     {"id":"P08","name":"Patch 8 — GitHub ROM Indexer","priority":"normal","status":"pending","summary":"Auto-index ROMs in repo via GitHub API. Feed into GRID node list.","commits":[]},
     {"id":"P09","name":"Patch 9 — Save States","priority":"normal","status":"pending","summary":"Emulator save-state system. Snapshot storage in Supabase.","commits":[]},
@@ -32,7 +33,7 @@
   "implementation_order": [
     "P21 — Execution Identity (PARTIAL: boot contract done, AEGIS output gate pending)",
     "P22 — Live Runtime Mesh (PARTIAL: EventBus + cartridge standard done; replay engine + push sync pending)",
-    "P06 — Emulator Consolidation (PARTIAL: GB/GBC WasmBoy active; GBA mGBA CDN pending)",
+    "P06 — Emulator Consolidation (PARTIAL: GB/GBC WasmBoy + GBA mGBA v2.4.1 integrated; verify GBA ROM in browser)",
     "P05 L4/L5 — Hypergraph + Temporal (extends existing GRID)",
     "P23 — GRID/TRON Split (architectural clarity)",
     "P17 — Audit completion (workflow active, UI view pending)"

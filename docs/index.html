@@ -411,13 +411,42 @@ const WasmBoyCore={
   async restore(s){ try{if(s) await WasmBoy.loadState(s);}catch(e){} },
 };
 
-// P06: GBA adapter — mGBA WASM (pending CDN confirmation, engine URL configurable)
+// P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
+const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
 const MGBACore={
-  name:'mGBA', types:['gba'],
-  async init(){ throw new Error('GBA_ENGINE_PENDING'); },
-  async loadROM(){ throw new Error('GBA_ENGINE_PENDING'); },
-  play(){}, pause(){}, stop(){}, setInput(){},
-  snapshot(){ return null; }, async restore(){},
+  name:'mGBA', types:['gba'], _m:null, _prev:new Set(),
+  _map:{A:'A',B:'B',UP:'Up',DOWN:'Down',LEFT:'Left',RIGHT:'Right',START:'Start',SELECT:'Select',L:'L',R:'R'},
+  async init(canvas){
+    await loadScript(MGBA_CDN+'mgba.js');
+    this._m=await mGBA({canvas,locateFile:f=>MGBA_CDN+f});
+    await this._m.FSInit();
+  },
+  async loadROM(buf){
+    return new Promise((res,rej)=>{
+      const arr=new Uint8Array(buf);
+      const name=(romName||'game.gba').replace(/[^a-zA-Z0-9._-]/g,'_');
+      try{
+        this._m.uploadRom(arr,()=>{
+          this._m.loadGame('/data/games/'+name);
+          res();
+        });
+      }catch(e){rej(e);}
+    });
+  },
+  play(){ try{this._m.resumeGame();}catch(e){} },
+  pause(){ try{this._m.pauseGame();}catch(e){} },
+  stop(){ try{this._m.quitGame();}catch(e){} },
+  setInput(state){
+    if(!this._m) return;
+    const mp=this._map;
+    this._prev.forEach(k=>{ if(!state[k]) try{this._m.buttonUnpress(mp[k]);}catch(e){} });
+    this._prev=new Set();
+    Object.entries(state).forEach(([k,v])=>{
+      if(v&&mp[k]){ try{this._m.buttonPress(mp[k]);}catch(e){} this._prev.add(k); }
+    });
+  },
+  async snapshot(){ try{this._m.saveState(0);return{slot:0};}catch(e){return null;} },
+  async restore(s){ try{if(s?.slot!==undefined) this._m.loadState(s.slot);}catch(e){} },
 };
 
 // P06: adapter registry — getCore(romType) selects implementation
