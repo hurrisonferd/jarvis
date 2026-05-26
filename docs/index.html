@@ -348,11 +348,37 @@ function rGold(){
 function rGrid(){
   if(!gdata) return rLoad();
   const ds=gdata.districts, st=Math.floor(cur/PG)*PG, pg=ds.slice(st,st+PG);
-  return '<div class="panel">\n    <div class="s-header"><span>THE GRID</span><span>'+(cur+1)+'/'+ds.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((d,i)=>{const idx=st+i;return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:var(--blue)">'+d.district+'</span><span class="sub">['+(d.region||'').split(' ').pop()+']</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:L0 GRAPH &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
+  return '<div class="panel">\n    <div class="s-header"><span>THE GRID</span><span>'+(cur+1)+'/'+ds.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((d,i)=>{const idx=st+i;return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:var(--blue)">'+d.district+'</span><span class="sub">['+( d.region||'').split(' ').pop()+']</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:L0 GRAPH &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
 }
+
+// L3: hex colors for SVG markers (CSS vars don't resolve inside <marker> defs)
+const ARROW_COLS={execution:'#f5a623',memory:'#00aaff',parallel:'#00ff88',guardian:'#ff3355',governance:'#cc00ff',integrity:'#ff8800',post:'#1e3a52'};
+
+// Patch 3: EmulatorRouter + ROMLoader stubs (architecture only — no engine)
+const EmulatorRouter={
+  active:null,
+  load(core){ this.active=core; ModeController.set(core==='gba_core'?'gba_rom':'gb_rom'); },
+  stop(){ this.active=null; ModeController.set('grid_home'); },
+};
+const ROMLoader={
+  detect(buf){
+    if(!buf||buf.byteLength<4) return null;
+    const v=new Uint8Array(buf);
+    return (v[0]===0x2E&&v[1]===0x00&&v[2]===0x00&&v[3]===0xEA)?'gba':'gb';
+  },
+  route(buf){ const t=this.detect(buf); if(t) EmulatorRouter.load(t+'_core'); return t; },
+};
 
 function rL0Graph(){
   const W=310, H=250;
+
+  // L3: arrowhead markers per node type
+  let defs='<defs>';
+  Object.entries(ARROW_COLS).forEach(([type,col])=>{
+    defs+=`<marker id="arr-${type}" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="${col}" opacity="0.75"/></marker>`;
+  });
+  defs+='</defs>';
+
   let lines='', glows='', circles='', labels='';
   const fvals=Object.values(nodeFields);
   const avgLoad=fvals.length?Math.round(fvals.reduce((a,f)=>a+f.load,0)/fvals.length*100):0;
@@ -365,7 +391,11 @@ function rL0Graph(){
       const f=nodeFields[n.id]||{load:0};
       const lw=(0.8+f.load*1.5).toFixed(1);
       const lo=(0.4+f.load*0.5).toFixed(2);
-      lines+=`<line x1="${cx}" y1="${cy}" x2="${Math.round(t.x*W)}" y2="${Math.round(t.y*H)}" stroke="#0f2035" stroke-width="${lw}" opacity="${lo}"/>`;
+      // L3: shorten endpoint so arrowhead sits outside target node radius
+      const tx2=Math.round(t.x*W), ty2=Math.round(t.y*H);
+      const dx=tx2-cx, dy=ty2-cy, d=Math.sqrt(dx*dx+dy*dy)||1;
+      const ex=Math.round(tx2-(dx/d)*11), ey=Math.round(ty2-(dy/d)*11);
+      lines+=`<line x1="${cx}" y1="${cy}" x2="${ex}" y2="${ey}" stroke="#0f2035" stroke-width="${lw}" opacity="${lo}" marker-end="url(#arr-${n.type})"/>`;
     });
   });
 
@@ -385,9 +415,9 @@ function rL0Graph(){
 
   const loadBar='█'.repeat(Math.round(avgLoad/10))+'░'.repeat(10-Math.round(avgLoad/10));
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--blue)">L0 SPATIAL GRAPH</span><span>${L0_NODES.length} NODES</span></div>
+    <div class="s-header"><span style="color:var(--blue)">L0+L3 SPATIAL GRAPH</span><span>${L0_NODES.length} NODES</span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
-      <svg width="${W}" height="${H}" style="overflow:visible">${lines}${glows}${circles}${labels}</svg>
+      <svg width="${W}" height="${H}" style="overflow:visible">${defs}${lines}${glows}${circles}${labels}</svg>
     </div>
     <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; B:BACK</div>
   </div>`;
