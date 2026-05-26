@@ -1,6 +1,6 @@
 {
   "version": "1.0",
-  "last_updated": "2026-05-26",
+  "last_updated": "2026-05-26T22:00:00Z",
   "authority": "Raven (John Barber)",
   "source_of_truth": "Supabase patch_log table (mirrored here for offline reference)",
   "patches": [
@@ -10,7 +10,7 @@
     {"id":"P03","name":"Patch 3 — EMULATOR UI","priority":"normal","status":"done","summary":"EMULATOR menu item (7th), ROM file picker, handleROM() FileReader, detection feedback screen. B=stop+back, A=load.","commits":["d4105a9","8383e60"],"deployed_at":"2026-05-26","notes":"Engine displays 'NOT YET INTEGRATED' until P06 engine is chosen."},
     {"id":"P04","name":"Patch 4 — Neural Mesh (critical)","priority":"critical","status":"done","summary":"sessions/events/memory_state Supabase tables. ModeController. startSession/updateSession/sbEvent wiring. Realtime connected.","commits":["84b1348"],"deployed_at":"2026-05-26"},
     {"id":"P05","name":"Patch 5 — GRID Spatial Graph (critical)","priority":"critical","status":"partial","summary":"L0 spatial graph (16 nodes), L2 field overlay (glow/pressure from node_fields), L3 vector routing (SVG arrowheads). L4 Hypergraph + L5 Temporal pending.","commits":["84afb9f","2083337"],"deployed_at":"2026-05-26","remaining":["L4 Hypergraph — patch lineage + multi-node decisions","L5 Temporal — GitHub versioning + snapshot replay"]},
-    {"id":"P06","name":"Patch 6 — Master Emulator Consolidation (critical)","priority":"critical","status":"pending","summary":"RetroArch-style unified emulator. Adapter pattern. Local-first ROM execution. GB/GBC/GBA under one interface.","commits":[],"notes":"Blocked until emulator engine chosen (WasmBoy, Emulicious WASM, or custom)."},
+    {"id":"P06","name":"Patch 6 — Master Emulator Consolidation (critical)","priority":"critical","status":"partial","summary":"RetroArch-style unified emulator. Adapter pattern. Local-first ROM execution. GB/GBC/GBA under one interface.","commits":["p22-p06"],"deployed_at":"2026-05-26","notes":"WasmBoyCore adapter active for GB/GBC (WasmBoy v0.7.1 via CDN). MGBACore stub for GBA throws GBA_ENGINE_PENDING — pending mGBA WASM CDN confirmation. Persistent canvas (outside screen-inner) survives draw() calls. IEmulatorCore interface: init/loadROM/play/pause/stop/setInput/snapshot/restore.","remaining":["GBA engine — confirm mGBA WASM CDN URL and implement MGBACore.init()","Save states — snapshot/restore wired to P09"]},
     {"id":"P07","name":"Patch 7 — GRID Execution Bridge","priority":"normal","status":"pending","summary":"Bridge between GRID node state and emulator execution context.","commits":[]},
     {"id":"P08","name":"Patch 8 — GitHub ROM Indexer","priority":"normal","status":"pending","summary":"Auto-index ROMs in repo via GitHub API. Feed into GRID node list.","commits":[]},
     {"id":"P09","name":"Patch 9 — Save States","priority":"normal","status":"pending","summary":"Emulator save-state system. Snapshot storage in Supabase.","commits":[]},
@@ -26,15 +26,15 @@
     {"id":"P19","name":"Patch 19 — Quantum GRID Realm","priority":"normal","status":"pending","summary":"4D lattice structure. Folded space compression. L3-L6 GRID kernel layers. Per P00: GRID = view projection — quantum framing is conceptual.","commits":[]},
     {"id":"P20","name":"Patch 20 — Stable Controller / Drift Elimination","priority":"normal","status":"pending","summary":"Control plane. Drift detection triggers event bus alerts. HUGINN reconciliation on mismatch.","commits":[]},
     {"id":"P21","name":"Patch 21 — Execution Identity Layer","priority":"highest","status":"partial","summary":"Briefing-first boot sequence. All agents = JARVIS instances in role mode. AEGIS gate on all outputs. Traceability mandate.","commits":["p21-boot"],"deployed_at":"2026-05-26","notes":"Boot sequence implemented: loadBriefing() fetches JarvisBriefing from GitHub raw → AYRE/AEGIS/ODIN/state-sync lines on boot → briefingLoaded status dot in menu header → BOOT event logged to events table. Remaining: AEGIS gate on all outputs (P22 territory), explicit role-mode tagging.","remaining":["AEGIS output gate — wrap all sbEvent/draw calls with constraint check","Role-mode identity tagging — agent metadata per session"]},
-    {"id":"P22","name":"Patch 22 — Live Runtime Mesh","priority":"high","status":"pending","summary":"Replay engine + event bus + cartridge standard + push sync. System becomes fully replayable like a save-state engine.","commits":[],"notes":"2nd priority per intake."},
+    {"id":"P22","name":"Patch 22 — Live Runtime Mesh","priority":"high","status":"partial","summary":"Replay engine + event bus + cartridge standard + push sync. System becomes fully replayable like a save-state engine.","commits":["p22-p06"],"deployed_at":"2026-05-26","notes":"EventBus (BUS) implemented: BUS.emit(evt,data) → listeners → sbEvent persist. BUS.on('*',fn) wildcard for LIVE FEED. Cartridge standard: {id,version,load,stop,snapshot,restore}. EmulatorRouter upgraded to v0.2 cartridge. ModeController routes through BUS. GL7: reduces_complexity=true, replaces scattered sbEvent calls.","remaining":["Replay engine — full event sequence playback from Supabase events table","Push sync — cross-session cartridge state broadcast"]},
     {"id":"P23","name":"Patch 23 — GRID/TRON Substrate Split","priority":"high","status":"pending","summary":"GRID = internal state kernel (L0-L6 layers). TRON = navigation/UI shell. Clean separation of substrate from interface.","commits":[]}
   ],
   "implementation_order": [
     "P21 — Execution Identity (PARTIAL: boot contract done, AEGIS output gate pending)",
-    "P22 — Live Runtime Mesh (2nd priority, event bus)",
+    "P22 — Live Runtime Mesh (PARTIAL: EventBus + cartridge standard done; replay engine + push sync pending)",
+    "P06 — Emulator Consolidation (PARTIAL: GB/GBC WasmBoy active; GBA mGBA CDN pending)",
     "P05 L4/L5 — Hypergraph + Temporal (extends existing GRID)",
     "P23 — GRID/TRON Split (architectural clarity)",
-    "P06 — Emulator Engine (needs engine selection decision from Raven)",
     "P17 — Audit completion (workflow active, UI view pending)"
   ]
 }
