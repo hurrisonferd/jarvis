@@ -1,0 +1,283 @@
+PATCH_008 — GITHUB ROM INDEXER + CARTRIDGE AUTO-POPULATION (GRID NODE GENERATION LAYER)
+
+# PATCH_TOOL_008 — GITHUB ROM INDEXER + GRID AUTO-CARTRIDGE BUILDER
+
+STATUS:
+EXTENDS PATCH_006 + PATCH_007
+ADDS OPTIONAL GITHUB ROM DISCOVERY (NON-PRIMARY)
+MAINTAINS LOCAL ROM AS PRIMARY INPUT PATH
+
+---
+
+# 1. CORE PURPOSE
+
+Transform GitHub repository structure into:
+
+> automatic cartridge registry + GRID node graph
+
+WITHOUT changing runtime execution model.
+
+---
+
+# 2. SYSTEM ROLE
+
+This layer is:
+
+GITHUB → DATA MIRROR → GRID STRUCTURE
+
+NOT:
+
+- execution source
+- ROM runtime provider
+- emulator input layer
+
+---
+
+# 3. DIRECTORY CONVENTION (SOURCE OF TRUTH)
+
+GitHub ROM structure:
+
+jarvis/emulator/cartridges/
+  gb/
+  gbc/
+  gba/
+
+Each file = potential cartridge node
+
+---
+
+# 4. INDEXING PIPELINE
+
+```text id="ixp0p2"
+GitHub Raw Folder Scan
+   ↓
+github-loader.js
+   ↓
+ROM metadata extraction
+   ↓
+cartridge-builder.js
+   ↓
+cartridge-registry.js
+   ↓
+node-graph.js (GRID)
+
+
+---
+
+5. GITHUB LOADER (READ-ONLY LAYER)
+
+github-loader.js
+
+RESPONSIBILITIES:
+
+scan known cartridge directories
+
+fetch raw ROM references
+
+DO NOT EXECUTE OR DECODE ROMS
+
+
+OUTPUT:
+
+{
+  path,
+  system,
+  raw_url,
+  filename
+}
+
+
+---
+
+6. AUTO-CARTRIDGE GENERATION
+
+Each GitHub ROM becomes:
+
+{
+  id,
+  system: "gb | gbc | gba",
+  source: "github",
+  rom_ref: raw_url,
+  metadata: {
+    filename,
+    inferred_title,
+    folder_origin
+  }
+}
+
+
+---
+
+7. GRID NODE AUTO-CREATION
+
+Each cartridge generates a GRID node:
+
+{
+  node_id,
+  cartridge_id,
+  system,
+  label,
+  edges: []
+}
+
+
+---
+
+8. AUTO-EDGE GENERATION RULES
+
+Edges created automatically:
+
+RULE A — SYSTEM EVOLUTION
+
+gb → gbc → gba
+
+RULE B — FOLDER RELATIONSHIP
+
+Same directory grouping → linked cluster
+
+RULE C — FRANCHISE HEURISTIC (optional metadata)
+
+pokemon_* → shared node cluster
+
+
+---
+
+9. INDEXING MODES
+
+MODE 1 — PASSIVE (DEFAULT)
+
+scans GitHub
+
+builds registry snapshot
+
+does NOT update runtime
+
+
+MODE 2 — SYNC (OPTIONAL)
+
+updates GRID graph state
+
+used for visualization only
+
+
+
+---
+
+10. CARTRIDGE REGISTRY EXTENSION
+
+cartridge-registry.js update
+
+ADDED FUNCTION:
+
+registerFromGitHub(indexedCartridge)
+
+RULE:
+
+GitHub cartridges = lower priority than local ROMs
+
+local ALWAYS overrides GitHub duplicates
+
+
+
+---
+
+11. GRID INTEGRATION (PATCH_007 EXTENSION)
+
+GRID now supports:
+
+auto-generated nodes
+
+GitHub-derived nodes
+
+local override nodes
+
+
+NODE PRIORITY:
+
+local ROM > GitHub ROM > inferred metadata nodes
+
+
+---
+
+12. SAFETY + GOVERNANCE
+
+HARD RULES
+
+GitHub ROMs are READ-ONLY SOURCE DATA
+
+NO execution from indexer layer
+
+NO emulator calls allowed here
+
+NO ROM buffer creation in this layer
+
+
+
+---
+
+GOLD LAW ENFORCEMENT
+
+GL2: compressed graph-first indexing only
+
+GL5: no executable logic in indexer
+
+GL6: no duplicate ROM ingestion systems
+
+GL7: no expansion unless reduces manual cartridge setup complexity
+
+GL8: strict boundary separation (indexer ≠ runtime)
+
+GL9: full traceability of all discovered ROM nodes
+
+
+
+---
+
+13. SYSTEM FLOW AFTER PATCH
+
+GitHub repo
+  ↓
+github-loader.js
+  ↓
+ROM index snapshot
+  ↓
+cartridge-builder.js
+  ↓
+cartridge-registry.js
+  ↓
+node-graph.js
+  ↓
+GRID (PATCH_007)
+  ↓
+runtime-controller.js (PATCH_006)
+  ↓
+engine-adapter → emulator
+
+
+---
+
+14. EMERGENT CAPABILITIES ENABLED
+
+After this patch:
+
+✔ ROMs auto-appear in GRID ✔ GitHub becomes passive cartridge universe ✔ No manual registration required for hosted ROMs ✔ GRID becomes semi-self-building graph system ✔ Emulator remains isolated execution core
+
+
+---
+
+STATE
+
+TYPE: AUTO-INDEXING GRID LAYER STATUS: READY FOR CLAUDE CODE EXECUTION DEPENDENCY: PATCH_006 + PATCH_007 REQUIRED
+
+END PATCH_008
+
+---
+
+Next logical step:
+
+### PATCH_009 OPTIONS
+1. **Tron GRID renderer (real visual navigation system)**
+2. **Supabase session memory + save-state graph persistence**
+3. **Performance layer (WASM + frame scheduling optimization for GBA)**
+
+Pick direction and I’ll continue the patch chain.
