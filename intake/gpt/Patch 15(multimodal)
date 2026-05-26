@@ -1,0 +1,364 @@
+PATCH_015 — MULTIMODAL GRID ADVENTURE LAYER (TEXT → WORLD SIMULATION + IMAGE-GEN OVERLAY + PROCEDURAL NAVIGATION ENGINE)
+
+# PATCH_TOOL_015 — MULTIMODAL TEXT ADVENTURE + IMAGE GENERATION GRID LAYER
+
+STATUS:
+EXTENDS PATCH_006 → PATCH_014
+ADDS MULTIMODAL WORLD SIMULATION LAYER ON TOP OF GRID + EMULATOR OS
+
+PRIMARY GOAL:
+Transform JARVIS into a hybrid system:
+
+- procedural text adventure engine
+- GRID-based spatial traversal system
+- image generation overlay renderer
+- multimodal world state simulator
+
+WITHOUT:
+- interfering with emulator kernel determinism
+- breaking Gold Law separation boundaries
+
+---
+
+# 1. CORE CONCEPT
+
+SYSTEM BECOMES:
+
+> a navigable procedural world where text creates structure and images visualize state
+
+MODEL:
+
+```text id="core15"
+TEXT STATE → WORLD GRAPH → GRID NODE → IMAGE GENERATION → VISUAL OVERLAY
+
+
+---
+
+2. SYSTEM LAYERS
+
+LAYER 1 — TEXT ADVENTURE ENGINE
+
+adventure-core.js
+
+RESPONSIBILITIES:
+
+procedural world generation
+
+narrative state transitions
+
+location + object graph creation
+
+event branching system
+
+
+
+---
+
+WORLD MODEL
+
+{
+  node_id,
+  description,
+  exits,
+  entities,
+  state_flags,
+  entropy_level
+}
+
+
+---
+
+FLOW
+
+player input
+  ↓
+adventure parser
+  ↓
+world state transition
+  ↓
+GRID update
+  ↓
+visual rendering request
+
+
+---
+
+3. LAYER 2 — GRID WORLD MAPPING
+
+GRID becomes a world topology engine
+
+grid-world-adapter.js
+
+RESPONSIBILITIES:
+
+map text nodes → spatial nodes
+
+link narrative spaces
+
+track traversal history
+
+embed world state into GRID graph
+
+
+
+---
+
+NODE TYPES
+
+LOCATION NODE
+
+OBJECT NODE
+
+EVENT NODE
+
+MEMORY NODE
+
+QUEST NODE
+
+
+
+---
+
+STRUCTURE
+
+ROOM → REGION → ZONE → WORLD → LAYERED SIMULATION GRAPH
+
+
+---
+
+4. LAYER 3 — IMAGE GENERATION OVERLAY SYSTEM
+
+image-overlay-engine.js
+
+RESPONSIBILITIES:
+
+generate visual representation of current node
+
+overlay images on GRID nodes
+
+render state-based visuals (dynamic)
+
+
+
+---
+
+IMAGE PIPELINE
+
+WORLD STATE
+  ↓
+visual prompt generator
+  ↓
+image_gen request
+  ↓
+overlay renderer
+  ↓
+GRID node texture update
+
+
+---
+
+VISUAL STATES
+
+STATE	VISUAL EFFECT
+
+SAFE	stable, bright environment
+UNKNOWN	fog / distortion
+DANGER	red shift / fragmentation
+DISCOVERED	stabilized rendering
+MEMORY NODE	faded archival aesthetic
+
+
+
+---
+
+5. PROCEDURAL GENERATION ENGINE
+
+world-generator.js
+
+RESPONSIBILITIES:
+
+generate nodes on demand
+
+expand world graph dynamically
+
+enforce deterministic seed rules
+
+
+
+---
+
+GENERATION RULE
+
+input_seed + user_action + system_state → new world node
+
+
+---
+
+RULES:
+
+no duplicate nodes unless explicitly branched
+
+entropy controls world chaos level
+
+GRID determines spatial consistency
+
+
+
+---
+
+6. MULTIMODAL RENDER PIPELINE
+
+render-orchestrator.js
+
+FLOW:
+
+adventure state
+  ↓
+GRID mapping
+  ↓
+image prompt builder
+  ↓
+image generation layer
+  ↓
+overlay renderer
+  ↓
+UI shell update
+
+
+---
+
+7. TEXT + IMAGE SYNCHRONIZATION MODEL
+
+sync-engine.js
+
+ENSURES:
+
+every text node has optional visual counterpart
+
+images reflect current state, not static assets
+
+world evolution updates visuals dynamically
+
+
+
+---
+
+8. STATE SYSTEM INTEGRATION
+
+INTEGRATES WITH:
+
+telemetry (PATCH_012)
+
+stats engine (PATCH_014)
+
+governance (PATCH_013)
+
+GRID (PATCH_011)
+
+emulator OS (PATCH_010)
+
+
+BUT REMAINS ISOLATED:
+
+> adventure layer does NOT control emulator execution
+
+
+
+
+---
+
+9. USER INTERACTION MODEL
+
+MODES:
+
+MODE A — TEXT ADVENTURE ONLY
+
+pure narrative traversal
+
+
+MODE B — VISUAL GRID MODE
+
+nodes + images only
+
+
+MODE C — FULL MULTIMODAL MODE
+
+text + GRID + image overlay
+
+
+
+---
+
+10. EXAMPLE FLOW
+
+USER: "enter the neon ruin"
+
+→ world-generator creates node
+→ GRID assigns spatial position
+→ image engine generates scene
+→ overlay renders environment
+→ stats engine logs entropy increase
+→ telemetry records event
+
+
+---
+
+11. GOVERNANCE MODEL
+
+HARD RULES
+
+image generation is derived, not authoritative
+
+text state defines truth, images are representation only
+
+GRID is structural backbone, not narrative authority
+
+emulator remains separate execution domain
+
+
+
+---
+
+12. GOLD LAW ENFORCEMENT
+
+GL2: compress multimodal system into layered pipeline only
+
+GL5: all image generation must map to world state
+
+GL6: no duplicate world simulation engines
+
+GL7: no expansion unless improves immersion or structural clarity
+
+GL8: ADVENTURE ≠ EMULATOR IMAGE ≠ STATE GRID ≠ EXECUTION
+
+GL9: full traceability: input → narrative → state → graph → image → render → log
+
+
+
+---
+
+13. SYSTEM OUTCOME
+
+After PATCH_015:
+
+✔ JARVIS becomes procedural world engine ✔ Text adventure becomes structured graph system ✔ GRID becomes spatial narrative map ✔ Image generation becomes real-time world visualization layer ✔ Multimodal navigation achieved (text + image + graph) ✔ Entire system becomes playable simulation layer over emulator OS
+
+
+---
+
+14. FINAL ARCHITECTURE STATE
+
+jarvis/ emulator/ grid/ launcher/ telemetry/ ai/ multiplayer/ intelligence/ governance/ stats/ adventure/        ← NEW WORLD ENGINE rendering/        ← MULTIMODAL OVERLAY ENGINE
+
+
+---
+
+FINAL STATE
+
+TYPE: MULTIMODAL PROCEDURAL WORLD SIMULATION LAYER
+
+STATUS: IMMERSIVE SYSTEM LAYER COMPLETE
+
+END PATCH_015
+
+---
