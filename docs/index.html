@@ -413,7 +413,7 @@ const WasmBoyCore={
 
 // P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
 const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
-// mgba.js is Emscripten UMD — must load via <script crossorigin> to set window global
+// mgba.js is CJS — browser UMD branch should set window.mGBA; accept fn or .default
 function loadScriptCORS(url){
   return new Promise((res,rej)=>{
     if(document.querySelector('script[data-mgba]')){res();return;}
@@ -430,10 +430,11 @@ const MGBACore={
     if(!self.crossOriginIsolated) throw new Error('COI_REQUIRED');
     const snap=new Set(Object.keys(window));
     await loadScriptCORS(MGBA_CDN+'mgba.js');
-    // Emscripten UMD may export as mGBA, Module, or another var — detect it
-    const newFns=Object.keys(window).filter(k=>!snap.has(k)&&typeof window[k]==='function');
-    const factory=window.mGBA||window.Module||newFns.map(k=>window[k])[0];
-    if(typeof factory!=='function') throw new Error('mGBA_global_missing['+newFns.join(',')+']');
+    // CJS dist — browser branch may export as object, function, or .default
+    const allNew=Object.keys(window).filter(k=>!snap.has(k));
+    const raw=window.mGBA??window.Module??(allNew.length?window[allNew[0]]:undefined);
+    const factory=(typeof raw==='function')?raw:(raw&&typeof raw.default==='function')?raw.default:null;
+    if(!factory) throw new Error('mGBA_factory_missing[mGBA:'+typeof window.mGBA+',Module:'+typeof window.Module+',new:['+allNew.join(',')+']'+']');
     this._m=await factory({canvas,locateFile:f=>MGBA_CDN+f});
     await this._m.FSInit();
   },
@@ -998,4 +999,3 @@ if('serviceWorker' in navigator){
 }
 </script>
 </body>
-</html>
