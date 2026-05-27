@@ -2,78 +2,226 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>JARVIS ALERTS</title>
-<meta name="theme-color" content="#020408">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#f5a623">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<link rel="icon" type="image/svg+xml" href="/jarvis/icon.svg">
+<meta name="apple-mobile-web-app-title" content="JARVIS">
+<meta name="mobile-web-app-capable" content="yes">
+<link rel="manifest" href="./manifest.json">
+<link rel="apple-touch-icon" href="./icon.svg">
+<title>JARVIS HANDHELD</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
-:root{--amber:#f5a623;--green:#00ff88;--red:#ff3355;--dim:#1e3a52;--text:#4a7a99;--bright:#a0c8e0;--bg:#020408;--surface:#080f18;--border:#0f2035;}
-*{box-sizing:border-box;margin:0;padding:0;}
-html,body{background:radial-gradient(ellipse at center,#0a0f1a 0%,#020408 100%);color:var(--bright);font-family:system-ui,-apple-system,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;}
-.card{width:100%;max-width:360px;padding:32px 24px;text-align:center;}
-.logo{font-size:13px;letter-spacing:6px;color:var(--amber);font-family:monospace;font-weight:bold;animation:glow 2s ease-in-out infinite;}
-@keyframes glow{0%,100%{text-shadow:0 0 10px rgba(245,166,35,.3)}50%{text-shadow:0 0 30px rgba(245,166,35,.8)}}
-.sub{font-size:10px;letter-spacing:3px;color:var(--text);margin-top:6px;}
-.divider{border:none;border-top:1px solid var(--border);margin:28px 0;}
-.status-ring{width:80px;height:80px;border-radius:50%;border:3px solid var(--border);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:32px;transition:border-color .3s;}
-.status-ring.active{border-color:var(--green);box-shadow:0 0 20px rgba(0,255,136,.2);}
-.status-ring.error{border-color:var(--red);}
-.status-text{font-size:11px;letter-spacing:2px;color:var(--text);min-height:36px;line-height:1.8;}
-.btn{display:block;width:100%;padding:16px;margin-top:24px;background:var(--amber);color:#020408;font-size:11px;letter-spacing:3px;font-weight:bold;border:none;border-radius:6px;cursor:pointer;font-family:monospace;transition:opacity .2s;}
-.btn:active{opacity:.75;}
-.btn:disabled{opacity:.35;cursor:not-allowed;}
-.btn.secondary{background:transparent;border:1px solid var(--border);color:var(--text);margin-top:12px;}
-.detail{font-size:9px;color:var(--dim);letter-spacing:1px;margin-top:20px;line-height:1.9;}
-.detail a{color:var(--text);text-decoration:none;}
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+:root {
+  --pixel: 'Press Start 2P', monospace;
+  --amber: #f5a623; --green: #00ff88; --blue: #0af; --red: #ff3355;
+  --dim: #1e3a52; --text: #4a7a99; --bright: #a0c8e0;
+  --bg: #020408; --surface: #080f18;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: radial-gradient(ellipse at center, #0a0f1a 0%, #020408 100%);
+  display: flex; align-items: flex-start; justify-content: center;
+  min-height: 100vh; font-family: var(--pixel); user-select: none;
+  overflow-y: auto; padding: 8px 0;
+}
+.device {
+  width: min(420px, calc(100vw - 8px));
+  background: linear-gradient(160deg, #4a4a4a 0%, #2d2d2d 60%, #222 100%);
+  border-radius: 14px 14px 52px 52px;
+  padding: 18px 18px 32px;
+  position: relative;
+  box-shadow: 5px 5px 0 #111, 9px 9px 0 #0a0a0a,
+    inset 0 1px 0 rgba(255,255,255,.13), inset 0 -2px 0 rgba(0,0,0,.5);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px);
+}
+.led {
+  position: absolute; top: 18px; right: 22px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+  animation: led-blink 2s infinite;
+}
+@keyframes led-blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.screen-housing {
+  background: #120a02;
+  border: 6px solid #6b4420;
+  box-shadow: inset 0 0 0 2px #2e1a08, inset 0 0 0 4px #8a5a30,
+    0 0 0 1px #1a0a00, 0 4px 14px rgba(0,0,0,.7);
+  border-radius: 3px; padding: 8px; margin-bottom: 4px;
+}
+.screen-label {
+  text-align: center; font-size: 5px; letter-spacing: 4px;
+  color: #5a3d1c; margin-bottom: 6px;
+}
+.screen {
+  width: 100%; height: 300px;
+  background: var(--bg); border: 2px solid #0a0f1a;
+  position: relative; overflow: hidden;
+}
+.screen::before {
+  content: ''; position: absolute; inset: 0; z-index: 100; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.09) 2px, rgba(0,0,0,.09) 4px);
+}
+.screen::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 50%; height: 45%;
+  background: linear-gradient(135deg, rgba(255,255,255,.04), transparent);
+  z-index: 101; pointer-events: none;
+}
+#screen-inner { position: absolute; inset: 0; overflow: hidden; font-family: var(--pixel); font-size: 7px; color: var(--text); }
+.panel { display: flex; flex-direction: column; height: 100%; }
+.s-header {
+  background: var(--surface); border-bottom: 1px solid #0f2035;
+  padding: 5px 8px; font-size: 7px; color: var(--amber); letter-spacing: 2px;
+  display: flex; justify-content: space-between; flex-shrink: 0;
+}
+.s-body { flex: 1; padding: 6px 8px; overflow: hidden; }
+.s-body.scroll { overflow-y: auto; }
+.s-body.scroll::-webkit-scrollbar { width: 2px; }
+.s-body.scroll::-webkit-scrollbar-thumb { background: var(--dim); }
+.s-footer {
+  background: var(--surface); border-top: 1px solid #0f2035;
+  padding: 4px 8px; font-size: 5px; color: var(--dim); letter-spacing: 1px; flex-shrink: 0;
+}
+.row { padding: 3px 4px; font-size: 7px; line-height: 1.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bright); display: flex; align-items: center; gap: 4px; }
+.row.sel { color: var(--amber); background: rgba(245,166,35,.07); }
+.row .sub { color: var(--dim); font-size: 5px; }
+.dl { color: var(--dim); font-size: 5px; letter-spacing: 2px; margin: 6px 0 2px; }
+.dv { color: var(--bright); font-size: 6px; line-height: 1.8; word-break: break-word; margin-bottom: 4px; }
+.rule { padding: 2px 0; border-bottom: 1px solid #0f2035; font-size: 6px; line-height: 1.9; }
+.rule.sel { color: var(--amber); }
+.live-e { display: flex; gap: 5px; padding: 2px 0; border-bottom: 1px solid #080f18; font-size: 6px; }
+.lt { color: var(--dim); flex-shrink: 0; }
+.la { color: var(--bright); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ls-done { color: var(--green); flex-shrink: 0; }
+.ls-working { color: var(--amber); flex-shrink: 0; }
+.ls-failed { color: var(--red); flex-shrink: 0; }
+.boot-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 10px; padding: 0 16px; }
+.boot-logo { font-size: 22px; color: var(--amber); letter-spacing: 10px; text-shadow: 0 0 20px rgba(245,166,35,.5); animation: gbglow 2s ease-in-out infinite; }
+@keyframes gbglow { 0%,100%{text-shadow:0 0 10px rgba(245,166,35,.3)} 50%{text-shadow:0 0 30px rgba(245,166,35,.8)} }
+.boot-sub { font-size: 5px; color: var(--dim); letter-spacing: 3px; }
+.boot-lines { width: 100%; min-height: 72px; font-size: 6px; line-height: 2; }
+.boot-line { color: var(--green); animation: gbfade .3s ease; }
+@keyframes gbfade { from{opacity:0} to{opacity:1} }
+.boot-hint { font-size: 5px; color: var(--dim); animation: gblink 1s step-end infinite; }
+@keyframes gblink { 0%,100%{opacity:1} 50%{opacity:0} }
+.brand { text-align: center; font-size: 6px; letter-spacing: 7px; color: #3a3a3a; padding: 6px 0 10px; text-shadow: 0 1px 0 #555; }
+.ctrl-row { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; margin-bottom: 14px; }
+.dpad { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
+.dph, .dpv { position: absolute; background: #1e1e1e; border-radius: 2px; }
+.dph { width: 110px; height: 36px; top: 37px; left: 0; box-shadow: 0 3px 0 #111, inset 0 1px 0 rgba(255,255,255,.08); }
+.dpv { width: 36px; height: 110px; left: 37px; top: 0; box-shadow: 2px 0 0 #111; }
+.dpc { position: absolute; width: 36px; height: 36px; background: #161616; top: 37px; left: 37px; z-index: 2; }
+.dpb { position: absolute; background: transparent; border: none; cursor: pointer; z-index: 3; color: #3a3a3a; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+.dpb:active { background: rgba(255,255,255,.08); }
+.dpb.up { width: 36px; height: 36px; top: 0; left: 37px; }
+.dpb.dn { width: 36px; height: 36px; bottom: 0; left: 37px; }
+.dpb.lf { width: 36px; height: 36px; left: 0; top: 37px; }
+.dpb.rt { width: 36px; height: 36px; right: 0; top: 37px; }
+.face { position: relative; width: 110px; height: 100px; flex-shrink: 0; }
+.fb { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer; font-family: var(--pixel); font-size: 12px; }
+.fb:active { transform: translateY(2px); }
+.fb.a { background: linear-gradient(145deg, #c83322, #881811); box-shadow: 0 4px 0 #550f00, 0 4px 10px rgba(0,0,0,.5); color: #ffccaa; right: 0; top: 26px; }
+.fb.b { background: linear-gradient(145deg, #223caa, #111e66); box-shadow: 0 4px 0 #001040, 0 4px 10px rgba(0,0,0,.5); color: #aac8ff; left: 0; top: 26px; }
+.fbl { position: absolute; font-size: 5px; color: #4a4a4a; letter-spacing: 1px; }
+.fbl.a { right: 6px; top: 6px; }
+.fbl.b { left: 8px; top: 6px; }
+.menu-row { display: flex; justify-content: center; gap: 22px; margin-bottom: 18px; }
+.mb { background: #1e1e1e; border: 1px solid #2e2e2e; border-radius: 10px; padding: 5px 14px; color: #4a4a4a; font-family: var(--pixel); font-size: 5px; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 0 #111; transform: rotate(-12deg); }
+.mb:active { transform: rotate(-12deg) translateY(1px); box-shadow: none; }
+.speaker { position: absolute; bottom: 22px; right: 20px; display: grid; grid-template-columns: repeat(5, 4px); grid-template-rows: repeat(3, 4px); gap: 3px; }
+.sp { width: 4px; height: 4px; border-radius: 50%; background: #1a1a1a; box-shadow: inset 0 1px 0 rgba(0,0,0,.9); }
 </style>
 </head>
 <body>
-<div class="card">
-  <div class="logo">JARVIS</div>
-  <div class="sub">ALERT SUBSCRIPTION</div>
-  <hr class="divider">
-
-  <div class="status-ring" id="ring">⚡</div>
-  <div class="status-text" id="status">Checking push support...</div>
-
-  <button class="btn" id="btn" disabled>CHECKING...</button>
-  <button class="btn secondary" id="test-btn" style="display:none" onclick="sendTest()">SEND TEST PUSH</button>
-
-  <div class="detail">
-    Notifications fire on:<br>
-    PROMETHEUS decisions &nbsp;·&nbsp; heartbeat events<br>
-    AEGIS blocks &nbsp;·&nbsp; Gold Law violations<br><br>
-    <a href="/jarvis/gameboy">Open JARVIS Handheld →</a>
+<div class="device">
+  <div class="led"></div>
+  <div class="screen-housing">
+    <div class="screen-label">JARVIS GRID INTERFACE &nbsp;<span id="sse-dot" style="color:#333">&#9679;</span></div>
+    <div class="screen">
+      <div id="screen-inner"></div>
+      <!-- P06: persistent emulator canvas — sits under scanline overlay (z-index 99 < 100) -->
+      <canvas id="emu-canvas" style="position:absolute;inset:0;display:none;image-rendering:pixelated;z-index:99;background:#000;width:100%;height:100%"></canvas>
+    </div>
   </div>
+  <div class="brand">JARVIS</div>
+  <div class="ctrl-row">
+    <div class="dpad">
+      <div class="dph"></div><div class="dpv"></div><div class="dpc"></div>
+      <button class="dpb up" onclick="nav(-1)">&#9650;</button>
+      <button class="dpb dn" onclick="nav(1)">&#9660;</button>
+      <button class="dpb lf" onclick="emuDir('left')||back()">&#9664;</button>
+      <button class="dpb rt" onclick="emuDir('right')||ok()">&#9654;</button>
+    </div>
+    <div class="face">
+      <span class="fbl b">B</span><span class="fbl a">A</span>
+      <button class="fb b" onclick="back()">B</button>
+      <button class="fb a" onclick="ok()">A</button>
+    </div>
+  </div>
+  <div class="menu-row">
+    <button class="mb" onclick="emuBtn('SELECT')||back()">SELECT</button>
+    <button class="mb" onclick="start()">START</button>
+  </div>
+  <div class="speaker" id="spk"></div>
 </div>
 
 <script>
-const VAPID_PUBLIC = 'BE4-zlXUnK_zKcuQLB-kR-2_0QRwzDUUiV8ss2yZxtDM7kCI5GAF4Ku4Jf7ZjaKsaasNwQodHw4PPSyeyqjH-Ok';
-const SB_URL  = 'https://oexghfsvhnggddllgvrt.supabase.co';
-const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.jRFMf-C9ps72Bi_9IpiC3eOZD6Aj6wU4IF-j3svKTfQ';
+// ── config (safe for client-side)
+const SUPABASE_URL     = 'https://oexghfsvhnggddllgvrt.supabase.co';
+const SUPABASE_ANON    = 'sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA';
+const VAPID_PUBLIC_KEY = 'BOM33NOZ7DDy-fNYxjIo1Xc3xMfFQY_RodR47qM68tmPU2HBXWVFlALlQiOG8MYxkY2uK1C2euH5KZ3v9JPdZdQ';
+const GITHUB_REPO      = 'hurrisonferd/jarvis';
+const PUSH_FN_URL      = `${SUPABASE_URL}/functions/v1/send-push`;
+const BRIEFING_URL     = 'https://raw.githubusercontent.com/hurrisonferd/jarvis/main/JarvisBriefing';
 
-const ring   = document.getElementById('ring');
-const status = document.getElementById('status');
-const btn    = document.getElementById('btn');
-const testBtn = document.getElementById('test-btn');
+const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
 // ── speaker dots
 (function(){ const s=document.getElementById('spk'); for(let i=0;i<15;i++){const d=document.createElement('div');d.className='sp';s.appendChild(d);} })();
 
-// ── Patch 4: ModeController (grid_home | gb_rom | gba_rom | jarvis_ui)
+// P22: EventBus — centralized event spine (replaces scattered sbEvent calls)
+const BUS={
+  _h:{},
+  emit(evt,data={}){
+    // P21: tag every event with role+ts, run AEGIS gate before dispatch
+    const tagged={...data,_role:ModeController.mode,_ts:Date.now()};
+    const block=AEGIS.gate(evt,tagged);
+    if(block){ sbEvent('AEGIS_BLOCK',{evt,block}); return; }
+    (this._h[evt]||[]).forEach(fn=>fn(tagged));
+    (this._h['*']||[]).forEach(fn=>fn(evt,tagged));
+    sbEvent(evt,tagged);
+  },
+  on(evt,fn){ this._h[evt]=(this._h[evt]||[]).concat([fn]); return ()=>{this._h[evt]=(this._h[evt]||[]).filter(f=>f!==fn);}; },
+};
+
+// ── Patch 4: ModeController — routes through BUS
 const ModeController = {
   mode: 'jarvis_ui',
-  set(m){ this.mode=m; sbEvent('mode_switch',{mode:m}); },
+  set(m){ this.mode=m; BUS.emit('mode_change',{mode:m}); },
   is(m){ return this.mode===m; },
+};
+
+// P21: AEGIS output gate — GL4/GL5 enforcement at event bus level
+const AEGIS={
+  _deny:{
+    emu_start:(d)=>(!self.crossOriginIsolated&&d.type==='gba')?'GL4:COI_required':null,
+  },
+  gate(evt,data){
+    const check=this._deny[evt];
+    if(check){ const v=check(data); if(v) return v; }
+    return null;
+  },
 };
 
 // ── Patch 4: neural mesh session
 let sessionId = null;
 async function startSession(){
   try{
-    const {data}=await sb.from('sessions').insert({mode:ModeController.mode,active_node:'BOOT'}).select('id').single();
+    const {data}=await sb.from('sessions').insert({mode:ModeController.mode,active_node:'BOOT',agent:'jarvis_web',version:'2.5'}).select('id').single();
     if(data) sessionId=data.id;
   }catch(e){}
 }
@@ -85,13 +233,23 @@ async function sbEvent(type,payload={}){
   try{ await sb.from('events').insert({type,payload,session_id:sessionId}); }catch(e){}
 }
 
-// ── Patch 5 Phase 1: L0 spatial graph (static seed — grows from Supabase snapshot)
+// P21: briefing-first boot — fetch JarvisBriefing from GitHub as authoritative source
+async function loadBriefing(){
+  try{
+    const r=await fetch(BRIEFING_URL);
+    if(r.ok){ briefingLoaded=true; BUS.emit('BOOT',{briefing:'loaded',source:'github'}); }
+    else { briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'github_error',status:r.status}); }
+  }catch(e){ briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'network_error'}); }
+}
+
+// ── Patch 5 Phase 1: L0 spatial graph
 const L0_NODES = [
   {id:'AYRE',   type:'execution', x:0.5, y:0.1, links:['AEGIS']},
   {id:'AEGIS',  type:'execution', x:0.5, y:0.25,links:['ODIN']},
   {id:'ODIN',   type:'execution', x:0.5, y:0.4, links:['KRONOS']},
   {id:'KRONOS', type:'execution', x:0.5, y:0.55,links:['SKADI']},
-  {id:'SKADI',  type:'execution', x:0.5, y:0.7, links:['MNEMOS']},
+  {id:'SKADI',  type:'execution', x:0.5, y:0.7, links:['MNEMOS','GAMEBOY']},
+  {id:'GAMEBOY',type:'emulator',  subsystem:'gameboy', x:0.2, y:0.7, links:['SKADI']},
   {id:'MNEMOS', type:'memory',    x:0.3, y:0.85,links:['HUGINN']},
   {id:'HUGINN', type:'memory',    x:0.7, y:0.85,links:[]},
   {id:'HALO',   type:'parallel',  x:0.1, y:0.4, links:['ODIN']},
@@ -104,9 +262,9 @@ const L0_NODES = [
   {id:'APOLLO', type:'post',      x:0.5, y:0.97,links:[]},
   {id:'JANUS',  type:'post',      x:0.8, y:0.95,links:[]},
 ];
-const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)'};
+const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)',emulator:'#00ff88'};
 
-// ── fallback god systems (from chaos_seed.example — Supabase snapshot overrides)
+// ── fallback (Supabase gameboy_snapshot overrides)
 const FALLBACK_DATA = {
   pipeline: ['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'],
   god_systems: [
@@ -147,75 +305,84 @@ const FALLBACK_DATA = {
     {district:'L3 VECTORS',  region:'Direction Layer',    keywords:['routing','autopilot','flow']},
     {district:'L4 HYPERGRAPH',region:'Multi-link Logic',  keywords:['patches','decisions','groups']},
     {district:'L5 TEMPORAL', region:'Time / Versioning',  keywords:['replay','rollback','snapshots']},
+    {district:'L6 PIPELINE', region:'Execution Flow',     keywords:['pipeline','stages','entropy']},
   ],
 };
 
 // ── state
 let S='boot', cur=0, detail=null, gdata=null, lives=[];
 let sseConnected=false;
+let nodeFields={};
+let briefingLoaded=false;
 const PG=7;
+// P23: GRID state kernel — TRON is read-only projection; all field mutations go through GRID.set()
+const GRID={nodes:L0_NODES,get fields(){return nodeFields},set(id,d){nodeFields[id]=d;}};
+// P28: KRONOS time controller — real=auto-tick 900ms, stepped=manual, frozen=paused
+const KRONOS={mode:'frozen',tick:0,_iv:null};
+let tronLayer=0;         // P05/P13: 0=L0 spatial, 4=hypergraph, 5=temporal, 6=pipeline
+let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
+let replayData=[], auditData=[];
 
 const MENU=[
   {label:'GOD SYSTEMS', state:'god'},
   {label:'GOLD LAW',    state:'gold'},
   {label:'THE GRID',    state:'grid'},
+  {label:'TRON',        state:'tron'},
   {label:'LIVE FEED',   state:'live'},
   {label:'ALERTS',      state:'alerts'},
   {label:'GITHUB',      state:'github'},
+  {label:'EMULATOR',    state:'emu'},
 ];
 
-// ── render
 function draw(){
+  const ec=document.getElementById('emu-canvas');
+  if(ec) ec.style.display=(emuState==='running'&&S==='emu')?'block':'none';
   const el=document.getElementById('screen-inner');
   if(S==='menu')        el.innerHTML=rMenu();
   else if(S==='god')    el.innerHTML=rGodList();
   else if(S==='godD')   el.innerHTML=rGodDetail();
   else if(S==='gold')   el.innerHTML=rGold();
   else if(S==='grid')   el.innerHTML=rGrid();
-  else if(S==='graph')  el.innerHTML=rL0Graph();
+  else if(S==='tron')   el.innerHTML=rTRON();
   else if(S==='gridD')  el.innerHTML=rGridDetail();
   else if(S==='live')   el.innerHTML=rLive();
   else if(S==='alerts') el.innerHTML=rAlerts();
   else if(S==='github') el.innerHTML=rGithub();
   else if(S==='ghIssue') el.innerHTML=rGhIssue();
+  else if(S==='emu')    el.innerHTML=rEmulator();
 }
 
-function cursor(i,sel){ return `<span style="color:${sel?'var(--amber)':'var(--dim)'}">${sel?'&#9658;':' '}</span>`; }
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+(sel?'&#9658;':' ')+'</span>'; }
 
 function rMenu(){
   const subs=[
     gdata?gdata.god_systems.length+' NODES':'...',
     gdata?gdata.gold_law.length+' RULES':'...',
     gdata?gdata.districts.length+' DISTRICTS':'...',
+    L0_NODES.length+' NODES',
     lives.length+' ENTRIES',
     pushSubbed?'ON':'OFF',
     ghData?'LOADED':'...',
+    EmulatorRouter.active?EmulatorRouter.active.toUpperCase():'IDLE',
   ];
-  return `<div class="panel">
-    <div class="s-header"><span>JARVIS v2.5</span><span style="color:var(--green)">&#9632; ONLINE</span></div>
-    <div class="s-body" style="padding-top:10px">
-      ${MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+ cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')}
-    </div>
-    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>
-  </div>`;
+  const bCol=briefingLoaded?'var(--green)':'var(--amber)';
+  const bLabel=briefingLoaded?'BRIEFED':'FALLBACK';
+  return '<div class="panel">\n    <div class="s-header"><span>JARVIS v2.5</span><span><span style="color:'+bCol+'">&#9632;</span> '+bLabel+'</span></div>\n    <div class="s-body" style="padding-top:10px">\n      '+MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')+'\n    </div>\n    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>\n  </div>';
 }
 
 function rGodList(){
   if(!gdata) return rLoad();
   const sys=gdata.god_systems, pip=gdata.pipeline||[];
   const st=Math.floor(cur/PG)*PG, pg=sys.slice(st,st+PG);
-  return `<div class="panel">
-    <div class="s-header"><span>GOD SYSTEMS</span><span>${cur+1}/${sys.length}</span></div>
-    <div class="s-body">
-      ${pg.map((s,i)=>{const idx=st+i,inP=pip.includes(s.name);return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:'+(inP?'var(--green)':'var(--bright)')+'">'+s.name+'</span><span class="sub">'+(s.description||'').substring(0,18)+'</span></div>';}).join('')}
-    </div>
-    <div class="s-footer">A:VIEW &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
-  </div>`;
+  return '<div class="panel">\n    <div class="s-header"><span>GOD SYSTEMS</span><span>'+(cur+1)+'/'+sys.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((s,i)=>{const idx=st+i,inP=pip.includes(s.name);return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:'+(inP?'var(--green)':'var(--bright)')+'">'+s.name+'</span><span class="sub">'+(s.description||'').substring(0,18)+'</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:VIEW &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
 }
 
 function rGodDetail(){
   if(!detail) return rLoad();
   const d=detail;
+  // P14: live stats from GRID node_fields
+  const f=nodeFields[d.name]||null;
+  const statsHtml=f?`<div class="dl">LIVE STATS</div><div class="dv" style="font-size:5px;line-height:2">ENT <span style="color:${(f.entropy||0)>0.5?'var(--red)':'var(--green)'}">${Math.round((f.entropy||0)*100)}%</span> &nbsp; ALN <span style="color:var(--blue)">${Math.round((f.alignment||1)*100)}%</span> &nbsp; LOAD <span style="color:var(--amber)">${Math.round((f.load||0)*100)}%</span></div>`:'';
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--amber)">${d.name}</span><span style="color:var(--dim)">SYS</span></div>
     <div class="s-body scroll">
@@ -224,6 +391,7 @@ function rGodDetail(){
       <div class="dl">INPUTS</div><div class="dv">${(d.inputs||[]).join(', ').substring(0,60)||'—'}</div>
       <div class="dl">OUTPUTS</div><div class="dv">${(d.outputs||[]).join(', ').substring(0,60)||'—'}</div>
       <div class="dl">FORBIDDEN EDGES</div><div class="dv" style="color:var(--red)">${(d.forbidden||[]).join(', ')||'none'}</div>
+      ${statsHtml}
     </div>
     <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
   </div>`;
@@ -244,37 +412,263 @@ function rGold(){
 function rGrid(){
   if(!gdata) return rLoad();
   const ds=gdata.districts, st=Math.floor(cur/PG)*PG, pg=ds.slice(st,st+PG);
+  return '<div class="panel">\n    <div class="s-header"><span>THE GRID</span><span>'+(cur+1)+'/'+ds.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((d,i)=>{const idx=st+i;return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:var(--blue)">'+d.district+'</span><span class="sub">['+(d.region||'').split(' ').pop()+']</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:DETAIL &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
+}
+
+// L3: hex colors for SVG markers (CSS vars don't resolve inside <marker> defs)
+const ARROW_COLS={execution:'#f5a623',memory:'#00aaff',parallel:'#00ff88',guardian:'#ff3355',governance:'#cc00ff',integrity:'#ff8800',post:'#1e3a52'};
+
+// P06: dynamic script loader
+function loadScript(url){
+  return new Promise((res,rej)=>{
+    if(document.querySelector('script[src="'+url+'"]')){ res(); return; }
+    const s=document.createElement('script'); s.src=url;
+    s.onload=res; s.onerror=rej; document.head.appendChild(s);
+  });
+}
+
+// P06: GB/GBC adapter — WasmBoy (confirmed CDN)
+const WasmBoyCore={
+  name:'WasmBoy', types:['gb','gbc'], _ready:false,
+  async init(canvas){
+    if(!this._ready){
+      await loadScript('https://cdn.jsdelivr.net/npm/wasmboy@0.7.1/dist/wasmboy.wasm.umd.js');
+      this._ready=true;
+    }
+    await WasmBoy.config(canvas,{headless:false,isAudioEnabled:true,gameboyFrameRate:60,useGbcWhenOptional:true});
+  },
+  async loadROM(buf){ await WasmBoy.loadROM(buf); },
+  play(){ WasmBoy.play(); },
+  pause(){ try{WasmBoy.pause();}catch(e){} },
+  stop(){ try{WasmBoy.reset();}catch(e){} },
+  setInput(s){ try{WasmBoy.setJoypadState(s);}catch(e){} },
+  async snapshot(){ try{return await WasmBoy.saveState();}catch(e){return null;} },
+  async restore(s){ try{if(s) await WasmBoy.loadState(s);}catch(e){} },
+};
+
+// P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
+// CJS package — esm.sh converts it to ESM in an isolated module scope,
+// bypassing the window.module pollution from Supabase UMD.
+const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
+const MGBA_LOCAL='/emulator/cores/';
+const MGBACore={
+  name:'mGBA', types:['gba'], _m:null, _prev:new Set(),
+  _map:{A:'A',B:'B',UP:'Up',DOWN:'Down',LEFT:'Left',RIGHT:'Right',START:'Start',SELECT:'Select',L:'L',R:'R'},
+  async init(canvas){
+    if(!self.crossOriginIsolated) throw new Error('COI_REQUIRED');
+    let mod;
+    try{ mod=await import('https://esm.sh/@thenick775/mgba-wasm@2.4.1'); }
+    catch(e){ throw new Error('mgba_import_failed:'+e.message); }
+    const factory=mod.default??mod.mGBA;
+    if(typeof factory!=='function') throw new Error('mgba_no_factory[keys:'+Object.keys(mod).join(',')+']');
+    // try local wasm first (faster, offline); fall back to CDN if not present
+    // locateFile must be synchronous — probe before calling factory
+    let wasmBase=MGBA_CDN;
+    try{ const r=await fetch(MGBA_LOCAL+'mgba.wasm',{method:'HEAD'}); if(r.ok) wasmBase=MGBA_LOCAL; }catch(_){}
+    this._m=await factory({canvas,locateFile:f=>wasmBase+f});
+    await this._m.FSInit();
+  },
+  async loadROM(buf){
+    return new Promise((res,rej)=>{
+      const arr=new Uint8Array(buf);
+      const name=(romName||'game.gba').replace(/[^a-zA-Z0-9._-]/g,'_');
+      try{
+        this._m.uploadRom(arr,()=>{
+          this._m.loadGame('/data/games/'+name);
+          res();
+        });
+      }catch(e){rej(e);}
+    });
+  },
+  play(){ try{this._m.resumeGame();}catch(e){} },
+  pause(){ try{this._m.pauseGame();}catch(e){} },
+  stop(){ try{this._m.quitGame();}catch(e){} },
+  setInput(state){
+    if(!this._m) return;
+    const mp=this._map;
+    this._prev.forEach(k=>{ if(!state[k]) try{this._m.buttonUnpress(mp[k]);}catch(e){} });
+    this._prev=new Set();
+    Object.entries(state).forEach(([k,v])=>{
+      if(v&&mp[k]){ try{this._m.buttonPress(mp[k]);}catch(e){} this._prev.add(k); }
+    });
+  },
+  async snapshot(){ try{this._m.saveState(0);return{slot:0};}catch(e){return null;} },
+  async restore(s){ try{if(s?.slot!==undefined) this._m.loadState(s.slot);}catch(e){} },
+};
+
+// P06: adapter registry — getCore(romType) selects implementation
+const CORE_REGISTRY=[WasmBoyCore, MGBACore];
+function getCore(t){ return CORE_REGISTRY.find(c=>c.types.includes(t)); }
+
+// P22/P06: EmulatorRouter as full P22 cartridge
+const EmulatorRouter={
+  id:'emulator', version:'0.2', active:null,
+  load(core){ this.active=core; ModeController.set(core==='gba_core'?'gba_rom':'gb_rom'); BUS.emit('cartridge_load',{core,ts:Date.now()}); },
+  stop(){ if(this.active) BUS.emit('cartridge_stop',{core:this.active,ts:Date.now()}); this.active=null; ModeController.set('grid_home'); },
+  snapshot(){ return {active:this.active,ts:Date.now()}; },
+  restore(s){ if(s?.active) this.load(s.active); },
+};
+
+const ROMLoader={
+  detect(buf){
+    if(!buf||buf.byteLength<4) return null;
+    const v=new Uint8Array(buf);
+    return (v[0]===0x2E&&v[1]===0x00&&v[2]===0x00&&v[3]===0xEA)?'gba':'gb';
+  },
+};
+
+let romName='', romType='', activeCore=null, emuState='idle', emuError='';
+
+function rEmulator(){
+  let body='';
+  if(emuState==='running'){
+    body=`<div style="color:var(--green);font-size:5px;text-align:center;padding:4px 0">&#9654; ${romName.slice(0,24)}</div>
+      <div style="color:var(--dim);font-size:5px;text-align:center;line-height:2">ENGINE: ${activeCore?.name||'?'}</div>`;
+  } else if(emuState==='loading'){
+    body=`<div style="color:var(--amber);font-size:6px;padding:20px;text-align:center">LOADING ENGINE...</div>
+      <div style="color:var(--dim);font-size:5px;text-align:center">${romName.slice(0,24)}</div>`;
+  } else if(emuState==='coi'){
+    body=`<div style="color:var(--amber);font-size:6px;line-height:2;padding:8px">RELOAD REQUIRED</div>
+      <div style="color:var(--dim);font-size:5px;line-height:1.8;padding:0 8px">GBA needs security headers.<br>Hard-reload once to activate.<br>(Close tab + reopen)</div>`;
+  } else if(emuState==='failed'){
+    body=`<div style="color:var(--red);font-size:6px;padding:8px">ENGINE LOAD FAILED</div>
+      <div style="color:var(--dim);font-size:5px;padding:0 8px;word-break:break-all">${emuError||'Check console for details.'}</div>`;
+  } else if(EmulatorRouter.active){
+    const label=romType==='gba'?'GBA (32-bit)':'GB/GBC (8-bit)';
+    body=`<div style="color:var(--green);font-size:6px;margin-bottom:8px">&#9632; ROM LOADED</div>
+      <div class="dl">FILE</div><div class="dv">${romName||'unknown'}</div>
+      <div class="dl">TYPE</div><div class="dv" style="color:var(--amber)">${label}</div>
+      <div class="dl">ENGINE</div><div class="dv" style="color:var(--amber)">PRESS A TO LAUNCH</div>`;
+  } else {
+    body=`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">EMULATOR CORE IDLE</div>
+      <div style="color:var(--bright);font-size:6px;line-height:2">PRESS A TO LOAD ROM</div>
+      <div style="color:var(--dim);font-size:5px;margin-top:8px;line-height:2">ACCEPTS: .gb  .gba  .rom</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">DETECTS TYPE VIA HEADER</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">ARM RESET → GBA &nbsp; else → GB</div>`;
+  }
+  const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='coi'?'var(--red)':'var(--amber)';
+  let footer;
+  if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; START:START';
+  else if(EmulatorRouter.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
+  else footer='A:LOAD ROM &nbsp; B:BACK';
   return `<div class="panel">
-    <div class="s-header"><span>THE GRID</span><span>${cur+1}/${ds.length}</span></div>
-    <div class="s-body">
-      ${pg.map((d,i)=>{const idx=st+i;return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:var(--blue)">'+d.district+'</span><span class="sub">['+(d.region||'').split(' ').pop()+']</span></div>';}).join('')}
-    </div>
-    <div class="s-footer">A:L0 GRAPH &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+    <div class="s-header"><span style="color:var(--green)">EMULATOR</span><span style="color:${stCol}">${emuState.toUpperCase()}</span></div>
+    <div class="s-body scroll" style="padding-top:8px">${body}</div>
+    <div class="s-footer">${footer}</div>
+    <input id="rom-input" type="file" accept=".gb,.gba,.rom,.bin" style="position:absolute;opacity:0;pointer-events:none" onchange="handleROM(this)">
   </div>`;
+}
+
+function handleROM(inp){
+  const file=inp.files[0];
+  if(!file) return;
+  romName=file.name;
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    const buf=e.target.result;
+    const t=ROMLoader.detect(buf);
+    romType=t||'unknown';
+    if(!t){ beep(200,150); emuState='idle'; draw(); return; }
+
+    EmulatorRouter.load(t+'_core');
+    beep(880,100);
+    emuState='loading'; draw();
+
+    const core=getCore(t);
+    if(!core){ emuState='failed'; draw(); return; }
+
+    const canvas=document.getElementById('emu-canvas');
+    if(!canvas){ emuState='failed'; draw(); return; }
+
+    try{
+      await core.init(canvas);
+      await core.loadROM(buf);
+      activeCore=core;
+      core.play();
+      emuState='running';
+      BUS.emit('emu_start',{engine:core.name,type:t,file:romName});
+    }catch(err){
+      activeCore=null;
+      if(err.message==='COI_REQUIRED'){ emuState='coi'; emuError=''; }
+      else { emuState='failed'; emuError=err.message||String(err); }
+      BUS.emit('emu_error',{engine:core?.name,error:err.message,type:t});
+    }
+    draw();
+  };
+  reader.readAsArrayBuffer(file);
+  inp.value='';
 }
 
 function rL0Graph(){
   const W=310, H=250;
-  let lines='', circles='', labels='';
+
+  // L3: arrowhead markers per node type
+  let defs='<defs>';
+  Object.entries(ARROW_COLS).forEach(([type,col])=>{
+    defs+=`<marker id="arr-${type}" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="${col}" opacity="0.75"/></marker>`;
+  });
+  defs+='</defs>';
+
+  // P27: region hull ellipses
+  let regions='';
+  GRID_REGIONS.forEach(r=>{
+    const ex=Math.round(r.cx*W),ey=Math.round(r.cy*H);
+    const erx=Math.round(r.rx*W),ery=Math.round(r.ry*H);
+    regions+=`<ellipse cx="${ex}" cy="${ey}" rx="${erx}" ry="${ery}" fill="${r.col}" fill-opacity="0.03" stroke="${r.col}" stroke-width="0.5" stroke-opacity="0.18" stroke-dasharray="2,3"/>`;
+    regions+=`<text x="${ex}" y="${ey-ery-3}" text-anchor="middle" font-size="3" fill="${r.col}" opacity="0.35" font-family="monospace">${r.label}</text>`;
+  });
+  // P27: portal stubs — dashed lines to external system labels
+  let portals='';
+  GRID_PORTALS.forEach(p=>{
+    const src=L0_NODES.find(n=>n.id===p.from); if(!src) return;
+    const sx=Math.round(src.x*W),sy=Math.round(src.y*H);
+    const px=Math.round(p.x*W),py=Math.round(p.y*H);
+    const anchor=p.x<0.3?'start':p.x>0.7?'end':'middle';
+    portals+=`<line x1="${sx}" y1="${sy}" x2="${px}" y2="${py}" stroke="${p.col}" stroke-width="0.7" stroke-dasharray="3,4" opacity="0.28"/>`;
+    portals+=`<text x="${px}" y="${py}" text-anchor="${anchor}" font-size="3.5" fill="${p.col}" opacity="0.45" font-family="monospace">${p.label}</text>`;
+  });
+
+  let lines='', glows='', circles='', labels='';
+  const fvals=Object.values(nodeFields);
+  const avgLoad=fvals.length?Math.round(fvals.reduce((a,f)=>a+f.load,0)/fvals.length*100):0;
+
   L0_NODES.forEach(n=>{
     const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
     n.links.forEach(lid=>{
       const t=L0_NODES.find(x=>x.id===lid);
-      if(t) lines+=`<line x1="${cx}" y1="${cy}" x2="${Math.round(t.x*W)}" y2="${Math.round(t.y*H)}" stroke="#0f2035" stroke-width="1"/>`;
+      if(!t) return;
+      const f=nodeFields[n.id]||{load:0};
+      const lw=(0.8+f.load*1.5).toFixed(1);
+      const lo=(0.4+f.load*0.5).toFixed(2);
+      // L3: shorten endpoint so arrowhead sits outside target node radius
+      const tx2=Math.round(t.x*W), ty2=Math.round(t.y*H);
+      const dx=tx2-cx, dy=ty2-cy, d=Math.sqrt(dx*dx+dy*dy)||1;
+      const ex=Math.round(tx2-(dx/d)*11), ey=Math.round(ty2-(dy/d)*11);
+      lines+=`<line x1="${cx}" y1="${cy}" x2="${ex}" y2="${ey}" stroke="#0f2035" stroke-width="${lw}" opacity="${lo}" marker-end="url(#arr-${n.type})"/>`;
     });
   });
+
   L0_NODES.forEach(n=>{
     const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
     const col=NODE_COLORS[n.type]||'var(--dim)';
-    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${col}" stroke-width="1.5"/>`;
-    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${col}" font-family="monospace">${n.id}</text>`;
+    const f=nodeFields[n.id]||{entropy:0,alignment:1,load:0,instability:0};
+    const glowR=Math.round(7+f.load*12);
+    const glowOp=(0.12+f.load*0.4).toFixed(2);
+    glows+=`<circle cx="${cx}" cy="${cy}" r="${glowR}" fill="none" stroke="${col}" stroke-width="1" opacity="${glowOp}"/>`;
+    const strokeCol=f.entropy>0.5?'var(--red)':col;
+    const sw=(1.5+f.load*2.5).toFixed(1);
+    const nodeOp=(0.5+f.alignment*0.5).toFixed(2);
+    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${strokeCol}" stroke-width="${sw}" opacity="${nodeOp}"/>`;
+    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${strokeCol}" opacity="${nodeOp}" font-family="monospace">${n.id}</text>`;
   });
+
+  const loadBar='█'.repeat(Math.round(avgLoad/10))+'░'.repeat(10-Math.round(avgLoad/10));
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--blue)">L0 SPATIAL GRAPH</span><span>${L0_NODES.length} NODES</span></div>
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L0+P27+P28 · ${L0_NODES.length}N · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span> T${KRONOS.tick}</span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
-      <svg width="${W}" height="${H}" style="overflow:visible">${lines}${circles}${labels}</svg>
+      <svg width="${W}" height="${H}" style="overflow:visible">${defs}${regions}${portals}${lines}${glows}${circles}${labels}</svg>
     </div>
-    <div class="s-footer">B:BACK &nbsp; PIPELINE=AMBER</div>
+    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
   </div>`;
 }
 
@@ -293,55 +687,275 @@ function rGridDetail(){
   </div>`;
 }
 
+// P27: GRID Place System — semantic region hulls + external portal stubs
+const GRID_REGIONS=[
+  {id:'EXEC_CORE', label:'EXEC CORE', col:'#f5a623', cx:0.50, cy:0.42, rx:0.10, ry:0.33},
+  {id:'MEMORY',    label:'MEMORY',    col:'#00aaff', cx:0.50, cy:0.85, rx:0.23, ry:0.07},
+  {id:'PAR_LEFT',  label:'PAR-L',     col:'#00ff88', cx:0.10, cy:0.52, rx:0.06, ry:0.15},
+  {id:'POST',      label:'POST',      col:'#ff8800', cx:0.50, cy:0.96, rx:0.32, ry:0.03},
+];
+const GRID_PORTALS=[
+  {id:'P_GH',  label:'GITHUB',   x:0.78, y:0.03, from:'HUGINN',  col:'#00aaff'},
+  {id:'P_SB',  label:'SUPABASE', x:0.22, y:0.03, from:'MNEMOS',  col:'#00aaff'},
+  {id:'P_EMU', label:'EMULATOR', x:0.05, y:0.70, from:'SKADI',   col:'#f5a623'},
+  {id:'P_MCP', label:'MCP',      x:0.05, y:0.13, from:'BIFROST', col:'#00ff88'},
+];
+
+// P05 L4/L5/P13 L6: TRON layer dispatcher
+function rTRON(){ return tronLayer===4?rL4Graph():tronLayer===5?rL5Graph():tronLayer===6?rL6Pipeline():rL0Graph(); }
+
+const L4_EDGES=[
+  {patch:'P04',nodes:['AYRE','AEGIS','ODIN','SKADI','MNEMOS'],col:'#f5a623'},
+  {patch:'P05',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#00aaff'},
+  {patch:'P06',nodes:['AEGIS','SKADI'],col:'#00ff88'},
+  {patch:'P21',nodes:['AYRE','AEGIS','ODIN'],col:'#cc00ff'},
+  {patch:'P22',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#ff8800'},
+  {patch:'P23',nodes:['ODIN','SKADI'],col:'#ff3355'},
+];
+function rL4Graph(){
+  const W=310,H=250;
+  let defs='<defs>';
+  L4_EDGES.forEach(e=>{ defs+=`<marker id="h4-${e.patch}" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 z" fill="${e.col}" opacity="0.7"/></marker>`; });
+  defs+='</defs>';
+  let lines='',circles='',labels='',ptags='';
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W),cy=Math.round(n.y*H);
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${col}" stroke-width="1.5" opacity="0.6"/>`;
+    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${col}" opacity="0.6" font-family="monospace">${n.id}</text>`;
+  });
+  L4_EDGES.forEach((e,i)=>{
+    const px=14,py=Math.round(22+i*(H-28)/L4_EDGES.length);
+    ptags+=`<text x="2" y="${py+4}" font-size="5" fill="${e.col}" font-family="monospace" opacity="0.9">${e.patch}</text>`;
+    e.nodes.forEach(nid=>{
+      const n=L0_NODES.find(x=>x.id===nid); if(!n) return;
+      const tx=Math.round(n.x*W),ty=Math.round(n.y*H);
+      lines+=`<line x1="${px+20}" y1="${py}" x2="${tx-8}" y2="${ty}" stroke="${e.col}" stroke-width="0.8" opacity="0.45" marker-end="url(#h4-${e.patch})"/>`;
+    });
+  });
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L4 HYPERGRAPH · ${L4_EDGES.length} PATCHES</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${defs}${lines}${circles}${labels}${ptags}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function rL5Graph(){
+  const commits=(ghData?.commits||[]).slice(0,8);
+  const W=310,H=250;
+  const cy=H/2,x0=20,xStep=commits.length>1?Math.floor((W-40)/(commits.length-1)):W-40;
+  let elems='';
+  commits.forEach((c,i)=>{
+    const cx=x0+i*xStep;
+    const col=i===0?'var(--green)':'var(--amber)';
+    if(i>0) elems+=`<line x1="${cx-xStep+7}" y1="${cy}" x2="${cx-7}" y2="${cy}" stroke="#0f2035" stroke-width="1.2" opacity="0.7"/>`;
+    elems+=`<circle cx="${cx}" cy="${cy}" r="6" fill="#080f18" stroke="${col}" stroke-width="1.5"/>`;
+    elems+=`<text x="${cx}" y="${cy-13}" text-anchor="middle" font-size="3.5" fill="var(--dim)" font-family="monospace">${(c.date||'').slice(5)}</text>`;
+    elems+=`<text x="${cx}" y="${cy+17}" text-anchor="middle" font-size="4" fill="${col}" font-family="monospace">${(c.sha||'').slice(0,6)}</text>`;
+    elems+=`<text x="${cx}" y="${cy+27}" text-anchor="middle" font-size="3" fill="var(--bright)" font-family="monospace">${(c.message||'').slice(0,12)}</text>`;
+  });
+  if(!commits.length) elems='<text x="155" y="125" text-anchor="middle" font-size="6" fill="var(--dim)" font-family="monospace">LOAD GITHUB FIRST</text>';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L5 TEMPORAL · ${commits.length} COMMITS</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+// P13: L6 God System pipeline layer
+function rL6Pipeline(){
+  const pipe=['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'];
+  const W=310,H=250,cy=Math.round(H/2);
+  const xStart=22,xEnd=W-22,xStep=(xEnd-xStart)/(pipe.length-1);
+  let elems='<defs><marker id="lp-arr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="#f5a623" opacity="0.75"/></marker></defs>';
+  let totalEntropy=0;
+  pipe.forEach((name,i)=>{
+    const cx=Math.round(xStart+i*xStep);
+    const n=L0_NODES.find(x=>x.id===name);
+    const col=n?NODE_COLORS[n.type]||'#f5a623':'#f5a623';
+    const f=nodeFields[name]||{load:0,alignment:1,entropy:0};
+    totalEntropy+=f.entropy||0;
+    const active=(f.load||0)>0.05;
+    if(i>0){
+      const px=Math.round(xStart+(i-1)*xStep);
+      elems+=`<line x1="${px+8}" y1="${cy}" x2="${cx-8}" y2="${cy}" stroke="#0f2035" stroke-width="1.2" opacity="0.7" marker-end="url(#lp-arr)"/>`;
+    }
+    const glowR=active?Math.round(8+(f.load||0)*10):0;
+    if(glowR>8) elems+=`<circle cx="${cx}" cy="${cy}" r="${glowR}" fill="none" stroke="${col}" stroke-width="1" opacity="${(0.12+(f.load||0)*0.4).toFixed(2)}"/>`;
+    elems+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${col}" stroke-width="${active?2:1}" opacity="${active?1:0.5}"/>`;
+    elems+=`<text x="${cx}" y="${cy+1.5}" text-anchor="middle" dominant-baseline="middle" font-size="3.5" fill="${col}" font-family="monospace">${name.slice(0,4)}</text>`;
+    elems+=`<text x="${cx}" y="${cy+15}" text-anchor="middle" font-size="3" fill="${active?col:'var(--dim)'}" font-family="monospace">${active?Math.round((f.load||0)*100)+'%':'--'}</text>`;
+  });
+  const avgEnt=totalEntropy/pipe.length;
+  const filledBars=Math.round(avgEnt*10);
+  const eBar='█'.repeat(filledBars)+'░'.repeat(10-filledBars);
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length} STAGES · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span></span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
+    </div>
+    <div class="s-footer">ENT ${eBar} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+// P22/P17: tabbed LIVE FEED — LIVE / REPLAY / AUDIT
+function rLiveTabs(){ return '<div style="display:flex;gap:10px;padding:2px 8px 3px;border-bottom:1px solid #0f2035">'+['LIVE','REPLAY','AUDIT'].map((t,i)=>`<span style="color:${liveTab===i?'var(--amber)':'var(--dim)'};font-size:5px">${liveTab===i?'&#9658;':''}${t}</span>`).join('')+'</div>'; }
+
 function rLive(){
+  if(liveTab===1) return `<div class="panel"><div class="s-header"><span>LIVE FEED</span><span style="color:var(--dim)">REPLAY</span></div>${rLiveTabs()}${rReplayBody()}<div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK</div></div>`;
+  if(liveTab===2) return `<div class="panel"><div class="s-header"><span>LIVE FEED</span><span style="color:var(--dim)">AUDIT</span></div>${rLiveTabs()}${rAuditBody()}<div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK</div></div>`;
   const ents=lives.slice(0,PG);
   return `<div class="panel">
     <div class="s-header"><span>LIVE FEED</span><span style="color:${sseConnected?'var(--green)':'var(--amber)'}">&#9632; ${sseConnected?'LIVE':'SYNC'}</span></div>
+    ${rLiveTabs()}
     <div class="s-body">
       ${ents.length?ents.map(e=>`<div class="live-e"><span class="lt">${(e.time||'').substring(0,5)}</span><span class="la">${(e.action||'').substring(0,28)}</span><span class="ls-${e.status||'done'}">${(e.status||'OK').toUpperCase().substring(0,4)}</span></div>`).join(''):'<div style="color:var(--dim);font-size:6px;padding:20px;text-align:center">NO ACTIVITY YET</div>'}
     </div>
-    <div class="s-footer">B:BACK &nbsp; REALTIME</div>
+    <div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK &nbsp; REALTIME</div>
   </div>`;
+}
+
+// P22: replay body — session event sequence from Supabase
+function rReplayBody(){
+  if(!replayData.length) return '<div class="s-body"><div style="color:var(--dim);font-size:6px;padding:8px;text-align:center">NO SESSION DATA</div></div>';
+  return '<div class="s-body">'+replayData.slice(0,PG).map(e=>`<div class="live-e"><span class="lt">${(e.created_at||'').slice(11,16)}</span><span class="la">${String(e.type||'').slice(0,22)}</span><span class="ls-done">&#9654;</span></div>`).join('')+'</div>';
+}
+async function loadReplay(){
+  if(!sessionId) return;
+  try{
+    const {data}=await sb.from('events').select('type,created_at').eq('session_id',sessionId).order('created_at',{ascending:true}).limit(30);
+    if(data) replayData=data;
+  }catch(e){}
+  if(S==='live'&&liveTab===1) draw();
+}
+
+// P17: audit body — audit_log entries (falls back to events table)
+function rAuditBody(){
+  if(!auditData.length) return '<div class="s-body"><div style="color:var(--dim);font-size:6px;padding:8px;text-align:center">NO AUDIT DATA</div></div>';
+  return '<div class="s-body">'+auditData.slice(0,PG).map(e=>`<div class="live-e"><span class="lt">${(e.created_at||'').slice(11,16)}</span><span class="la">${String(e.action||e.type||'').slice(0,22)}</span><span class="ls-done">OK</span></div>`).join('')+'</div>';
+}
+async function loadAudit(){
+  try{
+    const {data}=await sb.from('audit_log').select('action,created_at').order('created_at',{ascending:false}).limit(30);
+    if(data&&data.length){ auditData=data; }
+    else{
+      const {data:ed}=await sb.from('events').select('type,created_at').order('created_at',{ascending:false}).limit(30);
+      if(ed) auditData=ed.map(e=>({action:e.type,created_at:e.created_at}));
+    }
+  }catch(e){}
+  if(S==='live'&&liveTab===2) draw();
 }
 
 function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
 
-// ── navigation
+// P28: GRID tick — field propagation simulation; Supabase realtime overrides local state
+function gridTick(){
+  KRONOS.tick++;
+  const next={};
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    next[n.id]={...f,
+      load:Math.max(0,(f.load||0)*0.92),
+      entropy:Math.max(0,Math.min(1,(f.entropy||0)+(Math.random()-0.52)*0.03)),
+      alignment:Math.max(0,Math.min(1,(f.alignment||1)*0.99+0.005)),
+    };
+  });
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0};
+    n.links.forEach(lid=>{
+      if(next[lid]) next[lid].load=Math.min(1,next[lid].load+(f.load||0)*0.08);
+    });
+  });
+  Object.entries(next).forEach(([id,d])=>GRID.set(id,d));
+  BUS.emit('tick',{tick:KRONOS.tick,mode:KRONOS.mode,patch_id:'P28',stage:'KRONOS'});
+  if(S==='tron') draw();
+}
+function startTick(){ if(KRONOS._iv) return; KRONOS._iv=setInterval(gridTick,900); }
+function stopTick(){ clearInterval(KRONOS._iv); KRONOS._iv=null; }
+function toggleKRONOS(){
+  if(KRONOS.mode==='stepped'){ gridTick(); return; }
+  if(KRONOS.mode==='frozen'){ KRONOS.mode='real'; startTick(); }
+  else if(KRONOS.mode==='real'){ KRONOS.mode='stepped'; stopTick(); }
+  else { KRONOS.mode='frozen'; stopTick(); }
+  beep(KRONOS.mode==='real'?660:KRONOS.mode==='stepped'?440:220,60);
+  draw();
+}
+
 function nav(d){
+  if(emuState==='running'&&activeCore){
+    const st=d<0?{UP:true}:{DOWN:true};
+    activeCore.setInput(st); setTimeout(()=>activeCore.setInput({}),80); return;
+  }
   let mx=0;
   if(S==='menu') mx=MENU.length;
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
-  if(S==='alerts'||S==='graph') return;
+  // P05/P13: cycle TRON layers [0=spatial, 4=hypergraph, 5=temporal, 6=pipeline]
+  if(S==='tron'){ const ls=[0,4,5,6]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; draw(); beep(d>0?440:400,40); return; }
+  // P22/P17: cycle LIVE FEED tabs
+  if(S==='live'){ liveTab=(liveTab+d+3)%3; if(liveTab===1&&!replayData.length) loadReplay(); if(liveTab===2&&!auditData.length) loadAudit(); draw(); beep(d>0?440:400,40); return; }
+  if(S==='alerts'||S==='emu') return;
   if(S==='github'){ ghNav(d); return; }
   if(S==='ghIssue') return;
   if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
 }
 
+// P06: directional D-pad for emulator left/right (called from HTML)
+function emuDir(dir){
+  if(emuState!=='running'||!activeCore) return false;
+  const m={left:{LEFT:true},right:{RIGHT:true}};
+  activeCore.setInput(m[dir]); setTimeout(()=>activeCore.setInput({}),80); return true;
+}
+
+// P06: button passthrough (SELECT etc) for emulator
+function emuBtn(btn){
+  if(emuState!=='running'||!activeCore) return false;
+  const s={}; s[btn]=true;
+  activeCore.setInput(s); setTimeout(()=>activeCore.setInput({}),80); return true;
+}
+
 function ok(){
   beep(880,60);
+  if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
   if(S==='menu'){ S=MENU[cur].state; cur=0; ModeController.set(S); updateSession(S); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
-  if(S==='grid'&&gdata){ S='graph'; draw(); return; }
+  if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
+  if(S==='tron'){ if(tronLayer===0||tronLayer===6) toggleKRONOS(); return; }
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
+  if(S==='emu'){ const inp=document.getElementById('rom-input'); if(inp) inp.click(); return; }
 }
 
 function back(){
   beep(220,40);
+  if(emuState==='running'&&activeCore){ activeCore.setInput({B:true}); setTimeout(()=>activeCore.setInput({B:false}),80); return; }
   if(S==='godD')  { S='god';  draw(); return; }
-  if(S==='graph') { S='grid'; draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
-  if(['god','gold','grid','live','alerts','github'].includes(S)){ S='menu'; cur=0; draw(); return; }
+  if(['god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
+    if(S==='emu'){
+      if(activeCore){ try{activeCore.stop();}catch(e){} activeCore=null; }
+      emuState='idle';
+      EmulatorRouter.stop();
+    }
+    if(S==='live') liveTab=0;
+    if(S==='tron'){ tronLayer=0; stopTick(); KRONOS.mode='frozen'; }
+    S='menu'; cur=0; draw(); return;
+  }
   if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
 }
 
-function start(){ beep(660,80); S='menu'; cur=0; draw(); }
+function start(){
+  if(emuState==='running'&&activeCore){ activeCore.setInput({START:true}); setTimeout(()=>activeCore.setInput({START:false}),80); return; }
+  beep(660,80); S='menu'; cur=0; draw();
+}
 
-// ── 8-bit beep
 let actx=null;
 function beep(f,ms){
   try{
@@ -355,10 +969,24 @@ function beep(f,ms){
   }catch(e){}
 }
 
-// ── keyboard
 document.addEventListener('keydown',e=>{
   const k=e.key;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(k)||k==='Enter') e.preventDefault();
+
+  // P06: emulator keyboard map — full directional + buttons
+  if(emuState==='running'&&activeCore){
+    const jmap={
+      'ArrowUp':{UP:true},'ArrowDown':{DOWN:true},
+      'ArrowLeft':{LEFT:true},'ArrowRight':{RIGHT:true},
+      'z':{A:true},'Z':{A:true},'Enter':{A:true},
+      'x':{B:true},'X':{B:true},'Escape':{B:true},
+      ' ':{START:true},'Backspace':{SELECT:true},
+    };
+    const st=jmap[k];
+    if(st){ activeCore.setInput(st); setTimeout(()=>activeCore.setInput({}),80); }
+    return;
+  }
+
   if(k==='ArrowUp')   nav(-1);
   if(k==='ArrowDown') nav(1);
   if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
@@ -366,7 +994,6 @@ document.addEventListener('keydown',e=>{
   if(k===' ') start();
 });
 
-// ── push / alerts
 let pushStatus='CHECKING...', pushSubbed=false, pushSub=null;
 
 function rAlerts(){
@@ -384,128 +1011,230 @@ function rAlerts(){
 function urlBase64ToUint8Array(b64){
   const pad='='.repeat((4-b64.length%4)%4);
   const b=(b64+pad).replace(/-/g,'+').replace(/_/g,'/');
-  const raw=atob(b); const out=new Uint8Array(raw.length);
-  for(let i=0;i<raw.length;i++) out[i]=raw.charCodeAt(i);
-  return out;
+  const raw=atob(b);
+  return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
 }
 
-async function saveToSupabase(sub){
-  const j = sub.toJSON();
-  const res = await fetch(`${SB_URL}/rest/v1/push_subscriptions`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SB_ANON,
-      'Authorization': `Bearer ${SB_ANON}`,
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({
-      endpoint:   j.endpoint,
-      p256dh:     j.keys.p256dh,
-      auth:       j.keys.auth,
-      user_agent: navigator.userAgent.substring(0, 255)
-    })
-  });
-  return res.status < 300 || res.status === 409; // 409 = already exists, ok
-}
-
-async function init(){
-  if(!('serviceWorker' in navigator) || !('PushManager' in window)){
-    ring.textContent = '✗';
-    ring.classList.add('error');
-    status.textContent = 'Push not supported\nin this browser.';
-    btn.textContent = 'NOT SUPPORTED';
-    return;
+async function checkPushSupport(){
+  if(!('serviceWorker' in navigator)||!('PushManager' in window)){
+    pushStatus='NOT SUPPORTED\nREQUIRES HTTPS'; if(S==='alerts') draw(); return;
   }
-
-  const reg = await navigator.serviceWorker.register('/jarvis/sw.js');
-  await navigator.serviceWorker.ready;
-
-  const existing = await reg.pushManager.getSubscription();
-  if(existing){
-    setActive('Already subscribed.\nNotifications are armed.', existing);
-    return;
-  }
-
-  const perm = Notification.permission;
-  if(perm === 'denied'){
-    ring.textContent = '✗';
-    ring.classList.add('error');
-    status.textContent = 'Notifications blocked.\nEnable in browser settings.';
-    btn.textContent = 'BLOCKED';
-    return;
-  }
-
-  status.textContent = 'Tap to enable\npush notifications.';
-  btn.textContent = 'ENABLE PUSH ALERTS';
-  btn.disabled = false;
-  btn.onclick = () => subscribe(reg);
-}
-
-async function subscribe(reg){
-  btn.disabled = true;
-  btn.textContent = 'SUBSCRIBING...';
-  status.textContent = 'Requesting permission...';
   try{
-    const sub = await reg.pushManager.subscribe({
-      userVisibleOnly: true,
-      applicationServerKey: urlB64(VAPID_PUBLIC)
-    });
-    status.textContent = 'Saving to JARVIS...';
-    const ok = await saveToSupabase(sub);
-    if(ok){
-      setActive('Subscription active.\nJARVIS will reach you.', sub);
-    } else {
-      throw new Error('Supabase save failed');
+    const reg=await navigator.serviceWorker.ready;
+    pushSub=await reg.pushManager.getSubscription();
+    if(pushSub){ pushSubbed=true; pushStatus='SUBSCRIBED\nPUSH ACTIVE'; }
+    else { pushStatus='NOT SUBSCRIBED'; }
+  }catch(e){ pushStatus='ERROR:\n'+e.message; }
+  if(S==='alerts') draw();
+}
+
+async function toggleAlerts(){
+  if(pushSubbed) await unsubscribeAlerts(); else await subscribeAlerts();
+}
+
+async function subscribeAlerts(){
+  pushStatus='SUBSCRIBING...'; draw();
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(VAPID_PUBLIC_KEY)});
+    const subJson=sub.toJSON();
+    await sb.from('push_subscriptions').upsert({endpoint:subJson.endpoint,subscription_info:subJson},{onConflict:'endpoint'});
+    pushSub=sub; pushSubbed=true; pushStatus='SUBSCRIBED\nPUSH ACTIVE'; beep(880,120);
+  }catch(e){ pushStatus='FAILED:\n'+e.message; }
+  draw();
+}
+
+async function unsubscribeAlerts(){
+  pushStatus='UNSUBSCRIBING...'; draw();
+  try{
+    if(pushSub){
+      await sb.from('push_subscriptions').delete().eq('endpoint',pushSub.endpoint);
+      await pushSub.unsubscribe(); pushSub=null;
     }
-  } catch(e){
-    ring.textContent = '✗';
-    ring.classList.add('error');
-    status.textContent = 'Failed: ' + (e.message || 'unknown error');
-    btn.textContent = 'RETRY';
-    btn.disabled = false;
-    btn.onclick = () => subscribe(reg);
+    pushSubbed=false; pushStatus='UNSUBSCRIBED'; beep(220,120);
+  }catch(e){ pushStatus='FAILED:\n'+e.message; }
+  draw();
+}
+
+let ghData=null, ghTab=0, ghLoading=false, ghError='';
+let ghIssueTitle='', ghIssueBody='', ghIssueField='title', ghSubmitting=false, ghResult='';
+const GH_TABS=['COMMITS','PRS','ISSUES','NEW ISSUE'];
+
+async function loadGithub(){
+  ghLoading=true; ghError=''; if(S==='github') draw();
+  try{
+    const [cr,pr,ir]=await Promise.all([
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/commits?per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/pulls?state=open&per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/issues?state=open&per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+    ]);
+    const commits=(await cr.json()).map?.(c=>({sha:c.sha.slice(0,7),message:c.commit.message.split('\n')[0].slice(0,60),author:c.commit.author.name,date:c.commit.author.date.slice(0,10)})) ?? [{error:'no data'}];
+    const prs=(await pr.json()).map?.(p=>({number:p.number,title:p.title.slice(0,60),user:p.user.login})) ?? [];
+    const issues=(await ir.json()).filter?.(i=>!i.pull_request).map(i=>({number:i.number,title:i.title.slice(0,60),user:i.user.login})) ?? [];
+    ghData={commits,prs,issues};
+  }catch(e){ ghError=e.message; }
+  ghLoading=false; if(S==='github') draw();
+}
+
+function ghNav(d){
+  ghTab=((ghTab+d)%GH_TABS.length+GH_TABS.length)%GH_TABS.length;
+  if(ghTab===3){ S='ghIssue'; ghIssueTitle=''; ghIssueBody=''; ghIssueField='title'; ghResult=''; }
+  draw(); beep(d>0?440:400,40);
+}
+function ghOk(){ if(ghTab===3){ S='ghIssue'; ghIssueTitle=''; ghIssueBody=''; ghIssueField='title'; ghResult=''; draw(); return; } loadGithub(); }
+
+function rGithub(){
+  if(ghLoading) return `<div class="boot-panel"><div class="boot-logo">GITHUB</div><div style="color:var(--amber);margin-top:8px;font-size:7px">LOADING...</div></div>`;
+  let h=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--dim);padding:4px 8px 4px;margin-bottom:4px">`;
+  GH_TABS.forEach((t,i)=>{ h+=`<span style="color:${i===ghTab?'var(--amber)':'var(--dim)'};font-size:8px;cursor:pointer" onclick="ghTab=${i};if(ghTab===3){S='ghIssue';ghIssueTitle='';ghIssueBody='';ghIssueField='title';ghResult='';} draw()">${t}</span>`; });
+  h+=`</div>`;
+  if(ghError) return h+`<div style="color:var(--red);font-size:7px;padding:8px">${ghError}</div><div style="color:var(--dim);font-size:8px;padding:4px 8px">PUBLIC REPO REQUIRED</div>`;
+  if(!ghData) return h+`<div style="color:var(--dim);padding:8px;font-size:7px">PRESS A TO LOAD</div>`;
+  const items=ghTab===0?ghData.commits:ghTab===1?ghData.prs:ghData.issues;
+  h+=`<div style="padding:4px 8px;overflow:hidden">`;
+  if(!items?.length){ h+=`<div style="color:var(--dim);font-size:7px">NONE</div>`; }
+  (items||[]).forEach(c=>{
+    if(c.error){ h+=`<div style="color:var(--red);font-size:7px">${c.error}</div>`; return; }
+    if(ghTab===0) h+=`<div style="margin-bottom:4px"><span style="color:var(--amber);font-size:8px">${c.sha}</span> <span style="font-size:7px">${c.message}</span><br><span style="color:var(--dim);font-size:7px">${c.author} · ${c.date}</span></div>`;
+    else h+=`<div style="margin-bottom:4px"><span style="color:var(--amber);font-size:8px">#${c.number}</span> <span style="font-size:7px">${c.title}</span></div>`;
+  });
+  h+=`</div><div style="color:var(--dim);font-size:7px;padding:2px 8px">A=REFRESH ◄►=TAB B=BACK</div>`;
+  return h;
+}
+
+function rGhIssue(){
+  let h=`<div style="color:var(--amber);font-size:8px;border-bottom:1px solid var(--dim);padding:4px 8px 4px;margin-bottom:4px">NEW GITHUB ISSUE</div>`;
+  if(ghResult) return h+`<div style="color:var(--green);font-size:7px;padding:8px">${ghResult}</div><div style="color:var(--dim);font-size:7px;padding:4px 8px">B=BACK</div>`;
+  if(ghSubmitting) return h+`<div style="color:var(--amber);padding:8px;font-size:7px">SUBMITTING...</div>`;
+  h+=`<div style="padding:0 8px">`;
+  h+=`<div style="font-size:7px;color:${ghIssueField==='title'?'var(--amber)':'var(--dim)'};margin-bottom:2px">TITLE</div>`;
+  h+=`<div style="font-size:7px;min-height:16px;border:1px solid ${ghIssueField==='title'?'var(--amber)':'var(--dim)'};padding:2px;margin-bottom:4px" onclick="ghIssueField='title';document.getElementById('gh-t').focus()">${ghIssueTitle||'<span style="color:var(--dim)">tap to type</span>'}</div>`;
+  h+=`<div style="font-size:7px;color:${ghIssueField==='body'?'var(--amber)':'var(--dim)'};margin-bottom:2px">BODY</div>`;
+  h+=`<div style="font-size:7px;min-height:22px;border:1px solid ${ghIssueField==='body'?'var(--amber)':'var(--dim)'};padding:2px" onclick="ghIssueField='body';document.getElementById('gh-b').focus()">${ghIssueBody||'<span style="color:var(--dim)">optional</span>'}</div>`;
+  h+=`</div>`;
+  h+=`<div style="color:var(--dim);font-size:7px;padding:4px 8px">TAP FIELD · A=SUBMIT · B=BACK</div>`;
+  h+=`<input id="gh-t" style="position:absolute;opacity:0;pointer-events:none" value="${ghIssueTitle.replace(/"/g,'&quot;')}" oninput="ghIssueTitle=this.value;draw()" onblur="draw()">`;
+  h+=`<input id="gh-b" style="position:absolute;opacity:0;pointer-events:none" value="${ghIssueBody.replace(/"/g,'&quot;')}" oninput="ghIssueBody=this.value;draw()" onblur="draw()">`;
+  return h;
+}
+
+async function ghSubmitIssue(){
+  if(!ghIssueTitle.trim()){ beep(200,100); return; }
+  ghSubmitting=true; draw();
+  try{
+    const r=await fetch(`${PUSH_FN_URL.replace('send-push','github-issue')}`,{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON}`},
+      body:JSON.stringify({title:ghIssueTitle,body:ghIssueBody,repo:GITHUB_REPO})
+    });
+    const d=await r.json();
+    ghResult=d.ok?`CREATED #${d.number}`:('ERROR: '+(d.error||'unknown'));
+  }catch(e){ ghResult='ERROR: '+e.message; }
+  ghSubmitting=false; draw(); beep(880,120);
+}
+
+function sseDot(on){
+  const d=document.getElementById('sse-dot');
+  if(d){ d.style.color=on?'#00ff88':'#333'; }
+}
+
+function connectRealtime(){
+  sb.channel('jarvis-live')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'live_log'},payload=>{
+      lives.unshift(payload.new);
+      if(lives.length>100) lives=lives.slice(0,100);
+      if(S==='live') draw();
+    })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'prometheus_log'},payload=>{
+      const d=payload.new;
+      lives.unshift({action:'PROMETHEUS: '+(d.decision||'').slice(0,50),status:'done',time:new Date().toTimeString().slice(0,8)});
+      if(lives.length>100) lives=lives.slice(0,100);
+      if(S==='live') draw();
+    })
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'node_fields'},payload=>{
+      const r=payload.new; GRID.set(r.node_id,r);
+      if(S==='tron') draw();
+    })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'node_fields'},payload=>{
+      const r=payload.new; GRID.set(r.node_id,r);
+      if(S==='tron') draw();
+    })
+    .subscribe(status=>{
+      sseConnected=(status==='SUBSCRIBED');
+      sseDot(sseConnected);
+      if(S==='live') draw();
+    });
+}
+
+async function loadData(){
+  try{
+    const {data}=await sb.from('gameboy_snapshot').select('data').eq('id',1).single();
+    if(data?.data){ gdata=data.data; }
+    else { gdata=FALLBACK_DATA; }
+  }catch(e){ gdata=FALLBACK_DATA; }
+  if(S!=='boot') draw();
+}
+
+async function loadLive(){
+  try{
+    const {data}=await sb.from('live_log').select('*').order('created_at',{ascending:false}).limit(50);
+    if(data){ lives=data; if(S==='live') draw(); }
+  }catch(e){}
+}
+
+async function loadNodeFields(){
+  try{
+    const {data}=await sb.from('node_fields').select('*');
+    if(data) data.forEach(r=>{ GRID.set(r.node_id,r); });
+  }catch(e){}
+  if(S==='tron') draw();
+}
+
+// P21: boot sequence — AYRE→briefing→AEGIS→ODIN→state sync→READY
+const BOOT_LINES=['AYRE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
+
+function runBoot(){
+  const el=document.getElementById('screen-inner');
+  el.innerHTML=`<div class="boot-panel">
+    <div class="boot-logo">JARVIS</div>
+    <div class="boot-sub">NEURAL MESH v2.5</div>
+    <div class="boot-lines" id="blines"></div>
+    <div class="boot-hint">PRESS ANY KEY</div>
+  </div>`;
+  let i=0;
+  function tick(){
+    if(i<BOOT_LINES.length){
+      const ln=document.createElement('div'); ln.className='boot-line';
+      ln.textContent='> '+BOOT_LINES[i++];
+      document.getElementById('blines').appendChild(ln);
+      setTimeout(tick,220);
+    }
   }
+  setTimeout(tick,350);
 }
 
-function setActive(msg, sub){
-  ring.textContent = '✓';
-  ring.classList.add('active');
-  status.textContent = msg;
-  btn.textContent = 'UNSUBSCRIBE';
-  btn.disabled = false;
-  btn.classList.add('secondary');
-  btn.onclick = () => unsubscribe(sub);
-  testBtn.style.display = 'block';
-}
+loadBriefing();
+loadData();
+loadLive();
+loadNodeFields();
+loadGithub();
+connectRealtime();
+setInterval(loadGithub,60000);
+startSession();
+runBoot();
 
-async function unsubscribe(sub){
-  await sub.unsubscribe();
-  await fetch(`${SB_URL}/rest/v1/push_subscriptions?endpoint=eq.${encodeURIComponent(sub.endpoint)}`, {
-    method: 'DELETE',
-    headers: {'apikey': SB_ANON, 'Authorization': `Bearer ${SB_ANON}`}
-  });
-  location.reload();
-}
+// P22: wire BUS to LIVE FEED for real-time event visibility
+BUS.on('*',(evt,data)=>{
+  if(typeof evt!=='string') return;
+  lives.unshift({action:'BUS:'+String(evt).slice(0,22),status:'done',time:new Date().toTimeString().slice(0,8)});
+  if(lives.length>100) lives=lives.slice(0,100);
+  if(S==='live') draw();
+});
 
-async function sendTest(){
-  testBtn.textContent = 'SENDING...';
-  testBtn.disabled = true;
-  // Posts to Supabase live_log table to trigger a push from the JARVIS server
-  await fetch(`${SB_URL}/rest/v1/live_log`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': SB_ANON,
-      'Authorization': `Bearer ${SB_ANON}`,
-      'Prefer': 'return=minimal'
-    },
-    body: JSON.stringify({action:'TEST: push notification from JARVIS mobile page', status:'done', type:'test'})
-  });
-  setTimeout(()=>{ testBtn.textContent = 'SEND TEST PUSH'; testBtn.disabled = false; }, 2000);
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./gameboy-sw.js')
+    .then(()=>checkPushSupport())
+    .catch(()=>{ pushStatus='SW REG FAILED'; });
+} else {
+  pushStatus='NOT SUPPORTED';
 }
-
-init().catch(e => { status.textContent = 'Error: '+e.message; });
 </script>
-</body>
-</html>
