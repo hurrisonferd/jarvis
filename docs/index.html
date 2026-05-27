@@ -322,7 +322,7 @@ function draw(){
   else if(S==='emu')    el.innerHTML=rEmulator();
 }
 
-function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+(sel?'&#9658;':' ')+'</span>'; }
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">"+(sel?'&#9658;':' ')+'</span>'; }
 
 function rMenu(){
   const subs=[
@@ -428,9 +428,12 @@ const MGBACore={
   _map:{A:'A',B:'B',UP:'Up',DOWN:'Down',LEFT:'Left',RIGHT:'Right',START:'Start',SELECT:'Select',L:'L',R:'R'},
   async init(canvas){
     if(!self.crossOriginIsolated) throw new Error('COI_REQUIRED');
+    const snap=new Set(Object.keys(window));
     await loadScriptCORS(MGBA_CDN+'mgba.js');
-    const factory=window.mGBA;
-    if(typeof factory!=='function') throw new Error('mGBA_global_missing');
+    // Emscripten UMD may export as mGBA, Module, or another var — detect it
+    const newFns=Object.keys(window).filter(k=>!snap.has(k)&&typeof window[k]==='function');
+    const factory=window.mGBA||window.Module||newFns.map(k=>window[k])[0];
+    if(typeof factory!=='function') throw new Error('mGBA_global_missing['+newFns.join(',')+']');
     this._m=await factory({canvas,locateFile:f=>MGBA_CDN+f});
     await this._m.FSInit();
   },
