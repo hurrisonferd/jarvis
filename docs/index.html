@@ -437,6 +437,7 @@ const WasmBoyCore={
 // CJS package — esm.sh converts it to ESM in an isolated module scope,
 // bypassing the window.module pollution from Supabase UMD.
 const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
+const MGBA_LOCAL='/emulator/cores/';
 const MGBACore={
   name:'mGBA', types:['gba'], _m:null, _prev:new Set(),
   _map:{A:'A',B:'B',UP:'Up',DOWN:'Down',LEFT:'Left',RIGHT:'Right',START:'Start',SELECT:'Select',L:'L',R:'R'},
@@ -447,7 +448,11 @@ const MGBACore={
     catch(e){ throw new Error('mgba_import_failed:'+e.message); }
     const factory=mod.default??mod.mGBA;
     if(typeof factory!=='function') throw new Error('mgba_no_factory[keys:'+Object.keys(mod).join(',')+']');
-    this._m=await factory({canvas,locateFile:f=>MGBA_CDN+f});
+    // try local wasm first (faster, offline); fall back to CDN if not present
+    // locateFile must be synchronous — probe before calling factory
+    let wasmBase=MGBA_CDN;
+    try{ const r=await fetch(MGBA_LOCAL+'mgba.wasm',{method:'HEAD'}); if(r.ok) wasmBase=MGBA_LOCAL; }catch(_){}
+    this._m=await factory({canvas,locateFile:f=>wasmBase+f});
     await this._m.FSInit();
   },
   async loadROM(buf){
