@@ -322,7 +322,7 @@ function draw(){
   else if(S==='emu')    el.innerHTML=rEmulator();
 }
 
-function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">"+(sel?'&#9658;':' ')+'</span>'; }
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+(sel?'&#9658;':' ')+'</span>'; }
 
 function rMenu(){
   const subs=[
@@ -413,7 +413,7 @@ const WasmBoyCore={
 
 // P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
 const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
-// mgba.js is Emscripten UMD — must load via <script crossorigin> to set window.mGBA
+// mgba.js is Emscripten UMD — must load via <script crossorigin> to set window global
 function loadScriptCORS(url){
   return new Promise((res,rej)=>{
     if(document.querySelector('script[data-mgba]')){res();return;}
