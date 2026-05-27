@@ -343,7 +343,7 @@ function draw(){
   else if(S==='emu')    el.innerHTML=rEmulator();
 }
 
-function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+(sel?'&#9658;':' ')+'</span>'; }
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">"+(sel?'&#9658;':' ')+'</span>'; }
 
 function rMenu(){
   const subs=[
@@ -434,29 +434,19 @@ const WasmBoyCore={
 };
 
 // P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
+// CJS package — esm.sh converts it to ESM in an isolated module scope,
+// bypassing the window.module pollution from Supabase UMD.
 const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
-// mgba.js is CJS — browser UMD branch should set window.mGBA; accept fn or .default
-function loadScriptCORS(url){
-  return new Promise((res,rej)=>{
-    if(document.querySelector('script[data-mgba]')){res();return;}
-    const s=document.createElement('script');
-    s.src=url; s.crossOrigin='anonymous'; s.dataset.mgba='1';
-    s.onload=res; s.onerror=()=>rej(new Error('script_load_failed'));
-    document.head.appendChild(s);
-  });
-}
 const MGBACore={
   name:'mGBA', types:['gba'], _m:null, _prev:new Set(),
   _map:{A:'A',B:'B',UP:'Up',DOWN:'Down',LEFT:'Left',RIGHT:'Right',START:'Start',SELECT:'Select',L:'L',R:'R'},
   async init(canvas){
     if(!self.crossOriginIsolated) throw new Error('COI_REQUIRED');
-    const snap=new Set(Object.keys(window));
-    await loadScriptCORS(MGBA_CDN+'mgba.js');
-    // CJS dist — browser branch may export as object, function, or .default
-    const allNew=Object.keys(window).filter(k=>!snap.has(k));
-    const raw=window.mGBA??window.Module??(allNew.length?window[allNew[0]]:undefined);
-    const factory=(typeof raw==='function')?raw:(raw&&typeof raw.default==='function')?raw.default:null;
-    if(!factory) throw new Error('mGBA_factory_missing[mGBA:'+typeof window.mGBA+',Module:'+typeof window.Module+',new:['+allNew.join(',')+']'+']');
+    let mod;
+    try{ mod=await import('https://esm.sh/@thenick775/mgba-wasm@2.4.1'); }
+    catch(e){ throw new Error('mgba_import_failed:'+e.message); }
+    const factory=mod.default??mod.mGBA;
+    if(typeof factory!=='function') throw new Error('mgba_no_factory[keys:'+Object.keys(mod).join(',')+']');
     this._m=await factory({canvas,locateFile:f=>MGBA_CDN+f});
     await this._m.FSInit();
   },
