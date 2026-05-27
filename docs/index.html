@@ -176,7 +176,7 @@ const SUPABASE_ANON    = 'sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA';
 const VAPID_PUBLIC_KEY = 'BOM33NOZ7DDy-fNYxjIo1Xc3xMfFQY_RodR47qM68tmPU2HBXWVFlALlQiOG8MYxkY2uK1C2euH5KZ3v9JPdZdQ';
 const GITHUB_REPO      = 'hurrisonferd/jarvis';
 const PUSH_FN_URL      = `${SUPABASE_URL}/functions/v1/send-push`;
-const BRIEFING_URL     = 'https://raw.githubusercontent.com/hurrisonferd/jarvis/main/JarvisBriefing';
+const BRIEFING_URL     = 'https://raw.githubusercontent.com/hurrisonferd/jarvis/main/JarvisBrief';
 
 const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 
@@ -233,13 +233,13 @@ async function sbEvent(type,payload={}){
   try{ await sb.from('events').insert({type,payload,session_id:sessionId}); }catch(e){}
 }
 
-// P21: briefing-first boot — fetch JarvisBriefing from GitHub as authoritative source
+// P21: briefing-first boot — fetch JarvisBrief from GitHub as authoritative source
 async function loadBriefing(){
   try{
     const r=await fetch(BRIEFING_URL);
-    if(r.ok){ briefingLoaded=true; BUS.emit('BOOT',{briefing:'loaded',source:'github'}); }
-    else { briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'github_error',status:r.status}); }
-  }catch(e){ briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'network_error'}); }
+    if(r.ok){ briefingLoaded=true; BUS.emit('BOOT',{briefing:'loaded',source:'github',patch_id:'P21',stage:'AYRE'}); }
+    else { briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'github_error',status:r.status,patch_id:'P21',stage:'AYRE'}); }
+  }catch(e){ briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'network_error',patch_id:'P21',stage:'AYRE'}); }
 }
 
 // ── Patch 5 Phase 1: L0 spatial graph
@@ -248,7 +248,8 @@ const L0_NODES = [
   {id:'AEGIS',  type:'execution', x:0.5, y:0.25,links:['ODIN']},
   {id:'ODIN',   type:'execution', x:0.5, y:0.4, links:['KRONOS']},
   {id:'KRONOS', type:'execution', x:0.5, y:0.55,links:['SKADI']},
-  {id:'SKADI',  type:'execution', x:0.5, y:0.7, links:['MNEMOS']},
+  {id:'SKADI',  type:'execution', x:0.5, y:0.7, links:['MNEMOS','GAMEBOY']},
+  {id:'GAMEBOY',type:'emulator',  subsystem:'gameboy', x:0.2, y:0.7, links:['SKADI']},
   {id:'MNEMOS', type:'memory',    x:0.3, y:0.85,links:['HUGINN']},
   {id:'HUGINN', type:'memory',    x:0.7, y:0.85,links:[]},
   {id:'HALO',   type:'parallel',  x:0.1, y:0.4, links:['ODIN']},
@@ -261,7 +262,7 @@ const L0_NODES = [
   {id:'APOLLO', type:'post',      x:0.5, y:0.97,links:[]},
   {id:'JANUS',  type:'post',      x:0.8, y:0.95,links:[]},
 ];
-const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)'};
+const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)',emulator:'#00ff88'};
 
 // ── fallback (Supabase gameboy_snapshot overrides)
 const FALLBACK_DATA = {
@@ -316,6 +317,8 @@ let briefingLoaded=false;
 const PG=7;
 // P23: GRID state kernel — TRON is read-only projection; all field mutations go through GRID.set()
 const GRID={nodes:L0_NODES,get fields(){return nodeFields},set(id,d){nodeFields[id]=d;}};
+// P28: KRONOS time controller — real=auto-tick 900ms, stepped=manual, frozen=paused
+const KRONOS={mode:'frozen',tick:0,_iv:null};
 let tronLayer=0;         // P05/P13: 0=L0 spatial, 4=hypergraph, 5=temporal, 6=pipeline
 let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
 let replayData=[], auditData=[];
@@ -349,7 +352,7 @@ function draw(){
   else if(S==='emu')    el.innerHTML=rEmulator();
 }
 
-function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">"+(sel?'&#9658;':' ')+'</span>'; }
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">&#x25B8;</span>'.replace('&#x25B8;',sel?'&#9658;':' '); }
 
 function rMenu(){
   const subs=[
@@ -444,8 +447,6 @@ const WasmBoyCore={
 };
 
 // P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
-// CJS package — esm.sh converts it to ESM in an isolated module scope,
-// bypassing the window.module pollution from Supabase UMD.
 const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
 const MGBA_LOCAL='/emulator/cores/';
 const MGBACore={
@@ -458,8 +459,6 @@ const MGBACore={
     catch(e){ throw new Error('mgba_import_failed:'+e.message); }
     const factory=mod.default??mod.mGBA;
     if(typeof factory!=='function') throw new Error('mgba_no_factory[keys:'+Object.keys(mod).join(',')+']');
-    // try local wasm first (faster, offline); fall back to CDN if not present
-    // locateFile must be synchronous — probe before calling factory
     let wasmBase=MGBA_CDN;
     try{ const r=await fetch(MGBA_LOCAL+'mgba.wasm',{method:'HEAD'}); if(r.ok) wasmBase=MGBA_LOCAL; }catch(_){}
     this._m=await factory({canvas,locateFile:f=>wasmBase+f});
@@ -493,15 +492,14 @@ const MGBACore={
   async restore(s){ try{if(s?.slot!==undefined) this._m.loadState(s.slot);}catch(e){} },
 };
 
-// P06: adapter registry — getCore(romType) selects implementation
 const CORE_REGISTRY=[WasmBoyCore, MGBACore];
 function getCore(t){ return CORE_REGISTRY.find(c=>c.types.includes(t)); }
 
 // P22/P06: EmulatorRouter as full P22 cartridge
 const EmulatorRouter={
   id:'emulator', version:'0.2', active:null,
-  load(core){ this.active=core; ModeController.set(core==='gba_core'?'gba_rom':'gb_rom'); BUS.emit('cartridge_load',{core,ts:Date.now()}); },
-  stop(){ if(this.active) BUS.emit('cartridge_stop',{core:this.active,ts:Date.now()}); this.active=null; ModeController.set('grid_home'); },
+  load(core){ this.active=core; ModeController.set(core==='gba_core'?'gba_rom':'gb_rom'); BUS.emit('cartridge_load',{core,ts:Date.now(),patch_id:'P22',stage:'SKADI'}); },
+  stop(){ if(this.active) BUS.emit('cartridge_stop',{core:this.active,ts:Date.now(),patch_id:'P22',stage:'SKADI'}); this.active=null; ModeController.set('grid_home'); },
   snapshot(){ return {active:this.active,ts:Date.now()}; },
   restore(s){ if(s?.active) this.load(s.active); },
 };
@@ -566,29 +564,25 @@ function handleROM(inp){
     const t=ROMLoader.detect(buf);
     romType=t||'unknown';
     if(!t){ beep(200,150); emuState='idle'; draw(); return; }
-
     EmulatorRouter.load(t+'_core');
     beep(880,100);
     emuState='loading'; draw();
-
     const core=getCore(t);
     if(!core){ emuState='failed'; draw(); return; }
-
     const canvas=document.getElementById('emu-canvas');
     if(!canvas){ emuState='failed'; draw(); return; }
-
     try{
       await core.init(canvas);
       await core.loadROM(buf);
       activeCore=core;
       core.play();
       emuState='running';
-      BUS.emit('emu_start',{engine:core.name,type:t,file:romName});
+      BUS.emit('emu_start',{engine:core.name,type:t,file:romName,patch_id:'P06',stage:'SKADI'});
     }catch(err){
       activeCore=null;
       if(err.message==='COI_REQUIRED'){ emuState='coi'; emuError=''; }
       else { emuState='failed'; emuError=err.message||String(err); }
-      BUS.emit('emu_error',{engine:core?.name,error:err.message,type:t});
+      BUS.emit('emu_error',{engine:core?.name,error:err.message,type:t,patch_id:'P06',stage:'AEGIS'});
     }
     draw();
   };
@@ -598,15 +592,11 @@ function handleROM(inp){
 
 function rL0Graph(){
   const W=310, H=250;
-
-  // L3: arrowhead markers per node type
   let defs='<defs>';
   Object.entries(ARROW_COLS).forEach(([type,col])=>{
     defs+=`<marker id="arr-${type}" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="${col}" opacity="0.75"/></marker>`;
   });
   defs+='</defs>';
-
-  // P27: region hull ellipses
   let regions='';
   GRID_REGIONS.forEach(r=>{
     const ex=Math.round(r.cx*W),ey=Math.round(r.cy*H);
@@ -614,7 +604,6 @@ function rL0Graph(){
     regions+=`<ellipse cx="${ex}" cy="${ey}" rx="${erx}" ry="${ery}" fill="${r.col}" fill-opacity="0.03" stroke="${r.col}" stroke-width="0.5" stroke-opacity="0.18" stroke-dasharray="2,3"/>`;
     regions+=`<text x="${ex}" y="${ey-ery-3}" text-anchor="middle" font-size="3" fill="${r.col}" opacity="0.35" font-family="monospace">${r.label}</text>`;
   });
-  // P27: portal stubs — dashed lines to external system labels
   let portals='';
   GRID_PORTALS.forEach(p=>{
     const src=L0_NODES.find(n=>n.id===p.from); if(!src) return;
@@ -624,11 +613,9 @@ function rL0Graph(){
     portals+=`<line x1="${sx}" y1="${sy}" x2="${px}" y2="${py}" stroke="${p.col}" stroke-width="0.7" stroke-dasharray="3,4" opacity="0.28"/>`;
     portals+=`<text x="${px}" y="${py}" text-anchor="${anchor}" font-size="3.5" fill="${p.col}" opacity="0.45" font-family="monospace">${p.label}</text>`;
   });
-
   let lines='', glows='', circles='', labels='';
   const fvals=Object.values(nodeFields);
   const avgLoad=fvals.length?Math.round(fvals.reduce((a,f)=>a+f.load,0)/fvals.length*100):0;
-
   L0_NODES.forEach(n=>{
     const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
     n.links.forEach(lid=>{
@@ -637,14 +624,12 @@ function rL0Graph(){
       const f=nodeFields[n.id]||{load:0};
       const lw=(0.8+f.load*1.5).toFixed(1);
       const lo=(0.4+f.load*0.5).toFixed(2);
-      // L3: shorten endpoint so arrowhead sits outside target node radius
       const tx2=Math.round(t.x*W), ty2=Math.round(t.y*H);
       const dx=tx2-cx, dy=ty2-cy, d=Math.sqrt(dx*dx+dy*dy)||1;
       const ex=Math.round(tx2-(dx/d)*11), ey=Math.round(ty2-(dy/d)*11);
       lines+=`<line x1="${cx}" y1="${cy}" x2="${ex}" y2="${ey}" stroke="#0f2035" stroke-width="${lw}" opacity="${lo}" marker-end="url(#arr-${n.type})"/>`;
     });
   });
-
   L0_NODES.forEach(n=>{
     const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
     const col=NODE_COLORS[n.type]||'var(--dim)';
@@ -658,14 +643,13 @@ function rL0Graph(){
     circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${strokeCol}" stroke-width="${sw}" opacity="${nodeOp}"/>`;
     labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${strokeCol}" opacity="${nodeOp}" font-family="monospace">${n.id}</text>`;
   });
-
   const loadBar='█'.repeat(Math.round(avgLoad/10))+'░'.repeat(10-Math.round(avgLoad/10));
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L0+P27 · ${L0_NODES.length} NODES · ${GRID_REGIONS.length} REGIONS</span></div>
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L0+P27+P28 · ${L0_NODES.length}N · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span> T${KRONOS.tick}</span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${defs}${regions}${portals}${lines}${glows}${circles}${labels}</svg>
     </div>
-    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
   </div>`;
 }
 
@@ -698,7 +682,6 @@ const GRID_PORTALS=[
   {id:'P_MCP', label:'MCP',      x:0.05, y:0.13, from:'BIFROST', col:'#00ff88'},
 ];
 
-// P05 L4/L5/P13 L6: TRON layer dispatcher
 function rTRON(){ return tronLayer===4?rL4Graph():tronLayer===5?rL5Graph():tronLayer===6?rL6Pipeline():rL0Graph(); }
 
 const L4_EDGES=[
@@ -763,7 +746,6 @@ function rL5Graph(){
   </div>`;
 }
 
-// P13: L6 God System pipeline layer
 function rL6Pipeline(){
   const pipe=['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'];
   const W=310,H=250,cy=Math.round(H/2);
@@ -791,15 +773,14 @@ function rL6Pipeline(){
   const filledBars=Math.round(avgEnt*10);
   const eBar='█'.repeat(filledBars)+'░'.repeat(10-filledBars);
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length} STAGES</span></div>
+    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length} STAGES · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span></span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
     </div>
-    <div class="s-footer">ENT ${eBar} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+    <div class="s-footer">ENT ${eBar} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
   </div>`;
 }
 
-// P22/P17: tabbed LIVE FEED — LIVE / REPLAY / AUDIT
 function rLiveTabs(){ return '<div style="display:flex;gap:10px;padding:2px 8px 3px;border-bottom:1px solid #0f2035">'+['LIVE','REPLAY','AUDIT'].map((t,i)=>`<span style="color:${liveTab===i?'var(--amber)':'var(--dim)'};font-size:5px">${liveTab===i?'&#9658;':''}${t}</span>`).join('')+'</div>'; }
 
 function rLive(){
@@ -816,7 +797,6 @@ function rLive(){
   </div>`;
 }
 
-// P22: replay body — session event sequence from Supabase
 function rReplayBody(){
   if(!replayData.length) return '<div class="s-body"><div style="color:var(--dim);font-size:6px;padding:8px;text-align:center">NO SESSION DATA</div></div>';
   return '<div class="s-body">'+replayData.slice(0,PG).map(e=>`<div class="live-e"><span class="lt">${(e.created_at||'').slice(11,16)}</span><span class="la">${String(e.type||'').slice(0,22)}</span><span class="ls-done">&#9654;</span></div>`).join('')+'</div>';
@@ -830,7 +810,6 @@ async function loadReplay(){
   if(S==='live'&&liveTab===1) draw();
 }
 
-// P17: audit body — audit_log entries (falls back to events table)
 function rAuditBody(){
   if(!auditData.length) return '<div class="s-body"><div style="color:var(--dim);font-size:6px;padding:8px;text-align:center">NO AUDIT DATA</div></div>';
   return '<div class="s-body">'+auditData.slice(0,PG).map(e=>`<div class="live-e"><span class="lt">${(e.created_at||'').slice(11,16)}</span><span class="la">${String(e.action||e.type||'').slice(0,22)}</span><span class="ls-done">OK</span></div>`).join('')+'</div>';
@@ -849,6 +828,39 @@ async function loadAudit(){
 
 function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
 
+// P28: GRID tick — field propagation simulation; Supabase realtime overrides local state
+function gridTick(){
+  KRONOS.tick++;
+  const next={};
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    next[n.id]={...f,
+      load:Math.max(0,(f.load||0)*0.92),
+      entropy:Math.max(0,Math.min(1,(f.entropy||0)+(Math.random()-0.52)*0.03)),
+      alignment:Math.max(0,Math.min(1,(f.alignment||1)*0.99+0.005)),
+    };
+  });
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0};
+    n.links.forEach(lid=>{
+      if(next[lid]) next[lid].load=Math.min(1,next[lid].load+(f.load||0)*0.08);
+    });
+  });
+  Object.entries(next).forEach(([id,d])=>GRID.set(id,d));
+  BUS.emit('tick',{tick:KRONOS.tick,mode:KRONOS.mode,patch_id:'P28',stage:'KRONOS'});
+  if(S==='tron') draw();
+}
+function startTick(){ if(KRONOS._iv) return; KRONOS._iv=setInterval(gridTick,900); }
+function stopTick(){ clearInterval(KRONOS._iv); KRONOS._iv=null; }
+function toggleKRONOS(){
+  if(KRONOS.mode==='stepped'){ gridTick(); return; }
+  if(KRONOS.mode==='frozen'){ KRONOS.mode='real'; startTick(); }
+  else if(KRONOS.mode==='real'){ KRONOS.mode='stepped'; stopTick(); }
+  else { KRONOS.mode='frozen'; stopTick(); }
+  beep(KRONOS.mode==='real'?660:KRONOS.mode==='stepped'?440:220,60);
+  draw();
+}
+
 function nav(d){
   if(emuState==='running'&&activeCore){
     const st=d<0?{UP:true}:{DOWN:true};
@@ -859,9 +871,7 @@ function nav(d){
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
-  // P05/P13: cycle TRON layers [0=spatial, 4=hypergraph, 5=temporal, 6=pipeline]
   if(S==='tron'){ const ls=[0,4,5,6]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; draw(); beep(d>0?440:400,40); return; }
-  // P22/P17: cycle LIVE FEED tabs
   if(S==='live'){ liveTab=(liveTab+d+3)%3; if(liveTab===1&&!replayData.length) loadReplay(); if(liveTab===2&&!auditData.length) loadAudit(); draw(); beep(d>0?440:400,40); return; }
   if(S==='alerts'||S==='emu') return;
   if(S==='github'){ ghNav(d); return; }
@@ -869,14 +879,12 @@ function nav(d){
   if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
 }
 
-// P06: directional D-pad for emulator left/right (called from HTML)
 function emuDir(dir){
   if(emuState!=='running'||!activeCore) return false;
   const m={left:{LEFT:true},right:{RIGHT:true}};
   activeCore.setInput(m[dir]); setTimeout(()=>activeCore.setInput({}),80); return true;
 }
 
-// P06: button passthrough (SELECT etc) for emulator
 function emuBtn(btn){
   if(emuState!=='running'||!activeCore) return false;
   const s={}; s[btn]=true;
@@ -890,6 +898,7 @@ function ok(){
   if(S==='menu'){ S=MENU[cur].state; cur=0; ModeController.set(S); updateSession(S); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
+  if(S==='tron'){ if(tronLayer===0||tronLayer===6) toggleKRONOS(); return; }
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
@@ -908,7 +917,7 @@ function back(){
       EmulatorRouter.stop();
     }
     if(S==='live') liveTab=0;
-    if(S==='tron') tronLayer=0;
+    if(S==='tron'){ tronLayer=0; stopTick(); KRONOS.mode='frozen'; }
     S='menu'; cur=0; draw(); return;
   }
   if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
@@ -935,8 +944,6 @@ function beep(f,ms){
 document.addEventListener('keydown',e=>{
   const k=e.key;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(k)||k==='Enter') e.preventDefault();
-
-  // P06: emulator keyboard map — full directional + buttons
   if(emuState==='running'&&activeCore){
     const jmap={
       'ArrowUp':{UP:true},'ArrowDown':{DOWN:true},
@@ -949,7 +956,6 @@ document.addEventListener('keydown',e=>{
     if(st){ activeCore.setInput(st); setTimeout(()=>activeCore.setInput({}),80); }
     return;
   }
-
   if(k==='ArrowUp')   nav(-1);
   if(k==='ArrowDown') nav(1);
   if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
