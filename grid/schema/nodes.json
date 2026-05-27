@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "description": "L0 spatial graph — source of truth for node definitions",
+  "nodes": [
+    {"id":"AYRE",    "type":"execution",  "x":0.5,  "y":0.1,  "links":["AEGIS"]},
+    {"id":"AEGIS",   "type":"execution",  "x":0.5,  "y":0.25, "links":["ODIN"]},
+    {"id":"ODIN",    "type":"execution",  "x":0.5,  "y":0.4,  "links":["KRONOS"]},
+    {"id":"KRONOS",  "type":"execution",  "x":0.5,  "y":0.55, "links":["SKADI"]},
+    {"id":"SKADI",   "type":"execution",  "x":0.5,  "y":0.7,  "links":["MNEMOS","GAMEBOY"]},
+    {"id":"GAMEBOY", "type":"emulator",   "subsystem":"gameboy", "x":0.2, "y":0.7, "links":["SKADI"]},
+    {"id":"MNEMOS",  "type":"memory",     "x":0.3,  "y":0.85, "links":["HUGINN"]},
+    {"id":"HUGINN",  "type":"memory",     "x":0.7,  "y":0.85, "links":[]},
+    {"id":"HALO",    "type":"parallel",   "x":0.1,  "y":0.4,  "links":["ODIN"]},
+    {"id":"MIMIR",   "type":"parallel",   "x":0.9,  "y":0.4,  "links":["ODIN"]},
+    {"id":"BIFROST", "type":"parallel",   "x":0.1,  "y":0.6,  "links":["SKADI"]},
+    {"id":"ERIS",    "type":"guardian",   "x":0.1,  "y":0.1,  "links":[]},
+    {"id":"PROMETHEUS","type":"governance","x":0.9, "y":0.1,  "links":[]},
+    {"id":"NEMESIS", "type":"integrity",  "x":0.9,  "y":0.25, "links":[]},
+    {"id":"DANTE",   "type":"post",       "x":0.2,  "y":0.95, "links":[]},
+    {"id":"APOLLO",  "type":"post",       "x":0.5,  "y":0.97, "links":[]},
+    {"id":"JANUS",   "type":"post",       "x":0.8,  "y":0.95, "links":[]}
+  ],
+  "node_colors": {
+    "execution": "#f5a623",
+    "memory":    "#00aaff",
+    "parallel":  "#00ff88",
+    "guardian":  "#ff3355",
+    "governance":"#cc00ff",
+    "integrity": "#ff8800",
+    "post":      "#1e3a52",
+    "emulator":  "#00ff88"
+  }
+}
