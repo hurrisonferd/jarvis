@@ -352,7 +352,7 @@ function draw(){
   else if(S==='emu')    el.innerHTML=rEmulator();
 }
 
-function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">&#x25B8;</span>'.replace('&#x25B8;',sel?'&#9658;':' '); }
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+(sel?'&#9658;':' ')+'</span>'; }
 
 function rMenu(){
   const subs=[
