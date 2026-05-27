@@ -18,5 +18,6 @@ chaos/*.sqlite3
 .DS_Store
 Thumbs.db
 
-# mGBA runtime assets (CDN-hosted, download separately)
-docs/emulator/cores/
+# P06: mGBA local WASM cores — binary build artifacts, CDN fallback active
+docs/emulator/cores/*.wasm
+docs/emulator/cores/*.js
