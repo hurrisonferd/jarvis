@@ -186,7 +186,15 @@ const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
 // P22: EventBus — centralized event spine (replaces scattered sbEvent calls)
 const BUS={
   _h:{},
-  emit(evt,data={}){ (this._h[evt]||[]).forEach(fn=>fn(data)); (this._h['*']||[]).forEach(fn=>fn(evt,data)); sbEvent(evt,data); },
+  emit(evt,data={}){
+    // P21: tag every event with role+ts, run AEGIS gate before dispatch
+    const tagged={...data,_role:ModeController.mode,_ts:Date.now()};
+    const block=AEGIS.gate(evt,tagged);
+    if(block){ sbEvent('AEGIS_BLOCK',{evt,block}); return; }
+    (this._h[evt]||[]).forEach(fn=>fn(tagged));
+    (this._h['*']||[]).forEach(fn=>fn(evt,tagged));
+    sbEvent(evt,tagged);
+  },
   on(evt,fn){ this._h[evt]=(this._h[evt]||[]).concat([fn]); return ()=>{this._h[evt]=(this._h[evt]||[]).filter(f=>f!==fn);}; },
 };
 
@@ -195,6 +203,18 @@ const ModeController = {
   mode: 'jarvis_ui',
   set(m){ this.mode=m; BUS.emit('mode_change',{mode:m}); },
   is(m){ return this.mode===m; },
+};
+
+// P21: AEGIS output gate — GL4/GL5 enforcement at event bus level
+const AEGIS={
+  _deny:{
+    emu_start:(d)=>(!self.crossOriginIsolated&&d.type==='gba')?'GL4:COI_required':null,
+  },
+  gate(evt,data){
+    const check=this._deny[evt];
+    if(check){ const v=check(data); if(v) return v; }
+    return null;
+  },
 };
 
 // ── Patch 4: neural mesh session
@@ -298,6 +318,7 @@ const MENU=[
   {label:'GOD SYSTEMS', state:'god'},
   {label:'GOLD LAW',    state:'gold'},
   {label:'THE GRID',    state:'grid'},
+  {label:'TRON',        state:'tron'},
   {label:'LIVE FEED',   state:'live'},
   {label:'ALERTS',      state:'alerts'},
   {label:'GITHUB',      state:'github'},
@@ -313,7 +334,7 @@ function draw(){
   else if(S==='godD')   el.innerHTML=rGodDetail();
   else if(S==='gold')   el.innerHTML=rGold();
   else if(S==='grid')   el.innerHTML=rGrid();
-  else if(S==='graph')  el.innerHTML=rL0Graph();
+  else if(S==='tron')   el.innerHTML=rL0Graph();
   else if(S==='gridD')  el.innerHTML=rGridDetail();
   else if(S==='live')   el.innerHTML=rLive();
   else if(S==='alerts') el.innerHTML=rAlerts();
@@ -329,6 +350,7 @@ function rMenu(){
     gdata?gdata.god_systems.length+' NODES':'...',
     gdata?gdata.gold_law.length+' RULES':'...',
     gdata?gdata.districts.length+' DISTRICTS':'...',
+    L0_NODES.length+' NODES',
     lives.length+' ENTRIES',
     pushSubbed?'ON':'OFF',
     ghData?'LOADED':'...',
@@ -377,7 +399,7 @@ function rGold(){
 function rGrid(){
   if(!gdata) return rLoad();
   const ds=gdata.districts, st=Math.floor(cur/PG)*PG, pg=ds.slice(st,st+PG);
-  return '<div class="panel">\n    <div class="s-header"><span>THE GRID</span><span>'+(cur+1)+'/'+ds.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((d,i)=>{const idx=st+i;return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:var(--blue)">'+d.district+'</span><span class="sub">['+(d.region||'').split(' ').pop()+']</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:L0 GRAPH &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
+  return '<div class="panel">\n    <div class="s-header"><span>THE GRID</span><span>'+(cur+1)+'/'+ds.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((d,i)=>{const idx=st+i;return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:var(--blue)">'+d.district+'</span><span class="sub">['+(d.region||'').split(' ').pop()+']</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:DETAIL &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
 }
 
 // L3: hex colors for SVG markers (CSS vars don't resolve inside <marker> defs)
@@ -615,7 +637,7 @@ function rL0Graph(){
 
   const loadBar='█'.repeat(Math.round(avgLoad/10))+'░'.repeat(10-Math.round(avgLoad/10));
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--blue)">L0+L3 SPATIAL GRAPH</span><span>${L0_NODES.length} NODES</span></div>
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L0+L3 SPATIAL · ${L0_NODES.length} NODES</span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${defs}${lines}${glows}${circles}${labels}</svg>
     </div>
@@ -661,7 +683,7 @@ function nav(d){
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
-  if(S==='alerts'||S==='graph'||S==='emu') return;
+  if(S==='alerts'||S==='tron'||S==='emu') return;
   if(S==='github'){ ghNav(d); return; }
   if(S==='ghIssue') return;
   if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
@@ -687,7 +709,7 @@ function ok(){
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
   if(S==='menu'){ S=MENU[cur].state; cur=0; ModeController.set(S); updateSession(S); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
-  if(S==='grid'&&gdata){ S='graph'; draw(); return; }
+  if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
@@ -698,9 +720,8 @@ function back(){
   beep(220,40);
   if(emuState==='running'&&activeCore){ activeCore.setInput({B:true}); setTimeout(()=>activeCore.setInput({B:false}),80); return; }
   if(S==='godD')  { S='god';  draw(); return; }
-  if(S==='graph') { S='grid'; draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
-  if(['god','gold','grid','live','alerts','github','emu'].includes(S)){
+  if(['god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
     if(S==='emu'){
       if(activeCore){ try{activeCore.stop();}catch(e){} activeCore=null; }
       emuState='idle';
@@ -912,11 +933,11 @@ function connectRealtime(){
     })
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'node_fields'},payload=>{
       const r=payload.new; nodeFields[r.node_id]=r;
-      if(S==='graph') draw();
+      if(S==='tron') draw();
     })
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'node_fields'},payload=>{
       const r=payload.new; nodeFields[r.node_id]=r;
-      if(S==='graph') draw();
+      if(S==='tron') draw();
     })
     .subscribe(status=>{
       sseConnected=(status==='SUBSCRIBED');
@@ -946,7 +967,7 @@ async function loadNodeFields(){
     const {data}=await sb.from('node_fields').select('*');
     if(data) data.forEach(r=>{ nodeFields[r.node_id]=r; });
   }catch(e){}
-  if(S==='graph') draw();
+  if(S==='tron') draw();
 }
 
 // P21: boot sequence — AYRE→briefing→AEGIS→ODIN→state sync→READY
