@@ -221,7 +221,7 @@ const AEGIS={
 let sessionId = null;
 async function startSession(){
   try{
-    const {data}=await sb.from('sessions').insert({mode:ModeController.mode,active_node:'BOOT'}).select('id').single();
+    const {data}=await sb.from('sessions').insert({mode:ModeController.mode,active_node:'BOOT',agent:'jarvis_web',version:'2.5'}).select('id').single();
     if(data) sessionId=data.id;
   }catch(e){}
 }
@@ -237,9 +237,9 @@ async function sbEvent(type,payload={}){
 async function loadBriefing(){
   try{
     const r=await fetch(BRIEFING_URL);
-    if(r.ok){ briefingLoaded=true; sbEvent('BOOT',{briefing:'loaded',source:'github'}); }
-    else { briefingLoaded=false; sbEvent('BOOT',{briefing:'fallback',source:'github_error',status:r.status}); }
-  }catch(e){ briefingLoaded=false; sbEvent('BOOT',{briefing:'fallback',source:'network_error'}); }
+    if(r.ok){ briefingLoaded=true; BUS.emit('BOOT',{briefing:'loaded',source:'github'}); }
+    else { briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'github_error',status:r.status}); }
+  }catch(e){ briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'network_error'}); }
 }
 
 // ── Patch 5 Phase 1: L0 spatial graph
@@ -313,6 +313,11 @@ let sseConnected=false;
 let nodeFields={};
 let briefingLoaded=false;
 const PG=7;
+// P23: GRID state kernel — TRON is read-only projection; all field mutations go through GRID.set()
+const GRID={nodes:L0_NODES,get fields(){return nodeFields},set(id,d){nodeFields[id]=d;}};
+let tronLayer=0;         // P05 L4/L5: 0=L0 spatial, 4=hypergraph, 5=temporal
+let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
+let replayData=[], auditData=[];
 
 const MENU=[
   {label:'GOD SYSTEMS', state:'god'},
@@ -334,7 +339,7 @@ function draw(){
   else if(S==='godD')   el.innerHTML=rGodDetail();
   else if(S==='gold')   el.innerHTML=rGold();
   else if(S==='grid')   el.innerHTML=rGrid();
-  else if(S==='tron')   el.innerHTML=rL0Graph();
+  else if(S==='tron')   el.innerHTML=rTRON();
   else if(S==='gridD')  el.innerHTML=rGridDetail();
   else if(S==='live')   el.innerHTML=rLive();
   else if(S==='alerts') el.innerHTML=rAlerts();
@@ -636,7 +641,7 @@ function rL0Graph(){
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${defs}${lines}${glows}${circles}${labels}</svg>
     </div>
-    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; B:BACK</div>
+    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
   </div>`;
 }
 
@@ -655,15 +660,117 @@ function rGridDetail(){
   </div>`;
 }
 
+// P05 L4/L5: TRON layer dispatcher + hypergraph + temporal
+function rTRON(){ return tronLayer===4?rL4Graph():tronLayer===5?rL5Graph():rL0Graph(); }
+
+const L4_EDGES=[
+  {patch:'P04',nodes:['AYRE','AEGIS','ODIN','SKADI','MNEMOS'],col:'#f5a623'},
+  {patch:'P05',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#00aaff'},
+  {patch:'P06',nodes:['AEGIS','SKADI'],col:'#00ff88'},
+  {patch:'P21',nodes:['AYRE','AEGIS','ODIN'],col:'#cc00ff'},
+  {patch:'P22',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#ff8800'},
+  {patch:'P23',nodes:['ODIN','SKADI'],col:'#ff3355'},
+];
+function rL4Graph(){
+  const W=310,H=250;
+  let defs='<defs>';
+  L4_EDGES.forEach(e=>{ defs+=`<marker id="h4-${e.patch}" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 z" fill="${e.col}" opacity="0.7"/></marker>`; });
+  defs+='</defs>';
+  let lines='',circles='',labels='',ptags='';
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W),cy=Math.round(n.y*H);
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${col}" stroke-width="1.5" opacity="0.6"/>`;
+    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${col}" opacity="0.6" font-family="monospace">${n.id}</text>`;
+  });
+  L4_EDGES.forEach((e,i)=>{
+    const px=14,py=Math.round(22+i*(H-28)/L4_EDGES.length);
+    ptags+=`<text x="2" y="${py+4}" font-size="5" fill="${e.col}" font-family="monospace" opacity="0.9">${e.patch}</text>`;
+    e.nodes.forEach(nid=>{
+      const n=L0_NODES.find(x=>x.id===nid); if(!n) return;
+      const tx=Math.round(n.x*W),ty=Math.round(n.y*H);
+      lines+=`<line x1="${px+20}" y1="${py}" x2="${tx-8}" y2="${ty}" stroke="${e.col}" stroke-width="0.8" opacity="0.45" marker-end="url(#h4-${e.patch})"/>`;
+    });
+  });
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L4 HYPERGRAPH · ${L4_EDGES.length} PATCHES</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${defs}${lines}${circles}${labels}${ptags}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function rL5Graph(){
+  const commits=(ghData?.commits||[]).slice(0,8);
+  const W=310,H=250;
+  const cy=H/2,x0=20,xStep=commits.length>1?Math.floor((W-40)/(commits.length-1)):W-40;
+  let elems='';
+  commits.forEach((c,i)=>{
+    const cx=x0+i*xStep;
+    const col=i===0?'var(--green)':'var(--amber)';
+    if(i>0) elems+=`<line x1="${cx-xStep+7}" y1="${cy}" x2="${cx-7}" y2="${cy}" stroke="#0f2035" stroke-width="1.2" opacity="0.7"/>`;
+    elems+=`<circle cx="${cx}" cy="${cy}" r="6" fill="#080f18" stroke="${col}" stroke-width="1.5"/>`;
+    elems+=`<text x="${cx}" y="${cy-13}" text-anchor="middle" font-size="3.5" fill="var(--dim)" font-family="monospace">${(c.date||'').slice(5)}</text>`;
+    elems+=`<text x="${cx}" y="${cy+17}" text-anchor="middle" font-size="4" fill="${col}" font-family="monospace">${(c.sha||'').slice(0,6)}</text>`;
+    elems+=`<text x="${cx}" y="${cy+27}" text-anchor="middle" font-size="3" fill="var(--bright)" font-family="monospace">${(c.message||'').slice(0,12)}</text>`;
+  });
+  if(!commits.length) elems='<text x="155" y="125" text-anchor="middle" font-size="6" fill="var(--dim)" font-family="monospace">LOAD GITHUB FIRST</text>';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L5 TEMPORAL · ${commits.length} COMMITS</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+// P22/P17: tabbed LIVE FEED — LIVE / REPLAY / AUDIT
+function rLiveTabs(){ return '<div style="display:flex;gap:10px;padding:2px 8px 3px;border-bottom:1px solid #0f2035">'+['LIVE','REPLAY','AUDIT'].map((t,i)=>`<span style="color:${liveTab===i?'var(--amber)':'var(--dim)'};font-size:5px">${liveTab===i?'&#9658;':''}${t}</span>`).join('')+'</div>'; }
+
 function rLive(){
+  if(liveTab===1) return `<div class="panel"><div class="s-header"><span>LIVE FEED</span><span style="color:var(--dim)">REPLAY</span></div>${rLiveTabs()}${rReplayBody()}<div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK</div></div>`;
+  if(liveTab===2) return `<div class="panel"><div class="s-header"><span>LIVE FEED</span><span style="color:var(--dim)">AUDIT</span></div>${rLiveTabs()}${rAuditBody()}<div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK</div></div>`;
   const ents=lives.slice(0,PG);
   return `<div class="panel">
     <div class="s-header"><span>LIVE FEED</span><span style="color:${sseConnected?'var(--green)':'var(--amber)'}">&#9632; ${sseConnected?'LIVE':'SYNC'}</span></div>
+    ${rLiveTabs()}
     <div class="s-body">
       ${ents.length?ents.map(e=>`<div class="live-e"><span class="lt">${(e.time||'').substring(0,5)}</span><span class="la">${(e.action||'').substring(0,28)}</span><span class="ls-${e.status||'done'}">${(e.status||'OK').toUpperCase().substring(0,4)}</span></div>`).join(''):'<div style="color:var(--dim);font-size:6px;padding:20px;text-align:center">NO ACTIVITY YET</div>'}
     </div>
-    <div class="s-footer">B:BACK &nbsp; REALTIME</div>
+    <div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK &nbsp; REALTIME</div>
   </div>`;
+}
+
+// P22: replay body — session event sequence from Supabase
+function rReplayBody(){
+  if(!replayData.length) return '<div class="s-body"><div style="color:var(--dim);font-size:6px;padding:8px;text-align:center">NO SESSION DATA</div></div>';
+  return '<div class="s-body">'+replayData.slice(0,PG).map(e=>`<div class="live-e"><span class="lt">${(e.created_at||'').slice(11,16)}</span><span class="la">${String(e.type||'').slice(0,22)}</span><span class="ls-done">&#9654;</span></div>`).join('')+'</div>';
+}
+async function loadReplay(){
+  if(!sessionId) return;
+  try{
+    const {data}=await sb.from('events').select('type,created_at').eq('session_id',sessionId).order('created_at',{ascending:true}).limit(30);
+    if(data) replayData=data;
+  }catch(e){}
+  if(S==='live'&&liveTab===1) draw();
+}
+
+// P17: audit body — audit_log entries (falls back to events table)
+function rAuditBody(){
+  if(!auditData.length) return '<div class="s-body"><div style="color:var(--dim);font-size:6px;padding:8px;text-align:center">NO AUDIT DATA</div></div>';
+  return '<div class="s-body">'+auditData.slice(0,PG).map(e=>`<div class="live-e"><span class="lt">${(e.created_at||'').slice(11,16)}</span><span class="la">${String(e.action||e.type||'').slice(0,22)}</span><span class="ls-done">OK</span></div>`).join('')+'</div>';
+}
+async function loadAudit(){
+  try{
+    const {data}=await sb.from('audit_log').select('action,created_at').order('created_at',{ascending:false}).limit(30);
+    if(data&&data.length){ auditData=data; }
+    else{
+      const {data:ed}=await sb.from('events').select('type,created_at').order('created_at',{ascending:false}).limit(30);
+      if(ed) auditData=ed.map(e=>({action:e.type,created_at:e.created_at}));
+    }
+  }catch(e){}
+  if(S==='live'&&liveTab===2) draw();
 }
 
 function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
@@ -678,7 +785,11 @@ function nav(d){
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
-  if(S==='alerts'||S==='tron'||S==='emu') return;
+  // P05 L4/L5: cycle TRON layers
+  if(S==='tron'){ const ls=[0,4,5]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; draw(); beep(d>0?440:400,40); return; }
+  // P22/P17: cycle LIVE FEED tabs
+  if(S==='live'){ liveTab=(liveTab+d+3)%3; if(liveTab===1&&!replayData.length) loadReplay(); if(liveTab===2&&!auditData.length) loadAudit(); draw(); beep(d>0?440:400,40); return; }
+  if(S==='alerts'||S==='emu') return;
   if(S==='github'){ ghNav(d); return; }
   if(S==='ghIssue') return;
   if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
@@ -722,6 +833,8 @@ function back(){
       emuState='idle';
       EmulatorRouter.stop();
     }
+    if(S==='live') liveTab=0;
+    if(S==='tron') tronLayer=0;
     S='menu'; cur=0; draw(); return;
   }
   if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
@@ -927,11 +1040,11 @@ function connectRealtime(){
       if(S==='live') draw();
     })
     .on('postgres_changes',{event:'UPDATE',schema:'public',table:'node_fields'},payload=>{
-      const r=payload.new; nodeFields[r.node_id]=r;
+      const r=payload.new; GRID.set(r.node_id,r);
       if(S==='tron') draw();
     })
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'node_fields'},payload=>{
-      const r=payload.new; nodeFields[r.node_id]=r;
+      const r=payload.new; GRID.set(r.node_id,r);
       if(S==='tron') draw();
     })
     .subscribe(status=>{
@@ -960,7 +1073,7 @@ async function loadLive(){
 async function loadNodeFields(){
   try{
     const {data}=await sb.from('node_fields').select('*');
-    if(data) data.forEach(r=>{ nodeFields[r.node_id]=r; });
+    if(data) data.forEach(r=>{ GRID.set(r.node_id,r); });
   }catch(e){}
   if(S==='tron') draw();
 }
