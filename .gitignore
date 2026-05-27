@@ -17,3 +17,6 @@ chaos/*.sqlite3
 
 .DS_Store
 Thumbs.db
+
+# mGBA runtime assets (CDN-hosted, download separately)
+docs/emulator/cores/
