@@ -351,7 +351,8 @@ const PG=7;
 const GRID={nodes:L0_NODES,get fields(){return nodeFields},set(id,d){nodeFields[id]=d;}};
 // P28: KRONOS time controller — real=auto-tick 900ms, stepped=manual, frozen=paused
 const KRONOS={mode:'frozen',tick:0,_iv:null};
-let tronLayer=0;         // P05/P13: 0=L0 spatial, 4=hypergraph, 5=temporal, 6=pipeline
+let tronLayer=0;         // P05/P13/P11: 0=L0, 1=field, 3=launcher, 4=hypergraph, 5=temporal, 6=pipeline
+let tronSys=0, tronRomCur=0; // P11 L3 launcher: system tab, selected ROM index
 let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
 let replayData=[], auditData=[];
 
@@ -647,7 +648,7 @@ function handleROM(inp){
     draw();
   };
   reader.readAsArrayBuffer(file);
-  inp.value='';
+  try{inp.value='';}catch(_){}
 }
 
 function rL0Graph(){
@@ -742,12 +743,81 @@ const GRID_PORTALS=[
   {id:'P_MCP', label:'MCP',      x:0.05, y:0.13, from:'BIFROST', col:'#00ff88'},
 ];
 
-function rTRON(){ return tronLayer===4?rL4Graph():tronLayer===5?rL5Graph():tronLayer===6?rL6Pipeline():rL0Graph(); }
+function rTRON(){
+  if(tronLayer===1) return rL1Field();
+  if(tronLayer===3) return rL3Launcher();
+  if(tronLayer===4) return rL4Graph();
+  if(tronLayer===5) return rL5Graph();
+  if(tronLayer===6) return rL6Pipeline();
+  return rL0Graph();
+}
+
+// P11: L1 — God System field overlay (entropy / load heatmap on spatial graph)
+function rL1Field(){
+  const W=310,H=250;
+  let nodes='',labels='';
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W),cy=Math.round(n.y*H);
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    const load=f.load||0,ent=f.entropy||0;
+    const r=Math.round(6+load*18);
+    const entCol=ent>0.7?'#ff3355':ent>0.4?'#f5a623':'#00ff88';
+    if(load>0.02) nodes+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${entCol}" fill-opacity="${(0.07+load*0.22).toFixed(2)}" stroke="${entCol}" stroke-width="0.6" stroke-opacity="${(0.3+load*0.5).toFixed(2)}"/>`;
+    nodes+=`<circle cx="${cx}" cy="${cy}" r="5" fill="#080f18" stroke="${col}" stroke-width="1.5" opacity="${load>0.02?1:0.4}"/>`;
+    labels+=`<text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="3.5" fill="${load>0.02?col:'var(--dim)'}" font-family="monospace" opacity="${load>0.02?0.9:0.4}">${n.id.slice(0,5)}</text>`;
+    if(load>0.02) labels+=`<text x="${cx}" y="${cy-9}" text-anchor="middle" font-size="3" fill="${entCol}" font-family="monospace">${Math.round(ent*100)}%ENT</text>`;
+  });
+  const active=L0_NODES.filter(n=>(nodeFields[n.id]?.load||0)>0.02).length;
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L1 FIELD · ${active}/${L0_NODES.length} ACTIVE</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${nodes}${labels}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+// P11: L3 — ES-DE style ROM launcher
+const TRON_SYS=['ALL','GB/GBC','GBA'];
+function rL3Launcher(){
+  const sysFilt=['all','gb','gba'];
+  const f=sysFilt[tronSys];
+  const filtered=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+  const cur=filtered.length?Math.min(tronRomCur,filtered.length-1):0;
+  const PAGE=5,start=Math.max(0,cur-Math.floor(PAGE/2));
+  const visible=filtered.slice(start,start+PAGE);
+  const tabs=TRON_SYS.map((t,i)=>`<span style="color:${tronSys===i?'var(--amber)':'var(--dim)'};font-size:5px;margin-right:10px">${tronSys===i?'&#9658;':' '}${t}</span>`).join('');
+  let list='';
+  if(!filtered.length){
+    list=`<div style="color:var(--dim);font-size:5px;padding:16px;text-align:center">NO ROMS&#10;LOAD VIA EMULATOR</div>`;
+  } else {
+    visible.forEach((r,i)=>{
+      const ri=start+i,sel=ri===cur;
+      const sc=r.system==='gba'?'var(--amber)':'var(--green)';
+      list+=`<div style="display:flex;gap:6px;align-items:center;padding:2px 4px;background:${sel?'#0f2035':'transparent'};border-left:${sel?'2px solid var(--amber)':'2px solid transparent'}">
+        <span style="color:${sc};font-size:4px;min-width:22px">${(r.system||'?').toUpperCase()}</span>
+        <span style="color:${sel?'var(--bright)':'var(--dim)'};font-size:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${(r.name||'unknown').slice(0,26)}</span>
+      </div>`;
+    });
+  }
+  const sel=filtered[cur];
+  const detail=sel?`<div style="color:var(--dim);font-size:4px;padding:3px 4px;border-top:1px solid #0f2035;margin-top:2px">${(sel.system||'').toUpperCase()} · ${sel.file_size?Math.round(sel.file_size/1024)+'KB':'?KB'} · ${(sel.file_hash||'').slice(0,8)}</div>`:'';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L3 LAUNCHER · ${filtered.length} ROM${filtered.length!==1?'S':''}</span></div>
+    <div class="s-body" style="padding:4px">
+      <div style="padding:2px 4px 4px;border-bottom:1px solid #0f2035">${tabs}</div>
+      ${list}${detail}
+    </div>
+    <div class="s-footer">&#8593;&#8595;:ROM &nbsp; &#8592;&#8594;:SYS &nbsp; A:LAUNCH &nbsp; B:BACK</div>
+  </div>`;
+}
 
 const L4_EDGES=[
   {patch:'P04',nodes:['AYRE','AEGIS','ODIN','SKADI','MNEMOS'],col:'#f5a623'},
   {patch:'P05',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#00aaff'},
   {patch:'P06',nodes:['AEGIS','SKADI'],col:'#00ff88'},
+  {patch:'P10',nodes:['AEGIS','SKADI','MNEMOS'],col:'#00ccff'},
   {patch:'P21',nodes:['AYRE','AEGIS','ODIN'],col:'#cc00ff'},
   {patch:'P22',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#ff8800'},
   {patch:'P23',nodes:['ODIN','SKADI'],col:'#ff3355'},
@@ -931,7 +1001,14 @@ function nav(d){
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
-  if(S==='tron'){ const ls=[0,4,5,6]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; draw(); beep(d>0?440:400,40); return; }
+  if(S==='tron'){
+    if(tronLayer===3){
+      const f=['all','gb','gba'][tronSys];
+      const fl=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+      if(fl.length){ tronRomCur=((tronRomCur+d)%fl.length+fl.length)%fl.length; }
+    } else { const ls=[0,1,3,4,5,6]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; }
+    draw(); beep(d>0?440:400,40); return;
+  }
   if(S==='live'){ liveTab=(liveTab+d+3)%3; if(liveTab===1&&!replayData.length) loadReplay(); if(liveTab===2&&!auditData.length) loadAudit(); draw(); beep(d>0?440:400,40); return; }
   if(S==='alerts'||S==='emu') return;
   if(S==='github'){ ghNav(d); return; }
@@ -940,9 +1017,15 @@ function nav(d){
 }
 
 function emuDir(dir){
-  if(emuState!=='running'||!activeCore) return false;
-  const m={left:{LEFT:true},right:{RIGHT:true}};
-  activeCore.setInput(m[dir]); setTimeout(()=>activeCore.setInput({}),80); return true;
+  if(emuState==='running'&&activeCore){
+    const m={left:{LEFT:true},right:{RIGHT:true}};
+    activeCore.setInput(m[dir]); setTimeout(()=>activeCore.setInput({}),80); return true;
+  }
+  if(S==='tron'&&tronLayer===3){
+    tronSys=(tronSys+(dir==='right'?1:TRON_SYS.length-1))%TRON_SYS.length;
+    tronRomCur=0; draw(); beep(dir==='right'?440:400,40); return true;
+  }
+  return false;
 }
 
 function emuBtn(btn){
@@ -958,7 +1041,10 @@ function ok(){
   if(S==='menu'){ S=MENU[cur].state; cur=0; ModeController.set(S); updateSession(S); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
-  if(S==='tron'){ if(tronLayer===0||tronLayer===6) toggleKRONOS(); return; }
+  if(S==='tron'){
+    if(tronLayer===3){ tronLaunchROM(); return; }
+    if(tronLayer===0||tronLayer===6) toggleKRONOS(); return;
+  }
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
@@ -978,7 +1064,7 @@ function back(){
       emuState='idle'; saveStateSlot=null;
     }
     if(S==='live') liveTab=0;
-    if(S==='tron'){ tronLayer=0; stopTick(); KRONOS.mode='frozen'; }
+    if(S==='tron'){ tronLayer=0; tronSys=0; tronRomCur=0; stopTick(); KRONOS.mode='frozen'; }
     S='menu'; cur=0; draw(); return;
   }
   if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
@@ -987,6 +1073,23 @@ function back(){
 function start(){
   if(emuState==='running'&&activeCore){ activeCore.setInput({START:true}); setTimeout(()=>activeCore.setInput({START:false}),80); return; }
   beep(660,80); S='menu'; cur=0; draw();
+}
+
+// P11: launch ROM from L3 launcher — fetch from storage_url if available, else open emulator file picker
+async function tronLaunchROM(){
+  const f=['all','gb','gba'][tronSys];
+  const filtered=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+  const rom=filtered[Math.min(tronRomCur,filtered.length-1)];
+  if(!rom){ beep(200,100); return; }
+  beep(880,60);
+  S='emu'; ModeController.set('emu'); updateSession('emu'); draw();
+  if(rom.storage_url){
+    try{
+      const resp=await fetch(rom.storage_url);
+      const buf=await resp.arrayBuffer();
+      handleROM({files:[new File([buf],rom.name||'rom.gb')]});
+    }catch(e){ emuState='failed'; emuError='FETCH:'+e.message; draw(); }
+  }
 }
 
 let actx=null;
