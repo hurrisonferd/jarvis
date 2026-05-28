@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
 UserPromptSubmit hook — stores every Raven message as SPEAK input to MNEMOS.
+Calls mnemos-store edge function (service-role, no RLS issues).
 Also captures the previous JARVIS response from the transcript.
 """
 import json
@@ -11,7 +12,8 @@ import urllib.error
 from datetime import datetime, timezone
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
-SUPABASE_KEY = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
+SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
+STORE_FN = f"{SUPABASE_URL}/functions/v1/mnemos-store"
 
 
 def store_memory(text: str, source_type: str, metadata: dict) -> bool:
@@ -25,18 +27,16 @@ def store_memory(text: str, source_type: str, metadata: dict) -> bool:
     }).encode("utf-8")
 
     req = urllib.request.Request(
-        f"{SUPABASE_URL}/rest/v1/mnemos_memories",
+        STORE_FN,
         data=payload,
         headers={
             "Content-Type": "application/json",
-            "apikey": SUPABASE_KEY,
-            "Authorization": f"Bearer {SUPABASE_KEY}",
-            "Prefer": "return=minimal",
+            "Authorization": f"Bearer {SUPABASE_ANON}",
         },
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=6) as resp:
+        with urllib.request.urlopen(req, timeout=8) as resp:
             return resp.status in (200, 201)
     except Exception:
         return False
@@ -53,7 +53,6 @@ def get_last_assistant_message(transcript_path: str) -> str | None:
                 line = line.strip()
                 if line:
                     lines.append(line)
-        # Walk backwards to find last assistant message
         for line in reversed(lines):
             try:
                 entry = json.loads(line)
@@ -88,18 +87,15 @@ def main():
 
     prompt = prompt.strip()
 
-    # Store Raven's message as speak_input
     store_memory(
         text=f"[Raven] {prompt}",
         source_type="speak_input",
         metadata={
             "category": "raven_message",
             "interface": "claude_code_cli",
-            "transcript_path": transcript_path,
         },
     )
 
-    # Also store the previous JARVIS response if available
     if transcript_path:
         last_response = get_last_assistant_message(transcript_path)
         if last_response and last_response.strip():
