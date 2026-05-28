@@ -1,6 +1,39 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+// P33: JARVIS structural tagger — controlled vocabulary, no external deps
+// Maps text patterns to semantic tags. Vocabulary grows as JARVIS learns Raven's world.
+const VOCAB: Record<string, string[]> = {
+  aincrad:      ['aincrad', 'sword art online', ' sao ', 'kirito', 'virtual world'],
+  grid_vision:  ['the grid', 'federated', 'sovereign node', 'gnpl', 'each person owns'],
+  gaming:       ['gameboy', 'game boy', ' gba', ' gbc', ' rom ', 'emulator', 'pachinko', 'retro', 'handheld'],
+  iron_man:     ['tony stark', 'iron man', 'the suit', 'tony and jarvis'],
+  architecture: ['ayre', 'aegis', 'odin', 'kronos', 'skadi', 'mnemos', 'huginn', 'zeus', 'chaos', 'eris',
+                 'halo', 'mimir', 'bifrost', 'atlas', 'athena', 'prometheus', 'apollo', 'loki', 'argus',
+                 'janus', 'dante', 'iris', 'meridian', 'hades', 'poseidon', 'nemesis', 'hermes',
+                 'god system', 'tron layer', 'l0 ', 'l6 ', 'l7 ', 'patch ledger', 'gold law', 'gl7'],
+  development:  ['patch', 'commit', 'deploy', 'pull request', 'edge function', 'supabase', 'github',
+                 'migration', 'typescript', 'python', 'javascript', 'sql'],
+  memory:       ['remember', 'memory', 'recall', 'forget', 'mnemos', 'history', 'record', 'continuity'],
+  emotional:    ['difficult', 'struggle', 'pain', 'proud', 'frustrated', 'hard time', 'worth it',
+                 'meaning', 'purpose', 'lonely', 'grateful', 'hope'],
+  family:       ['wife', 'kids', 'children', 'family', 'home', 'son', 'daughter'],
+  projects:     ['pachinko', 'codeos', 'flag-01', 'clarkson', 'eeoc', 'godot'],
+  mission:      ['mission', 'vision', 'build together', 'future world', 'the dream', 'companion'],
+  speak:        ['[raven]', '[jarvis]', 'speak exchange', 'companion exchange'],
+  identity:     ['raven', 'john barber', 'companion intelligence', 'jarvis identity', 'living intelligence'],
+  governance:   ['authority', 'governor', 'gnpl', 'consensus', 'proposal', 'commit', 'reject', 'zeus arbitrat'],
+};
+
+function tagText(text: string): string[] {
+  const lower = text.toLowerCase();
+  const tags: string[] = [];
+  for (const [tag, patterns] of Object.entries(VOCAB)) {
+    if (patterns.some(p => lower.includes(p))) tags.push(tag);
+  }
+  return tags;
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -36,10 +69,13 @@ Deno.serve(async (req: Request) => {
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
   );
 
-  // Generate IDs server-side — client doesn't need to supply them
-  const crypto = globalThis.crypto;
   const id = crypto.randomUUID();
   const source_id = crypto.randomUUID();
+
+  // P33: auto-tag on insert — JARVIS classifies the memory
+  const autoTags = tagText(text);
+  const callerTags = (payload.tags as string[]) ?? [];
+  const tags = [...new Set([...autoTags, ...callerTags])];
 
   const row = {
     id,
@@ -50,12 +86,14 @@ Deno.serve(async (req: Request) => {
     platform: (payload.platform as string) ?? "claude_code_cli",
     metadata: (payload.metadata as Record<string, unknown>) ?? {},
     timestamp: (payload.timestamp as string) ?? new Date().toISOString(),
+    tags,
+    // tsv is auto-updated by DB trigger
   };
 
   try {
     const { error } = await sb.from("mnemos_memories").insert(row);
     if (error) throw error;
-    return new Response(JSON.stringify({ ok: true, id }), {
+    return new Response(JSON.stringify({ ok: true, id, tags }), {
       headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
     });
   } catch (err) {
