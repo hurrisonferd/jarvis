@@ -6,10 +6,8 @@ Replaces jarvis-session-start.sh for richer briefing.
 """
 import json
 import os
-import sys
 import subprocess
 import urllib.request
-import urllib.error
 from datetime import datetime, timezone
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
@@ -46,8 +44,7 @@ def load_pending_patches() -> list:
         with open(LEDGER_PATH, "r") as f:
             ledger = json.load(f)
         patches = ledger.get("patches", [])
-        pending = [p for p in patches if p.get("status") in ("partial", "pending")]
-        return pending
+        return [p for p in patches if p.get("status") in ("partial", "pending")]
     except Exception:
         return []
 
@@ -89,6 +86,23 @@ def main():
     if profile:
         print("RAVEN CONTEXT:")
         for m in profile:
+            print(fmt_memory(m))
+        print()
+
+    # ── Active constraints (PROMETHEUS challenge layer — decision memories)
+    constraints = recall({"source_type": "decision", "limit": 5})
+    if constraints:
+        print("ACTIVE CONSTRAINTS (challenge before acting against these):")
+        for m in constraints:
+            text = (m.get("text") or "")[:130].replace("\n", " ")
+            print(f"  {text}")
+        print()
+
+    # ── Monitor observations (gap 3 — autonomous surface)
+    monitor = recall({"source_type": "monitor", "limit": 3})
+    if monitor:
+        print("JARVIS OBSERVATIONS:")
+        for m in monitor:
             print(fmt_memory(m))
         print()
 
