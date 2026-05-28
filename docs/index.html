@@ -395,7 +395,7 @@ function rMenu(){
     lives.length+' ENTRIES',
     pushSubbed?'ON':'OFF',
     ghData?'LOADED':'...',
-    EmulatorRouter.active?EmulatorRouter.active.toUpperCase():'IDLE',
+    CartridgeCore.active?CartridgeCore.name.toUpperCase():'IDLE',
   ];
   const bCol=briefingLoaded?'var(--green)':'var(--amber)';
   const bLabel=briefingLoaded?'BRIEFED':'FALLBACK';
@@ -524,16 +524,32 @@ const MGBACore={
   async restore(s){ try{if(s?.slot!==undefined) this._m.loadState(s.slot);}catch(e){} },
 };
 
-const CORE_REGISTRY=[WasmBoyCore, MGBACore];
-function getCore(t){ return CORE_REGISTRY.find(c=>c.types.includes(t)); }
-
-// P22/P06: EmulatorRouter as full P22 cartridge
-const EmulatorRouter={
-  id:'emulator', version:'0.2', active:null,
-  load(core){ this.active=core; ModeController.set(core==='gba_core'?'gba_rom':'gb_rom'); BUS.emit('cartridge_load',{core,ts:Date.now(),patch_id:'P22',stage:'SKADI'}); },
-  stop(){ if(this.active) BUS.emit('cartridge_stop',{core:this.active,ts:Date.now(),patch_id:'P22',stage:'SKADI'}); this.active=null; ModeController.set('grid_home'); },
-  snapshot(){ return {active:this.active,ts:Date.now()}; },
-  restore(s){ if(s?.active) this.load(s.active); },
+// P10: Single cartridge interface — WasmBoy + mGBA unified behind one object (P22 standard)
+const CartridgeCore={
+  id:'cartridge', version:'1.0', _core:null,
+  get name(){ return this._core?.name??''; },
+  get active(){ return this._core!==null; },
+  async load(buf,canvas){
+    const t=ROMLoader.detect(buf);
+    if(!t) throw new Error('UNKNOWN_ROM_TYPE');
+    const core=[WasmBoyCore,MGBACore].find(c=>c.types.includes(t));
+    if(!core) throw new Error('NO_CORE_FOR:'+t);
+    await core.init(canvas);
+    await core.loadROM(buf);
+    this._core=core;
+    ModeController.set(t==='gba'?'gba_rom':'gb_rom');
+    BUS.emit('cartridge_load',{core:t+'_core',ts:Date.now(),patch_id:'P10',stage:'SKADI'});
+    return t;
+  },
+  stop(){
+    if(this._core){ try{this._core.stop();}catch(e){} BUS.emit('cartridge_stop',{core:this._core.name,ts:Date.now(),patch_id:'P10',stage:'SKADI'}); this._core=null; }
+    ModeController.set('grid_home');
+  },
+  play(){ this._core?.play(); },
+  pause(){ try{this._core?.pause();}catch(e){} },
+  setInput(s){ this._core?.setInput(s); },
+  async snapshot(){ return this._core?this._core.snapshot():null; },
+  async restore(s){ if(this._core&&s) await this._core.restore(s); },
 };
 
 const ROMLoader={
@@ -566,7 +582,7 @@ function rEmulator(){
   } else if(emuState==='failed'){
     body=`<div style="color:var(--red);font-size:6px;padding:8px">ENGINE LOAD FAILED</div>
       <div style="color:var(--dim);font-size:5px;padding:0 8px;word-break:break-all">${emuError||'Check console for details.'}</div>`;
-  } else if(EmulatorRouter.active){
+  } else if(CartridgeCore.active){
     const label=romType==='gba'?'GBA (32-bit)':'GB/GBC (8-bit)';
     body=`<div style="color:var(--green);font-size:6px;margin-bottom:8px">&#9632; ROM LOADED</div>
       <div class="dl">FILE</div><div class="dv">${romName||'unknown'}</div>
@@ -586,7 +602,7 @@ function rEmulator(){
   const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='coi'?'var(--red)':'var(--amber)';
   let footer;
   if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; F5:SAVE &nbsp; F9:LOAD';
-  else if(EmulatorRouter.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
+  else if(CartridgeCore.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
   else footer='A:LOAD ROM &nbsp; B:BACK';
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--green)">EMULATOR</span><span style="color:${stCol}">${emuState.toUpperCase()}</span></div>
@@ -610,27 +626,23 @@ function handleROM(inp){
     const hv=new Uint8Array(buf.slice(0,256));
     romHash=hv.reduce((a,b)=>((a<<5)-a+b)|0,0).toString(16);
     registerROM(romName,t,romHash,buf.byteLength);
-    EmulatorRouter.load(t+'_core');
     beep(880,100);
     emuState='loading'; draw();
-    const core=getCore(t);
-    if(!core){ emuState='failed'; draw(); return; }
     const canvas=document.getElementById('emu-canvas');
     if(!canvas){ emuState='failed'; draw(); return; }
     try{
-      await core.init(canvas);
-      await core.loadROM(buf);
-      activeCore=core;
-      core.play();
+      await CartridgeCore.load(buf,canvas);
+      activeCore=CartridgeCore;
+      CartridgeCore.play();
       emuState='running';
       // P09: try to restore auto-save (slot 99)
       sbLoadState(99).then(s=>{ if(s&&activeCore) activeCore.restore(s).catch(()=>{}); });
-      BUS.emit('emu_start',{engine:core.name,type:t,file:romName,patch_id:'P06',stage:'SKADI'});
+      BUS.emit('emu_start',{engine:CartridgeCore.name,type:t,file:romName,patch_id:'P10',stage:'SKADI'});
     }catch(err){
       activeCore=null;
       if(err.message==='COI_REQUIRED'){ emuState='coi'; emuError=''; }
       else { emuState='failed'; emuError=err.message||String(err); }
-      BUS.emit('emu_error',{engine:core?.name,error:err.message,type:t,patch_id:'P06',stage:'AEGIS'});
+      BUS.emit('emu_error',{engine:CartridgeCore.name,error:err.message,type:t,patch_id:'P10',stage:'AEGIS'});
     }
     draw();
   };
@@ -962,9 +974,8 @@ function back(){
     if(S==='emu'){
       // P09: auto-save to slot 99 on exit if running
       if(emuState==='running'&&activeCore) sbSaveState(99);
-      if(activeCore){ try{activeCore.stop();}catch(e){} activeCore=null; }
+      if(activeCore){ CartridgeCore.stop(); activeCore=null; }
       emuState='idle'; saveStateSlot=null;
-      EmulatorRouter.stop();
     }
     if(S==='live') liveTab=0;
     if(S==='tron'){ tronLayer=0; stopTick(); KRONOS.mode='frozen'; }
