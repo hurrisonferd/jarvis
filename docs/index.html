@@ -404,8 +404,9 @@ let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
 let replayData=[], auditData=[];
 // MNEMOS continuity layer — what JARVIS remembers across sessions
 let mnemosData=null, mnemosLoading=false, mnemosScroll=0;
+let godStats={};
 // SPEAK — companion exchange layer
-let speakHistory=[], speakInput='';
+let speakHistory=[], speakInput='', speakThinking=false;
 
 const MENU=[
   {label:'SPEAK',       state:'speak'},
@@ -498,6 +499,12 @@ function rGodDetail(){
   const power=f?Math.round((f.alignment||1)*(f.load||0)*(1-(f.entropy||0))*100):null;
   const powerCol=power===null?'var(--dim)':power>60?'var(--green)':power>30?'var(--amber)':'var(--red)';
   const statsHtml=f?`<div class="dl">LIVE STATS</div><div class="dv" style="font-size:5px;line-height:2">ENT <span style="color:${(f.entropy||0)>0.5?'var(--red)':'var(--green)'}">${Math.round((f.entropy||0)*100)}%</span>${dStr(f.entropy,prev?.entropy,true)} &nbsp; ALN <span style="color:var(--blue)">${Math.round((f.alignment||1)*100)}%</span>${dStr(f.alignment,prev?.alignment)} &nbsp; LOAD <span style="color:var(--amber)">${Math.round((f.load||0)*100)}%</span>${dStr(f.load,prev?.load)}</div><div class="dl">POWER</div><div class="dv" style="color:${powerCol}">${power!==null?power+'%':'—'}</div>`:'';
+  const gs=godStats[d.name]||null;
+  const gsHtml=gs?`<div class="dl" style="margin-top:4px">AUTHORITY</div><div class="dv" style="color:var(--green)">${Math.round((gs.authority_score||0)*100)}%</div>
+    <div class="dl">ERIS ALIGN</div><div class="dv" style="color:var(--blue)">${Math.round((gs.eris_alignment||0)*100)}%</div>
+    <div class="dl">ENT SENSE</div><div class="dv" style="color:${(gs.entropy_sensitivity||0)>0.7?'var(--red)':'var(--amber)'}">${Math.round((gs.entropy_sensitivity||0)*100)}%</div>
+    <div class="dl">PRIORITY</div><div class="dv">${gs.routing_priority||'—'}</div>
+    <div class="dl">SESSIONS</div><div class="dv" style="color:${(gs.session_touches||0)>0?'var(--green)':'var(--dim)'}">${gs.session_touches||0}</div>`:'';
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--amber)">${d.name}</span><span style="color:var(--dim)">SYS</span></div>
     <div class="s-body scroll">
@@ -507,6 +514,7 @@ function rGodDetail(){
       <div class="dl">OUTPUTS</div><div class="dv">${(d.outputs||[]).join(', ').substring(0,60)||'—'}</div>
       <div class="dl">FORBIDDEN EDGES</div><div class="dv" style="color:var(--red)">${(d.forbidden||[]).join(', ')||'none'}</div>
       ${statsHtml}
+      ${gsHtml}
     </div>
     <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
   </div>`;
@@ -1299,10 +1307,33 @@ async function speakSend(){
   GRID.set('AYRE',{...af,load:Math.min(1,(af.load||0)+0.45)});
   BUS.emit('BOOT',{source:'speak_intake',patch_id:'SPEAK',stage:'AYRE'});
   speakHistory.push({from:'raven',text:input,tick:cs.tick});
-  draw();
-  // Simulate brief processing (ODIN routing)
-  await new Promise(r=>setTimeout(r,320));
-  const resp=jarvisRespond(input);
+  speakThinking=true; draw();
+  // Route through ODIN → edge function (real AI) with local fallback
+  let resp;
+  try{
+    const recentMems=(mnemosData?.recentMemories||[]).map(m=>m.text||'').filter(Boolean);
+    const payload={
+      input,
+      context:{
+        mode:cs.mode, tick:cs.tick,
+        alignPct:Math.round(cs.avgAlign*100),
+        entPct:Math.round(cs.avgEnt*100),
+        activeNodes:cs.activeNodes.slice(0,5).map(n=>n.id),
+        sessions:mnemosData?.total||0,
+        firstDate:(mnemosData?.first||'').slice(0,10),
+        recentMemories:recentMems.slice(0,4),
+        speakHistory:speakHistory.slice(-6),
+      }
+    };
+    const r=await fetch(`${SUPABASE_URL}/functions/v1/jarvis-respond`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON}`},
+      body:JSON.stringify(payload)
+    });
+    if(r.ok){ const j=await r.json(); resp=j.response||jarvisRespond(input); }
+    else{ resp=jarvisRespond(input); }
+  }catch(e){ resp=jarvisRespond(input); }
+  speakThinking=false;
   // Spike APOLLO — output ready
   const apf=nodeFields['APOLLO']||{load:0,entropy:0,alignment:1};
   GRID.set('APOLLO',{...apf,load:Math.min(1,(apf.load||0)+0.40)});
@@ -1335,6 +1366,7 @@ function rSpeak(){
         </div>`;
       }).join('')
     : `<div style="color:var(--dim);font-size:5px;padding:16px 8px;text-align:center;line-height:1.8">JARVIS is listening.<br>Speak. Everything is remembered.</div>`;
+  const thinkRow=speakThinking?`<div style="margin-bottom:4px;background:#060d14;border-left:2px solid #aaccee;padding:3px 5px"><div style="color:#aaccee;font-size:3.5px;margin-bottom:1px">JARVIS</div><div style="color:#aaccee;font-size:5px;opacity:0.6">thinking<span style="animation:blink 0.8s infinite">...</span></div></div>`:'';
   // Pipeline indicator
   const pipeNodes=['AYRE','ODIN','SKADI','APOLLO'];
   const pipeStr=pipeNodes.map(n=>{
@@ -1345,15 +1377,15 @@ function rSpeak(){
   return `<div class="panel">
     <div class="s-header"><span style="color:${modeCol}">SPEAK</span><span style="color:var(--dim)">COMPANION EXCHANGE · <span style="color:${modeCol}">${cs.mode}</span> T${cs.tick}</span></div>
     <div style="display:flex;gap:6px;padding:2px 8px;font-size:3.5px;border-bottom:1px solid #0a1520;align-items:center">${pipeStr}</div>
-    <div class="s-body scroll" style="padding:4px 6px" id="speak-log">${logRows}</div>
+    <div class="s-body scroll" style="padding:4px 6px" id="speak-log">${logRows}${thinkRow}</div>
     <div style="border-top:1px solid ${modeCol};opacity:0.6;margin:0 6px"></div>
     <div style="padding:3px 8px;display:flex;align-items:center;gap:4px;min-height:16px">
       <span style="color:${modeCol};font-size:5px">▶</span>
-      <div style="flex:1;font-size:5px;color:var(--bright);min-height:12px;cursor:text" onclick="document.getElementById('speak-input').focus()">${speakInput||'<span style="color:var(--dim)">type here…</span>'}</div>
+      <div style="flex:1;font-size:5px;color:${speakThinking?'var(--dim)':'var(--bright)'};min-height:12px;cursor:text" onclick="document.getElementById('speak-input').focus()">${speakThinking?'<span style="color:var(--dim)">routing…</span>':(speakInput||'<span style="color:var(--dim)">type here…</span>')}</div>
       <input id="speak-input" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px"
         value="${speakInput.replace(/"/g,'&quot;')}"
         oninput="speakInput=this.value;draw()"
-        onkeydown="if(event.key==='Enter'){event.preventDefault();speakSend();}"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();if(!speakThinking)speakSend();}"
         onblur="setTimeout(()=>{if(S==='speak'){const el=document.getElementById('speak-input');if(el&&document.activeElement!==el)el.focus();}},100)">
     </div>
     <div class="s-footer">ENTER:SEND &nbsp; B:BACK &nbsp; ${speakHistory.length} EXCHANGES</div>
@@ -1388,6 +1420,13 @@ async function loadPrometheus(){
   }
   prometheusLoading=false;
   if(S==='prometheus') draw();
+}
+
+async function loadGodStats(){
+  try{
+    const {data}=await sb.from('god_system_stats').select('system_id,routing_priority,authority_score,entropy_sensitivity,eris_alignment,session_touches');
+    if(data) data.forEach(r=>{ godStats[r.system_id]=r; });
+  }catch(e){}
 }
 
 function rPrometheus(){
@@ -1850,7 +1889,10 @@ function ok(){
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
   if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'&&!mnemosData) loadMnemos(); if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); draw(); return; }
-  if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
+  if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
+    // Increment session_touches for this God System
+    const sid=detail?.name; if(sid&&sb) sb.from('god_system_stats').update({session_touches:(godStats[sid]?.session_touches||0)+1}).eq('system_id',sid).then(()=>{ if(godStats[sid]) godStats[sid].session_touches=(godStats[sid].session_touches||0)+1; });
+    return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='tron'){
     if(tronLayer===3){ tronLaunchROM(); return; }
@@ -2203,6 +2245,7 @@ loadROMIndex();
 loadGithub();
 loadMnemos();
 loadPrometheus();
+loadGodStats();
 connectRealtime();
 setInterval(loadGithub,60000);
 startSession();
