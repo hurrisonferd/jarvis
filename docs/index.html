@@ -274,50 +274,91 @@ async function loadBriefing(){
   }catch(e){ briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'network_error',patch_id:'P21',stage:'AYRE'}); }
 }
 
-// ── Patch 5 Phase 1: L0 spatial graph
+// ── P10-Companion: L0 spatial graph — all 27 God Systems
 const L0_NODES = [
-  {id:'AYRE',   type:'execution', x:0.5, y:0.1, links:['AEGIS']},
-  {id:'AEGIS',  type:'execution', x:0.5, y:0.25,links:['ODIN']},
-  {id:'ODIN',   type:'execution', x:0.5, y:0.4, links:['KRONOS']},
-  {id:'KRONOS', type:'execution', x:0.5, y:0.55,links:['SKADI']},
-  {id:'SKADI',  type:'execution', x:0.5, y:0.7, links:['MNEMOS','GAMEBOY']},
-  {id:'GAMEBOY',type:'emulator',  subsystem:'gameboy', x:0.2, y:0.7, links:['SKADI']},
-  {id:'MNEMOS', type:'memory',    x:0.3, y:0.85,links:['HUGINN']},
-  {id:'HUGINN', type:'memory',    x:0.7, y:0.85,links:[]},
-  {id:'HALO',   type:'parallel',  x:0.1, y:0.4, links:['ODIN']},
-  {id:'MIMIR',  type:'parallel',  x:0.9, y:0.4, links:['ODIN']},
-  {id:'BIFROST',type:'parallel',  x:0.1, y:0.6, links:['SKADI']},
-  {id:'ERIS',   type:'guardian',  x:0.1, y:0.1, links:[]},
-  {id:'PROMETHEUS',type:'governance',x:0.9,y:0.1,links:[]},
-  {id:'NEMESIS',type:'integrity', x:0.9, y:0.25,links:[]},
-  {id:'DANTE',  type:'post',      x:0.2, y:0.95,links:[]},
-  {id:'APOLLO', type:'post',      x:0.5, y:0.97,links:[]},
-  {id:'JANUS',  type:'post',      x:0.8, y:0.95,links:[]},
+  // T0 Foundational
+  {id:'CHAOS',    type:'foundational', x:0.30, y:0.10, links:['AYRE']},
+  {id:'ZEUS',     type:'foundational', x:0.72, y:0.10, links:['AEGIS']},
+  {id:'POSEIDON', type:'foundational', x:0.85, y:0.62, links:['MNEMOS']},
+  {id:'HADES',    type:'foundational', x:0.65, y:0.97, links:[]},
+  // T1 Execution core + Gold Law guardian
+  {id:'ERIS',     type:'guardian',     x:0.10, y:0.10, links:[]},
+  {id:'AYRE',     type:'execution',    x:0.50, y:0.10, links:['AEGIS']},
+  {id:'AEGIS',    type:'execution',    x:0.50, y:0.25, links:['ODIN']},
+  {id:'ODIN',     type:'execution',    x:0.50, y:0.40, links:['KRONOS']},
+  {id:'SKADI',    type:'execution',    x:0.50, y:0.70, links:['MNEMOS','GAMEBOY']},
+  // T2 Timing
+  {id:'KRONOS',   type:'execution',    x:0.50, y:0.55, links:['SKADI']},
+  // T3 Memory
+  {id:'MNEMOS',   type:'memory',       x:0.30, y:0.85, links:['HUGINN']},
+  {id:'HUGINN',   type:'memory',       x:0.70, y:0.85, links:[]},
+  {id:'HALO',     type:'parallel',     x:0.10, y:0.40, links:['ODIN']},
+  {id:'MIMIR',    type:'parallel',     x:0.90, y:0.40, links:['ODIN']},
+  // T4 Observability
+  {id:'BIFROST',  type:'parallel',     x:0.10, y:0.60, links:['SKADI']},
+  {id:'JANUS',    type:'post',         x:0.80, y:0.95, links:[]},
+  // T5 Governance
+  {id:'ARGUS',    type:'governance',   x:0.10, y:0.25, links:['ERIS']},
+  {id:'ATHENA',   type:'governance',   x:0.78, y:0.28, links:[]},
+  {id:'LOKI',     type:'chaos',        x:0.86, y:0.75, links:['AEGIS']},
+  {id:'NEMESIS',  type:'integrity',    x:0.90, y:0.25, links:[]},
+  {id:'PROMETHEUS',type:'governance',  x:0.90, y:0.10, links:[]},
+  // T6 Integrity
+  {id:'IRIS',     type:'integrity',    x:0.30, y:0.55, links:['MNEMOS']},
+  {id:'MERIDIAN', type:'integrity',    x:0.70, y:0.55, links:['HUGINN']},
+  // T7 Interface
+  {id:'DANTE',    type:'post',         x:0.20, y:0.95, links:[]},
+  {id:'APOLLO',   type:'post',         x:0.50, y:0.97, links:[]},
+  // T8 Infrastructure
+  {id:'ATLAS',    type:'infrastructure',x:0.30, y:0.40, links:['ODIN']},
+  // T9 Translation
+  {id:'HERMES',   type:'translation',  x:0.90, y:0.70, links:['BIFROST']},
+  // Emulator subsystem (not a God System — execution substrate)
+  {id:'GAMEBOY',  type:'emulator',     subsystem:'gameboy', x:0.20, y:0.70, links:['SKADI']},
 ];
-const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)',emulator:'#00ff88'};
+const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)',emulator:'#00ff88',foundational:'#ffffff',chaos:'#ff3366',infrastructure:'#8899aa',translation:'#cc88ff'};
 
 // ── fallback (Supabase gameboy_snapshot overrides)
 const FALLBACK_DATA = {
   pipeline: ['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'],
   god_systems: [
-    {name:'ERIS',    description:'Gold Law guardian',     domain:'Governance / Entropy'},
-    {name:'AYRE',    description:'Intake & parsing',      domain:'Execution — intake interpretation'},
-    {name:'AEGIS',   description:'Constraint enforcer',   domain:'Execution — validation gate'},
-    {name:'ODIN',    description:'Orchestration router',  domain:'Execution — task routing'},
-    {name:'KRONOS',  description:'Scheduler / timing',    domain:'Execution — sequencing'},
-    {name:'SKADI',   description:'Execution runtime',     domain:'Execution — tool invocation'},
-    {name:'MNEMOS',  description:'Persistent memory',     domain:'Memory — semantic store'},
-    {name:'HUGINN',  description:'Session reconciliation',domain:'Memory — cross-session diff'},
-    {name:'HALO',    description:'Ambient monitoring',    domain:'Parallel — always-on observer'},
-    {name:'MIMIR',   description:'Knowledge fabric',      domain:'Parallel — context access'},
-    {name:'BIFROST', description:'Transport bridge',      domain:'Parallel — inter-system relay'},
-    {name:'PROMETHEUS',description:'Expansion ledger',   domain:'Governance — rationale log'},
-    {name:'NEMESIS', description:'Drift correction',      domain:'Integrity — overlap detection'},
-    {name:'DANTE',   description:'Post-exec review',      domain:'Post — analysis pass'},
-    {name:'APOLLO',  description:'Output formatting',     domain:'Post — render & deliver'},
-    {name:'JANUS',   description:'Transition handler',    domain:'Post — handoff / mode switch'},
-    {name:'LOKI',    description:'Chaos probe',           domain:'Test — adversarial injection'},
-    {name:'HADES',   description:'Archival sink',         domain:'Archive — cold storage'},
+    // T0 Foundational — the substrate of existence
+    {name:'CHAOS',    description:'Prime entropy source. Root of all system state and possibility.',        domain:'T0 Foundational — entropy seed'},
+    {name:'ZEUS',     description:'Supreme authority arbitration. Final escalation for unresolvable conflicts.',domain:'T0 Foundational — sovereign signal'},
+    {name:'POSEIDON', description:'Flow and continuity substrate. Manages underlying data and event streams.',  domain:'T0 Foundational — state flow'},
+    {name:'HADES',    description:'Archival sink. Cold storage for irreversible state and terminal events.',    domain:'T0 Foundational — archival'},
+    // T1 Execution + Gold Law
+    {name:'ERIS',     description:'Gold Law guardian. Entropy monitor. Ensures all operations comply with GL1–GL9.',domain:'T1 Guardian — Gold Law enforcement'},
+    {name:'AYRE',     description:'Intake and intent parsing. First node to receive all inputs.',               domain:'T1 Execution — intake'},
+    {name:'AEGIS',    description:'Constraint enforcer. Gold Law validation gate. All outputs pass through.',   domain:'T1 Execution — validation gate'},
+    {name:'ODIN',     description:'Orchestration router. Determines which systems handle each task.',           domain:'T1 Execution — routing'},
+    {name:'SKADI',    description:'Execution runtime. Invokes tools, writes state, runs actions.',              domain:'T1 Execution — tool invocation'},
+    // T2 Timing
+    {name:'KRONOS',   description:'Scheduler and sequencer. Controls execution ordering and time modes.',       domain:'T2 Timing — real/stepped/frozen'},
+    // T3 Memory
+    {name:'MNEMOS',   description:'Persistent semantic memory. Indexes all executed actions for retrieval.',    domain:'T3 Memory — semantic store'},
+    {name:'HUGINN',   description:'Session reconciliation. Detects drift between expected and actual state.',   domain:'T3 Memory — drift detection'},
+    {name:'HALO',     description:'Ambient monitoring. Passively observes all system activity without blocking.',domain:'T3 Memory — always-on observer'},
+    {name:'MIMIR',    description:'Knowledge access layer. Provides contextual knowledge retrieval to ODIN.',   domain:'T3 Memory — knowledge fabric'},
+    // T4 Observability
+    {name:'BIFROST',  description:'Inter-system relay. Bridges JARVIS to external systems and transport layers.',domain:'T4 Observability — transport bridge'},
+    {name:'JANUS',    description:'Transition handler. Manages mode switches and system handoffs.',             domain:'T4 Observability — transition gate'},
+    // T5 Governance
+    {name:'ARGUS',    description:'Multi-eye surveillance. Comprehensive system monitoring and anomaly detection.',domain:'T5 Governance — all-seeing observer'},
+    {name:'ATHENA',   description:'Strategic wisdom layer. High-level architectural guidance and logic validation.',domain:'T5 Governance — wisdom'},
+    {name:'LOKI',     description:'Chaos probe. Adversarial injection for system resilience testing.',          domain:'T5 Governance — adversarial tester'},
+    {name:'NEMESIS',  description:'Drift correction and overlap detection. Prevents runaway loops and redundancy.',domain:'T5 Governance — drift correction'},
+    {name:'PROMETHEUS',description:'Expansion ledger. Logs all rationale for system expansions.',              domain:'T5 Governance — rationale log'},
+    // T6 Integrity
+    {name:'IRIS',     description:'Message integrity validation. Ensures all communications are authentic.',    domain:'T6 Integrity — message validation'},
+    {name:'MERIDIAN', description:'System alignment enforcement. Keeps all components on the canonical path.',  domain:'T6 Integrity — alignment guard'},
+    // T7 Interface
+    {name:'DANTE',    description:'Post-execution review. Analyzes outputs after execution completes.',         domain:'T7 Interface — post-exec review'},
+    {name:'APOLLO',   description:'Output formatting and delivery. Renders final outputs for users.',           domain:'T7 Interface — output renderer'},
+    // T8 Infrastructure
+    {name:'ATLAS',    description:'Infrastructure backbone. Supports all other systems without pipeline participation.',domain:'T8 Infrastructure — backbone'},
+    // T9 Translation
+    {name:'HERMES',   description:'Translation and protocol bridge. Converts between system languages and formats.',domain:'T9 Translation — protocol bridge'},
   ],
   gold_law: [
     'GL1: no autonomous self-modification',
@@ -1012,42 +1053,148 @@ function huginnReconcile(){
 }
 
 // P28: NODE tick_fns — each pipeline stage has intentional behavior beyond base decay
+// P10-Companion: NODE_TICK_FNS — all 27 God Systems with intentional companion behavior
 const NODE_TICK_FNS={
+  // T0 Foundational — the substrate beneath everything
+  CHAOS(f,nf){
+    // Prime entropy seed — always fluctuating, never silent; the ground of possibility
+    return {...f,entropy:Math.max(0.05,Math.min(0.30,(f.entropy||0.1)+(Math.random()-0.5)*0.05)),load:0.06};
+  },
+  ZEUS(f,nf){
+    // Supreme authority — activates when AEGIS or ERIS signals critical state
+    const critical=(nf['AEGIS']?.load||0)>0.70||(nf['ERIS']?.entropy||0)>0.60;
+    return critical?{...f,load:Math.min(1,(f.load||0)+0.15)}:{...f,load:Math.max(0,(f.load||0)-0.02)};
+  },
+  POSEIDON(f,nf){
+    // Continuity substrate — corrects when system-wide alignment drops
+    const gs=L0_NODES.filter(n=>n.type!=='emulator');
+    const avgAlign=gs.reduce((s,n)=>s+(nf[n.id]?.alignment||1),0)/gs.length;
+    return avgAlign<0.55?{...f,load:Math.min(1,(f.load||0)+0.07)}:{...f,load:Math.max(0,(f.load||0)-0.01)};
+  },
+  HADES(f,nf){
+    // Archival sink — receives cold memory overflow from MNEMOS
+    return (nf['MNEMOS']?.load||0)>0.60?{...f,load:Math.min(0.80,(f.load||0)+0.04)}:{...f,load:Math.max(0,(f.load||0)-0.015)};
+  },
+  // T1 Execution + Gold Law guardian
+  ERIS(f,nf){
+    // GL guardian — entropy spikes whenever any node breaches CRIT threshold
+    const gs=L0_NODES.filter(n=>n.id!=='ERIS'&&n.type!=='emulator');
+    const crit=gs.filter(n=>(nf[n.id]?.entropy||0)>HUGINN_CRIT.entropy).length;
+    return crit>0?{...f,entropy:Math.min(1,(f.entropy||0)+0.05*crit),load:Math.min(1,(f.load||0)+0.04)}:f;
+  },
   AYRE(f,nf){
-    // Under heavy intake load, generates processing entropy
-    return (f.load||0)>0.7?{...f,entropy:Math.min(1,(f.entropy||0)+0.04)}:f;
+    // Intake — heavy intake load generates processing entropy
+    return (f.load||0)>0.70?{...f,entropy:Math.min(1,(f.entropy||0)+0.04)}:f;
   },
   AEGIS(f,nf){
-    // Threat detection: load spikes when upstream nodes carry high entropy
+    // Gate — load spikes when upstream nodes carry high entropy (threat detection)
     const threat=['AYRE','ODIN'].filter(id=>(nf[id]?.entropy||0)>HUGINN_WARN.entropy).length;
     return threat?{...f,load:Math.min(1,(f.load||0)+threat*0.06)}:f;
   },
   ODIN(f,nf){
-    // Routing: load reflects aggregate inbound from intake + parallel observers
+    // Router — load reflects aggregate inbound from intake + parallel observers
     const inbound=['AYRE','HALO','MIMIR'].reduce((s,id)=>s+(nf[id]?.load||0),0)/3;
     return {...f,load:Math.min(1,(f.load||0)+inbound*0.10)};
   },
   SKADI(f,nf){
-    // Execution sustains when both AEGIS has cleared and KRONOS is scheduling
-    const sustained=(nf['AEGIS']?.load||0)>0.1&&(nf['KRONOS']?.load||0)>0.1?0.04:0;
+    // Executor — sustains when AEGIS has cleared and KRONOS is scheduling
+    const sustained=(nf['AEGIS']?.load||0)>0.10&&(nf['KRONOS']?.load||0)>0.10?0.04:0;
     return {...f,load:Math.min(1,(f.load||0)+sustained)};
   },
+  // T2 Timing
+  KRONOS(f,nf){
+    // Scheduler — steady pulse; alignment improves during real mode
+    return KRONOS.mode==='real'?{...f,alignment:Math.min(1,(f.alignment||1)+0.005)}:f;
+  },
+  // T3 Memory
   MNEMOS(f,nf){
-    // Consolidation: alignment improves as SKADI executes successfully
+    // Memory consolidation — alignment improves as SKADI executes successfully
     return (nf['SKADI']?.load||0)>0.25?{...f,alignment:Math.min(1,(f.alignment||1)+0.015)}:f;
   },
+  HUGINN(f,nf){
+    // Reconciler — load reflects recent drift activity (handled by huginnReconcile)
+    return f;
+  },
   HALO(f,nf){
-    // Ambient observer: load tracks average system activity
-    const avg=L0_NODES.reduce((s,n)=>s+(nf[n.id]?.load||0),0)/L0_NODES.length;
-    return {...f,load:Math.max(f.load||0,avg*0.4)};
+    // Ambient observer — load tracks average system activity
+    const gs=L0_NODES.filter(n=>n.type!=='emulator');
+    const avg=gs.reduce((s,n)=>s+(nf[n.id]?.load||0),0)/gs.length;
+    return {...f,load:Math.max(f.load||0,avg*0.40)};
   },
   MIMIR(f,nf){
-    // Knowledge fabric: activates when ODIN is routing decisions
+    // Knowledge fabric — activates when ODIN is routing decisions
     return (nf['ODIN']?.load||0)>0.15?{...f,load:Math.min(1,(f.load||0)+0.05)}:f;
   },
+  // T4 Observability
   BIFROST(f,nf){
-    // Transport bridge: activates when SKADI is executing
+    // Transport bridge — activates when SKADI is executing
     return (nf['SKADI']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.06)}:f;
+  },
+  JANUS(f,nf){
+    // Transition gate — activates on mode-switch (ODIN high, SKADI idle)
+    const transition=(nf['ODIN']?.load||0)>0.30&&(nf['SKADI']?.load||0)<0.10;
+    return transition?{...f,load:Math.min(1,(f.load||0)+0.06)}:f;
+  },
+  // T5 Governance
+  ARGUS(f,nf){
+    // All-seeing observer — load = average system entropy (always watching)
+    const gs=L0_NODES.filter(n=>n.type!=='emulator');
+    const avgEnt=gs.reduce((s,n)=>s+(nf[n.id]?.entropy||0),0)/gs.length;
+    return {...f,load:Math.min(0.90,Math.max(0.05,avgEnt*1.20))};
+  },
+  ATHENA(f,nf){
+    // Strategic wisdom — activates during high-stakes ODIN routing + MIMIR recall
+    const reasoning=(nf['ODIN']?.load||0)>0.40&&(nf['MIMIR']?.load||0)>0.20;
+    return reasoning?{...f,load:Math.min(1,(f.load||0)+0.05),alignment:Math.min(1,(f.alignment||1)+0.01)}:f;
+  },
+  LOKI(f,nf){
+    // Chaos probe — randomly fires adversarial entropy to test system resilience
+    if(Math.random()<0.07){
+      const targets=L0_NODES.filter(n=>n.id!=='LOKI'&&n.id!=='HADES'&&n.id!=='ZEUS'&&n.type!=='emulator');
+      const t=targets[Math.floor(Math.random()*targets.length)];
+      if(t&&nf[t.id]) nf[t.id]={...nf[t.id],entropy:Math.min(1,(nf[t.id].entropy||0)+0.12)};
+      return {...f,load:Math.min(0.90,(f.load||0)+0.20),entropy:Math.min(1,(f.entropy||0)+0.10)};
+    }
+    return {...f,load:Math.max(0,(f.load||0)-0.01)};
+  },
+  NEMESIS(f,nf){
+    // Redundancy detector — activates when too many nodes have similar high load
+    const gs=L0_NODES.filter(n=>n.type!=='emulator');
+    const high=gs.filter(n=>(nf[n.id]?.load||0)>0.50).length;
+    return high>5?{...f,load:Math.min(1,(f.load||0)+0.05)}:{...f,load:Math.max(0,(f.load||0)-0.01)};
+  },
+  PROMETHEUS(f,nf){
+    // Expansion ledger — load reflects execution decisions being logged
+    return (nf['SKADI']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.03)}:f;
+  },
+  // T6 Integrity
+  IRIS(f,nf){
+    // Message integrity — validates when MNEMOS is writing
+    return (nf['MNEMOS']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.05)}:f;
+  },
+  MERIDIAN(f,nf){
+    // Alignment enforcement — activates when HUGINN detects drift
+    return (nf['HUGINN']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.06),alignment:Math.min(1,(f.alignment||1)+0.02)}:f;
+  },
+  // T7 Interface
+  DANTE(f,nf){
+    // Post-exec review — fires after SKADI execution + memory write
+    const reviewing=(nf['SKADI']?.load||0)>0.15&&(nf['MNEMOS']?.load||0)>0.10;
+    return reviewing?{...f,load:Math.min(1,(f.load||0)+0.04)}:f;
+  },
+  APOLLO(f,nf){
+    // Output formatter — activates after DANTE review pass
+    return (nf['DANTE']?.load||0)>0.10?{...f,load:Math.min(1,(f.load||0)+0.04)}:f;
+  },
+  // T8 Infrastructure
+  ATLAS(f,nf){
+    // Backbone — steady presence; never goes to zero, never spikes high
+    return {...f,load:Math.max(0.15,Math.min(0.45,f.load||0.15)),entropy:Math.min(0.08,(f.entropy||0))};
+  },
+  // T9 Translation
+  HERMES(f,nf){
+    // Protocol bridge — activates when BIFROST is communicating
+    return (nf['BIFROST']?.load||0)>0.15?{...f,load:Math.min(1,(f.load||0)+0.05)}:f;
   },
 };
 
@@ -1136,7 +1283,7 @@ function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
-  if(S==='menu'){ S=MENU[cur].state; cur=0; ModeController.set(S); updateSession(S); draw(); return; }
+  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(ns==='tron'&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='tron'){
@@ -1498,19 +1645,30 @@ BUS.on('*',(evt,data)=>{
   if(S==='live') draw();
 });
 
-// P07: GRID Execution Bridge — BUS events activate corresponding God System nodes
+// P07+P10-Companion: GRID Execution Bridge — BUS events activate all 27 God Systems
 const EXEC_BRIDGE={
-  BOOT:               {nodes:['AYRE'],               spike:0.50},
-  mode_change:        {nodes:['ODIN'],               spike:0.20},
-  cartridge_load:     {nodes:['AEGIS','SKADI'],      spike:0.40},
-  cartridge_stop:     {nodes:['SKADI','MNEMOS'],     spike:0.25},
-  emu_start:          {nodes:['AYRE','AEGIS','SKADI'],spike:0.45},
-  emu_error:          {nodes:['AEGIS'],              spike:0.35},
-  save_state:         {nodes:['MNEMOS'],             spike:0.40},
-  drift_alert:        {nodes:['HUGINN'],             spike:0.30},
-  consensus_resolved: {nodes:['ODIN','AEGIS'],       spike:0.30},
-  AEGIS_BLOCK:        {nodes:['AEGIS'],              spike:0.50},
-  tick:               {nodes:['KRONOS'],             spike:0.12},
+  // Core pipeline events
+  BOOT:               {nodes:['CHAOS','AYRE','ATLAS','ZEUS'],            spike:0.50},
+  mode_change:        {nodes:['ODIN','JANUS'],                           spike:0.20},
+  cartridge_load:     {nodes:['AEGIS','SKADI','IRIS'],                   spike:0.40},
+  cartridge_stop:     {nodes:['SKADI','MNEMOS','HADES'],                 spike:0.25},
+  emu_start:          {nodes:['AYRE','AEGIS','SKADI'],                   spike:0.45},
+  emu_error:          {nodes:['AEGIS','ERIS','ZEUS'],                    spike:0.35},
+  save_state:         {nodes:['MNEMOS','IRIS','POSEIDON'],               spike:0.40},
+  drift_alert:        {nodes:['HUGINN','MERIDIAN','NEMESIS'],            spike:0.30},
+  consensus_resolved: {nodes:['ODIN','AEGIS','ATHENA'],                  spike:0.30},
+  AEGIS_BLOCK:        {nodes:['AEGIS','ERIS','ZEUS'],                    spike:0.50},
+  tick:               {nodes:['KRONOS'],                                 spike:0.12},
+  // P10-Companion: new companion events
+  chaos_probe:        {nodes:['LOKI','CHAOS','AEGIS'],                   spike:0.30},
+  gl_violation:       {nodes:['ERIS','ZEUS','AEGIS','NEMESIS'],          spike:0.55},
+  memory_consolidate: {nodes:['MNEMOS','IRIS','HADES','POSEIDON'],       spike:0.30},
+  output_ready:       {nodes:['DANTE','APOLLO','HERMES'],                spike:0.25},
+  system_start:       {nodes:['ATLAS','CHAOS','ZEUS','POSEIDON'],        spike:0.20},
+  translation_pass:   {nodes:['HERMES','BIFROST'],                       spike:0.20},
+  integrity_check:    {nodes:['IRIS','MERIDIAN','ARGUS'],                spike:0.25},
+  wisdom_query:       {nodes:['MIMIR','ATHENA','ODIN'],                  spike:0.30},
+  archive_flush:      {nodes:['HADES','MNEMOS'],                         spike:0.35},
 };
 BUS.on('*',(evt)=>{
   const b=EXEC_BRIDGE[evt]; if(!b) return;
