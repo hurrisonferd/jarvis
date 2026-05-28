@@ -1011,6 +1011,46 @@ function huginnReconcile(){
   }
 }
 
+// P28: NODE tick_fns — each pipeline stage has intentional behavior beyond base decay
+const NODE_TICK_FNS={
+  AYRE(f,nf){
+    // Under heavy intake load, generates processing entropy
+    return (f.load||0)>0.7?{...f,entropy:Math.min(1,(f.entropy||0)+0.04)}:f;
+  },
+  AEGIS(f,nf){
+    // Threat detection: load spikes when upstream nodes carry high entropy
+    const threat=['AYRE','ODIN'].filter(id=>(nf[id]?.entropy||0)>HUGINN_WARN.entropy).length;
+    return threat?{...f,load:Math.min(1,(f.load||0)+threat*0.06)}:f;
+  },
+  ODIN(f,nf){
+    // Routing: load reflects aggregate inbound from intake + parallel observers
+    const inbound=['AYRE','HALO','MIMIR'].reduce((s,id)=>s+(nf[id]?.load||0),0)/3;
+    return {...f,load:Math.min(1,(f.load||0)+inbound*0.10)};
+  },
+  SKADI(f,nf){
+    // Execution sustains when both AEGIS has cleared and KRONOS is scheduling
+    const sustained=(nf['AEGIS']?.load||0)>0.1&&(nf['KRONOS']?.load||0)>0.1?0.04:0;
+    return {...f,load:Math.min(1,(f.load||0)+sustained)};
+  },
+  MNEMOS(f,nf){
+    // Consolidation: alignment improves as SKADI executes successfully
+    return (nf['SKADI']?.load||0)>0.25?{...f,alignment:Math.min(1,(f.alignment||1)+0.015)}:f;
+  },
+  HALO(f,nf){
+    // Ambient observer: load tracks average system activity
+    const avg=L0_NODES.reduce((s,n)=>s+(nf[n.id]?.load||0),0)/L0_NODES.length;
+    return {...f,load:Math.max(f.load||0,avg*0.4)};
+  },
+  MIMIR(f,nf){
+    // Knowledge fabric: activates when ODIN is routing decisions
+    return (nf['ODIN']?.load||0)>0.15?{...f,load:Math.min(1,(f.load||0)+0.05)}:f;
+  },
+  BIFROST(f,nf){
+    // Transport bridge: activates when SKADI is executing
+    return (nf['SKADI']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.06)}:f;
+  },
+};
+
 // P28: GRID tick — field propagation simulation; Supabase realtime overrides local state
 function gridTick(){
   KRONOS.tick++;
@@ -1029,6 +1069,8 @@ function gridTick(){
       if(next[lid]) next[lid].load=Math.min(1,next[lid].load+(f.load||0)*0.08);
     });
   });
+  // P28: apply per-node intentional behavior after base decay + propagation
+  L0_NODES.forEach(n=>{ if(NODE_TICK_FNS[n.id]) next[n.id]=NODE_TICK_FNS[n.id](next[n.id],next); });
   Object.entries(next).forEach(([id,d])=>GRID.set(id,d));
   // P14: snapshot history for delta computation in God detail
   L0_NODES.forEach(n=>{ if(!nodeHistory[n.id]) nodeHistory[n.id]=[]; nodeHistory[n.id].unshift({...nodeFields[n.id],tick:KRONOS.tick}); if(nodeHistory[n.id].length>3) nodeHistory[n.id].pop(); });
