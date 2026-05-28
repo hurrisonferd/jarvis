@@ -1456,6 +1456,29 @@ BUS.on('*',(evt,data)=>{
   if(S==='live') draw();
 });
 
+// P07: GRID Execution Bridge — BUS events activate corresponding God System nodes
+const EXEC_BRIDGE={
+  BOOT:               {nodes:['AYRE'],               spike:0.50},
+  mode_change:        {nodes:['ODIN'],               spike:0.20},
+  cartridge_load:     {nodes:['AEGIS','SKADI'],      spike:0.40},
+  cartridge_stop:     {nodes:['SKADI','MNEMOS'],     spike:0.25},
+  emu_start:          {nodes:['AYRE','AEGIS','SKADI'],spike:0.45},
+  emu_error:          {nodes:['AEGIS'],              spike:0.35},
+  save_state:         {nodes:['MNEMOS'],             spike:0.40},
+  drift_alert:        {nodes:['HUGINN'],             spike:0.30},
+  consensus_resolved: {nodes:['ODIN','AEGIS'],       spike:0.30},
+  AEGIS_BLOCK:        {nodes:['AEGIS'],              spike:0.50},
+  tick:               {nodes:['KRONOS'],             spike:0.12},
+};
+BUS.on('*',(evt)=>{
+  const b=EXEC_BRIDGE[evt]; if(!b) return;
+  b.nodes.forEach(id=>{
+    const f=nodeFields[id]||{load:0,entropy:0,alignment:1};
+    GRID.set(id,{...f,load:Math.min(1,(f.load||0)+b.spike)});
+  });
+  if(S==='tron') draw();
+});
+
 if('serviceWorker' in navigator){
   navigator.serviceWorker.register('./gameboy-sw.js')
     .then(()=>checkPushSupport())
