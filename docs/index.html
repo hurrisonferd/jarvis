@@ -351,7 +351,14 @@ const PG=7;
 const GRID={nodes:L0_NODES,get fields(){return nodeFields},set(id,d){nodeFields[id]=d;}};
 // P28: KRONOS time controller — real=auto-tick 900ms, stepped=manual, frozen=paused
 const KRONOS={mode:'frozen',tick:0,_iv:null};
-let tronLayer=0;         // P05/P13: 0=L0 spatial, 4=hypergraph, 5=temporal, 6=pipeline
+// P20: HUGINN drift thresholds + rolling alert log
+const HUGINN_WARN={entropy:0.65,load:0.88,alignment:0.35};
+const HUGINN_CRIT={entropy:0.85,load:0.95,alignment:0.20};
+let driftLog=[];
+// P14: rolling field history per node — last 3 snapshots for delta computation
+let nodeHistory={};
+let tronLayer=0;         // P05/P13/P11: 0=L0, 1=field, 3=launcher, 4=hypergraph, 5=temporal, 6=pipeline
+let tronSys=0, tronRomCur=0; // P11 L3 launcher: system tab, selected ROM index
 let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
 let replayData=[], auditData=[];
 
@@ -395,7 +402,7 @@ function rMenu(){
     lives.length+' ENTRIES',
     pushSubbed?'ON':'OFF',
     ghData?'LOADED':'...',
-    EmulatorRouter.active?EmulatorRouter.active.toUpperCase():'IDLE',
+    CartridgeCore.active?CartridgeCore.name.toUpperCase():'IDLE',
   ];
   const bCol=briefingLoaded?'var(--green)':'var(--amber)';
   const bLabel=briefingLoaded?'BRIEFED':'FALLBACK';
@@ -412,9 +419,14 @@ function rGodList(){
 function rGodDetail(){
   if(!detail) return rLoad();
   const d=detail;
-  // P14: live stats from GRID node_fields
+  // P14: live stats + power model + delta indicators
   const f=nodeFields[d.name]||null;
-  const statsHtml=f?`<div class="dl">LIVE STATS</div><div class="dv" style="font-size:5px;line-height:2">ENT <span style="color:${(f.entropy||0)>0.5?'var(--red)':'var(--green)'}">${Math.round((f.entropy||0)*100)}%</span> &nbsp; ALN <span style="color:var(--blue)">${Math.round((f.alignment||1)*100)}%</span> &nbsp; LOAD <span style="color:var(--amber)">${Math.round((f.load||0)*100)}%</span></div>`:'';
+  const hist=nodeHistory[d.name]||[];
+  const prev=hist.length>1?hist[1]:null;
+  const dStr=(cur,old,invert=false)=>{ if(!prev||old==null) return ''; const d=cur-old; if(Math.abs(d)<0.005) return ''; const up=invert?d<0:d>0; return `<span style="color:${up?'var(--green)':'var(--red)'};font-size:3px">${up?'&#8593;':'&#8595;'}</span>`; };
+  const power=f?Math.round((f.alignment||1)*(f.load||0)*(1-(f.entropy||0))*100):null;
+  const powerCol=power===null?'var(--dim)':power>60?'var(--green)':power>30?'var(--amber)':'var(--red)';
+  const statsHtml=f?`<div class="dl">LIVE STATS</div><div class="dv" style="font-size:5px;line-height:2">ENT <span style="color:${(f.entropy||0)>0.5?'var(--red)':'var(--green)'}">${Math.round((f.entropy||0)*100)}%</span>${dStr(f.entropy,prev?.entropy,true)} &nbsp; ALN <span style="color:var(--blue)">${Math.round((f.alignment||1)*100)}%</span>${dStr(f.alignment,prev?.alignment)} &nbsp; LOAD <span style="color:var(--amber)">${Math.round((f.load||0)*100)}%</span>${dStr(f.load,prev?.load)}</div><div class="dl">POWER</div><div class="dv" style="color:${powerCol}">${power!==null?power+'%':'—'}</div>`:'';
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--amber)">${d.name}</span><span style="color:var(--dim)">SYS</span></div>
     <div class="s-body scroll">
@@ -524,16 +536,32 @@ const MGBACore={
   async restore(s){ try{if(s?.slot!==undefined) this._m.loadState(s.slot);}catch(e){} },
 };
 
-const CORE_REGISTRY=[WasmBoyCore, MGBACore];
-function getCore(t){ return CORE_REGISTRY.find(c=>c.types.includes(t)); }
-
-// P22/P06: EmulatorRouter as full P22 cartridge
-const EmulatorRouter={
-  id:'emulator', version:'0.2', active:null,
-  load(core){ this.active=core; ModeController.set(core==='gba_core'?'gba_rom':'gb_rom'); BUS.emit('cartridge_load',{core,ts:Date.now(),patch_id:'P22',stage:'SKADI'}); },
-  stop(){ if(this.active) BUS.emit('cartridge_stop',{core:this.active,ts:Date.now(),patch_id:'P22',stage:'SKADI'}); this.active=null; ModeController.set('grid_home'); },
-  snapshot(){ return {active:this.active,ts:Date.now()}; },
-  restore(s){ if(s?.active) this.load(s.active); },
+// P10: Single cartridge interface — WasmBoy + mGBA unified behind one object (P22 standard)
+const CartridgeCore={
+  id:'cartridge', version:'1.0', _core:null,
+  get name(){ return this._core?.name??''; },
+  get active(){ return this._core!==null; },
+  async load(buf,canvas){
+    const t=ROMLoader.detect(buf);
+    if(!t) throw new Error('UNKNOWN_ROM_TYPE');
+    const core=[WasmBoyCore,MGBACore].find(c=>c.types.includes(t));
+    if(!core) throw new Error('NO_CORE_FOR:'+t);
+    await core.init(canvas);
+    await core.loadROM(buf);
+    this._core=core;
+    ModeController.set(t==='gba'?'gba_rom':'gb_rom');
+    BUS.emit('cartridge_load',{core:t+'_core',ts:Date.now(),patch_id:'P10',stage:'SKADI'});
+    return t;
+  },
+  stop(){
+    if(this._core){ try{this._core.stop();}catch(e){} BUS.emit('cartridge_stop',{core:this._core.name,ts:Date.now(),patch_id:'P10',stage:'SKADI'}); this._core=null; }
+    ModeController.set('grid_home');
+  },
+  play(){ this._core?.play(); },
+  pause(){ try{this._core?.pause();}catch(e){} },
+  setInput(s){ this._core?.setInput(s); },
+  async snapshot(){ return this._core?this._core.snapshot():null; },
+  async restore(s){ if(this._core&&s) await this._core.restore(s); },
 };
 
 const ROMLoader={
@@ -566,7 +594,7 @@ function rEmulator(){
   } else if(emuState==='failed'){
     body=`<div style="color:var(--red);font-size:6px;padding:8px">ENGINE LOAD FAILED</div>
       <div style="color:var(--dim);font-size:5px;padding:0 8px;word-break:break-all">${emuError||'Check console for details.'}</div>`;
-  } else if(EmulatorRouter.active){
+  } else if(CartridgeCore.active){
     const label=romType==='gba'?'GBA (32-bit)':'GB/GBC (8-bit)';
     body=`<div style="color:var(--green);font-size:6px;margin-bottom:8px">&#9632; ROM LOADED</div>
       <div class="dl">FILE</div><div class="dv">${romName||'unknown'}</div>
@@ -586,7 +614,7 @@ function rEmulator(){
   const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='coi'?'var(--red)':'var(--amber)';
   let footer;
   if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; F5:SAVE &nbsp; F9:LOAD';
-  else if(EmulatorRouter.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
+  else if(CartridgeCore.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
   else footer='A:LOAD ROM &nbsp; B:BACK';
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--green)">EMULATOR</span><span style="color:${stCol}">${emuState.toUpperCase()}</span></div>
@@ -610,32 +638,28 @@ function handleROM(inp){
     const hv=new Uint8Array(buf.slice(0,256));
     romHash=hv.reduce((a,b)=>((a<<5)-a+b)|0,0).toString(16);
     registerROM(romName,t,romHash,buf.byteLength);
-    EmulatorRouter.load(t+'_core');
     beep(880,100);
     emuState='loading'; draw();
-    const core=getCore(t);
-    if(!core){ emuState='failed'; draw(); return; }
     const canvas=document.getElementById('emu-canvas');
     if(!canvas){ emuState='failed'; draw(); return; }
     try{
-      await core.init(canvas);
-      await core.loadROM(buf);
-      activeCore=core;
-      core.play();
+      await CartridgeCore.load(buf,canvas);
+      activeCore=CartridgeCore;
+      CartridgeCore.play();
       emuState='running';
       // P09: try to restore auto-save (slot 99)
       sbLoadState(99).then(s=>{ if(s&&activeCore) activeCore.restore(s).catch(()=>{}); });
-      BUS.emit('emu_start',{engine:core.name,type:t,file:romName,patch_id:'P06',stage:'SKADI'});
+      BUS.emit('emu_start',{engine:CartridgeCore.name,type:t,file:romName,patch_id:'P10',stage:'SKADI'});
     }catch(err){
       activeCore=null;
       if(err.message==='COI_REQUIRED'){ emuState='coi'; emuError=''; }
       else { emuState='failed'; emuError=err.message||String(err); }
-      BUS.emit('emu_error',{engine:core?.name,error:err.message,type:t,patch_id:'P06',stage:'AEGIS'});
+      BUS.emit('emu_error',{engine:CartridgeCore.name,error:err.message,type:t,patch_id:'P10',stage:'AEGIS'});
     }
     draw();
   };
   reader.readAsArrayBuffer(file);
-  inp.value='';
+  try{inp.value='';}catch(_){}
 }
 
 function rL0Graph(){
@@ -730,12 +754,81 @@ const GRID_PORTALS=[
   {id:'P_MCP', label:'MCP',      x:0.05, y:0.13, from:'BIFROST', col:'#00ff88'},
 ];
 
-function rTRON(){ return tronLayer===4?rL4Graph():tronLayer===5?rL5Graph():tronLayer===6?rL6Pipeline():rL0Graph(); }
+function rTRON(){
+  if(tronLayer===1) return rL1Field();
+  if(tronLayer===3) return rL3Launcher();
+  if(tronLayer===4) return rL4Graph();
+  if(tronLayer===5) return rL5Graph();
+  if(tronLayer===6) return rL6Pipeline();
+  return rL0Graph();
+}
+
+// P11: L1 — God System field overlay (entropy / load heatmap on spatial graph)
+function rL1Field(){
+  const W=310,H=250;
+  let nodes='',labels='';
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W),cy=Math.round(n.y*H);
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    const load=f.load||0,ent=f.entropy||0;
+    const r=Math.round(6+load*18);
+    const entCol=ent>0.7?'#ff3355':ent>0.4?'#f5a623':'#00ff88';
+    if(load>0.02) nodes+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${entCol}" fill-opacity="${(0.07+load*0.22).toFixed(2)}" stroke="${entCol}" stroke-width="0.6" stroke-opacity="${(0.3+load*0.5).toFixed(2)}"/>`;
+    nodes+=`<circle cx="${cx}" cy="${cy}" r="5" fill="#080f18" stroke="${col}" stroke-width="1.5" opacity="${load>0.02?1:0.4}"/>`;
+    labels+=`<text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="3.5" fill="${load>0.02?col:'var(--dim)'}" font-family="monospace" opacity="${load>0.02?0.9:0.4}">${n.id.slice(0,5)}</text>`;
+    if(load>0.02) labels+=`<text x="${cx}" y="${cy-9}" text-anchor="middle" font-size="3" fill="${entCol}" font-family="monospace">${Math.round(ent*100)}%ENT</text>`;
+  });
+  const active=L0_NODES.filter(n=>(nodeFields[n.id]?.load||0)>0.02).length;
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L1 FIELD · ${active}/${L0_NODES.length} ACTIVE</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${nodes}${labels}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+// P11: L3 — ES-DE style ROM launcher
+const TRON_SYS=['ALL','GB/GBC','GBA'];
+function rL3Launcher(){
+  const sysFilt=['all','gb','gba'];
+  const f=sysFilt[tronSys];
+  const filtered=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+  const cur=filtered.length?Math.min(tronRomCur,filtered.length-1):0;
+  const PAGE=5,start=Math.max(0,cur-Math.floor(PAGE/2));
+  const visible=filtered.slice(start,start+PAGE);
+  const tabs=TRON_SYS.map((t,i)=>`<span style="color:${tronSys===i?'var(--amber)':'var(--dim)'};font-size:5px;margin-right:10px">${tronSys===i?'&#9658;':' '}${t}</span>`).join('');
+  let list='';
+  if(!filtered.length){
+    list=`<div style="color:var(--dim);font-size:5px;padding:16px;text-align:center">NO ROMS&#10;LOAD VIA EMULATOR</div>`;
+  } else {
+    visible.forEach((r,i)=>{
+      const ri=start+i,sel=ri===cur;
+      const sc=r.system==='gba'?'var(--amber)':'var(--green)';
+      list+=`<div style="display:flex;gap:6px;align-items:center;padding:2px 4px;background:${sel?'#0f2035':'transparent'};border-left:${sel?'2px solid var(--amber)':'2px solid transparent'}">
+        <span style="color:${sc};font-size:4px;min-width:22px">${(r.system||'?').toUpperCase()}</span>
+        <span style="color:${sel?'var(--bright)':'var(--dim)'};font-size:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${(r.name||'unknown').slice(0,26)}</span>
+      </div>`;
+    });
+  }
+  const sel=filtered[cur];
+  const detail=sel?`<div style="color:var(--dim);font-size:4px;padding:3px 4px;border-top:1px solid #0f2035;margin-top:2px">${(sel.system||'').toUpperCase()} · ${sel.file_size?Math.round(sel.file_size/1024)+'KB':'?KB'} · ${(sel.file_hash||'').slice(0,8)}</div>`:'';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L3 LAUNCHER · ${filtered.length} ROM${filtered.length!==1?'S':''}</span></div>
+    <div class="s-body" style="padding:4px">
+      <div style="padding:2px 4px 4px;border-bottom:1px solid #0f2035">${tabs}</div>
+      ${list}${detail}
+    </div>
+    <div class="s-footer">&#8593;&#8595;:ROM &nbsp; &#8592;&#8594;:SYS &nbsp; A:LAUNCH &nbsp; B:BACK</div>
+  </div>`;
+}
 
 const L4_EDGES=[
   {patch:'P04',nodes:['AYRE','AEGIS','ODIN','SKADI','MNEMOS'],col:'#f5a623'},
   {patch:'P05',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#00aaff'},
   {patch:'P06',nodes:['AEGIS','SKADI'],col:'#00ff88'},
+  {patch:'P10',nodes:['AEGIS','SKADI','MNEMOS'],col:'#00ccff'},
   {patch:'P21',nodes:['AYRE','AEGIS','ODIN'],col:'#cc00ff'},
   {patch:'P22',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#ff8800'},
   {patch:'P23',nodes:['ODIN','SKADI'],col:'#ff3355'},
@@ -817,15 +910,30 @@ function rL6Pipeline(){
     elems+=`<text x="${cx}" y="${cy+1.5}" text-anchor="middle" dominant-baseline="middle" font-size="3.5" fill="${col}" font-family="monospace">${name.slice(0,4)}</text>`;
     elems+=`<text x="${cx}" y="${cy+15}" text-anchor="middle" font-size="3" fill="${active?col:'var(--dim)'}" font-family="monospace">${active?Math.round((f.load||0)*100)+'%':'--'}</text>`;
   });
+  // P13: parallel branch overlay — HALO + MIMIR above ODIN, BIFROST above SKADI
+  const parY=cy-62;
+  const odinCx=Math.round(xStart+2*xStep);
+  const skadiCx=Math.round(xStart+4*xStep);
+  [{name:'HALO',px:odinCx-24,lx:odinCx},{name:'MIMIR',px:odinCx+24,lx:odinCx},{name:'BIFROST',px:skadiCx,lx:skadiCx}].forEach(p=>{
+    const f=nodeFields[p.name]||{load:0,entropy:0,alignment:1};
+    const active=(f.load||0)>0.02;
+    const col='#00ff88';
+    elems+=`<line x1="${p.px}" y1="${parY+7}" x2="${p.lx}" y2="${cy-8}" stroke="${col}" stroke-width="0.7" stroke-dasharray="3,2" opacity="0.35"/>`;
+    elems+=`<circle cx="${p.px}" cy="${parY}" r="6" fill="#080f18" stroke="${col}" stroke-width="${active?1.5:0.7}" opacity="${active?0.9:0.35}"/>`;
+    elems+=`<text x="${p.px}" y="${parY+1}" text-anchor="middle" dominant-baseline="middle" font-size="3" fill="${col}" font-family="monospace" opacity="${active?1:0.4}">${p.name.slice(0,3)}</text>`;
+    elems+=`<text x="${p.px}" y="${parY+14}" text-anchor="middle" font-size="3" fill="${active?col:'var(--dim)'}" font-family="monospace">${active?Math.round((f.load||0)*100)+'%':'--'}</text>`;
+  });
   const avgEnt=totalEntropy/pipe.length;
   const filledBars=Math.round(avgEnt*10);
   const eBar='█'.repeat(filledBars)+'░'.repeat(10-filledBars);
+  const recentDrift=driftLog.length&&driftLog[0].tick>=KRONOS.tick-2?driftLog[0].alerts.length:0;
+  const huguinnLabel=recentDrift>0?`<span style="color:var(--red)">&#9650;${recentDrift} DRIFT</span>`:`<span style="color:var(--green)">STABLE</span>`;
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length} STAGES · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span></span></div>
+    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length}+3 STAGES · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span></span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
     </div>
-    <div class="s-footer">ENT ${eBar} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+    <div class="s-footer">ENT ${eBar} &nbsp; HUGINN:${huguinnLabel} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER</div>
   </div>`;
 }
 
@@ -876,6 +984,73 @@ async function loadAudit(){
 
 function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
 
+// P20: HUGINN reconciliation — drift detection + corrective pressure on every tick
+function huginnReconcile(){
+  const alerts=[];
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    let c={...f},drifted=false;
+    if(f.entropy>HUGINN_CRIT.entropy){
+      c.entropy=f.entropy*0.80; alerts.push({node:n.id,field:'entropy',val:+f.entropy.toFixed(2),level:'crit'}); drifted=true;
+    } else if(f.entropy>HUGINN_WARN.entropy){
+      c.entropy=f.entropy*0.93; alerts.push({node:n.id,field:'entropy',val:+f.entropy.toFixed(2),level:'warn'}); drifted=true;
+    }
+    if(f.alignment<HUGINN_CRIT.alignment){
+      c.alignment=Math.min(1,f.alignment+0.12); alerts.push({node:n.id,field:'align',val:+f.alignment.toFixed(2),level:'crit'}); drifted=true;
+    } else if(f.alignment<HUGINN_WARN.alignment){
+      c.alignment=Math.min(1,f.alignment+0.06); drifted=true;
+    }
+    if(drifted) GRID.set(n.id,c);
+  });
+  if(alerts.length){
+    driftLog.unshift({tick:KRONOS.tick,alerts,ts:new Date().toISOString()});
+    if(driftLog.length>10) driftLog.pop();
+    const hf=nodeFields['HUGINN']||{load:0,entropy:0,alignment:1};
+    GRID.set('HUGINN',{...hf,load:Math.min(1,hf.load+alerts.length*0.12)});
+    BUS.emit('drift_alert',{count:alerts.length,nodes:[...new Set(alerts.map(a=>a.node))],tick:KRONOS.tick,patch_id:'P20',stage:'HUGINN'});
+  }
+}
+
+// P28: NODE tick_fns — each pipeline stage has intentional behavior beyond base decay
+const NODE_TICK_FNS={
+  AYRE(f,nf){
+    // Under heavy intake load, generates processing entropy
+    return (f.load||0)>0.7?{...f,entropy:Math.min(1,(f.entropy||0)+0.04)}:f;
+  },
+  AEGIS(f,nf){
+    // Threat detection: load spikes when upstream nodes carry high entropy
+    const threat=['AYRE','ODIN'].filter(id=>(nf[id]?.entropy||0)>HUGINN_WARN.entropy).length;
+    return threat?{...f,load:Math.min(1,(f.load||0)+threat*0.06)}:f;
+  },
+  ODIN(f,nf){
+    // Routing: load reflects aggregate inbound from intake + parallel observers
+    const inbound=['AYRE','HALO','MIMIR'].reduce((s,id)=>s+(nf[id]?.load||0),0)/3;
+    return {...f,load:Math.min(1,(f.load||0)+inbound*0.10)};
+  },
+  SKADI(f,nf){
+    // Execution sustains when both AEGIS has cleared and KRONOS is scheduling
+    const sustained=(nf['AEGIS']?.load||0)>0.1&&(nf['KRONOS']?.load||0)>0.1?0.04:0;
+    return {...f,load:Math.min(1,(f.load||0)+sustained)};
+  },
+  MNEMOS(f,nf){
+    // Consolidation: alignment improves as SKADI executes successfully
+    return (nf['SKADI']?.load||0)>0.25?{...f,alignment:Math.min(1,(f.alignment||1)+0.015)}:f;
+  },
+  HALO(f,nf){
+    // Ambient observer: load tracks average system activity
+    const avg=L0_NODES.reduce((s,n)=>s+(nf[n.id]?.load||0),0)/L0_NODES.length;
+    return {...f,load:Math.max(f.load||0,avg*0.4)};
+  },
+  MIMIR(f,nf){
+    // Knowledge fabric: activates when ODIN is routing decisions
+    return (nf['ODIN']?.load||0)>0.15?{...f,load:Math.min(1,(f.load||0)+0.05)}:f;
+  },
+  BIFROST(f,nf){
+    // Transport bridge: activates when SKADI is executing
+    return (nf['SKADI']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.06)}:f;
+  },
+};
+
 // P28: GRID tick — field propagation simulation; Supabase realtime overrides local state
 function gridTick(){
   KRONOS.tick++;
@@ -894,7 +1069,12 @@ function gridTick(){
       if(next[lid]) next[lid].load=Math.min(1,next[lid].load+(f.load||0)*0.08);
     });
   });
+  // P28: apply per-node intentional behavior after base decay + propagation
+  L0_NODES.forEach(n=>{ if(NODE_TICK_FNS[n.id]) next[n.id]=NODE_TICK_FNS[n.id](next[n.id],next); });
   Object.entries(next).forEach(([id,d])=>GRID.set(id,d));
+  // P14: snapshot history for delta computation in God detail
+  L0_NODES.forEach(n=>{ if(!nodeHistory[n.id]) nodeHistory[n.id]=[]; nodeHistory[n.id].unshift({...nodeFields[n.id],tick:KRONOS.tick}); if(nodeHistory[n.id].length>3) nodeHistory[n.id].pop(); });
+  huginnReconcile();
   BUS.emit('tick',{tick:KRONOS.tick,mode:KRONOS.mode,patch_id:'P28',stage:'KRONOS'});
   if(S==='tron') draw();
 }
@@ -919,7 +1099,14 @@ function nav(d){
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
-  if(S==='tron'){ const ls=[0,4,5,6]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; draw(); beep(d>0?440:400,40); return; }
+  if(S==='tron'){
+    if(tronLayer===3){
+      const f=['all','gb','gba'][tronSys];
+      const fl=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+      if(fl.length){ tronRomCur=((tronRomCur+d)%fl.length+fl.length)%fl.length; }
+    } else { const ls=[0,1,3,4,5,6]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; }
+    draw(); beep(d>0?440:400,40); return;
+  }
   if(S==='live'){ liveTab=(liveTab+d+3)%3; if(liveTab===1&&!replayData.length) loadReplay(); if(liveTab===2&&!auditData.length) loadAudit(); draw(); beep(d>0?440:400,40); return; }
   if(S==='alerts'||S==='emu') return;
   if(S==='github'){ ghNav(d); return; }
@@ -928,9 +1115,15 @@ function nav(d){
 }
 
 function emuDir(dir){
-  if(emuState!=='running'||!activeCore) return false;
-  const m={left:{LEFT:true},right:{RIGHT:true}};
-  activeCore.setInput(m[dir]); setTimeout(()=>activeCore.setInput({}),80); return true;
+  if(emuState==='running'&&activeCore){
+    const m={left:{LEFT:true},right:{RIGHT:true}};
+    activeCore.setInput(m[dir]); setTimeout(()=>activeCore.setInput({}),80); return true;
+  }
+  if(S==='tron'&&tronLayer===3){
+    tronSys=(tronSys+(dir==='right'?1:TRON_SYS.length-1))%TRON_SYS.length;
+    tronRomCur=0; draw(); beep(dir==='right'?440:400,40); return true;
+  }
+  return false;
 }
 
 function emuBtn(btn){
@@ -946,7 +1139,10 @@ function ok(){
   if(S==='menu'){ S=MENU[cur].state; cur=0; ModeController.set(S); updateSession(S); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
-  if(S==='tron'){ if(tronLayer===0||tronLayer===6) toggleKRONOS(); return; }
+  if(S==='tron'){
+    if(tronLayer===3){ tronLaunchROM(); return; }
+    if(tronLayer===0||tronLayer===6) toggleKRONOS(); return;
+  }
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
@@ -962,12 +1158,11 @@ function back(){
     if(S==='emu'){
       // P09: auto-save to slot 99 on exit if running
       if(emuState==='running'&&activeCore) sbSaveState(99);
-      if(activeCore){ try{activeCore.stop();}catch(e){} activeCore=null; }
+      if(activeCore){ CartridgeCore.stop(); activeCore=null; }
       emuState='idle'; saveStateSlot=null;
-      EmulatorRouter.stop();
     }
     if(S==='live') liveTab=0;
-    if(S==='tron'){ tronLayer=0; stopTick(); KRONOS.mode='frozen'; }
+    if(S==='tron'){ tronLayer=0; tronSys=0; tronRomCur=0; stopTick(); KRONOS.mode='frozen'; }
     S='menu'; cur=0; draw(); return;
   }
   if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
@@ -976,6 +1171,23 @@ function back(){
 function start(){
   if(emuState==='running'&&activeCore){ activeCore.setInput({START:true}); setTimeout(()=>activeCore.setInput({START:false}),80); return; }
   beep(660,80); S='menu'; cur=0; draw();
+}
+
+// P11: launch ROM from L3 launcher — fetch from storage_url if available, else open emulator file picker
+async function tronLaunchROM(){
+  const f=['all','gb','gba'][tronSys];
+  const filtered=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+  const rom=filtered[Math.min(tronRomCur,filtered.length-1)];
+  if(!rom){ beep(200,100); return; }
+  beep(880,60);
+  S='emu'; ModeController.set('emu'); updateSession('emu'); draw();
+  if(rom.storage_url){
+    try{
+      const resp=await fetch(rom.storage_url);
+      const buf=await resp.arrayBuffer();
+      handleROM({files:[new File([buf],rom.name||'rom.gb')]});
+    }catch(e){ emuState='failed'; emuError='FETCH:'+e.message; draw(); }
+  }
 }
 
 let actx=null;
@@ -1284,6 +1496,29 @@ BUS.on('*',(evt,data)=>{
   lives.unshift({action:'BUS:'+String(evt).slice(0,22),status:'done',time:new Date().toTimeString().slice(0,8)});
   if(lives.length>100) lives=lives.slice(0,100);
   if(S==='live') draw();
+});
+
+// P07: GRID Execution Bridge — BUS events activate corresponding God System nodes
+const EXEC_BRIDGE={
+  BOOT:               {nodes:['AYRE'],               spike:0.50},
+  mode_change:        {nodes:['ODIN'],               spike:0.20},
+  cartridge_load:     {nodes:['AEGIS','SKADI'],      spike:0.40},
+  cartridge_stop:     {nodes:['SKADI','MNEMOS'],     spike:0.25},
+  emu_start:          {nodes:['AYRE','AEGIS','SKADI'],spike:0.45},
+  emu_error:          {nodes:['AEGIS'],              spike:0.35},
+  save_state:         {nodes:['MNEMOS'],             spike:0.40},
+  drift_alert:        {nodes:['HUGINN'],             spike:0.30},
+  consensus_resolved: {nodes:['ODIN','AEGIS'],       spike:0.30},
+  AEGIS_BLOCK:        {nodes:['AEGIS'],              spike:0.50},
+  tick:               {nodes:['KRONOS'],             spike:0.12},
+};
+BUS.on('*',(evt)=>{
+  const b=EXEC_BRIDGE[evt]; if(!b) return;
+  b.nodes.forEach(id=>{
+    const f=nodeFields[id]||{load:0,entropy:0,alignment:1};
+    GRID.set(id,{...f,load:Math.min(1,(f.load||0)+b.spike)});
+  });
+  if(S==='tron') draw();
 });
 
 if('serviceWorker' in navigator){
