@@ -217,6 +217,38 @@ const AEGIS={
   },
 };
 
+// P29: GNPL Consensus Engine — multi-system proposal/vote before execution
+const GNPL={
+  _quorum:{tool_execution:1,state_transition:2,resource_access:2,expansion:3},
+  async propose(type,proposer,payload){
+    if(!sb) return null;
+    const q=this._quorum[type]||2;
+    try{
+      const {data}=await sb.from('consensus_proposals')
+        .insert({proposal_type:type,proposer,payload,required_quorum:q,session_id:sessionId,patch_id:'P29',stage:'AEGIS'})
+        .select('id').single();
+      if(data?.id&&type==='tool_execution') await this.vote(data.id,'AEGIS','approve');
+      return data?.id||null;
+    }catch(e){ return null; }
+  },
+  async vote(id,system,decision){
+    if(!sb) return false;
+    try{
+      const {data:c}=await sb.from('consensus_proposals').select('votes,required_quorum,status').eq('id',id).single();
+      if(!c||c.status!=='pending') return false;
+      const votes={...c.votes,[system]:decision};
+      const approved=Object.values(votes).filter(v=>v==='approve').length;
+      const rejected=Object.values(votes).filter(v=>v==='reject').length;
+      const status=approved>=c.required_quorum?'approved':rejected>0?'rejected':'pending';
+      const upd={votes,status};
+      if(status!=='pending') upd.resolved_at=new Date().toISOString();
+      await sb.from('consensus_proposals').update(upd).eq('id',id);
+      if(status!=='pending') BUS.emit('consensus_resolved',{id,status,votes,patch_id:'P29',stage:'AEGIS'});
+      return status;
+    }catch(e){ return false; }
+  },
+};
+
 // ── Patch 4: neural mesh session
 let sessionId = null;
 async function startSession(){
