@@ -409,6 +409,77 @@ const GOVERNOR={
     });
   }
 };
+// P29: GNPL — Grid Node Protocol Layer — multi-agent consensus engine
+// AI proposes → AEGIS validates → agents vote → ZEUS arbitrates conflicts → GRID commits
+const GNPL={
+  agents:{
+    jarvis:{archetype:'Shiroe',authority:1.00,col:'#00aaff'},
+    codex: {archetype:'Kang',  authority:0.85,col:'#ff8800'},
+    gpt:   {archetype:'Kang',  authority:0.80,col:'#ffcc00'},
+    gemini:{archetype:'Aizen', authority:0.70,col:'#00ff88'},
+  },
+  proposals:[],  // active pending/conflict proposals
+  history:[],    // last 10 committed or rejected
+
+  propose(from,nodeId,delta,reason=''){
+    const a=this.agents[from]; if(!a) return null;
+    const id=`${from}-${nodeId}-${KRONOS.tick}`;
+    if(this.proposals.find(p=>p.id===id)) return null; // dedupe
+    const conflict=this.proposals.find(p=>p.nodeId===nodeId&&p.status==='pending'&&p.from!==from);
+    const proposal={id,from,nodeId,delta,reason,status:conflict?'conflict':'pending',tick:KRONOS.tick,votes:{[from]:'yes'}};
+    this.proposals.push(proposal);
+    BUS.emit('gnpl_propose',{proposal,patch_id:'P29',stage:'GNPL'});
+    // jarvis has supreme authority — commit immediately; others require majority
+    if(from==='jarvis'||Object.keys(this.agents).length===1) this._commit(proposal);
+    else if(conflict) this._resolve(proposal,conflict);
+    return proposal;
+  },
+
+  vote(agentId,proposalId,v='yes'){
+    const p=this.proposals.find(x=>x.id===proposalId); if(!p||p.status!=='pending') return;
+    p.votes[agentId]=v;
+    const ag=Object.keys(this.agents);
+    const yeas=ag.filter(a=>p.votes[a]==='yes').length;
+    const nays=ag.filter(a=>p.votes[a]==='no').length;
+    if(yeas>ag.length/2) this._commit(p);
+    else if(nays>=ag.length/2) this._reject(p);
+  },
+
+  _commit(p){
+    p.status='committed';
+    if((p.delta.load||0)>0) GOVERNOR.intent(p.nodeId,p.delta.load,p.delta.ticks||3);
+    const f=nodeFields[p.nodeId]||{};
+    const patch={};
+    if(p.delta.entropy!==undefined) patch.entropy=Math.max(0,Math.min(1,p.delta.entropy));
+    if(p.delta.alignment!==undefined) patch.alignment=Math.max(0,Math.min(1,p.delta.alignment));
+    if(Object.keys(patch).length) GRID.set(p.nodeId,{...f,...patch});
+    BUS.emit('gnpl_commit',{proposal:p,patch_id:'P29',stage:'GNPL'});
+    this._archive(p);
+  },
+
+  _reject(p){
+    p.status='rejected';
+    BUS.emit('gnpl_reject',{proposal:p,patch_id:'P29',stage:'GNPL'});
+    this._archive(p);
+  },
+
+  _resolve(proposal,conflict){
+    const pAuth=this.agents[proposal.from]?.authority||0;
+    const cAuth=this.agents[conflict.from]?.authority||0;
+    BUS.emit('gnpl_conflict',{proposal,conflict,patch_id:'P29',stage:'ZEUS'});
+    GOVERNOR.intent('ZEUS',0.45,2); // ZEUS activates for conflict resolution
+    if(pAuth>=cAuth){this._commit(proposal);this._reject(conflict);}
+    else{this._reject(proposal);this._commit(conflict);}
+  },
+
+  _archive(p){
+    this.history.unshift(p);
+    if(this.history.length>10) this.history.pop();
+    this.proposals=this.proposals.filter(x=>x.id!==p.id);
+    if(S==='tron') draw();
+  },
+};
+
 // P20: HUGINN drift thresholds + rolling alert log
 const HUGINN_WARN={entropy:0.65,load:0.88,alignment:0.35};
 const HUGINN_CRIT={entropy:0.85,load:0.95,alignment:0.20};
@@ -1165,10 +1236,34 @@ function rL6Pipeline(){
   const modeCol=KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':KRONOS.mode==='replay'?'#cc88ff':'var(--dim)';
   const replayLabel=KRONOS.mode==='replay'?` T${replaySnap?replaySnap.tick:'-'}/${tickHistory.length?tickHistory[tickHistory.length-1].tick:0}`:'';
   const govActive=Object.keys(GOVERNOR.boosts).length>0;
+  // P29: GNPL consensus state section
+  const gnplActive=GNPL.proposals.slice(0,2);
+  const gnplRecent=GNPL.history.slice(0,3);
+  let gnplHtml='';
+  if(gnplActive.length||gnplRecent.length){
+    gnplHtml+='<div style="padding:2px 6px;border-top:1px solid #0f2035;font-family:monospace">';
+    if(gnplActive.length){
+      gnplHtml+=`<div style="font-size:3.5px;color:var(--amber);margin:1px 0">GNPL PENDING</div>`;
+      gnplActive.forEach(p=>{
+        const ac=GNPL.agents[p.from]?.col||'#fff';
+        gnplHtml+=`<div style="font-size:3.5px;margin:1px 0"><span style="color:${ac}">${p.from.toUpperCase()}</span><span style="color:var(--dim)"> → ${p.nodeId}${p.status==='conflict'?' ⚡CONFLICT':''}</span></div>`;
+      });
+    }
+    if(gnplRecent.length){
+      gnplHtml+=`<div style="font-size:3.5px;color:var(--dim);margin:2px 0 1px">RECENT</div>`;
+      gnplRecent.forEach(p=>{
+        const ac=GNPL.agents[p.from]?.col||'#fff';
+        const sc=p.status==='committed'?'var(--green)':'var(--red)';
+        gnplHtml+=`<div style="font-size:3.5px;margin:1px 0"><span style="color:${ac}">${p.from.toUpperCase()}</span><span style="color:var(--dim)"> → ${p.nodeId}</span> <span style="color:${sc}">${p.status==='committed'?'✓':'✗'}</span> <span style="color:var(--dim);font-size:3px">${(p.reason||'').slice(0,18)}</span></div>`;
+      });
+    }
+    gnplHtml+='</div>';
+  }
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length}+3 STAGES · <span style="color:${modeCol}">${KRONOS.mode.toUpperCase()}${replayLabel}</span>${govActive?` <span style="color:#ff88cc">GOV</span>`:''}</span></div>
-    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length}+3 STAGES · <span style="color:${modeCol}">${KRONOS.mode.toUpperCase()}${replayLabel}</span>${govActive?` <span style="color:#ff88cc">GOV</span>`:''}${GNPL.history.length?` <span style="color:#8888ff">GNPL·${GNPL.history.length}</span>`:''}</span></div>
+    <div class="s-body" style="padding:4px;display:flex;flex-direction:column;align-items:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
+      ${gnplHtml}
     </div>
     <div class="s-footer">ENT ${eBar} &nbsp; HUGINN:${huguinnLabel} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':KRONOS.mode==='replay'?'&#9654;RW':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER</div>
   </div>`;
@@ -1356,9 +1451,8 @@ async function speakSend(){
   if(!input) return;
   speakInput='';
   const cs=getCompanionState();
-  // Spike AYRE — intake received
-  const af=nodeFields['AYRE']||{load:0,entropy:0,alignment:1};
-  GRID.set('AYRE',{...af,load:Math.min(1,(af.load||0)+0.45)});
+  // P29: JARVIS proposes via GNPL — intake routed through consensus layer
+  GNPL.propose('jarvis','AYRE',{load:0.45,ticks:2},'speak_intake: raven message received');
   BUS.emit('BOOT',{source:'speak_intake',patch_id:'SPEAK',stage:'AYRE'});
   speakHistory.push({from:'raven',text:input,tick:cs.tick});
   speakThinking=true; draw();
@@ -1388,9 +1482,9 @@ async function speakSend(){
     else{ resp=jarvisRespond(input); }
   }catch(e){ resp=jarvisRespond(input); }
   speakThinking=false;
-  // Spike APOLLO — output ready
-  const apf=nodeFields['APOLLO']||{load:0,entropy:0,alignment:1};
-  GRID.set('APOLLO',{...apf,load:Math.min(1,(apf.load||0)+0.40)});
+  // P29: JARVIS proposes output + memory consolidation via GNPL
+  GNPL.propose('jarvis','APOLLO',{load:0.40,ticks:2},'speak_output: response formed');
+  GNPL.propose('jarvis','MNEMOS',{load:0.30,ticks:3},'speak_output: consolidate exchange to memory');
   BUS.emit('output_ready',{source:'speak',patch_id:'SPEAK',stage:'APOLLO'});
   speakHistory.push({from:'jarvis',text:resp,tick:KRONOS.tick});
   if(speakHistory.length>20) speakHistory=speakHistory.slice(-20);
