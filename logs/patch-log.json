@@ -16,8 +16,8 @@
     "P05": {"status":"done",      "summary":"GRID Spatial Graph — L0-L6"},
     "P06": {"status":"partial",   "summary":"Master Emulator Consolidation — WasmBoy + mGBA"},
     "P07": {"status":"partial",   "summary":"GRID Execution Bridge — GAMEBOY node in L0"},
-    "P08": {"status":"pending",   "summary":"GitHub ROM Indexer"},
-    "P09": {"status":"pending",   "summary":"Save States — snapshot/restore to Supabase"},
+    "P08": {"status":"done",      "summary":"GitHub ROM Indexer — rom_library table, loadROMIndex(), registerROM()"},
+    "P09": {"status":"done",      "summary":"Save States — sbSaveState/sbLoadState, F5/F9 keys, auto-save slot 99"},
     "P10": {"status":"pending",   "summary":"Core Unification"},
     "P11": {"status":"pending",   "summary":"TRON Frontend"},
     "P12": {"status":"pending",   "summary":"Intelligence + Multiplayer + Temporal Replay"},
@@ -42,5 +42,5 @@
     "P31": {"status":"pending",   "summary":"Mythos Autonomous Governance Layer"},
     "P32": {"status":"blocked",   "summary":"Fractal Universe — Raven sign-off required, depends P28-P30"}
   },
-  "next": "P09 (Save States) → P08 (ROM Indexer) → P29 (GNPL Consensus)"
+  "next": "P29 (GNPL Consensus Engine) → P30 (World Kernel Spec)"
 }
