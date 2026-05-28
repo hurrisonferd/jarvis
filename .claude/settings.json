@@ -19,6 +19,16 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 scripts/jarvis-session-end.py"
+          }
+        ]
+      }
     ]
   }
 }
