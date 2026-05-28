@@ -12,6 +12,8 @@
     {"patch":"P21", "commits":["p21-boot","40a0530"], "supabase_tables":["sessions"], "status":"partial"},
     {"patch":"P22", "commits":["p22-p06","40a0530"], "supabase_tables":["events","session_events"], "status":"partial"},
     {"patch":"P27", "commits":["p27-grid-place"], "supabase_tables":["node_fields"], "status":"partial"},
-    {"patch":"P28", "commits":["fce1469"], "supabase_tables":["execution_trace","grid_state"], "status":"partial"}
+    {"patch":"P28", "commits":["fce1469"], "supabase_tables":["execution_trace","grid_state"], "status":"partial"},
+    {"patch":"P08", "commits":["546ea35","f072645"], "supabase_tables":["rom_library"], "status":"partial"},
+    {"patch":"P09", "commits":["546ea35","f072645"], "supabase_tables":["save_states"], "status":"partial"}
   ]
 }
