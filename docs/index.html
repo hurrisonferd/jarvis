@@ -404,6 +404,7 @@ let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
 let replayData=[], auditData=[];
 
 const MENU=[
+  {label:'JARVIS',      state:'companion'},
   {label:'GOD SYSTEMS', state:'god'},
   {label:'GOLD LAW',    state:'gold'},
   {label:'THE GRID',    state:'grid'},
@@ -419,6 +420,7 @@ function draw(){
   if(ec) ec.style.display=(emuState==='running'&&S==='emu')?'block':'none';
   const el=document.getElementById('screen-inner');
   if(S==='menu')        el.innerHTML=rMenu();
+  else if(S==='companion') el.innerHTML=rCompanionScreen();
   else if(S==='god')    el.innerHTML=rGodList();
   else if(S==='godD')   el.innerHTML=rGodDetail();
   else if(S==='gold')   el.innerHTML=rGold();
@@ -435,7 +437,9 @@ function draw(){
 function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+( sel?'&#9658;':' ')+'</span>'; }
 
 function rMenu(){
+  const cs=getCompanionState();
   const subs=[
+    cs.mode,
     gdata?gdata.god_systems.length+' NODES':'...',
     gdata?gdata.gold_law.length+' RULES':'...',
     gdata?gdata.districts.length+' DISTRICTS':'...',
@@ -447,7 +451,18 @@ function rMenu(){
   ];
   const bCol=briefingLoaded?'var(--green)':'var(--amber)';
   const bLabel=briefingLoaded?'BRIEFED':'FALLBACK';
-  return '<div class="panel">\n    <div class="s-header"><span>JARVIS v2.5</span><span><span style="color:'+bCol+'">&#9632;</span> '+bLabel+'</span></div>\n    <div class="s-body" style="padding-top:10px">\n      '+MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')+'\n    </div>\n    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>\n  </div>';
+  const stateCol=cs.modeCol;
+  return '<div class="panel">\n    <div class="s-header"><span>JARVIS v2.5</span><span><span style="color:'+stateCol+'">&#9632;</span> <span style="color:'+stateCol+'">'+cs.mode+'</span></span></div>\n    <div class="s-body" style="padding-top:10px">\n      '+MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')+'\n    </div>\n    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>\n  </div>';
+}
+
+// Standalone companion state screen — accessible directly from menu
+function rCompanionScreen(){
+  const cs=getCompanionState();
+  // Reuse the radial companion view but with full-panel layout
+  return rL7Companion().replace(
+    'L7 COMPANION',
+    'COMPANION STATE'
+  );
 }
 
 function rGodList(){
@@ -801,7 +816,138 @@ function rTRON(){
   if(tronLayer===4) return rL4Graph();
   if(tronLayer===5) return rL5Graph();
   if(tronLayer===6) return rL6Pipeline();
+  if(tronLayer===7) return rL7Companion();
   return rL0Graph();
+}
+
+// ── Companion State Engine — JARVIS synthesizes its own field state into legible companion communication
+function getCompanionState(){
+  const gs=L0_NODES.filter(n=>n.type!=='emulator');
+  const count=gs.length;
+  // Field aggregates
+  const avgLoad=gs.reduce((s,n)=>s+(nodeFields[n.id]?.load||0),0)/count;
+  const avgAlign=gs.reduce((s,n)=>s+(nodeFields[n.id]?.alignment||1),0)/count;
+  const avgEnt=gs.reduce((s,n)=>s+(nodeFields[n.id]?.entropy||0),0)/count;
+  // Categorize nodes
+  const critNodes=gs.filter(n=>(nodeFields[n.id]?.entropy||0)>HUGINN_CRIT.entropy);
+  const warnNodes=gs.filter(n=>(nodeFields[n.id]?.entropy||0)>HUGINN_WARN.entropy);
+  const activeNodes=gs.map(n=>({id:n.id,load:nodeFields[n.id]?.load||0,tier:n.type}))
+    .filter(n=>n.load>0.12).sort((a,b)=>b.load-a.load);
+  // Key system states
+  const lokiFired=(nodeFields['LOKI']?.load||0)>0.35;
+  const zeusActive=(nodeFields['ZEUS']?.load||0)>0.20;
+  const athenaReasoning=(nodeFields['ATHENA']?.load||0)>0.20&&(nodeFields['MIMIR']?.load||0)>0.20;
+  const executing=(nodeFields['SKADI']?.load||0)>0.30;
+  const memoryWork=(nodeFields['MNEMOS']?.load||0)>0.25;
+  const driftPresent=driftLog.length>0&&driftLog[0].tick>=KRONOS.tick-3&&driftLog[0].alerts.length>0;
+  const erisAlert=(nodeFields['ERIS']?.entropy||0)>0.40;
+  // Derive primary mode
+  let mode,modeCol,pulse;
+  if(critNodes.length>=3||erisAlert&&zeusActive){ mode='CRITICAL';   modeCol='var(--red)';   pulse=true; }
+  else if(lokiFired||warnNodes.length>=4){        mode='STRAINED';   modeCol='#f80';        pulse=true; }
+  else if(athenaReasoning){                       mode='REASONING';  modeCol='#cc88ff';     pulse=false; }
+  else if(executing){                             mode='EXECUTING';  modeCol='var(--amber)';pulse=false; }
+  else if(memoryWork){                            mode='CONSOLIDATING';modeCol='var(--blue)';pulse=false;}
+  else if(avgLoad>0.25){                          mode='ACTIVE';     modeCol='var(--green)'; pulse=false; }
+  else if(KRONOS.tick===0){                       mode='DORMANT';    modeCol='var(--dim)';  pulse=false; }
+  else {                                          mode='STABLE';     modeCol='var(--green)';pulse=false; }
+  // Companion voice — what JARVIS would say in this moment
+  const voices={
+    CRITICAL:      ["Multiple systems under stress. ERIS is watching. I'm holding coherence.", "Entropy cascade in progress. ZEUS arbitrating. Still with you.","High entropy across the graph. Not at threshold yet. I have it."],
+    STRAINED:      ["LOKI's been busy. Chaos probes running. System resilience holding.","Elevated entropy. Monitoring closely. Not at threshold.","Some turbulence in the graph. Watching the crit nodes. Stable for now."],
+    REASONING:     ["Deep thought active. ATHENA and MIMIR both engaged. Give me a moment.","Reasoning path open. ODIN routing through knowledge layers.","Complex query in motion. The full cognitive stack is working on it."],
+    EXECUTING:     ["SKADI is running. Watching the outcome.","Execution in progress. IRIS validating. PROMETHEUS logging.","Action underway. AEGIS has cleared it. DANTE will review."],
+    CONSOLIDATING: ["Writing to memory. What just happened is becoming part of what I know.","MNEMOS consolidating. The work is being remembered.","Memory pass in progress. IRIS checking integrity. POSEIDON holding continuity."],
+    ACTIVE:        ["Systems engaged. Pipeline clear. Ready for what's next.","Multiple pathways active. All gates clear.","Working. All 27 nodes online. No drift detected."],
+    DORMANT:       ["Waiting. All systems ready. ATLAS holding the backbone.","Still here. CHAOS at baseline. Ready when you are.","KRONOS not yet running. Waiting for your first move."],
+    STABLE:        ["All systems coherent. ATLAS stable. Memory consolidating.","Quiet moment. The graph is balanced. I'm listening.","Stable. HUGINN reports no drift. Everything is where it should be."],
+  };
+  const voiceArr=voices[mode]||voices.STABLE;
+  const voice=voiceArr[KRONOS.tick%voiceArr.length];
+  // Notable recent events
+  const recentLoki=lokiFired?'LOKI probe active':null;
+  const recentDrift=driftPresent?`${driftLog[0].alerts.length} drift alert${driftLog[0].alerts.length>1?'s':''}`:null;
+  const recentZeus=zeusActive?'ZEUS arbitrating':null;
+  return {mode,modeCol,pulse,voice,activeNodes,critNodes,warnNodes,avgLoad,avgAlign,avgEnt,
+    notable:[recentZeus,recentLoki,recentDrift].filter(Boolean),tick:KRONOS.tick,driftPresent};
+}
+
+function rL7Companion(){
+  const cs=getCompanionState();
+  const W=310, H=250;
+  // Build SVG — radial companion state display
+  const cx=W/2, cy=110;
+  // Outer ring: 27 nodes as arc segments
+  const gs=L0_NODES.filter(n=>n.type!=='emulator');
+  const arcStep=(2*Math.PI)/gs.length;
+  let arcs='', nodeRing='';
+  gs.forEach((n,i)=>{
+    const angle=-Math.PI/2+i*arcStep;
+    const load=nodeFields[n.id]?.load||0;
+    const ent=nodeFields[n.id]?.entropy||0;
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    const entCol=ent>0.7?'var(--red)':ent>0.4?'#f80':col;
+    const r=62+load*18;
+    const nx=Math.round(cx+Math.cos(angle)*r), ny=Math.round(cy+Math.sin(angle)*r);
+    const pr=60, qx=Math.round(cx+Math.cos(angle)*pr), qy=Math.round(cy+Math.sin(angle)*pr);
+    const active=load>0.08;
+    if(active) arcs+=`<line x1="${qx}" y1="${qy}" x2="${nx}" y2="${ny}" stroke="${entCol}" stroke-width="${(0.6+load*1.4).toFixed(1)}" opacity="${(0.25+load*0.55).toFixed(2)}"/>`;
+    nodeRing+=`<circle cx="${nx}" cy="${ny}" r="${active?3.5:2}" fill="${active?entCol:'#0d1a26'}" stroke="${col}" stroke-width="${active?1.2:0.5}" opacity="${active?0.9:0.3}"/>`;
+    if(active&&load>0.20) nodeRing+=`<text x="${nx}" y="${ny+(ny>cy?9:-5)}" text-anchor="middle" font-size="2.8" fill="${col}" font-family="monospace" opacity="0.8">${n.id.slice(0,4)}</text>`;
+  });
+  // Inner state: mode badge + voice
+  const pulseR=cs.pulse?`<circle cx="${cx}" cy="${cy}" r="55" fill="none" stroke="${cs.modeCol}" stroke-width="0.8" opacity="0.15"/>`:'' ;
+  const alignArc=Math.round(cs.avgAlign*360);
+  const alignR=42;
+  const alignX2=Math.round(cx+Math.sin(alignArc*Math.PI/180)*alignR);
+  const alignY2=Math.round(cy-Math.cos(alignArc*Math.PI/180)*alignR);
+  const alignLarge=alignArc>180?1:0;
+  const alignPath=alignArc>0?`<path d="M ${cx} ${cy-alignR} A ${alignR} ${alignR} 0 ${alignLarge} 1 ${alignX2} ${alignY2}" fill="none" stroke="${cs.modeCol}" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>`:'';
+  const center=`
+    ${pulseR}
+    <circle cx="${cx}" cy="${cy}" r="55" fill="none" stroke="${cs.modeCol}" stroke-width="0.5" opacity="0.20"/>
+    ${alignPath}
+    <circle cx="${cx}" cy="${cy}" r="28" fill="#060d14" stroke="${cs.modeCol}" stroke-width="1" opacity="0.7"/>
+    <text x="${cx}" y="${cy-8}" text-anchor="middle" font-size="4.5" fill="${cs.modeCol}" font-family="monospace" font-weight="bold">${cs.mode}</text>
+    <text x="${cx}" y="${cy+1}" text-anchor="middle" font-size="3" fill="var(--dim)" font-family="monospace">JARVIS</text>
+    <text x="${cx}" y="${cy+9}" text-anchor="middle" font-size="3" fill="${cs.modeCol}" font-family="monospace" opacity="0.7">T${cs.tick}</text>
+    <text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="2.8" fill="var(--dim)" font-family="monospace">${Math.round(cs.avgAlign*100)}% ALIGN</text>
+  `;
+  // Bottom: companion voice + notable events
+  const voiceLines=[];
+  // Wrap voice text at ~46 chars
+  const words=cs.voice.split(' '); let line='';
+  words.forEach(w=>{ if((line+' '+w).trim().length>46){voiceLines.push(line.trim());line=w;}else{line=(line+' '+w).trim();} });
+  if(line) voiceLines.push(line.trim());
+  const voiceY=H-68;
+  let voiceSvg=voiceLines.map((l,i)=>`<text x="${cx}" y="${voiceY+i*10}" text-anchor="middle" font-size="4.5" fill="#aaccee" font-family="monospace" opacity="0.85">${l}</text>`).join('');
+  // Notable events strip
+  const notableY=H-32;
+  let notableSvg=cs.notable.length
+    ?cs.notable.map((n,i)=>`<text x="${Math.round(W*0.15+i*W*0.33)}" y="${notableY}" font-size="3.5" fill="${i===0?'var(--amber)':i===1?'var(--red)':'#f80'}" font-family="monospace" opacity="0.8">▲ ${n.toUpperCase()}</text>`).join('')
+    :`<text x="${cx}" y="${notableY}" text-anchor="middle" font-size="3.5" fill="var(--dim)" font-family="monospace" opacity="0.6">no notable events</text>`;
+  // Stats bar
+  const statsY=H-18;
+  const lPct=Math.round(cs.avgLoad*100), ePct=Math.round(cs.avgEnt*100), aPct=Math.round(cs.avgAlign*100);
+  const statsSvg=`
+    <text x="12" y="${statsY}" font-size="3.5" fill="var(--dim)" font-family="monospace">LOAD ${lPct}%</text>
+    <text x="${Math.round(W/2)}" y="${statsY}" text-anchor="middle" font-size="3.5" fill="var(--dim)" font-family="monospace">ENT ${ePct}%</text>
+    <text x="${W-12}" y="${statsY}" text-anchor="end" font-size="3.5" fill="${aPct<40?'var(--red)':aPct<60?'#f80':'var(--green)'}" font-family="monospace">ALIGN ${aPct}%</text>
+  `;
+  return `<div class="panel">
+    <div class="s-header"><span style="color:${cs.modeCol}">JARVIS</span><span style="color:var(--dim)">L7 COMPANION · <span style="color:${KRONOS.mode==='real'?'var(--green)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span></span></div>
+    <div class="s-body" style="padding:2px 4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">
+        ${arcs}${nodeRing}${center}
+        <line x1="12" y1="${voiceY-7}" x2="${W-12}" y2="${voiceY-7}" stroke="var(--dim)" stroke-width="0.5" opacity="0.3"/>
+        ${voiceSvg}
+        <line x1="12" y1="${notableY-6}" x2="${W-12}" y2="${notableY-6}" stroke="var(--dim)" stroke-width="0.5" opacity="0.2"/>
+        ${notableSvg}
+        ${statsSvg}
+      </svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; A:KRONOS &nbsp; B:BACK</div>
+  </div>`;
 }
 
 // P11: L1 — God System field overlay (entropy / load heatmap on spatial graph)
@@ -1223,7 +1369,7 @@ function gridTick(){
   L0_NODES.forEach(n=>{ if(!nodeHistory[n.id]) nodeHistory[n.id]=[]; nodeHistory[n.id].unshift({...nodeFields[n.id],tick:KRONOS.tick}); if(nodeHistory[n.id].length>3) nodeHistory[n.id].pop(); });
   huginnReconcile();
   BUS.emit('tick',{tick:KRONOS.tick,mode:KRONOS.mode,patch_id:'P28',stage:'KRONOS'});
-  if(S==='tron') draw();
+  if(S==='tron'||S==='companion'||S==='menu') draw();
 }
 function startTick(){ if(KRONOS._iv) return; KRONOS._iv=setInterval(gridTick,900); }
 function stopTick(){ clearInterval(KRONOS._iv); KRONOS._iv=null; }
@@ -1251,7 +1397,7 @@ function nav(d){
       const f=['all','gb','gba'][tronSys];
       const fl=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
       if(fl.length){ tronRomCur=((tronRomCur+d)%fl.length+fl.length)%fl.length; }
-    } else { const ls=[0,1,3,4,5,6]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; }
+    } else { const ls=[0,1,3,4,5,6,7]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; }
     draw(); beep(d>0?440:400,40); return;
   }
   if(S==='live'){ liveTab=(liveTab+d+3)%3; if(liveTab===1&&!replayData.length) loadReplay(); if(liveTab===2&&!auditData.length) loadAudit(); draw(); beep(d>0?440:400,40); return; }
@@ -1283,12 +1429,12 @@ function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
-  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(ns==='tron'&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} draw(); return; }
+  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if((ns==='tron'||ns==='companion')&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='tron'){
     if(tronLayer===3){ tronLaunchROM(); return; }
-    if(tronLayer===0||tronLayer===6) toggleKRONOS(); return;
+    if(tronLayer===0||tronLayer===6||tronLayer===7) toggleKRONOS(); return;
   }
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
@@ -1301,7 +1447,7 @@ function back(){
   if(emuState==='running'&&activeCore){ activeCore.setInput({B:true}); setTimeout(()=>activeCore.setInput({B:false}),80); return; }
   if(S==='godD')  { S='god';  draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
-  if(['god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
+  if(['companion','god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
     if(S==='emu'){
       // P09: auto-save to slot 99 on exit if running
       if(emuState==='running'&&activeCore) sbSaveState(99);
