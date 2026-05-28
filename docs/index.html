@@ -351,6 +351,10 @@ const PG=7;
 const GRID={nodes:L0_NODES,get fields(){return nodeFields},set(id,d){nodeFields[id]=d;}};
 // P28: KRONOS time controller — real=auto-tick 900ms, stepped=manual, frozen=paused
 const KRONOS={mode:'frozen',tick:0,_iv:null};
+// P20: HUGINN drift thresholds + rolling alert log
+const HUGINN_WARN={entropy:0.65,load:0.88,alignment:0.35};
+const HUGINN_CRIT={entropy:0.85,load:0.95,alignment:0.20};
+let driftLog=[];
 let tronLayer=0;         // P05/P13/P11: 0=L0, 1=field, 3=launcher, 4=hypergraph, 5=temporal, 6=pipeline
 let tronSys=0, tronRomCur=0; // P11 L3 launcher: system tab, selected ROM index
 let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
@@ -902,12 +906,14 @@ function rL6Pipeline(){
   const avgEnt=totalEntropy/pipe.length;
   const filledBars=Math.round(avgEnt*10);
   const eBar='█'.repeat(filledBars)+'░'.repeat(10-filledBars);
+  const recentDrift=driftLog.length&&driftLog[0].tick>=KRONOS.tick-2?driftLog[0].alerts.length:0;
+  const huguinnLabel=recentDrift>0?`<span style="color:var(--red)">&#9650;${recentDrift} DRIFT</span>`:`<span style="color:var(--green)">STABLE</span>`;
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length} STAGES · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span></span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
     </div>
-    <div class="s-footer">ENT ${eBar} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+    <div class="s-footer">ENT ${eBar} &nbsp; HUGINN:${huguinnLabel} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER</div>
   </div>`;
 }
 
@@ -958,6 +964,33 @@ async function loadAudit(){
 
 function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
 
+// P20: HUGINN reconciliation — drift detection + corrective pressure on every tick
+function huginnReconcile(){
+  const alerts=[];
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    let c={...f},drifted=false;
+    if(f.entropy>HUGINN_CRIT.entropy){
+      c.entropy=f.entropy*0.80; alerts.push({node:n.id,field:'entropy',val:+f.entropy.toFixed(2),level:'crit'}); drifted=true;
+    } else if(f.entropy>HUGINN_WARN.entropy){
+      c.entropy=f.entropy*0.93; alerts.push({node:n.id,field:'entropy',val:+f.entropy.toFixed(2),level:'warn'}); drifted=true;
+    }
+    if(f.alignment<HUGINN_CRIT.alignment){
+      c.alignment=Math.min(1,f.alignment+0.12); alerts.push({node:n.id,field:'align',val:+f.alignment.toFixed(2),level:'crit'}); drifted=true;
+    } else if(f.alignment<HUGINN_WARN.alignment){
+      c.alignment=Math.min(1,f.alignment+0.06); drifted=true;
+    }
+    if(drifted) GRID.set(n.id,c);
+  });
+  if(alerts.length){
+    driftLog.unshift({tick:KRONOS.tick,alerts,ts:new Date().toISOString()});
+    if(driftLog.length>10) driftLog.pop();
+    const hf=nodeFields['HUGINN']||{load:0,entropy:0,alignment:1};
+    GRID.set('HUGINN',{...hf,load:Math.min(1,hf.load+alerts.length*0.12)});
+    BUS.emit('drift_alert',{count:alerts.length,nodes:[...new Set(alerts.map(a=>a.node))],tick:KRONOS.tick,patch_id:'P20',stage:'HUGINN'});
+  }
+}
+
 // P28: GRID tick — field propagation simulation; Supabase realtime overrides local state
 function gridTick(){
   KRONOS.tick++;
@@ -977,6 +1010,7 @@ function gridTick(){
     });
   });
   Object.entries(next).forEach(([id,d])=>GRID.set(id,d));
+  huginnReconcile();
   BUS.emit('tick',{tick:KRONOS.tick,mode:KRONOS.mode,patch_id:'P28',stage:'KRONOS'});
   if(S==='tron') draw();
 }
