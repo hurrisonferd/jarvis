@@ -1,0 +1,6 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-05-28T00:00:00Z",
+  "description": "P08 — ROM catalog source of truth. Synced to Supabase rom_library.",
+  "roms": []
+}
