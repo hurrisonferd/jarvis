@@ -512,13 +512,19 @@ const ROMLoader={
   },
 };
 
-let romName='', romType='', activeCore=null, emuState='idle', emuError='';
+let romName='', romType='', romHash='', activeCore=null, emuState='idle', emuError='';
+// P08: ROM catalog from Supabase rom_library
+let romIndex=[];
+// P09: last confirmed save slot
+let saveStateSlot=null;
 
 function rEmulator(){
   let body='';
   if(emuState==='running'){
+    const saveTip=saveStateSlot!==null?'<div style="color:var(--green);font-size:5px;text-align:center">&#10003; SAVED</div>':'<div style="color:var(--dim);font-size:5px;text-align:center">F5:SAVE &nbsp; F9:LOAD</div>';
     body=`<div style="color:var(--green);font-size:5px;text-align:center;padding:4px 0">&#9654; ${romName.slice(0,24)}</div>
-      <div style="color:var(--dim);font-size:5px;text-align:center;line-height:2">ENGINE: ${activeCore?.name||'?'}</div>`;
+      <div style="color:var(--dim);font-size:5px;text-align:center;line-height:2">ENGINE: ${activeCore?.name||'?'}</div>
+      ${saveTip}`;
   } else if(emuState==='loading'){
     body=`<div style="color:var(--amber);font-size:6px;padding:20px;text-align:center">LOADING ENGINE...</div>
       <div style="color:var(--dim);font-size:5px;text-align:center">${romName.slice(0,24)}</div>`;
@@ -535,7 +541,11 @@ function rEmulator(){
       <div class="dl">TYPE</div><div class="dv" style="color:var(--amber)">${label}</div>
       <div class="dl">ENGINE</div><div class="dv" style="color:var(--amber)">PRESS A TO LAUNCH</div>`;
   } else {
-    body=`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">EMULATOR CORE IDLE</div>
+    // P08: show ROM catalog if populated
+    const catHtml=romIndex.slice(0,4).map(r=>`<div style="font-size:5px;line-height:1.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="color:var(--amber)">${(r.system||'?').toUpperCase()}</span> <span style="color:var(--bright)">${(r.name||'').slice(0,22)}</span></div>`).join('');
+    body=romIndex.length
+      ?`<div style="color:var(--dim);font-size:5px;padding:2px 0 4px;letter-spacing:2px">LIBRARY (${romIndex.length})</div>${catHtml}<div style="color:var(--dim);font-size:5px;margin-top:6px">A:LOAD FILE</div>`
+      :`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">EMULATOR CORE IDLE</div>
       <div style="color:var(--bright);font-size:6px;line-height:2">PRESS A TO LOAD ROM</div>
       <div style="color:var(--dim);font-size:5px;margin-top:8px;line-height:2">ACCEPTS: .gb  .gba  .rom</div>
       <div style="color:var(--dim);font-size:5px;line-height:2">DETECTS TYPE VIA HEADER</div>
@@ -543,7 +553,7 @@ function rEmulator(){
   }
   const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='coi'?'var(--red)':'var(--amber)';
   let footer;
-  if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; START:START';
+  if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; F5:SAVE &nbsp; F9:LOAD';
   else if(EmulatorRouter.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
   else footer='A:LOAD ROM &nbsp; B:BACK';
   return `<div class="panel">
@@ -564,6 +574,10 @@ function handleROM(inp){
     const t=ROMLoader.detect(buf);
     romType=t||'unknown';
     if(!t){ beep(200,150); emuState='idle'; draw(); return; }
+    // P08: fingerprint for catalog + save-state key
+    const hv=new Uint8Array(buf.slice(0,256));
+    romHash=hv.reduce((a,b)=>((a<<5)-a+b)|0,0).toString(16);
+    registerROM(romName,t,romHash,buf.byteLength);
     EmulatorRouter.load(t+'_core');
     beep(880,100);
     emuState='loading'; draw();
@@ -577,6 +591,8 @@ function handleROM(inp){
       activeCore=core;
       core.play();
       emuState='running';
+      // P09: try to restore auto-save (slot 99)
+      sbLoadState(99).then(s=>{ if(s&&activeCore) activeCore.restore(s).catch(()=>{}); });
       BUS.emit('emu_start',{engine:core.name,type:t,file:romName,patch_id:'P06',stage:'SKADI'});
     }catch(err){
       activeCore=null;
@@ -912,8 +928,10 @@ function back(){
   if(S==='gridD') { S='grid'; draw(); return; }
   if(['god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
     if(S==='emu'){
+      // P09: auto-save to slot 99 on exit if running
+      if(emuState==='running'&&activeCore) sbSaveState(99);
       if(activeCore){ try{activeCore.stop();}catch(e){} activeCore=null; }
-      emuState='idle';
+      emuState='idle'; saveStateSlot=null;
       EmulatorRouter.stop();
     }
     if(S==='live') liveTab=0;
@@ -944,6 +962,9 @@ function beep(f,ms){
 document.addEventListener('keydown',e=>{
   const k=e.key;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(k)||k==='Enter') e.preventDefault();
+  // P09: save/load state keys (intercept before game input)
+  if(k==='F5'&&emuState==='running'){ e.preventDefault(); sbSaveState(0); return; }
+  if(k==='F9'&&emuState==='running'){ e.preventDefault(); sbLoadState(0).then(s=>{ if(s&&activeCore) activeCore.restore(s).catch(()=>{}); }); return; }
   if(emuState==='running'&&activeCore){
     const jmap={
       'ArrowUp':{UP:true},'ArrowDown':{DOWN:true},
@@ -1134,6 +1155,39 @@ function connectRealtime(){
     });
 }
 
+// P08: ROM indexer — catalog from Supabase rom_library
+async function loadROMIndex(){
+  try{
+    const {data}=await sb.from('rom_library').select('id,name,system,file_hash').order('created_at',{ascending:false}).limit(20);
+    if(data) romIndex=data;
+  }catch(e){}
+  if(S==='emu') draw();
+}
+async function registerROM(name,system,hash,size){
+  try{ await sb.from('rom_library').insert({name,system,file_hash:hash,file_size:size,source:'upload'}); loadROMIndex(); }catch(e){}
+}
+
+// P09: save/load state to Supabase save_states
+async function sbSaveState(slot=0,snapshot=null){
+  if(!romHash) return;
+  const snap=snapshot||(activeCore?await activeCore.snapshot():null);
+  if(!snap) return;
+  try{
+    await sb.from('save_states').insert({rom_hash:romHash,rom_name:romName,session_id:sessionId,slot,state_blob:snap,frame_count:0});
+    saveStateSlot=slot;
+    BUS.emit('save_state',{slot,rom:romName,patch_id:'P09',stage:'SKADI'});
+    beep(660,60);
+    if(S==='emu') draw();
+  }catch(e){}
+}
+async function sbLoadState(slot=0){
+  if(!romHash) return null;
+  try{
+    const {data}=await sb.from('save_states').select('state_blob').eq('rom_hash',romHash).eq('slot',slot).order('created_at',{ascending:false}).limit(1).maybeSingle();
+    return data?.state_blob||null;
+  }catch(e){ return null; }
+}
+
 async function loadData(){
   try{
     const {data}=await sb.from('gameboy_snapshot').select('data').eq('id',1).single();
@@ -1185,6 +1239,7 @@ loadBriefing();
 loadData();
 loadLive();
 loadNodeFields();
+loadROMIndex();
 loadGithub();
 connectRealtime();
 setInterval(loadGithub,60000);
@@ -1207,3 +1262,5 @@ if('serviceWorker' in navigator){
   pushStatus='NOT SUPPORTED';
 }
 </script>
+</body>
+</html>
