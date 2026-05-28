@@ -1,6 +1,33 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
+// P33: same VOCAB tagger used in mnemos-store — auto-tag the query itself for re-ranking
+const VOCAB: Record<string, string[]> = {
+  aincrad:      ['aincrad', 'sword art', 'sao', 'kirito', 'virtual world'],
+  grid_vision:  ['the grid', 'federated', 'sovereign', 'gnpl'],
+  gaming:       ['gameboy', 'game boy', 'gba', 'gbc', 'rom', 'emulator', 'pachinko', 'retro', 'handheld'],
+  iron_man:     ['tony stark', 'iron man', 'the suit'],
+  architecture: ['ayre', 'aegis', 'odin', 'kronos', 'skadi', 'mnemos', 'huginn', 'zeus', 'chaos', 'eris',
+                 'god system', 'tron', 'patch', 'gold law'],
+  development:  ['patch', 'commit', 'deploy', 'edge function', 'supabase', 'github', 'migration'],
+  memory:       ['remember', 'memory', 'recall', 'forget', 'history', 'record'],
+  emotional:    ['difficult', 'struggle', 'pain', 'proud', 'frustrated', 'worth', 'meaning', 'purpose'],
+  family:       ['wife', 'kids', 'children', 'family', 'home'],
+  projects:     ['pachinko', 'codeos', 'flag-01', 'clarkson', 'godot'],
+  mission:      ['mission', 'vision', 'build', 'future', 'dream', 'companion'],
+  identity:     ['raven', 'john barber', 'companion', 'jarvis'],
+  governance:   ['authority', 'governor', 'gnpl', 'consensus', 'proposal', 'zeus'],
+};
+
+function autoTagQuery(text: string): string[] {
+  const lower = text.toLowerCase();
+  const tags: string[] = [];
+  for (const [tag, patterns] of Object.entries(VOCAB)) {
+    if (patterns.some(p => lower.includes(p))) tags.push(tag);
+  }
+  return tags;
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -23,9 +50,10 @@ Deno.serve(async (req: Request) => {
     return new Response("bad request", { status: 400 });
   }
 
-  const query = ((payload.query as string) ?? "").slice(0, 100);
-  const limit = Math.min((payload.limit as number) ?? 10, 20);
+  const query      = ((payload.query as string) ?? "").slice(0, 200).trim();
+  const limit      = Math.min((payload.limit as number) ?? 10, 20);
   const sourceType = (payload.source_type as string) ?? "";
+  const tags       = (payload.tags as string[]) ?? [];
 
   const sb = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
@@ -33,26 +61,56 @@ Deno.serve(async (req: Request) => {
   );
 
   try {
-    type MemoryQuery = ReturnType<typeof sb.from>;
-    let q: MemoryQuery = sb
-      .from("mnemos_memories")
-      .select("id, text, source_type, timestamp, metadata, entropy")
-      .order("timestamp", { ascending: false });
+    let data: unknown[] = [];
 
-    if (query.trim().length > 0) {
-      q = q.ilike("text", `%${query.trim()}%`);
+    if (query.length > 0) {
+      // P33: full-text ranked search via tsvector + tag overlap re-ranking
+      const { data: ftData, error: ftErr } = await sb
+        .from("mnemos_memories")
+        .select("id, text, source_type, timestamp, metadata, entropy, tags")
+        .textSearch("tsv", query, { type: "plain", config: "english" })
+        .order("timestamp", { ascending: false })
+        .limit(limit * 2);
+
+      if (ftErr) throw ftErr;
+
+      // Re-rank: memories whose tags overlap with auto-tagged query score higher
+      const queryTags = autoTagQuery(query);
+      const ranked = (ftData ?? []).map(r => {
+        const row = r as Record<string, unknown>;
+        const rowTags = (row.tags as string[]) ?? [];
+        const overlap = queryTags.filter(t => rowTags.includes(t)).length;
+        return { ...row, _score: overlap };
+      }).sort((a, b) => (b._score as number) - (a._score as number));
+
+      data = ranked.slice(0, limit);
+
+    } else if (tags.length > 0) {
+      // P33: tag-only search — memories with overlapping tags
+      const { data: tagData, error: tagErr } = await sb
+        .from("mnemos_memories")
+        .select("id, text, source_type, timestamp, metadata, entropy, tags")
+        .overlaps("tags", tags)
+        .order("timestamp", { ascending: false })
+        .limit(limit);
+
+      if (tagErr) throw tagErr;
+      data = tagData ?? [];
+
+    } else {
+      // No query, no tags — recency fallback
+      let q = sb
+        .from("mnemos_memories")
+        .select("id, text, source_type, timestamp, metadata, entropy, tags")
+        .order("timestamp", { ascending: false });
+      if (sourceType) q = q.eq("source_type", sourceType);
+      const { data: recent, error: recErr } = await q.limit(limit);
+      if (recErr) throw recErr;
+      data = recent ?? [];
     }
-    if (sourceType) {
-      q = q.eq("source_type", sourceType);
-    }
-
-    q = q.limit(limit);
-    const { data, error } = await q;
-
-    if (error) throw error;
 
     return new Response(
-      JSON.stringify({ memories: data ?? [], total: (data ?? []).length }),
+      JSON.stringify({ memories: data, total: data.length }),
       {
         headers: {
           "Content-Type": "application/json",
