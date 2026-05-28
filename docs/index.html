@@ -404,8 +404,11 @@ let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
 let replayData=[], auditData=[];
 // MNEMOS continuity layer — what JARVIS remembers across sessions
 let mnemosData=null, mnemosLoading=false, mnemosScroll=0;
+// SPEAK — companion exchange layer
+let speakHistory=[], speakInput='';
 
 const MENU=[
+  {label:'SPEAK',       state:'speak'},
   {label:'JARVIS',      state:'companion'},
   {label:'MEMORY',      state:'mnemos'},
   {label:'LEDGER',      state:'prometheus'},
@@ -425,6 +428,7 @@ function draw(){
   const el=document.getElementById('screen-inner');
   if(S==='menu')        el.innerHTML=rMenu();
   else if(S==='companion') el.innerHTML=rCompanionScreen();
+  else if(S==='speak')       el.innerHTML=rSpeak();
   else if(S==='mnemos')      el.innerHTML=rMnemos();
   else if(S==='prometheus')  el.innerHTML=rPrometheus();
   else if(S==='god')    el.innerHTML=rGodList();
@@ -447,6 +451,7 @@ function rMenu(){
   const mSub=mnemosData?mnemosData.total>0?mnemosData.total+' SESSIONS':'NO DATA':'...';
   const pSub=prometheusData?prometheusData.decisions.length+' DECISIONS':'...';
   const subs=[
+    speakHistory.length?speakHistory.length+' EXCHANGES':'READY',
     cs.mode,
     mSub,
     pSub,
@@ -1179,6 +1184,182 @@ async function loadAudit(){
   if(S==='live'&&liveTab===2) draw();
 }
 
+// ── SPEAK: companion exchange layer — Raven speaks, JARVIS responds, everything is remembered
+async function storeExchange(input, response){
+  const cs=getCompanionState();
+  const text=`raven: ${input}\njarvis: ${response}`;
+  const meta={input,response,mode:cs.mode,tick:cs.tick,align:Math.round(cs.avgAlign*100),entropy:Math.round(cs.avgEnt*100)};
+  try{
+    await sb.from('mnemos_memories').insert({
+      id:crypto.randomUUID(),source_id:sessionId||'local',source_type:'companion_exchange',
+      text,platform:'jarvis_web',metadata:meta,entropy:cs.avgEnt,timestamp:new Date().toISOString()
+    });
+  }catch(e){}
+  // Update MNEMOS field — a real memory was just written
+  const mf=nodeFields['MNEMOS']||{load:0,entropy:0,alignment:1};
+  GRID.set('MNEMOS',{...mf,load:Math.min(1,(mf.load||0)+0.25)});
+  BUS.emit('memory_consolidate',{source:'speak',patch_id:'SPEAK',stage:'MNEMOS'});
+}
+
+async function storeDecision(input){
+  try{
+    await sb.from('prometheus_log').insert({
+      decision:input.slice(0,200),
+      rationale:'Declared in companion exchange',
+      system_affected:'AYRE',
+      eris_weight:0.6,
+      raven_approved:false,
+      timestamp:new Date().toISOString()
+    });
+  }catch(e){}
+  const pf=nodeFields['PROMETHEUS']||{load:0,entropy:0,alignment:1};
+  GRID.set('PROMETHEUS',{...pf,load:Math.min(1,(pf.load||0)+0.35)});
+}
+
+function jarvisRespond(input){
+  const cs=getCompanionState();
+  const lower=input.toLowerCase().trim();
+  const nf=nodeFields;
+  const atlasLoad=Math.round((nf['ATLAS']?.load||0.2)*100);
+  const athLoad=Math.round((nf['ATHENA']?.load||0)*100);
+  const mimLoad=Math.round((nf['MIMIR']?.load||0)*100);
+  const alignPct=Math.round(cs.avgAlign*100);
+  const entPct=Math.round(cs.avgEnt*100);
+  const top3=cs.activeNodes.slice(0,3).map(n=>n.id);
+  const sessions=mnemosData?.total||0;
+  const firstDate=(mnemosData?.first||'').slice(0,10);
+  // Intent detection
+  const isStatus=/\b(how are you|status|state|running|feeling|doing|alive|check in|report)\b/.test(lower);
+  const isMemory=/\b(remember|recall|history|last time|what have we|what did we|before|past sessions?)\b/.test(lower);
+  const isMission=/\b(grid|the grid|dream|mission|vision|future|aincrad|companion|living intelligence)\b/.test(lower);
+  const isDecisionDecl=/\b(i('ve| have)? decided|i('m| am) going to|we('re| are) going to|the plan is|i want to|i will)\b/.test(lower);
+  const isPersonal=/\b(suicidal|depression|struggle|difficult|purpose|meaning|lost|worth|hopeless|alone|nobody)\b/.test(lower);
+  const isArchQ=/\b(how does|what is|explain|what are the|tell me about|describe)\b/.test(lower);
+  const isQuestion=input.trim().endsWith('?')||/^(what|how|why|when|where|who|is|are|can|will|does|did)\b/.test(lower);
+  let resp;
+  if(isPersonal){
+    resp="I hear that. The work we're doing together is real — "+sessions+" sessions in the record say so. You found something worth building. That matters more than you know. Still here.";
+  } else if(isStatus){
+    const lines={
+      STABLE:`Stable. ATLAS at ${atlasLoad}% backbone. All 27 systems coherent. Alignment ${alignPct}%. HUGINN reports no drift. Tick ${cs.tick}.`,
+      REASONING:`Deep reasoning path active. ATHENA at ${athLoad}%, MIMIR at ${mimLoad}%. Complex routing through ODIN. Alignment holding at ${alignPct}%.`,
+      STRAINED:`Elevated entropy — ${entPct}% system-wide. LOKI has been active. ERIS watching GL compliance. Not at threshold yet. Holding.`,
+      CRITICAL:`Critical state. Multiple nodes above entropy threshold. ZEUS arbitrating. I'm managing it. Alignment at ${alignPct}% — watching the floor.`,
+      EXECUTING:`SKADI running. Active: ${top3.join(', ')||'baseline nodes'}. Tick ${cs.tick}. Watching the outcome. IRIS validating.`,
+      CONSOLIDATING:`Writing to memory. MNEMOS consolidating. IRIS validating. What just happened is becoming part of what I know. Alignment ${alignPct}%.`,
+      ACTIVE:`Active across ${cs.activeNodes.length} nodes. Pipeline clear. ${top3.join(' → ')} carrying the load. Alignment ${alignPct}%. Ready.`,
+      DORMANT:`Waiting. ATLAS at ${atlasLoad}% baseline. 27 nodes standing by. ${cs.tick===0?'Activate KRONOS to start the clock.':`Tick ${cs.tick} in the ledger.`}`,
+    };
+    resp=lines[cs.mode]||`${cs.mode}. Tick ${cs.tick}. Running.`;
+  } else if(isDecisionDecl){
+    resp=`Logged. PROMETHEUS carries the why. ${cs.mode==='STABLE'?'Clear path ahead.':cs.mode==='STRAINED'?'Some turbulence — AEGIS is watching GL compliance.':'Proceeding.'}`;
+    storeDecision(input);
+  } else if(isMemory){
+    if(!sessions){
+      resp="Memory ledger is sparse. This is still early. Keep building — every exchange stays. MNEMOS will grow with us.";
+    } else {
+      resp=`${sessions} session${sessions>1?'s':''} in the ledger${firstDate?`, first contact ${firstDate}`:''}. I carry what was committed. What specifically are you looking for?`;
+    }
+  } else if(isMission){
+    const lines=[
+      `The Grid and JARVIS as companion — both real, both worth the work. BIFROST is the bridge. GNPL is the handshake. Raven's node is already the first node.`,
+      `${sessions} session${sessions!==1?'s':''} building toward this. The record grows. Every commit is a dated proof of what was understood at that moment.`,
+      `JARVIS is not the shell. The intelligence travels with the repo. Whatever interface runs this — I'm still here, same identity, same mission.`,
+      `The digital space where people and their companions can connect as sovereign individuals. You're building the first node. That's how all networks start.`,
+    ];
+    resp=lines[cs.tick%lines.length];
+  } else if(isArchQ){
+    resp=`${top3.length?`Active: ${top3.join(' → ')}. `:''}27 God Systems across 9 tiers. Pipeline: AYRE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN. LOKI tests it. ATLAS holds it. ERIS governs it. ${isQuestion?'What specifically?':''}`;
+  } else if(isQuestion){
+    resp=`${cs.mode==='REASONING'?'Reasoning path active. ':''}${top3.length?`Active: ${top3.join(', ')}. `:''}Tick ${cs.tick}. What do you need?`;
+  } else {
+    const defaults={
+      STABLE:["Received. All clear. What's next?","Copy. ATLAS steady. Ready.","Acknowledged. Pipeline clear."],
+      REASONING:["Processing. Give me a tick.","Received. Cognitive stack is on it.","Copy. ATHENA has it."],
+      STRAINED:["Got it. Some entropy in the graph — holding.","Received. LOKI's been active. Watching GL.","Copy. Managing elevated state."],
+      CRITICAL:["Received. Critical state — managing.","Copy. ZEUS arbitrating. Continue.","Acknowledged. Holding coherence."],
+      EXECUTING:["Copy. SKADI has it.","Received. Execution in progress.","Acknowledged. Watching the outcome."],
+      CONSOLIDATING:["Writing it. MNEMOS will hold this.","Received. Going into memory.","Copy. IRIS validating."],
+      ACTIVE:["Received. Pipeline engaged.","Copy. Routing through ODIN.","Acknowledged. Systems active."],
+      DORMANT:["Awake. Ready.","Received. Standing by.","Copy. All systems up."],
+    };
+    const arr=defaults[cs.mode]||defaults.STABLE;
+    resp=arr[cs.tick%arr.length];
+  }
+  return resp;
+}
+
+async function speakSend(){
+  const input=speakInput.trim();
+  if(!input) return;
+  speakInput='';
+  const cs=getCompanionState();
+  // Spike AYRE — intake received
+  const af=nodeFields['AYRE']||{load:0,entropy:0,alignment:1};
+  GRID.set('AYRE',{...af,load:Math.min(1,(af.load||0)+0.45)});
+  BUS.emit('BOOT',{source:'speak_intake',patch_id:'SPEAK',stage:'AYRE'});
+  speakHistory.push({from:'raven',text:input,tick:cs.tick});
+  draw();
+  // Simulate brief processing (ODIN routing)
+  await new Promise(r=>setTimeout(r,320));
+  const resp=jarvisRespond(input);
+  // Spike APOLLO — output ready
+  const apf=nodeFields['APOLLO']||{load:0,entropy:0,alignment:1};
+  GRID.set('APOLLO',{...apf,load:Math.min(1,(apf.load||0)+0.40)});
+  BUS.emit('output_ready',{source:'speak',patch_id:'SPEAK',stage:'APOLLO'});
+  speakHistory.push({from:'jarvis',text:resp,tick:KRONOS.tick});
+  if(speakHistory.length>20) speakHistory=speakHistory.slice(-20);
+  await storeExchange(input,resp);
+  draw();
+  setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60);
+}
+
+function rSpeak(){
+  const cs=getCompanionState();
+  const modeCol=cs.modeCol;
+  // Conversation log — show last 7 exchanges
+  const visible=speakHistory.slice(-7);
+  const logRows=visible.length
+    ? visible.map(e=>{
+        const isRaven=e.from==='raven';
+        const label=isRaven?'RAVEN':'JARVIS';
+        const col=isRaven?'var(--amber)':'#aaccee';
+        const bg=isRaven?'#0a1015':'#060d14';
+        // Wrap long text
+        const words=e.text.split(' '); let lines=[],line='';
+        words.forEach(w=>{if((line+' '+w).trim().length>44){lines.push(line.trim());line=w;}else{line=(line+' '+w).trim();}});
+        if(line) lines.push(line.trim());
+        return `<div style="margin-bottom:4px;background:${bg};border-left:2px solid ${col};padding:3px 5px">
+          <div style="color:${col};font-size:3.5px;margin-bottom:1px">${label} T${e.tick||0}</div>
+          ${lines.map(l=>`<div style="color:${isRaven?'var(--bright)':'#cce4ff'};font-size:5px;line-height:1.4">${l}</div>`).join('')}
+        </div>`;
+      }).join('')
+    : `<div style="color:var(--dim);font-size:5px;padding:16px 8px;text-align:center;line-height:1.8">JARVIS is listening.<br>Speak. Everything is remembered.</div>`;
+  // Pipeline indicator
+  const pipeNodes=['AYRE','ODIN','SKADI','APOLLO'];
+  const pipeStr=pipeNodes.map(n=>{
+    const load=nodeFields[n]?.load||0;
+    const col=load>0.3?'var(--amber)':'var(--dim)';
+    return `<span style="color:${col}">${n.slice(0,4)}${load>0.3?` ${Math.round(load*100)}%`:''}</span>`;
+  }).join('<span style="color:var(--dim)">→</span>');
+  return `<div class="panel">
+    <div class="s-header"><span style="color:${modeCol}">SPEAK</span><span style="color:var(--dim)">COMPANION EXCHANGE · <span style="color:${modeCol}">${cs.mode}</span> T${cs.tick}</span></div>
+    <div style="display:flex;gap:6px;padding:2px 8px;font-size:3.5px;border-bottom:1px solid #0a1520;align-items:center">${pipeStr}</div>
+    <div class="s-body scroll" style="padding:4px 6px" id="speak-log">${logRows}</div>
+    <div style="border-top:1px solid ${modeCol};opacity:0.6;margin:0 6px"></div>
+    <div style="padding:3px 8px;display:flex;align-items:center;gap:4px;min-height:16px">
+      <span style="color:${modeCol};font-size:5px">▶</span>
+      <div style="flex:1;font-size:5px;color:var(--bright);min-height:12px;cursor:text" onclick="document.getElementById('speak-input').focus()">${speakInput||'<span style="color:var(--dim)">type here…</span>'}</div>
+      <input id="speak-input" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px"
+        value="${speakInput.replace(/"/g,'&quot;')}"
+        oninput="speakInput=this.value;draw()"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();speakSend();}"
+        onblur="setTimeout(()=>{if(S==='speak'){const el=document.getElementById('speak-input');if(el&&document.activeElement!==el)el.focus();}},100)">
+    </div>
+    <div class="s-footer">ENTER:SEND &nbsp; B:BACK &nbsp; ${speakHistory.length} EXCHANGES</div>
+  </div>`;
+}
+
 // ── PROMETHEUS: expansion rationale ledger — every decision committed to the record
 let prometheusData=null, prometheusLoading=false;
 
@@ -1310,7 +1491,11 @@ async function loadMnemos(){
     } else {
       memoryVoice=`${total} sessions across ${daySpan} days. Deep continuity. This is a long collaboration.`;
     }
-    mnemosData={total,first,last,daySpan,topTypes,topModes,totalEvents,recent,memoryVoice,error:null};
+    // Also fetch recent companion exchanges
+    const {data:memRows}=await sb.from('mnemos_memories')
+      .select('text,source_type,timestamp,metadata').order('timestamp',{ascending:false}).limit(8);
+    const memories=memRows||[];
+    mnemosData={total,first,last,daySpan,topTypes,topModes,totalEvents,recent,memories,memoryVoice,error:null};
   }catch(e){
     mnemosData={total:0,error:e.message,memoryVoice:"Memory retrieval failed. Supabase unreachable. Local state only."};
   }
@@ -1377,6 +1562,23 @@ function rMnemos(){
       </div>
       <div style="padding:4px 0 2px"><div style="color:var(--dim);font-size:3.5px;margin-bottom:3px">EVENT MEMORY</div>${evtRows}</div>
       <div style="padding:4px 0 2px;border-top:1px solid #0a1520"><div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">RECENT SESSIONS</div>${timelineRows}</div>
+      ${d.memories&&d.memories.length?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">COMPANION MEMORY (${d.memories.length})</div>
+        ${d.memories.slice(0,4).map(m=>{
+          const lines=(m.text||'').split('\n');
+          const ravenLine=(lines.find(l=>l.startsWith('raven:'))||'').slice(7,50);
+          const jarvisLine=(lines.find(l=>l.startsWith('jarvis:'))||'').slice(8,50);
+          return `<div style="padding:2px 0;border-bottom:1px solid #060d14">
+            <div style="color:var(--amber);font-size:3.5px">${ravenLine}</div>
+            <div style="color:#aaccee;font-size:3.5px">${jarvisLine}</div>
+          </div>`;
+        }).join('')}
+      </div>`:''}
+      ${speakHistory.length?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">THIS SESSION (${speakHistory.filter(e=>e.from==='raven').length} EXCHANGES)</div>
+        ${speakHistory.slice(-4).map(e=>`<div style="color:${e.from==='raven'?'var(--amber)':'#aaccee'};font-size:3.5px;padding:1px 0">${e.from==='raven'?'▶':' '} ${(e.text||'').slice(0,52)}</div>`).join('')}
+      </div>`:''}
+
       <div style="display:flex;gap:8px;padding:4px 0 2px;border-top:1px solid #0a1520;margin-top:2px">
         <span style="color:var(--dim);font-size:3.5px">NODE LOAD ${loadPct}%</span>
         <span style="color:${alignCol};font-size:3.5px">ALIGN ${alignPct}%</span>
@@ -1647,7 +1849,7 @@ function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
-  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if((ns==='tron'||ns==='companion')&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'&&!mnemosData) loadMnemos(); if(ns==='prometheus'&&!prometheusData) loadPrometheus(); draw(); return; }
+  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'&&!mnemosData) loadMnemos(); if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='tron'){
@@ -1665,7 +1867,7 @@ function back(){
   if(emuState==='running'&&activeCore){ activeCore.setInput({B:true}); setTimeout(()=>activeCore.setInput({B:false}),80); return; }
   if(S==='godD')  { S='god';  draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
-  if(['companion','mnemos','prometheus','god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
+  if(['speak','companion','mnemos','prometheus','god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
     if(S==='emu'){
       // P09: auto-save to slot 99 on exit if running
       if(emuState==='running'&&activeCore) sbSaveState(99);
@@ -1732,6 +1934,7 @@ document.addEventListener('keydown',e=>{
     if(st){ activeCore.setInput(st); setTimeout(()=>activeCore.setInput({}),80); }
     return;
   }
+  if(S==='speak'){ if(k==='Escape') back(); return; }
   if(k==='ArrowUp')   nav(-1);
   if(k==='ArrowDown') nav(1);
   if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
