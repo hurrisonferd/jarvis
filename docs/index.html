@@ -408,6 +408,7 @@ let mnemosData=null, mnemosLoading=false, mnemosScroll=0;
 const MENU=[
   {label:'JARVIS',      state:'companion'},
   {label:'MEMORY',      state:'mnemos'},
+  {label:'LEDGER',      state:'prometheus'},
   {label:'GOD SYSTEMS', state:'god'},
   {label:'GOLD LAW',    state:'gold'},
   {label:'THE GRID',    state:'grid'},
@@ -424,7 +425,8 @@ function draw(){
   const el=document.getElementById('screen-inner');
   if(S==='menu')        el.innerHTML=rMenu();
   else if(S==='companion') el.innerHTML=rCompanionScreen();
-  else if(S==='mnemos') el.innerHTML=rMnemos();
+  else if(S==='mnemos')      el.innerHTML=rMnemos();
+  else if(S==='prometheus')  el.innerHTML=rPrometheus();
   else if(S==='god')    el.innerHTML=rGodList();
   else if(S==='godD')   el.innerHTML=rGodDetail();
   else if(S==='gold')   el.innerHTML=rGold();
@@ -443,9 +445,11 @@ function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--
 function rMenu(){
   const cs=getCompanionState();
   const mSub=mnemosData?mnemosData.total>0?mnemosData.total+' SESSIONS':'NO DATA':'...';
+  const pSub=prometheusData?prometheusData.decisions.length+' DECISIONS':'...';
   const subs=[
     cs.mode,
     mSub,
+    pSub,
     gdata?gdata.god_systems.length+' NODES':'...',
     gdata?gdata.gold_law.length+' RULES':'...',
     gdata?gdata.districts.length+' DISTRICTS':'...',
@@ -1175,6 +1179,93 @@ async function loadAudit(){
   if(S==='live'&&liveTab===2) draw();
 }
 
+// ── PROMETHEUS: expansion rationale ledger — every decision committed to the record
+let prometheusData=null, prometheusLoading=false;
+
+async function loadPrometheus(){
+  prometheusLoading=true; if(S==='prometheus') draw();
+  const pf=nodeFields['PROMETHEUS']||{load:0,entropy:0,alignment:1};
+  GRID.set('PROMETHEUS',{...pf,load:Math.min(1,(pf.load||0)+0.40)});
+  BUS.emit('wisdom_query',{source:'prometheus_load',patch_id:'PROMETHEUS',stage:'PROMETHEUS'});
+  try{
+    const [plRes,alRes]=await Promise.all([
+      sb.from('prometheus_log').select('decision,rationale,system_affected,eris_weight,raven_approved,timestamp').order('timestamp',{ascending:false}).limit(20),
+      sb.from('audit_log').select('event_type,diff_summary,git_commit_id,patch_ids,created_at').order('created_at',{ascending:false}).limit(15),
+    ]);
+    const decisions=plRes.data||[];
+    const auditEntries=alRes.data||[];
+    // Companion voice — what PROMETHEUS says about the rationale record
+    const totalDecisions=decisions.length;
+    const approved=decisions.filter(d=>d.raven_approved).length;
+    let voice;
+    if(totalDecisions===0){ voice="The rationale ledger is empty. Every expansion must explain its why."; }
+    else if(approved===0){ voice=`${totalDecisions} decision${totalDecisions>1?'s':''} in the ledger. Awaiting Raven approval.`; }
+    else { voice=`${totalDecisions} decisions recorded. ${approved} Raven-approved. The why is preserved.`; }
+    prometheusData={decisions,auditEntries,voice,error:null};
+  }catch(e){
+    prometheusData={decisions:[],auditEntries:[],voice:"Ledger unreachable. Supabase offline. Commits are the last record.",error:e.message};
+  }
+  prometheusLoading=false;
+  if(S==='prometheus') draw();
+}
+
+function rPrometheus(){
+  if(prometheusLoading) return rLoad();
+  if(!prometheusData) return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">NO LEDGER LOADED</span></div></div>`;
+  const d=prometheusData;
+  const pf=nodeFields['PROMETHEUS']||{load:0,alignment:1,entropy:0};
+  // PROMETHEUS decisions from Supabase
+  const decisionRows=d.decisions.length
+    ? d.decisions.slice(0,5).map(dec=>{
+        const w=parseFloat(dec.eris_weight||0);
+        const wCol=w>0.7?'var(--red)':w>0.4?'#f80':'var(--green)';
+        const approved=dec.raven_approved;
+        return `<div style="padding:3px 0;border-bottom:1px solid #0a1520">
+          <div style="display:flex;align-items:center;gap:4px">
+            <span style="color:${wCol};font-size:3.5px">GL${Math.round(w*9)}</span>
+            <span style="color:${approved?'var(--green)':'var(--amber)'};font-size:3.5px">${approved?'✓ RAVEN':'PENDING'}</span>
+            <span style="color:#88aacc;font-size:3px;margin-left:auto">${(dec.system_affected||'').slice(0,8)}</span>
+          </div>
+          <div style="color:var(--bright);font-size:4px;margin:1px 0;line-height:1.3">${(dec.decision||'').slice(0,72)}</div>
+          <div style="color:var(--dim);font-size:3.5px;line-height:1.3">${(dec.rationale||'').slice(0,80)}</div>
+        </div>`;
+      }).join('')
+    : '<div style="color:var(--dim);font-size:4.5px;padding:8px;text-align:center">no decisions logged yet</div>';
+  // Git commits as expansion evidence (from ghData)
+  const commits=ghData?.commits||[];
+  const commitRows=commits.slice(0,5).map(c=>`
+    <div style="display:flex;align-items:baseline;gap:4px;padding:2px 0;border-bottom:1px solid #0a1520">
+      <span style="color:var(--dim);font-size:3px;min-width:30px">${(c.sha||'').slice(0,7)}</span>
+      <span style="color:#aaccee;font-size:4px;line-height:1.3;flex:1">${(c.message||'').slice(0,58)}</span>
+    </div>`).join('');
+  // Audit log entries
+  const auditRows=d.auditEntries.slice(0,3).map(a=>`
+    <div style="display:flex;gap:4px;padding:1px 0">
+      <span style="color:var(--dim);font-size:3px;min-width:36px">${(a.created_at||'').slice(0,10)}</span>
+      <span style="color:#c0f;font-size:3.5px">${(a.event_type||'').slice(0,12)}</span>
+      <span style="color:var(--dim);font-size:3.5px;flex:1">${(a.diff_summary||'').slice(0,36)}</span>
+    </div>`).join('');
+  return `<div class="panel">
+    <div class="s-header"><span style="color:#c0f">PROMETHEUS</span><span style="color:var(--dim)">RATIONALE LEDGER · ${d.decisions.length} DECISIONS</span></div>
+    <div class="s-body scroll" style="padding:5px 8px">
+      <div style="color:#aaccee;font-size:5px;line-height:1.5;padding:3px 0 5px;border-bottom:1px solid #0a1520">${d.voice}</div>
+      <div style="padding:4px 0 2px">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:3px">EXPANSION DECISIONS</div>
+        ${decisionRows}
+      </div>
+      <div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">COMMIT LEDGER (GITHUB)</div>
+        ${commitRows||'<div style="color:var(--dim);font-size:4px;padding:4px">loading...</div>'}
+      </div>
+      ${d.auditEntries.length?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">AUDIT LOG</div>
+        ${auditRows}
+      </div>`:''}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; R:REFRESH</div>
+  </div>`;
+}
+
 // ── MNEMOS: continuity layer — what JARVIS remembers across sessions
 async function loadMnemos(){
   mnemosLoading=true; if(S==='mnemos') draw();
@@ -1556,7 +1647,7 @@ function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
-  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if((ns==='tron'||ns==='companion')&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'&&!mnemosData) loadMnemos(); draw(); return; }
+  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if((ns==='tron'||ns==='companion')&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'&&!mnemosData) loadMnemos(); if(ns==='prometheus'&&!prometheusData) loadPrometheus(); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw(); return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='tron'){
@@ -1574,7 +1665,7 @@ function back(){
   if(emuState==='running'&&activeCore){ activeCore.setInput({B:true}); setTimeout(()=>activeCore.setInput({B:false}),80); return; }
   if(S==='godD')  { S='god';  draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
-  if(['companion','mnemos','god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
+  if(['companion','mnemos','prometheus','god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
     if(S==='emu'){
       // P09: auto-save to slot 99 on exit if running
       if(emuState==='running'&&activeCore) sbSaveState(99);
@@ -1647,6 +1738,7 @@ document.addEventListener('keydown',e=>{
   if(k==='ArrowLeft' ||k==='x'||k==='X'||k==='Escape') back();
   if(k===' ') start();
   if((k==='r'||k==='R')&&S==='mnemos'){ mnemosData=null; loadMnemos(); }
+  if((k==='r'||k==='R')&&S==='prometheus'){ prometheusData=null; loadPrometheus(); }
 });
 
 let pushStatus='CHECKING...', pushSubbed=false, pushSub=null;
@@ -1907,6 +1999,7 @@ loadNodeFields();
 loadROMIndex();
 loadGithub();
 loadMnemos();
+loadPrometheus();
 connectRealtime();
 setInterval(loadGithub,60000);
 startSession();
