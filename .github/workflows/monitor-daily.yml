@@ -1,0 +1,41 @@
+name: JARVIS Monitor
+
+# Gap 3: autonomous initiation — JARVIS observes daily, surfaces at session start.
+# Calls jarvis-monitor edge function to store observations in MNEMOS.
+# REQUIRED: SUPABASE_SERVICE_KEY secret in repo Settings → Secrets → Actions
+
+on:
+  schedule:
+    - cron: '0 8 * * *'   # 08:00 UTC daily
+  workflow_dispatch:       # allow manual trigger
+
+jobs:
+  monitor:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Call jarvis-monitor
+        env:
+          SUPABASE_URL: https://oexghfsvhnggddllgvrt.supabase.co
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: |
+          if [ -z "$SUPABASE_SERVICE_KEY" ]; then
+            echo "SUPABASE_SERVICE_KEY not set — skipping monitor"
+            exit 0
+          fi
+
+          RESPONSE=$(curl -s -X POST \
+            "${SUPABASE_URL}/functions/v1/jarvis-monitor" \
+            -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
+            -H "Content-Type: application/json" \
+            -d '{}' )
+
+          echo "Monitor response: $RESPONSE"
+          echo "$RESPONSE" | python3 -c "
+import json, sys
+data = json.load(sys.stdin)
+stored = data.get('stored', 0)
+obs = data.get('observations', [])
+print(f'JARVIS stored {stored} observation(s):')
+for o in obs:
+    print(f'  {o}')
+" 2>/dev/null || echo "$RESPONSE"
