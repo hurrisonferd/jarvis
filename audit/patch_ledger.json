@@ -15,7 +15,7 @@
     {"id":"P07","name":"Patch 7 — GRID Execution Bridge","priority":"normal","status":"pending","summary":"Bridge between GRID node state and emulator execution context.","commits":[]},
     {"id":"P08","name":"Patch 8 — GitHub ROM Indexer","priority":"normal","status":"pending","summary":"Auto-index ROMs in repo via GitHub API. Feed into GRID node list.","commits":[]},
     {"id":"P09","name":"Patch 9 — Save States","priority":"normal","status":"pending","summary":"Emulator save-state system. Snapshot storage in Supabase.","commits":[]},
-    {"id":"P10","name":"Patch 10 — Core Unification","priority":"normal","status":"pending","summary":"Unify GB/GBC/GBA cores under single adapter interface.","commits":[]},
+    {"id":"P10","name":"Patch 10 — Core Unification","priority":"normal","status":"done","summary":"Unify GB/GBC/GBA cores under single adapter interface. Companion intelligence layer: 27 God Systems with tick behaviors, L7 Companion view, MNEMOS continuity, PROMETHEUS ledger, SPEAK exchange (real AI via Supabase Edge Function jarvis-respond, Haiku fallback local), god_system_stats surfaced in God Detail.","commits":["7d79db2","78a833b","6a38dc3","1fad8c3","baab702","p10-ai-speak"],"deployed_at":"2026-05-28","notes":"jarvis-respond edge function deployed. Calls claude-haiku-4-5-20251001 with full JARVIS identity + state context. Falls back to local jarvisRespond() on error. speakThinking indicator during AI response. god_system_stats surfaced in rGodDetail(). session_touches incremented on view."},
     {"id":"P11","name":"Patch 11 — TRON Frontend","priority":"normal","status":"pending","summary":"WASM emulator runtime + ES-DE-style launcher + TRON navigation layer.","commits":[]},
     {"id":"P12","name":"Patch 12 — Intelligence + Multiplayer + Temporal Replay","priority":"normal","status":"pending","summary":"AI guidance overlay, multiplayer session sync, full replay engine.","commits":[]},
     {"id":"P13","name":"Patch 13 — God System Governance Pipeline","priority":"normal","status":"partial","summary":"Full 27-node God System pipeline visible in GRID. AYRE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN flow UI as TRON L6 layer.","commits":["p13-l6-pipeline"],"deployed_at":"2026-05-27","notes":"rL6Pipeline(): 7-stage horizontal pipeline SVG with node glows, load %, entropy bar. Active when load>5%. Cycles via TRON up/down nav as layer 6 [0,4,5,6]. Parallel nodes (HALO/MIMIR/BIFROST) not yet shown in pipeline view.","remaining":["Add parallel branch overlay to L6 pipeline","Show God System pipeline data from gameboy_snapshot (FALLBACK_DATA.pipeline)"]},
@@ -42,7 +42,7 @@
   "implementation_order": [
     "DONE: P01 P02 P03 P04 P05 P06(partial)",
     "DONE: P17(partial) P21(partial) P22(partial) P23(partial)",
-    "DONE: P27(partial) P13(partial) P14(partial)",
+    "DONE: P27(partial) P13(partial) P14(partial) P10(done)",
     "NEXT: P28 — GRID Runtime Engine (tick loop + state machine, depends P27)",
     "P29 — GNPL Consensus Engine (multi-agent agreement, depends P28)",
     "P30 — World Kernel Spec (node-worlds + agent hosting, depends P28+P29)",
