@@ -11,7 +11,7 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon.svg">
 <title>JARVIS HANDHELD</title>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 :root {
@@ -178,7 +178,7 @@ const GITHUB_REPO      = 'hurrisonferd/jarvis';
 const PUSH_FN_URL      = `${SUPABASE_URL}/functions/v1/send-push`;
 const BRIEFING_URL     = 'https://raw.githubusercontent.com/hurrisonferd/jarvis/main/JarvisBrief';
 
-const sb = supabase.createClient(SUPABASE_URL, SUPABASE_ANON);
+const sb = typeof supabase !== 'undefined' ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
 
 // ── speaker dots
 (function(){ const s=document.getElementById('spk'); for(let i=0;i<15;i++){const d=document.createElement('div');d.className='sp';s.appendChild(d);} })();
