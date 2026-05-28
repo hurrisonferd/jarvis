@@ -42,7 +42,7 @@
   "implementation_order": [
     "DONE: P01 P02 P03 P04 P05 P06(partial)",
     "DONE: P17(partial) P21(partial) P22(partial) P23(partial)",
-    "DONE: P27(partial) P13(partial) P14(partial) P10(done)",
+    "DONE: P27(partial) P13(partial) P14(partial) P10(done) MNEMOS(cloud)",
     "NEXT: P28 — GRID Runtime Engine (tick loop + state machine, depends P27)",
     "P29 — GNPL Consensus Engine (multi-agent agreement, depends P28)",
     "P30 — World Kernel Spec (node-worlds + agent hosting, depends P28+P29)",

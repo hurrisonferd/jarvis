@@ -407,6 +407,8 @@ let mnemosData=null, mnemosLoading=false, mnemosScroll=0;
 let godStats={};
 // SPEAK — companion exchange layer
 let speakHistory=[], speakInput='', speakThinking=false;
+// MNEMOS — search + behavior
+let mnemosSearchMode=false, mnemosSearchInput='', mnemosSearchResults=null, mnemosSearching=false;
 
 const MENU=[
   {label:'SPEAK',       state:'speak'},
@@ -1224,6 +1226,33 @@ async function storeDecision(input){
   GRID.set('PROMETHEUS',{...pf,load:Math.min(1,(pf.load||0)+0.35)});
 }
 
+async function storeBehavior(screen,extra={}){
+  const cs=getCompanionState();
+  try{
+    await sb.from('mnemos_memories').insert({
+      id:crypto.randomUUID(),source_id:sessionId||'local',source_type:'navigation',
+      text:`raven navigated to ${screen.toUpperCase()} [mode:${cs.mode} tick:${cs.tick}]`,
+      platform:'jarvis_web',metadata:{screen,mode:cs.mode,tick:cs.tick,...extra},
+      entropy:cs.avgEnt,timestamp:new Date().toISOString()
+    });
+    if(mnemosData) mnemosData=null; // invalidate cache on next open
+  }catch(e){}
+}
+
+async function mnemosRecall(query){
+  mnemosSearching=true; draw();
+  try{
+    const r=await fetch(`${SUPABASE_URL}/functions/v1/mnemos-recall`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON}`},
+      body:JSON.stringify({query,limit:10})
+    });
+    if(r.ok){ const j=await r.json(); mnemosSearchResults=j.memories||[]; }
+    else{ mnemosSearchResults=[]; }
+  }catch(e){ mnemosSearchResults=[]; }
+  mnemosSearching=false; draw();
+}
+
 function jarvisRespond(input){
   const cs=getCompanionState();
   const lower=input.toLowerCase().trim();
@@ -1311,7 +1340,7 @@ async function speakSend(){
   // Route through ODIN → edge function (real AI) with local fallback
   let resp;
   try{
-    const recentMems=(mnemosData?.recentMemories||[]).map(m=>m.text||'').filter(Boolean);
+    const recentMems=(mnemosData?.memories||[]).map(m=>m.text||'').filter(Boolean);
     const payload={
       input,
       context:{
@@ -1601,30 +1630,59 @@ function rMnemos(){
       </div>
       <div style="padding:4px 0 2px"><div style="color:var(--dim);font-size:3.5px;margin-bottom:3px">EVENT MEMORY</div>${evtRows}</div>
       <div style="padding:4px 0 2px;border-top:1px solid #0a1520"><div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">RECENT SESSIONS</div>${timelineRows}</div>
-      ${d.memories&&d.memories.length?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
-        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">COMPANION MEMORY (${d.memories.length})</div>
-        ${d.memories.slice(0,4).map(m=>{
+      ${mnemosSearchResults!==null?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--blue);font-size:3.5px;margin-bottom:2px">RECALL RESULTS (${mnemosSearchResults.length})</div>
+        ${mnemosSearching?'<div style="color:var(--dim);font-size:4px;padding:4px">SEARCHING…</div>':
+          mnemosSearchResults.length?mnemosSearchResults.slice(0,6).map(m=>{
+            const typeCol=m.source_type==='companion_exchange'?'#aaccee':m.source_type==='navigation'?'var(--dim)':m.source_type==='decision'?'var(--amber)':'var(--green)';
+            const lines=(m.text||'').split('\n');
+            const ravenLine=lines.find(l=>l.startsWith('raven:'));
+            const jarvisLine=lines.find(l=>l.startsWith('jarvis:'));
+            const navLine=!ravenLine?lines[0]:'';
+            return `<div style="padding:2px 0;border-bottom:1px solid #060d14">
+              <div style="color:${typeCol};font-size:3px;opacity:0.7">${(m.source_type||'').toUpperCase()} · ${(m.timestamp||'').slice(0,10)}</div>
+              ${ravenLine?`<div style="color:var(--amber);font-size:3.5px">${ravenLine.slice(7,60)}</div>`:''}
+              ${jarvisLine?`<div style="color:#aaccee;font-size:3.5px">${jarvisLine.slice(8,60)}</div>`:''}
+              ${navLine&&!ravenLine?`<div style="color:var(--dim);font-size:3.5px">${navLine.slice(0,60)}</div>`:''}
+            </div>`;}).join('')
+          :'<div style="color:var(--dim);font-size:4px;padding:4px">no matches</div>'}
+      </div>`:''}
+      ${d.memories&&d.memories.length&&mnemosSearchResults===null?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">STORED MEMORIES (${d.memories.length})</div>
+        ${d.memories.slice(0,5).map(m=>{
+          const typeCol=m.source_type==='companion_exchange'?'#aaccee':m.source_type==='navigation'?'var(--dim)':'var(--amber)';
           const lines=(m.text||'').split('\n');
           const ravenLine=(lines.find(l=>l.startsWith('raven:'))||'').slice(7,50);
           const jarvisLine=(lines.find(l=>l.startsWith('jarvis:'))||'').slice(8,50);
+          const navLine=!ravenLine?((m.text||'').slice(0,50)):'';
           return `<div style="padding:2px 0;border-bottom:1px solid #060d14">
-            <div style="color:var(--amber);font-size:3.5px">${ravenLine}</div>
-            <div style="color:#aaccee;font-size:3.5px">${jarvisLine}</div>
+            <div style="color:${typeCol};font-size:3px;opacity:0.7">${(m.source_type||'').toUpperCase()} · ${fmtAgo(m.timestamp)}</div>
+            ${ravenLine?`<div style="color:var(--amber);font-size:3.5px">${ravenLine}</div>`:''}
+            ${jarvisLine?`<div style="color:#aaccee;font-size:3.5px">${jarvisLine}</div>`:''}
+            ${navLine&&!ravenLine?`<div style="color:var(--dim);font-size:3.5px">${navLine}</div>`:''}
           </div>`;
         }).join('')}
       </div>`:''}
-      ${speakHistory.length?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+      ${speakHistory.length&&mnemosSearchResults===null?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
         <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">THIS SESSION (${speakHistory.filter(e=>e.from==='raven').length} EXCHANGES)</div>
         ${speakHistory.slice(-4).map(e=>`<div style="color:${e.from==='raven'?'var(--amber)':'#aaccee'};font-size:3.5px;padding:1px 0">${e.from==='raven'?'▶':' '} ${(e.text||'').slice(0,52)}</div>`).join('')}
       </div>`:''}
-
-      <div style="display:flex;gap:8px;padding:4px 0 2px;border-top:1px solid #0a1520;margin-top:2px">
-        <span style="color:var(--dim);font-size:3.5px">NODE LOAD ${loadPct}%</span>
-        <span style="color:${alignCol};font-size:3.5px">ALIGN ${alignPct}%</span>
-        <span style="color:var(--dim);font-size:3.5px">ENT ${Math.round((mf.entropy||0)*100)}%</span>
-      </div>
+      <div style="padding:2px 0;margin-top:2px"></div>
     </div>
-    <div class="s-footer">B:BACK &nbsp; R:REFRESH</div>
+    <div style="border-top:1px solid #0a1520;padding:2px 8px">
+      ${mnemosSearchMode
+        ? `<div style="display:flex;align-items:center;gap:4px">
+            <span style="color:var(--blue);font-size:4px">RECALL▶</span>
+            <div style="flex:1;font-size:4px;color:var(--bright);cursor:text" onclick="document.getElementById('mnemos-search').focus()">${mnemosSearchInput||'<span style="color:var(--dim)">type to search…</span>'}</div>
+            <input id="mnemos-search" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px"
+              value="${mnemosSearchInput.replace(/"/g,'&quot;')}"
+              oninput="mnemosSearchInput=this.value;draw()"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();mnemosRecall(mnemosSearchInput);} else if(event.key==='Escape'){mnemosSearchMode=false;mnemosSearchInput='';mnemosSearchResults=null;draw();}"
+              onblur="setTimeout(()=>{if(S==='mnemos'&&mnemosSearchMode){const el=document.getElementById('mnemos-search');if(el&&document.activeElement!==el)el.focus();}},100)">
+          </div>`
+        : `<div style="color:var(--dim);font-size:3.5px">NODE LOAD ${loadPct}% &nbsp; ALIGN ${alignPct}% &nbsp; ENT ${Math.round((mf.entropy||0)*100)}%</div>`}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; R:REFRESH &nbsp; ${mnemosSearchMode?'ENTER:SEARCH ESC:CANCEL':'S:SEARCH'}</div>
   </div>`;
 }
 
@@ -1888,7 +1946,7 @@ function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
-  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'&&!mnemosData) loadMnemos(); if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); draw(); return; }
+  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
     // Increment session_touches for this God System
     const sid=detail?.name; if(sid&&sb) sb.from('god_system_stats').update({session_touches:(godStats[sid]?.session_touches||0)+1}).eq('system_id',sid).then(()=>{ if(godStats[sid]) godStats[sid].session_touches=(godStats[sid].session_touches||0)+1; });
@@ -1982,7 +2040,9 @@ document.addEventListener('keydown',e=>{
   if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
   if(k==='ArrowLeft' ||k==='x'||k==='X'||k==='Escape') back();
   if(k===' ') start();
-  if((k==='r'||k==='R')&&S==='mnemos'){ mnemosData=null; loadMnemos(); }
+  if(S==='mnemos'&&mnemosSearchMode){ if(k==='Escape'){ mnemosSearchMode=false; mnemosSearchInput=''; mnemosSearchResults=null; draw(); } return; }
+  if((k==='s'||k==='S')&&S==='mnemos'){ mnemosSearchMode=true; mnemosSearchInput=''; mnemosSearchResults=null; draw(); setTimeout(()=>{const el=document.getElementById('mnemos-search');if(el)el.focus();},60); return; }
+  if((k==='r'||k==='R')&&S==='mnemos'){ mnemosData=null; mnemosSearchMode=false; mnemosSearchResults=null; loadMnemos(); }
   if((k==='r'||k==='R')&&S==='prometheus'){ prometheusData=null; loadPrometheus(); }
 });
 

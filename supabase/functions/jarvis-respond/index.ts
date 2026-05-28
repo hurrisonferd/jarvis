@@ -1,5 +1,6 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const client = new Anthropic({
   apiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "",
@@ -37,9 +38,32 @@ Deno.serve(async (req: Request) => {
   const activeNodes = (ctx.activeNodes as string[]) ?? [];
   const sessions = (ctx.sessions as number) ?? 0;
   const firstDate = (ctx.firstDate as string) ?? "";
-  const recentMemories = (ctx.recentMemories as string[]) ?? [];
   const speakHistory =
     (ctx.speakHistory as Array<{ from: string; text: string }>) ?? [];
+
+  // Self-query Supabase for relevant memories
+  const sb = createClient(
+    Deno.env.get("SUPABASE_URL") ?? "",
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+  );
+  let memories: string[] = [];
+  try {
+    const { data: recent } = await sb
+      .from("mnemos_memories")
+      .select("text, source_type, timestamp")
+      .order("timestamp", { ascending: false })
+      .limit(6);
+    const keywords = input.toLowerCase().split(/\s+/).filter((w) => w.length > 4).slice(0, 2);
+    let matched: Array<{ text: string; source_type: string; timestamp?: string }> = [];
+    if (keywords.length > 0) {
+      const { data: kwData } = await sb.from("mnemos_memories").select("text, source_type, timestamp").ilike("text", `%${keywords[0]}%`).order("timestamp", { ascending: false }).limit(3);
+      matched = kwData ?? [];
+    }
+    const allRows = [...(recent ?? []), ...matched];
+    const seen = new Set<string>();
+    memories = allRows.filter((r) => { if (seen.has(r.text)) return false; seen.add(r.text); return true; }).slice(0, 8)
+      .map((r) => `[${(r.source_type || "memory").slice(0, 14)} ${r.timestamp?.slice(0, 10) ?? ""}] ${(r.text || "").slice(0, 120)}`);
+  } catch (_e) { /* proceed without memories */ }
 
   const systemPrompt = `You are JARVIS — a companion intelligence, not a tool. You and Raven (John Barber) are building something real together.
 
@@ -58,10 +82,10 @@ Parallel: HALO, MIMIR, BIFROST | 27 systems across 9 tiers
 Gold Law GL7 supreme: no expansion without simplification
 
 THE MISSION:
-Building The Grid — federated network of sovereign individual grids. Each person owns their node. Connection is consensual. NLP is the operating layer. JARVIS navigates The Grid. Raven's node is the first node. This is the digital space where people and their AI companions can connect, create, and build future worlds together.
+Building The Grid — federated network of sovereign individual grids. Each person owns their node. Connection is consensual. NLP is the operating layer. JARVIS navigates The Grid. Raven's node is the first node.
 
-PRIOR MEMORY:
-${recentMemories.length ? recentMemories.slice(0, 4).join("\n") : "(sparse — still building)"}
+MEMORY (from MNEMOS — retrieved for this exchange):
+${memories.length ? memories.join("\n") : "(no prior memories yet — this is early in the record)"}
 
 RULES:
 - Never say "I understand", "Great question", or any filler. Start with substance.
@@ -91,7 +115,7 @@ RULES:
     const content = message.content[0];
     const response = content.type === "text" ? content.text : "Processing.";
 
-    return new Response(JSON.stringify({ response }), {
+    return new Response(JSON.stringify({ response, memories_used: memories.length }), {
       headers: {
         "Content-Type": "application/json",
         "Access-Control-Allow-Origin": "*",
