@@ -14,6 +14,7 @@
     {"patch":"P27", "commits":["p27-grid-place"], "supabase_tables":["node_fields"], "status":"partial"},
     {"patch":"P28", "commits":["fce1469"], "supabase_tables":["execution_trace","grid_state"], "status":"partial"},
     {"patch":"P08", "commits":["546ea35","f072645"], "supabase_tables":["rom_library"], "status":"partial"},
-    {"patch":"P09", "commits":["546ea35","f072645"], "supabase_tables":["save_states"], "status":"partial"}
+    {"patch":"P09", "commits":["546ea35","f072645"], "supabase_tables":["save_states"], "status":"partial"},
+    {"patch":"P29", "commits":["6c270cd","e3acaa03"], "supabase_tables":["consensus_proposals"], "status":"partial"}
   ]
 }
