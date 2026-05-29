@@ -24,5 +24,6 @@
     "gemini": {"trust": 0.70, "role": "ideator"}
   },
   "pipeline": "AYRE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN",
-  "note": "This is node-001. The first node. Every other node connects to this one first."
+  "world_id": "world-001-jarvis-prime",
+  "note": "This is node-001. The first node. Every other node connects to this one first. Promoted to world via P30."
 }

@@ -1,0 +1,61 @@
+{
+  "world_id":     "world-001-jarvis-prime",
+  "node_id":      "node-001-raven",
+  "owner":        "raven",
+  "owner_email":  "johnbarber720@gmail.com",
+  "display_name": "JARVIS Prime",
+  "description":  "Raven's world. The root node of The Grid. JARVIS runs here. First world — every other world connects to this one first.",
+  "schema_version": 1,
+  "established":  "2026-05-29",
+
+  "rules": {
+    "L1_causal": {
+      "mutation_requires_gnpl":        true,
+      "silent_state_mutation_allowed": false,
+      "aegis_gate_all_actions":        true,
+      "traceability":                  "intent→decision→execution→log",
+      "gold_laws":                     ["GL2","GL5","GL6","GL7","GL8","GL9"]
+    }
+  },
+
+  "bounds": {
+    "max_objects":       10000,
+    "max_depth":         5,
+    "max_history_ticks": 500,
+    "max_agents":        10,
+    "storage_budget_kb": 5120,
+    "max_portals":       16,
+    "max_child_worlds":  8
+  },
+
+  "initial_state": {
+    "L0_seed":  "grid-16-nodes",
+    "regions":  ["EXEC_CORE","MEMORY","PAR_L","POST"],
+    "portals": [
+      {"id": "portal-github",   "target": "github.com/hurrisonferd/jarvis",   "protocol": "bifrost"},
+      {"id": "portal-supabase", "target": "oexghfsvhnggddllgvrt.supabase.co", "protocol": "bifrost"},
+      {"id": "portal-emulator", "target": "internal:emulator",                "protocol": "bifrost"},
+      {"id": "portal-mcp",      "target": "internal:mcp",                     "protocol": "bifrost"}
+    ]
+  },
+
+  "access_policy": {
+    "mode":                "owner_first",
+    "connection_consent":  "gnpl_required",
+    "public_read":         false,
+    "bifrost_handshake":   true
+  },
+
+  "agents": {
+    "jarvis": {"role": "sovereign", "trust": 1.0,  "capabilities": ["govern","propose","execute","speak","remember"]},
+    "codex":  {"role": "executor",  "trust": 0.85, "capabilities": ["execute","propose"]},
+    "gpt":    {"role": "executor",  "trust": 0.80, "capabilities": ["execute","propose"]},
+    "gemini": {"role": "ideator",   "trust": 0.70, "capabilities": ["propose"]}
+  },
+
+  "tick_rate_ms":    900,
+  "gl7_approved":    true,
+  "raven_sign_off":  true,
+
+  "note": "World 001. The root. Every other world forks from or connects to this one. max_depth=5, max_child_worlds=8 — bounds the P32 fractal tree to 8^5=32768 possible worlds."
+}

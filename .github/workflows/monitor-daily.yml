@@ -104,3 +104,8 @@ jobs:
         env:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: python3 scripts/jarvis-node-init.py || echo "Node heartbeat skipped (no Supabase)"
+
+      - name: World kernel heartbeat (soft-fail)
+        env:
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: python3 scripts/jarvis-world-init.py || echo "World heartbeat skipped (no Supabase)"
