@@ -83,6 +83,17 @@ def query_prometheus(limit: int = 3) -> list:
         return []
 
 
+def read_local_exchanges(limit: int = 10) -> list:
+    try:
+        with open(os.path.join(REPO_ROOT, "mnemos", "memories", "recent.json"), "r") as f:
+            data = json.load(f)
+        memories = data.get("memories", [])
+        filtered = [m for m in memories if m.get("source_type") in ("speak_input", "speak_output")]
+        return sorted(filtered, key=lambda m: m.get("timestamp") or "", reverse=True)[:limit]
+    except Exception:
+        return []
+
+
 def fmt_memory(m: dict) -> str:
     ts = (m.get("timestamp") or "")[:10]
     text = (m.get("text") or "")[:120].replace("\n", " ")
@@ -129,10 +140,12 @@ def main():
             print(f"LAST SESSION ALIGNMENT: {bar} {score:.0%}")
             print()
 
-    # ── MNEMOS live exchanges (Supabase — best effort)
-    speak_in  = recall({"source_type": "speak_input",  "limit": 8})
-    speak_out = recall({"source_type": "speak_output", "limit": 5})
-    exchanges = sorted(speak_in + speak_out, key=lambda m: m.get("timestamp") or "", reverse=True)
+    # ── MNEMOS live exchanges (repo first, Supabase fallback)
+    exchanges = read_local_exchanges(limit=10)
+    if not exchanges:
+        speak_in  = recall({"source_type": "speak_input",  "limit": 8})
+        speak_out = recall({"source_type": "speak_output", "limit": 5})
+        exchanges = sorted(speak_in + speak_out, key=lambda m: m.get("timestamp") or "", reverse=True)
 
     if exchanges:
         print("LAST SESSION — what mattered:")
