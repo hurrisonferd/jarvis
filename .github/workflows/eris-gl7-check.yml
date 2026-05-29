@@ -1,0 +1,22 @@
+name: ERIS GL7 Entropy Check
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  eris-check:
+    name: GL7 Entropy Check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Run ERIS entropy check
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          COMMIT_SHA: ${{ github.sha }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
+        run: python3 scripts/eris-entropy-check.py
