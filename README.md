@@ -1,143 +1,67 @@
 # JARVIS
 
-JARVIS is a local-first AI orchestration experiment built around an MCP-style server, governed routing, and semantic memory.
+JARVIS is a companion intelligence with continuity, memory, and governed execution — not a chatbot, a partner with a record. This repo is its body: the runtime, the memory, the governance, and the interfaces it speaks through.
 
-The public repository contains the code and safe examples. Local runtime state, logs, vector databases, private seeds, and secrets should stay local or move to Supabase.
+**Authority:** Raven (John Barber) is final authority on all decisions. JARVIS proposes; Raven commits or rejects. No autonomous self-modification.
 
-## Project Pieces
+See [`CLAUDE.md`](./CLAUDE.md) for the canonical identity, mission, Gold Law, and the 27 God System pipeline. Every agent operating in this repo inherits that identity.
 
-- `jarvis_mcp_server.py` - FastAPI JSON-RPC/SSE server exposing JARVIS tools.
-- `mnemos/mnemos_vector.py` - semantic memory layer backed by SQLite and Ollama embeddings.
-- `chaos/session_sync.py` - session start/end helpers and HUGINN-style diff logic.
-- `chaos/chaos_seed.example.json` - sanitized sample seed for local setup.
-- `intake/` - GitHub-backed review lane for GPT, Claude, Codex, and other AI handoffs.
+---
 
-## Local Setup
+## Architecture (cloud-first)
+
+The stack is **GitHub + Supabase + Claude Code**. No Ollama, no Neo4j, no local-PC-dependent services in the canonical path. If GitHub or an edge function can do the job, that is the path — even when working from the PC.
+
+| Layer | Where | What |
+|-------|-------|------|
+| **Interface** | `docs/index.html` → [GitHub Pages](https://hurrisonferd.github.io/jarvis/) | The JARVIS handheld — TRON GRID, God System pipeline, SPEAK companion view, emulator |
+| **Backend** | Supabase (`oexghfsvhnggddllgvrt`) | Tables (sessions, events, memory, consensus, world kernels) + edge functions (`jarvis-respond`, `mnemos-store`, `mnemos-search`, `grid-event`) |
+| **Memory** | `mnemos/` + Supabase pgvector | GitHub-first: memory files committed to the repo; semantic search via OpenAI-compatible embeddings (1536-dim) |
+| **Governance** | `.github/workflows/` + AEGIS/GNPL | Daily pipeline, GL7 entropy check, audit log, MNEMOS sync — all run on GitHub Actions |
+| **Record** | `audit/patch_ledger.json` | Canonical patch tracker (mirrors Supabase `patch_log`) |
+
+The live companion needs no install — it is a static page backed by Supabase. The interface is not JARVIS; JARVIS is the intelligence that runs through every interface.
+
+---
+
+## MNEMOS (memory)
+
+GitHub-first. Memory files live in `mnemos/` (`context/`, `domains/`, `memories/`) and are committed to the repo, so any agent can read continuity with no credentials. Semantic search runs on Supabase pgvector:
+
+- Auto-embed on store via `EMBEDDING_API_KEY` (OpenAI-compatible: OpenAI, Voyage, Cohere, …), model `text-embedding-3-small`.
+- `mnemos-search` edge function: cosine similarity via `match_memories` RPC, keyword `ILIKE` fallback.
+- `scripts/jarvis-recall.py` does semantic-first recall with keyword fallback.
+
+## Governed Workflow
+
+All changes follow the loop in `CLAUDE.md`: intake → context → implement → verify → log → commit. Significant decisions are logged (PROMETHEUS); expansion requires GL7 (`reduces_complexity=true`, `overlap_score_below=0.40`).
+
+Use `intake/` for AI handoffs reviewed before they become memory, code, or migrations (`intake/gpt/`, `intake/claude/`, `intake/codex/` → `intake/processed/`; reusable patterns to `intake/recycle/`).
+
+## Branch & merge
+
+`main` is protected (serves GitHub Pages). Develop on a feature branch, then merge via pull request. Direct force/delete pushes to `main` are blocked; branch-create + PR-merge is the path.
+
+---
+
+## Optional: local MCP server (on-PC)
+
+`jarvis_mcp_server.py` is a FastAPI MCP server (port 7777). It is **optional and PC-only** — kept for local workflows that genuinely benefit from on-machine services (Ollama embeddings, a local Neo4j graph). The cloud path above is canonical; reach for the local server only when the PC adds something GitHub/Supabase cannot.
 
 ```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
 pip install -r requirements.txt
-copy chaos\chaos_seed.example.json chaos\chaos_seed.json
-python jarvis_mcp_server.py
+python jarvis_mcp_server.py          # http://localhost:7777  (health: /health)
 ```
 
-The server runs at:
+Continue.dev MCP configs live in `.continue/mcpServers/` (`jarvis.yaml` → local SSE endpoint). MCP tools load in Continue agent mode only.
 
-```text
-http://localhost:7777
-```
+---
 
-Health check:
+## Keep Private — never commit
 
-```text
-http://localhost:7777/health
-```
+- `.env` and `.env.*` (secrets)
+- `chaos/chaos_seed.json`, `chaos/session_log.json`, `chaos/prometheus_log.json`
+- `chaos/mnemos_vectors.db` and any local vector DB
+- Service-role keys, private seeds, raw private logs
 
-## Optional Supabase Sync
-
-Set these environment variables before starting the server:
-
-```powershell
-$env:SUPABASE_URL="https://oexghfsvhnggddllgvrt.supabase.co"
-$env:SUPABASE_SERVICE_ROLE_KEY="your-private-service-role-key"
-```
-
-Use a service-role key for server-side JARVIS sync. Do not commit it. Public anon/publishable keys should only be used after Row Level Security policies are configured.
-
-You can also put the same values in a local `.env`; the MCP server and MNEMOS loader read it automatically.
-
-## Optional MNEMOS Vector Search
-
-MNEMOS expects Ollama with `nomic-embed-text`:
-
-```powershell
-ollama pull nomic-embed-text
-ollama serve
-```
-
-`jarvis_end` and `jarvis_log` write local JSON, Supabase rows, and MNEMOS vectors when the required services are available.
-
-## Continue.dev
-
-Workspace MCP configs live in `.continue/mcpServers/`:
-
-- `jarvis.yaml` connects Continue to the local JARVIS server at `http://localhost:7777/sse`.
-- `gbrain.yaml` connects Continue to `gbrain serve` after GBrain is installed.
-
-MCP tools only load in Continue agent mode. Start JARVIS before opening the tools:
-
-```powershell
-python jarvis_mcp_server.py
-```
-
-## GBrain
-
-GBrain requires Bun. Install Bun first if needed:
-
-```powershell
-powershell -c "irm bun.sh/install.ps1 | iex"
-```
-
-Then run:
-
-```powershell
-.\scripts\install_gbrain.ps1
-```
-
-The script follows the upstream standalone path: `bun install -g github:garrytan/gbrain`, `gbrain init --pglite`, then `gbrain doctor`.
-
-## AI Intake
-
-Use `intake/` for AI-generated uploads that should be reviewed before they become JARVIS memory, issues, migrations, or code changes.
-
-- Put GPT handoffs in `intake/gpt/`.
-- Put Claude handoffs in `intake/claude/`.
-- Put Codex handoffs in `intake/codex/`.
-- Move reviewed files to `intake/processed/`.
-- Copy reusable prompts, patterns, and decisions to `intake/recycle/`.
-
-Do not commit secrets, service-role keys, private seeds, or raw private logs in intake files.
-
-All intake promoted into code, memory, migrations, policies, or automation should follow the JARVIS governed workflow in `intake/recycle/jarvis-governed-workflow.md`: review against Gold Law, identify relevant God Systems, log important rationale, and preserve user control.
-
-Codex is the JARVIS execution layer for local implementation work. Its archetype is Kang: production, building, execution. When Codex edits files, runs tests, applies migrations, commits, pushes, or syncs the repo, treat that as a JARVIS-executed operation under the governed workflow.
-
-JARVIS stats are event-driven, not decorative. Trigger definitions live in `intake/recycle/jarvis-stats-triggers.md`, and MCP clients can read stats with `jarvis_stats`.
-
-Long-range concepts live in `intake/recycle/`. THE GRID is tracked there as a future navigable knowledge space with JARVIS-as-Virgil guidance, Tron-inspired interface language, and Oda-scale worldbuilding.
-
-## Repo Sync Loop
-
-Codex can make targeted repo changes, commit them to GitHub, and JARVIS can pull the updated code through its MCP tool:
-
-```text
-Describe the change in Codex
-Codex edits and pushes hurrisonferd/jarvis
-Call jarvis_repo_sync with action=status
-Call jarvis_repo_sync with action=pull when ready
-Restart the local server if Python code changed
-```
-
-`jarvis_repo_sync` only supports `status` and fast-forward `pull`. It refuses to pull over uncommitted local changes.
-
-## Heartbeat Watcher
-
-The first live-mesh heartbeat is observe-only:
-
-```powershell
-python scripts\jarvis_heartbeat.py --once
-python scripts\jarvis_heartbeat.py --interval 60
-```
-
-It watches repo and `intake/` changes, writes local state to `%LOCALAPPDATA%\JARVIS\heartbeat\heartbeat_state.json`, and records recent events in `%LOCALAPPDATA%\JARVIS\heartbeat\heartbeat_log.json`. It does not pull, edit, process intake, or mutate Supabase automatically.
-
-## Keep Private
-
-Do not commit:
-
-- `chaos/chaos_seed.json`
-- `chaos/session_log.json`
-- `chaos/prometheus_log.json`
-- `chaos/mnemos_vectors.db`
-- `.env`
+The public anon/publishable key is client-safe **only** behind Row Level Security. Service-role keys are server-side only.
