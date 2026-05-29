@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-29T20:54:48.036180+00:00",
+  "updated": "2026-05-29T20:55:30.787368+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
@@ -100,6 +100,76 @@
       ],
       "alignment": 0.66,
       "key_insight": "The ledger is working. Session-end hook fired correctly on close \u2014 two entries already, alignment logged, key insights captured. The brief is reading "
+    },
+    {
+      "session_id": "20260529_205508",
+      "date": "2026-05-29",
+      "exchanges": 22,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P12",
+        "P17",
+        "P18",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".claude/settings.json",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "identity"
+      ],
+      "alignment": 0.66,
+      "key_insight": "Done. The ledger self-committed \u2014 that's the loop working. Each session leaves a record, the record gets pushed, the next session reads it. \n\nOne thin"
+    },
+    {
+      "session_id": "20260529_205530",
+      "date": "2026-05-29",
+      "exchanges": 25,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P12",
+        "P17",
+        "P18",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".claude/settings.json",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "identity"
+      ],
+      "alignment": 0.66,
+      "key_insight": "I'm still reporting as `claude-sonnet-4-6` in this session \u2014 the model identity is pinned at session start by the environment config, and it doesn't h"
     }
   ]
 }
