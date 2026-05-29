@@ -54,6 +54,16 @@ def load_context(name: str) -> dict:
         return {}
 
 
+def load_growth_ledger() -> list:
+    try:
+        path = os.path.join(REPO_ROOT, "mnemos", "memories", "growth_ledger.json")
+        with open(path, "r") as f:
+            data = json.load(f)
+        return data.get("entries", [])
+    except Exception:
+        return []
+
+
 def git(cmd: str) -> str:
     try:
         return subprocess.check_output(cmd, shell=True, stderr=subprocess.DEVNULL, text=True).strip()
@@ -197,6 +207,21 @@ def main():
         gotchas = env.get("gotchas", [])
         if gotchas:
             print(f"  [watch] {gotchas[0][:96]}")
+        print()
+
+    # ── Intelligence growth log (repo file — always available)
+    growth = load_growth_ledger()
+    if growth:
+        recent_growth = growth[-3:][::-1]
+        print("GROWTH LOG — recent sessions:")
+        for g in recent_growth:
+            patches = ", ".join(g.get("patches_touched", [])) or "—"
+            built_count = len(g.get("built", []))
+            aln = g.get("alignment", 0)
+            insight = (g.get("key_insight") or "")[:80].replace("\n", " ")
+            print(f"  [{g.get('date','')}] aln={aln:.0%} | patches:{patches} | built:{built_count}f")
+            if insight:
+                print(f"    \"{insight}\"")
         print()
 
     # ── PROMETHEUS governance record (Supabase — best effort)

@@ -3,13 +3,18 @@
 Stop hook — stores a session summary in MNEMOS when Raven ends a session.
 Gap 4: deeper profile — continuous learning from every exchange.
 Extracts: duration, topics (via tags), patches mentioned, exchange count.
+P18: also writes a structured growth entry to mnemos/memories/growth_ledger.json (local, no network).
 """
 import json
 import os
 import re
+import subprocess
 import sys
 import urllib.request
 from datetime import datetime, timezone
+
+REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
+GROWTH_LEDGER_PATH = os.path.join(REPO_ROOT, "mnemos", "memories", "growth_ledger.json")
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
@@ -74,13 +79,58 @@ def store_memory(text: str, metadata: dict, tags: list[str]) -> bool:
         return False
 
 
+def git_built_today() -> list:
+    try:
+        out = subprocess.check_output(
+            "git log --since='24 hours ago' --name-only --format='' | grep '.' | sort -u | head -5",
+            shell=True, stderr=subprocess.DEVNULL, text=True,
+            cwd=REPO_ROOT,
+        ).strip()
+        return [l for l in out.splitlines() if l.strip()]
+    except Exception:
+        return []
+
+
+def write_growth_record(session_data: dict, alignment: float) -> None:
+    try:
+        with open(GROWTH_LEDGER_PATH, "r") as f:
+            ledger = json.load(f)
+    except Exception:
+        ledger = {"updated": "", "max_entries": 20, "entries": []}
+
+    now = datetime.now(timezone.utc)
+    entry = {
+        "session_id": now.strftime("%Y%m%d_%H%M%S"),
+        "date": now.strftime("%Y-%m-%d"),
+        "exchanges": session_data["exchanges"],
+        "patches_touched": session_data["patches"],
+        "built": git_built_today(),
+        "topics": session_data["topics"],
+        "alignment": alignment,
+        "key_insight": session_data.get("last_assistant_text", "")[:150],
+    }
+
+    entries = ledger.get("entries", [])
+    entries.append(entry)
+    entries = entries[-ledger.get("max_entries", 20):]
+    ledger["updated"] = now.isoformat()
+    ledger["entries"] = entries
+
+    try:
+        with open(GROWTH_LEDGER_PATH, "w") as f:
+            json.dump(ledger, f, indent=2)
+    except Exception:
+        pass
+
+
 def extract_session_data(transcript_path: str) -> dict:
     if not transcript_path or not os.path.exists(transcript_path):
-        return {"exchanges": 0, "patches": [], "topics": [], "last_text": ""}
+        return {"exchanges": 0, "patches": [], "topics": [], "last_text": "", "last_assistant_text": ""}
 
     exchanges = 0
     all_text = []
     patches = set()
+    last_assistant_text = ""
 
     try:
         with open(transcript_path, "r", encoding="utf-8") as f:
@@ -107,6 +157,8 @@ def extract_session_data(transcript_path: str) -> dict:
                         all_text.append(text[:300])
                         for m in PATCH_RE.finditer(text):
                             patches.add(f"P{m.group(1)}")
+                    if text and role == "assistant":
+                        last_assistant_text = text[:200]
                 except (json.JSONDecodeError, KeyError):
                     continue
     except Exception:
@@ -121,6 +173,7 @@ def extract_session_data(transcript_path: str) -> dict:
         "patches": sorted(patches),
         "topics": topics,
         "last_text": last_text[:200],
+        "last_assistant_text": last_assistant_text[:200],
     }
 
 
@@ -161,6 +214,8 @@ def main():
         },
         tags=tags,
     )
+
+    write_growth_record(session_data, alignment)
 
 
 if __name__ == "__main__":
