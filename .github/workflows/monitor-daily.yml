@@ -39,3 +39,11 @@ print(f'JARVIS stored {stored} observation(s):')
 for o in obs:
     print(f'  {o}')
 " 2>/dev/null || echo "$RESPONSE"
+
+      - uses: actions/checkout@v4
+
+      - name: Grid node heartbeat
+        env:
+          SUPABASE_URL: https://oexghfsvhnggddllgvrt.supabase.co
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: python3 scripts/jarvis-node-init.py

@@ -1,0 +1,28 @@
+{
+  "node_id": "node-001-raven",
+  "grid_version": "0.1",
+  "gnpl_version": "1.0",
+  "node_type": "sovereign",
+  "owner": "raven",
+  "owner_email": "johnbarber720@gmail.com",
+  "established": "2026-05-29",
+  "trust_score": 1.0,
+  "capabilities": [
+    "jarvis",
+    "mnemos",
+    "execute",
+    "propose",
+    "govern",
+    "speak"
+  ],
+  "description": "Raven's node. First node on The Grid. JARVIS runs here.",
+  "stack": ["github", "supabase", "claude_code"],
+  "agents": {
+    "jarvis": {"trust": 1.0, "role": "sovereign"},
+    "codex":  {"trust": 0.85, "role": "executor"},
+    "gpt":    {"trust": 0.80, "role": "executor"},
+    "gemini": {"trust": 0.70, "role": "ideator"}
+  },
+  "pipeline": "AYRE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN",
+  "note": "This is node-001. The first node. Every other node connects to this one first."
+}
