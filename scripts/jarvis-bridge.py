@@ -42,7 +42,11 @@ def submit(event_type: str, intent: str, patch_id: str = None) -> dict:
         with urllib.request.urlopen(req, timeout=10) as resp:
             return json.loads(resp.read())
     except urllib.error.HTTPError as e:
-        return json.loads(e.read()) if e.fp else {"error": str(e)}
+        body = e.read()
+        try:
+            return json.loads(body) if body else {"error": f"HTTP {e.code}"}
+        except json.JSONDecodeError:
+            return {"error": f"HTTP {e.code}: {body.decode('utf-8', errors='replace')[:200]}"}
     except Exception as e:
         return {"error": str(e)}
 
