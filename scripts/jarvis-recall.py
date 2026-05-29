@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
 """
 In-session memory recall — called via /recall <query> slash command.
-Routes through mnemos-search (semantic via pgvector, keyword fallback).
+Read order: mnemos/ repo files first (no credentials), then Supabase semantic search.
 Also queries prometheus_log and consensus_proposals for governance queries.
 """
 import json
 import os
+import pathlib
 import sys
 import urllib.request
 
@@ -15,6 +16,35 @@ SEARCH_FN     = f"{SUPABASE_URL}/functions/v1/mnemos-search"
 RECALL_FN     = f"{SUPABASE_URL}/functions/v1/mnemos-recall"
 REST_BASE     = f"{SUPABASE_URL}/rest/v1"
 HEADERS       = {"apikey": SUPABASE_ANON, "Authorization": f"Bearer {SUPABASE_ANON}"}
+
+REPO_ROOT     = pathlib.Path(__file__).parent.parent
+MNEMOS_DIR    = REPO_ROOT / "mnemos"
+
+
+def read_local_memories(query: str, limit: int = 8) -> tuple[list, str]:
+    """Read from mnemos/memories/recent.json — no credentials needed."""
+    recent_path = MNEMOS_DIR / "memories" / "recent.json"
+    try:
+        data = json.loads(recent_path.read_text())
+        memories = data.get("memories", [])
+    except Exception:
+        return [], "local_missing"
+    if not memories:
+        return [], "local_empty"
+    q = query.lower()
+    scored = []
+    for m in memories:
+        text  = (m.get("text") or "").lower()
+        tags  = " ".join(m.get("tags") or []).lower()
+        words = [w for w in q.split() if len(w) > 2]
+        hits  = sum(1 for w in words if w in text or w in tags)
+        if hits:
+            scored.append((hits, m))
+    scored.sort(key=lambda x: x[0], reverse=True)
+    results = [m for _, m in scored[:limit]]
+    if not results:
+        results = memories[:limit]
+    return results, "local"
 
 
 def semantic_search(query: str, limit: int = 8, source_type: str = None) -> tuple[list, str]:
@@ -81,10 +111,14 @@ def main():
     print(f"MNEMOS RECALL — \"{query}\"")
     print("─" * 50)
 
-    # Primary: semantic search (pgvector cosine similarity, falls back to keyword)
-    results, method = semantic_search(query, limit=8)
+    # Tier 1: repo files (no credentials needed — readable by any model)
+    results, method = read_local_memories(query, limit=8)
 
-    # If semantic search returned nothing, try legacy recall
+    # Tier 2: Supabase semantic search (pgvector cosine similarity, keyword fallback)
+    if not results or method in ("local_missing", "local_empty"):
+        results, method = semantic_search(query, limit=8)
+
+    # Tier 3: legacy recall
     if not results:
         results = recall_legacy({"query": query, "limit": 8})
         method = "legacy"
@@ -101,7 +135,11 @@ def main():
             if d.get("text") not in seen:
                 results.append(d)
 
-    method_label = {"semantic": "SEMANTIC", "keyword": "KEYWORD", "legacy": "LEGACY", "error": "ERROR"}.get(method, method.upper())
+    method_label = {
+        "local": "LOCAL (repo)", "local_missing": "LOCAL→MISSING", "local_empty": "LOCAL→EMPTY",
+        "semantic": "SEMANTIC", "fulltext": "FULLTEXT", "recent": "RECENT",
+        "keyword": "KEYWORD", "legacy": "LEGACY", "error": "ERROR",
+    }.get(method, method.upper())
     print(f"  method: {method_label}")
     print()
 

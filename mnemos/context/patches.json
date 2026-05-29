@@ -1,0 +1,6 @@
+{
+  "updated": "2026-05-29",
+  "note": "Populated daily by GitHub Action from audit/patch_ledger.json. Active and pending patches only.",
+  "implementation_order": [],
+  "patches": []
+}

@@ -2,12 +2,12 @@ name: MNEMOS Domain Sync
 
 on:
   schedule:
-    - cron: '0 6 * * 1'  # Mondays 06:00 UTC
+    - cron: '0 6 * * *'  # Daily 06:00 UTC
   workflow_dispatch:      # Manual trigger
 
 jobs:
   sync:
-    name: Sync MNEMOS → domain files
+    name: Sync MNEMOS → GitHub memory files
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -15,13 +15,14 @@ jobs:
       - name: Run domain sync
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: python3 scripts/mnemos-domain-sync.py
 
-      - name: Commit updated domain files
+      - name: Commit updated memory files
         run: |
           git config user.name "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add mnemos/domains/identity.json mnemos/index.json
-          git diff --staged --quiet || git commit -m "chore(mnemos): weekly domain sync — session history + observations [GL7-OK]"
+          git add mnemos/
+          git diff --staged --quiet || git commit -m "chore(mnemos): daily memory sync — memories + context + index [GL7-OK]"
           git push origin main || echo "Nothing to push"
