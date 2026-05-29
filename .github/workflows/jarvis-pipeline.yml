@@ -16,6 +16,9 @@ on:
         required: false
         default: 'sync'
 
+permissions:
+  contents: write
+
 concurrency:
   group: jarvis-pipeline-${{ github.ref }}
   cancel-in-progress: false

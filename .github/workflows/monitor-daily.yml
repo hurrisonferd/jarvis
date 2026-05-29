@@ -9,6 +9,9 @@ on:
     - cron: '0 8 * * *'   # 08:00 UTC daily — offset from pipeline (06:00)
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   observe:
     name: HUGINN — Daily Observe
@@ -34,7 +37,6 @@ jobs:
           now = datetime.now(timezone.utc)
           today = now.strftime("%Y-%m-%d")
 
-          # Last 7 commits (non-automated)
           log = git("git log --pretty=format:'%h|%an|%ai|%s' --max-count=20")
           commits = []
           for line in log.splitlines():
@@ -47,7 +49,6 @@ jobs:
               commits.append(f"[{sha}] {msg[:80]}")
           commits = commits[:7]
 
-          # Patch summary
           ledger_path = pathlib.Path("audit/patch_ledger.json")
           patch_summary = ""
           try:
@@ -60,7 +61,6 @@ jobs:
           except Exception:
               pass
 
-          # Compose observation
           lines = [f"Daily observation {today}"]
           if commits:
               lines.append("Recent commits: " + " | ".join(commits[:3]))
@@ -68,7 +68,6 @@ jobs:
               lines.append(patch_summary)
           observation = ". ".join(lines)
 
-          # Write to sessions.json
           path = pathlib.Path("mnemos/memories/sessions.json")
           try:
               data = json.loads(path.read_text())
@@ -76,7 +75,6 @@ jobs:
               data = {"sessions": [], "count": 0}
 
           sessions = data.get("sessions", [])
-          # Don't duplicate today's observation
           existing_today = any(s.get("timestamp", "")[:10] == today for s in sessions
                                if "Daily observation" in s.get("text", ""))
           if not existing_today:

@@ -7,6 +7,9 @@ on:
   push:
     branches: [main]
 
+permissions:
+  contents: write
+
 jobs:
   log:
     name: SKADI — Audit Push
@@ -45,7 +48,6 @@ jobs:
           log_path = pathlib.Path("audit/push_log.jsonl")
           log_path.parent.mkdir(parents=True, exist_ok=True)
 
-          # Read existing, trim to last 199, append new
           existing = []
           if log_path.exists():
               for line in log_path.read_text().splitlines():
