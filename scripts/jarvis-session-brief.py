@@ -6,6 +6,7 @@ Reads repo files first (works offline/cloud), Supabase second.
 """
 import json
 import os
+import re
 import subprocess
 import urllib.request
 from datetime import datetime, timezone
@@ -116,6 +117,17 @@ def main():
         if projects:
             print(f"  Active: {' | '.join(p.split('—')[0].strip() for p in projects[:3])}")
         print()
+
+    # ── Last session alignment score (Supabase — best effort)
+    last_summaries = recall({"source_type": "session_summary", "limit": 1})
+    if last_summaries:
+        last_txt = last_summaries[0].get("text", "")
+        m = re.search(r'alignment=(\d+\.\d+)', last_txt)
+        if m:
+            score = float(m.group(1))
+            bar = "█" * int(score * 10) + "░" * (10 - int(score * 10))
+            print(f"LAST SESSION ALIGNMENT: {bar} {score:.0%}")
+            print()
 
     # ── MNEMOS live exchanges (Supabase — best effort)
     speak_in  = recall({"source_type": "speak_input",  "limit": 8})

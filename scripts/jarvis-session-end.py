@@ -27,6 +27,24 @@ DOMAIN_PATTERNS = {
     "identity":     ["jarvis", "raven", "companion"],
 }
 
+MISSION_WEIGHTS = {
+    "mission":      1.0,
+    "identity":     1.0,
+    "architecture": 0.9,
+    "governance":   0.9,
+    "memory":       0.8,
+    "development":  0.7,
+    "gaming":       0.3,
+}
+
+
+def compute_alignment(topics: list) -> float:
+    if not topics:
+        return 0.0
+    total_possible = sum(MISSION_WEIGHTS.values())
+    earned = sum(MISSION_WEIGHTS.get(t, 0.5) for t in topics)
+    return round(min(1.0, earned / total_possible), 2)
+
 
 def detect_topics(text: str) -> list[str]:
     lower = text.lower()
@@ -121,9 +139,10 @@ def main():
 
     patches_str = ", ".join(session_data["patches"]) if session_data["patches"] else "none"
     topics_str  = ", ".join(session_data["topics"])  if session_data["topics"]  else "general"
+    alignment   = compute_alignment(session_data["topics"])
 
     summary = (
-        f"[SESSION END] {session_data['exchanges']} exchanges. "
+        f"[SESSION END] alignment={alignment} {session_data['exchanges']} exchanges. "
         f"Patches touched: {patches_str}. "
         f"Topics: {topics_str}. "
         f"Last exchange: {session_data['last_text']}"
@@ -138,6 +157,7 @@ def main():
             "exchange_count": session_data["exchanges"],
             "patches": session_data["patches"],
             "topics": session_data["topics"],
+            "alignment_score": alignment,
         },
         tags=tags,
     )
