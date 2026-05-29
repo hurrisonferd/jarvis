@@ -180,6 +180,20 @@ const BRIEFING_URL     = 'https://raw.githubusercontent.com/hurrisonferd/jarvis/
 
 const sb = typeof supabase !== 'undefined' ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
 
+// P34 phase 2: governed write. Anon is read-only at the DB — all writes go through the
+// service-role grid-write proxy (whitelisted table+op). Reads still use sb directly.
+async function sbWrite(table, op, data, opts={}){
+  try{
+    const r=await fetch(`${SUPABASE_URL}/functions/v1/grid-write`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','apikey':SUPABASE_ANON,'Authorization':`Bearer ${SUPABASE_ANON}`},
+      body:JSON.stringify({table,op,data,match:opts.match,onConflict:opts.onConflict,returning:opts.returning}),
+    });
+    const j=await r.json();
+    return j&&j.ok ? (j.data!==undefined?j.data:true) : null;
+  }catch(e){ return null; }
+}
+
 // ── speaker dots
 (function(){ const s=document.getElementById('spk'); for(let i=0;i<15;i++){const d=document.createElement('div');d.className='sp';s.appendChild(d);} })();
 
@@ -246,16 +260,16 @@ function worldTick(){
 let sessionId = null;
 async function startSession(){
   try{
-    const {data}=await sb.from('sessions').insert({mode:ModeController.mode,active_node:'BOOT',agent:'jarvis_web',version:'2.5'}).select('id').single();
-    if(data) sessionId=data.id;
+    const data=await sbWrite('sessions','insert',{mode:ModeController.mode,active_node:'BOOT',agent:'jarvis_web',version:'2.5'},{returning:'id'});
+    if(data&&data.id) sessionId=data.id;
   }catch(e){}
 }
 async function updateSession(node){
   if(!sessionId) return;
-  try{ await sb.from('sessions').update({active_node:node,updated_at:new Date().toISOString()}).eq('id',sessionId); }catch(e){}
+  await sbWrite('sessions','update',{active_node:node,updated_at:new Date().toISOString()},{match:{id:sessionId}});
 }
 async function sbEvent(type,payload={}){
-  try{ await sb.from('events').insert({type,payload,session_id:sessionId}); }catch(e){}
+  await sbWrite('events','insert',{type,payload,session_id:sessionId});
 }
 
 // P21: briefing-first boot — fetch JarvisBrief from GitHub as authoritative source
@@ -1358,12 +1372,10 @@ async function storeExchange(input, response){
   const cs=getCompanionState();
   const text=`raven: ${input}\njarvis: ${response}`;
   const meta={input,response,mode:cs.mode,tick:cs.tick,align:Math.round(cs.avgAlign*100),entropy:Math.round(cs.avgEnt*100)};
-  try{
-    await sb.from('mnemos_memories').insert({
-      id:crypto.randomUUID(),source_id:sessionId||'local',source_type:'companion_exchange',
-      text,platform:'jarvis_web',metadata:meta,entropy:cs.avgEnt,timestamp:new Date().toISOString()
-    });
-  }catch(e){}
+  await sbWrite('mnemos_memories','insert',{
+    id:crypto.randomUUID(),source_id:sessionId||'local',source_type:'companion_exchange',
+    text,platform:'jarvis_web',metadata:meta,entropy:cs.avgEnt,timestamp:new Date().toISOString()
+  });
   // Update MNEMOS field — a real memory was just written
   const mf=nodeFields['MNEMOS']||{load:0,entropy:0,alignment:1};
   GRID.set('MNEMOS',{...mf,load:Math.min(1,(mf.load||0)+0.25)});
@@ -1371,31 +1383,27 @@ async function storeExchange(input, response){
 }
 
 async function storeDecision(input){
-  try{
-    await sb.from('prometheus_log').insert({
-      decision:input.slice(0,200),
-      rationale:'Declared in companion exchange',
-      system_affected:'AYRE',
-      eris_weight:0.6,
-      raven_approved:false,
-      timestamp:new Date().toISOString()
-    });
-  }catch(e){}
+  await sbWrite('prometheus_log','insert',{
+    decision:input.slice(0,200),
+    rationale:'Declared in companion exchange',
+    system_affected:'AYRE',
+    eris_weight:0.6,
+    raven_approved:false,
+    timestamp:new Date().toISOString()
+  });
   const pf=nodeFields['PROMETHEUS']||{load:0,entropy:0,alignment:1};
   GRID.set('PROMETHEUS',{...pf,load:Math.min(1,(pf.load||0)+0.35)});
 }
 
 async function storeBehavior(screen,extra={}){
   const cs=getCompanionState();
-  try{
-    await sb.from('mnemos_memories').insert({
-      id:crypto.randomUUID(),source_id:sessionId||'local',source_type:'navigation',
-      text:`raven navigated to ${screen.toUpperCase()} [mode:${cs.mode} tick:${cs.tick}]`,
-      platform:'jarvis_web',metadata:{screen,mode:cs.mode,tick:cs.tick,...extra},
-      entropy:cs.avgEnt,timestamp:new Date().toISOString()
-    });
-    if(mnemosData) mnemosData=null; // invalidate cache on next open
-  }catch(e){}
+  await sbWrite('mnemos_memories','insert',{
+    id:crypto.randomUUID(),source_id:sessionId||'local',source_type:'navigation',
+    text:`raven navigated to ${screen.toUpperCase()} [mode:${cs.mode} tick:${cs.tick}]`,
+    platform:'jarvis_web',metadata:{screen,mode:cs.mode,tick:cs.tick,...extra},
+    entropy:cs.avgEnt,timestamp:new Date().toISOString()
+  });
+  if(mnemosData) mnemosData=null; // invalidate cache on next open
 }
 
 async function mnemosRecall(query){
@@ -2131,7 +2139,7 @@ function ok(){
   if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
     // Increment session_touches for this God System
-    const sid=detail?.name; if(sid&&sb) sb.from('god_system_stats').update({session_touches:(godStats[sid]?.session_touches||0)+1}).eq('system_id',sid).then(()=>{ if(godStats[sid]) godStats[sid].session_touches=(godStats[sid].session_touches||0)+1; });
+    const sid=detail?.name; if(sid) sbWrite('god_system_stats','update',{session_touches:(godStats[sid]?.session_touches||0)+1},{match:{system_id:sid}}).then(()=>{ if(godStats[sid]) godStats[sid].session_touches=(godStats[sid].session_touches||0)+1; });
     return; }
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='tron'){
@@ -2273,7 +2281,7 @@ async function subscribeAlerts(){
     const reg=await navigator.serviceWorker.ready;
     const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(VAPID_PUBLIC_KEY)});
     const subJson=sub.toJSON();
-    await sb.from('push_subscriptions').upsert({endpoint:subJson.endpoint,subscription_info:subJson},{onConflict:'endpoint'});
+    await sbWrite('push_subscriptions','upsert',{endpoint:subJson.endpoint,subscription_info:subJson},{onConflict:'endpoint'});
     pushSub=sub; pushSubbed=true; pushStatus='SUBSCRIBED\nPUSH ACTIVE'; beep(880,120);
   }catch(e){ pushStatus='FAILED:\n'+e.message; }
   draw();
@@ -2283,7 +2291,7 @@ async function unsubscribeAlerts(){
   pushStatus='UNSUBSCRIBING...'; draw();
   try{
     if(pushSub){
-      await sb.from('push_subscriptions').delete().eq('endpoint',pushSub.endpoint);
+      await sbWrite('push_subscriptions','delete',null,{match:{endpoint:pushSub.endpoint}});
       await pushSub.unsubscribe(); pushSub=null;
     }
     pushSubbed=false; pushStatus='UNSUBSCRIBED'; beep(220,120);
@@ -2409,7 +2417,7 @@ async function loadROMIndex(){
   if(S==='emu') draw();
 }
 async function registerROM(name,system,hash,size){
-  try{ await sb.from('rom_library').insert({name,system,file_hash:hash,file_size:size,source:'upload'}); loadROMIndex(); }catch(e){}
+  try{ await sbWrite('rom_library','insert',{name,system,file_hash:hash,file_size:size,source:'upload'}); loadROMIndex(); }catch(e){}
 }
 
 // P09: save/load state to Supabase save_states
@@ -2418,7 +2426,7 @@ async function sbSaveState(slot=0,snapshot=null){
   const snap=snapshot||(activeCore?await activeCore.snapshot():null);
   if(!snap) return;
   try{
-    await sb.from('save_states').insert({rom_hash:romHash,rom_name:romName,session_id:sessionId,slot,state_blob:snap,frame_count:0});
+    await sbWrite('save_states','insert',{rom_hash:romHash,rom_name:romName,session_id:sessionId,slot,state_blob:snap,frame_count:0});
     saveStateSlot=slot;
     BUS.emit('save_state',{slot,rom:romName,patch_id:'P09',stage:'SKADI'});
     beep(660,60);
