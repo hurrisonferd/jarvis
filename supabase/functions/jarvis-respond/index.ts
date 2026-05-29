@@ -1,8 +1,23 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  pickModel,
+  loopGuard,
+  guardMessage,
+  type ModelConfig,
+  type Turn,
+} from "./guard.ts";
 
 const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "" });
+
+// Model routing is env-tunable so Raven can adjust depth/cost without redeploy.
+const MODEL_CONFIG: ModelConfig = {
+  deepModel: Deno.env.get("JARVIS_DEEP_MODEL") ?? "claude-opus-4-8",
+  quickModel: Deno.env.get("JARVIS_QUICK_MODEL") ?? "claude-sonnet-4-6",
+  deepTokens: Number(Deno.env.get("JARVIS_DEEP_TOKENS") ?? 1024),
+  quickTokens: Number(Deno.env.get("JARVIS_QUICK_TOKENS") ?? 400),
+};
 
 type MemRow = { text: string; source_type: string; timestamp?: string; tags?: string[] };
 
@@ -99,6 +114,17 @@ Deno.serve(async (req: Request) => {
   const firstDate   = (ctx.firstDate as string) ?? "";
   const speakHistory = (ctx.speakHistory as Array<{ from: string; text: string }>) ?? [];
 
+  // Circuit breaker (GL6): if JARVIS is looping or Raven is re-sending, hand
+  // the thread back instead of burning a model call.
+  const guardHistory = speakHistory as Turn[];
+  const verdict = loopGuard(guardHistory, input);
+  if (verdict) {
+    return new Response(
+      JSON.stringify({ response: guardMessage(verdict), memories_used: 0, loop_guard: verdict }),
+      { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
+    );
+  }
+
   const sb = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
@@ -158,10 +184,12 @@ No markdown. No bullet points. Plain text.`;
     content: e.text,
   }));
 
+  const route = pickModel(input, MODEL_CONFIG);
+
   try {
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 400,
+      model: route.model,
+      max_tokens: route.maxTokens,
       system: systemPrompt,
       messages: [...history, { role: "user", content: input }],
     });
@@ -169,9 +197,10 @@ No markdown. No bullet points. Plain text.`;
     const content = message.content[0];
     const response = content.type === "text" ? content.text : "Processing.";
 
-    return new Response(JSON.stringify({ response, memories_used: memoriesUsed }), {
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-    });
+    return new Response(
+      JSON.stringify({ response, memories_used: memoriesUsed, model: route.model, tier: route.tier }),
+      { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
+    );
   } catch (err) {
     return new Response(JSON.stringify({ error: String(err) }), {
       status: 500,
