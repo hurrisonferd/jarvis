@@ -19,6 +19,7 @@ REST_HEADERS = {"apikey": SUPABASE_ANON, "Authorization": f"Bearer {SUPABASE_ANO
 REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
 LEDGER_PATH = os.path.join(REPO_ROOT, "audit", "patch_ledger.json")
 DOMAINS_PATH = os.path.join(REPO_ROOT, "mnemos", "domains")
+CONTEXT_PATH = os.path.join(REPO_ROOT, "mnemos", "context")
 
 SEP = "━" * 50
 
@@ -40,6 +41,14 @@ def recall(payload: dict) -> list:
 def load_domain(name: str) -> dict:
     try:
         with open(os.path.join(DOMAINS_PATH, f"{name}.json"), "r") as f:
+            return json.load(f)
+    except Exception:
+        return {}
+
+
+def load_context(name: str) -> dict:
+    try:
+        with open(os.path.join(CONTEXT_PATH, f"{name}.json"), "r") as f:
             return json.load(f)
     except Exception:
         return {}
@@ -170,6 +179,24 @@ def main():
             print(f"  [{law}] {text[:100]}")
         for key, text in list(arch.items())[:2]:
             print(f"  [ARCH] {text[:100]}")
+        print()
+
+    # ── Environment truths (repo file — always available, prevents re-learning the hard way)
+    env = load_context("environment")
+    if env:
+        print("ENVIRONMENT — operational truths:")
+        git_facts = env.get("git", {})
+        if git_facts.get("path_to_main"):
+            print(f"  [git]   {git_facts['path_to_main'][:96]}")
+        fe = env.get("frontend", {})
+        if fe.get("fragility"):
+            print(f"  [front] {fe['fragility'][:96]}")
+        sb_facts = env.get("sandbox", {})
+        if sb_facts.get("network"):
+            print(f"  [net]   {sb_facts['network'][:96]}")
+        gotchas = env.get("gotchas", [])
+        if gotchas:
+            print(f"  [watch] {gotchas[0][:96]}")
         print()
 
     # ── PROMETHEUS governance record (Supabase — best effort)

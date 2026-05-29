@@ -1,0 +1,39 @@
+name: js-parse-check
+
+# Protects the body. docs/index.html is one giant inline <script> — a single syntax
+# error (e.g. a duplicate top-level const) halts the ENTIRE app, blank on load.
+# This gate makes that class of bug impossible to merge. Born from the P29 duplicate-GNPL
+# bug that silently broke the live site until 2026-05-29.
+
+on:
+  push:
+    branches: [main]
+    paths: ['docs/index.html', '.github/workflows/js-parse-check.yml']
+  pull_request:
+    paths: ['docs/index.html']
+  workflow_dispatch:
+
+jobs:
+  parse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Extract inline script + node --check
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          html = open('docs/index.html', encoding='utf-8').read()
+          scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', html, re.S)
+          if not scripts:
+              print('FAIL: no inline <script> found in docs/index.html'); sys.exit(1)
+          big = max(scripts, key=len)
+          open('/tmp/app.js', 'w').write(big)
+          print(f'extracted {len(big)} chars from the largest inline script')
+          PY
+          node --check /tmp/app.js
+          echo "PASS: docs/index.html inline script parses clean"

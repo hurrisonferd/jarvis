@@ -1,0 +1,43 @@
+{
+  "updated": "2026-05-29",
+  "node": "node-001-raven",
+  "purpose": "Operational truths about THIS environment. Read at session start so no session re-learns these the hard way. When you discover a new durable fact about how the setup behaves, add it here.",
+
+  "git": {
+    "push_new_branch": "git push to a NEW branch WORKS (ref creation is allowed).",
+    "main_protected": "main is branch-protected — direct push, force-push, and branch delete to main return HTTP 403.",
+    "path_to_main": "branch -> PR -> merge via GitHub MCP (mcp__github__create_pull_request then merge_pull_request, squash). This is the only way to land on main. Precedent: PR #16/#17/#18/#19.",
+    "never": "do not force-push or delete remote branches — both 403. Do not assume push is fully blocked; only main updates are."
+  },
+
+  "frontend": {
+    "file": "docs/index.html — single ~147KB file, ONE giant inline <script>.",
+    "fragility": "a single JS syntax error (e.g. a duplicate top-level const) halts the ENTIRE app — blank on load, no partial degradation.",
+    "guard": "ALWAYS run node --check on the extracted inline script before committing docs/index.html. CI enforces this: .github/workflows/js-parse-check.yml.",
+    "too_big_to_read": "exceeds the Read tool token limit. Target sections by line number / grep; never read the whole file.",
+    "deploy": "GitHub Pages serves docs/ on main; rebuild takes ~1 min after merge. Hard-refresh to bust cache."
+  },
+
+  "supabase": {
+    "project": "oexghfsvhnggddllgvrt",
+    "edge_fn_service_key": "in edge functions use Deno.env SUPABASE_SERVICE_KEY ?? SUPABASE_SERVICE_ROLE_KEY (platform-injected fallback — always available).",
+    "writes": "browser is read-only via the anon key; ALL browser writes go through the grid-write proxy (service role, whitelisted table+op). P34.",
+    "verify_jwt": "grid-event and grid-write run with verify_jwt:false (public gates with their own validation). Preserve this on redeploy.",
+    "rls": "anon SELECT is open (public read). anon write policies are being removed table-by-table — P34 phase 2."
+  },
+
+  "sandbox": {
+    "network": "this execution sandbox CANNOT curl supabase.co or arbitrary hosts (host allowlist -> 'Host not in allowlist').",
+    "use_instead": "Supabase MCP tools (execute_sql, deploy_edge_function, apply_migration, get_advisors) reach the project; raw curl/fetch from the shell does not.",
+    "verification": "edge functions can't be invoked from the sandbox. Verify behavior via the live site + execute_sql row checks (compare counts/timestamps before and after)."
+  },
+
+  "embeddings": "OpenAI-compatible — text-embedding-3-small, 1536-dim, via EMBEDDING_API_KEY. NOT Jina (removed in da986f4), NOT Ollama.",
+
+  "gotchas": [
+    "A duplicate top-level 'const GNPL={}' in docs/index.html silently broke the whole app from P29 until 2026-05-29 (fixed b50f63a). node --check would have caught it instantly — that is why the CI gate exists.",
+    "patch_ledger.json is the LIVING tracker and drifts. Sync it when work lands (P30 and P33 were both stale before the 2026-05-29 audit).",
+    "README must stay cloud-first. It previously described the old local-first / Ollama / SQLite design and misled fresh agents — rewritten 2026-05-29.",
+    "Forbidden God-System edges: SKADI->AEGIS, DANTE->SKADI, JANUS->SKADI, LOKI->HADES. The grid-event AEGIS gate enforces these."
+  ]
+}
