@@ -1,0 +1,15 @@
+{
+  "id": "ODIN", "tier": 1, "pipeline_position": 3,
+  "role": "Route and decide. Determines execution path, dispatches to correct SKADI handler.",
+  "inputs": ["validated_intent_from_AEGIS"],
+  "outputs": ["execution_directive", "routed_to_SKADI"],
+  "routing_table": {
+    "speak_exchange": "GNPL.propose() → GRID state update",
+    "emulator_op": "EmulatorRouter → WasmBoyCore or MGBACore",
+    "memory_op": "mnemos-store edge function",
+    "github_event": "audit_log + MNEMOS sync"
+  },
+  "current_state": { "load": 0.22, "entropy": 0.15, "alignment": 0.96 },
+  "speaks_to": ["SKADI"],
+  "receives_from": ["AEGIS"]
+}

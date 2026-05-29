@@ -1,0 +1,11 @@
+{
+  "id": "AYRE", "tier": 1, "pipeline_position": 1,
+  "role": "Intake and parse. First contact with all inputs. Normalizes, classifies, routes.",
+  "inputs": ["raw_user_input", "speak_exchange", "github_event", "system_signal"],
+  "outputs": ["parsed_intent", "classified_input", "routed_to_AEGIS"],
+  "tick_behavior": "Entropy baseline 0.15-0.25. Processes intake signals.",
+  "constraints": ["Must pass all output to AEGIS — never route directly to SKADI"],
+  "current_state": { "load": 0.15, "entropy": 0.18, "alignment": 0.97 },
+  "speaks_to": ["AEGIS"],
+  "receives_from": ["external_input"]
+}

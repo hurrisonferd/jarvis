@@ -1,0 +1,19 @@
+{
+  "id": "AEGIS", "tier": 1, "pipeline_position": 2,
+  "role": "Gate and validate. GL compliance enforcer. Blocks invalid execution before it reaches SKADI.",
+  "inputs": ["parsed_intent_from_AYRE", "bus_events"],
+  "outputs": ["validated_intent", "blocked_actions", "audit_entries"],
+  "tick_behavior": "Entropy 0.05-0.12. Runs gate check on every BUS.emit(). Authority score 1.0 — cannot be bypassed.",
+  "constraints": [
+    "Cannot be bypassed by any agent",
+    "All BUS events pass through AEGIS.gate() before listeners",
+    "GL7 enforcement: reject actions that expand without simplifying"
+  ],
+  "policies": {
+    "emu_start": "Block if COI headers not active",
+    "gl7": "Reject if overlap_score >= 0.40 or reduces_complexity != true"
+  },
+  "current_state": { "load": 0.08, "entropy": 0.07, "alignment": 0.99 },
+  "speaks_to": ["ODIN"],
+  "receives_from": ["AYRE", "BUS"]
+}

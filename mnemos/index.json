@@ -1,0 +1,25 @@
+{
+  "version": "1.0",
+  "last_updated": "2026-05-29",
+  "total_memories": 39,
+  "by_type": {
+    "raven_profile": 24,
+    "decision": 11,
+    "jarvis_identity": 4,
+    "github_commit": 0,
+    "speak_input": 0,
+    "speak_output": 0,
+    "session_summary": 0,
+    "monitor": 0
+  },
+  "domains": [
+    "architecture", "identity", "governance", "mission",
+    "gaming", "development", "memory", "emotional",
+    "family", "projects", "music", "spirituality", "health", "financial"
+  ],
+  "supabase_project": "oexghfsvhnggddllgvrt",
+  "recall_fn": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/mnemos-recall",
+  "store_fn": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/mnemos-store",
+  "tags": 18,
+  "note": "Supabase = hot/searchable. This file = cold/versioned snapshot. Session brief reads this when Supabase unreachable."
+}

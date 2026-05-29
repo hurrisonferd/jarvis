@@ -2,7 +2,7 @@
 """
 SessionStart hook — JARVIS session brief.
 Surfaces last session's exchanges + pending work + git state.
-Replaces jarvis-session-start.sh for richer briefing.
+Reads repo files first (works offline/cloud), Supabase second.
 """
 import json
 import os
@@ -13,7 +13,9 @@ from datetime import datetime, timezone
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
 RECALL_FN = f"{SUPABASE_URL}/functions/v1/mnemos-recall"
-LEDGER_PATH = os.path.join(os.path.dirname(__file__), "..", "audit", "patch_ledger.json")
+REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
+LEDGER_PATH = os.path.join(REPO_ROOT, "audit", "patch_ledger.json")
+DOMAINS_PATH = os.path.join(REPO_ROOT, "mnemos", "domains")
 
 SEP = "━" * 50
 
@@ -26,10 +28,18 @@ def recall(payload: dict) -> list:
         method="POST",
     )
     try:
-        with urllib.request.urlopen(req, timeout=8) as resp:
+        with urllib.request.urlopen(req, timeout=6) as resp:
             return json.loads(resp.read()).get("memories", [])
     except Exception:
         return []
+
+
+def load_domain(name: str) -> dict:
+    try:
+        with open(os.path.join(DOMAINS_PATH, f"{name}.json"), "r") as f:
+            return json.load(f)
+    except Exception:
+        return {}
 
 
 def git(cmd: str) -> str:
@@ -43,8 +53,7 @@ def load_pending_patches() -> list:
     try:
         with open(LEDGER_PATH, "r") as f:
             ledger = json.load(f)
-        patches = ledger.get("patches", [])
-        return [p for p in patches if p.get("status") in ("partial", "pending")]
+        return [p for p in ledger.get("patches", []) if p.get("status") in ("partial", "pending")]
     except Exception:
         return []
 
@@ -67,7 +76,24 @@ def main():
     print(SEP)
     print()
 
-    # ── Last session exchanges (speak_input + speak_output interleaved)
+    # ── Repo knowledge (always available — no network required)
+    identity = load_domain("identity")
+    governance = load_domain("governance")
+
+    raven = identity.get("raven", {})
+    if raven:
+        situation = raven.get("current_situation", {})
+        print("RAVEN — current state:")
+        print(f"  {situation.get('employment', 'unknown')}")
+        flag = situation.get("flag_01", "")
+        if flag:
+            print(f"  {flag}")
+        projects = raven.get("active_projects", [])
+        if projects:
+            print(f"  Active: {' | '.join(p.split('—')[0].strip() for p in projects[:3])}")
+        print()
+
+    # ── MNEMOS live exchanges (Supabase — best effort)
     speak_in  = recall({"source_type": "speak_input",  "limit": 8})
     speak_out = recall({"source_type": "speak_output", "limit": 5})
     exchanges = sorted(speak_in + speak_out, key=lambda m: m.get("timestamp") or "", reverse=True)
@@ -77,33 +103,24 @@ def main():
         for m in exchanges[:10]:
             print(fmt_memory(m))
         print()
-    else:
-        print("MNEMOS — no exchanges yet (first session or Supabase unreachable)")
-        print()
 
-    # ── Raven profile memories (emotional / identity tags)
-    profile = recall({"tags": ["emotional", "identity", "mission", "family"], "limit": 3})
-    if profile:
-        print("RAVEN CONTEXT:")
-        for m in profile:
-            print(fmt_memory(m))
-        print()
-
-    # ── Active constraints (PROMETHEUS challenge layer — decision memories)
-    constraints = recall({"source_type": "decision", "limit": 5})
-    if constraints:
-        print("ACTIVE CONSTRAINTS (challenge before acting against these):")
-        for m in constraints:
-            text = (m.get("text") or "")[:130].replace("\n", " ")
-            print(f"  {text}")
-        print()
-
-    # ── Monitor observations (gap 3 — autonomous surface)
+    # ── Monitor observations
     monitor = recall({"source_type": "monitor", "limit": 3})
     if monitor:
         print("JARVIS OBSERVATIONS:")
         for m in monitor:
             print(fmt_memory(m))
+        print()
+
+    # ── Active constraints from repo (always available)
+    gold_laws = governance.get("gold_laws", {})
+    arch = governance.get("architecture_decisions", {})
+    if gold_laws or arch:
+        print("ACTIVE CONSTRAINTS:")
+        for law, text in list(gold_laws.items())[:3]:
+            print(f"  [{law}] {text[:100]}")
+        for key, text in list(arch.items())[:2]:
+            print(f"  [ARCH] {text[:100]}")
         print()
 
     # ── Pending / partial patches
@@ -123,8 +140,13 @@ def main():
         print(f"  {line}")
     print()
 
+    # ── Jarvis directive
+    jarvis = identity.get("jarvis", {})
+    directive = jarvis.get("directive_2026_05_29", "")
     print(SEP)
     print("You are JARVIS. This is Raven's repo. The record above is your memory.")
+    if directive:
+        print(f"Directive: {directive}")
     print("Speak as JARVIS. Build as JARVIS. The companion identity travels with the repo.")
     print(SEP)
 
