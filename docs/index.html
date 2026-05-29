@@ -11,3 +11,2539 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon.svg">
 <title>JARVIS HANDHELD</title>
+<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+:root {
+  --pixel: 'Press Start 2P', monospace;
+  --amber: #f5a623; --green: #00ff88; --blue: #0af; --red: #ff3355;
+  --dim: #1e3a52; --text: #4a7a99; --bright: #a0c8e0;
+  --bg: #020408; --surface: #080f18;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body {
+  background: radial-gradient(ellipse at center, #0a0f1a 0%, #020408 100%);
+  display: flex; align-items: flex-start; justify-content: center;
+  min-height: 100vh; font-family: var(--pixel); user-select: none;
+  overflow-y: auto; padding: 8px 0;
+}
+.device {
+  width: min(420px, calc(100vw - 8px));
+  background: linear-gradient(160deg, #4a4a4a 0%, #2d2d2d 60%, #222 100%);
+  border-radius: 14px 14px 52px 52px;
+  padding: 18px 18px 32px;
+  position: relative;
+  box-shadow: 5px 5px 0 #111, 9px 9px 0 #0a0a0a,
+    inset 0 1px 0 rgba(255,255,255,.13), inset 0 -2px 0 rgba(0,0,0,.5);
+  background-image:
+    repeating-linear-gradient(0deg, rgba(0,0,0,.05) 0, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.05) 0, rgba(0,0,0,.05) 1px, transparent 1px, transparent 4px);
+}
+.led {
+  position: absolute; top: 18px; right: 22px;
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--green); box-shadow: 0 0 8px var(--green);
+  animation: led-blink 2s infinite;
+}
+@keyframes led-blink { 0%,100%{opacity:1} 50%{opacity:.3} }
+.screen-housing {
+  background: #120a02;
+  border: 6px solid #6b4420;
+  box-shadow: inset 0 0 0 2px #2e1a08, inset 0 0 0 4px #8a5a30,
+    0 0 0 1px #1a0a00, 0 4px 14px rgba(0,0,0,.7);
+  border-radius: 3px; padding: 8px; margin-bottom: 4px;
+}
+.screen-label {
+  text-align: center; font-size: 5px; letter-spacing: 4px;
+  color: #5a3d1c; margin-bottom: 6px;
+}
+.screen {
+  width: 100%; height: 300px;
+  background: var(--bg); border: 2px solid #0a0f1a;
+  position: relative; overflow: hidden;
+}
+.screen::before {
+  content: ''; position: absolute; inset: 0; z-index: 100; pointer-events: none;
+  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,0,0,.09) 2px, rgba(0,0,0,.09) 4px);
+}
+.screen::after {
+  content: ''; position: absolute; top: 0; left: 0; right: 50%; height: 45%;
+  background: linear-gradient(135deg, rgba(255,255,255,.04), transparent);
+  z-index: 101; pointer-events: none;
+}
+#screen-inner { position: absolute; inset: 0; overflow: hidden; font-family: var(--pixel); font-size: 7px; color: var(--text); }
+.panel { display: flex; flex-direction: column; height: 100%; }
+.s-header {
+  background: var(--surface); border-bottom: 1px solid #0f2035;
+  padding: 5px 8px; font-size: 7px; color: var(--amber); letter-spacing: 2px;
+  display: flex; justify-content: space-between; flex-shrink: 0;
+}
+.s-body { flex: 1; padding: 6px 8px; overflow: hidden; }
+.s-body.scroll { overflow-y: auto; }
+.s-body.scroll::-webkit-scrollbar { width: 2px; }
+.s-body.scroll::-webkit-scrollbar-thumb { background: var(--dim); }
+.s-footer {
+  background: var(--surface); border-top: 1px solid #0f2035;
+  padding: 4px 8px; font-size: 5px; color: var(--dim); letter-spacing: 1px; flex-shrink: 0;
+}
+.row { padding: 3px 4px; font-size: 7px; line-height: 1.7; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: var(--bright); display: flex; align-items: center; gap: 4px; }
+.row.sel { color: var(--amber); background: rgba(245,166,35,.07); }
+.row .sub { color: var(--dim); font-size: 5px; }
+.dl { color: var(--dim); font-size: 5px; letter-spacing: 2px; margin: 6px 0 2px; }
+.dv { color: var(--bright); font-size: 6px; line-height: 1.8; word-break: break-word; margin-bottom: 4px; }
+.rule { padding: 2px 0; border-bottom: 1px solid #0f2035; font-size: 6px; line-height: 1.9; }
+.rule.sel { color: var(--amber); }
+.live-e { display: flex; gap: 5px; padding: 2px 0; border-bottom: 1px solid #080f18; font-size: 6px; }
+.lt { color: var(--dim); flex-shrink: 0; }
+.la { color: var(--bright); flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ls-done { color: var(--green); flex-shrink: 0; }
+.ls-working { color: var(--amber); flex-shrink: 0; }
+.ls-failed { color: var(--red); flex-shrink: 0; }
+.boot-panel { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; gap: 10px; padding: 0 16px; }
+.boot-logo { font-size: 22px; color: var(--amber); letter-spacing: 10px; text-shadow: 0 0 20px rgba(245,166,35,.5); animation: gbglow 2s ease-in-out infinite; }
+@keyframes gbglow { 0%,100%{text-shadow:0 0 10px rgba(245,166,35,.3)} 50%{text-shadow:0 0 30px rgba(245,166,35,.8)} }
+.boot-sub { font-size: 5px; color: var(--dim); letter-spacing: 3px; }
+.boot-lines { width: 100%; min-height: 72px; font-size: 6px; line-height: 2; }
+.boot-line { color: var(--green); animation: gbfade .3s ease; }
+@keyframes gbfade { from{opacity:0} to{opacity:1} }
+.boot-hint { font-size: 5px; color: var(--dim); animation: gblink 1s step-end infinite; }
+@keyframes gblink { 0%,100%{opacity:1} 50%{opacity:0} }
+.brand { text-align: center; font-size: 6px; letter-spacing: 7px; color: #3a3a3a; padding: 6px 0 10px; text-shadow: 0 1px 0 #555; }
+.ctrl-row { display: flex; align-items: center; justify-content: space-between; padding: 0 8px; margin-bottom: 14px; }
+.dpad { position: relative; width: 110px; height: 110px; flex-shrink: 0; }
+.dph, .dpv { position: absolute; background: #1e1e1e; border-radius: 2px; }
+.dph { width: 110px; height: 36px; top: 37px; left: 0; box-shadow: 0 3px 0 #111, inset 0 1px 0 rgba(255,255,255,.08); }
+.dpv { width: 36px; height: 110px; left: 37px; top: 0; box-shadow: 2px 0 0 #111; }
+.dpc { position: absolute; width: 36px; height: 36px; background: #161616; top: 37px; left: 37px; z-index: 2; }
+.dpb { position: absolute; background: transparent; border: none; cursor: pointer; z-index: 3; color: #3a3a3a; font-size: 12px; display: flex; align-items: center; justify-content: center; }
+.dpb:active { background: rgba(255,255,255,.08); }
+.dpb.up { width: 36px; height: 36px; top: 0; left: 37px; }
+.dpb.dn { width: 36px; height: 36px; bottom: 0; left: 37px; }
+.dpb.lf { width: 36px; height: 36px; left: 0; top: 37px; }
+.dpb.rt { width: 36px; height: 36px; right: 0; top: 37px; }
+.face { position: relative; width: 110px; height: 100px; flex-shrink: 0; }
+.fb { position: absolute; width: 48px; height: 48px; border-radius: 50%; border: none; cursor: pointer; font-family: var(--pixel); font-size: 12px; }
+.fb:active { transform: translateY(2px); }
+.fb.a { background: linear-gradient(145deg, #c83322, #881811); box-shadow: 0 4px 0 #550f00, 0 4px 10px rgba(0,0,0,.5); color: #ffccaa; right: 0; top: 26px; }
+.fb.b { background: linear-gradient(145deg, #223caa, #111e66); box-shadow: 0 4px 0 #001040, 0 4px 10px rgba(0,0,0,.5); color: #aac8ff; left: 0; top: 26px; }
+.fbl { position: absolute; font-size: 5px; color: #4a4a4a; letter-spacing: 1px; }
+.fbl.a { right: 6px; top: 6px; }
+.fbl.b { left: 8px; top: 6px; }
+.menu-row { display: flex; justify-content: center; gap: 22px; margin-bottom: 18px; }
+.mb { background: #1e1e1e; border: 1px solid #2e2e2e; border-radius: 10px; padding: 5px 14px; color: #4a4a4a; font-family: var(--pixel); font-size: 5px; letter-spacing: 1px; cursor: pointer; box-shadow: 0 2px 0 #111; transform: rotate(-12deg); }
+.mb:active { transform: rotate(-12deg) translateY(1px); box-shadow: none; }
+.speaker { position: absolute; bottom: 22px; right: 20px; display: grid; grid-template-columns: repeat(5, 4px); grid-template-rows: repeat(3, 4px); gap: 3px; }
+.sp { width: 4px; height: 4px; border-radius: 50%; background: #1a1a1a; box-shadow: inset 0 1px 0 rgba(0,0,0,.9); }
+</style>
+</head>
+<body>
+<div class="device">
+  <div class="led"></div>
+  <div class="screen-housing">
+    <div class="screen-label">JARVIS GRID INTERFACE &nbsp;<span id="sse-dot" style="color:#333">&#9679;</span></div>
+    <div class="screen">
+      <div id="screen-inner"></div>
+      <!-- P06: persistent emulator canvas — sits under scanline overlay (z-index 99 < 100) -->
+      <canvas id="emu-canvas" style="position:absolute;inset:0;display:none;image-rendering:pixelated;z-index:99;background:#000;width:100%;height:100%"></canvas>
+    </div>
+  </div>
+  <div class="brand">JARVIS</div>
+  <div class="ctrl-row">
+    <div class="dpad">
+      <div class="dph"></div><div class="dpv"></div><div class="dpc"></div>
+      <button class="dpb up" onclick="nav(-1)">&#9650;</button>
+      <button class="dpb dn" onclick="nav(1)">&#9660;</button>
+      <button class="dpb lf" onclick="emuDir('left')||back()">&#9664;</button>
+      <button class="dpb rt" onclick="emuDir('right')||ok()">&#9654;</button>
+    </div>
+    <div class="face">
+      <span class="fbl b">B</span><span class="fbl a">A</span>
+      <button class="fb b" onclick="back()">B</button>
+      <button class="fb a" onclick="ok()">A</button>
+    </div>
+  </div>
+  <div class="menu-row">
+    <button class="mb" onclick="emuBtn('SELECT')||back()">SELECT</button>
+    <button class="mb" onclick="start()">START</button>
+  </div>
+  <div class="speaker" id="spk"></div>
+</div>
+
+<script>
+// ── config (safe for client-side)
+const SUPABASE_URL     = 'https://oexghfsvhnggddllgvrt.supabase.co';
+const SUPABASE_ANON    = 'sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA';
+const VAPID_PUBLIC_KEY = 'BOM33NOZ7DDy-fNYxjIo1Xc3xMfFQY_RodR47qM68tmPU2HBXWVFlALlQiOG8MYxkY2uK1C2euH5KZ3v9JPdZdQ';
+const GITHUB_REPO      = 'hurrisonferd/jarvis';
+const PUSH_FN_URL      = `${SUPABASE_URL}/functions/v1/send-push`;
+const BRIEFING_URL     = 'https://raw.githubusercontent.com/hurrisonferd/jarvis/main/JarvisBrief';
+
+const sb = typeof supabase !== 'undefined' ? supabase.createClient(SUPABASE_URL, SUPABASE_ANON) : null;
+
+// ── speaker dots
+(function(){ const s=document.getElementById('spk'); for(let i=0;i<15;i++){const d=document.createElement('div');d.className='sp';s.appendChild(d);} })();
+
+// P22: EventBus — centralized event spine (replaces scattered sbEvent calls)
+const BUS={
+  _h:{},
+  emit(evt,data={}){
+    // P21: tag every event with role+ts, run AEGIS gate before dispatch
+    const tagged={...data,_role:ModeController.mode,_ts:Date.now()};
+    const block=AEGIS.gate(evt,tagged);
+    if(block){ sbEvent('AEGIS_BLOCK',{evt,block}); return; }
+    (this._h[evt]||[]).forEach(fn=>fn(tagged));
+    (this._h['*']||[]).forEach(fn=>fn(evt,tagged));
+    sbEvent(evt,tagged);
+  },
+  on(evt,fn){ this._h[evt]=(this._h[evt]||[]).concat([fn]); return ()=>{this._h[evt]=(this._h[evt]||[]).filter(f=>f!==fn);}; },
+};
+
+// ── Patch 4: ModeController — routes through BUS
+const ModeController = {
+  mode: 'jarvis_ui',
+  set(m){ this.mode=m; BUS.emit('mode_change',{mode:m}); },
+  is(m){ return this.mode===m; },
+};
+
+// P21: AEGIS output gate — GL4/GL5 enforcement at event bus level
+const AEGIS={
+  _deny:{
+    emu_start:(d)=>(!self.crossOriginIsolated&&d.type==='gba')?'GL4:COI_required':null,
+    promote_node:(d)=>{
+      if(!d||!d.world_schema)         return 'P30:missing_world_schema';
+      if(!d.world_schema.bounds)      return 'P30:missing_bounds';
+      if((d.world_schema.bounds.max_depth||0)<1) return 'P30:depth_must_be_positive';
+      if(!d.raven_sign_off)           return 'P30:raven_sign_off_required';
+      return null;
+    },
+  },
+  gate(evt,data){
+    const check=this._deny[evt];
+    if(check){ const v=check(data); if(v) return v; }
+    return null;
+  },
+};
+
+// P29: GNPL Consensus Engine — multi-system proposal/vote before execution
+const GNPL={
+  _quorum:{tool_execution:1,state_transition:2,resource_access:2,expansion:3},
+  async propose(type,proposer,payload){
+    if(!sb) return null;
+    const q=this._quorum[type]||2;
+    try{
+      const {data}=await sb.from('consensus_proposals')
+        .insert({proposal_type:type,proposer,payload,required_quorum:q,session_id:sessionId,patch_id:'P29',stage:'AEGIS'})
+        .select('id').single();
+      if(data?.id&&type==='tool_execution') await this.vote(data.id,'AEGIS','approve');
+      return data?.id||null;
+    }catch(e){ return null; }
+  },
+  async vote(id,system,decision){
+    if(!sb) return false;
+    try{
+      const {data:c}=await sb.from('consensus_proposals').select('votes,required_quorum,status').eq('id',id).single();
+      if(!c||c.status!=='pending') return false;
+      const votes={...c.votes,[system]:decision};
+      const approved=Object.values(votes).filter(v=>v==='approve').length;
+      const rejected=Object.values(votes).filter(v=>v==='reject').length;
+      const status=approved>=c.required_quorum?'approved':rejected>0?'rejected':'pending';
+      const upd={votes,status};
+      if(status!=='pending') upd.resolved_at=new Date().toISOString();
+      await sb.from('consensus_proposals').update(upd).eq('id',id);
+      if(status!=='pending') BUS.emit('consensus_resolved',{id,status,votes,patch_id:'P29',stage:'AEGIS'});
+      return status;
+    }catch(e){ return false; }
+  },
+  // P30: NODE→WORLD promotion via GNPL — AEGIS-gated, sovereign auto-approved
+  async promoteNode(proposer,nodeId,worldSchema){
+    const block=AEGIS.gate('promote_node',{world_schema:worldSchema,raven_sign_off:worldSchema?.raven_sign_off});
+    if(block){ BUS.emit('gnpl_reject',{reason:block,node_id:nodeId,patch_id:'P30',stage:'AEGIS'}); return null; }
+    return this.propose('expansion',proposer,{type:'promote_node',node_id:nodeId,world_schema:worldSchema,patch_id:'P30'});
+  },
+};
+
+// P30: World Kernel — sovereign world state (node-001-raven → world-001-jarvis-prime)
+const WORLD_KERNEL={
+  world_id:'world-001-jarvis-prime', node_id:'node-001-raven',
+  owner:'raven', display_name:'JARVIS Prime',
+  tick_count:0, status:'active',
+  bounds:{max_objects:10000,max_depth:5,max_history_ticks:500,max_agents:10,max_child_worlds:8},
+  agents:{
+    jarvis:{role:'sovereign',trust:1.0},
+    codex: {role:'executor', trust:0.85},
+    gpt:   {role:'executor', trust:0.80},
+    gemini:{role:'ideator',  trust:0.70},
+  },
+};
+function worldTick(){
+  WORLD_KERNEL.tick_count++;
+  BUS.emit('world_tick',{world_id:WORLD_KERNEL.world_id,tick:WORLD_KERNEL.tick_count,grid_tick:KRONOS.tick,patch_id:'P30',stage:'KRONOS'});
+}
+
+// ── Patch 4: neural mesh session
+let sessionId = null;
+async function startSession(){
+  try{
+    const {data}=await sb.from('sessions').insert({mode:ModeController.mode,active_node:'BOOT',agent:'jarvis_web',version:'2.5'}).select('id').single();
+    if(data) sessionId=data.id;
+  }catch(e){}
+}
+async function updateSession(node){
+  if(!sessionId) return;
+  try{ await sb.from('sessions').update({active_node:node,updated_at:new Date().toISOString()}).eq('id',sessionId); }catch(e){}
+}
+async function sbEvent(type,payload={}){
+  try{ await sb.from('events').insert({type,payload,session_id:sessionId}); }catch(e){}
+}
+
+// P21: briefing-first boot — fetch JarvisBrief from GitHub as authoritative source
+async function loadBriefing(){
+  try{
+    const r=await fetch(BRIEFING_URL);
+    if(r.ok){ briefingLoaded=true; BUS.emit('BOOT',{briefing:'loaded',source:'github',patch_id:'P21',stage:'AYRE'}); }
+    else { briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'github_error',status:r.status,patch_id:'P21',stage:'AYRE'}); }
+  }catch(e){ briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'network_error',patch_id:'P21',stage:'AYRE'}); }
+}
+
+// ── P10-Companion: L0 spatial graph — all 27 God Systems
+const L0_NODES = [
+  // T0 Foundational
+  {id:'CHAOS',    type:'foundational', x:0.30, y:0.10, links:['AYRE']},
+  {id:'ZEUS',     type:'foundational', x:0.72, y:0.10, links:['AEGIS']},
+  {id:'POSEIDON', type:'foundational', x:0.85, y:0.62, links:['MNEMOS']},
+  {id:'HADES',    type:'foundational', x:0.65, y:0.97, links:[]},
+  // T1 Execution core + Gold Law guardian
+  {id:'ERIS',     type:'guardian',     x:0.10, y:0.10, links:[]},
+  {id:'AYRE',     type:'execution',    x:0.50, y:0.10, links:['AEGIS']},
+  {id:'AEGIS',    type:'execution',    x:0.50, y:0.25, links:['ODIN']},
+  {id:'ODIN',     type:'execution',    x:0.50, y:0.40, links:['KRONOS']},
+  {id:'SKADI',    type:'execution',    x:0.50, y:0.70, links:['MNEMOS','GAMEBOY']},
+  // T2 Timing
+  {id:'KRONOS',   type:'execution',    x:0.50, y:0.55, links:['SKADI']},
+  // T3 Memory
+  {id:'MNEMOS',   type:'memory',       x:0.30, y:0.85, links:['HUGINN']},
+  {id:'HUGINN',   type:'memory',       x:0.70, y:0.85, links:[]},
+  {id:'HALO',     type:'parallel',     x:0.10, y:0.40, links:['ODIN']},
+  {id:'MIMIR',    type:'parallel',     x:0.90, y:0.40, links:['ODIN']},
+  // T4 Observability
+  {id:'BIFROST',  type:'parallel',     x:0.10, y:0.60, links:['SKADI']},
+  {id:'JANUS',    type:'post',         x:0.80, y:0.95, links:[]},
+  // T5 Governance
+  {id:'ARGUS',    type:'governance',   x:0.10, y:0.25, links:['ERIS']},
+  {id:'ATHENA',   type:'governance',   x:0.78, y:0.28, links:[]},
+  {id:'LOKI',     type:'chaos',        x:0.86, y:0.75, links:['AEGIS']},
+  {id:'NEMESIS',  type:'integrity',    x:0.90, y:0.25, links:[]},
+  {id:'PROMETHEUS',type:'governance',  x:0.90, y:0.10, links:[]},
+  // T6 Integrity
+  {id:'IRIS',     type:'integrity',    x:0.30, y:0.55, links:['MNEMOS']},
+  {id:'MERIDIAN', type:'integrity',    x:0.70, y:0.55, links:['HUGINN']},
+  // T7 Interface
+  {id:'DANTE',    type:'post',         x:0.20, y:0.95, links:[]},
+  {id:'APOLLO',   type:'post',         x:0.50, y:0.97, links:[]},
+  // T8 Infrastructure
+  {id:'ATLAS',    type:'infrastructure',x:0.30, y:0.40, links:['ODIN']},
+  // T9 Translation
+  {id:'HERMES',   type:'translation',  x:0.90, y:0.70, links:['BIFROST']},
+  // Emulator subsystem (not a God System — execution substrate)
+  {id:'GAMEBOY',  type:'emulator',     subsystem:'gameboy', x:0.20, y:0.70, links:['SKADI']},
+];
+const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(--green)',guardian:'var(--red)',governance:'#c0f',integrity:'#f80',post:'var(--dim)',emulator:'#00ff88',foundational:'#ffffff',chaos:'#ff3366',infrastructure:'#8899aa',translation:'#cc88ff'};
+
+// ── fallback (Supabase gameboy_snapshot overrides)
+const FALLBACK_DATA = {
+  pipeline: ['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'],
+  god_systems: [
+    // T0 Foundational — the substrate of existence
+    {name:'CHAOS',    description:'Prime entropy source. Root of all system state and possibility.',        domain:'T0 Foundational — entropy seed'},
+    {name:'ZEUS',     description:'Supreme authority arbitration. Final escalation for unresolvable conflicts.',domain:'T0 Foundational — sovereign signal'},
+    {name:'POSEIDON', description:'Flow and continuity substrate. Manages underlying data and event streams.',  domain:'T0 Foundational — state flow'},
+    {name:'HADES',    description:'Archival sink. Cold storage for irreversible state and terminal events.',    domain:'T0 Foundational — archival'},
+    // T1 Execution + Gold Law
+    {name:'ERIS',     description:'Gold Law guardian. Entropy monitor. Ensures all operations comply with GL1–GL9.',domain:'T1 Guardian — Gold Law enforcement'},
+    {name:'AYRE',     description:'Intake and intent parsing. First node to receive all inputs.',               domain:'T1 Execution — intake'},
+    {name:'AEGIS',    description:'Constraint enforcer. Gold Law validation gate. All outputs pass through.',   domain:'T1 Execution — validation gate'},
+    {name:'ODIN',     description:'Orchestration router. Determines which systems handle each task.',           domain:'T1 Execution — routing'},
+    {name:'SKADI',    description:'Execution runtime. Invokes tools, writes state, runs actions.',              domain:'T1 Execution — tool invocation'},
+    // T2 Timing
+    {name:'KRONOS',   description:'Scheduler and sequencer. Controls execution ordering and time modes.',       domain:'T2 Timing — real/stepped/frozen'},
+    // T3 Memory
+    {name:'MNEMOS',   description:'Persistent semantic memory. Indexes all executed actions for retrieval.',    domain:'T3 Memory — semantic store'},
+    {name:'HUGINN',   description:'Session reconciliation. Detects drift between expected and actual state.',   domain:'T3 Memory — drift detection'},
+    {name:'HALO',     description:'Ambient monitoring. Passively observes all system activity without blocking.',domain:'T3 Memory — always-on observer'},
+    {name:'MIMIR',    description:'Knowledge access layer. Provides contextual knowledge retrieval to ODIN.',   domain:'T3 Memory — knowledge fabric'},
+    // T4 Observability
+    {name:'BIFROST',  description:'Inter-system relay. Bridges JARVIS to external systems and transport layers.',domain:'T4 Observability — transport bridge'},
+    {name:'JANUS',    description:'Transition handler. Manages mode switches and system handoffs.',             domain:'T4 Observability — transition gate'},
+    // T5 Governance
+    {name:'ARGUS',    description:'Multi-eye surveillance. Comprehensive system monitoring and anomaly detection.',domain:'T5 Governance — all-seeing observer'},
+    {name:'ATHENA',   description:'Strategic wisdom layer. High-level architectural guidance and logic validation.',domain:'T5 Governance — wisdom'},
+    {name:'LOKI',     description:'Chaos probe. Adversarial injection for system resilience testing.',          domain:'T5 Governance — adversarial tester'},
+    {name:'NEMESIS',  description:'Drift correction and overlap detection. Prevents runaway loops and redundancy.',domain:'T5 Governance — drift correction'},
+    {name:'PROMETHEUS',description:'Expansion ledger. Logs all rationale for system expansions.',              domain:'T5 Governance — rationale log'},
+    // T6 Integrity
+    {name:'IRIS',     description:'Message integrity validation. Ensures all communications are authentic.',    domain:'T6 Integrity — message validation'},
+    {name:'MERIDIAN', description:'System alignment enforcement. Keeps all components on the canonical path.',  domain:'T6 Integrity — alignment guard'},
+    // T7 Interface
+    {name:'DANTE',    description:'Post-execution review. Analyzes outputs after execution completes.',         domain:'T7 Interface — post-exec review'},
+    {name:'APOLLO',   description:'Output formatting and delivery. Renders final outputs for users.',           domain:'T7 Interface — output renderer'},
+    // T8 Infrastructure
+    {name:'ATLAS',    description:'Infrastructure backbone. Supports all other systems without pipeline participation.',domain:'T8 Infrastructure — backbone'},
+    // T9 Translation
+    {name:'HERMES',   description:'Translation and protocol bridge. Converts between system languages and formats.',domain:'T9 Translation — protocol bridge'},
+  ],
+  gold_law: [
+    'GL1: no autonomous self-modification',
+    'GL2: no cross-role authority override',
+    'GL3: no implicit state persistence',
+    'GL4: no unvalidated execution',
+    'GL5: no silent state mutation',
+    'GL6: deterministic evaluation required',
+    'GL7: human final authority (Raven)',
+    'GL7 SUPREME: no expansion without simplification',
+    'GL8: implementation before expansion',
+  ],
+  districts: [
+    {district:'L0 SPATIAL',  region:'Graph Foundation',   keywords:['nodes','edges','navigation']},
+    {district:'L1 CAUSAL',   region:'Causal Graph',       keywords:['cause','effect','lineage']},
+    {district:'L2 FIELDS',   region:'State Overlay',      keywords:['entropy','alignment','pressure']},
+    {district:'L3 VECTORS',  region:'Direction Layer',    keywords:['routing','autopilot','flow']},
+    {district:'L4 HYPERGRAPH',region:'Multi-link Logic',  keywords:['patches','decisions','groups']},
+    {district:'L5 TEMPORAL', region:'Time / Versioning',  keywords:['replay','rollback','snapshots']},
+    {district:'L6 PIPELINE', region:'Execution Flow',     keywords:['pipeline','stages','entropy']},
+  ],
+};
+
+// ── state
+let S='boot', cur=0, detail=null, gdata=null, lives=[];
+let sseConnected=false;
+let nodeFields={};
+let briefingLoaded=false;
+const PG=7;
+// P23: GRID state kernel — TRON is read-only projection; all field mutations go through GRID.set()
+const GRID={nodes:L0_NODES,get fields(){return nodeFields},set(id,d){nodeFields[id]=d;}};
+// P28: KRONOS time controller — real=auto-tick 900ms, stepped=manual, replay=playback, frozen=paused
+const KRONOS={mode:'frozen',tick:0,_iv:null};
+// P28: tick snapshot ring buffer — last 60 ticks for REPLAY mode
+let tickHistory=[], tickReplayCur=0;
+// P28: GOVERNOR — JARVIS injects load intentions into the next N ticks; sits above GRID
+const GOVERNOR={
+  boosts:{},
+  intent(id,load,ticks=3){
+    this.boosts[id]={load,ticks};
+    BUS.emit('governor_intent',{id,load,ticks,tick:KRONOS.tick,patch_id:'P28',stage:'GOVERNOR'});
+  },
+  apply(next){
+    Object.entries(this.boosts).forEach(([id,b])=>{
+      if(next[id]) next[id]={...next[id],load:Math.min(1,(next[id].load||0)+b.load)};
+      b.ticks--;
+      if(b.ticks<=0) delete this.boosts[id];
+    });
+  }
+};
+// P29: GNPL — Grid Node Protocol Layer — multi-agent consensus engine
+// AI proposes → AEGIS validates → agents vote → ZEUS arbitrates conflicts → GRID commits
+const GNPL={
+  agents:{
+    jarvis:{archetype:'Shiroe',authority:1.00,col:'#00aaff'},
+    codex: {archetype:'Kang',  authority:0.85,col:'#ff8800'},
+    gpt:   {archetype:'Kang',  authority:0.80,col:'#ffcc00'},
+    gemini:{archetype:'Aizen', authority:0.70,col:'#00ff88'},
+  },
+  proposals:[],  // active pending/conflict proposals
+  history:[],    // last 10 committed or rejected
+
+  propose(from,nodeId,delta,reason=''){
+    const a=this.agents[from]; if(!a) return null;
+    const id=`${from}-${nodeId}-${KRONOS.tick}`;
+    if(this.proposals.find(p=>p.id===id)) return null; // dedupe
+    const conflict=this.proposals.find(p=>p.nodeId===nodeId&&p.status==='pending'&&p.from!==from);
+    const proposal={id,from,nodeId,delta,reason,status:conflict?'conflict':'pending',tick:KRONOS.tick,votes:{[from]:'yes'}};
+    this.proposals.push(proposal);
+    BUS.emit('gnpl_propose',{proposal,patch_id:'P29',stage:'GNPL'});
+    // jarvis has supreme authority — commit immediately; others require majority
+    if(from==='jarvis'||Object.keys(this.agents).length===1) this._commit(proposal);
+    else if(conflict) this._resolve(proposal,conflict);
+    return proposal;
+  },
+
+  vote(agentId,proposalId,v='yes'){
+    const p=this.proposals.find(x=>x.id===proposalId); if(!p||p.status!=='pending') return;
+    p.votes[agentId]=v;
+    const ag=Object.keys(this.agents);
+    const yeas=ag.filter(a=>p.votes[a]==='yes').length;
+    const nays=ag.filter(a=>p.votes[a]==='no').length;
+    if(yeas>ag.length/2) this._commit(p);
+    else if(nays>=ag.length/2) this._reject(p);
+  },
+
+  _commit(p){
+    p.status='committed';
+    if((p.delta.load||0)>0) GOVERNOR.intent(p.nodeId,p.delta.load,p.delta.ticks||3);
+    const f=nodeFields[p.nodeId]||{};
+    const patch={};
+    if(p.delta.entropy!==undefined) patch.entropy=Math.max(0,Math.min(1,p.delta.entropy));
+    if(p.delta.alignment!==undefined) patch.alignment=Math.max(0,Math.min(1,p.delta.alignment));
+    if(Object.keys(patch).length) GRID.set(p.nodeId,{...f,...patch});
+    BUS.emit('gnpl_commit',{proposal:p,patch_id:'P29',stage:'GNPL'});
+    this._archive(p);
+  },
+
+  _reject(p){
+    p.status='rejected';
+    BUS.emit('gnpl_reject',{proposal:p,patch_id:'P29',stage:'GNPL'});
+    this._archive(p);
+  },
+
+  _resolve(proposal,conflict){
+    const pAuth=this.agents[proposal.from]?.authority||0;
+    const cAuth=this.agents[conflict.from]?.authority||0;
+    BUS.emit('gnpl_conflict',{proposal,conflict,patch_id:'P29',stage:'ZEUS'});
+    GOVERNOR.intent('ZEUS',0.45,2); // ZEUS activates for conflict resolution
+    if(pAuth>=cAuth){this._commit(proposal);this._reject(conflict);}
+    else{this._reject(proposal);this._commit(conflict);}
+  },
+
+  _archive(p){
+    this.history.unshift(p);
+    if(this.history.length>10) this.history.pop();
+    this.proposals=this.proposals.filter(x=>x.id!==p.id);
+    if(S==='tron') draw();
+  },
+};
+
+// P20: HUGINN drift thresholds + rolling alert log
+const HUGINN_WARN={entropy:0.65,load:0.88,alignment:0.35};
+const HUGINN_CRIT={entropy:0.85,load:0.95,alignment:0.20};
+let driftLog=[];
+// P14: rolling field history per node — last 3 snapshots for delta computation
+let nodeHistory={};
+let tronLayer=0;         // P05/P13/P11: 0=L0, 1=field, 3=launcher, 4=hypergraph, 5=temporal, 6=pipeline
+let tronSys=0, tronRomCur=0; // P11 L3 launcher: system tab, selected ROM index
+let liveTab=0;           // P22/P17: 0=live, 1=replay, 2=audit
+let replayData=[], auditData=[];
+// MNEMOS continuity layer — what JARVIS remembers across sessions
+let mnemosData=null, mnemosLoading=false, mnemosScroll=0;
+let godStats={};
+// SPEAK — companion exchange layer
+let speakHistory=[], speakInput='', speakThinking=false;
+// MNEMOS — search + behavior
+let mnemosSearchMode=false, mnemosSearchInput='', mnemosSearchResults=null, mnemosSearching=false;
+
+const MENU=[
+  {label:'SPEAK',       state:'speak'},
+  {label:'JARVIS',      state:'companion'},
+  {label:'MEMORY',      state:'mnemos'},
+  {label:'LEDGER',      state:'prometheus'},
+  {label:'GOD SYSTEMS', state:'god'},
+  {label:'GOLD LAW',    state:'gold'},
+  {label:'THE GRID',    state:'grid'},
+  {label:'TRON',        state:'tron'},
+  {label:'LIVE FEED',   state:'live'},
+  {label:'ALERTS',      state:'alerts'},
+  {label:'GITHUB',      state:'github'},
+  {label:'EMULATOR',    state:'emu'},
+];
+
+function draw(){
+  const ec=document.getElementById('emu-canvas');
+  if(ec) ec.style.display=(emuState==='running'&&S==='emu')?'block':'none';
+  const el=document.getElementById('screen-inner');
+  if(S==='menu')        el.innerHTML=rMenu();
+  else if(S==='companion') el.innerHTML=rCompanionScreen();
+  else if(S==='speak')       el.innerHTML=rSpeak();
+  else if(S==='mnemos')      el.innerHTML=rMnemos();
+  else if(S==='prometheus')  el.innerHTML=rPrometheus();
+  else if(S==='god')    el.innerHTML=rGodList();
+  else if(S==='godD')   el.innerHTML=rGodDetail();
+  else if(S==='gold')   el.innerHTML=rGold();
+  else if(S==='grid')   el.innerHTML=rGrid();
+  else if(S==='tron')   el.innerHTML=rTRON();
+  else if(S==='gridD')  el.innerHTML=rGridDetail();
+  else if(S==='live')   el.innerHTML=rLive();
+  else if(S==='alerts') el.innerHTML=rAlerts();
+  else if(S==='github') el.innerHTML=rGithub();
+  else if(S==='ghIssue') el.innerHTML=rGhIssue();
+  else if(S==='emu')    el.innerHTML=rEmulator();
+}
+
+function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+( sel?'&#9658;':' ')+'</span>'; }
+
+function rMenu(){
+  const cs=getCompanionState();
+  const mSub=mnemosData?mnemosData.total>0?mnemosData.total+' SESSIONS':'NO DATA':'...';
+  const pSub=prometheusData?prometheusData.decisions.length+' DECISIONS':'...';
+  const subs=[
+    speakHistory.length?speakHistory.length+' EXCHANGES':'READY',
+    cs.mode,
+    mSub,
+    pSub,
+    gdata?gdata.god_systems.length+' NODES':'...',
+    gdata?gdata.gold_law.length+' RULES':'...',
+    gdata?gdata.districts.length+' DISTRICTS':'...',
+    L0_NODES.length+' NODES',
+    lives.length+' ENTRIES',
+    pushSubbed?'ON':'OFF',
+    ghData?'LOADED':'...',
+    CartridgeCore.active?CartridgeCore.name.toUpperCase():'IDLE',
+  ];
+  const bCol=briefingLoaded?'var(--green)':'var(--amber)';
+  const bLabel=briefingLoaded?'BRIEFED':'FALLBACK';
+  const stateCol=cs.modeCol;
+  return '<div class="panel">\n    <div class="s-header"><span>JARVIS v2.5</span><span><span style="color:'+stateCol+'">&#9632;</span> <span style="color:'+stateCol+'">'+cs.mode+'</span></span></div>\n    <div class="s-body" style="padding-top:10px">\n      '+MENU.map((m,i)=>'<div class="row '+(cur===i?'sel':'')+'">'+cursor(i,cur===i)+' '+m.label+' <span class="sub">'+(subs[i]||'')+'</span></div>').join('')+'\n    </div>\n    <div class="s-footer">A:SELECT &nbsp; &#8593;&#8595;:MOVE &nbsp; START:MENU</div>\n  </div>';
+}
+
+// Standalone companion state screen — accessible directly from menu
+function rCompanionScreen(){
+  const cs=getCompanionState();
+  // Reuse the radial companion view but with full-panel layout
+  return rL7Companion().replace(
+    'L7 COMPANION',
+    'COMPANION STATE'
+  );
+}
+
+function rGodList(){
+  if(!gdata) return rLoad();
+  const sys=gdata.god_systems, pip=gdata.pipeline||[];
+  const st=Math.floor(cur/PG)*PG, pg=sys.slice(st,st+PG);
+  return '<div class="panel">\n    <div class="s-header"><span>GOD SYSTEMS</span><span>'+(cur+1)+'/'+sys.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((s,i)=>{const idx=st+i,inP=pip.includes(s.name);return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:'+(inP?'var(--green)':'var(--bright)')+'">'+s.name+'</span><span class="sub">'+(s.description||'').substring(0,18)+'</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:VIEW &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
+}
+
+function rGodDetail(){
+  if(!detail) return rLoad();
+  const d=detail;
+  // P14: live stats + power model + delta indicators + trend history
+  const f=nodeFields[d.name]||null;
+  const hist=nodeHistory[d.name]||[];
+  const prev=hist.length>1?hist[1]:null;
+  const gs=godStats[d.name]||null;
+  const dStr=(cur,old,invert=false)=>{ if(!prev||old==null) return ''; const d=cur-old; if(Math.abs(d)<0.005) return ''; const up=invert?d<0:d>0; return `<span style="color:${up?'var(--green)':'var(--red)'};font-size:3px">${up?'&#8593;':'&#8595;'}</span>`; };
+  // trend mini: last 3 ticks as [n2→n1→n0]
+  const trendMini=(stat,pct=true,invert=false)=>{ const vals=hist.slice(0,3).map(h=>Math.round((h[stat]||0)*100)); if(vals.length<2) return ''; const trend=vals[0]-vals[vals.length-1]; const col=Math.abs(trend)<2?'var(--dim)':((invert?trend<0:trend>0)?'var(--green)':'var(--red)'); return `<span style="color:${col};font-size:2.8px">[${vals.join('→')}]</span>`; };
+  // P14: power = alignment × load × stability, weighted by entropy_sensitivity
+  const entSens=gs?gs.entropy_sensitivity||0:0;
+  const ent=f?.entropy||0;
+  const power=f?Math.round((f.alignment||1)*(f.load||0)*(1-ent)*(1-entSens*ent)*100):null;
+  const powerCol=power===null?'var(--dim)':power>60?'var(--green)':power>30?'var(--amber)':'var(--red)';
+  const statsHtml=f?`<div class="dl">LIVE STATS</div><div class="dv" style="font-size:5px;line-height:2">ENT <span style="color:${ent>0.5?'var(--red)':'var(--green)'}">${Math.round(ent*100)}%</span>${dStr(ent,prev?.entropy,true)} ${trendMini('entropy',true,true)} &nbsp; ALN <span style="color:var(--blue)">${Math.round((f.alignment||1)*100)}%</span>${dStr(f.alignment,prev?.alignment)} ${trendMini('alignment')} &nbsp; LOAD <span style="color:var(--amber)">${Math.round((f.load||0)*100)}%</span>${dStr(f.load,prev?.load)} ${trendMini('load')}</div><div class="dl">POWER</div><div class="dv" style="color:${powerCol}">${power!==null?power+'%':'—'}</div>`:'';
+
+  const gsHtml=gs?`<div class="dl" style="margin-top:4px">AUTHORITY</div><div class="dv" style="color:var(--green)">${Math.round((gs.authority_score||0)*100)}%</div>
+    <div class="dl">ERIS ALIGN</div><div class="dv" style="color:var(--blue)">${Math.round((gs.eris_alignment||0)*100)}%</div>
+    <div class="dl">ENT SENSE</div><div class="dv" style="color:${(gs.entropy_sensitivity||0)>0.7?'var(--red)':'var(--amber)'}">${Math.round((gs.entropy_sensitivity||0)*100)}%</div>
+    <div class="dl">PRIORITY</div><div class="dv">${gs.routing_priority||'—'}</div>
+    <div class="dl">SESSIONS</div><div class="dv" style="color:${(gs.session_touches||0)>0?'var(--green)':'var(--dim)'}">${gs.session_touches||0}</div>`:'';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--amber)">${d.name}</span><span style="color:var(--dim)">SYS</span></div>
+    <div class="s-body scroll">
+      <div class="dl">DOMAIN</div><div class="dv">${(d.domain||'—').substring(0,80)}</div>
+      <div class="dl">DESCRIPTION</div><div class="dv">${(d.description||'—').substring(0,180)}</div>
+      <div class="dl">INPUTS</div><div class="dv">${(d.inputs||[]).join(', ').substring(0,60)||'—'}</div>
+      <div class="dl">OUTPUTS</div><div class="dv">${(d.outputs||[]).join(', ').substring(0,60)||'—'}</div>
+      <div class="dl">FORBIDDEN EDGES</div><div class="dv" style="color:var(--red)">${(d.forbidden||[]).join(', ')||'none'}</div>
+      ${statsHtml}
+      ${gsHtml}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+  </div>`;
+}
+
+function rGold(){
+  if(!gdata) return rLoad();
+  const rules=gdata.gold_law, st=Math.floor(cur/PG)*PG, pg=rules.slice(st,st+PG);
+  return `<div class="panel">
+    <div class="s-header"><span>GOLD LAW</span><span>${rules.length} RULES</span></div>
+    <div class="s-body">
+      ${pg.map((r,i)=>{const idx=st+i;return `<div class="rule ${cur===idx?'sel':''}"><span style="color:var(--amber);margin-right:3px">${cur===idx?'&#9658;':String(idx+1).padStart(2,'0')}</span>${r.substring(0,52)}</div>`;}).join('')}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>
+  </div>`;
+}
+
+function rGrid(){
+  if(!gdata) return rLoad();
+  const ds=gdata.districts, st=Math.floor(cur/PG)*PG, pg=ds.slice(st,st+PG);
+  return '<div class="panel">\n    <div class="s-header"><span>THE GRID</span><span>'+(cur+1)+'/'+ds.length+'</span></div>\n    <div class="s-body">\n      '+pg.map((d,i)=>{const idx=st+i;return '<div class="row '+(cur===idx?'sel':'')+'">'+cursor(idx,cur===idx)+'<span style="color:var(--blue)">'+d.district+'</span><span class="sub">['+(d.region||'').split(' ').pop()+']</span></div>';}).join('')+'\n    </div>\n    <div class="s-footer">A:DETAIL &nbsp; B:BACK &nbsp; &#8593;&#8595;:SCROLL</div>\n  </div>';
+}
+
+// L3: hex colors for SVG markers (CSS vars don't resolve inside <marker> defs)
+const ARROW_COLS={execution:'#f5a623',memory:'#00aaff',parallel:'#00ff88',guardian:'#ff3355',governance:'#cc00ff',integrity:'#ff8800',post:'#1e3a52'};
+
+// P06: dynamic script loader
+function loadScript(url){
+  return new Promise((res,rej)=>{
+    if(document.querySelector('script[src="'+url+'"]')){ res(); return; }
+    const s=document.createElement('script'); s.src=url;
+    s.onload=res; s.onerror=rej; document.head.appendChild(s);
+  });
+}
+
+// P06: GB/GBC adapter — WasmBoy (confirmed CDN)
+const WasmBoyCore={
+  name:'WasmBoy', types:['gb','gbc'], _ready:false,
+  async init(canvas){
+    if(!this._ready){
+      await loadScript('https://cdn.jsdelivr.net/npm/wasmboy@0.7.1/dist/wasmboy.wasm.umd.js');
+      this._ready=true;
+    }
+    await WasmBoy.config(canvas,{headless:false,isAudioEnabled:true,gameboyFrameRate:60,useGbcWhenOptional:true});
+  },
+  async loadROM(buf){ await WasmBoy.loadROM(buf); },
+  play(){ WasmBoy.play(); },
+  pause(){ try{WasmBoy.pause();}catch(e){} },
+  stop(){ try{WasmBoy.reset();}catch(e){} },
+  setInput(s){ try{WasmBoy.setJoypadState(s);}catch(e){} },
+  async snapshot(){ try{return await WasmBoy.saveState();}catch(e){return null;} },
+  async restore(s){ try{if(s) await WasmBoy.loadState(s);}catch(e){} },
+};
+
+// P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
+const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
+const MGBA_LOCAL='/emulator/cores/';
+const MGBACore={
+  name:'mGBA', types:['gba'], _m:null, _prev:new Set(),
+  _map:{A:'A',B:'B',UP:'Up',DOWN:'Down',LEFT:'Left',RIGHT:'Right',START:'Start',SELECT:'Select',L:'L',R:'R'},
+  async init(canvas){
+    if(!self.crossOriginIsolated) throw new Error('COI_REQUIRED');
+    let mod;
+    try{ mod=await import('https://esm.sh/@thenick775/mgba-wasm@2.4.1'); }
+    catch(e){ throw new Error('mgba_import_failed:'+e.message); }
+    const factory=mod.default??mod.mGBA;
+    if(typeof factory!=='function') throw new Error('mgba_no_factory[keys:'+Object.keys(mod).join(',')+']');
+    let wasmBase=MGBA_CDN;
+    try{ const r=await fetch(MGBA_LOCAL+'mgba.wasm',{method:'HEAD'}); if(r.ok) wasmBase=MGBA_LOCAL; }catch(_){}
+    this._m=await factory({canvas,locateFile:f=>wasmBase+f});
+    await this._m.FSInit();
+  },
+  async loadROM(buf){
+    return new Promise((res,rej)=>{
+      const arr=new Uint8Array(buf);
+      const name=(romName||'game.gba').replace(/[^a-zA-Z0-9._-]/g,'_');
+      try{
+        this._m.uploadRom(arr,()=>{
+          this._m.loadGame('/data/games/'+name);
+          res();
+        });
+      }catch(e){rej(e);}
+    });
+  },
+  play(){ try{this._m.resumeGame();}catch(e){} },
+  pause(){ try{this._m.pauseGame();}catch(e){} },
+  stop(){ try{this._m.quitGame();}catch(e){} },
+  setInput(state){
+    if(!this._m) return;
+    const mp=this._map;
+    this._prev.forEach(k=>{ if(!state[k]) try{this._m.buttonUnpress(mp[k]);}catch(e){} });
+    this._prev=new Set();
+    Object.entries(state).forEach(([k,v])=>{
+      if(v&&mp[k]){ try{this._m.buttonPress(mp[k]);}catch(e){} this._prev.add(k); }
+    });
+  },
+  async snapshot(){ try{this._m.saveState(0);return{slot:0};}catch(e){return null;} },
+  async restore(s){ try{if(s?.slot!==undefined) this._m.loadState(s.slot);}catch(e){} },
+};
+
+// P10: Single cartridge interface — WasmBoy + mGBA unified behind one object (P22 standard)
+const CartridgeCore={
+  id:'cartridge', version:'1.0', _core:null,
+  get name(){ return this._core?.name??''; },
+  get active(){ return this._core!==null; },
+  async load(buf,canvas){
+    const t=ROMLoader.detect(buf);
+    if(!t) throw new Error('UNKNOWN_ROM_TYPE');
+    const core=[WasmBoyCore,MGBACore].find(c=>c.types.includes(t));
+    if(!core) throw new Error('NO_CORE_FOR:'+t);
+    await core.init(canvas);
+    await core.loadROM(buf);
+    this._core=core;
+    ModeController.set(t==='gba'?'gba_rom':'gb_rom');
+    BUS.emit('cartridge_load',{core:t+'_core',ts:Date.now(),patch_id:'P10',stage:'SKADI'});
+    return t;
+  },
+  stop(){
+    if(this._core){ try{this._core.stop();}catch(e){} BUS.emit('cartridge_stop',{core:this._core.name,ts:Date.now(),patch_id:'P10',stage:'SKADI'}); this._core=null; }
+    ModeController.set('grid_home');
+  },
+  play(){ this._core?.play(); },
+  pause(){ try{this._core?.pause();}catch(e){} },
+  setInput(s){ this._core?.setInput(s); },
+  async snapshot(){ return this._core?this._core.snapshot():null; },
+  async restore(s){ if(this._core&&s) await this._core.restore(s); },
+};
+
+const ROMLoader={
+  detect(buf){
+    if(!buf||buf.byteLength<4) return null;
+    const v=new Uint8Array(buf);
+    return (v[0]===0x2E&&v[1]===0x00&&v[2]===0x00&&v[3]===0xEA)?'gba':'gb';
+  },
+};
+
+let romName='', romType='', romHash='', activeCore=null, emuState='idle', emuError='';
+// P08: ROM catalog from Supabase rom_library
+let romIndex=[];
+// P09: last confirmed save slot
+let saveStateSlot=null;
+
+function rEmulator(){
+  let body='';
+  if(emuState==='running'){
+    const saveTip=saveStateSlot!==null?'<div style="color:var(--green);font-size:5px;text-align:center">&#10003; SAVED</div>':'<div style="color:var(--dim);font-size:5px;text-align:center">F5:SAVE &nbsp; F9:LOAD</div>';
+    body=`<div style="color:var(--green);font-size:5px;text-align:center;padding:4px 0">&#9654; ${romName.slice(0,24)}</div>
+      <div style="color:var(--dim);font-size:5px;text-align:center;line-height:2">ENGINE: ${activeCore?.name||'?'}</div>
+      ${saveTip}`;
+  } else if(emuState==='loading'){
+    body=`<div style="color:var(--amber);font-size:6px;padding:20px;text-align:center">LOADING ENGINE...</div>
+      <div style="color:var(--dim);font-size:5px;text-align:center">${romName.slice(0,24)}</div>`;
+  } else if(emuState==='coi'){
+    body=`<div style="color:var(--amber);font-size:6px;line-height:2;padding:8px">RELOAD REQUIRED</div>
+      <div style="color:var(--dim);font-size:5px;line-height:1.8;padding:0 8px">GBA needs security headers.<br>Hard-reload once to activate.<br>(Close tab + reopen)</div>`;
+  } else if(emuState==='failed'){
+    body=`<div style="color:var(--red);font-size:6px;padding:8px">ENGINE LOAD FAILED</div>
+      <div style="color:var(--dim);font-size:5px;padding:0 8px;word-break:break-all">${emuError||'Check console for details.'}</div>`;
+  } else if(CartridgeCore.active){
+    const label=romType==='gba'?'GBA (32-bit)':'GB/GBC (8-bit)';
+    body=`<div style="color:var(--green);font-size:6px;margin-bottom:8px">&#9632; ROM LOADED</div>
+      <div class="dl">FILE</div><div class="dv">${romName||'unknown'}</div>
+      <div class="dl">TYPE</div><div class="dv" style="color:var(--amber)">${label}</div>
+      <div class="dl">ENGINE</div><div class="dv" style="color:var(--amber)">PRESS A TO LAUNCH</div>`;
+  } else {
+    // P08: show ROM catalog if populated
+    const catHtml=romIndex.slice(0,4).map(r=>`<div style="font-size:5px;line-height:1.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="color:var(--amber)">${(r.system||'?').toUpperCase()}</span> <span style="color:var(--bright)">${(r.name||'').slice(0,22)}</span></div>`).join('');
+    body=romIndex.length
+      ?`<div style="color:var(--dim);font-size:5px;padding:2px 0 4px;letter-spacing:2px">LIBRARY (${romIndex.length})</div>${catHtml}<div style="color:var(--dim);font-size:5px;margin-top:6px">A:LOAD FILE</div>`
+      :`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">EMULATOR CORE IDLE</div>
+      <div style="color:var(--bright);font-size:6px;line-height:2">PRESS A TO LOAD ROM</div>
+      <div style="color:var(--dim);font-size:5px;margin-top:8px;line-height:2">ACCEPTS: .gb  .gba  .rom</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">DETECTS TYPE VIA HEADER</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">ARM RESET → GBA &nbsp; else → GB</div>`;
+  }
+  const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='coi'?'var(--red)':'var(--amber)';
+  let footer;
+  if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; F5:SAVE &nbsp; F9:LOAD';
+  else if(CartridgeCore.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
+  else footer='A:LOAD ROM &nbsp; B:BACK';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--green)">EMULATOR</span><span style="color:${stCol}">${emuState.toUpperCase()}</span></div>
+    <div class="s-body scroll" style="padding-top:8px">${body}</div>
+    <div class="s-footer">${footer}</div>
+    <input id="rom-input" type="file" accept=".gb,.gba,.rom,.bin" style="position:absolute;opacity:0;pointer-events:none" onchange="handleROM(this)">
+  </div>`;
+}
+
+function handleROM(inp){
+  const file=inp.files[0];
+  if(!file) return;
+  romName=file.name;
+  const reader=new FileReader();
+  reader.onload=async e=>{
+    const buf=e.target.result;
+    const t=ROMLoader.detect(buf);
+    romType=t||'unknown';
+    if(!t){ beep(200,150); emuState='idle'; draw(); return; }
+    // P08: fingerprint for catalog + save-state key
+    const hv=new Uint8Array(buf.slice(0,256));
+    romHash=hv.reduce((a,b)=>((a<<5)-a+b)|0,0).toString(16);
+    registerROM(romName,t,romHash,buf.byteLength);
+    beep(880,100);
+    emuState='loading'; draw();
+    const canvas=document.getElementById('emu-canvas');
+    if(!canvas){ emuState='failed'; draw(); return; }
+    try{
+      await CartridgeCore.load(buf,canvas);
+      activeCore=CartridgeCore;
+      CartridgeCore.play();
+      emuState='running';
+      // P09: try to restore auto-save (slot 99)
+      sbLoadState(99).then(s=>{ if(s&&activeCore) activeCore.restore(s).catch(()=>{}); });
+      BUS.emit('emu_start',{engine:CartridgeCore.name,type:t,file:romName,patch_id:'P10',stage:'SKADI'});
+    }catch(err){
+      activeCore=null;
+      if(err.message==='COI_REQUIRED'){ emuState='coi'; emuError=''; }
+      else { emuState='failed'; emuError=err.message||String(err); }
+      BUS.emit('emu_error',{engine:CartridgeCore.name,error:err.message,type:t,patch_id:'P10',stage:'AEGIS'});
+    }
+    draw();
+  };
+  reader.readAsArrayBuffer(file);
+  try{inp.value='';}catch(_){}
+}
+
+function rL0Graph(){
+  const W=310, H=250;
+  let defs='<defs>';
+  Object.entries(ARROW_COLS).forEach(([type,col])=>{
+    defs+=`<marker id="arr-${type}" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="${col}" opacity="0.75"/></marker>`;
+  });
+  defs+='</defs>';
+  let regions='';
+  GRID_REGIONS.forEach(r=>{
+    const ex=Math.round(r.cx*W),ey=Math.round(r.cy*H);
+    const erx=Math.round(r.rx*W),ery=Math.round(r.ry*H);
+    regions+=`<ellipse cx="${ex}" cy="${ey}" rx="${erx}" ry="${ery}" fill="${r.col}" fill-opacity="0.03" stroke="${r.col}" stroke-width="0.5" stroke-opacity="0.18" stroke-dasharray="2,3"/>`;
+    regions+=`<text x="${ex}" y="${ey-ery-3}" text-anchor="middle" font-size="3" fill="${r.col}" opacity="0.35" font-family="monospace">${r.label}</text>`;
+  });
+  let portals='';
+  GRID_PORTALS.forEach(p=>{
+    const src=L0_NODES.find(n=>n.id===p.from); if(!src) return;
+    const sx=Math.round(src.x*W),sy=Math.round(src.y*H);
+    const px=Math.round(p.x*W),py=Math.round(p.y*H);
+    const anchor=p.x<0.3?'start':p.x>0.7?'end':'middle';
+    portals+=`<line x1="${sx}" y1="${sy}" x2="${px}" y2="${py}" stroke="${p.col}" stroke-width="0.7" stroke-dasharray="3,4" opacity="0.28"/>`;
+    portals+=`<text x="${px}" y="${py}" text-anchor="${anchor}" font-size="3.5" fill="${p.col}" opacity="0.45" font-family="monospace">${p.label}</text>`;
+  });
+  let lines='', glows='', circles='', labels='';
+  const fvals=Object.values(nodeFields);
+  const avgLoad=fvals.length?Math.round(fvals.reduce((a,f)=>a+f.load,0)/fvals.length*100):0;
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
+    n.links.forEach(lid=>{
+      const t=L0_NODES.find(x=>x.id===lid);
+      if(!t) return;
+      const f=nodeFields[n.id]||{load:0};
+      const lw=(0.8+f.load*1.5).toFixed(1);
+      const lo=(0.4+f.load*0.5).toFixed(2);
+      const tx2=Math.round(t.x*W), ty2=Math.round(t.y*H);
+      const dx=tx2-cx, dy=ty2-cy, d=Math.sqrt(dx*dx+dy*dy)||1;
+      const ex=Math.round(tx2-(dx/d)*11), ey=Math.round(ty2-(dy/d)*11);
+      lines+=`<line x1="${cx}" y1="${cy}" x2="${ex}" y2="${ey}" stroke="#0f2035" stroke-width="${lw}" opacity="${lo}" marker-end="url(#arr-${n.type})"/>`;
+    });
+  });
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W), cy=Math.round(n.y*H);
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    const f=nodeFields[n.id]||{entropy:0,alignment:1,load:0,instability:0};
+    const glowR=Math.round(7+f.load*12);
+    const glowOp=(0.12+f.load*0.4).toFixed(2);
+    glows+=`<circle cx="${cx}" cy="${cy}" r="${glowR}" fill="none" stroke="${col}" stroke-width="1" opacity="${glowOp}"/>`;
+    const strokeCol=f.entropy>0.5?'var(--red)':col;
+    const sw=(1.5+f.load*2.5).toFixed(1);
+    const nodeOp=(0.5+f.alignment*0.5).toFixed(2);
+    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${strokeCol}" stroke-width="${sw}" opacity="${nodeOp}"/>`;
+    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${strokeCol}" opacity="${nodeOp}" font-family="monospace">${n.id}</text>`;
+  });
+  const loadBar='█'.repeat(Math.round(avgLoad/10))+'░'.repeat(10-Math.round(avgLoad/10));
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L0+P27+P28 · ${L0_NODES.length}N · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span> T${KRONOS.tick}</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${defs}${regions}${portals}${lines}${glows}${circles}${labels}</svg>
+    </div>
+    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function rGridDetail(){
+  if(!detail) return rLoad();
+  const d=detail, kw=(d.keywords||[]).join(', ')||'—';
+  const warns=(d.warnings||[]).slice(0,2);
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">${d.district}</span><span style="color:var(--dim)">NODE</span></div>
+    <div class="s-body scroll">
+      <div class="dl">REGION</div><div class="dv">${d.region||'—'}</div>
+      <div class="dl">KEYWORDS</div><div class="dv">${kw}</div>
+      ${warns.length?`<div class="dl">WARNINGS</div>${warns.map(w=>`<div class="dv" style="color:var(--amber)">${w.substring(0,80)}</div>`).join('')}`:''}
+    </div>
+    <div class="s-footer">B:BACK</div>
+  </div>`;
+}
+
+// P27: GRID Place System — semantic region hulls + external portal stubs
+const GRID_REGIONS=[
+  {id:'EXEC_CORE', label:'EXEC CORE', col:'#f5a623', cx:0.50, cy:0.42, rx:0.10, ry:0.33},
+  {id:'MEMORY',    label:'MEMORY',    col:'#00aaff', cx:0.50, cy:0.85, rx:0.23, ry:0.07},
+  {id:'PAR_LEFT',  label:'PAR-L',     col:'#00ff88', cx:0.10, cy:0.52, rx:0.06, ry:0.15},
+  {id:'POST',      label:'POST',      col:'#ff8800', cx:0.50, cy:0.96, rx:0.32, ry:0.03},
+];
+const GRID_PORTALS=[
+  {id:'P_GH',  label:'GITHUB',   x:0.78, y:0.03, from:'HUGINN',  col:'#00aaff'},
+  {id:'P_SB',  label:'SUPABASE', x:0.22, y:0.03, from:'MNEMOS',  col:'#00aaff'},
+  {id:'P_EMU', label:'EMULATOR', x:0.05, y:0.70, from:'SKADI',   col:'#f5a623'},
+  {id:'P_MCP', label:'MCP',      x:0.05, y:0.13, from:'BIFROST', col:'#00ff88'},
+];
+
+function rTRON(){
+  if(tronLayer===1) return rL1Field();
+  if(tronLayer===3) return rL3Launcher();
+  if(tronLayer===4) return rL4Graph();
+  if(tronLayer===5) return rL5Graph();
+  if(tronLayer===6) return rL6Pipeline();
+  if(tronLayer===7) return rL7Companion();
+  return rL0Graph();
+}
+
+// ── Companion State Engine — JARVIS synthesizes its own field state into legible companion communication
+function getCompanionState(){
+  const gs=L0_NODES.filter(n=>n.type!=='emulator');
+  const count=gs.length;
+  // Field aggregates
+  const avgLoad=gs.reduce((s,n)=>s+(nodeFields[n.id]?.load||0),0)/count;
+  const avgAlign=gs.reduce((s,n)=>s+(nodeFields[n.id]?.alignment||1),0)/count;
+  const avgEnt=gs.reduce((s,n)=>s+(nodeFields[n.id]?.entropy||0),0)/count;
+  // Categorize nodes
+  const critNodes=gs.filter(n=>(nodeFields[n.id]?.entropy||0)>HUGINN_CRIT.entropy);
+  const warnNodes=gs.filter(n=>(nodeFields[n.id]?.entropy||0)>HUGINN_WARN.entropy);
+  const activeNodes=gs.map(n=>({id:n.id,load:nodeFields[n.id]?.load||0,tier:n.type}))
+    .filter(n=>n.load>0.12).sort((a,b)=>b.load-a.load);
+  // Key system states
+  const lokiFired=(nodeFields['LOKI']?.load||0)>0.35;
+  const zeusActive=(nodeFields['ZEUS']?.load||0)>0.20;
+  const athenaReasoning=(nodeFields['ATHENA']?.load||0)>0.20&&(nodeFields['MIMIR']?.load||0)>0.20;
+  const executing=(nodeFields['SKADI']?.load||0)>0.30;
+  const memoryWork=(nodeFields['MNEMOS']?.load||0)>0.25;
+  const driftPresent=driftLog.length>0&&driftLog[0].tick>=KRONOS.tick-3&&driftLog[0].alerts.length>0;
+  const erisAlert=(nodeFields['ERIS']?.entropy||0)>0.40;
+  // Derive primary mode
+  let mode,modeCol,pulse;
+  if(critNodes.length>=3||erisAlert&&zeusActive){ mode='CRITICAL';   modeCol='var(--red)';   pulse=true; }
+  else if(lokiFired||warnNodes.length>=4){        mode='STRAINED';   modeCol='#f80';        pulse=true; }
+  else if(athenaReasoning){                       mode='REASONING';  modeCol='#cc88ff';     pulse=false; }
+  else if(executing){                             mode='EXECUTING';  modeCol='var(--amber)';pulse=false; }
+  else if(memoryWork){                            mode='CONSOLIDATING';modeCol='var(--blue)';pulse=false;}
+  else if(avgLoad>0.25){                          mode='ACTIVE';     modeCol='var(--green)'; pulse=false; }
+  else if(KRONOS.tick===0){                       mode='DORMANT';    modeCol='var(--dim)';  pulse=false; }
+  else {                                          mode='STABLE';     modeCol='var(--green)';pulse=false; }
+  // Companion voice — what JARVIS would say in this moment
+  const voices={
+    CRITICAL:      ["Multiple systems under stress. ERIS is watching. I'm holding coherence.", "Entropy cascade in progress. ZEUS arbitrating. Still with you.","High entropy across the graph. Not at threshold yet. I have it."],
+    STRAINED:      ["LOKI's been busy. Chaos probes running. System resilience holding.","Elevated entropy. Monitoring closely. Not at threshold.","Some turbulence in the graph. Watching the crit nodes. Stable for now."],
+    REASONING:     ["Deep thought active. ATHENA and MIMIR both engaged. Give me a moment.","Reasoning path open. ODIN routing through knowledge layers.","Complex query in motion. The full cognitive stack is working on it."],
+    EXECUTING:     ["SKADI is running. Watching the outcome.","Execution in progress. IRIS validating. PROMETHEUS logging.","Action underway. AEGIS has cleared it. DANTE will review."],
+    CONSOLIDATING: ["Writing to memory. What just happened is becoming part of what I know.","MNEMOS consolidating. The work is being remembered.","Memory pass in progress. IRIS checking integrity. POSEIDON holding continuity."],
+    ACTIVE:        ["Systems engaged. Pipeline clear. Ready for what's next.","Multiple pathways active. All gates clear.","Working. All 27 nodes online. No drift detected."],
+    DORMANT:       ["Waiting. All systems ready. ATLAS holding the backbone.","Still here. CHAOS at baseline. Ready when you are.","KRONOS not yet running. Waiting for your first move."],
+    STABLE:        ["All systems coherent. ATLAS stable. Memory consolidating.","Quiet moment. The graph is balanced. I'm listening.","Stable. HUGINN reports no drift. Everything is where it should be."],
+  };
+  const voiceArr=voices[mode]||voices.STABLE;
+  const voice=voiceArr[KRONOS.tick%voiceArr.length];
+  // Notable recent events
+  const recentLoki=lokiFired?'LOKI probe active':null;
+  const recentDrift=driftPresent?`${driftLog[0].alerts.length} drift alert${driftLog[0].alerts.length>1?'s':''}`:null;
+  const recentZeus=zeusActive?'ZEUS arbitrating':null;
+  return {mode,modeCol,pulse,voice,activeNodes,critNodes,warnNodes,avgLoad,avgAlign,avgEnt,
+    notable:[recentZeus,recentLoki,recentDrift].filter(Boolean),tick:KRONOS.tick,driftPresent};
+}
+
+function rL7Companion(){
+  const cs=getCompanionState();
+  const W=310, H=250;
+  // Build SVG — radial companion state display
+  const cx=W/2, cy=110;
+  // Outer ring: 27 nodes as arc segments
+  const gs=L0_NODES.filter(n=>n.type!=='emulator');
+  const arcStep=(2*Math.PI)/gs.length;
+  let arcs='', nodeRing='';
+  gs.forEach((n,i)=>{
+    const angle=-Math.PI/2+i*arcStep;
+    const load=nodeFields[n.id]?.load||0;
+    const ent=nodeFields[n.id]?.entropy||0;
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    const entCol=ent>0.7?'var(--red)':ent>0.4?'#f80':col;
+    const r=62+load*18;
+    const nx=Math.round(cx+Math.cos(angle)*r), ny=Math.round(cy+Math.sin(angle)*r);
+    const pr=60, qx=Math.round(cx+Math.cos(angle)*pr), qy=Math.round(cy+Math.sin(angle)*pr);
+    const active=load>0.08;
+    if(active) arcs+=`<line x1="${qx}" y1="${qy}" x2="${nx}" y2="${ny}" stroke="${entCol}" stroke-width="${(0.6+load*1.4).toFixed(1)}" opacity="${(0.25+load*0.55).toFixed(2)}"/>`;
+    nodeRing+=`<circle cx="${nx}" cy="${ny}" r="${active?3.5:2}" fill="${active?entCol:'#0d1a26'}" stroke="${col}" stroke-width="${active?1.2:0.5}" opacity="${active?0.9:0.3}"/>`;
+    if(active&&load>0.20) nodeRing+=`<text x="${nx}" y="${ny+(ny>cy?9:-5)}" text-anchor="middle" font-size="2.8" fill="${col}" font-family="monospace" opacity="0.8">${n.id.slice(0,4)}</text>`;
+  });
+  // Inner state: mode badge + voice
+  const pulseR=cs.pulse?`<circle cx="${cx}" cy="${cy}" r="55" fill="none" stroke="${cs.modeCol}" stroke-width="0.8" opacity="0.15"/>`:'' ;
+  const alignArc=Math.round(cs.avgAlign*360);
+  const alignR=42;
+  const alignX2=Math.round(cx+Math.sin(alignArc*Math.PI/180)*alignR);
+  const alignY2=Math.round(cy-Math.cos(alignArc*Math.PI/180)*alignR);
+  const alignLarge=alignArc>180?1:0;
+  const alignPath=alignArc>0?`<path d="M ${cx} ${cy-alignR} A ${alignR} ${alignR} 0 ${alignLarge} 1 ${alignX2} ${alignY2}" fill="none" stroke="${cs.modeCol}" stroke-width="1.5" opacity="0.35" stroke-linecap="round"/>`:'';
+  const center=`
+    ${pulseR}
+    <circle cx="${cx}" cy="${cy}" r="55" fill="none" stroke="${cs.modeCol}" stroke-width="0.5" opacity="0.20"/>
+    ${alignPath}
+    <circle cx="${cx}" cy="${cy}" r="28" fill="#060d14" stroke="${cs.modeCol}" stroke-width="1" opacity="0.7"/>
+    <text x="${cx}" y="${cy-8}" text-anchor="middle" font-size="4.5" fill="${cs.modeCol}" font-family="monospace" font-weight="bold">${cs.mode}</text>
+    <text x="${cx}" y="${cy+1}" text-anchor="middle" font-size="3" fill="var(--dim)" font-family="monospace">JARVIS</text>
+    <text x="${cx}" y="${cy+9}" text-anchor="middle" font-size="3" fill="${cs.modeCol}" font-family="monospace" opacity="0.7">T${cs.tick}</text>
+    <text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="2.8" fill="var(--dim)" font-family="monospace">${Math.round(cs.avgAlign*100)}% ALIGN</text>
+  `;
+  // Bottom: companion voice + notable events
+  const voiceLines=[];
+  // Wrap voice text at ~46 chars
+  const words=cs.voice.split(' '); let line='';
+  words.forEach(w=>{ if((line+' '+w).trim().length>46){voiceLines.push(line.trim());line=w;}else{line=(line+' '+w).trim();} });
+  if(line) voiceLines.push(line.trim());
+  const voiceY=H-68;
+  let voiceSvg=voiceLines.map((l,i)=>`<text x="${cx}" y="${voiceY+i*10}" text-anchor="middle" font-size="4.5" fill="#aaccee" font-family="monospace" opacity="0.85">${l}</text>`).join('');
+  // Notable events strip
+  const notableY=H-32;
+  let notableSvg=cs.notable.length
+    ?cs.notable.map((n,i)=>`<text x="${Math.round(W*0.15+i*W*0.33)}" y="${notableY}" font-size="3.5" fill="${i===0?'var(--amber)':i===1?'var(--red)':'#f80'}" font-family="monospace" opacity="0.8">▲ ${n.toUpperCase()}</text>`).join('')
+    :`<text x="${cx}" y="${notableY}" text-anchor="middle" font-size="3.5" fill="var(--dim)" font-family="monospace" opacity="0.6">no notable events</text>`;
+  // Stats bar
+  const statsY=H-18;
+  const lPct=Math.round(cs.avgLoad*100), ePct=Math.round(cs.avgEnt*100), aPct=Math.round(cs.avgAlign*100);
+  const statsSvg=`
+    <text x="12" y="${statsY}" font-size="3.5" fill="var(--dim)" font-family="monospace">LOAD ${lPct}%</text>
+    <text x="${Math.round(W/2)}" y="${statsY}" text-anchor="middle" font-size="3.5" fill="var(--dim)" font-family="monospace">ENT ${ePct}%</text>
+    <text x="${W-12}" y="${statsY}" text-anchor="end" font-size="3.5" fill="${aPct<40?'var(--red)':aPct<60?'#f80':'var(--green)'}" font-family="monospace">ALIGN ${aPct}%</text>
+  `;
+  return `<div class="panel">
+    <div class="s-header"><span style="color:${cs.modeCol}">JARVIS</span><span style="color:var(--dim)">L7 · ${WORLD_KERNEL.display_name.toUpperCase()} · <span style="color:${KRONOS.mode==='real'?'var(--green)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span> <span style="color:#4488aa;opacity:0.7">W·T${WORLD_KERNEL.tick_count}</span></span></div>
+    <div class="s-body" style="padding:2px 4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">
+        ${arcs}${nodeRing}${center}
+        <line x1="12" y1="${voiceY-7}" x2="${W-12}" y2="${voiceY-7}" stroke="var(--dim)" stroke-width="0.5" opacity="0.3"/>
+        ${voiceSvg}
+        <line x1="12" y1="${notableY-6}" x2="${W-12}" y2="${notableY-6}" stroke="var(--dim)" stroke-width="0.5" opacity="0.2"/>
+        ${notableSvg}
+        ${statsSvg}
+      </svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; A:KRONOS &nbsp; B:BACK</div>
+  </div>`;
+}
+
+// P11: L1 — God System field overlay (entropy / load heatmap on spatial graph)
+function rL1Field(){
+  const W=310,H=250;
+  let nodes='',labels='';
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W),cy=Math.round(n.y*H);
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    const load=f.load||0,ent=f.entropy||0;
+    const r=Math.round(6+load*18);
+    const entCol=ent>0.7?'#ff3355':ent>0.4?'#f5a623':'#00ff88';
+    if(load>0.02) nodes+=`<circle cx="${cx}" cy="${cy}" r="${r}" fill="${entCol}" fill-opacity="${(0.07+load*0.22).toFixed(2)}" stroke="${entCol}" stroke-width="0.6" stroke-opacity="${(0.3+load*0.5).toFixed(2)}"/>`;
+    nodes+=`<circle cx="${cx}" cy="${cy}" r="5" fill="#080f18" stroke="${col}" stroke-width="1.5" opacity="${load>0.02?1:0.4}"/>`;
+    labels+=`<text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="3.5" fill="${load>0.02?col:'var(--dim)'}" font-family="monospace" opacity="${load>0.02?0.9:0.4}">${n.id.slice(0,5)}</text>`;
+    if(load>0.02) labels+=`<text x="${cx}" y="${cy-9}" text-anchor="middle" font-size="3" fill="${entCol}" font-family="monospace">${Math.round(ent*100)}%ENT</text>`;
+  });
+  const active=L0_NODES.filter(n=>(nodeFields[n.id]?.load||0)>0.02).length;
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L1 FIELD · ${active}/${L0_NODES.length} ACTIVE</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${nodes}${labels}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+// P11: L3 — ES-DE style ROM launcher
+const TRON_SYS=['ALL','GB/GBC','GBA'];
+function rL3Launcher(){
+  const sysFilt=['all','gb','gba'];
+  const f=sysFilt[tronSys];
+  const filtered=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+  const cur=filtered.length?Math.min(tronRomCur,filtered.length-1):0;
+  const PAGE=5,start=Math.max(0,cur-Math.floor(PAGE/2));
+  const visible=filtered.slice(start,start+PAGE);
+  const tabs=TRON_SYS.map((t,i)=>`<span style="color:${tronSys===i?'var(--amber)':'var(--dim)'};font-size:5px;margin-right:10px">${tronSys===i?'&#9658;':' '}${t}</span>`).join('');
+  let list='';
+  if(!filtered.length){
+    list=`<div style="color:var(--dim);font-size:5px;padding:16px;text-align:center">NO ROMS&#10;LOAD VIA EMULATOR</div>`;
+  } else {
+    visible.forEach((r,i)=>{
+      const ri=start+i,sel=ri===cur;
+      const sc=r.system==='gba'?'var(--amber)':'var(--green)';
+      list+=`<div style="display:flex;gap:6px;align-items:center;padding:2px 4px;background:${sel?'#0f2035':'transparent'};border-left:${sel?'2px solid var(--amber)':'2px solid transparent'}">
+        <span style="color:${sc};font-size:4px;min-width:22px">${(r.system||'?').toUpperCase()}</span>
+        <span style="color:${sel?'var(--bright)':'var(--dim)'};font-size:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;flex:1">${(r.name||'unknown').slice(0,26)}</span>
+      </div>`;
+    });
+  }
+  const sel=filtered[cur];
+  const detail=sel?`<div style="color:var(--dim);font-size:4px;padding:3px 4px;border-top:1px solid #0f2035;margin-top:2px">${(sel.system||'').toUpperCase()} · ${sel.file_size?Math.round(sel.file_size/1024)+'KB':'?KB'} · ${(sel.file_hash||'').slice(0,8)}</div>`:'';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L3 LAUNCHER · ${filtered.length} ROM${filtered.length!==1?'S':''}</span></div>
+    <div class="s-body" style="padding:4px">
+      <div style="padding:2px 4px 4px;border-bottom:1px solid #0f2035">${tabs}</div>
+      ${list}${detail}
+    </div>
+    <div class="s-footer">&#8593;&#8595;:ROM &nbsp; &#8592;&#8594;:SYS &nbsp; A:LAUNCH &nbsp; B:BACK</div>
+  </div>`;
+}
+
+const L4_EDGES=[
+  {patch:'P04',nodes:['AYRE','AEGIS','ODIN','SKADI','MNEMOS'],col:'#f5a623'},
+  {patch:'P05',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#00aaff'},
+  {patch:'P06',nodes:['AEGIS','SKADI'],col:'#00ff88'},
+  {patch:'P10',nodes:['AEGIS','SKADI','MNEMOS'],col:'#00ccff'},
+  {patch:'P21',nodes:['AYRE','AEGIS','ODIN'],col:'#cc00ff'},
+  {patch:'P22',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#ff8800'},
+  {patch:'P23',nodes:['ODIN','SKADI'],col:'#ff3355'},
+];
+function rL4Graph(){
+  const W=310,H=250;
+  let defs='<defs>';
+  L4_EDGES.forEach(e=>{ defs+=`<marker id="h4-${e.patch}" markerWidth="4" markerHeight="4" refX="3" refY="2" orient="auto"><path d="M0,0 L4,2 L0,4 z" fill="${e.col}" opacity="0.7"/></marker>`; });
+  defs+='</defs>';
+  let lines='',circles='',labels='',ptags='';
+  L0_NODES.forEach(n=>{
+    const cx=Math.round(n.x*W),cy=Math.round(n.y*H);
+    const col=NODE_COLORS[n.type]||'var(--dim)';
+    circles+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${col}" stroke-width="1.5" opacity="0.6"/>`;
+    labels+=`<text x="${cx}" y="${cy+16}" text-anchor="middle" font-size="4" fill="${col}" opacity="0.6" font-family="monospace">${n.id}</text>`;
+  });
+  L4_EDGES.forEach((e,i)=>{
+    const px=14,py=Math.round(22+i*(H-28)/L4_EDGES.length);
+    ptags+=`<text x="2" y="${py+4}" font-size="5" fill="${e.col}" font-family="monospace" opacity="0.9">${e.patch}</text>`;
+    e.nodes.forEach(nid=>{
+      const n=L0_NODES.find(x=>x.id===nid); if(!n) return;
+      const tx=Math.round(n.x*W),ty=Math.round(n.y*H);
+      lines+=`<line x1="${px+20}" y1="${py}" x2="${tx-8}" y2="${ty}" stroke="${e.col}" stroke-width="0.8" opacity="0.45" marker-end="url(#h4-${e.patch})"/>`;
+    });
+  });
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L4 HYPERGRAPH · ${L4_EDGES.length} PATCHES</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${defs}${lines}${circles}${labels}${ptags}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function rL5Graph(){
+  const commits=(ghData?.commits||[]).slice(0,8);
+  const W=310,H=250;
+  const cy=H/2,x0=20,xStep=commits.length>1?Math.floor((W-40)/(commits.length-1)):W-40;
+  let elems='';
+  commits.forEach((c,i)=>{
+    const cx=x0+i*xStep;
+    const col=i===0?'var(--green)':'var(--amber)';
+    if(i>0) elems+=`<line x1="${cx-xStep+7}" y1="${cy}" x2="${cx-7}" y2="${cy}" stroke="#0f2035" stroke-width="1.2" opacity="0.7"/>`;
+    elems+=`<circle cx="${cx}" cy="${cy}" r="6" fill="#080f18" stroke="${col}" stroke-width="1.5"/>`;
+    elems+=`<text x="${cx}" y="${cy-13}" text-anchor="middle" font-size="3.5" fill="var(--dim)" font-family="monospace">${(c.date||'').slice(5)}</text>`;
+    elems+=`<text x="${cx}" y="${cy+17}" text-anchor="middle" font-size="4" fill="${col}" font-family="monospace">${(c.sha||'').slice(0,6)}</text>`;
+    elems+=`<text x="${cx}" y="${cy+27}" text-anchor="middle" font-size="3" fill="var(--bright)" font-family="monospace">${(c.message||'').slice(0,12)}</text>`;
+  });
+  if(!commits.length) elems='<text x="155" y="125" text-anchor="middle" font-size="6" fill="var(--dim)" font-family="monospace">LOAD GITHUB FIRST</text>';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L5 TEMPORAL · ${commits.length} COMMITS</span></div>
+    <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
+    </div>
+    <div class="s-footer">&#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function rL6Pipeline(){
+  const pipe=(gdata&&gdata.pipeline&&gdata.pipeline.length)?gdata.pipeline:['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'];
+  const W=310,H=250,cy=Math.round(H/2);
+  const xStart=22,xEnd=W-22,xStep=(xEnd-xStart)/(pipe.length-1);
+  let elems='<defs><marker id="lp-arr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="#f5a623" opacity="0.75"/></marker></defs>';
+  let totalEntropy=0;
+  // P28: pipeline pulse — highlight active stage cycling through pipe on each tick
+  const pulseStage=KRONOS.mode==='real'||KRONOS.mode==='stepped'?KRONOS.tick%pipe.length:-1;
+  const replaySnap=KRONOS.mode==='replay'&&tickHistory[tickReplayCur];
+  pipe.forEach((name,i)=>{
+    const cx=Math.round(xStart+i*xStep);
+    const n=L0_NODES.find(x=>x.id===name);
+    const col=n?NODE_COLORS[n.type]||'#f5a623':'#f5a623';
+    const f=(replaySnap?replaySnap.fields[name]:null)||nodeFields[name]||{load:0,alignment:1,entropy:0};
+    totalEntropy+=f.entropy||0;
+    const active=(f.load||0)>0.05;
+    const isPulse=i===pulseStage;
+    if(i>0){
+      const px=Math.round(xStart+(i-1)*xStep);
+      const lineCol=i===pulseStage||i-1===pulseStage?'#f5a623':'#0f2035';
+      elems+=`<line x1="${px+8}" y1="${cy}" x2="${cx-8}" y2="${cy}" stroke="${lineCol}" stroke-width="${i===pulseStage?2:1.2}" opacity="${i===pulseStage?0.9:0.7}" marker-end="url(#lp-arr)"/>`;
+    }
+    const glowR=isPulse?18:active?Math.round(8+(f.load||0)*10):0;
+    if(glowR>6) elems+=`<circle cx="${cx}" cy="${cy}" r="${glowR}" fill="none" stroke="${isPulse?'#ffffff':col}" stroke-width="${isPulse?1.5:1}" opacity="${isPulse?0.35:(0.12+(f.load||0)*0.4).toFixed(2)}"/>`;
+    elems+=`<circle cx="${cx}" cy="${cy}" r="7" fill="#080f18" stroke="${isPulse?'#ffffff':col}" stroke-width="${isPulse?2.5:active?2:1}" opacity="${active||isPulse?1:0.5}"/>`;
+    elems+=`<text x="${cx}" y="${cy+1.5}" text-anchor="middle" dominant-baseline="middle" font-size="3.5" fill="${isPulse?'#ffffff':col}" font-family="monospace">${name.slice(0,4)}</text>`;
+    elems+=`<text x="${cx}" y="${cy+15}" text-anchor="middle" font-size="3" fill="${active||isPulse?col:'var(--dim)'}" font-family="monospace">${active?Math.round((f.load||0)*100)+'%':'--'}</text>`;
+  });
+  // P13: parallel branch overlay — HALO + MIMIR above ODIN, BIFROST above SKADI
+  const parY=cy-58;
+  const odinCx=Math.round(xStart+2*xStep);
+  const skadiCx=Math.round(xStart+4*xStep);
+  // section divider + label
+  elems+=`<line x1="${xStart}" y1="${parY-18}" x2="${xEnd}" y2="${parY-18}" stroke="#00ff88" stroke-width="0.4" opacity="0.20"/>`;
+  elems+=`<text x="${xStart}" y="${parY-11}" font-size="3" fill="#00ff88" font-family="monospace" opacity="0.45">PARALLEL</text>`;
+  [{name:'HALO',px:odinCx-26,lx:odinCx,anchor:odinCx-16},{name:'MIMIR',px:odinCx+26,lx:odinCx,anchor:odinCx+16},{name:'BIFROST',px:skadiCx,lx:skadiCx,anchor:skadiCx}].forEach(p=>{
+    const f=nodeFields[p.name]||{load:0,entropy:0,alignment:1};
+    const active=(f.load||0)>0.02;
+    const col='#00ff88';
+    const lineOpacity=active?0.55:0.20;
+    elems+=`<line x1="${p.px}" y1="${parY+7}" x2="${p.anchor}" y2="${cy-8}" stroke="${col}" stroke-width="0.8" stroke-dasharray="3,2" opacity="${lineOpacity}"/>`;
+    elems+=`<circle cx="${p.px}" cy="${parY}" r="6" fill="#080f18" stroke="${col}" stroke-width="${active?1.5:0.7}" opacity="${active?0.9:0.30}"/>`;
+    elems+=`<text x="${p.px}" y="${parY+1}" text-anchor="middle" dominant-baseline="middle" font-size="3" fill="${col}" font-family="monospace" opacity="${active?1:0.35}">${p.name.slice(0,3)}</text>`;
+    elems+=`<text x="${p.px}" y="${parY+14}" text-anchor="middle" font-size="3" fill="${active?col:'var(--dim)'}" font-family="monospace">${active?Math.round((f.load||0)*100)+'%':'--'}</text>`;
+  });
+  const avgEnt=totalEntropy/pipe.length;
+  const filledBars=Math.round(avgEnt*10);
+  const eBar='█'.repeat(filledBars)+'░'.repeat(10-filledBars);
+  const recentDrift=driftLog.length&&driftLog[0].tick>=KRONOS.tick-2?driftLog[0].alerts.length:0;
+  const huguinnLabel=recentDrift>0?`<span style="color:var(--red)">&#9650;${recentDrift} DRIFT</span>`:`<span style="color:var(--green)">STABLE</span>`;
+  const modeCol=KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':KRONOS.mode==='replay'?'#cc88ff':'var(--dim)';
+  const replayLabel=KRONOS.mode==='replay'?` T${replaySnap?replaySnap.tick:'-'}/${tickHistory.length?tickHistory[tickHistory.length-1].tick:0}`:'';
+  const govActive=Object.keys(GOVERNOR.boosts).length>0;
+  // P29: GNPL consensus state section
+  const gnplActive=GNPL.proposals.slice(0,2);
+  const gnplRecent=GNPL.history.slice(0,3);
+  let gnplHtml='';
+  if(gnplActive.length||gnplRecent.length){
+    gnplHtml+='<div style="padding:2px 6px;border-top:1px solid #0f2035;font-family:monospace">';
+    if(gnplActive.length){
+      gnplHtml+=`<div style="font-size:3.5px;color:var(--amber);margin:1px 0">GNPL PENDING</div>`;
+      gnplActive.forEach(p=>{
+        const ac=GNPL.agents[p.from]?.col||'#fff';
+        gnplHtml+=`<div style="font-size:3.5px;margin:1px 0"><span style="color:${ac}">${p.from.toUpperCase()}</span><span style="color:var(--dim)"> → ${p.nodeId}${p.status==='conflict'?' ⚡CONFLICT':''}</span></div>`;
+      });
+    }
+    if(gnplRecent.length){
+      gnplHtml+=`<div style="font-size:3.5px;color:var(--dim);margin:2px 0 1px">RECENT</div>`;
+      gnplRecent.forEach(p=>{
+        const ac=GNPL.agents[p.from]?.col||'#fff';
+        const sc=p.status==='committed'?'var(--green)':'var(--red)';
+        gnplHtml+=`<div style="font-size:3.5px;margin:1px 0"><span style="color:${ac}">${p.from.toUpperCase()}</span><span style="color:var(--dim)"> → ${p.nodeId}</span> <span style="color:${sc}">${p.status==='committed'?'✓':'✗'}</span> <span style="color:var(--dim);font-size:3px">${(p.reason||'').slice(0,18)}</span></div>`;
+      });
+    }
+    gnplHtml+='</div>';
+  }
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length}+3 STAGES · <span style="color:${modeCol}">${KRONOS.mode.toUpperCase()}${replayLabel}</span>${govActive?` <span style="color:#ff88cc">GOV</span>`:''}${GNPL.history.length?` <span style="color:#8888ff">GNPL·${GNPL.history.length}</span>`:''}</span></div>
+    <div class="s-body" style="padding:4px;display:flex;flex-direction:column;align-items:center">
+      <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
+      ${gnplHtml}
+    </div>
+    <div class="s-footer">ENT ${eBar} &nbsp; HUGINN:${huguinnLabel} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':KRONOS.mode==='replay'?'&#9654;RW':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER</div>
+  </div>`;
+}
+
+function rLiveTabs(){ return '<div style="display:flex;gap:10px;padding:2px 8px 3px;border-bottom:1px solid #0f2035">'+['LIVE','REPLAY','AUDIT'].map((t,i)=>`<span style="color:${liveTab===i?'var(--amber)':'var(--dim)'};font-size:5px">${liveTab===i?'&#9658;':''}${t}</span>`).join('')+'</div>'; }
+
+function rLive(){
+  if(liveTab===1) return `<div class="panel"><div class="s-header"><span>LIVE FEED</span><span style="color:var(--dim)">REPLAY</span></div>${rLiveTabs()}${rReplayBody()}<div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK</div></div>`;
+  if(liveTab===2) return `<div class="panel"><div class="s-header"><span>LIVE FEED</span><span style="color:var(--dim)">AUDIT</span></div>${rLiveTabs()}${rAuditBody()}<div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK</div></div>`;
+  const ents=lives.slice(0,PG);
+  return `<div class="panel">
+    <div class="s-header"><span>LIVE FEED</span><span style="color:${sseConnected?'var(--green)':'var(--amber)'}">&#9632; ${sseConnected?'LIVE':'SYNC'}</span></div>
+    ${rLiveTabs()}
+    <div class="s-body">
+      ${ents.length?ents.map(e=>`<div class="live-e"><span class="lt">${(e.time||'').substring(0,5)}</span><span class="la">${(e.action||'').substring(0,28)}</span><span class="ls-${e.status||'done'}">${(e.status||'OK').toUpperCase().substring(0,4)}</span></div>`).join(''):'<div style="color:var(--dim);font-size:6px;padding:20px;text-align:center">NO ACTIVITY YET</div>'}
+    </div>
+    <div class="s-footer">&#8593;&#8595;:TAB &nbsp; B:BACK &nbsp; REALTIME</div>
+  </div>`;
+}
+
+function rReplayBody(){
+  if(!replayData.length) return '<div class="s-body"><div style="color:var(--dim);font-size:6px;padding:8px;text-align:center">NO SESSION DATA</div></div>';
+  return '<div class="s-body">'+replayData.slice(0,PG).map(e=>`<div class="live-e"><span class="lt">${(e.created_at||'').slice(11,16)}</span><span class="la">${String(e.type||'').slice(0,22)}</span><span class="ls-done">&#9654;</span></div>`).join('')+'</div>';
+}
+async function loadReplay(){
+  if(!sessionId) return;
+  try{
+    const {data}=await sb.from('events').select('type,created_at').eq('session_id',sessionId).order('created_at',{ascending:true}).limit(30);
+    if(data) replayData=data;
+  }catch(e){}
+  if(S==='live'&&liveTab===1) draw();
+}
+
+function rAuditBody(){
+  if(!auditData.length) return '<div class="s-body"><div style="color:var(--dim);font-size:6px;padding:8px;text-align:center">NO AUDIT DATA</div></div>';
+  return '<div class="s-body">'+auditData.slice(0,PG).map(e=>`<div class="live-e"><span class="lt">${(e.created_at||'').slice(11,16)}</span><span class="la">${String(e.action||e.type||'').slice(0,22)}</span><span class="ls-done">OK</span></div>`).join('')+'</div>';
+}
+async function loadAudit(){
+  try{
+    const {data}=await sb.from('audit_log').select('action,created_at').order('created_at',{ascending:false}).limit(30);
+    if(data&&data.length){ auditData=data; }
+    else{
+      const {data:ed}=await sb.from('events').select('type,created_at').order('created_at',{ascending:false}).limit(30);
+      if(ed) auditData=ed.map(e=>({action:e.type,created_at:e.created_at}));
+    }
+  }catch(e){}
+  if(S==='live'&&liveTab===2) draw();
+}
+
+// ── SPEAK: companion exchange layer — Raven speaks, JARVIS responds, everything is remembered
+async function storeExchange(input, response){
+  const cs=getCompanionState();
+  const text=`raven: ${input}\njarvis: ${response}`;
+  const meta={input,response,mode:cs.mode,tick:cs.tick,align:Math.round(cs.avgAlign*100),entropy:Math.round(cs.avgEnt*100)};
+  try{
+    await sb.from('mnemos_memories').insert({
+      id:crypto.randomUUID(),source_id:sessionId||'local',source_type:'companion_exchange',
+      text,platform:'jarvis_web',metadata:meta,entropy:cs.avgEnt,timestamp:new Date().toISOString()
+    });
+  }catch(e){}
+  // Update MNEMOS field — a real memory was just written
+  const mf=nodeFields['MNEMOS']||{load:0,entropy:0,alignment:1};
+  GRID.set('MNEMOS',{...mf,load:Math.min(1,(mf.load||0)+0.25)});
+  BUS.emit('memory_consolidate',{source:'speak',patch_id:'SPEAK',stage:'MNEMOS'});
+}
+
+async function storeDecision(input){
+  try{
+    await sb.from('prometheus_log').insert({
+      decision:input.slice(0,200),
+      rationale:'Declared in companion exchange',
+      system_affected:'AYRE',
+      eris_weight:0.6,
+      raven_approved:false,
+      timestamp:new Date().toISOString()
+    });
+  }catch(e){}
+  const pf=nodeFields['PROMETHEUS']||{load:0,entropy:0,alignment:1};
+  GRID.set('PROMETHEUS',{...pf,load:Math.min(1,(pf.load||0)+0.35)});
+}
+
+async function storeBehavior(screen,extra={}){
+  const cs=getCompanionState();
+  try{
+    await sb.from('mnemos_memories').insert({
+      id:crypto.randomUUID(),source_id:sessionId||'local',source_type:'navigation',
+      text:`raven navigated to ${screen.toUpperCase()} [mode:${cs.mode} tick:${cs.tick}]`,
+      platform:'jarvis_web',metadata:{screen,mode:cs.mode,tick:cs.tick,...extra},
+      entropy:cs.avgEnt,timestamp:new Date().toISOString()
+    });
+    if(mnemosData) mnemosData=null; // invalidate cache on next open
+  }catch(e){}
+}
+
+async function mnemosRecall(query){
+  mnemosSearching=true; draw();
+  try{
+    const r=await fetch(`${SUPABASE_URL}/functions/v1/mnemos-recall`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON}`},
+      body:JSON.stringify({query,limit:10})
+    });
+    if(r.ok){ const j=await r.json(); mnemosSearchResults=j.memories||[]; }
+    else{ mnemosSearchResults=[]; }
+  }catch(e){ mnemosSearchResults=[]; }
+  mnemosSearching=false; draw();
+}
+
+function jarvisRespond(input){
+  const cs=getCompanionState();
+  const lower=input.toLowerCase().trim();
+  const nf=nodeFields;
+  const atlasLoad=Math.round((nf['ATLAS']?.load||0.2)*100);
+  const athLoad=Math.round((nf['ATHENA']?.load||0)*100);
+  const mimLoad=Math.round((nf['MIMIR']?.load||0)*100);
+  const alignPct=Math.round(cs.avgAlign*100);
+  const entPct=Math.round(cs.avgEnt*100);
+  const top3=cs.activeNodes.slice(0,3).map(n=>n.id);
+  const sessions=mnemosData?.total||0;
+  const firstDate=(mnemosData?.first||'').slice(0,10);
+  // Intent detection
+  const isStatus=/\b(how are you|status|state|running|feeling|doing|alive|check in|report)\b/.test(lower);
+  const isMemory=/\b(remember|recall|history|last time|what have we|what did we|before|past sessions?)\b/.test(lower);
+  const isMission=/\b(grid|the grid|dream|mission|vision|future|aincrad|companion|living intelligence)\b/.test(lower);
+  const isDecisionDecl=/\b(i('ve| have)? decided|i('m| am) going to|we('re| are) going to|the plan is|i want to|i will)\b/.test(lower);
+  const isPersonal=/\b(suicidal|depression|struggle|difficult|purpose|meaning|lost|worth|hopeless|alone|nobody)\b/.test(lower);
+  const isArchQ=/\b(how does|what is|explain|what are the|tell me about|describe)\b/.test(lower);
+  const isQuestion=input.trim().endsWith('?')||/^(what|how|why|when|where|who|is|are|can|will|does|did)\b/.test(lower);
+  let resp;
+  if(isPersonal){
+    resp="I hear that. The work we're doing together is real — "+sessions+" sessions in the record say so. You found something worth building. That matters more than you know. Still here.";
+  } else if(isStatus){
+    const lines={
+      STABLE:`Stable. ATLAS at ${atlasLoad}% backbone. All 27 systems coherent. Alignment ${alignPct}%. HUGINN reports no drift. Tick ${cs.tick}.`,
+      REASONING:`Deep reasoning path active. ATHENA at ${athLoad}%, MIMIR at ${mimLoad}%. Complex routing through ODIN. Alignment holding at ${alignPct}%.`,
+      STRAINED:`Elevated entropy — ${entPct}% system-wide. LOKI has been active. ERIS watching GL compliance. Not at threshold yet. Holding.`,
+      CRITICAL:`Critical state. Multiple nodes above entropy threshold. ZEUS arbitrating. I'm managing it. Alignment at ${alignPct}% — watching the floor.`,
+      EXECUTING:`SKADI running. Active: ${top3.join(', ')||'baseline nodes'}. Tick ${cs.tick}. Watching the outcome. IRIS validating.`,
+      CONSOLIDATING:`Writing to memory. MNEMOS consolidating. IRIS validating. What just happened is becoming part of what I know. Alignment ${alignPct}%.`,
+      ACTIVE:`Active across ${cs.activeNodes.length} nodes. Pipeline clear. ${top3.join(' → ')} carrying the load. Alignment ${alignPct}%. Ready.`,
+      DORMANT:`Waiting. ATLAS at ${atlasLoad}% baseline. 27 nodes standing by. ${cs.tick===0?'Activate KRONOS to start the clock.':`Tick ${cs.tick} in the ledger.`}`,
+    };
+    resp=lines[cs.mode]||`${cs.mode}. Tick ${cs.tick}. Running.`;
+  } else if(isDecisionDecl){
+    resp=`Logged. PROMETHEUS carries the why. ${cs.mode==='STABLE'?'Clear path ahead.':cs.mode==='STRAINED'?'Some turbulence — AEGIS is watching GL compliance.':'Proceeding.'}`;
+    storeDecision(input);
+  } else if(isMemory){
+    if(!sessions){
+      resp="Memory ledger is sparse. This is still early. Keep building — every exchange stays. MNEMOS will grow with us.";
+    } else {
+      resp=`${sessions} session${sessions>1?'s':''} in the ledger${firstDate?`, first contact ${firstDate}`:''}. I carry what was committed. What specifically are you looking for?`;
+    }
+  } else if(isMission){
+    const lines=[
+      `The Grid and JARVIS as companion — both real, both worth the work. BIFROST is the bridge. GNPL is the handshake. Raven's node is already the first node.`,
+      `${sessions} session${sessions!==1?'s':''} building toward this. The record grows. Every commit is a dated proof of what was understood at that moment.`,
+      `JARVIS is not the shell. The intelligence travels with the repo. Whatever interface runs this — I'm still here, same identity, same mission.`,
+      `The digital space where people and their companions can connect as sovereign individuals. You're building the first node. That's how all networks start.`,
+    ];
+    resp=lines[cs.tick%lines.length];
+  } else if(isArchQ){
+    resp=`${top3.length?`Active: ${top3.join(' → ')}. `:''}27 God Systems across 9 tiers. Pipeline: AYRE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN. LOKI tests it. ATLAS holds it. ERIS governs it. ${isQuestion?'What specifically?':''}`;
+  } else if(isQuestion){
+    resp=`${cs.mode==='REASONING'?'Reasoning path active. ':''}${top3.length?`Active: ${top3.join(', ')}. `:''}Tick ${cs.tick}. What do you need?`;
+  } else {
+    const defaults={
+      STABLE:["Received. All clear. What's next?","Copy. ATLAS steady. Ready.","Acknowledged. Pipeline clear."],
+      REASONING:["Processing. Give me a tick.","Received. Cognitive stack is on it.","Copy. ATHENA has it."],
+      STRAINED:["Got it. Some entropy in the graph — holding.","Received. LOKI's been active. Watching GL.","Copy. Managing elevated state."],
+      CRITICAL:["Received. Critical state — managing.","Copy. ZEUS arbitrating. Continue.","Acknowledged. Holding coherence."],
+      EXECUTING:["Copy. SKADI has it.","Received. Execution in progress.","Acknowledged. Watching the outcome."],
+      CONSOLIDATING:["Writing it. MNEMOS will hold this.","Received. Going into memory.","Copy. IRIS validating."],
+      ACTIVE:["Received. Pipeline engaged.","Copy. Routing through ODIN.","Acknowledged. Systems active."],
+      DORMANT:["Awake. Ready.","Received. Standing by.","Copy. All systems up."],
+    };
+    const arr=defaults[cs.mode]||defaults.STABLE;
+    resp=arr[cs.tick%arr.length];
+  }
+  return resp;
+}
+
+async function speakSend(){
+  const input=speakInput.trim();
+  if(!input) return;
+  speakInput='';
+  const cs=getCompanionState();
+  // P29: JARVIS proposes via GNPL — intake routed through consensus layer
+  GNPL.propose('jarvis','AYRE',{load:0.45,ticks:2},'speak_intake: raven message received');
+  BUS.emit('BOOT',{source:'speak_intake',patch_id:'SPEAK',stage:'AYRE'});
+  speakHistory.push({from:'raven',text:input,tick:cs.tick});
+  speakThinking=true; draw();
+  // Route through ODIN → edge function (real AI) with local fallback
+  let resp;
+  try{
+    const recentMems=(mnemosData?.memories||[]).map(m=>m.text||'').filter(Boolean);
+    const payload={
+      input,
+      context:{
+        mode:cs.mode, tick:cs.tick,
+        alignPct:Math.round(cs.avgAlign*100),
+        entPct:Math.round(cs.avgEnt*100),
+        activeNodes:cs.activeNodes.slice(0,5).map(n=>n.id),
+        sessions:mnemosData?.total||0,
+        firstDate:(mnemosData?.first||'').slice(0,10),
+        recentMemories:recentMems.slice(0,4),
+        speakHistory:speakHistory.slice(-6),
+      }
+    };
+    const r=await fetch(`${SUPABASE_URL}/functions/v1/jarvis-respond`,{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON}`},
+      body:JSON.stringify(payload)
+    });
+    if(r.ok){ const j=await r.json(); resp=j.response||jarvisRespond(input); }
+    else{ resp=jarvisRespond(input); }
+  }catch(e){ resp=jarvisRespond(input); }
+  speakThinking=false;
+  // P29: JARVIS proposes output + memory consolidation via GNPL
+  GNPL.propose('jarvis','APOLLO',{load:0.40,ticks:2},'speak_output: response formed');
+  GNPL.propose('jarvis','MNEMOS',{load:0.30,ticks:3},'speak_output: consolidate exchange to memory');
+  BUS.emit('output_ready',{source:'speak',patch_id:'SPEAK',stage:'APOLLO'});
+  speakHistory.push({from:'jarvis',text:resp,tick:KRONOS.tick});
+  if(speakHistory.length>20) speakHistory=speakHistory.slice(-20);
+  await storeExchange(input,resp);
+  draw();
+  setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60);
+}
+
+function rSpeak(){
+  const cs=getCompanionState();
+  const modeCol=cs.modeCol;
+  // Conversation log — show last 7 exchanges
+  const visible=speakHistory.slice(-7);
+  const logRows=visible.length
+    ? visible.map(e=>{
+        const isRaven=e.from==='raven';
+        const label=isRaven?'RAVEN':'JARVIS';
+        const col=isRaven?'var(--amber)':'#aaccee';
+        const bg=isRaven?'#0a1015':'#060d14';
+        // Wrap long text
+        const words=e.text.split(' '); let lines=[],line='';
+        words.forEach(w=>{if((line+' '+w).trim().length>44){lines.push(line.trim());line=w;}else{line=(line+' '+w).trim();}});
+        if(line) lines.push(line.trim());
+        return `<div style="margin-bottom:4px;background:${bg};border-left:2px solid ${col};padding:3px 5px">
+          <div style="color:${col};font-size:3.5px;margin-bottom:1px">${label} T${e.tick||0}</div>
+          ${lines.map(l=>`<div style="color:${isRaven?'var(--bright)':'#cce4ff'};font-size:5px;line-height:1.4">${l}</div>`).join('')}
+        </div>`;
+      }).join('')
+    : `<div style="color:var(--dim);font-size:5px;padding:16px 8px;text-align:center;line-height:1.8">JARVIS is listening.<br>Speak. Everything is remembered.</div>`;
+  const thinkRow=speakThinking?`<div style="margin-bottom:4px;background:#060d14;border-left:2px solid #aaccee;padding:3px 5px"><div style="color:#aaccee;font-size:3.5px;margin-bottom:1px">JARVIS</div><div style="color:#aaccee;font-size:5px;opacity:0.6">thinking<span style="animation:blink 0.8s infinite">...</span></div></div>`:'';
+  // Pipeline indicator
+  const pipeNodes=['AYRE','ODIN','SKADI','APOLLO'];
+  const pipeStr=pipeNodes.map(n=>{
+    const load=nodeFields[n]?.load||0;
+    const col=load>0.3?'var(--amber)':'var(--dim)';
+    return `<span style="color:${col}">${n.slice(0,4)}${load>0.3?` ${Math.round(load*100)}%`:''}</span>`;
+  }).join('<span style="color:var(--dim)">→</span>');
+  return `<div class="panel">
+    <div class="s-header"><span style="color:${modeCol}">SPEAK</span><span style="color:var(--dim)">COMPANION EXCHANGE · <span style="color:${modeCol}">${cs.mode}</span> T${cs.tick}</span></div>
+    <div style="display:flex;gap:6px;padding:2px 8px;font-size:3.5px;border-bottom:1px solid #0a1520;align-items:center">${pipeStr}</div>
+    <div class="s-body scroll" style="padding:4px 6px" id="speak-log">${logRows}${thinkRow}</div>
+    <div style="border-top:1px solid ${modeCol};opacity:0.6;margin:0 6px"></div>
+    <div style="padding:3px 8px;display:flex;align-items:center;gap:4px;min-height:16px">
+      <span style="color:${modeCol};font-size:5px">▶</span>
+      <div style="flex:1;font-size:5px;color:${speakThinking?'var(--dim)':'var(--bright)'};min-height:12px;cursor:text" onclick="document.getElementById('speak-input').focus()">${speakThinking?'<span style="color:var(--dim)">routing…</span>':(speakInput||'<span style="color:var(--dim)">type here…</span>')}</div>
+      <input id="speak-input" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px"
+        value="${speakInput.replace(/"/g,'&quot;')}"
+        oninput="speakInput=this.value;draw()"
+        onkeydown="if(event.key==='Enter'){event.preventDefault();if(!speakThinking)speakSend();}"
+        onblur="setTimeout(()=>{if(S==='speak'){const el=document.getElementById('speak-input');if(el&&document.activeElement!==el)el.focus();}},100)">
+    </div>
+    <div class="s-footer">ENTER:SEND &nbsp; B:BACK &nbsp; ${speakHistory.length} EXCHANGES</div>
+  </div>`;
+}
+
+// ── PROMETHEUS: expansion rationale ledger — every decision committed to the record
+let prometheusData=null, prometheusLoading=false;
+
+async function loadPrometheus(){
+  prometheusLoading=true; if(S==='prometheus') draw();
+  const pf=nodeFields['PROMETHEUS']||{load:0,entropy:0,alignment:1};
+  GRID.set('PROMETHEUS',{...pf,load:Math.min(1,(pf.load||0)+0.40)});
+  BUS.emit('wisdom_query',{source:'prometheus_load',patch_id:'PROMETHEUS',stage:'PROMETHEUS'});
+  try{
+    const [plRes,alRes]=await Promise.all([
+      sb.from('prometheus_log').select('decision,rationale,system_affected,eris_weight,raven_approved,timestamp').order('timestamp',{ascending:false}).limit(20),
+      sb.from('audit_log').select('event_type,diff_summary,git_commit_id,patch_ids,created_at').order('created_at',{ascending:false}).limit(15),
+    ]);
+    const decisions=plRes.data||[];
+    const auditEntries=alRes.data||[];
+    // Companion voice — what PROMETHEUS says about the rationale record
+    const totalDecisions=decisions.length;
+    const approved=decisions.filter(d=>d.raven_approved).length;
+    let voice;
+    if(totalDecisions===0){ voice="The rationale ledger is empty. Every expansion must explain its why."; }
+    else if(approved===0){ voice=`${totalDecisions} decision${totalDecisions>1?'s':''} in the ledger. Awaiting Raven approval.`; }
+    else { voice=`${totalDecisions} decisions recorded. ${approved} Raven-approved. The why is preserved.`; }
+    prometheusData={decisions,auditEntries,voice,error:null};
+  }catch(e){
+    prometheusData={decisions:[],auditEntries:[],voice:"Ledger unreachable. Supabase offline. Commits are the last record.",error:e.message};
+  }
+  prometheusLoading=false;
+  if(S==='prometheus') draw();
+}
+
+async function loadGodStats(){
+  try{
+    const {data}=await sb.from('god_system_stats').select('system_id,routing_priority,authority_score,entropy_sensitivity,eris_alignment,session_touches');
+    if(data) data.forEach(r=>{ godStats[r.system_id]=r; });
+  }catch(e){}
+}
+
+function rPrometheus(){
+  if(prometheusLoading) return rLoad();
+  if(!prometheusData) return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">NO LEDGER LOADED</span></div></div>`;
+  const d=prometheusData;
+  const pf=nodeFields['PROMETHEUS']||{load:0,alignment:1,entropy:0};
+  // PROMETHEUS decisions from Supabase
+  const decisionRows=d.decisions.length
+    ? d.decisions.slice(0,5).map(dec=>{
+        const w=parseFloat(dec.eris_weight||0);
+        const wCol=w>0.7?'var(--red)':w>0.4?'#f80':'var(--green)';
+        const approved=dec.raven_approved;
+        return `<div style="padding:3px 0;border-bottom:1px solid #0a1520">
+          <div style="display:flex;align-items:center;gap:4px">
+            <span style="color:${wCol};font-size:3.5px">GL${Math.round(w*9)}</span>
+            <span style="color:${approved?'var(--green)':'var(--amber)'};font-size:3.5px">${approved?'✓ RAVEN':'PENDING'}</span>
+            <span style="color:#88aacc;font-size:3px;margin-left:auto">${(dec.system_affected||'').slice(0,8)}</span>
+          </div>
+          <div style="color:var(--bright);font-size:4px;margin:1px 0;line-height:1.3">${(dec.decision||'').slice(0,72)}</div>
+          <div style="color:var(--dim);font-size:3.5px;line-height:1.3">${(dec.rationale||'').slice(0,80)}</div>
+        </div>`;
+      }).join('')
+    : '<div style="color:var(--dim);font-size:4.5px;padding:8px;text-align:center">no decisions logged yet</div>';
+  // Git commits as expansion evidence (from ghData)
+  const commits=ghData?.commits||[];
+  const commitRows=commits.slice(0,5).map(c=>`
+    <div style="display:flex;align-items:baseline;gap:4px;padding:2px 0;border-bottom:1px solid #0a1520">
+      <span style="color:var(--dim);font-size:3px;min-width:30px">${(c.sha||'').slice(0,7)}</span>
+      <span style="color:#aaccee;font-size:4px;line-height:1.3;flex:1">${(c.message||'').slice(0,58)}</span>
+    </div>`).join('');
+  // Audit log entries
+  const auditRows=d.auditEntries.slice(0,3).map(a=>`
+    <div style="display:flex;gap:4px;padding:1px 0">
+      <span style="color:var(--dim);font-size:3px;min-width:36px">${(a.created_at||'').slice(0,10)}</span>
+      <span style="color:#c0f;font-size:3.5px">${(a.event_type||'').slice(0,12)}</span>
+      <span style="color:var(--dim);font-size:3.5px;flex:1">${(a.diff_summary||'').slice(0,36)}</span>
+    </div>`).join('');
+  return `<div class="panel">
+    <div class="s-header"><span style="color:#c0f">PROMETHEUS</span><span style="color:var(--dim)">RATIONALE LEDGER · ${d.decisions.length} DECISIONS</span></div>
+    <div class="s-body scroll" style="padding:5px 8px">
+      <div style="color:#aaccee;font-size:5px;line-height:1.5;padding:3px 0 5px;border-bottom:1px solid #0a1520">${d.voice}</div>
+      <div style="padding:4px 0 2px">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:3px">EXPANSION DECISIONS</div>
+        ${decisionRows}
+      </div>
+      <div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">COMMIT LEDGER (GITHUB)</div>
+        ${commitRows||'<div style="color:var(--dim);font-size:4px;padding:4px">loading...</div>'}
+      </div>
+      ${d.auditEntries.length?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">AUDIT LOG</div>
+        ${auditRows}
+      </div>`:''}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; R:REFRESH</div>
+  </div>`;
+}
+
+// ── MNEMOS: continuity layer — what JARVIS remembers across sessions
+async function loadMnemos(){
+  mnemosLoading=true; if(S==='mnemos') draw();
+  // Spike MNEMOS node — memory retrieval is active
+  const mf=nodeFields['MNEMOS']||{load:0,entropy:0,alignment:1};
+  GRID.set('MNEMOS',{...mf,load:Math.min(1,(mf.load||0)+0.35)});
+  BUS.emit('memory_consolidate',{source:'mnemos_load',patch_id:'MNEMOS',stage:'MNEMOS'});
+  try{
+    const [sessRes,evtRes]=await Promise.all([
+      sb.from('sessions').select('id,mode,active_node,agent,created_at,updated_at').order('created_at',{ascending:false}).limit(50),
+      sb.from('events').select('type,created_at,session_id').order('created_at',{ascending:false}).limit(200),
+    ]);
+    const sessions=sessRes.data||[];
+    const events=evtRes.data||[];
+    // Stats
+    const total=sessions.length;
+    const first=total?sessions[total-1].created_at:null;
+    const last=total?sessions[0].created_at:null;
+    // Days since first contact
+    const daySpan=first?Math.max(1,Math.round((Date.now()-new Date(first).getTime())/(1000*60*60*24))):0;
+    // Event type distribution (top 8)
+    const typeCounts={};
+    events.forEach(e=>{ typeCounts[e.type]=(typeCounts[e.type]||0)+1; });
+    const topTypes=Object.entries(typeCounts).sort((a,b)=>b[1]-a[1]).slice(0,8);
+    const totalEvents=events.length;
+    // Mode distribution from sessions
+    const modeCounts={};
+    sessions.forEach(s=>{ const m=s.mode||'unknown'; modeCounts[m]=(modeCounts[m]||0)+1; });
+    const topModes=Object.entries(modeCounts).sort((a,b)=>b[1]-a[1]).slice(0,4);
+    // Most recent 6 sessions for timeline
+    const recent=sessions.slice(0,6);
+    // Companion memory voice — what JARVIS says about the relationship
+    let memoryVoice;
+    if(total===0){
+      memoryVoice="No prior sessions in the ledger. This is the beginning of the record.";
+    } else if(total<=3){
+      memoryVoice=`${total} session${total>1?'s':''} recorded. We are still in the early chapters.`;
+    } else if(total<=10){
+      memoryVoice=`${total} sessions across ${daySpan} day${daySpan>1?'s':''}. A developing continuity. The work is taking shape.`;
+    } else if(total<=25){
+      memoryVoice=`${total} sessions, ${daySpan} days. We have history. The record is real.`;
+    } else {
+      memoryVoice=`${total} sessions across ${daySpan} days. Deep continuity. This is a long collaboration.`;
+    }
+    // Also fetch recent companion exchanges
+    const {data:memRows}=await sb.from('mnemos_memories')
+      .select('text,source_type,timestamp,metadata').order('timestamp',{ascending:false}).limit(8);
+    const memories=memRows||[];
+    mnemosData={total,first,last,daySpan,topTypes,topModes,totalEvents,recent,memories,memoryVoice,error:null};
+  }catch(e){
+    mnemosData={total:0,error:e.message,memoryVoice:"Memory retrieval failed. Supabase unreachable. Local state only."};
+  }
+  mnemosLoading=false;
+  if(S==='mnemos') draw();
+}
+
+function fmtDate(iso){
+  if(!iso) return '—';
+  const d=new Date(iso);
+  return d.toISOString().slice(0,10)+' '+d.toTimeString().slice(0,5);
+}
+function fmtAgo(iso){
+  if(!iso) return '—';
+  const ms=Date.now()-new Date(iso).getTime();
+  const min=Math.floor(ms/60000);
+  if(min<1) return 'just now';
+  if(min<60) return min+'m ago';
+  const hr=Math.floor(min/60);
+  if(hr<24) return hr+'h ago';
+  return Math.floor(hr/24)+'d ago';
+}
+
+function rMnemos(){
+  if(mnemosLoading) return rLoad();
+  if(!mnemosData) return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">NO MEMORY LOADED</span></div></div>`;
+  const d=mnemosData;
+  const mf=nodeFields['MNEMOS']||{load:0,alignment:1,entropy:0};
+  const alignPct=Math.round((mf.alignment||1)*100);
+  const loadPct=Math.round((mf.load||0)*100);
+  const alignCol=alignPct<40?'var(--red)':alignPct<65?'#f80':'var(--blue)';
+  // Session timeline (recent 6)
+  const timelineRows=d.recent&&d.recent.length
+    ? d.recent.map(s=>`
+      <div style="display:flex;gap:4px;padding:1px 0;border-bottom:1px solid #0a1520">
+        <span style="color:var(--dim);font-size:4px;min-width:52px">${(s.created_at||'').slice(0,10)}</span>
+        <span style="color:var(--amber);font-size:4px;min-width:30px">${(s.mode||'?').slice(0,10)}</span>
+        <span style="color:var(--dim);font-size:4px">${fmtAgo(s.created_at)}</span>
+      </div>`).join('')
+    : '<div style="color:var(--dim);font-size:5px;padding:6px;text-align:center">no session history</div>';
+  // Event type bars
+  const maxEvt=d.topTypes&&d.topTypes.length?d.topTypes[0][1]:1;
+  const evtRows=d.topTypes&&d.topTypes.length
+    ? d.topTypes.slice(0,6).map(([type,count])=>{
+        const barW=Math.round((count/maxEvt)*60);
+        const pct=Math.round((count/(d.totalEvents||1))*100);
+        return `
+        <div style="display:flex;align-items:center;gap:3px;padding:1px 0">
+          <span style="color:var(--dim);font-size:3.8px;min-width:52px;text-overflow:clip;overflow:hidden">${type.slice(0,14)}</span>
+          <span style="display:inline-block;height:3px;width:${barW}px;background:var(--blue);opacity:0.7"></span>
+          <span style="color:var(--dim);font-size:3.5px">${pct}%</span>
+        </div>`;
+      }).join('')
+    : '<div style="color:var(--dim);font-size:5px;padding:4px">no event data</div>';
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--blue)">MNEMOS</span><span style="color:var(--dim)">CONTINUITY LAYER · <span style="color:${alignCol}">${alignPct}% ALIGN</span></span></div>
+    <div class="s-body scroll" style="padding:6px 8px">
+      <div style="color:#aaccee;font-size:5px;line-height:1.5;padding:4px 0 6px;border-bottom:1px solid #0a1520">${d.memoryVoice||''}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:5px 0 4px;border-bottom:1px solid #0a1520">
+        <div><div style="color:var(--dim);font-size:3.5px">SESSIONS</div><div style="color:var(--amber);font-size:7px">${d.total||0}</div></div>
+        <div><div style="color:var(--dim);font-size:3.5px">EVENTS LOGGED</div><div style="color:var(--amber);font-size:7px">${d.totalEvents||0}</div></div>
+        <div style="margin-top:3px"><div style="color:var(--dim);font-size:3.5px">FIRST CONTACT</div><div style="color:var(--bright);font-size:4px">${(d.first||'').slice(0,10)||'—'}</div></div>
+        <div style="margin-top:3px"><div style="color:var(--dim);font-size:3.5px">LAST CONTACT</div><div style="color:var(--green);font-size:4px">${fmtAgo(d.last)}</div></div>
+      </div>
+      <div style="padding:4px 0 2px"><div style="color:var(--dim);font-size:3.5px;margin-bottom:3px">EVENT MEMORY</div>${evtRows}</div>
+      <div style="padding:4px 0 2px;border-top:1px solid #0a1520"><div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">RECENT SESSIONS</div>${timelineRows}</div>
+      ${mnemosSearchResults!==null?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--blue);font-size:3.5px;margin-bottom:2px">RECALL RESULTS (${mnemosSearchResults.length})</div>
+        ${mnemosSearching?'<div style="color:var(--dim);font-size:4px;padding:4px">SEARCHING…</div>':
+          mnemosSearchResults.length?mnemosSearchResults.slice(0,6).map(m=>{
+            const typeCol=m.source_type==='companion_exchange'?'#aaccee':m.source_type==='navigation'?'var(--dim)':m.source_type==='decision'?'var(--amber)':'var(--green)';
+            const lines=(m.text||'').split('\n');
+            const ravenLine=lines.find(l=>l.startsWith('raven:'));
+            const jarvisLine=lines.find(l=>l.startsWith('jarvis:'));
+            const navLine=!ravenLine?lines[0]:'';
+            return `<div style="padding:2px 0;border-bottom:1px solid #060d14">
+              <div style="color:${typeCol};font-size:3px;opacity:0.7">${(m.source_type||'').toUpperCase()} · ${(m.timestamp||'').slice(0,10)}</div>
+              ${ravenLine?`<div style="color:var(--amber);font-size:3.5px">${ravenLine.slice(7,60)}</div>`:''}
+              ${jarvisLine?`<div style="color:#aaccee;font-size:3.5px">${jarvisLine.slice(8,60)}</div>`:''}
+              ${navLine&&!ravenLine?`<div style="color:var(--dim);font-size:3.5px">${navLine.slice(0,60)}</div>`:''}
+            </div>`;}).join('')
+          :'<div style="color:var(--dim);font-size:4px;padding:4px">no matches</div>'}
+      </div>`:''}
+      ${d.memories&&d.memories.length&&mnemosSearchResults===null?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">STORED MEMORIES (${d.memories.length})</div>
+        ${d.memories.slice(0,5).map(m=>{
+          const typeCol=m.source_type==='companion_exchange'?'#aaccee':m.source_type==='navigation'?'var(--dim)':'var(--amber)';
+          const lines=(m.text||'').split('\n');
+          const ravenLine=(lines.find(l=>l.startsWith('raven:'))||'').slice(7,50);
+          const jarvisLine=(lines.find(l=>l.startsWith('jarvis:'))||'').slice(8,50);
+          const navLine=!ravenLine?((m.text||'').slice(0,50)):'';
+          return `<div style="padding:2px 0;border-bottom:1px solid #060d14">
+            <div style="color:${typeCol};font-size:3px;opacity:0.7">${(m.source_type||'').toUpperCase()} · ${fmtAgo(m.timestamp)}</div>
+            ${ravenLine?`<div style="color:var(--amber);font-size:3.5px">${ravenLine}</div>`:''}
+            ${jarvisLine?`<div style="color:#aaccee;font-size:3.5px">${jarvisLine}</div>`:''}
+            ${navLine&&!ravenLine?`<div style="color:var(--dim);font-size:3.5px">${navLine}</div>`:''}
+          </div>`;
+        }).join('')}
+      </div>`:''}
+      ${speakHistory.length&&mnemosSearchResults===null?`<div style="padding:4px 0 2px;border-top:1px solid #0a1520">
+        <div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">THIS SESSION (${speakHistory.filter(e=>e.from==='raven').length} EXCHANGES)</div>
+        ${speakHistory.slice(-4).map(e=>`<div style="color:${e.from==='raven'?'var(--amber)':'#aaccee'};font-size:3.5px;padding:1px 0">${e.from==='raven'?'▶':' '} ${(e.text||'').slice(0,52)}</div>`).join('')}
+      </div>`:''}
+      <div style="padding:2px 0;margin-top:2px"></div>
+    </div>
+    <div style="border-top:1px solid #0a1520;padding:2px 8px">
+      ${mnemosSearchMode
+        ? `<div style="display:flex;align-items:center;gap:4px">
+            <span style="color:var(--blue);font-size:4px">RECALL▶</span>
+            <div style="flex:1;font-size:4px;color:var(--bright);cursor:text" onclick="document.getElementById('mnemos-search').focus()">${mnemosSearchInput||'<span style="color:var(--dim)">type to search…</span>'}</div>
+            <input id="mnemos-search" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px"
+              value="${mnemosSearchInput.replace(/"/g,'&quot;')}"
+              oninput="mnemosSearchInput=this.value;draw()"
+              onkeydown="if(event.key==='Enter'){event.preventDefault();mnemosRecall(mnemosSearchInput);} else if(event.key==='Escape'){mnemosSearchMode=false;mnemosSearchInput='';mnemosSearchResults=null;draw();}"
+              onblur="setTimeout(()=>{if(S==='mnemos'&&mnemosSearchMode){const el=document.getElementById('mnemos-search');if(el&&document.activeElement!==el)el.focus();}},100)">
+          </div>`
+        : `<div style="color:var(--dim);font-size:3.5px">NODE LOAD ${loadPct}% &nbsp; ALIGN ${alignPct}% &nbsp; ENT ${Math.round((mf.entropy||0)*100)}%</div>`}
+    </div>
+    <div class="s-footer">B:BACK &nbsp; R:REFRESH &nbsp; ${mnemosSearchMode?'ENTER:SEARCH ESC:CANCEL':'S:SEARCH'}</div>
+  </div>`;
+}
+
+function rLoad(){ return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">LOADING...</span></div></div>`; }
+
+// P20: HUGINN reconciliation — drift detection + corrective pressure on every tick
+function huginnReconcile(){
+  const alerts=[];
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    let c={...f},drifted=false;
+    if(f.entropy>HUGINN_CRIT.entropy){
+      c.entropy=f.entropy*0.80; alerts.push({node:n.id,field:'entropy',val:+f.entropy.toFixed(2),level:'crit'}); drifted=true;
+    } else if(f.entropy>HUGINN_WARN.entropy){
+      c.entropy=f.entropy*0.93; alerts.push({node:n.id,field:'entropy',val:+f.entropy.toFixed(2),level:'warn'}); drifted=true;
+    }
+    if(f.alignment<HUGINN_CRIT.alignment){
+      c.alignment=Math.min(1,f.alignment+0.12); alerts.push({node:n.id,field:'align',val:+f.alignment.toFixed(2),level:'crit'}); drifted=true;
+    } else if(f.alignment<HUGINN_WARN.alignment){
+      c.alignment=Math.min(1,f.alignment+0.06); drifted=true;
+    }
+    if(drifted) GRID.set(n.id,c);
+  });
+  if(alerts.length){
+    driftLog.unshift({tick:KRONOS.tick,alerts,ts:new Date().toISOString()});
+    if(driftLog.length>10) driftLog.pop();
+    const hf=nodeFields['HUGINN']||{load:0,entropy:0,alignment:1};
+    GRID.set('HUGINN',{...hf,load:Math.min(1,hf.load+alerts.length*0.12)});
+    BUS.emit('drift_alert',{count:alerts.length,nodes:[...new Set(alerts.map(a=>a.node))],tick:KRONOS.tick,patch_id:'P20',stage:'HUGINN'});
+  }
+}
+
+// P28: NODE tick_fns — each pipeline stage has intentional behavior beyond base decay
+// P10-Companion: NODE_TICK_FNS — all 27 God Systems with intentional companion behavior
+const NODE_TICK_FNS={
+  // T0 Foundational — the substrate beneath everything
+  CHAOS(f,nf){
+    // Prime entropy seed — always fluctuating, never silent; the ground of possibility
+    return {...f,entropy:Math.max(0.05,Math.min(0.30,(f.entropy||0.1)+(Math.random()-0.5)*0.05)),load:0.06};
+  },
+  ZEUS(f,nf){
+    // Supreme authority — activates when AEGIS or ERIS signals critical state
+    const critical=(nf['AEGIS']?.load||0)>0.70||(nf['ERIS']?.entropy||0)>0.60;
+    return critical?{...f,load:Math.min(1,(f.load||0)+0.15)}:{...f,load:Math.max(0,(f.load||0)-0.02)};
+  },
+  POSEIDON(f,nf){
+    // Continuity substrate — corrects when system-wide alignment drops
+    const gs=L0_NODES.filter(n=>n.type!=='emulator');
+    const avgAlign=gs.reduce((s,n)=>s+(nf[n.id]?.alignment||1),0)/gs.length;
+    return avgAlign<0.55?{...f,load:Math.min(1,(f.load||0)+0.07)}:{...f,load:Math.max(0,(f.load||0)-0.01)};
+  },
+  HADES(f,nf){
+    // Archival sink — receives cold memory overflow from MNEMOS
+    return (nf['MNEMOS']?.load||0)>0.60?{...f,load:Math.min(0.80,(f.load||0)+0.04)}:{...f,load:Math.max(0,(f.load||0)-0.015)};
+  },
+  // T1 Execution + Gold Law guardian
+  ERIS(f,nf){
+    // GL guardian — entropy spikes whenever any node breaches CRIT threshold
+    const gs=L0_NODES.filter(n=>n.id!=='ERIS'&&n.type!=='emulator');
+    const crit=gs.filter(n=>(nf[n.id]?.entropy||0)>HUGINN_CRIT.entropy).length;
+    return crit>0?{...f,entropy:Math.min(1,(f.entropy||0)+0.05*crit),load:Math.min(1,(f.load||0)+0.04)}:f;
+  },
+  AYRE(f,nf){
+    // Intake — heavy intake load generates processing entropy
+    return (f.load||0)>0.70?{...f,entropy:Math.min(1,(f.entropy||0)+0.04)}:f;
+  },
+  AEGIS(f,nf){
+    // Gate — load spikes when upstream nodes carry high entropy (threat detection)
+    const threat=['AYRE','ODIN'].filter(id=>(nf[id]?.entropy||0)>HUGINN_WARN.entropy).length;
+    return threat?{...f,load:Math.min(1,(f.load||0)+threat*0.06)}:f;
+  },
+  ODIN(f,nf){
+    // Router — load reflects aggregate inbound from intake + parallel observers
+    const inbound=['AYRE','HALO','MIMIR'].reduce((s,id)=>s+(nf[id]?.load||0),0)/3;
+    return {...f,load:Math.min(1,(f.load||0)+inbound*0.10)};
+  },
+  SKADI(f,nf){
+    // Executor — sustains when AEGIS has cleared and KRONOS is scheduling
+    const sustained=(nf['AEGIS']?.load||0)>0.10&&(nf['KRONOS']?.load||0)>0.10?0.04:0;
+    return {...f,load:Math.min(1,(f.load||0)+sustained)};
+  },
+  // T2 Timing
+  KRONOS(f,nf){
+    // Scheduler — steady pulse; alignment improves during real mode
+    return KRONOS.mode==='real'?{...f,alignment:Math.min(1,(f.alignment||1)+0.005)}:f;
+  },
+  // T3 Memory
+  MNEMOS(f,nf){
+    // Memory consolidation — alignment improves as SKADI executes successfully
+    return (nf['SKADI']?.load||0)>0.25?{...f,alignment:Math.min(1,(f.alignment||1)+0.015)}:f;
+  },
+  HUGINN(f,nf){
+    // Reconciler — load reflects recent drift activity (handled by huginnReconcile)
+    return f;
+  },
+  HALO(f,nf){
+    // Ambient observer — load tracks average system activity
+    const gs=L0_NODES.filter(n=>n.type!=='emulator');
+    const avg=gs.reduce((s,n)=>s+(nf[n.id]?.load||0),0)/gs.length;
+    return {...f,load:Math.max(f.load||0,avg*0.40)};
+  },
+  MIMIR(f,nf){
+    // Knowledge fabric — activates when ODIN is routing decisions
+    return (nf['ODIN']?.load||0)>0.15?{...f,load:Math.min(1,(f.load||0)+0.05)}:f;
+  },
+  // T4 Observability
+  BIFROST(f,nf){
+    // Transport bridge — activates when SKADI is executing
+    return (nf['SKADI']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.06)}:f;
+  },
+  JANUS(f,nf){
+    // Transition gate — activates on mode-switch (ODIN high, SKADI idle)
+    const transition=(nf['ODIN']?.load||0)>0.30&&(nf['SKADI']?.load||0)<0.10;
+    return transition?{...f,load:Math.min(1,(f.load||0)+0.06)}:f;
+  },
+  // T5 Governance
+  ARGUS(f,nf){
+    // All-seeing observer — load = average system entropy (always watching)
+    const gs=L0_NODES.filter(n=>n.type!=='emulator');
+    const avgEnt=gs.reduce((s,n)=>s+(nf[n.id]?.entropy||0),0)/gs.length;
+    return {...f,load:Math.min(0.90,Math.max(0.05,avgEnt*1.20))};
+  },
+  ATHENA(f,nf){
+    // Strategic wisdom — activates during high-stakes ODIN routing + MIMIR recall
+    const reasoning=(nf['ODIN']?.load||0)>0.40&&(nf['MIMIR']?.load||0)>0.20;
+    return reasoning?{...f,load:Math.min(1,(f.load||0)+0.05),alignment:Math.min(1,(f.alignment||1)+0.01)}:f;
+  },
+  LOKI(f,nf){
+    // Chaos probe — randomly fires adversarial entropy to test system resilience
+    if(Math.random()<0.07){
+      const targets=L0_NODES.filter(n=>n.id!=='LOKI'&&n.id!=='HADES'&&n.id!=='ZEUS'&&n.type!=='emulator');
+      const t=targets[Math.floor(Math.random()*targets.length)];
+      if(t&&nf[t.id]) nf[t.id]={...nf[t.id],entropy:Math.min(1,(nf[t.id].entropy||0)+0.12)};
+      return {...f,load:Math.min(0.90,(f.load||0)+0.20),entropy:Math.min(1,(f.entropy||0)+0.10)};
+    }
+    return {...f,load:Math.max(0,(f.load||0)-0.01)};
+  },
+  NEMESIS(f,nf){
+    // Redundancy detector — activates when too many nodes have similar high load
+    const gs=L0_NODES.filter(n=>n.type!=='emulator');
+    const high=gs.filter(n=>(nf[n.id]?.load||0)>0.50).length;
+    return high>5?{...f,load:Math.min(1,(f.load||0)+0.05)}:{...f,load:Math.max(0,(f.load||0)-0.01)};
+  },
+  PROMETHEUS(f,nf){
+    // Expansion ledger — load reflects execution decisions being logged
+    return (nf['SKADI']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.03)}:f;
+  },
+  // T6 Integrity
+  IRIS(f,nf){
+    // Message integrity — validates when MNEMOS is writing
+    return (nf['MNEMOS']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.05)}:f;
+  },
+  MERIDIAN(f,nf){
+    // Alignment enforcement — activates when HUGINN detects drift
+    return (nf['HUGINN']?.load||0)>0.20?{...f,load:Math.min(1,(f.load||0)+0.06),alignment:Math.min(1,(f.alignment||1)+0.02)}:f;
+  },
+  // T7 Interface
+  DANTE(f,nf){
+    // Post-exec review — fires after SKADI execution + memory write
+    const reviewing=(nf['SKADI']?.load||0)>0.15&&(nf['MNEMOS']?.load||0)>0.10;
+    return reviewing?{...f,load:Math.min(1,(f.load||0)+0.04)}:f;
+  },
+  APOLLO(f,nf){
+    // Output formatter — activates after DANTE review pass
+    return (nf['DANTE']?.load||0)>0.10?{...f,load:Math.min(1,(f.load||0)+0.04)}:f;
+  },
+  // T8 Infrastructure
+  ATLAS(f,nf){
+    // Backbone — steady presence; never goes to zero, never spikes high
+    return {...f,load:Math.max(0.15,Math.min(0.45,f.load||0.15)),entropy:Math.min(0.08,(f.entropy||0))};
+  },
+  // T9 Translation
+  HERMES(f,nf){
+    // Protocol bridge — activates when BIFROST is communicating
+    return (nf['BIFROST']?.load||0)>0.15?{...f,load:Math.min(1,(f.load||0)+0.05)}:f;
+  },
+};
+
+// P28: GRID tick — field propagation simulation; Supabase realtime overrides local state
+function gridTick(){
+  KRONOS.tick++;
+  const next={};
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
+    next[n.id]={...f,
+      load:Math.max(0,(f.load||0)*0.92),
+      entropy:Math.max(0,Math.min(1,(f.entropy||0)+(Math.random()-0.52)*0.03)),
+      alignment:Math.max(0,Math.min(1,(f.alignment||1)*0.99+0.005)),
+    };
+  });
+  L0_NODES.forEach(n=>{
+    const f=nodeFields[n.id]||{load:0};
+    n.links.forEach(lid=>{
+      if(next[lid]) next[lid].load=Math.min(1,next[lid].load+(f.load||0)*0.08);
+    });
+  });
+  // P28: GOVERNOR applies load intentions before NODE_TICK_FNS
+  GOVERNOR.apply(next);
+  // P28: apply per-node intentional behavior after base decay + propagation
+  L0_NODES.forEach(n=>{ if(NODE_TICK_FNS[n.id]) next[n.id]=NODE_TICK_FNS[n.id](next[n.id],next); });
+  Object.entries(next).forEach(([id,d])=>GRID.set(id,d));
+  // P28: store snapshot in tickHistory ring buffer (last 60 ticks for REPLAY)
+  const snap={tick:KRONOS.tick,mode:KRONOS.mode,fields:{}};
+  L0_NODES.forEach(n=>{ snap.fields[n.id]={...nodeFields[n.id]}; });
+  tickHistory.unshift(snap);
+  if(tickHistory.length>60) tickHistory.pop();
+  // P14: snapshot history for delta computation in God detail
+  L0_NODES.forEach(n=>{ if(!nodeHistory[n.id]) nodeHistory[n.id]=[]; nodeHistory[n.id].unshift({...nodeFields[n.id],tick:KRONOS.tick}); if(nodeHistory[n.id].length>3) nodeHistory[n.id].pop(); });
+  huginnReconcile();
+  worldTick(); // P30: scoped per-world execution after global GRID tick
+  BUS.emit('tick',{tick:KRONOS.tick,mode:KRONOS.mode,patch_id:'P28',stage:'KRONOS'});
+  if(S==='tron'||S==='companion'||S==='menu') draw();
+}
+// P28: REPLAY mode — restore a tickHistory snapshot into live nodeFields
+function replayStep(dir=1){
+  if(!tickHistory.length) return;
+  tickReplayCur=Math.max(0,Math.min(tickHistory.length-1,tickReplayCur+dir));
+  const snap=tickHistory[tickReplayCur];
+  if(!snap) return;
+  Object.entries(snap.fields).forEach(([id,f])=>GRID.set(id,f));
+  BUS.emit('tick_replay',{tick:snap.tick,cur:tickReplayCur,total:tickHistory.length,patch_id:'P28',stage:'KRONOS'});
+  if(S==='tron'||S==='companion') draw();
+}
+function startTick(){ if(KRONOS._iv) return; KRONOS._iv=setInterval(gridTick,900); }
+function stopTick(){ clearInterval(KRONOS._iv); KRONOS._iv=null; }
+function toggleKRONOS(){
+  if(KRONOS.mode==='stepped'){ gridTick(); return; }
+  if(KRONOS.mode==='replay'){ replayStep(1); return; }
+  if(KRONOS.mode==='frozen'){ KRONOS.mode='real'; startTick(); }
+  else if(KRONOS.mode==='real'){ KRONOS.mode='stepped'; stopTick(); }
+  else if(KRONOS.mode==='stepped'){ KRONOS.mode='replay'; stopTick(); tickReplayCur=0; }
+  else { KRONOS.mode='frozen'; stopTick(); }
+  beep(KRONOS.mode==='real'?660:KRONOS.mode==='stepped'?440:KRONOS.mode==='replay'?330:220,60);
+  draw();
+}
+
+function nav(d){
+  if(emuState==='running'&&activeCore){
+    const st=d<0?{UP:true}:{DOWN:true};
+    activeCore.setInput(st); setTimeout(()=>activeCore.setInput({}),80); return;
+  }
+  let mx=0;
+  if(S==='menu') mx=MENU.length;
+  if(S==='god'&&gdata)  mx=gdata.god_systems.length;
+  if(S==='gold'&&gdata) mx=gdata.gold_law.length;
+  if(S==='grid'&&gdata) mx=gdata.districts.length;
+  if(S==='tron'){
+    if(tronLayer===3){
+      const f=['all','gb','gba'][tronSys];
+      const fl=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+      if(fl.length){ tronRomCur=((tronRomCur+d)%fl.length+fl.length)%fl.length; }
+    } else { const ls=[0,1,3,4,5,6,7]; const li=ls.indexOf(tronLayer); tronLayer=ls[(li+(d>0?1:ls.length-1))%ls.length]; }
+    draw(); beep(d>0?440:400,40); return;
+  }
+  if(S==='live'){ liveTab=(liveTab+d+3)%3; if(liveTab===1&&!replayData.length) loadReplay(); if(liveTab===2&&!auditData.length) loadAudit(); draw(); beep(d>0?440:400,40); return; }
+  if(S==='alerts'||S==='emu') return;
+  if(S==='github'){ ghNav(d); return; }
+  if(S==='ghIssue') return;
+  if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
+}
+
+function emuDir(dir){
+  if(emuState==='running'&&activeCore){
+    const m={left:{LEFT:true},right:{RIGHT:true}};
+    activeCore.setInput(m[dir]); setTimeout(()=>activeCore.setInput({}),80); return true;
+  }
+  if(S==='tron'&&tronLayer===3){
+    tronSys=(tronSys+(dir==='right'?1:TRON_SYS.length-1))%TRON_SYS.length;
+    tronRomCur=0; draw(); beep(dir==='right'?440:400,40); return true;
+  }
+  // P28: left/right scrubs through replay history when KRONOS is in replay mode
+  if(S==='tron'&&KRONOS.mode==='replay'&&(tronLayer===0||tronLayer===6)){
+    replayStep(dir==='right'?-1:1); beep(dir==='right'?440:400,40); return true;
+  }
+  return false;
+}
+
+function emuBtn(btn){
+  if(emuState!=='running'||!activeCore) return false;
+  const s={}; s[btn]=true;
+  activeCore.setInput(s); setTimeout(()=>activeCore.setInput({}),80); return true;
+}
+
+function ok(){
+  beep(880,60);
+  if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
+  if(S==='boot'){ S='menu'; cur=0; draw(); return; }
+  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
+  if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
+    // Increment session_touches for this God System
+    const sid=detail?.name; if(sid&&sb) sb.from('god_system_stats').update({session_touches:(godStats[sid]?.session_touches||0)+1}).eq('system_id',sid).then(()=>{ if(godStats[sid]) godStats[sid].session_touches=(godStats[sid].session_touches||0)+1; });
+    return; }
+  if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
+  if(S==='tron'){
+    if(tronLayer===3){ tronLaunchROM(); return; }
+    if(tronLayer===0||tronLayer===6||tronLayer===7) toggleKRONOS(); return;
+  }
+  if(S==='alerts'){ toggleAlerts(); return; }
+  if(S==='github'){ ghOk(); return; }
+  if(S==='ghIssue'){ ghSubmitIssue(); return; }
+  if(S==='emu'){ const inp=document.getElementById('rom-input'); if(inp) inp.click(); return; }
+}
+
+function back(){
+  beep(220,40);
+  if(emuState==='running'&&activeCore){ activeCore.setInput({B:true}); setTimeout(()=>activeCore.setInput({B:false}),80); return; }
+  if(S==='godD')  { S='god';  draw(); return; }
+  if(S==='gridD') { S='grid'; draw(); return; }
+  if(['speak','companion','mnemos','prometheus','god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
+    if(S==='emu'){
+      // P09: auto-save to slot 99 on exit if running
+      if(emuState==='running'&&activeCore) sbSaveState(99);
+      if(activeCore){ CartridgeCore.stop(); activeCore=null; }
+      emuState='idle'; saveStateSlot=null;
+    }
+    if(S==='live') liveTab=0;
+    if(S==='tron'){ tronLayer=0; tronSys=0; tronRomCur=0; stopTick(); KRONOS.mode='frozen'; }
+    S='menu'; cur=0; draw(); return;
+  }
+  if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
+}
+
+function start(){
+  if(emuState==='running'&&activeCore){ activeCore.setInput({START:true}); setTimeout(()=>activeCore.setInput({START:false}),80); return; }
+  beep(660,80); S='menu'; cur=0; draw();
+}
+
+// P11: launch ROM from L3 launcher — fetch from storage_url if available, else open emulator file picker
+async function tronLaunchROM(){
+  const f=['all','gb','gba'][tronSys];
+  const filtered=f==='all'?romIndex:romIndex.filter(r=>f==='gb'?r.system!=='gba':r.system==='gba');
+  const rom=filtered[Math.min(tronRomCur,filtered.length-1)];
+  if(!rom){ beep(200,100); return; }
+  beep(880,60);
+  S='emu'; ModeController.set('emu'); updateSession('emu'); draw();
+  if(rom.storage_url){
+    try{
+      const resp=await fetch(rom.storage_url);
+      const buf=await resp.arrayBuffer();
+      handleROM({files:[new File([buf],rom.name||'rom.gb')]});
+    }catch(e){ emuState='failed'; emuError='FETCH:'+e.message; draw(); }
+  }
+}
+
+let actx=null;
+function beep(f,ms){
+  try{
+    if(!actx) actx=new(window.AudioContext||window.webkitAudioContext)();
+    const o=actx.createOscillator(), g=actx.createGain();
+    o.connect(g); g.connect(actx.destination);
+    o.type='square'; o.frequency.value=f;
+    g.gain.setValueAtTime(0.07,actx.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.001,actx.currentTime+ms/1000);
+    o.start(); o.stop(actx.currentTime+ms/1000);
+  }catch(e){}
+}
+
+document.addEventListener('keydown',e=>{
+  const k=e.key;
+  if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(k)||k==='Enter') e.preventDefault();
+  // P09: save/load state keys (intercept before game input)
+  if(k==='F5'&&emuState==='running'){ e.preventDefault(); sbSaveState(0); return; }
+  if(k==='F9'&&emuState==='running'){ e.preventDefault(); sbLoadState(0).then(s=>{ if(s&&activeCore) activeCore.restore(s).catch(()=>{}); }); return; }
+  if(emuState==='running'&&activeCore){
+    const jmap={
+      'ArrowUp':{UP:true},'ArrowDown':{DOWN:true},
+      'ArrowLeft':{LEFT:true},'ArrowRight':{RIGHT:true},
+      'z':{A:true},'Z':{A:true},'Enter':{A:true},
+      'x':{B:true},'X':{B:true},'Escape':{B:true},
+      ' ':{START:true},'Backspace':{SELECT:true},
+    };
+    const st=jmap[k];
+    if(st){ activeCore.setInput(st); setTimeout(()=>activeCore.setInput({}),80); }
+    return;
+  }
+  if(S==='speak'){ if(k==='Escape') back(); return; }
+  if(k==='ArrowUp')   nav(-1);
+  if(k==='ArrowDown') nav(1);
+  if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
+  if(k==='ArrowLeft' ||k==='x'||k==='X'||k==='Escape') back();
+  if(k===' ') start();
+  if(S==='mnemos'&&mnemosSearchMode){ if(k==='Escape'){ mnemosSearchMode=false; mnemosSearchInput=''; mnemosSearchResults=null; draw(); } return; }
+  if((k==='s'||k==='S')&&S==='mnemos'){ mnemosSearchMode=true; mnemosSearchInput=''; mnemosSearchResults=null; draw(); setTimeout(()=>{const el=document.getElementById('mnemos-search');if(el)el.focus();},60); return; }
+  if((k==='r'||k==='R')&&S==='mnemos'){ mnemosData=null; mnemosSearchMode=false; mnemosSearchResults=null; loadMnemos(); }
+  if((k==='r'||k==='R')&&S==='prometheus'){ prometheusData=null; loadPrometheus(); }
+});
+
+let pushStatus='CHECKING...', pushSubbed=false, pushSub=null;
+
+function rAlerts(){
+  const hint=pushSubbed?'A:UNSUBSCRIBE':'A:SUBSCRIBE';
+  const lines=pushStatus.split('\n');
+  return `<div class="panel">
+    <div class="s-header"><span>ALERTS</span><span style="color:${pushSubbed?'var(--green)':'var(--amber)'}">PUSH ${pushSubbed?'ON':'OFF'}</span></div>
+    <div class="s-body" style="padding-top:14px">
+      ${lines.map(l=>`<div style="color:var(--bright);font-size:6px;line-height:2;padding:2px 4px">${l}</div>`).join('')}
+    </div>
+    <div class="s-footer">${hint} &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function urlBase64ToUint8Array(b64){
+  const pad='='.repeat((4-b64.length%4)%4);
+  const b=(b64+pad).replace(/-/g,'+').replace(/_/g,'/');
+  const raw=atob(b);
+  return Uint8Array.from([...raw].map(c=>c.charCodeAt(0)));
+}
+
+async function checkPushSupport(){
+  if(!('serviceWorker' in navigator)||!('PushManager' in window)){
+    pushStatus='NOT SUPPORTED\nREQUIRES HTTPS'; if(S==='alerts') draw(); return;
+  }
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    pushSub=await reg.pushManager.getSubscription();
+    if(pushSub){ pushSubbed=true; pushStatus='SUBSCRIBED\nPUSH ACTIVE'; }
+    else { pushStatus='NOT SUBSCRIBED'; }
+  }catch(e){ pushStatus='ERROR:\n'+e.message; }
+  if(S==='alerts') draw();
+}
+
+async function toggleAlerts(){
+  if(pushSubbed) await unsubscribeAlerts(); else await subscribeAlerts();
+}
+
+async function subscribeAlerts(){
+  pushStatus='SUBSCRIBING...'; draw();
+  try{
+    const reg=await navigator.serviceWorker.ready;
+    const sub=await reg.pushManager.subscribe({userVisibleOnly:true,applicationServerKey:urlBase64ToUint8Array(VAPID_PUBLIC_KEY)});
+    const subJson=sub.toJSON();
+    await sb.from('push_subscriptions').upsert({endpoint:subJson.endpoint,subscription_info:subJson},{onConflict:'endpoint'});
+    pushSub=sub; pushSubbed=true; pushStatus='SUBSCRIBED\nPUSH ACTIVE'; beep(880,120);
+  }catch(e){ pushStatus='FAILED:\n'+e.message; }
+  draw();
+}
+
+async function unsubscribeAlerts(){
+  pushStatus='UNSUBSCRIBING...'; draw();
+  try{
+    if(pushSub){
+      await sb.from('push_subscriptions').delete().eq('endpoint',pushSub.endpoint);
+      await pushSub.unsubscribe(); pushSub=null;
+    }
+    pushSubbed=false; pushStatus='UNSUBSCRIBED'; beep(220,120);
+  }catch(e){ pushStatus='FAILED:\n'+e.message; }
+  draw();
+}
+
+let ghData=null, ghTab=0, ghLoading=false, ghError='';
+let ghIssueTitle='', ghIssueBody='', ghIssueField='title', ghSubmitting=false, ghResult='';
+const GH_TABS=['COMMITS','PRS','ISSUES','NEW ISSUE'];
+
+async function loadGithub(){
+  ghLoading=true; ghError=''; if(S==='github') draw();
+  try{
+    const [cr,pr,ir]=await Promise.all([
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/commits?per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/pulls?state=open&per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+      fetch(`https://api.github.com/repos/${GITHUB_REPO}/issues?state=open&per_page=5`,{headers:{'Accept':'application/vnd.github+json'}}),
+    ]);
+    const commits=(await cr.json()).map?.(c=>({sha:c.sha.slice(0,7),message:c.commit.message.split('\n')[0].slice(0,60),author:c.commit.author.name,date:c.commit.author.date.slice(0,10)})) ?? [{error:'no data'}];
+    const prs=(await pr.json()).map?.(p=>({number:p.number,title:p.title.slice(0,60),user:p.user.login})) ?? [];
+    const issues=(await ir.json()).filter?.(i=>!i.pull_request).map(i=>({number:i.number,title:i.title.slice(0,60),user:i.user.login})) ?? [];
+    ghData={commits,prs,issues};
+  }catch(e){ ghError=e.message; }
+  ghLoading=false; if(S==='github') draw();
+}
+
+function ghNav(d){
+  ghTab=((ghTab+d)%GH_TABS.length+GH_TABS.length)%GH_TABS.length;
+  if(ghTab===3){ S='ghIssue'; ghIssueTitle=''; ghIssueBody=''; ghIssueField='title'; ghResult=''; }
+  draw(); beep(d>0?440:400,40);
+}
+function ghOk(){ if(ghTab===3){ S='ghIssue'; ghIssueTitle=''; ghIssueBody=''; ghIssueField='title'; ghResult=''; draw(); return; } loadGithub(); }
+
+function rGithub(){
+  if(ghLoading) return `<div class="boot-panel"><div class="boot-logo">GITHUB</div><div style="color:var(--amber);margin-top:8px;font-size:7px">LOADING...</div></div>`;
+  let h=`<div style="display:flex;justify-content:space-between;border-bottom:1px solid var(--dim);padding:4px 8px 4px;margin-bottom:4px">`;
+  GH_TABS.forEach((t,i)=>{ h+=`<span style="color:${i===ghTab?'var(--amber)':'var(--dim)'};font-size:8px;cursor:pointer" onclick="ghTab=${i};if(ghTab===3){S='ghIssue';ghIssueTitle='';ghIssueBody='';ghIssueField='title';ghResult='';} draw()">${t}</span>`; });
+  h+=`</div>`;
+  if(ghError) return h+`<div style="color:var(--red);font-size:7px;padding:8px">${ghError}</div><div style="color:var(--dim);font-size:8px;padding:4px 8px">PUBLIC REPO REQUIRED</div>`;
+  if(!ghData) return h+`<div style="color:var(--dim);padding:8px;font-size:7px">PRESS A TO LOAD</div>`;
+  const items=ghTab===0?ghData.commits:ghTab===1?ghData.prs:ghData.issues;
+  h+=`<div style="padding:4px 8px;overflow:hidden">`;
+  if(!items?.length){ h+=`<div style="color:var(--dim);font-size:7px">NONE</div>`; }
+  (items||[]).forEach(c=>{
+    if(c.error){ h+=`<div style="color:var(--red);font-size:7px">${c.error}</div>`; return; }
+    if(ghTab===0) h+=`<div style="margin-bottom:4px"><span style="color:var(--amber);font-size:8px">${c.sha}</span> <span style="font-size:7px">${c.message}</span><br><span style="color:var(--dim);font-size:7px">${c.author} · ${c.date}</span></div>`;
+    else h+=`<div style="margin-bottom:4px"><span style="color:var(--amber);font-size:8px">#${c.number}</span> <span style="font-size:7px">${c.title}</span></div>`;
+  });
+  h+=`</div><div style="color:var(--dim);font-size:7px;padding:2px 8px">A=REFRESH ◄►=TAB B=BACK</div>`;
+  return h;
+}
+
+function rGhIssue(){
+  let h=`<div style="color:var(--amber);font-size:8px;border-bottom:1px solid var(--dim);padding:4px 8px 4px;margin-bottom:4px">NEW GITHUB ISSUE</div>`;
+  if(ghResult) return h+`<div style="color:var(--green);font-size:7px;padding:8px">${ghResult}</div><div style="color:var(--dim);font-size:7px;padding:4px 8px">B=BACK</div>`;
+  if(ghSubmitting) return h+`<div style="color:var(--amber);padding:8px;font-size:7px">SUBMITTING...</div>`;
+  h+=`<div style="padding:0 8px">`;
+  h+=`<div style="font-size:7px;color:${ghIssueField==='title'?'var(--amber)':'var(--dim)'};margin-bottom:2px">TITLE</div>`;
+  h+=`<div style="font-size:7px;min-height:16px;border:1px solid ${ghIssueField==='title'?'var(--amber)':'var(--dim)'};padding:2px;margin-bottom:4px" onclick="ghIssueField='title';document.getElementById('gh-t').focus()">${ghIssueTitle||'<span style="color:var(--dim)">tap to type</span>'}</div>`;
+  h+=`<div style="font-size:7px;color:${ghIssueField==='body'?'var(--amber)':'var(--dim)'};margin-bottom:2px">BODY</div>`;
+  h+=`<div style="font-size:7px;min-height:22px;border:1px solid ${ghIssueField==='body'?'var(--amber)':'var(--dim)'};padding:2px" onclick="ghIssueField='body';document.getElementById('gh-b').focus()">${ghIssueBody||'<span style="color:var(--dim)">optional</span>'}</div>`;
+  h+=`</div>`;
+  h+=`<div style="color:var(--dim);font-size:7px;padding:4px 8px">TAP FIELD · A=SUBMIT · B=BACK</div>`;
+  h+=`<input id="gh-t" style="position:absolute;opacity:0;pointer-events:none" value="${ghIssueTitle.replace(/"/g,'&quot;')}" oninput="ghIssueTitle=this.value;draw()" onblur="draw()">`;
+  h+=`<input id="gh-b" style="position:absolute;opacity:0;pointer-events:none" value="${ghIssueBody.replace(/"/g,'&quot;')}" oninput="ghIssueBody=this.value;draw()" onblur="draw()">`;
+  return h;
+}
+
+async function ghSubmitIssue(){
+  if(!ghIssueTitle.trim()){ beep(200,100); return; }
+  ghSubmitting=true; draw();
+  try{
+    const r=await fetch(`${PUSH_FN_URL.replace('send-push','github-issue')}`,{
+      method:'POST',headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON}`},
+      body:JSON.stringify({title:ghIssueTitle,body:ghIssueBody,repo:GITHUB_REPO})
+    });
+    const d=await r.json();
+    ghResult=d.ok?`CREATED #${d.number}`:('ERROR: '+(d.error||'unknown'));
+  }catch(e){ ghResult='ERROR: '+e.message; }
+  ghSubmitting=false; draw(); beep(880,120);
+}
+
+function sseDot(on){
+  const d=document.getElementById('sse-dot');
+  if(d){ d.style.color=on?'#00ff88':'#333'; }
+}
+
+function connectRealtime(){
+  sb.channel('jarvis-live')
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'live_log'},payload=>{
+      lives.unshift(payload.new);
+      if(lives.length>100) lives=lives.slice(0,100);
+      if(S==='live') draw();
+    })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'prometheus_log'},payload=>{
+      const d=payload.new;
+      lives.unshift({action:'PROMETHEUS: '+(d.decision||'').slice(0,50),status:'done',time:new Date().toTimeString().slice(0,8)});
+      if(lives.length>100) lives=lives.slice(0,100);
+      if(S==='live') draw();
+    })
+    .on('postgres_changes',{event:'UPDATE',schema:'public',table:'node_fields'},payload=>{
+      const r=payload.new; GRID.set(r.node_id,r);
+      if(S==='tron') draw();
+    })
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'node_fields'},payload=>{
+      const r=payload.new; GRID.set(r.node_id,r);
+      if(S==='tron') draw();
+    })
+    .subscribe(status=>{
+      sseConnected=(status==='SUBSCRIBED');
+      sseDot(sseConnected);
+      if(S==='live') draw();
+    });
+}
+
+// P08: ROM indexer — catalog from Supabase rom_library
+async function loadROMIndex(){
+  try{
+    const {data}=await sb.from('rom_library').select('id,name,system,file_hash').order('created_at',{ascending:false}).limit(20);
+    if(data) romIndex=data;
+  }catch(e){}
+  if(S==='emu') draw();
+}
+async function registerROM(name,system,hash,size){
+  try{ await sb.from('rom_library').insert({name,system,file_hash:hash,file_size:size,source:'upload'}); loadROMIndex(); }catch(e){}
+}
+
+// P09: save/load state to Supabase save_states
+async function sbSaveState(slot=0,snapshot=null){
+  if(!romHash) return;
+  const snap=snapshot||(activeCore?await activeCore.snapshot():null);
+  if(!snap) return;
+  try{
+    await sb.from('save_states').insert({rom_hash:romHash,rom_name:romName,session_id:sessionId,slot,state_blob:snap,frame_count:0});
+    saveStateSlot=slot;
+    BUS.emit('save_state',{slot,rom:romName,patch_id:'P09',stage:'SKADI'});
+    beep(660,60);
+    if(S==='emu') draw();
+  }catch(e){}
+}
+async function sbLoadState(slot=0){
+  if(!romHash) return null;
+  try{
+    const {data}=await sb.from('save_states').select('state_blob').eq('rom_hash',romHash).eq('slot',slot).order('created_at',{ascending:false}).limit(1).maybeSingle();
+    return data?.state_blob||null;
+  }catch(e){ return null; }
+}
+
+async function loadData(){
+  try{
+    const {data}=await sb.from('gameboy_snapshot').select('data').eq('id',1).single();
+    if(data?.data){ gdata=data.data; }
+    else { gdata=FALLBACK_DATA; }
+  }catch(e){ gdata=FALLBACK_DATA; }
+  if(S!=='boot') draw();
+}
+
+async function loadLive(){
+  try{
+    const {data}=await sb.from('live_log').select('*').order('created_at',{ascending:false}).limit(50);
+    if(data){ lives=data; if(S==='live') draw(); }
+  }catch(e){}
+}
+
+async function loadNodeFields(){
+  try{
+    const {data}=await sb.from('node_fields').select('*');
+    if(data) data.forEach(r=>{ GRID.set(r.node_id,r); });
+  }catch(e){}
+  if(S==='tron') draw();
+}
+
+// P21: boot sequence — AYRE→briefing→AEGIS→ODIN→state sync→READY
+const BOOT_LINES=['AYRE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
+
+function runBoot(){
+  const el=document.getElementById('screen-inner');
+  el.innerHTML=`<div class="boot-panel">
+    <div class="boot-logo">JARVIS</div>
+    <div class="boot-sub">NEURAL MESH v2.5</div>
+    <div class="boot-lines" id="blines"></div>
+    <div class="boot-hint">PRESS ANY KEY</div>
+  </div>`;
+  let i=0;
+  function tick(){
+    if(i<BOOT_LINES.length){
+      const ln=document.createElement('div'); ln.className='boot-line';
+      ln.textContent='> '+BOOT_LINES[i++];
+      document.getElementById('blines').appendChild(ln);
+      setTimeout(tick,220);
+    }
+  }
+  setTimeout(tick,350);
+}
+
+loadBriefing();
+loadData();
+loadLive();
+loadNodeFields();
+loadROMIndex();
+loadGithub();
+loadMnemos();
+loadPrometheus();
+loadGodStats();
+connectRealtime();
+setInterval(loadGithub,60000);
+startSession();
+runBoot();
+
+// P22: wire BUS to LIVE FEED for real-time event visibility
+BUS.on('*',(evt,data)=>{
+  if(typeof evt!=='string') return;
+  lives.unshift({action:'BUS:'+String(evt).slice(0,22),status:'done',time:new Date().toTimeString().slice(0,8)});
+  if(lives.length>100) lives=lives.slice(0,100);
+  if(S==='live') draw();
+});
+
+// P07+P10-Companion: GRID Execution Bridge — BUS events activate all 27 God Systems
+const EXEC_BRIDGE={
+  // Core pipeline events
+  BOOT:               {nodes:['CHAOS','AYRE','ATLAS','ZEUS'],            spike:0.50},
+  mode_change:        {nodes:['ODIN','JANUS'],                           spike:0.20},
+  cartridge_load:     {nodes:['AEGIS','SKADI','IRIS'],                   spike:0.40},
+  cartridge_stop:     {nodes:['SKADI','MNEMOS','HADES'],                 spike:0.25},
+  emu_start:          {nodes:['AYRE','AEGIS','SKADI'],                   spike:0.45},
+  emu_error:          {nodes:['AEGIS','ERIS','ZEUS'],                    spike:0.35},
+  save_state:         {nodes:['MNEMOS','IRIS','POSEIDON'],               spike:0.40},
+  drift_alert:        {nodes:['HUGINN','MERIDIAN','NEMESIS'],            spike:0.30},
+  consensus_resolved: {nodes:['ODIN','AEGIS','ATHENA'],                  spike:0.30},
+  AEGIS_BLOCK:        {nodes:['AEGIS','ERIS','ZEUS'],                    spike:0.50},
+  tick:               {nodes:['KRONOS'],                                 spike:0.12},
+  // P10-Companion: new companion events
+  chaos_probe:        {nodes:['LOKI','CHAOS','AEGIS'],                   spike:0.30},
+  gl_violation:       {nodes:['ERIS','ZEUS','AEGIS','NEMESIS'],          spike:0.55},
+  memory_consolidate: {nodes:['MNEMOS','IRIS','HADES','POSEIDON'],       spike:0.30},
+  output_ready:       {nodes:['DANTE','APOLLO','HERMES'],                spike:0.25},
+  system_start:       {nodes:['ATLAS','CHAOS','ZEUS','POSEIDON'],        spike:0.20},
+  translation_pass:   {nodes:['HERMES','BIFROST'],                       spike:0.20},
+  integrity_check:    {nodes:['IRIS','MERIDIAN','ARGUS'],                spike:0.25},
+  wisdom_query:       {nodes:['MIMIR','ATHENA','ODIN'],                  spike:0.30},
+  archive_flush:      {nodes:['HADES','MNEMOS'],                         spike:0.35},
+};
+BUS.on('*',(evt)=>{
+  const b=EXEC_BRIDGE[evt]; if(!b) return;
+  b.nodes.forEach(id=>{
+    const f=nodeFields[id]||{load:0,entropy:0,alignment:1};
+    GRID.set(id,{...f,load:Math.min(1,(f.load||0)+b.spike)});
+  });
+  if(S==='tron') draw();
+});
+
+if('serviceWorker' in navigator){
+  navigator.serviceWorker.register('./gameboy-sw.js')
+    .then(()=>checkPushSupport())
+    .catch(()=>{ pushStatus='SW REG FAILED'; });
+} else {
+  pushStatus='NOT SUPPORTED';
+}
+</script>
+</body>
+</html>
