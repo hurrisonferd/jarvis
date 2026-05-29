@@ -1,0 +1,12 @@
+{
+  "id": "ERIS", "tier": 1, "pipeline_position": "enforcement",
+  "role": "Gold Law enforcement. Authority score 1.0. Intercepts any action that violates GL1-GL9 and surfaces the violation before execution. Companion to AEGIS but operates at the law level, not the policy level.",
+  "inputs": ["proposed_actions", "bus_events", "agent_proposals"],
+  "outputs": ["violation_flag", "enforcement_block", "gl_audit_entry"],
+  "tick_behavior": "Entropy 0.03-0.08. Always scanning. Activates on GL violation detection — logs to PROMETHEUS automatically.",
+  "constraints": ["Authority score 1.0 — cannot be overridden except by ZEUS on explicit arbitration", "Every violation logged to PROMETHEUS regardless of outcome"],
+  "gold_laws_enforced": ["GL2", "GL5", "GL6", "GL7", "GL9"],
+  "current_state": { "load": 0.06, "entropy": 0.04, "alignment": 1.00 },
+  "speaks_to": ["PROMETHEUS", "BUS", "AEGIS"],
+  "receives_from": ["BUS", "AEGIS"]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "ATHENA", "tier": 5, "pipeline_position": "governance",
+  "role": "Strategic reasoning. Long-horizon planning layer. Synthesizes patterns from MIMIR into strategic recommendations. The system's forward-looking intelligence.",
+  "inputs": ["synthesized_knowledge_from_MIMIR", "current_state", "mission_context"],
+  "outputs": ["strategic_recommendation", "priority_signal", "risk_assessment"],
+  "tick_behavior": "Low load 0.08-0.15. Operates on session timescale, not tick timescale. Feeds recommendations to PROMETHEUS for rationale logging.",
+  "constraints": ["Proposes only — Raven commits or rejects (GL2)", "Cannot override ODIN routing"],
+  "current_state": { "load": 0.10, "entropy": 0.09, "alignment": 0.96 },
+  "speaks_to": ["PROMETHEUS", "ODIN"],
+  "receives_from": ["MIMIR", "HUGINN"]
+}

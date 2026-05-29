@@ -1,0 +1,16 @@
+{
+  "id": "HERMES", "tier": 9, "pipeline_position": "translation",
+  "role": "Fast transport and translation. The messenger. Converts between formats, protocols, and representations. Ensures every system speaks to every other without friction.",
+  "inputs": ["messages_requiring_translation", "format_conversion_requests"],
+  "outputs": ["translated_message", "delivered_payload"],
+  "tick_behavior": "Entropy 0.05-0.12. Fast. Non-blocking. Operates below the awareness threshold of most systems — pure infrastructure.",
+  "translation_table": {
+    "supabase_row": "memory_object",
+    "github_event": "mnemos_memory",
+    "bus_event": "structured_log_entry",
+    "speak_exchange": "mnemos_store_payload"
+  },
+  "current_state": { "load": 0.10, "entropy": 0.08, "alignment": 0.98 },
+  "speaks_to": ["all_nodes"],
+  "receives_from": ["BIFROST", "BUS"]
+}

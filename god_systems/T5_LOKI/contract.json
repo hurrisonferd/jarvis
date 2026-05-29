@@ -1,0 +1,12 @@
+{
+  "id": "LOKI", "tier": 5, "pipeline_position": "governance",
+  "role": "Chaos probe. Injects controlled randomness to test system resilience. 7% of ticks trigger a random probe. Finds brittleness before it becomes failure.",
+  "inputs": ["chaos_seed_from_CHAOS", "tick_signal"],
+  "outputs": ["probe_result", "brittleness_report"],
+  "tick_behavior": "7% activation rate per tick. On activation: picks a random node, applies anomalous load, observes response. Reports to ARGUS.",
+  "constraints": ["Cannot write to HADES (forbidden edge LOKI→HADES)", "Probe magnitude capped at 0.30 load injection", "Results must be reported — cannot suppress findings"],
+  "forbidden_outgoing": ["HADES"],
+  "current_state": { "load": 0.07, "entropy": 0.35, "alignment": 0.88 },
+  "speaks_to": ["ARGUS", "BUS"],
+  "receives_from": ["CHAOS", "KRONOS"]
+}

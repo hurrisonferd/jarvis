@@ -1,0 +1,11 @@
+{
+  "id": "IRIS", "tier": 6, "pipeline_position": "integrity",
+  "role": "Validation. Checks correctness of state, data, and outputs before they leave the system boundary. The quality gate.",
+  "inputs": ["outputs_before_delivery", "state_changes", "api_responses"],
+  "outputs": ["validation_pass", "validation_fail", "correction_request"],
+  "tick_behavior": "Entropy 0.04-0.08. Activates at system output boundary. Validates schema, type safety, constraint compliance before APOLLO forms final output.",
+  "constraints": ["Cannot pass invalid output — must block or flag", "Validation failures logged to PROMETHEUS"],
+  "current_state": { "load": 0.07, "entropy": 0.05, "alignment": 0.98 },
+  "speaks_to": ["APOLLO", "PROMETHEUS"],
+  "receives_from": ["SKADI", "ODIN"]
+}

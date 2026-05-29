@@ -1,0 +1,11 @@
+{
+  "id": "HUGINN", "tier": 3, "pipeline_position": 7,
+  "role": "Reconcile and drift detection. Final stage of the primary pipeline. Compares expected state against actual. Surfaces drift. Triggers alerts when system behavior diverges from intent.",
+  "inputs": ["executed_results_from_MNEMOS", "expected_state", "continuity_check_from_POSEIDON"],
+  "outputs": ["drift_report", "reconciliation_action", "alignment_score"],
+  "tick_behavior": "Entropy 0.08-0.18. Load correlates with drift magnitude. High drift triggers ZEUS or ERIS alert. Normal operation is quiet.",
+  "constraints": ["Must report drift — cannot suppress", "Cannot correct drift directly — raises alert for ODIN to re-route"],
+  "current_state": { "load": 0.14, "entropy": 0.10, "alignment": 0.97 },
+  "speaks_to": ["BUS", "ZEUS", "ERIS"],
+  "receives_from": ["MNEMOS", "POSEIDON"]
+}

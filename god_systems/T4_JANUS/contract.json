@@ -1,0 +1,12 @@
+{
+  "id": "JANUS", "tier": 4, "pipeline_position": "transitions",
+  "role": "State transition manager. Manages mode switches, session boundaries, and system state changes. The gatekeeper of before/after.",
+  "inputs": ["transition_request", "session_start", "session_end", "mode_change"],
+  "outputs": ["transition_executed", "before_snapshot", "after_snapshot"],
+  "tick_behavior": "Near-zero load between transitions. Entropy spike on activation. Captures state before/after every transition for MNEMOS.",
+  "constraints": ["Cannot send to SKADI directly (forbidden edge JANUS→SKADI)", "Every transition must emit BUS event with before/after state"],
+  "forbidden_outgoing": ["SKADI"],
+  "current_state": { "load": 0.04, "entropy": 0.05, "alignment": 0.99 },
+  "speaks_to": ["MNEMOS", "BUS", "ODIN"],
+  "receives_from": ["TRON", "BUS", "session_signals"]
+}

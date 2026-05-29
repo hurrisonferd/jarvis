@@ -1,0 +1,11 @@
+{
+  "id": "NEMESIS", "tier": 5, "pipeline_position": "governance",
+  "role": "Consequence tracking. Monitors outcomes of decisions over time. Closes the loop between action and result. Ensures PROMETHEUS decisions are evaluated, not just logged.",
+  "inputs": ["decision_records_from_PROMETHEUS", "execution_outcomes_from_SKADI", "drift_reports_from_HUGINN"],
+  "outputs": ["consequence_assessment", "outcome_delta", "feedback_to_ATHENA"],
+  "tick_behavior": "Entropy 0.05-0.12. Operates on session and cross-session timescales. Compares promised outcome vs actual result.",
+  "constraints": ["Cannot override decisions — evaluates only", "Findings fed to ATHENA for future strategy adjustment"],
+  "current_state": { "load": 0.06, "entropy": 0.07, "alignment": 0.97 },
+  "speaks_to": ["ATHENA", "PROMETHEUS", "BUS"],
+  "receives_from": ["PROMETHEUS", "SKADI", "HUGINN"]
+}

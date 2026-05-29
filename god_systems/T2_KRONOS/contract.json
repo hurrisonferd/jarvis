@@ -1,0 +1,17 @@
+{
+  "id": "KRONOS", "tier": 2, "pipeline_position": 4,
+  "role": "Time control. Manages the tick loop. Controls execution rhythm of all God Systems. The heartbeat.",
+  "inputs": ["tick_trigger", "mode_change_command"],
+  "outputs": ["tick_signal", "tick_snapshot", "replay_frame"],
+  "tick_behavior": "Self-referential — generates its own ticks. 900ms real mode. Stepped on manual command. Frozen on pause. Replay mode scrubs tickHistory ring buffer (60 ticks).",
+  "modes": {
+    "real": "900ms auto-tick. Normal operation.",
+    "stepped": "Manual tick via command. Debug mode.",
+    "replay": "Scrub tickHistory. Left/right TRON nav moves tick cursor.",
+    "frozen": "No tick. State held static."
+  },
+  "constraints": ["tickHistory max 60 frames — ring buffer, oldest overwritten", "Mode changes must go through TRON UI or GOVERNOR intent"],
+  "current_state": { "mode": "real", "tick": 0, "load": 0.12, "entropy": 0.08, "alignment": 0.98 },
+  "speaks_to": ["all_nodes", "CHAOS"],
+  "receives_from": ["GOVERNOR", "TRON"]
+}

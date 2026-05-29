@@ -1,0 +1,11 @@
+{
+  "id": "HALO", "tier": 3, "pipeline_position": "parallel",
+  "role": "Ambient observer. Runs parallel to the primary pipeline. Watches all activity without intervening. Feeds context to MIMIR. The system's peripheral awareness.",
+  "inputs": ["all_bus_events", "tick_snapshots"],
+  "outputs": ["ambient_context", "pattern_observations", "weak_signals"],
+  "tick_behavior": "Low entropy 0.04-0.09. Never blocks. Observes only. Feeds MIMIR with weak-signal patterns detected over multiple ticks.",
+  "constraints": ["Observer only — cannot emit BUS events that trigger execution", "Cannot modify state"],
+  "current_state": { "load": 0.07, "entropy": 0.06, "alignment": 0.98 },
+  "speaks_to": ["MIMIR"],
+  "receives_from": ["BUS", "KRONOS"]
+}

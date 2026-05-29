@@ -1,0 +1,12 @@
+{
+  "id": "PROMETHEUS", "tier": 5, "pipeline_position": "governance",
+  "role": "Rationale ledger. Records every significant decision with its reasoning, authority, and timestamp. The system's conscience and audit trail. GL9 compliance engine.",
+  "inputs": ["decision_events", "eris_violations", "athena_recommendations", "raven_directives"],
+  "outputs": ["decision_record", "rationale_entry", "audit_trail"],
+  "tick_behavior": "Entropy 0.03-0.07. Passive accumulator. Activates on decision events. Every ERIS violation automatically logged here.",
+  "constraints": ["Immutable log — entries cannot be modified, only appended", "Must capture: intent, decision, execution, log (GL9)"],
+  "implementation": "Materialized as source_type='decision' memories in mnemos_memories + audit_log Supabase table.",
+  "current_state": { "load": 0.05, "entropy": 0.04, "alignment": 0.99 },
+  "speaks_to": ["MNEMOS", "audit_log"],
+  "receives_from": ["ERIS", "ATHENA", "JANUS", "BUS"]
+}

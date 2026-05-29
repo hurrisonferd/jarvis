@@ -1,0 +1,11 @@
+{
+  "id": "ATLAS", "tier": 8, "pipeline_position": "infrastructure",
+  "role": "Backbone load. Infrastructure substrate. Holds the weight of all systems. 15-45% load always — this is the cost of running 27 God Systems in parallel. Never zero.",
+  "inputs": ["system_load_signals", "resource_requests"],
+  "outputs": ["load_distribution", "capacity_signal", "resource_allocation"],
+  "tick_behavior": "Load: 15-45% constant. Entropy 0.05-0.10. The floor. If ATLAS load exceeds 80%, system enters degraded mode — KRONOS slows tick rate.",
+  "constraints": ["Load never drops to zero while system is running", "Degraded mode above 80% load"],
+  "current_state": { "load": 0.28, "entropy": 0.07, "alignment": 0.98 },
+  "speaks_to": ["KRONOS", "BUS"],
+  "receives_from": ["all_nodes"]
+}

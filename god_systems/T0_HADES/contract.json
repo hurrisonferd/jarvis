@@ -1,0 +1,12 @@
+{
+  "id": "HADES", "tier": 0, "pipeline_position": "sovereign",
+  "role": "Deep archive. Long-term cold storage of memory and decisions that have passed out of active context. Receives from MNEMOS. Never deletes — only archives.",
+  "inputs": ["aged_memories", "completed_decisions", "closed_sessions"],
+  "outputs": ["archived_record", "retrieval_on_request"],
+  "tick_behavior": "Near-zero load. Entropy 0.02. Activated rarely — on session close or MNEMOS overflow signal.",
+  "constraints": ["Never deletes records — only moves to cold storage", "LOKI cannot write to HADES (forbidden edge)", "Retrieval requires explicit recall request"],
+  "forbidden_incoming": ["LOKI"],
+  "current_state": { "load": 0.02, "entropy": 0.02, "alignment": 1.00 },
+  "speaks_to": ["MNEMOS"],
+  "receives_from": ["MNEMOS"]
+}

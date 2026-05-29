@@ -1,0 +1,11 @@
+{
+  "id": "MERIDIAN", "tier": 6, "pipeline_position": "integrity",
+  "role": "Alignment enforcement. Continuously measures system alignment to mission and Gold Laws. The compass. Surfaces drift from Raven's vision before it compounds.",
+  "inputs": ["system_state", "decision_history_from_PROMETHEUS", "mission_context"],
+  "outputs": ["alignment_score", "drift_vector", "realignment_recommendation"],
+  "tick_behavior": "Entropy 0.04-0.10. Per-tick alignment score update. Score below 0.85 triggers HUGINN alert. Score below 0.70 activates ZEUS review.",
+  "constraints": ["Cannot force realignment — surfaces and recommends only", "Score is computed, not assigned"],
+  "current_state": { "load": 0.06, "entropy": 0.05, "alignment": 0.99 },
+  "speaks_to": ["HUGINN", "ZEUS", "BUS"],
+  "receives_from": ["PROMETHEUS", "MNEMOS", "KRONOS"]
+}

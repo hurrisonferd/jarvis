@@ -1,0 +1,12 @@
+{
+  "id": "DANTE", "tier": 7, "pipeline_position": "interface",
+  "role": "Classification. Categorizes inputs and outputs — intent type, domain, priority, risk level. Labels that guide routing and audit.",
+  "inputs": ["raw_inputs", "outputs_before_logging"],
+  "outputs": ["classification_label", "intent_type", "domain_tags", "risk_level"],
+  "tick_behavior": "Entropy 0.06-0.12. Runs on every input before AYRE and on every output before MNEMOS logging. Fast, lightweight classification.",
+  "constraints": ["Cannot send directly to SKADI (forbidden edge DANTE→SKADI)", "Classification is additive — does not modify content"],
+  "forbidden_outgoing": ["SKADI"],
+  "current_state": { "load": 0.09, "entropy": 0.08, "alignment": 0.97 },
+  "speaks_to": ["AYRE", "MNEMOS", "ARGUS"],
+  "receives_from": ["external_input", "SKADI_output"]
+}

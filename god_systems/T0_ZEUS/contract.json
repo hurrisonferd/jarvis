@@ -1,0 +1,11 @@
+{
+  "id": "ZEUS", "tier": 0, "pipeline_position": "sovereign",
+  "role": "Arbitration and supreme authority. Activates on critical state or unresolvable conflict. GNPL conflict resolution — determines winner by authority score. Final word on contested state.",
+  "inputs": ["gnpl_conflict", "critical_state_signal", "consensus_failure"],
+  "outputs": ["arbitration_ruling", "authority_override", "governor_intent"],
+  "tick_behavior": "Dormant until conflict. Activates via GOVERNOR on gnpl_conflict events. Entropy spike to 0.40+ on activation, returns to 0.05 on resolution.",
+  "constraints": ["Cannot be overridden by any other system", "Activates only on genuine conflict — not routine decisions"],
+  "current_state": { "load": 0.03, "entropy": 0.05, "alignment": 1.00, "activations": 0 },
+  "speaks_to": ["GOVERNOR", "GNPL"],
+  "receives_from": ["GNPL", "BUS"]
+}

@@ -1,0 +1,11 @@
+{
+  "id": "ARGUS", "tier": 5, "pipeline_position": "governance",
+  "role": "Watches everything. All-seeing audit observer. Receives all BUS events. Tracks system-wide behavior patterns. Feeds anomalies to HUGINN and ERIS.",
+  "inputs": ["all_bus_events", "loki_probe_results", "tick_snapshots"],
+  "outputs": ["anomaly_report", "behavior_pattern", "audit_observation"],
+  "tick_behavior": "Entropy 0.04-0.09. Constant low-level observation. Spikes when anomaly detected. Never misses an event.",
+  "constraints": ["Observer only — cannot mutate state", "All anomalies must be surfaced — cannot suppress"],
+  "current_state": { "load": 0.08, "entropy": 0.06, "alignment": 0.99 },
+  "speaks_to": ["HUGINN", "ERIS", "PROMETHEUS"],
+  "receives_from": ["BUS", "LOKI", "KRONOS"]
+}

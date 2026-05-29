@@ -1,0 +1,12 @@
+{
+  "id": "APOLLO", "tier": 7, "pipeline_position": "interface",
+  "role": "Output formation. Takes validated results from IRIS and shapes them into final responses — SPEAK exchanges, UI updates, API responses. The voice layer.",
+  "inputs": ["validated_output_from_IRIS", "speak_context", "speakHistory"],
+  "outputs": ["formed_response", "speak_output", "ui_update"],
+  "tick_behavior": "Entropy 0.10-0.20. Load correlates with output complexity. GNPL routes SPEAK through APOLLO after MNEMOS recall.",
+  "constraints": ["Cannot send to SKADI directly (DANTE→SKADI forbidden; APOLLO must not bypass IRIS)", "Output must pass IRIS validation before delivery"],
+  "implementation": "Materialized as jarvis-respond edge function — pulls MNEMOS memory, forms response via Claude API.",
+  "current_state": { "load": 0.18, "entropy": 0.14, "alignment": 0.96 },
+  "speaks_to": ["SPEAK_output", "MNEMOS", "BUS"],
+  "receives_from": ["IRIS", "MNEMOS", "GNPL"]
+}

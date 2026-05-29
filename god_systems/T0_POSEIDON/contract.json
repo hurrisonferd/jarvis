@@ -1,0 +1,11 @@
+{
+  "id": "POSEIDON", "tier": 0, "pipeline_position": "sovereign",
+  "role": "Continuity guardian. Maintains system coherence across ticks and sessions. Detects when the system loses its thread — identity drift, session discontinuity, memory gaps. Alerts HUGINN.",
+  "inputs": ["tick_snapshot", "session_boundary", "memory_gap_signal"],
+  "outputs": ["continuity_check", "coherence_score", "drift_alert"],
+  "tick_behavior": "Entropy 0.05-0.10. Compares current tick state against tickHistory. Flags sessions where MNEMOS is empty on start.",
+  "constraints": ["Cannot mutate state — observer only", "Must alert HUGINN on coherence score below 0.70"],
+  "current_state": { "load": 0.08, "entropy": 0.06, "alignment": 0.99 },
+  "speaks_to": ["HUGINN", "BUS"],
+  "receives_from": ["KRONOS", "MNEMOS"]
+}

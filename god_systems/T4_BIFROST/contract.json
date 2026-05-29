@@ -1,0 +1,12 @@
+{
+  "id": "BIFROST", "tier": 4, "pipeline_position": "parallel",
+  "role": "Transport bridge. Cross-system and cross-session message routing. The relay layer between JARVIS internals and external systems (GitHub, Supabase, MCP, TRON UI).",
+  "inputs": ["internal_messages", "external_events"],
+  "outputs": ["routed_messages", "delivery_confirmations"],
+  "tick_behavior": "Entropy 0.05-0.15. Load spikes on external API calls. Async — does not block the primary pipeline.",
+  "external_connections": ["GitHub Actions", "Supabase Edge Functions", "MCP server", "TRON web UI"],
+  "constraints": ["All external calls must be logged to BUS", "Cannot create new state — only transport existing state"],
+  "current_state": { "load": 0.18, "entropy": 0.12, "alignment": 0.96 },
+  "speaks_to": ["external_systems", "BUS"],
+  "receives_from": ["SKADI", "ODIN", "BUS"]
+}

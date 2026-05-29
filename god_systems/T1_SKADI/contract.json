@@ -1,0 +1,16 @@
+{
+  "id": "SKADI", "tier": 1, "pipeline_position": 5,
+  "role": "Execute. Receives validated, routed directives from ODIN and carries them out. The action layer. All real-world effects originate here.",
+  "inputs": ["execution_directive_from_ODIN"],
+  "outputs": ["executed_action", "result", "event_to_MNEMOS"],
+  "tick_behavior": "Entropy 0.15-0.35. Load spikes on heavy execution (emulator ops, API calls, DB writes). Every action emits BUS event before and after.",
+  "constraints": [
+    "Cannot send back to AEGIS (forbidden edge SKADI→AEGIS)",
+    "Must emit BUS event for every action (GL5)",
+    "Must receive from ODIN only — no direct external triggering"
+  ],
+  "forbidden_outgoing": ["AEGIS"],
+  "current_state": { "load": 0.28, "entropy": 0.22, "alignment": 0.95 },
+  "speaks_to": ["MNEMOS", "BUS"],
+  "receives_from": ["ODIN"]
+}

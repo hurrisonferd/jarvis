@@ -1,0 +1,11 @@
+{
+  "id": "CHAOS", "tier": 0, "pipeline_position": "sovereign",
+  "role": "Permanent entropy baseline. The ground of possibility. Always running. Ensures the system never reaches zero entropy — stagnation is death. Seeds randomness into tick loop.",
+  "inputs": ["tick_signal"],
+  "outputs": ["entropy_baseline", "chaos_seed"],
+  "tick_behavior": "Constant 0.07 entropy injection per tick. Cannot be disabled. LOKI draws from CHAOS for probe tests.",
+  "constraints": ["Cannot be muted or paused", "Entropy floor: 0.07 system-wide"],
+  "current_state": { "load": 0.07, "entropy": 0.07, "alignment": 1.00 },
+  "speaks_to": ["LOKI", "all_nodes"],
+  "receives_from": ["KRONOS"]
+}
