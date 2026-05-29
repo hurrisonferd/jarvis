@@ -581,15 +581,21 @@ function rGodList(){
 function rGodDetail(){
   if(!detail) return rLoad();
   const d=detail;
-  // P14: live stats + power model + delta indicators
+  // P14: live stats + power model + delta indicators + trend history
   const f=nodeFields[d.name]||null;
   const hist=nodeHistory[d.name]||[];
   const prev=hist.length>1?hist[1]:null;
-  const dStr=(cur,old,invert=false)=>{ if(!prev||old==null) return ''; const d=cur-old; if(Math.abs(d)<0.005) return ''; const up=invert?d<0:d>0; return `<span style="color:${up?'var(--green)':'var(--red)'};font-size:3px">${up?'&#8593;':'&#8595;'}</span>`; };
-  const power=f?Math.round((f.alignment||1)*(f.load||0)*(1-(f.entropy||0))*100):null;
-  const powerCol=power===null?'var(--dim)':power>60?'var(--green)':power>30?'var(--amber)':'var(--red)';
-  const statsHtml=f?`<div class="dl">LIVE STATS</div><div class="dv" style="font-size:5px;line-height:2">ENT <span style="color:${(f.entropy||0)>0.5?'var(--red)':'var(--green)'}">${Math.round((f.entropy||0)*100)}%</span>${dStr(f.entropy,prev?.entropy,true)} &nbsp; ALN <span style="color:var(--blue)">${Math.round((f.alignment||1)*100)}%</span>${dStr(f.alignment,prev?.alignment)} &nbsp; LOAD <span style="color:var(--amber)">${Math.round((f.load||0)*100)}%</span>${dStr(f.load,prev?.load)}</div><div class="dl">POWER</div><div class="dv" style="color:${powerCol}">${power!==null?power+'%':'—'}</div>`:'';
   const gs=godStats[d.name]||null;
+  const dStr=(cur,old,invert=false)=>{ if(!prev||old==null) return ''; const d=cur-old; if(Math.abs(d)<0.005) return ''; const up=invert?d<0:d>0; return `<span style="color:${up?'var(--green)':'var(--red)'};font-size:3px">${up?'&#8593;':'&#8595;'}</span>`; };
+  // trend mini: last 3 ticks as [n2→n1→n0]
+  const trendMini=(stat,pct=true,invert=false)=>{ const vals=hist.slice(0,3).map(h=>Math.round((h[stat]||0)*100)); if(vals.length<2) return ''; const trend=vals[0]-vals[vals.length-1]; const col=Math.abs(trend)<2?'var(--dim)':((invert?trend<0:trend>0)?'var(--green)':'var(--red)'); return `<span style="color:${col};font-size:2.8px">[${vals.join('→')}]</span>`; };
+  // P14: power = alignment × load × stability, weighted by entropy_sensitivity
+  const entSens=gs?gs.entropy_sensitivity||0:0;
+  const ent=f?.entropy||0;
+  const power=f?Math.round((f.alignment||1)*(f.load||0)*(1-ent)*(1-entSens*ent)*100):null;
+  const powerCol=power===null?'var(--dim)':power>60?'var(--green)':power>30?'var(--amber)':'var(--red)';
+  const statsHtml=f?`<div class="dl">LIVE STATS</div><div class="dv" style="font-size:5px;line-height:2">ENT <span style="color:${ent>0.5?'var(--red)':'var(--green)'}">${Math.round(ent*100)}%</span>${dStr(ent,prev?.entropy,true)} ${trendMini('entropy',true,true)} &nbsp; ALN <span style="color:var(--blue)">${Math.round((f.alignment||1)*100)}%</span>${dStr(f.alignment,prev?.alignment)} ${trendMini('alignment')} &nbsp; LOAD <span style="color:var(--amber)">${Math.round((f.load||0)*100)}%</span>${dStr(f.load,prev?.load)} ${trendMini('load')}</div><div class="dl">POWER</div><div class="dv" style="color:${powerCol}">${power!==null?power+'%':'—'}</div>`:'';
+
   const gsHtml=gs?`<div class="dl" style="margin-top:4px">AUTHORITY</div><div class="dv" style="color:var(--green)">${Math.round((gs.authority_score||0)*100)}%</div>
     <div class="dl">ERIS ALIGN</div><div class="dv" style="color:var(--blue)">${Math.round((gs.eris_alignment||0)*100)}%</div>
     <div class="dl">ENT SENSE</div><div class="dv" style="color:${(gs.entropy_sensitivity||0)>0.7?'var(--red)':'var(--amber)'}">${Math.round((gs.entropy_sensitivity||0)*100)}%</div>
@@ -1188,7 +1194,7 @@ function rL5Graph(){
 }
 
 function rL6Pipeline(){
-  const pipe=['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'];
+  const pipe=(gdata&&gdata.pipeline&&gdata.pipeline.length)?gdata.pipeline:['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'];
   const W=310,H=250,cy=Math.round(H/2);
   const xStart=22,xEnd=W-22,xStep=(xEnd-xStart)/(pipe.length-1);
   let elems='<defs><marker id="lp-arr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="#f5a623" opacity="0.75"/></marker></defs>';
@@ -1216,16 +1222,20 @@ function rL6Pipeline(){
     elems+=`<text x="${cx}" y="${cy+15}" text-anchor="middle" font-size="3" fill="${active||isPulse?col:'var(--dim)'}" font-family="monospace">${active?Math.round((f.load||0)*100)+'%':'--'}</text>`;
   });
   // P13: parallel branch overlay — HALO + MIMIR above ODIN, BIFROST above SKADI
-  const parY=cy-62;
+  const parY=cy-58;
   const odinCx=Math.round(xStart+2*xStep);
   const skadiCx=Math.round(xStart+4*xStep);
-  [{name:'HALO',px:odinCx-24,lx:odinCx},{name:'MIMIR',px:odinCx+24,lx:odinCx},{name:'BIFROST',px:skadiCx,lx:skadiCx}].forEach(p=>{
+  // section divider + label
+  elems+=`<line x1="${xStart}" y1="${parY-18}" x2="${xEnd}" y2="${parY-18}" stroke="#00ff88" stroke-width="0.4" opacity="0.20"/>`;
+  elems+=`<text x="${xStart}" y="${parY-11}" font-size="3" fill="#00ff88" font-family="monospace" opacity="0.45">PARALLEL</text>`;
+  [{name:'HALO',px:odinCx-26,lx:odinCx,anchor:odinCx-16},{name:'MIMIR',px:odinCx+26,lx:odinCx,anchor:odinCx+16},{name:'BIFROST',px:skadiCx,lx:skadiCx,anchor:skadiCx}].forEach(p=>{
     const f=nodeFields[p.name]||{load:0,entropy:0,alignment:1};
     const active=(f.load||0)>0.02;
     const col='#00ff88';
-    elems+=`<line x1="${p.px}" y1="${parY+7}" x2="${p.lx}" y2="${cy-8}" stroke="${col}" stroke-width="0.7" stroke-dasharray="3,2" opacity="0.35"/>`;
-    elems+=`<circle cx="${p.px}" cy="${parY}" r="6" fill="#080f18" stroke="${col}" stroke-width="${active?1.5:0.7}" opacity="${active?0.9:0.35}"/>`;
-    elems+=`<text x="${p.px}" y="${parY+1}" text-anchor="middle" dominant-baseline="middle" font-size="3" fill="${col}" font-family="monospace" opacity="${active?1:0.4}">${p.name.slice(0,3)}</text>`;
+    const lineOpacity=active?0.55:0.20;
+    elems+=`<line x1="${p.px}" y1="${parY+7}" x2="${p.anchor}" y2="${cy-8}" stroke="${col}" stroke-width="0.8" stroke-dasharray="3,2" opacity="${lineOpacity}"/>`;
+    elems+=`<circle cx="${p.px}" cy="${parY}" r="6" fill="#080f18" stroke="${col}" stroke-width="${active?1.5:0.7}" opacity="${active?0.9:0.30}"/>`;
+    elems+=`<text x="${p.px}" y="${parY+1}" text-anchor="middle" dominant-baseline="middle" font-size="3" fill="${col}" font-family="monospace" opacity="${active?1:0.35}">${p.name.slice(0,3)}</text>`;
     elems+=`<text x="${p.px}" y="${parY+14}" text-anchor="middle" font-size="3" fill="${active?col:'var(--dim)'}" font-family="monospace">${active?Math.round((f.load||0)*100)+'%':'--'}</text>`;
   });
   const avgEnt=totalEntropy/pipe.length;
