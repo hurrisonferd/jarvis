@@ -1,23 +1,25 @@
-// mnemos-embed: embed a memory and store its vector, or backfill all unembedded rows
-// Provider: Jina AI jina-embeddings-v2-base-en (768 dims, free tier)
-// Set JINA_API_KEY (or EMBEDDING_API_KEY) in Supabase edge function secrets
+// mnemos-embed: store embedding vectors for memories
+// OpenAI-compatible API — works with OpenAI, Voyage AI, Cohere, etc.
+// Env vars: EMBEDDING_API_KEY (required), EMBEDDING_API_URL (optional), EMBEDDING_MODEL (optional)
 
-const JINA_KEY = Deno.env.get('JINA_API_KEY') || Deno.env.get('EMBEDDING_API_KEY');
-const SB_URL   = Deno.env.get('SUPABASE_URL')!;
-const SB_KEY   = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const EMBED_URL   = Deno.env.get('EMBEDDING_API_URL') || 'https://api.openai.com/v1/embeddings';
+const EMBED_KEY   = Deno.env.get('EMBEDDING_API_KEY') || Deno.env.get('OPENAI_API_KEY');
+const EMBED_MODEL = Deno.env.get('EMBEDDING_MODEL') || 'text-embedding-3-small';
+const SB_URL      = Deno.env.get('SUPABASE_URL')!;
+const SB_KEY      = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, content-type',
 };
 
-async function embed(text: string): Promise<number[] | null> {
-  if (!JINA_KEY) return null;
+export async function embed(text: string): Promise<number[] | null> {
+  if (!EMBED_KEY) return null;
   try {
-    const r = await fetch('https://api.jina.ai/v1/embeddings', {
+    const r = await fetch(EMBED_URL, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${JINA_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'jina-embeddings-v2-base-en', input: [text.slice(0, 8192)] }),
+      headers: { Authorization: `Bearer ${EMBED_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 8192) }),
     });
     if (!r.ok) return null;
     const d = await r.json();
@@ -29,10 +31,8 @@ async function patchRow(id: string, vec: number[]): Promise<void> {
   await fetch(`${SB_URL}/rest/v1/mnemos_memories?id=eq.${encodeURIComponent(id)}`, {
     method: 'PATCH',
     headers: {
-      apikey: SB_KEY,
-      Authorization: `Bearer ${SB_KEY}`,
-      'Content-Type': 'application/json',
-      Prefer: 'return=minimal',
+      apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`,
+      'Content-Type': 'application/json', Prefer: 'return=minimal',
     },
     body: JSON.stringify({ embedding: `[${vec.join(',')}]` }),
   });
@@ -44,9 +44,8 @@ Deno.serve(async (req: Request) => {
   const body = await req.json().catch(() => ({}));
   const jsonH = { 'Content-Type': 'application/json', ...CORS };
 
-  // Backfill: embed all rows missing a vector (up to 50 per call)
   if (body.backfill) {
-    if (!JINA_KEY) return new Response(JSON.stringify({ embedded: 0, reason: 'no_api_key' }), { headers: jsonH });
+    if (!EMBED_KEY) return new Response(JSON.stringify({ embedded: 0, reason: 'no_api_key' }), { headers: jsonH });
     const listRes = await fetch(
       `${SB_URL}/rest/v1/mnemos_memories?select=id,text&embedding=is.null&limit=50`,
       { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } }
@@ -62,7 +61,6 @@ Deno.serve(async (req: Request) => {
     return new Response(JSON.stringify({ embedded: count, backfill: true, total: rows.length }), { headers: jsonH });
   }
 
-  // Single embed
   const { memory_id, text } = body;
   if (!memory_id || !text) {
     return new Response(JSON.stringify({ error: 'memory_id and text required' }), { status: 400, headers: jsonH });

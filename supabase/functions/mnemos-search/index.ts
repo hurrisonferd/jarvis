@@ -1,11 +1,13 @@
-// mnemos-search: semantic memory search via pgvector cosine similarity
-// Falls back to ILIKE keyword search when no API key is present
-// Provider: Jina AI jina-embeddings-v2-base-en (768 dims)
-// Set JINA_API_KEY (or EMBEDDING_API_KEY) in Supabase edge function secrets
+// mnemos-search: semantic memory search (pgvector cosine similarity)
+// Falls back to PostgreSQL full-text search (tsv) when no API key is set
+// OpenAI-compatible — works with OpenAI, Voyage AI, Cohere, etc.
+// Env vars: EMBEDDING_API_KEY, EMBEDDING_API_URL, EMBEDDING_MODEL
 
-const JINA_KEY = Deno.env.get('JINA_API_KEY') || Deno.env.get('EMBEDDING_API_KEY');
-const SB_URL   = Deno.env.get('SUPABASE_URL')!;
-const SB_KEY   = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+const EMBED_URL   = Deno.env.get('EMBEDDING_API_URL') || 'https://api.openai.com/v1/embeddings';
+const EMBED_KEY   = Deno.env.get('EMBEDDING_API_KEY') || Deno.env.get('OPENAI_API_KEY');
+const EMBED_MODEL = Deno.env.get('EMBEDDING_MODEL') || 'text-embedding-3-small';
+const SB_URL      = Deno.env.get('SUPABASE_URL')!;
+const SB_KEY      = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
 const CORS = {
   'Access-Control-Allow-Origin': '*',
@@ -13,12 +15,12 @@ const CORS = {
 };
 
 async function embed(text: string): Promise<number[] | null> {
-  if (!JINA_KEY) return null;
+  if (!EMBED_KEY) return null;
   try {
-    const r = await fetch('https://api.jina.ai/v1/embeddings', {
+    const r = await fetch(EMBED_URL, {
       method: 'POST',
-      headers: { Authorization: `Bearer ${JINA_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: 'jina-embeddings-v2-base-en', input: [text.slice(0, 8192)] }),
+      headers: { Authorization: `Bearer ${EMBED_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 8192) }),
     });
     if (!r.ok) return null;
     const d = await r.json();
@@ -26,19 +28,25 @@ async function embed(text: string): Promise<number[] | null> {
   } catch { return null; }
 }
 
-async function keywordSearch(
+async function fulltextSearch(
   query: string, limit: number, sourceType: string | null
 ): Promise<{ results: unknown[]; method: string }> {
-  const word = query.split(/\s+/).find(w => w.length > 2) || query.slice(0, 20);
-  let url = `${SB_URL}/rest/v1/mnemos_memories?select=id,source_id,source_type,text,timestamp,metadata,tags`
-    + `&text=ilike.*${encodeURIComponent(word)}*&limit=${limit}&order=timestamp.desc`;
+  const tsQuery = query.trim().split(/\s+/).filter(Boolean).join(' & ');
+  let url = `${SB_URL}/rest/v1/mnemos_memories`
+    + `?select=id,source_id,source_type,text,timestamp,metadata,tags`
+    + `&limit=${limit}&order=timestamp.desc`;
+  if (tsQuery) url += `&tsv=fts.${encodeURIComponent(tsQuery)}`;
   if (sourceType) url += `&source_type=eq.${encodeURIComponent(sourceType)}`;
   const r = await fetch(url, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
-  const rows: Record<string, unknown>[] = await r.json();
-  return {
-    results: (rows || []).map(row => ({ ...row, similarity: null })),
-    method: 'keyword',
-  };
+  const rows: Record<string, unknown>[] = await r.json().catch(() => []);
+  if (!rows?.length) {
+    const fallUrl = `${SB_URL}/rest/v1/mnemos_memories?select=id,source_id,source_type,text,timestamp,metadata,tags&limit=${limit}&order=timestamp.desc`
+      + (sourceType ? `&source_type=eq.${encodeURIComponent(sourceType)}` : '');
+    const fallR = await fetch(fallUrl, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
+    const fallRows: Record<string, unknown>[] = await fallR.json().catch(() => []);
+    return { results: (fallRows || []).map(row => ({ ...row, similarity: null })), method: 'recent' };
+  }
+  return { results: rows.map(row => ({ ...row, similarity: null })), method: 'fulltext' };
 }
 
 Deno.serve(async (req: Request) => {
@@ -53,17 +61,15 @@ Deno.serve(async (req: Request) => {
   const vec = await embed(query);
 
   if (!vec) {
-    const fallback = await keywordSearch(query, limit, source_type);
+    const fallback = await fulltextSearch(query, limit, source_type);
     return new Response(JSON.stringify({ ...fallback, query }), { headers: jsonH });
   }
 
   const rpcRes = await fetch(`${SB_URL}/rest/v1/rpc/match_memories`, {
     method: 'POST',
     headers: {
-      apikey: SB_KEY,
-      Authorization: `Bearer ${SB_KEY}`,
-      'Content-Type': 'application/json',
-      Prefer: 'return=representation',
+      apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}`,
+      'Content-Type': 'application/json', Prefer: 'return=representation',
     },
     body: JSON.stringify({
       query_embedding: `[${vec.join(',')}]`,
@@ -74,11 +80,10 @@ Deno.serve(async (req: Request) => {
   });
 
   if (!rpcRes.ok) {
-    const fallback = await keywordSearch(query, limit, source_type);
+    const fallback = await fulltextSearch(query, limit, source_type);
     return new Response(JSON.stringify({ ...fallback, query, fallback_reason: 'rpc_error' }), { headers: jsonH });
   }
 
-  // Normalize: RPC returns content+ts; map back to text+timestamp for consistent API
   const raw: Record<string, unknown>[] = await rpcRes.json();
   const results = raw.map(r => ({
     id: r.id, source_id: r.source_id, source_type: r.source_type,

@@ -3,19 +3,20 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 type VocabRow = { tag: string; patterns: string[]; priority: number };
 
-// P33+: vocab loaded from mnemos_vocab table at runtime — no deploy needed to add tags
+const EMBED_URL   = Deno.env.get('EMBEDDING_API_URL') || 'https://api.openai.com/v1/embeddings';
+const EMBED_KEY   = Deno.env.get('EMBEDDING_API_KEY') || Deno.env.get('OPENAI_API_KEY');
+const EMBED_MODEL = Deno.env.get('EMBEDDING_MODEL') || 'text-embedding-3-small';
+const SB_URL      = Deno.env.get('SUPABASE_URL') ?? '';
+const SB_SVC_KEY  = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '';
+
 let vocabCache: VocabRow[] | null = null;
 let vocabCacheTs = 0;
-const VOCAB_TTL_MS = 5 * 60 * 1000; // refresh every 5 minutes
+const VOCAB_TTL_MS = 5 * 60 * 1000;
 
 async function getVocab(sb: ReturnType<typeof createClient>): Promise<VocabRow[]> {
   const now = Date.now();
   if (vocabCache && now - vocabCacheTs < VOCAB_TTL_MS) return vocabCache;
-  const { data } = await sb
-    .from('mnemos_vocab')
-    .select('tag, patterns, priority')
-    .eq('enabled', true)
-    .order('priority', { ascending: true });
+  const { data } = await sb.from('mnemos_vocab').select('tag, patterns, priority').eq('enabled', true).order('priority', { ascending: true });
   vocabCache = (data ?? []) as VocabRow[];
   vocabCacheTs = now;
   return vocabCache;
@@ -28,6 +29,29 @@ function tagText(text: string, vocab: VocabRow[]): string[] {
     if (patterns.some(p => lower.includes(p.toLowerCase()))) tags.push(tag);
   }
   return tags;
+}
+
+async function embedMemory(id: string, text: string): Promise<void> {
+  if (!EMBED_KEY) return;
+  try {
+    const r = await fetch(EMBED_URL, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${EMBED_KEY}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 8192) }),
+    });
+    if (!r.ok) return;
+    const d = await r.json();
+    const vec: number[] | undefined = d.data?.[0]?.embedding;
+    if (!vec) return;
+    await fetch(`${SB_URL}/rest/v1/mnemos_memories?id=eq.${encodeURIComponent(id)}`, {
+      method: 'PATCH',
+      headers: {
+        apikey: SB_SVC_KEY, Authorization: `Bearer ${SB_SVC_KEY}`,
+        'Content-Type': 'application/json', Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({ embedding: `[${vec.join(',')}]` }),
+    });
+  } catch { /* non-blocking */ }
 }
 
 Deno.serve(async (req: Request) => {
@@ -50,8 +74,7 @@ Deno.serve(async (req: Request) => {
     status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
   });
 
-  const sb = createClient(Deno.env.get('SUPABASE_URL') ?? '', Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? '');
-
+  const sb = createClient(SB_URL, SB_SVC_KEY);
   const vocab = await getVocab(sb);
   const autoTags = tagText(text, vocab);
   const callerTags = (payload.tags as string[]) ?? [];
@@ -64,7 +87,10 @@ Deno.serve(async (req: Request) => {
     text: text.slice(0, 2000),
     entropy: (payload.entropy as number) ?? 0.05,
     platform: (payload.platform as string) ?? 'claude_code_cli',
-    metadata: (payload.metadata as Record<string, unknown>) ?? {},
+    metadata: {
+      ...(payload.metadata as Record<string, unknown> ?? {}),
+      source_model: (payload.source_model as string) ?? 'jarvis',
+    },
     timestamp: (payload.timestamp as string) ?? new Date().toISOString(),
     tags,
   };
@@ -72,6 +98,7 @@ Deno.serve(async (req: Request) => {
   try {
     const { error } = await sb.from('mnemos_memories').insert(row);
     if (error) throw error;
+    embedMemory(row.id, row.text);
     return new Response(JSON.stringify({ ok: true, id: row.id, tags }), {
       headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
     });
