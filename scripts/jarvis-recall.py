@@ -30,6 +30,17 @@ def recall(payload: dict) -> list:
         return []
 
 
+def query_proposals(limit: int = 5, status: str = "pending") -> list:
+    params = f"select=proposal_type,proposer,payload,status,patch_id,created_at&status=eq.{status}&order=created_at.desc&limit={limit}"
+    url = f"{REST_BASE}/consensus_proposals?{params}"
+    req = urllib.request.Request(url, headers=HEADERS)
+    try:
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            return json.loads(resp.read())
+    except Exception:
+        return []
+
+
 def query_prometheus(limit: int = 5, min_weight: float = 0.0) -> list:
     params = f"select=decision,rationale,gl_law,tags,eris_weight,timestamp&raven_approved=eq.true&eris_weight=gte.{min_weight}&order=eris_weight.desc,timestamp.desc&limit={limit}"
     url = f"{REST_BASE}/prometheus_log?{params}"
@@ -77,6 +88,21 @@ def main():
             tag_str = f" [{', '.join(tags[:3])}]" if tags else ""
             print(f"[{src} {ts}]{tag_str}")
             print(f"  {text[:200]}")
+            print()
+
+    # Open GNPL proposals (governance queries)
+    if is_gov:
+        open_proposals = query_proposals(limit=3)
+        if open_proposals:
+            print("─" * 50)
+            print("OPEN PROPOSALS (GNPL):")
+            for p in open_proposals:
+                ptype = p.get("proposal_type") or "?"
+                ts = (p.get("created_at") or "")[:10]
+                pid = p.get("patch_id") or ""
+                pid_str = f" [{pid}]" if pid else ""
+                desc = ((p.get("payload") or {}).get("description") or "")[:120]
+                print(f"  [{ptype} {ts}]{pid_str} {desc}")
             print()
 
     # Prometheus structured decisions (governance queries always pull this)

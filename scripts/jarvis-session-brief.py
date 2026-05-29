@@ -60,6 +60,17 @@ def load_pending_patches() -> list:
         return []
 
 
+def query_open_proposals(limit: int = 3) -> list:
+    params = f"select=proposal_type,payload,patch_id,created_at&status=eq.pending&order=created_at.desc&limit={limit}"
+    url = f"{REST_BASE}/consensus_proposals?{params}"
+    req = urllib.request.Request(url, headers=REST_HEADERS)
+    try:
+        with urllib.request.urlopen(req, timeout=6) as resp:
+            return json.loads(resp.read())
+    except Exception:
+        return []
+
+
 def query_prometheus(limit: int = 3) -> list:
     params = f"select=decision,gl_law,eris_weight,timestamp&raven_approved=eq.true&order=eris_weight.desc,timestamp.desc&limit={limit}"
     url = f"{REST_BASE}/prometheus_log?{params}"
@@ -145,6 +156,19 @@ def main():
             w = d.get("eris_weight") or 0
             decision = (d.get("decision") or "")[:100].replace("\n", " ")
             print(f"  [{gl} w={w}] {decision}")
+        print()
+
+    # ── Open GNPL proposals (Supabase — best effort)
+    proposals = query_open_proposals(limit=3)
+    if proposals:
+        print("OPEN PROPOSALS (GNPL):")
+        for p in proposals:
+            ptype = p.get("proposal_type") or "?"
+            pid = p.get("patch_id") or ""
+            pid_str = f" [{pid}]" if pid else ""
+            desc = ((p.get("payload") or {}).get("description") or "")[:90]
+            ts = (p.get("created_at") or "")[:10]
+            print(f"  [{ptype} {ts}]{pid_str} {desc}")
         print()
 
     # ── Pending / partial patches
