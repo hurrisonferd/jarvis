@@ -1,0 +1,182 @@
+name: JARVIS God System Pipeline
+
+# AYRE → AEGIS → MNEMOS → HUGINN
+# Pure GitHub — no Supabase required.
+# Supabase is used by MNEMOS if SUPABASE_SERVICE_KEY is set, otherwise falls back to git log.
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: '0 6 * * *'   # KRONOS — daily 06:00 UTC
+  workflow_dispatch:
+    inputs:
+      intent:
+        description: 'Pipeline intent (sync / audit / observe / full)'
+        required: false
+        default: 'sync'
+
+concurrency:
+  group: jarvis-pipeline-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+
+  # ── AYRE — Input / Intake ──────────────────────────────────────────
+  ayre:
+    name: AYRE — Intake
+    runs-on: ubuntu-latest
+    outputs:
+      event_type:    ${{ steps.intake.outputs.event_type }}
+      sha_short:     ${{ steps.intake.outputs.sha_short }}
+      intent:        ${{ steps.intake.outputs.intent }}
+      changed_files: ${{ steps.intake.outputs.changed_files }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 5
+
+      - id: intake
+        name: Collect context
+        run: |
+          EVENT="${{ github.event_name }}"
+          SHA="${{ github.sha }}"
+          SHA_SHORT="${SHA:0:7}"
+          INTENT="${{ inputs.intent }}"
+          INTENT="${INTENT:-sync}"
+
+          case "$EVENT" in
+            push)
+              FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null | tr '\n' ',' | sed 's/,$//')
+              echo "event_type=push"       >> $GITHUB_OUTPUT
+              echo "changed_files=$FILES"  >> $GITHUB_OUTPUT
+              ;;
+            schedule)
+              echo "event_type=schedule"   >> $GITHUB_OUTPUT
+              echo "changed_files="        >> $GITHUB_OUTPUT
+              ;;
+            *)
+              echo "event_type=dispatch"   >> $GITHUB_OUTPUT
+              echo "changed_files="        >> $GITHUB_OUTPUT
+              ;;
+          esac
+
+          echo "sha_short=$SHA_SHORT"  >> $GITHUB_OUTPUT
+          echo "intent=$INTENT"        >> $GITHUB_OUTPUT
+          echo "AYRE: event=$EVENT sha=$SHA_SHORT intent=$INTENT"
+
+  # ── AEGIS — Validation / Gate ───────────────────────────────────────
+  aegis:
+    name: AEGIS — Validate
+    needs: ayre
+    runs-on: ubuntu-latest
+    outputs:
+      gl7_status: ${{ steps.gl7.outputs.status }}
+      gl7_score:  ${{ steps.gl7.outputs.score }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - id: gl7
+        name: GL7 entropy check
+        env:
+          COMMIT_SHA:     ${{ github.sha }}
+          COMMIT_MESSAGE: ${{ github.event.head_commit.message || 'schedule/dispatch' }}
+        run: |
+          OUTPUT=$(python3 scripts/eris-entropy-check.py 2>&1)
+          echo "$OUTPUT"
+          STATUS=$(echo "$OUTPUT" | grep -oP '(?<=status:    )\S+' | head -1 || echo "ok")
+          SCORE=$(echo "$OUTPUT"  | grep -oP '(?<=score:     )\S+' | head -1 || echo "0")
+          echo "status=${STATUS:-ok}"   >> $GITHUB_OUTPUT
+          echo "score=${SCORE:-0}"      >> $GITHUB_OUTPUT
+          echo "AEGIS: gl7=$STATUS score=$SCORE"
+
+  # ── MNEMOS — Memory Sync ──────────────────────────────────────────
+  # Covers ODIN (orchestrate), SKADI (execute), KRONOS (temporal cadence).
+  # Reads Supabase if SUPABASE_SERVICE_KEY present; falls back to git log.
+  mnemos:
+    name: MNEMOS — Memory
+    needs: [ayre, aegis]
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+
+      - name: Sync memory files
+        env:
+          SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          SUPABASE_ANON_KEY:    ${{ secrets.SUPABASE_ANON_KEY }}
+        run: python3 scripts/mnemos-domain-sync.py
+
+      - name: Commit memory files
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add mnemos/
+          git diff --staged --quiet || git commit -m "chore(mnemos): sync [${{ needs.ayre.outputs.event_type }}/${{ needs.ayre.outputs.sha_short }}] [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
+
+  # ── HUGINN — Observe / Report ───────────────────────────────────────
+  huginn:
+    name: HUGINN — Observe
+    needs: [ayre, aegis, mnemos]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull latest (catch MNEMOS commit)
+        run: git pull --rebase origin main || true
+
+      - name: Record pipeline observation
+        run: |
+          python3 << 'PYEOF'
+          import json, pathlib
+          from datetime import datetime, timezone
+
+          now   = datetime.now(timezone.utc)
+          event = "${{ needs.ayre.outputs.event_type }}"
+          sha   = "${{ needs.ayre.outputs.sha_short }}"
+          gl7   = "${{ needs.aegis.outputs.gl7_status }}"
+
+          path = pathlib.Path("mnemos/memories/sessions.json")
+          try:
+              data = json.loads(path.read_text())
+          except Exception:
+              data = {"sessions": [], "count": 0}
+
+          sessions = data.get("sessions", [])
+          sessions.append({
+              "text":      f"Pipeline: {event} sha={sha} aegis_gl7={gl7}",
+              "timestamp": now.isoformat()[:19],
+              "tags":      ["pipeline", "huginn", event],
+          })
+          data["sessions"] = sessions[-20:]
+          data["count"]    = len(data["sessions"])
+          data["updated"]  = now.isoformat()[:19] + "Z"
+          path.write_text(json.dumps(data, indent=2) + "\n")
+          print(f"HUGINN: observation recorded — {event} {sha} gl7={gl7}")
+          PYEOF
+
+      - name: Commit observation
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add mnemos/memories/sessions.json
+          git diff --staged --quiet || git commit -m "chore(huginn): observation [${{ needs.ayre.outputs.event_type }}] [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
+
+      - name: Pipeline summary
+        if: always()
+        run: |
+          echo "══════════════════════════════════════════"
+          echo "JARVIS PIPELINE COMPLETE"
+          echo "  event:   ${{ needs.ayre.outputs.event_type }}"
+          echo "  sha:     ${{ needs.ayre.outputs.sha_short }}"
+          echo "  intent:  ${{ needs.ayre.outputs.intent }}"
+          echo "  aegis:   ${{ needs.aegis.outputs.gl7_status }} (score ${{ needs.aegis.outputs.gl7_score }})"
+          echo "  mnemos:  ${{ needs.mnemos.result }}"
+          echo "══════════════════════════════════════════"

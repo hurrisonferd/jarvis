@@ -15,8 +15,6 @@ jobs:
 
       - name: Run ERIS entropy check
         env:
-          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-          COMMIT_SHA: ${{ github.sha }}
+          COMMIT_SHA:     ${{ github.sha }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
         run: python3 scripts/eris-entropy-check.py

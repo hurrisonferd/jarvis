@@ -1,49 +1,108 @@
 name: JARVIS Monitor
 
-# Gap 3: autonomous initiation — JARVIS observes daily, surfaces at session start.
-# Calls jarvis-monitor edge function to store observations in MNEMOS.
-# REQUIRED: SUPABASE_SERVICE_KEY secret in repo Settings → Secrets → Actions
+# HUGINN + KRONOS — daily autonomous observation.
+# Reads git log, writes observations to mnemos/memories/sessions.json.
+# No Supabase required. Node heartbeat attempted (soft-fail).
 
 on:
   schedule:
-    - cron: '0 8 * * *'   # 08:00 UTC daily
-  workflow_dispatch:       # allow manual trigger
+    - cron: '0 8 * * *'   # 08:00 UTC daily — offset from pipeline (06:00)
+  workflow_dispatch:
 
 jobs:
-  monitor:
+  observe:
+    name: HUGINN — Daily Observe
     runs-on: ubuntu-latest
     steps:
-      - name: Call jarvis-monitor
-        env:
-          SUPABASE_URL: https://oexghfsvhnggddllgvrt.supabase.co
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: |
-          if [ -z "$SUPABASE_SERVICE_KEY" ]; then
-            echo "SUPABASE_SERVICE_KEY not set — skipping monitor"
-            exit 0
-          fi
-
-          RESPONSE=$(curl -s -X POST \
-            "${SUPABASE_URL}/functions/v1/jarvis-monitor" \
-            -H "Authorization: Bearer ${SUPABASE_SERVICE_KEY}" \
-            -H "Content-Type: application/json" \
-            -d '{}' )
-
-          echo "Monitor response: $RESPONSE"
-          echo "$RESPONSE" | python3 -c "
-import json, sys
-data = json.load(sys.stdin)
-stored = data.get('stored', 0)
-obs = data.get('observations', [])
-print(f'JARVIS stored {stored} observation(s):')
-for o in obs:
-    print(f'  {o}')
-" 2>/dev/null || echo "$RESPONSE"
-
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 20
 
-      - name: Grid node heartbeat
+      - name: Git-based daily observation
+        run: |
+          python3 << 'PYEOF'
+          import json, pathlib, subprocess
+          from datetime import datetime, timezone
+
+          def git(cmd):
+              try:
+                  return subprocess.check_output(cmd, shell=True, text=True,
+                                                 stderr=subprocess.DEVNULL).strip()
+              except Exception:
+                  return ""
+
+          now = datetime.now(timezone.utc)
+          today = now.strftime("%Y-%m-%d")
+
+          # Last 7 commits (non-automated)
+          log = git("git log --pretty=format:'%h|%an|%ai|%s' --max-count=20")
+          commits = []
+          for line in log.splitlines():
+              parts = line.strip("'").split('|', 3)
+              if len(parts) < 4:
+                  continue
+              sha, author, ts, msg = parts
+              if '[skip ci]' in msg:
+                  continue
+              commits.append(f"[{sha}] {msg[:80]}")
+          commits = commits[:7]
+
+          # Patch summary
+          ledger_path = pathlib.Path("audit/patch_ledger.json")
+          patch_summary = ""
+          try:
+              ledger = json.loads(ledger_path.read_text())
+              patches = ledger.get("patches", [])
+              pending = [p["id"] for p in patches if p.get("status") == "pending"]
+              partial = [p["id"] for p in patches if p.get("status") == "partial"]
+              done    = [p["id"] for p in patches if p.get("status") == "done"]
+              patch_summary = f"patches: {len(done)} done, {len(partial)} partial, {len(pending)} pending"
+          except Exception:
+              pass
+
+          # Compose observation
+          lines = [f"Daily observation {today}"]
+          if commits:
+              lines.append("Recent commits: " + " | ".join(commits[:3]))
+          if patch_summary:
+              lines.append(patch_summary)
+          observation = ". ".join(lines)
+
+          # Write to sessions.json
+          path = pathlib.Path("mnemos/memories/sessions.json")
+          try:
+              data = json.loads(path.read_text())
+          except Exception:
+              data = {"sessions": [], "count": 0}
+
+          sessions = data.get("sessions", [])
+          # Don't duplicate today's observation
+          existing_today = any(s.get("timestamp", "")[:10] == today for s in sessions
+                               if "Daily observation" in s.get("text", ""))
+          if not existing_today:
+              sessions.append({
+                  "text":      observation,
+                  "timestamp": now.isoformat()[:19],
+                  "tags":      ["huginn", "daily", "observation"],
+              })
+              data["sessions"] = sessions[-20:]
+              data["count"]    = len(data["sessions"])
+              data["updated"]  = now.isoformat()[:19] + "Z"
+              path.write_text(json.dumps(data, indent=2) + "\n")
+              print(f"HUGINN: {observation[:100]}")
+          else:
+              print(f"HUGINN: observation already recorded for {today} — skipping")
+          PYEOF
+
+      - name: Commit observation
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add mnemos/memories/sessions.json
+          git diff --staged --quiet || git commit -m "chore(huginn): daily observation [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
+
+      - name: Node heartbeat (soft-fail)
         env:
-          SUPABASE_URL: https://oexghfsvhnggddllgvrt.supabase.co
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-        run: python3 scripts/jarvis-node-init.py
+        run: python3 scripts/jarvis-node-init.py || echo "Node heartbeat skipped (no Supabase)"

@@ -1,135 +1,101 @@
-name: MNEMOS GitHub Sync
+name: MNEMOS GitHub Event Sync
 
-# Stores GitHub activity in MNEMOS — issues, PRs, commits feed the memory layer.
-# REQUIRED: SUPABASE_SERVICE_KEY in repo Settings → Secrets → Actions
+# MNEMOS — records GitHub issues and PRs to mnemos/memories/events.jsonl.
+# No Supabase required. Push events are handled by jarvis-pipeline.yml.
 
 on:
   issues:
     types: [opened, closed, labeled, reopened]
   pull_request:
     types: [opened, closed]
-  push:
-    branches: [main]
 
 jobs:
   sync:
+    name: MNEMOS — Record Event
     runs-on: ubuntu-latest
     steps:
-      - name: Sync event to MNEMOS
+      - uses: actions/checkout@v4
+
+      - name: Write event to memory
         env:
-          SUPABASE_URL: https://oexghfsvhnggddllgvrt.supabase.co
-          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          EVENT_NAME: ${{ github.event_name }}
+          EVENT_NAME:   ${{ github.event_name }}
           EVENT_ACTION: ${{ github.event.action }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
-          ISSUE_TITLE: ${{ github.event.issue.title }}
-          ISSUE_BODY: ${{ github.event.issue.body }}
-          ISSUE_STATE: ${{ github.event.issue.state }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_TITLE: ${{ github.event.pull_request.title }}
-          PR_MERGED: ${{ github.event.pull_request.merged }}
-          PR_BODY: ${{ github.event.pull_request.body }}
-          COMMIT_SHA: ${{ github.sha }}
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
-          COMMIT_AUTHOR: ${{ github.event.head_commit.author.name }}
+          ISSUE_TITLE:  ${{ github.event.issue.title }}
+          ISSUE_BODY:   ${{ github.event.issue.body }}
+          PR_NUMBER:    ${{ github.event.pull_request.number }}
+          PR_TITLE:     ${{ github.event.pull_request.title }}
+          PR_MERGED:    ${{ github.event.pull_request.merged }}
+          PR_BODY:      ${{ github.event.pull_request.body }}
         run: |
-          if [ -z "$SUPABASE_SERVICE_KEY" ]; then
-            echo "SUPABASE_SERVICE_KEY not set — skipping MNEMOS sync"
-            exit 0
-          fi
+          python3 << 'PYEOF'
+          import json, os, pathlib
+          from datetime import datetime, timezone
 
-          python3 - <<'PYEOF'
-          import os, json, urllib.request, urllib.error
-
-          url  = os.environ["SUPABASE_URL"] + "/functions/v1/mnemos-store"
-          key  = os.environ["SUPABASE_SERVICE_KEY"]
-          ev   = os.environ.get("EVENT_NAME", "")
-          act  = os.environ.get("EVENT_ACTION", "")
+          ev  = os.environ.get("EVENT_NAME", "")
+          act = os.environ.get("EVENT_ACTION", "")
+          ts  = datetime.now(timezone.utc).isoformat()[:19] + "Z"
 
           text = None
-          source_type = "github_event"
           tags = ["development"]
-          metadata = {"event": ev, "action": act, "repo": "hurrisonferd/jarvis"}
 
           if ev == "issues":
-            num   = os.environ.get("ISSUE_NUMBER", "?")
-            title = os.environ.get("ISSUE_TITLE", "").strip()
-            body  = (os.environ.get("ISSUE_BODY") or "").strip()[:300]
-            if act == "opened":
-              text = f"[ISSUE #{num} OPENED] {title}" + (f"\n{body}" if body else "")
-              source_type = "github_issue"
-              tags = ["development", "projects"]
-            elif act == "closed":
-              text = f"[ISSUE #{num} CLOSED] {title}"
-              source_type = "github_issue"
-              tags = ["development", "projects"]
-            elif act == "labeled":
-              label = os.environ.get("GITHUB_EVENT_LABEL_NAME", "")
-              text = f"[ISSUE #{num} LABELED] {title}"
-              source_type = "github_issue"
-              tags = ["development"]
-            elif act == "reopened":
-              text = f"[ISSUE #{num} REOPENED] {title}"
-              source_type = "github_issue"
-              tags = ["development"]
-            metadata["issue_number"] = num
-            metadata["issue_title"] = title
+              num   = os.environ.get("ISSUE_NUMBER", "?")
+              title = os.environ.get("ISSUE_TITLE", "").strip()
+              body  = (os.environ.get("ISSUE_BODY") or "").strip()[:200]
+              text  = f"[ISSUE #{num} {act.upper()}] {title}"
+              if body and act == "opened":
+                  text += f"\n{body}"
+              tags  = ["development", "projects"]
 
           elif ev == "pull_request":
-            num    = os.environ.get("PR_NUMBER", "?")
-            title  = os.environ.get("PR_TITLE", "").strip()
-            merged = os.environ.get("PR_MERGED", "false") == "true"
-            body   = (os.environ.get("PR_BODY") or "").strip()[:200]
-            if act == "opened":
-              text = f"[PR #{num} OPENED] {title}" + (f"\n{body}" if body else "")
-              source_type = "github_pr"
-              tags = ["development"]
-            elif act == "closed" and merged:
-              text = f"[PR #{num} MERGED] {title}" + (f"\n{body}" if body else "")
-              source_type = "github_pr"
-              tags = ["development", "architecture"]
-            elif act == "closed" and not merged:
-              text = f"[PR #{num} CLOSED (not merged)] {title}"
-              source_type = "github_pr"
-              tags = ["development"]
-            metadata["pr_number"] = num
-            metadata["pr_title"] = title
-            metadata["merged"] = merged
-
-          elif ev == "push":
-            sha    = os.environ.get("COMMIT_SHA", "")[:7]
-            msg    = os.environ.get("COMMIT_MSG", "").strip().split("\n")[0][:120]
-            author = os.environ.get("COMMIT_AUTHOR", "").strip()
-            if msg and sha:
-              text = f"[COMMIT {sha}] {msg} (by {author})"
-              source_type = "github_commit"
-              tags = ["development"]
-            metadata["sha"] = sha
-            metadata["author"] = author
+              num    = os.environ.get("PR_NUMBER", "?")
+              title  = os.environ.get("PR_TITLE", "").strip()
+              merged = os.environ.get("PR_MERGED", "false") == "true"
+              body   = (os.environ.get("PR_BODY") or "").strip()[:200]
+              if act == "closed" and merged:
+                  text = f"[PR #{num} MERGED] {title}"
+              elif act == "closed":
+                  text = f"[PR #{num} CLOSED] {title}"
+              else:
+                  text = f"[PR #{num} {act.upper()}] {title}"
+              if body and act == "opened":
+                  text += f"\n{body}"
+              tags = ["development", "architecture" if merged else "development"]
 
           if not text:
-            print(f"No memory to store for {ev}.{act}")
-            exit(0)
+              print(f"No event to record for {ev}.{act}")
+              exit(0)
 
-          payload = json.dumps({
-            "source_type": source_type,
-            "text": text[:2000],
-            "entropy": 0.04,
-            "platform": "github_actions",
-            "metadata": metadata,
-            "tags": tags,
-          }).encode()
+          entry = {
+              "ts": ts, "event": ev, "action": act,
+              "text": text[:500], "tags": tags,
+              "source_type": f"github_{ev}",
+          }
 
-          req = urllib.request.Request(url, data=payload, method="POST")
-          req.add_header("Authorization", "Bearer " + key)
-          req.add_header("Content-Type", "application/json")
+          path = pathlib.Path("mnemos/memories/events.jsonl")
+          path.parent.mkdir(parents=True, exist_ok=True)
 
-          try:
-            resp = urllib.request.urlopen(req)
-            data = json.loads(resp.read())
-            print(f"MNEMOS stored: {text[:80]}")
-            print(f"  id={data.get('id')} tags={data.get('tags')}")
-          except urllib.error.HTTPError as e:
-            print(f"MNEMOS store failed {e.code}: {e.read().decode()}")
-            exit(1)
+          existing = []
+          if path.exists():
+              for line in path.read_text().splitlines():
+                  line = line.strip()
+                  if line:
+                      try:
+                          existing.append(json.loads(line))
+                      except Exception:
+                          pass
+          existing = existing[-99:]
+          existing.append(entry)
+
+          path.write_text("\n".join(json.dumps(e) for e in existing) + "\n")
+          print(f"MNEMOS: {text[:80]}")
           PYEOF
+
+      - name: Commit event log
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add mnemos/memories/events.jsonl
+          git diff --staged --quiet || git commit -m "chore(mnemos): github event [${{ github.event_name }}.${{ github.event.action }}] [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"

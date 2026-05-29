@@ -13,10 +13,12 @@ Structure:
   mnemos/index.json              — manifest
 
 Supabase is write-first. GitHub is read-first.
+Fallback: git log is used when Supabase is unavailable.
 """
 import json
 import os
 import pathlib
+import subprocess
 import sys
 import urllib.request
 from datetime import datetime, timezone
@@ -37,6 +39,40 @@ CONTEXT  = MNEMOS / "context"
 
 def now_iso() -> str:
     return datetime.now(timezone.utc).isoformat()[:19] + "Z"
+
+
+def git_cmd(cmd: str) -> str:
+    try:
+        return subprocess.check_output(cmd, shell=True, text=True, stderr=subprocess.DEVNULL).strip()
+    except Exception:
+        return ""
+
+
+def sync_from_git() -> int:
+    """Fallback: read git log and write commits as memories when Supabase unavailable."""
+    log = git_cmd("git log --pretty=format:%H|%an|%ai|%s --max-count=50")
+    if not log:
+        return 0
+    out = []
+    for line in log.splitlines():
+        parts = line.split("|", 3)
+        if len(parts) < 4:
+            continue
+        sha, author, ts, msg = parts
+        if "[skip ci]" in msg:
+            continue
+        out.append({
+            "id":          sha[:12],
+            "source_type": "github_commit",
+            "text":        f"[{sha[:7]}] {msg} (by {author})",
+            "timestamp":   ts[:19].replace(" ", "T"),
+            "tags":        ["development"],
+            "model":       "jarvis",
+        })
+    write_json(MEMORIES / "recent.json", {
+        "updated": now_iso(), "count": len(out), "memories": out,
+    })
+    return len(out)
 
 
 def fetch_rest(path: str) -> list:
@@ -185,11 +221,12 @@ def write_system_context() -> None:
             "gemini": {"trust": 0.70, "role": "ideator",   "archetype": "Aizen"},
         },
         "memory_architecture": {
-            "write":  "mnemos-store edge fn → Supabase mnemos_memories (fast)",
+            "write":  "mnemos-store edge fn → Supabase mnemos_memories (fast, optional)",
             "embed":  "auto-embed on store via EMBEDDING_API_KEY (OpenAI-compatible)",
             "search": "mnemos-search → pgvector cosine similarity → tsv fulltext fallback",
             "sync":   "daily GitHub Action → mnemos/memories/ + mnemos/context/ files",
             "read":   "any model reads mnemos/ files from repo — no credentials needed",
+            "fallback": "git log → mnemos/memories/recent.json when Supabase unavailable",
         },
     })
 
@@ -215,9 +252,9 @@ def write_patches_context() -> None:
             "remaining": p.get("remaining", []),
         })
     write_json(CONTEXT / "patches.json", {
-        "updated":             now_iso()[:10],
+        "updated":              now_iso()[:10],
         "implementation_order": ledger.get("implementation_order", []),
-        "patches":             active,
+        "patches":              active,
     })
 
 
@@ -225,43 +262,38 @@ def write_patches_context() -> None:
 
 def write_index(counts: dict) -> None:
     write_json(MNEMOS / "index.json", {
-        "version":     "2.0",
+        "version":     "2.1",
         "updated":     now_iso(),
         "node":        "node-001-raven",
         "description": "JARVIS memory and context store. GitHub is the read layer — no credentials needed.",
         "read_order": [
             "1. mnemos/context/system.json — architecture, Gold Laws, agents (read first)",
-            "2. mnemos/memories/recent.json — last 50 memories across all types",
+            "2. mnemos/memories/recent.json — last 50 memories or git log (Supabase optional)",
             "3. mnemos/memories/decisions.json — approved governance decisions",
-            "4. mnemos/memories/sessions.json — session summaries",
+            "4. mnemos/memories/sessions.json — session summaries + pipeline observations",
             "5. mnemos/context/patches.json — patch status",
-            "6. mnemos/domains/ — identity profiles (Raven, JARVIS)",
+            "6. mnemos/memories/events.jsonl — github issues/PRs",
+            "7. mnemos/domains/ — identity profiles (Raven, JARVIS)",
         ],
         "files": {
-            "memories/recent.json":    {"desc": "Last 50 memories (all types)", "count": counts.get("recent", 0)},
-            "memories/decisions.json": {"desc": "PROMETHEUS governance decisions (raven_approved, high eris_weight)", "count": counts.get("decisions", 0)},
-            "memories/sessions.json":  {"desc": "Last 20 session summaries", "count": counts.get("sessions", 0)},
+            "memories/recent.json":    {"desc": "Last 50 memories (Supabase) or git commits (fallback)", "count": counts.get("recent", 0)},
+            "memories/decisions.json": {"desc": "PROMETHEUS governance decisions", "count": counts.get("decisions", 0)},
+            "memories/sessions.json":  {"desc": "Session summaries + pipeline observations", "count": counts.get("sessions", 0)},
+            "memories/events.jsonl":   {"desc": "GitHub issues and PRs (append log)"},
             "context/system.json":     {"desc": "Gold Laws, pipeline, God Systems, agent trust scores"},
             "context/patches.json":    {"desc": "Patch ledger — active and pending only"},
             "domains/identity.json":   {"desc": "JARVIS + Raven identity domain profiles"},
         },
-        "supabase": {
-            "project":   "oexghfsvhnggddllgvrt",
-            "hot_layer": "mnemos_memories (39+ rows, vector(1536) for semantic search)",
-            "functions": {
-                "mnemos-store":  "POST /functions/v1/mnemos-store — write a memory",
-                "mnemos-search": "POST /functions/v1/mnemos-search — semantic or fulltext search",
-                "mnemos-embed":  "POST /functions/v1/mnemos-embed — embed or backfill vectors",
-            },
+        "pipeline": {
+            "workflow": "jarvis-pipeline.yml",
+            "jobs":     "AYRE → AEGIS → MNEMOS → HUGINN",
+            "triggers": ["push:main", "schedule:06:00UTC", "workflow_dispatch"],
+            "supabase": "optional — git log fallback active when unavailable",
         },
         "tags": [
             "jarvis", "raven", "mission", "architecture", "governance",
             "memory", "grid", "gaming", "development", "emotional"
         ],
-        "by_type": {
-            "raven_profile": 24, "decision": 11, "jarvis_identity": 4,
-            "session_summary": counts.get("sessions", 0),
-        },
     })
 
 
@@ -273,7 +305,10 @@ def main():
     print("─" * 40)
 
     counts = {}
-    counts["recent"]    = sync_recent()
+    counts["recent"] = sync_recent()
+    if counts["recent"] == 0:
+        print("  Supabase unreachable — falling back to git log")
+        counts["recent"] = sync_from_git()
     counts["decisions"] = sync_decisions()
     counts["sessions"]  = sync_sessions()
 
