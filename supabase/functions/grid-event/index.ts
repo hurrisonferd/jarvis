@@ -16,7 +16,30 @@ const TRUST_SCORES: Record<string, number> = {
 const ALLOWED_TYPES = new Set([
   "speak", "store", "propose", "execute", "observe",
   "query", "heartbeat", "recall", "commit", "deploy",
+  "promote_node",
 ]);
+
+// P30/P32 world bounds — fractal tree caps enforced at the gate.
+const WORLD_MAX_DEPTH = 5;
+const WORLD_MAX_CHILD = 8;
+
+// P30: validate a NODE→WORLD promotion. Mirrors the browser AEGIS.promote_node rule
+// and additionally enforces the P32 fractal bounds (depth <= 5, child_worlds <= 8).
+function aegisValidateWorld(payload: unknown): string | null {
+  const p = (payload ?? {}) as Record<string, unknown>;
+  const ws = p.world_schema as Record<string, unknown> | undefined;
+  if (!ws)         return "P30:missing_world_schema";
+  const bounds = ws.bounds as Record<string, number> | undefined;
+  if (!bounds)     return "P30:missing_bounds";
+  const depth = Number(bounds.max_depth ?? 0);
+  if (depth < 1)            return "P30:depth_must_be_positive";
+  if (depth > WORLD_MAX_DEPTH) return `P30:depth_exceeds_${WORLD_MAX_DEPTH}`;
+  const child = Number(bounds.max_child_worlds ?? 0);
+  if (child > WORLD_MAX_CHILD) return `P30:child_worlds_exceeds_${WORLD_MAX_CHILD}`;
+  const signOff = (ws.raven_sign_off ?? p.raven_sign_off) === true;
+  if (!signOff)    return "P30:raven_sign_off_required";
+  return null;
+}
 
 // Forbidden edge patterns (source:type)
 const FORBIDDEN_EDGES = new Set([
@@ -85,6 +108,15 @@ Deno.serve(async (req) => {
     }
 
     const aegis = aegisValidate(type, source);
+
+    // P30: promote_node carries a world schema — gate it before any world is created.
+    if (aegis.allowed && type.toLowerCase() === "promote_node") {
+      const worldReason = aegisValidateWorld(payload);
+      if (worldReason) {
+        aegis.allowed = false;
+        aegis.reason = worldReason;
+      }
+    }
 
     const sb = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
