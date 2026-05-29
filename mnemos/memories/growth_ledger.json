@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-29T00:00:00Z",
+  "updated": "2026-05-29T20:54:48.036180+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
@@ -7,7 +7,11 @@
       "session_id": "20260529_000000",
       "date": "2026-05-29",
       "exchanges": 120,
-      "patches_touched": ["P30", "P33", "P34"],
+      "patches_touched": [
+        "P30",
+        "P33",
+        "P34"
+      ],
       "built": [
         "docs/index.html",
         "supabase/functions/grid-event/index.ts",
@@ -15,9 +19,87 @@
         "supabase/migrations/20260529_p34_security_hardening.sql",
         "mnemos/context/environment.json"
       ],
-      "topics": ["architecture", "development", "governance", "memory"],
+      "topics": [
+        "architecture",
+        "development",
+        "governance",
+        "memory"
+      ],
       "alignment": 0.93,
-      "key_insight": "P34 write proxy live — grid-write edge fn routes all browser writes via service role. Anon key is now read-only at DB level. CI gate prevents GNPL-class parse errors from merging."
+      "key_insight": "P34 write proxy live \u2014 grid-write edge fn routes all browser writes via service role. Anon key is now read-only at DB level. CI gate prevents GNPL-class parse errors from merging."
+    },
+    {
+      "session_id": "20260529_201040",
+      "date": "2026-05-29",
+      "exchanges": 117,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P12",
+        "P17",
+        "P18",
+        "P28",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".claude/settings.json",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "P18 is live on main (`c11b921`).\n\n**What was built:**\n\n- `mnemos/memories/growth_ledger.json` \u2014 rolling ledger of session records, capped at 20. The s"
+    },
+    {
+      "session_id": "20260529_205448",
+      "date": "2026-05-29",
+      "exchanges": 20,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P12",
+        "P17",
+        "P18",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".claude/settings.json",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "identity"
+      ],
+      "alignment": 0.66,
+      "key_insight": "The ledger is working. Session-end hook fired correctly on close \u2014 two entries already, alignment logged, key insights captured. The brief is reading "
     }
   ]
 }
