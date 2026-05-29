@@ -13,6 +13,8 @@ from datetime import datetime, timezone
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
 RECALL_FN = f"{SUPABASE_URL}/functions/v1/mnemos-recall"
+REST_BASE = f"{SUPABASE_URL}/rest/v1"
+REST_HEADERS = {"apikey": SUPABASE_ANON, "Authorization": f"Bearer {SUPABASE_ANON}"}
 REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
 LEDGER_PATH = os.path.join(REPO_ROOT, "audit", "patch_ledger.json")
 DOMAINS_PATH = os.path.join(REPO_ROOT, "mnemos", "domains")
@@ -54,6 +56,17 @@ def load_pending_patches() -> list:
         with open(LEDGER_PATH, "r") as f:
             ledger = json.load(f)
         return [p for p in ledger.get("patches", []) if p.get("status") in ("partial", "pending")]
+    except Exception:
+        return []
+
+
+def query_prometheus(limit: int = 3) -> list:
+    params = f"select=decision,gl_law,eris_weight,timestamp&raven_approved=eq.true&order=eris_weight.desc,timestamp.desc&limit={limit}"
+    url = f"{REST_BASE}/prometheus_log?{params}"
+    req = urllib.request.Request(url, headers=REST_HEADERS)
+    try:
+        with urllib.request.urlopen(req, timeout=6) as resp:
+            return json.loads(resp.read())
     except Exception:
         return []
 
@@ -121,6 +134,17 @@ def main():
             print(f"  [{law}] {text[:100]}")
         for key, text in list(arch.items())[:2]:
             print(f"  [ARCH] {text[:100]}")
+        print()
+
+    # ── PROMETHEUS governance record (Supabase — best effort)
+    pg_decisions = query_prometheus(limit=3)
+    if pg_decisions:
+        print("PROMETHEUS — top decisions on record:")
+        for d in pg_decisions:
+            gl = d.get("gl_law") or "—"
+            w = d.get("eris_weight") or 0
+            decision = (d.get("decision") or "")[:100].replace("\n", " ")
+            print(f"  [{gl} w={w}] {decision}")
         print()
 
     # ── Pending / partial patches
