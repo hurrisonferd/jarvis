@@ -33,9 +33,15 @@ export function formatRow(r: Scoped): string {
 
 // Assemble the recall block. Semantic hits lead (they're the most relevant);
 // every later scope is deduped against what's already shown, so a memory that
-// surfaced semantically never repeats lower down as a recency hit.
-export function buildRecallBlock(scopes: Scopes, opts: { semanticLimit?: number } = {}): string[] {
-  const seen = new Set<string>();
+// surfaced semantically never repeats lower down as a recency hit. `exclude`
+// seeds the seen-set with text already in the model's context (the message
+// history), so recall never re-sends what Opus already has — saves tokens,
+// sharpens signal.
+export function buildRecallBlock(
+  scopes: Scopes,
+  opts: { semanticLimit?: number; exclude?: string[] } = {},
+): string[] {
+  const seen = new Set<string>((opts.exclude ?? []).map((t) => (t ?? "").trim()).filter(Boolean));
   const take = (rows: Scoped[] | undefined, limit: number): Scoped[] => {
     const out: Scoped[] = [];
     for (const r of rows ?? []) {

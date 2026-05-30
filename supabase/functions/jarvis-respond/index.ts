@@ -43,7 +43,7 @@ async function embedQuery(text: string): Promise<number[] | null> {
   } catch { return null; }
 }
 
-async function recallMemories(sb: ReturnType<typeof createClient>, input: string): Promise<string[]> {
+async function recallMemories(sb: ReturnType<typeof createClient>, input: string, exclude: string[] = []): Promise<string[]> {
   const mapRows = (rows: unknown): Scoped[] =>
     (Array.isArray(rows) ? rows : []).map((r: any) => ({
       text: r.text, source_type: r.source_type, timestamp: r.timestamp, tags: r.tags,
@@ -83,7 +83,8 @@ async function recallMemories(sb: ReturnType<typeof createClient>, input: string
   const decisions = await pull(sb.from("mnemos_memories").select(sel)
     .eq("source_type", "decision").order("timestamp", { ascending: false }).limit(4));
 
-  return buildRecallBlock({ semantic, exchanges, profile, context, decisions });
+  // Exclude what's already in the message history Opus receives — no duplication.
+  return buildRecallBlock({ semantic, exchanges, profile, context, decisions }, { exclude });
 }
 
 // SKADI — run the AEGIS-cleared execution plans. Only "done" mnemos.write plans
@@ -173,7 +174,8 @@ Deno.serve(async (req: Request) => {
   let memoryBlock = "(memory ledger still building)";
   let memoriesUsed = 0;
   try {
-    const parts = await recallMemories(sb, input);
+    const inContext = speakHistory.slice(-6).map((e) => e.text);
+    const parts = await recallMemories(sb, input, inContext);
     if (parts.length > 0) {
       memoryBlock = parts.join("\n\n");
       memoriesUsed = parts.length;
