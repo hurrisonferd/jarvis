@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T15:29:03.126949+00:00",
+  "updated": "2026-05-30T15:31:21.288001+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_135959",
-      "date": "2026-05-30",
-      "exchanges": 217,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Diagnostic fix committed and pushed. That's just the wait timer finishing \u2014 nothing to act on.\n\nSo we're one billing decision from semantic memory goi"
-    },
     {
       "session_id": "20260530_140029",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Holding for the workflow to finish, then I'll confirm the queued insight landed in live memory."
+    },
+    {
+      "session_id": "20260530_153121",
+      "date": "2026-05-30",
+      "exchanges": 326,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Both done, captain \u2014 here's the honest state.\n\n**#2 \u2014 organized knowledge is live.** The entity's structured facts are seeded and embedded: **75 memor"
     }
   ]
 }
