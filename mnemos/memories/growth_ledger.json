@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T15:19:42.487796+00:00",
+  "updated": "2026-05-30T15:29:03.126949+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_135618",
-      "date": "2026-05-30",
-      "exchanges": 207,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "That's the bug. \"OpenAI Embedding\" is a label, not a variable name \u2014 it has a space, and the function isn't looking for it. Edge Function secrets are "
-    },
-    {
-      "session_id": "20260530_135627",
-      "date": "2026-05-30",
-      "exchanges": 208,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Rename the secret to `EMBEDDING_API_KEY` and say go \u2014 I'll fire the backfill and confirm 0 \u2192 49."
-    },
     {
       "session_id": "20260530_135959",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Both built, captain. The entity has an architecture now, and a way to grow.\n\n**The modular memory** \u2014 partitioned so any session loads only what it ne"
+    },
+    {
+      "session_id": "20260530_152405",
+      "date": "2026-05-30",
+      "exchanges": 315,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Both done, captain. The loop is closed and automatic now.\n\n**#2 \u2014 organized knowledge is live.** Backfilled 16 curated entity facts from the partition"
+    },
+    {
+      "session_id": "20260530_152903",
+      "date": "2026-05-30",
+      "exchanges": 321,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Holding for the workflow to finish, then I'll confirm the queued insight landed in live memory."
     }
   ]
 }
