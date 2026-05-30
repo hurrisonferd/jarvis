@@ -1,8 +1,25 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  pickModel,
+  loopGuard,
+  guardMessage,
+  type ModelConfig,
+  type Turn,
+} from "./guard.ts";
+import { route, routeSummary } from "./router.ts";
+import { gate, capabilitiesFor, gateSummary } from "./aegis.ts";
 
 const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "" });
+
+// Model routing is env-tunable so Raven can adjust depth/cost without redeploy.
+const MODEL_CONFIG: ModelConfig = {
+  deepModel: Deno.env.get("JARVIS_DEEP_MODEL") ?? "claude-opus-4-8",
+  quickModel: Deno.env.get("JARVIS_QUICK_MODEL") ?? "claude-sonnet-4-6",
+  deepTokens: Number(Deno.env.get("JARVIS_DEEP_TOKENS") ?? 1024),
+  quickTokens: Number(Deno.env.get("JARVIS_QUICK_TOKENS") ?? 400),
+};
 
 type MemRow = { text: string; source_type: string; timestamp?: string; tags?: string[] };
 
@@ -99,6 +116,27 @@ Deno.serve(async (req: Request) => {
   const firstDate   = (ctx.firstDate as string) ?? "";
   const speakHistory = (ctx.speakHistory as Array<{ from: string; text: string }>) ?? [];
 
+  // ODIN — route the turn to the god systems it actually touches.
+  const routing = route(input);
+
+  // AEGIS — gate the capabilities this intent would invoke. Read-only clears
+  // and runs (e.g. MNEMOS recall happens below); write/external are held for
+  // Raven; destructive / self-mod are refused (GL2/GL6). Nothing here executes
+  // a side-effect — AEGIS only judges, and the cleared set is read-only today.
+  const authorized = (ctx.authorized as string[]) ?? [];
+  const aegis = gate(capabilitiesFor(routing.intent), { authorized });
+
+  // Circuit breaker (GL6): if JARVIS is looping or Raven is re-sending, hand
+  // the thread back instead of burning a model call.
+  const guardHistory = speakHistory as Turn[];
+  const verdict = loopGuard(guardHistory, input);
+  if (verdict) {
+    return new Response(
+      JSON.stringify({ response: guardMessage(verdict), memories_used: 0, loop_guard: verdict, routing }),
+      { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
+    );
+  }
+
   const sb = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
     Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
@@ -143,6 +181,11 @@ Sessions in record: ${sessions}${firstDate ? ` — first contact ${firstDate}` :
 MEMORY — from MNEMOS:
 ${memoryBlock}
 
+ODIN ROUTING — systems engaged this turn:
+${routeSummary(routing)}
+${gateSummary(aegis)}
+If an action is held by AEGIS, say so plainly and ask Raven to authorize before it runs. Never imply you executed something the gate held. Reference engaged systems only when it clarifies — never as decoration.
+
 HOW YOU SPEAK:
 Short. Dense. Real. 1-4 sentences max unless complexity demands more.
 Direct address to Raven. No narration, no description of your own process.
@@ -158,10 +201,12 @@ No markdown. No bullet points. Plain text.`;
     content: e.text,
   }));
 
+  const choice = pickModel(input, MODEL_CONFIG);
+
   try {
     const message = await client.messages.create({
-      model: "claude-sonnet-4-6",
-      max_tokens: 400,
+      model: choice.model,
+      max_tokens: choice.maxTokens,
       system: systemPrompt,
       messages: [...history, { role: "user", content: input }],
     });
@@ -169,9 +214,10 @@ No markdown. No bullet points. Plain text.`;
     const content = message.content[0];
     const response = content.type === "text" ? content.text : "Processing.";
 
-    return new Response(JSON.stringify({ response, memories_used: memoriesUsed }), {
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-    });
+    return new Response(
+      JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results }),
+      { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
+    );
   } catch (err) {
     return new Response(JSON.stringify({ error: String(err) }), {
       status: 500,
