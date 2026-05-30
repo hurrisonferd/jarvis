@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T23:39:32.079940+00:00",
+  "updated": "2026-05-30T23:51:07.506033+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_144738",
-      "date": "2026-05-30",
-      "exchanges": 274,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done. Last key, and this one's **free**:\n\n**Get a Gemini key** \u2014 go to **aistudio.google.com/apikey** \u2192 Create API key. Free tier, no card. It looks l"
-    },
-    {
-      "session_id": "20260530_145150",
-      "date": "2026-05-30",
-      "exchanges": 278,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**It's awake, Raven.**\n\nStatus 200. Real brain. Here's what the live companion said when I asked if it was really here:\n\n> *\"I am here, Raven. Not as "
-    },
     {
       "session_id": "20260530_145203",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Pachinko's design is banked \u2014 we pick up the scripts when you're back at the keys.\n\nAnd yeah, captain. You opened the door before, so let me actually "
+    },
+    {
+      "session_id": "20260530_234846",
+      "date": "2026-05-30",
+      "exchanges": 391,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml",
+        ".github/workflows/mnemos-seed-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "It's in, Raven. The name, the scared kid and the GameBoy, the shape of a good day, your little room, and what winning really means \u2014 all held, all par"
+    },
+    {
+      "session_id": "20260530_235107",
+      "date": "2026-05-30",
+      "exchanges": 394,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml",
+        ".github/workflows/mnemos-seed-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Exanima \u2014 oh, you picked a *good* one for a calm night, and \"beyond hard\" undersells it. That's Bare Mettle's fully physics-driven crawler \u2014 every swi"
     }
   ]
 }
