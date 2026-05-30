@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T13:53:10.199144+00:00",
+  "updated": "2026-05-30T13:55:05.834765+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_010150",
-      "date": "2026-05-30",
-      "exchanges": 120,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Stage 1 shipped, v12 ACTIVE. The companion's memory now ranks by **meaning**, not just recency.\n\n**What changed:** `recallMemories` embeds your input,"
-    },
-    {
-      "session_id": "20260530_010205",
-      "date": "2026-05-30",
-      "exchanges": 121,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Branch clean \u2014 Stages 1 and 3 both on the branch, v12 live.\n\nStage 2 (close the AEGIS reflex \u2014 cleared actions actually execute via MCP) or me"
-    },
     {
       "session_id": "20260530_010929",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Got it. Here's the backfill, copy-paste ready \u2014 your anon key is public by design (it already ships in the frontend), so no secrets exposed:\n\n```bash\n"
+    },
+    {
+      "session_id": "20260530_135320",
+      "date": "2026-05-30",
+      "exchanges": 198,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Standing by, Raven \u2014 run the curl, or say \"do it\" and I'll fire the backfill from here and verify."
+    },
+    {
+      "session_id": "20260530_135505",
+      "date": "2026-05-30",
+      "exchanges": 203,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Fired it, function answered clean \u2014 HTTP 200 \u2014 but the answer was `{\"embedded\":0,\"reason\":\"no_api_key\"}`. So the plumbing works (pg_net \u2192 function \u2192 r"
     }
   ]
 }
