@@ -58,3 +58,6 @@ jobs:
 
       - name: MNEMOS — decision-capture tests
         run: python3 scripts/test_capture_decisions.py
+
+      - name: MNEMOS — bounded-log tests
+        run: python3 scripts/test_mnemos_log.py

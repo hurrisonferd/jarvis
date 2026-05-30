@@ -76,23 +76,19 @@ jobs:
               "source_type": f"github_{ev}",
           }
 
-          path = pathlib.Path("mnemos/memories/events.jsonl")
-          path.parent.mkdir(parents=True, exist_ok=True)
+          import sys
+          sys.path.insert(0, "scripts")
+          from mnemos_log import append_bounded
 
-          existing = []
-          if path.exists():
-              for line in path.read_text().splitlines():
-                  line = line.strip()
-                  if line:
-                      try:
-                          existing.append(json.loads(line))
-                      except Exception:
-                          pass
-          existing = existing[-99:]
-          existing.append(entry)
-
-          path.write_text("\n".join(json.dumps(e) for e in existing) + "\n")
+          # Bounded: rotates to archive + writes a compact rollup when the
+          # active log crosses ~64 KB or 200 entries. Memory, not bloat.
+          result = append_bounded(
+              "mnemos/memories/events.jsonl", entry,
+              source="github_events", max_entries=200, max_bytes=65536,
+          )
           print(f"MNEMOS: {text[:80]}")
+          if result["rotated"]:
+              print(f"  rotated -> {result['archive']} (rollup appended to summaries.jsonl)")
           PYEOF
 
       - name: Commit event log
@@ -100,5 +96,7 @@ jobs:
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
           git add mnemos/memories/events.jsonl
+          [ -f mnemos/memories/summaries.jsonl ] && git add mnemos/memories/summaries.jsonl || true
+          [ -d mnemos/memories/archive ] && git add mnemos/memories/archive || true
           git diff --staged --quiet || git commit -m "chore(mnemos): github event [${{ github.event_name }}.${{ github.event.action }}] [skip ci]"
           git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
