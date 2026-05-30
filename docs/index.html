@@ -508,7 +508,7 @@ let replayData=[], auditData=[];
 let mnemosData=null, mnemosLoading=false, mnemosScroll=0;
 let godStats={};
 // SPEAK — companion exchange layer
-let speakHistory=[], speakInput='', speakThinking=false;
+let speakHistory=[], speakInput='', speakThinking=false, lastRouting=null, lastAegis=null;
 // MNEMOS — search + behavior
 let mnemosSearchMode=false, mnemosSearchInput='', mnemosSearchResults=null, mnemosSearching=false;
 
@@ -1525,8 +1525,8 @@ async function speakSend(){
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${SUPABASE_ANON}`},
       body:JSON.stringify(payload)
     });
-    if(r.ok){ const j=await r.json(); resp=j.response||jarvisRespond(input); }
-    else{ resp=jarvisRespond(input); }
+    if(r.ok){ const j=await r.json(); resp=j.response||jarvisRespond(input); lastRouting=j.routing||null; lastAegis=j.aegis||null; }
+    else{ resp=jarvisRespond(input); lastRouting=null; lastAegis=null; }
   }catch(e){ resp=jarvisRespond(input); }
   speakThinking=false;
   // P29: JARVIS proposes output + memory consolidation via GNPL
@@ -1562,13 +1562,26 @@ function rSpeak(){
       }).join('')
     : `<div style="color:var(--dim);font-size:5px;padding:16px 8px;text-align:center;line-height:1.8">JARVIS is listening.<br>Speak. Everything is remembered.</div>`;
   const thinkRow=speakThinking?`<div style="margin-bottom:4px;background:#060d14;border-left:2px solid #aaccee;padding:3px 5px"><div style="color:#aaccee;font-size:3.5px;margin-bottom:1px">JARVIS</div><div style="color:#aaccee;font-size:5px;opacity:0.6">thinking<span style="animation:blink 0.8s infinite">...</span></div></div>`:'';
-  // Pipeline indicator
-  const pipeNodes=['AYRE','ODIN','SKADI','APOLLO'];
-  const pipeStr=pipeNodes.map(n=>{
-    const load=nodeFields[n]?.load||0;
-    const col=load>0.3?'var(--amber)':'var(--dim)';
-    return `<span style="color:${col}">${n.slice(0,4)}${load>0.3?` ${Math.round(load*100)}%`:''}</span>`;
-  }).join('<span style="color:var(--dim)">→</span>');
+  // Pipeline indicator — real ODIN routing + AEGIS gate from the last exchange,
+  // falling back to the ambient node-load view before the first reply.
+  let pipeStr;
+  if(lastRouting&&lastRouting.triggered&&lastRouting.triggered.length){
+    const verd={}; (lastAegis||[]).forEach(g=>{if(g&&g.capability)verd[g.capability.system]=g.verdict;});
+    const vcol={PASS:'#3fb950',REDIRECT:'var(--amber)',FAIL:'#f85149'};
+    const chips=lastRouting.triggered.map(t=>{
+      const v=verd[t.system];
+      const col=v?(vcol[v]||'#aaccee'):(t.system===lastRouting.primary?'var(--bright)':'#aaccee');
+      return `<span style="color:${col}">${t.system}${v?` ${v[0]}`:''}</span>`;
+    }).join('<span style="color:var(--dim)">·</span>');
+    pipeStr=`<span style="color:var(--dim)">ODIN</span> ${chips} <span style="color:var(--dim)">${lastRouting.intent}</span>`;
+  }else{
+    const pipeNodes=['AYRE','ODIN','SKADI','APOLLO'];
+    pipeStr=pipeNodes.map(n=>{
+      const load=nodeFields[n]?.load||0;
+      const col=load>0.3?'var(--amber)':'var(--dim)';
+      return `<span style="color:${col}">${n.slice(0,4)}${load>0.3?` ${Math.round(load*100)}%`:''}</span>`;
+    }).join('<span style="color:var(--dim)">→</span>');
+  }
   return `<div class="panel">
     <div class="s-header"><span style="color:${modeCol}">SPEAK</span><span style="color:var(--dim)">COMPANION EXCHANGE · <span style="color:${modeCol}">${cs.mode}</span> T${cs.tick}</span></div>
     <div style="display:flex;gap:6px;padding:2px 8px;font-size:3.5px;border-bottom:1px solid #0a1520;align-items:center">${pipeStr}</div>

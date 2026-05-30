@@ -31,6 +31,18 @@ jobs:
           node --experimental-strip-types router.test.ts
           node --experimental-strip-types aegis.test.ts
 
+      - name: Front — inline script parses (const-bug guard)
+        run: |
+          python3 - <<'PY'
+          import re, sys
+          html = open('docs/index.html', encoding='utf-8').read()
+          scripts = re.findall(r'<script(?![^>]*\bsrc=)[^>]*>(.*?)</script>', html, re.S)
+          if not scripts:
+              print('FAIL: no inline <script>'); sys.exit(1)
+          open('/tmp/app.js','w').write(max(scripts, key=len))
+          PY
+          node --check /tmp/app.js
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
