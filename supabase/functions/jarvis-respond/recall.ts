@@ -39,7 +39,7 @@ export function formatRow(r: Scoped): string {
 // sharpens signal.
 export function buildRecallBlock(
   scopes: Scopes,
-  opts: { semanticLimit?: number; exclude?: string[] } = {},
+  opts: { semanticLimit?: number; exclude?: string[]; maxChars?: number } = {},
 ): string[] {
   const seen = new Set<string>((opts.exclude ?? []).map((t) => (t ?? "").trim()).filter(Boolean));
   const take = (rows: Scoped[] | undefined, limit: number): Scoped[] => {
@@ -60,11 +60,23 @@ export function buildRecallBlock(
   const context = take(scopes.context, 4);
   const decisions = take(scopes.decisions, 3);
 
+  // Hard budget: the recall block can't bloat the prompt. Sections are added in
+  // priority order (semantic first, always kept); later ones drop if over budget.
+  const maxChars = opts.maxChars ?? 2400;
   const parts: string[] = [];
-  if (semantic.length)  parts.push("MOST RELEVANT (semantic):\n" + semantic.map(formatRow).join("\n"));
-  if (exchanges.length) parts.push("RECENT EXCHANGES:\n" + exchanges.map(formatRow).join("\n"));
-  if (profile.length)   parts.push("RAVEN PROFILE:\n" + profile.map(formatRow).join("\n"));
-  if (context.length)   parts.push("RELEVANT CONTEXT:\n" + context.map(formatRow).join("\n"));
-  if (decisions.length) parts.push("ACTIVE DECISIONS:\n" + decisions.map(formatRow).join("\n"));
+  let used = 0;
+  const push = (label: string, rows: Scoped[]) => {
+    if (!rows.length) return;
+    const block = label + "\n" + rows.map(formatRow).join("\n");
+    if (parts.length > 0 && used + block.length > maxChars) return;
+    parts.push(block);
+    used += block.length;
+  };
+
+  push("MOST RELEVANT (semantic):", semantic);
+  push("RECENT EXCHANGES:", exchanges);
+  push("RAVEN PROFILE:", profile);
+  push("RELEVANT CONTEXT:", context);
+  push("ACTIVE DECISIONS:", decisions);
   return parts;
 }

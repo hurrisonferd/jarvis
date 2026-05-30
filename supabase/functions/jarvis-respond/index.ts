@@ -60,7 +60,7 @@ async function recallMemories(sb: ReturnType<typeof createClient>, input: string
         query_embedding: `[${vec.join(",")}]`,
         match_count: 6,
         filter_source: null,
-        min_similarity: 0.25,
+        min_similarity: 0.35,
       });
       if (Array.isArray(data)) {
         semantic = data.map((r: any) => ({
@@ -161,7 +161,7 @@ Deno.serve(async (req: Request) => {
   const verdict = loopGuard(guardHistory, input);
   if (verdict) {
     return new Response(
-      JSON.stringify({ response: guardMessage(verdict), memories_used: 0, loop_guard: verdict, routing }),
+      JSON.stringify({ response: guardMessage(verdict), memories_used: 0, loop_guard: verdict, routing, aegis: aegis.results, executions: [] }),
       { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
     );
   }
