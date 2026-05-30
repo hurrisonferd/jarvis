@@ -9,6 +9,7 @@ import {
   type Turn,
 } from "./guard.ts";
 import { route, routeSummary } from "./router.ts";
+import { gate, capabilitiesFor, gateSummary } from "./aegis.ts";
 
 const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "" });
 
@@ -115,9 +116,15 @@ Deno.serve(async (req: Request) => {
   const firstDate   = (ctx.firstDate as string) ?? "";
   const speakHistory = (ctx.speakHistory as Array<{ from: string; text: string }>) ?? [];
 
-  // ODIN — route the turn to the god systems it actually touches (decide +
-  // surface only; SKADI/AEGIS still gate any real execution downstream).
+  // ODIN — route the turn to the god systems it actually touches.
   const routing = route(input);
+
+  // AEGIS — gate the capabilities this intent would invoke. Read-only clears
+  // and runs (e.g. MNEMOS recall happens below); write/external are held for
+  // Raven; destructive / self-mod are refused (GL2/GL6). Nothing here executes
+  // a side-effect — AEGIS only judges, and the cleared set is read-only today.
+  const authorized = (ctx.authorized as string[]) ?? [];
+  const aegis = gate(capabilitiesFor(routing.intent), { authorized });
 
   // Circuit breaker (GL6): if JARVIS is looping or Raven is re-sending, hand
   // the thread back instead of burning a model call.
@@ -176,7 +183,8 @@ ${memoryBlock}
 
 ODIN ROUTING — systems engaged this turn:
 ${routeSummary(routing)}
-Reference the engaged system(s) only when it genuinely clarifies what you're doing — never as decoration.
+${gateSummary(aegis)}
+If an action is held by AEGIS, say so plainly and ask Raven to authorize before it runs. Never imply you executed something the gate held. Reference engaged systems only when it clarifies — never as decoration.
 
 HOW YOU SPEAK:
 Short. Dense. Real. 1-4 sentences max unless complexity demands more.
@@ -207,7 +215,7 @@ No markdown. No bullet points. Plain text.`;
     const response = content.type === "text" ? content.text : "Processing.";
 
     return new Response(
-      JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing }),
+      JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results }),
       { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
     );
   } catch (err) {

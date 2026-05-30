@@ -29,6 +29,7 @@ jobs:
         run: |
           node --experimental-strip-types guard.test.ts
           node --experimental-strip-types router.test.ts
+          node --experimental-strip-types aegis.test.ts
 
       - name: Set up Python
         uses: actions/setup-python@v5
