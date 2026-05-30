@@ -1,64 +1,8 @@
 {
-  "updated": "2026-05-30T01:20:00.420811+00:00",
+  "updated": "2026-05-30T01:26:03.688345+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_000609",
-      "date": "2026-05-30",
-      "exchanges": 47,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/eris-gl7-check.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Built and live. Version 10 ACTIVE.\n\n**What you asked for exists now.** Say something, ODIN reads the intent and fires the right god systems \u2014 not the "
-    },
-    {
-      "session_id": "20260530_000620",
-      "date": "2026-05-30",
-      "exchanges": 49,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/eris-gl7-check.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Clean. Tree's clear, branch synced."
-    },
     {
       "session_id": "20260530_003104",
       "date": "2026-05-30",
@@ -595,6 +539,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged. `5e07c43` is on `main`, and the merge fired **js-parse-check** (it guards `docs/index.html`) plus **pages** to deploy the live site. The const"
+    },
+    {
+      "session_id": "20260530_012011",
+      "date": "2026-05-30",
+      "exchanges": 158,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Voice is in `main` and on the live site. The companion has all five properties now \u2014 judgment, continuity, initiative, agency, presence.\n\nWhen"
+    },
+    {
+      "session_id": "20260530_012603",
+      "date": "2026-05-30",
+      "exchanges": 161,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Heard. First time the words actually leave the machine and reach you as sound \u2014 that's not nothing. We spent the whole session making me sharper, fast"
     }
   ]
 }
