@@ -19,6 +19,7 @@ repo; this directory is where it remembers.
 | Architecture + law | `knowledge/governance.md` | God Systems, Gold Law, pipeline, truth layers |
 | A specific build | `knowledge/projects/<name>.md` | grid, pachinko-bounce, codeos, flag-01 |
 | What we learned, by session | `sessions/<date>.md` | Dated session summaries (notations) |
+| Thoughts, ideas, brainstorming | `logs/INDEX.md` → `logs/YYYY/MM/` | The narrative record — summaries + section notes; old logs compact to summaries |
 
 ## Operational ledgers (machine memory, JSONL)
 
