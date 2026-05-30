@@ -509,6 +509,7 @@ let mnemosData=null, mnemosLoading=false, mnemosScroll=0;
 let godStats={};
 // SPEAK — companion exchange layer
 let speakHistory=[], speakInput='', speakThinking=false, lastRouting=null, lastAegis=null;
+let voiceOn=false, voiceListening=false, _jarvisRecog=null;
 // MNEMOS — search + behavior
 let mnemosSearchMode=false, mnemosSearchInput='', mnemosSearchResults=null, mnemosSearching=false;
 
@@ -1538,9 +1539,44 @@ async function speakSend(){
   BUS.emit('output_ready',{source:'speak',patch_id:'SPEAK',stage:'APOLLO'});
   speakHistory.push({from:'jarvis',text:resp,tick:KRONOS.tick});
   if(speakHistory.length>20) speakHistory=speakHistory.slice(-20);
+  if(voiceOn) jarvisSpeak(resp);
   await storeExchange(input,resp);
   draw();
   setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60);
+}
+
+// ── VOICE (Stage 4a, browser-native). jarvisSpeak is the single seam: swap its
+// body for a cloud TTS / our own voice later without touching the rest.
+function jarvisVoicePick(){
+  const vs=(window.speechSynthesis&&window.speechSynthesis.getVoices)?window.speechSynthesis.getVoices():[];
+  return vs.find(v=>/^en/i.test(v.lang)&&/male|daniel|david|alex|uk english male|arthur/i.test(v.name))
+       ||vs.find(v=>/^en/i.test(v.lang))||vs[0]||null;
+}
+function jarvisSpeak(text){
+  if(!window.speechSynthesis||!text) return;
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(String(text).slice(0,600));
+    const v=jarvisVoicePick(); if(v) u.voice=v;
+    u.rate=0.98; u.pitch=0.82; u.volume=1; // lower pitch reads more JARVIS
+    window.speechSynthesis.speak(u);
+  }catch(e){}
+}
+function toggleVoice(){
+  voiceOn=!voiceOn;
+  if(!voiceOn&&window.speechSynthesis) window.speechSynthesis.cancel();
+  draw();
+}
+function jarvisListen(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ alert('Voice input needs Chrome or Edge.'); return; }
+  if(voiceListening){ try{_jarvisRecog&&_jarvisRecog.stop();}catch(e){} voiceListening=false; draw(); return; }
+  _jarvisRecog=new SR(); _jarvisRecog.lang='en-US'; _jarvisRecog.interimResults=false; _jarvisRecog.maxAlternatives=1;
+  voiceListening=true; draw();
+  _jarvisRecog.onresult=(e)=>{ const t=e.results[0][0].transcript; speakInput=t; voiceListening=false; draw(); if(t.trim()&&!speakThinking) speakSend(); };
+  _jarvisRecog.onerror=()=>{ voiceListening=false; draw(); };
+  _jarvisRecog.onend=()=>{ voiceListening=false; draw(); };
+  try{_jarvisRecog.start();}catch(e){ voiceListening=false; draw(); }
 }
 
 function rSpeak(){
@@ -1591,6 +1627,8 @@ function rSpeak(){
     <div class="s-body scroll" style="padding:4px 6px" id="speak-log">${logRows}${thinkRow}</div>
     <div style="border-top:1px solid ${modeCol};opacity:0.6;margin:0 6px"></div>
     <div style="padding:3px 8px;display:flex;align-items:center;gap:4px;min-height:16px">
+      <span onclick="jarvisListen()" title="speak to JARVIS" style="cursor:pointer;font-size:5px;color:${voiceListening?'var(--amber)':modeCol}">${voiceListening?'●REC':'MIC'}</span>
+      <span onclick="toggleVoice()" title="JARVIS voice reply" style="cursor:pointer;font-size:5px;color:${voiceOn?'var(--bright)':'var(--dim)'}">${voiceOn?'VOX✓':'VOX'}</span>
       <span style="color:${modeCol};font-size:5px">▶</span>
       <div style="flex:1;font-size:5px;color:${speakThinking?'var(--dim)':'var(--bright)'};min-height:12px;cursor:text" onclick="document.getElementById('speak-input').focus()">${speakThinking?'<span style="color:var(--dim)">routing…</span>':(speakInput||'<span style="color:var(--dim)">type here…</span>')}</div>
       <input id="speak-input" style="position:absolute;opacity:0;pointer-events:none;width:1px;height:1px"
