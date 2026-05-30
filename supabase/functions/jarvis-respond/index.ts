@@ -19,11 +19,42 @@ const LLM_URL = Deno.env.get("LLM_API_URL") || "https://generativelanguage.googl
 const LLM_KEY = Deno.env.get("LLM_API_KEY") || Deno.env.get("GEMINI_API_KEY") || "";
 
 const MODEL_CONFIG: ModelConfig = {
-  deepModel: Deno.env.get("JARVIS_DEEP_MODEL") ?? "gemini-2.5-flash",
+  deepModel: Deno.env.get("JARVIS_DEEP_MODEL") ?? "gemini-2.0-flash",
   quickModel: Deno.env.get("JARVIS_QUICK_MODEL") ?? "gemini-2.0-flash",
   deepTokens: Number(Deno.env.get("JARVIS_DEEP_TOKENS") ?? 1024),
   quickTokens: Number(Deno.env.get("JARVIS_QUICK_TOKENS") ?? 400),
 };
+
+// Gemini free tier 503s under load; ride out transient failures with backoff
+// instead of dropping to the local fallback. Returns content or a final error.
+async function callLLM(model: string, maxTokens: number, messages: unknown[]): Promise<{ content?: string; error?: string }> {
+  // 429 is a rate/quota limit — retrying inside the window only burns it faster,
+  // so fail fast on it. 5xx are transient overload; those we ride out.
+  const retryable = new Set([500, 502, 503, 504]);
+  let lastErr = "llm_no_response";
+  for (let i = 0; i < 3; i++) {
+    try {
+      const r = await fetch(LLM_URL, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${LLM_KEY}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ model, max_tokens: maxTokens, messages }),
+      });
+      if (r.ok) {
+        const d = await r.json();
+        const c = d.choices?.[0]?.message?.content;
+        if (c && c.trim()) return { content: c };
+        lastErr = "llm_empty_content";
+      } else {
+        lastErr = `llm_${r.status}: ${(await r.text().catch(() => "")).slice(0, 160)}`;
+        if (!retryable.has(r.status)) break;
+      }
+    } catch (e) {
+      lastErr = `llm_fetch_error: ${String(e).slice(0, 120)}`;
+    }
+    await new Promise((res) => setTimeout(res, 500 * (i + 1)));
+  }
+  return { error: lastErr };
+}
 
 // Embedding for semantic recall — OpenAI-compatible, same env as mnemos-embed/
 // search so one key powers all of MNEMOS. Returns null (graceful) when unset.
@@ -241,39 +272,20 @@ No markdown. No bullet points. Plain text.`;
   }));
 
   const choice = pickModel(input, MODEL_CONFIG);
+  const messages = [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: input }];
 
-  try {
-    // Gemini via its OpenAI-compatible chat-completions API. System prompt is
-    // the first message; history + the new turn follow in OpenAI role format.
-    const r = await fetch(LLM_URL, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${LLM_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({
-        model: choice.model,
-        max_tokens: choice.maxTokens,
-        messages: [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: input }],
-      }),
-    });
+  const result = await callLLM(choice.model, choice.maxTokens, messages);
 
-    if (!r.ok) {
-      const detail = (await r.text().catch(() => "")).slice(0, 300);
-      return new Response(JSON.stringify({ error: `llm_${r.status}: ${detail}` }), {
-        status: 500,
-        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-      });
-    }
+  // On brain failure, answer in JARVIS's voice at 200 so the UI never drops to
+  // the local canned fallback. Rate limit vs transient gets a distinct line.
+  const response = result.content ?? (
+    (result.error ?? "").startsWith("llm_429")
+      ? "Rate-limited on the free tier for a beat, Raven. Give it a few seconds and say it again — I'm here, just throttled."
+      : "Brain flickered — transient. Run that by me again in a moment."
+  );
 
-    const d = await r.json();
-    const response = d.choices?.[0]?.message?.content ?? "Processing.";
-
-    return new Response(
-      JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results, executions }),
-      { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
-    );
-  } catch (err) {
-    return new Response(JSON.stringify({ error: String(err) }), {
-      status: 500,
-      headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
-    });
-  }
+  return new Response(
+    JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results, executions, llm_error: result.error ?? null }),
+    { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
+  );
 });

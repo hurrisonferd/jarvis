@@ -1,0 +1,77 @@
+name: MNEMOS Seed Sync
+
+# The remember loop's third strand. Drains mnemos/memories/seed_queue.jsonl into
+# the live brain (Supabase mnemos_memories, embedded) by POSTing each pending
+# insight to the mnemos-store edge function, then clears the queue and commits.
+#
+# Gated by Raven's authority: this runs only after a merge to main — the merge is
+# the authorization. Cloud-first; soft-fails cleanly if Supabase secrets aren't set.
+
+on:
+  push:
+    branches: [main]
+    paths: ['mnemos/memories/seed_queue.jsonl']
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    name: MNEMOS — drain seed queue
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Drain queue into live memory
+        env:
+          SUPABASE_URL:      ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          python3 << 'PYEOF'
+          import json, os, sys, urllib.request, pathlib
+
+          q = pathlib.Path("mnemos/memories/seed_queue.jsonl")
+          if not q.exists() or not q.read_text().strip():
+              print("seed queue empty — nothing to sync"); sys.exit(0)
+
+          url = (os.environ.get("SUPABASE_URL") or "").rstrip("/")
+          key = os.environ.get("SUPABASE_ANON_KEY") or ""
+          if not url or not key:
+              print("Supabase secrets not set — leaving queue intact"); sys.exit(0)
+
+          rows = [json.loads(l) for l in q.read_text().splitlines() if l.strip()]
+          remaining, synced = [], 0
+          for rec in rows:
+              body = json.dumps({
+                  "text": rec.get("text", ""),
+                  "source_type": rec.get("source_type", "learned"),
+                  "tags": rec.get("tags", ["learned"]),
+                  "source_model": "remember_loop",
+              }).encode()
+              req = urllib.request.Request(
+                  f"{url}/functions/v1/mnemos-store",
+                  data=body,
+                  headers={"Content-Type": "application/json", "Authorization": f"Bearer {key}"},
+                  method="POST",
+              )
+              try:
+                  with urllib.request.urlopen(req, timeout=20) as r:
+                      r.read()
+                  synced += 1
+              except Exception as e:
+                  print(f"seed failed (kept in queue): {e}")
+                  remaining.append(rec)
+
+          # mnemos-store embeds on write, so synced rows are recallable immediately.
+          q.write_text("".join(json.dumps(r, ensure_ascii=False) + "\n" for r in remaining))
+          print(f"MNEMOS seed sync: {synced} synced, {len(remaining)} kept")
+          PYEOF
+
+      - name: Commit drained queue
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add mnemos/memories/seed_queue.jsonl
+          git diff --staged --quiet || git commit -m "chore(mnemos): drain seed queue to live memory [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"

@@ -26,7 +26,7 @@ export type ModelConfig = {
 // The live companion runs Gemini's brain (free tier); Claude/Opus stays the
 // builder of the system. Model names are env-tunable in index.ts.
 export const DEFAULT_MODEL_CONFIG: ModelConfig = {
-  deepModel: "gemini-2.5-flash",
+  deepModel: "gemini-2.0-flash",
   quickModel: "gemini-2.0-flash",
   deepTokens: 1024,
   quickTokens: 400,
