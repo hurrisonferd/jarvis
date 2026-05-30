@@ -48,5 +48,15 @@ const exchLine = excl.find(p => p.startsWith("RECENT EXCHANGES"));
 check("excluded text dropped from recall", !exchLine?.includes("already in context"));
 check("non-excluded text kept", exchLine?.includes("genuinely new") === true);
 
+// --- size budget: block stays bounded, semantic always kept ---
+const huge = buildRecallBlock(
+  { semantic: [sem("the one relevant memory", 0.9)],
+    context: Array.from({ length: 50 }, (_, i) => ({ text: "filler context line number " + i + " ".repeat(20), source_type: "context" })) },
+  { maxChars: 400 },
+);
+const total = huge.join("\n\n").length;
+check("recall block respects budget-ish", total < 900);
+check("semantic kept even under budget", huge[0].includes("the one relevant memory"));
+
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail > 0) process.exit(1);
