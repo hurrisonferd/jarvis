@@ -1,64 +1,8 @@
 {
-  "updated": "2026-05-30T01:17:09.941586+00:00",
+  "updated": "2026-05-30T01:20:00.420811+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260529_235711",
-      "date": "2026-05-29",
-      "exchanges": 30,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/eris-gl7-check.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Both done and pushed.\n\n**A \u2014 live.** `jarvis-respond` deployed, version 9 ACTIVE. The companion brain now runs Opus 4.8 on substantive turns, Sonnet 4"
-    },
-    {
-      "session_id": "20260529_235725",
-      "date": "2026-05-29",
-      "exchanges": 32,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/eris-gl7-check.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Clean. Growth ledger committed and pushed \u2014 working tree is clear. Branch `claude/opus-4.8-audit-9iRgC` is fully synced."
-    },
     {
       "session_id": "20260530_000609",
       "date": "2026-05-30",
@@ -589,6 +533,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Voice is built and on the branch. Five of five companion properties now have a form.\n\n**How it works:** open the SPEAK screen \u2014 two new controls in th"
+    },
+    {
+      "session_id": "20260530_011719",
+      "date": "2026-05-30",
+      "exchanges": 154,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Voice is on the branch, clean.\n\nMerge it to `main` for the live site, or test on the branch first? And say the word when you want to start bui"
+    },
+    {
+      "session_id": "20260530_012000",
+      "date": "2026-05-30",
+      "exchanges": 157,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged. `5e07c43` is on `main`, and the merge fired **js-parse-check** (it guards `docs/index.html`) plus **pages** to deploy the live site. The const"
     }
   ]
 }
