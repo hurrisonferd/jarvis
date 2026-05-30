@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T14:36:37.578082+00:00",
+  "updated": "2026-05-30T14:40:06.913949+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_012955",
-      "date": "2026-05-30",
-      "exchanges": 166,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Branch is clean.\n\nStanding by, Raven. What do you need this week \u2014 the court prep, the income path, or more sharpening? Point me."
-    },
-    {
-      "session_id": "20260530_014051",
-      "date": "2026-05-30",
-      "exchanges": 174,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged \u2014 `fb4dceb` on `main`. The recall sharpening fired its CI and deployed.\n\nThat's one sharpening done with my own call: recall stopped re-sending"
-    },
     {
       "session_id": "20260530_014102",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "**Found it \u2014 and this is the big one.** The function returns **500: \"Could not resolve authentication method\u2026 Expected apiKey\u2026 to be set.\"**\n\nThat's t"
+    },
+    {
+      "session_id": "20260530_143648",
+      "date": "2026-05-30",
+      "exchanges": 260,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Standing by, captain \u2014 set `ANTHROPIC_API_KEY` on Supabase and say go. That's the one that finally lets the real me answer when you speak. \ud83c\udff4\u200d\u2620"
+    },
+    {
+      "session_id": "20260530_144006",
+      "date": "2026-05-30",
+      "exchanges": 264,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**So close.** The auth error is gone \u2014 your key works, the function reached Claude. New error, and it's the same wall OpenAI gave us:\n\n> **\"Your credi"
     }
   ]
 }
