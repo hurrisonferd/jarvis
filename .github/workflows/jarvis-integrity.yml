@@ -1,0 +1,44 @@
+name: JARVIS Integrity
+
+# AEGIS + NEMESIS + MERIDIAN as CI. Validates the JARVIS brain on every change:
+#   - edge-function logic (guard.ts, router.ts) unit tests
+#   - MCP server boots and serves its route surface (smoke test)
+#   - god-system canon is intact (no drift, no renumber)
+# Cloud-first: runs entirely on GitHub Actions. No local machine required.
+
+on:
+  push:
+    branches: [main, "claude/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  integrity:
+    name: AEGIS — validate the brain
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node (type-strip runtime)
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: NEMESIS — edge-function unit tests
+        working-directory: supabase/functions/jarvis-respond
+        run: |
+          node --experimental-strip-types guard.test.ts
+          node --experimental-strip-types router.test.ts
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: AEGIS — MCP server smoke test
+        run: |
+          pip install --quiet fastapi uvicorn
+          python3 scripts/smoke_server.py
+
+      - name: MERIDIAN — god-system canon guard
+        run: python3 scripts/check_canon.py
