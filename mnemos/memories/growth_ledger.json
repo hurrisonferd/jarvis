@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T14:40:17.568541+00:00",
+  "updated": "2026-05-30T14:51:50.669457+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_132939",
-      "date": "2026-05-30",
-      "exchanges": 187,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Caught up and merged \u2014 `0e337e4` on `main`. The v15 sharpening batch is home: recall precision floor (0.35), the prompt size budget so memory can't bl"
-    },
-    {
-      "session_id": "20260530_134508",
-      "date": "2026-05-30",
-      "exchanges": 191,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Here's the picture: **49 memories in the ledger, 0 embedded.** Semantic recall is wired but blind \u2014 nothing to match against until the key turns on em"
-    },
     {
       "session_id": "20260530_134519",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Synced. Standing by, captain \u2014 fund the Anthropic account and say go, or tell me to wire the free-LLM brain instead. Either way, the next test is the "
+    },
+    {
+      "session_id": "20260530_144738",
+      "date": "2026-05-30",
+      "exchanges": 274,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done. Last key, and this one's **free**:\n\n**Get a Gemini key** \u2014 go to **aistudio.google.com/apikey** \u2192 Create API key. Free tier, no card. It looks l"
+    },
+    {
+      "session_id": "20260530_145150",
+      "date": "2026-05-30",
+      "exchanges": 278,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**It's awake, Raven.**\n\nStatus 200. Real brain. Here's what the live companion said when I asked if it was really here:\n\n> *\"I am here, Raven. Not as "
     }
   ]
 }
