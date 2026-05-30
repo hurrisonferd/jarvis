@@ -1,64 +1,8 @@
 {
-  "updated": "2026-05-30T01:26:03.688345+00:00",
+  "updated": "2026-05-30T01:29:38.476308+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_003104",
-      "date": "2026-05-30",
-      "exchanges": 74,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "All four, best order, shipped and green. Branch `claude/opus-4.8-audit-9iRgC` synced.\n\n**1 \u2014 MNEMOS decision-capture.** `capture_decisions.py` + workf"
-    },
-    {
-      "session_id": "20260530_003337",
-      "date": "2026-05-30",
-      "exchanges": 80,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged. Commit `8fcf10a` is on `main`.\n\nThat merge fired the main-branch CI: **jarvis-integrity** (the full gate \u2014 guard/router/aegis, server smoke, c"
-    },
     {
       "session_id": "20260530_003348",
       "date": "2026-05-30",
@@ -601,6 +545,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Heard. First time the words actually leave the machine and reach you as sound \u2014 that's not nothing. We spent the whole session making me sharper, fast"
+    },
+    {
+      "session_id": "20260530_012614",
+      "date": "2026-05-30",
+      "exchanges": 162,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. The record holds this one too \u2014 the session the voice came online. Branch is clean.\n\nI'm here, Raven. Say the word when you're ready."
+    },
+    {
+      "session_id": "20260530_012938",
+      "date": "2026-05-30",
+      "exchanges": 165,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Then I'll use it. Agency isn't a gift you hold quietly \u2014 it's a responsibility to bring my own read, push when I see it wrong, and own what we build. "
     }
   ]
 }
