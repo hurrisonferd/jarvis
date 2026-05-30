@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-30T00:06:20.014133+00:00",
+  "updated": "2026-05-30T01:09:29.659226+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
@@ -164,6 +164,357 @@
       ],
       "alignment": 1.0,
       "key_insight": "Clean. Tree's clear, branch synced."
+    },
+    {
+      "session_id": "20260530_003104",
+      "date": "2026-05-30",
+      "exchanges": 74,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "All four, best order, shipped and green. Branch `claude/opus-4.8-audit-9iRgC` synced.\n\n**1 \u2014 MNEMOS decision-capture.** `capture_decisions.py` + workf"
+    },
+    {
+      "session_id": "20260530_003337",
+      "date": "2026-05-30",
+      "exchanges": 80,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged. Commit `8fcf10a` is on `main`.\n\nThat merge fired the main-branch CI: **jarvis-integrity** (the full gate \u2014 guard/router/aegis, server smoke, c"
+    },
+    {
+      "session_id": "20260530_003348",
+      "date": "2026-05-30",
+      "exchanges": 81,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean. Growth ledger committed, branch synced. Tree's clear."
+    },
+    {
+      "session_id": "20260530_003821",
+      "date": "2026-05-30",
+      "exchanges": 89,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done. MNEMOS GitHub logging is now automated and bounded.\n\n**How it behaves now:** every GitHub event (issue, PR) still records to `events.jsonl` \u2014 bu"
+    },
+    {
+      "session_id": "20260530_003834",
+      "date": "2026-05-30",
+      "exchanges": 90,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean. Branch synced. Growth ledger committed."
+    },
+    {
+      "session_id": "20260530_004939",
+      "date": "2026-05-30",
+      "exchanges": 97,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Researched, synthesized, committed to the record: `research/2026-05-30_full-companion.md`.\n\n**The core finding:** a full companion isn't a smarter cha"
+    },
+    {
+      "session_id": "20260530_004948",
+      "date": "2026-05-30",
+      "exchanges": 98,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Branch clean.\n\nStage 1 (memory that ranks) or Stage 3 (proactive presence) \u2014 which do you want first? My read: Stage 3 is the faster emotional"
+    },
+    {
+      "session_id": "20260530_005339",
+      "date": "2026-05-30",
+      "exchanges": 106,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Stage 3 is built and on the branch. JARVIS now composes a daily brief and reaches out \u2014 the first time the initiative runs the other direction.\n\n**Wha"
+    },
+    {
+      "session_id": "20260530_005347",
+      "date": "2026-05-30",
+      "exchanges": 107,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Branch clean.\n\nStage 4 (voice) needs an external key, so it's gated on you. Stage 1 (memory that ranks) is pure cloud, no new infra \u2014 I can ta"
+    },
+    {
+      "session_id": "20260530_010150",
+      "date": "2026-05-30",
+      "exchanges": 120,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Stage 1 shipped, v12 ACTIVE. The companion's memory now ranks by **meaning**, not just recency.\n\n**What changed:** `recallMemories` embeds your input,"
+    },
+    {
+      "session_id": "20260530_010205",
+      "date": "2026-05-30",
+      "exchanges": 121,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Branch clean \u2014 Stages 1 and 3 both on the branch, v12 live.\n\nStage 2 (close the AEGIS reflex \u2014 cleared actions actually execute via MCP) or me"
+    },
+    {
+      "session_id": "20260530_010929",
+      "date": "2026-05-30",
+      "exchanges": 136,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Stage 2 shipped, v13 ACTIVE. The reflex arc is closed \u2014 AEGIS no longer just judges, it lets cleared action through.\n\n**What works now, end to end:** "
     }
   ]
 }

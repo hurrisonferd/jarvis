@@ -100,6 +100,41 @@ jobs:
           git diff --staged --quiet || git commit -m "chore(huginn): daily observation [skip ci]"
           git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
 
+      - name: HALO — JARVIS reaches out (proactive brief, soft-fail)
+        env:
+          SUPABASE_URL:      ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          python3 << 'PYEOF'
+          import json, os, sys, urllib.request
+          sys.path.insert(0, "scripts")
+          from jarvis_brief import main as compose
+          # Reuse the CLI composer by capturing its JSON output.
+          import io, contextlib
+          buf = io.StringIO()
+          with contextlib.redirect_stdout(buf):
+              compose()
+          brief = json.loads(buf.getvalue().strip().splitlines()[-1])
+          print(f"BRIEF: {brief['title']} — {brief['body']}")
+
+          url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+          key = os.environ.get("SUPABASE_ANON_KEY", "")
+          if not url or not key:
+              print("send-push skipped — SUPABASE_URL / ANON_KEY not set")
+              sys.exit(0)
+          req = urllib.request.Request(
+              f"{url}/functions/v1/send-push",
+              data=json.dumps(brief).encode(),
+              headers={"Content-Type": "application/json", "Authorization": f"Bearer {key}"},
+              method="POST",
+          )
+          try:
+              with urllib.request.urlopen(req, timeout=15) as r:
+                  print("send-push:", r.read().decode()[:200])
+          except Exception as e:
+              print(f"send-push soft-fail: {e}")
+          PYEOF
+
       - name: Node heartbeat (soft-fail)
         env:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
