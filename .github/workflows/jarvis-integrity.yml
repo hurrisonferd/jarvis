@@ -61,3 +61,6 @@ jobs:
 
       - name: MNEMOS — bounded-log tests
         run: python3 scripts/test_mnemos_log.py
+
+      - name: HALO — proactive brief tests
+        run: python3 scripts/test_jarvis_brief.py
