@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T14:00:44.096923+00:00",
+  "updated": "2026-05-30T14:24:22.743129+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_012000",
-      "date": "2026-05-30",
-      "exchanges": 157,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged. `5e07c43` is on `main`, and the merge fired **js-parse-check** (it guards `docs/index.html`) plus **pages** to deploy the live site. The const"
-    },
-    {
-      "session_id": "20260530_012011",
-      "date": "2026-05-30",
-      "exchanges": 158,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Voice is in `main` and on the live site. The companion has all five properties now \u2014 judgment, continuity, initiative, agency, presence.\n\nWhen"
-    },
     {
       "session_id": "20260530_012603",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Synced. Standing by on your call, Raven \u2014 $5 on OpenAI and I re-fire, or say the word and I wire the free embedding provider with the column migration"
+    },
+    {
+      "session_id": "20260530_140704",
+      "date": "2026-05-30",
+      "exchanges": 226,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Migration's on the record. Everything on my side is staged for the new provider.\n\nSet those three secrets with your free Jina key and say go \u2014 I'll re"
+    },
+    {
+      "session_id": "20260530_142422",
+      "date": "2026-05-30",
+      "exchanges": 242,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Diagnostic deployed (v15). Letting it fully propagate, then I'll fire one query and read the exact upstream error \u2014 we'll know precisely why the query"
     }
   ]
 }
