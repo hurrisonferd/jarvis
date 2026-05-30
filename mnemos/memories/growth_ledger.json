@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-30T00:33:37.433861+00:00",
+  "updated": "2026-05-30T00:38:21.476048+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
@@ -220,6 +220,62 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged. Commit `8fcf10a` is on `main`.\n\nThat merge fired the main-branch CI: **jarvis-integrity** (the full gate \u2014 guard/router/aegis, server smoke, c"
+    },
+    {
+      "session_id": "20260530_003348",
+      "date": "2026-05-30",
+      "exchanges": 81,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean. Growth ledger committed, branch synced. Tree's clear."
+    },
+    {
+      "session_id": "20260530_003821",
+      "date": "2026-05-30",
+      "exchanges": 89,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done. MNEMOS GitHub logging is now automated and bounded.\n\n**How it behaves now:** every GitHub event (issue, PR) still records to `events.jsonl` \u2014 bu"
     }
   ]
 }
