@@ -1,0 +1,33 @@
+name: MNEMOS Decision Capture
+
+# MNEMOS + PROMETHEUS — pulls governance-significant commits into a decision
+# ledger so the "why" survives, not just the "what". The record builds itself.
+# Cloud-first: runs on GitHub Actions when decisions land on main.
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+jobs:
+  capture:
+    name: MNEMOS — Record Decision
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Extract decision from HEAD
+        run: python3 scripts/capture_decisions.py
+
+      - name: Commit ledger
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add mnemos/memories/decisions.jsonl
+          git diff --staged --quiet || git commit -m "chore(mnemos): decision ledger [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"

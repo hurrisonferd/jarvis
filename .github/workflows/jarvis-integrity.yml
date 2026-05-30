@@ -42,3 +42,6 @@ jobs:
 
       - name: MERIDIAN — god-system canon guard
         run: python3 scripts/check_canon.py
+
+      - name: MNEMOS — decision-capture tests
+        run: python3 scripts/test_capture_decisions.py
