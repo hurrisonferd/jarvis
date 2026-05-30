@@ -24,6 +24,9 @@ ROOT = Path(__file__).resolve().parent.parent
 KNOWLEDGE = ROOT / "mnemos" / "knowledge"
 SESSIONS = ROOT / "mnemos" / "sessions"
 LEDGER = ROOT / "mnemos" / "memories" / "learned.jsonl"
+# Pending live-memory seeds. Drained into Supabase by mnemos-seed-sync.yml on
+# merge to main (the merge is Raven's authorization — gated, cloud-first).
+SEED_QUEUE = ROOT / "mnemos" / "memories" / "seed_queue.jsonl"
 
 # category -> (file path, MNEMOS source_type for the live-memory seed)
 CATEGORIES = {
@@ -77,6 +80,18 @@ def _append_ledger(entry: dict) -> None:
         f.write(json.dumps(entry, ensure_ascii=False) + "\n")
 
 
+def seed_record(text: str, source_type: str, norm: str) -> dict:
+    """The live-memory seed queued for the sync workflow. Pure — unit tested."""
+    return {"text": text.strip()[:2000], "source_type": source_type,
+            "tags": ["learned", norm.split(":")[0]]}
+
+
+def _queue_seed(rec: dict) -> None:
+    SEED_QUEUE.parent.mkdir(parents=True, exist_ok=True)
+    with SEED_QUEUE.open("a", encoding="utf-8") as f:
+        f.write(json.dumps(rec, ensure_ascii=False) + "\n")
+
+
 def main(argv: list) -> int:
     if len(argv) < 2:
         print(__doc__)
@@ -92,17 +107,13 @@ def main(argv: list) -> int:
         return 2
 
     _append_md(path, text)
-    entry = ledger_entry(norm, text, source_type)
-    _append_ledger(entry)
+    _append_ledger(ledger_entry(norm, text, source_type))
+    _queue_seed(seed_record(text, source_type, norm))
 
     rel = path.relative_to(ROOT)
-    print(f"remembered -> {rel}  (live-memory source_type: {source_type})")
-    # The seed for the live brain: paste into execute_sql, then run mnemos-embed backfill.
-    safe = text.replace("'", "''")
-    print("MNEMOS seed:")
-    print(f"  insert into public.mnemos_memories (id, source_id, source_type, text, tags, timestamp, metadata)")
-    print(f"  values (gen_random_uuid(), gen_random_uuid(), '{source_type}', '{safe}', "
-          f"array['learned','{norm.split(':')[0]}'], now(), '{{\"via\":\"remember_loop\"}}'::jsonb);")
+    print(f"remembered -> {rel}")
+    print(f"  ledger:  mnemos/memories/learned.jsonl")
+    print(f"  live:    queued for MNEMOS (source_type={source_type}) — synced on merge to main")
     return 0
 
 

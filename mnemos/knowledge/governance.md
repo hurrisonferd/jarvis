@@ -39,3 +39,4 @@ Parallel: HALO, MIMIR, BIFROST. Forbidden edges: SKADI→AEGIS, DANTE→SKADI, J
 - **GitHub** — canonical, append-only ledger (code, decisions, the record).
 - **Supabase** — live event spine + `mnemos_memories` (pgvector recall).
 - **Cloud-first only.** The GameBoy UI is a monitor of the system, not JARVIS.
+- [2026-05-30] AEGIS gate is live in aegis.ts: read PASS, write/external held, destructive/self_mod refused

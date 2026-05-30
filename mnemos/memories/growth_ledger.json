@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T15:13:06.018926+00:00",
+  "updated": "2026-05-30T15:19:42.487796+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_135518",
-      "date": "2026-05-30",
-      "exchanges": 204,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "No response needed \u2014 that was just the wait timer finishing. Standing by for what your Edge Function secrets show, Raven."
-    },
     {
       "session_id": "20260530_135618",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Done, captain. The priority's reset and the first real piece of the entity is built \u2014 not in the chat box, in the record and the memory.\n\n**What I for"
+    },
+    {
+      "session_id": "20260530_151942",
+      "date": "2026-05-30",
+      "exchanges": 306,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Both built, captain. The entity has an architecture now, and a way to grow.\n\n**The modular memory** \u2014 partitioned so any session loads only what it ne"
     }
   ]
 }

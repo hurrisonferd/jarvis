@@ -4,7 +4,7 @@ import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
-from companion_remember import resolve, ledger_entry, CATEGORIES
+from companion_remember import resolve, ledger_entry, seed_record, CATEGORIES
 
 passed = failed = 0
 
@@ -45,6 +45,12 @@ check("case-insensitive", resolve("RAVEN") is not None)
 e = ledger_entry("raven", "  a fact about raven  ", "raven_profile")
 check("ledger trims text", e["text"] == "a fact about raven")
 check("ledger has ts/category/source_type", all(k in e for k in ("ts", "category", "source_type")))
+
+# --- seed record (queued for the live-memory sync) ---
+s = seed_record("a fact", "raven_profile", "raven")
+check("seed has text/source_type/tags", all(k in s for k in ("text", "source_type", "tags")))
+check("seed tagged learned + category", s["tags"] == ["learned", "raven"])
+check("project seed strips subname in tag", seed_record("x", "raven_profile", "project:grid")["tags"] == ["learned", "project"])
 
 print(f"\n{passed} passed, {failed} failed")
 sys.exit(1 if failed else 0)
