@@ -88,6 +88,8 @@ export function capabilitiesFor(intent: string): Capability[] {
   switch (intent) {
     case "recall":
       return [{ system: "MNEMOS", action: "mnemos.recall", risk: "read" }];
+    case "remember":
+      return [{ system: "MNEMOS", action: "mnemos.write", risk: "write" }];
     case "integrate":
       return [{ system: "BIFROST", action: "bifrost.github", risk: "external" }];
     case "execute":

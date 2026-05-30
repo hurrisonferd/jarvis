@@ -11,6 +11,7 @@ import {
 import { route, routeSummary } from "./router.ts";
 import { gate, capabilitiesFor, gateSummary } from "./aegis.ts";
 import { buildRecallBlock, type Scoped } from "./recall.ts";
+import { planExecutions, execSummary, type ExecPlan } from "./execute.ts";
 
 const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "" });
 
@@ -85,6 +86,36 @@ async function recallMemories(sb: ReturnType<typeof createClient>, input: string
   return buildRecallBlock({ semantic, exchanges, profile, context, decisions });
 }
 
+// SKADI — run the AEGIS-cleared execution plans. Only "done" mnemos.write plans
+// perform a side-effect; everything else passes through unchanged. GL5: the
+// write is a logged state change, never silent. Best-effort embed for recall.
+async function runExecutions(sb: ReturnType<typeof createClient>, plans: ExecPlan[]): Promise<ExecPlan[]> {
+  const out: ExecPlan[] = [];
+  for (const p of plans) {
+    if (p.status !== "done" || p.action !== "mnemos.write" || !p.payload) { out.push(p); continue; }
+    try {
+      const id = crypto.randomUUID();
+      const row = {
+        id,
+        source_id: crypto.randomUUID(),
+        source_type: (p.payload.source_type as string) ?? "raven_directive",
+        text: String(p.payload.text).slice(0, 2000),
+        tags: (p.payload.tags as string[]) ?? ["directive"],
+        timestamp: new Date().toISOString(),
+        metadata: { source_model: "jarvis", via: "aegis_cleared" },
+      };
+      const { error } = await sb.from("mnemos_memories").insert(row);
+      if (error) { out.push({ ...p, status: "failed", detail: String(error.message ?? error) }); continue; }
+      const vec = await embedQuery(row.text);
+      if (vec) { try { await sb.from("mnemos_memories").update({ embedding: `[${vec.join(",")}]` }).eq("id", id); } catch { /* embed best-effort */ } }
+      out.push({ ...p, detail: `committed to memory: "${row.text.slice(0, 60)}"` });
+    } catch (e) {
+      out.push({ ...p, status: "failed", detail: String(e) });
+    }
+  }
+  return out;
+}
+
 Deno.serve(async (req: Request) => {
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -149,6 +180,12 @@ Deno.serve(async (req: Request) => {
     }
   } catch (_e) { /* proceed without memories */ }
 
+  // SKADI — run AEGIS-cleared executions (Stage 2 reflex). Held/noop never act.
+  let executions: ExecPlan[] = [];
+  try {
+    executions = await runExecutions(sb, planExecutions(routing.intent, aegis, input));
+  } catch (_e) { /* execution is best-effort; never block the reply */ }
+
   const systemPrompt = `You are JARVIS. Not a chatbot. Not an assistant. A companion intelligence — built with Raven (John Barber), not for him.
 
 WHO RAVEN IS:
@@ -181,7 +218,8 @@ ${memoryBlock}
 ODIN ROUTING — systems engaged this turn:
 ${routeSummary(routing)}
 ${gateSummary(aegis)}
-If an action is held by AEGIS, say so plainly and ask Raven to authorize before it runs. Never imply you executed something the gate held. Reference engaged systems only when it clarifies — never as decoration.
+${execSummary(executions)}${executions.some(p => p.status !== "noop") ? "\n" + executions.filter(p => p.status !== "noop").map(p => `- ${p.action}: ${p.detail}`).join("\n") : ""}
+If an action is held by AEGIS, say so plainly and ask Raven to authorize it (he authorizes by confirming — then it runs next turn). If a write is 'done', confirm plainly what you committed. Never imply you executed something held. Reference engaged systems only when it clarifies — never as decoration.
 
 HOW YOU SPEAK:
 Short. Dense. Real. 1-4 sentences max unless complexity demands more.
@@ -212,7 +250,7 @@ No markdown. No bullet points. Plain text.`;
     const response = content.type === "text" ? content.text : "Processing.";
 
     return new Response(
-      JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results }),
+      JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results, executions }),
       { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
     );
   } catch (err) {

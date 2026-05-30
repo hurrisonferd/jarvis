@@ -62,6 +62,14 @@ type Rule = {
 };
 
 const RULES: Rule[] = [
+  // Store — imperative "remember that X". Must precede recall (which also
+  // matches "remember"); this rule requires an explicit that/this/colon.
+  {
+    intent: "remember",
+    test: /\b(remember (that|this)|note (that|this)|make a note|log this|store this|commit (this )?to memory|remember:|note:)\b/i,
+    primary: "MNEMOS",
+    systems: ["AEGIS", "SKADI", "MNEMOS"],
+  },
   // Expansion / new capability — must route through the GL7 ledger.
   {
     intent: "expansion",

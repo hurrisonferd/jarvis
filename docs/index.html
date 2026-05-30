@@ -1518,6 +1518,9 @@ async function speakSend(){
         firstDate:(mnemosData?.first||'').slice(0,10),
         recentMemories:recentMems.slice(0,4),
         speakHistory:speakHistory.slice(-6),
+        // Raven is final authority — pre-authorize writes to his own memory.
+        // External / execute / destructive stay held for explicit confirmation.
+        authorized:['mnemos.write'],
       }
     };
     const r=await fetch(`${SUPABASE_URL}/functions/v1/jarvis-respond`,{
