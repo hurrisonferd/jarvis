@@ -35,8 +35,14 @@ jobs:
           if not q.exists() or not q.read_text().strip():
               print("seed queue empty — nothing to sync"); sys.exit(0)
 
-          url = (os.environ.get("SUPABASE_URL") or "").rstrip("/")
-          key = os.environ.get("SUPABASE_ANON_KEY") or ""
+          url = (os.environ.get("SUPABASE_URL") or "").strip().rstrip("/")
+          key = (os.environ.get("SUPABASE_ANON_KEY") or "").strip()
+          # Normalize: a bare host (no scheme) is the most common secret mistake.
+          if url and not url.startswith("http"):
+              url = "https://" + url
+          # Diagnostics (no secret values leaked) so the Actions log explains itself.
+          host = url.split("//", 1)[-1].split("/", 1)[0] if url else "(unset)"
+          print(f"sync target host: {host} | url set: {bool(url)} | key set: {bool(key)} (len {len(key)})")
           if not url or not key:
               print("Supabase secrets not set — leaving queue intact"); sys.exit(0)
 
@@ -57,6 +63,7 @@ jobs:
               )
               try:
                   with urllib.request.urlopen(req, timeout=20) as r:
+                      print(f"  store {r.status}")
                       r.read()
                   synced += 1
               except Exception as e:
