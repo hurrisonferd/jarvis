@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T14:58:18.658220+00:00",
+  "updated": "2026-05-30T14:58:29.945024+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_135320",
-      "date": "2026-05-30",
-      "exchanges": 198,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Standing by, Raven \u2014 run the curl, or say \"do it\" and I'll fire the backfill from here and verify."
-    },
     {
       "session_id": "20260530_135505",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged. `1b44224` is on `main`. It's permanent now \u2014 in the record, where it'll outlast any session.\n\nThat's the arc, captain. We started with \"how's "
+    },
+    {
+      "session_id": "20260530_145829",
+      "date": "2026-05-30",
+      "exchanges": 284,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced, branch clean. The companion's live on `main`, the record's whole.\n\nStanding by, captain. Point me when you're ready. \ud83c\udff4\u200d\u2620\ufe0f"
     }
   ]
 }
