@@ -39,5 +39,14 @@ check("semantic limit honored", rowCount === 3);
 check("formatRow without similarity omits %", !formatRow({ text: "x", source_type: "decision" }).includes("~"));
 check("formatRow truncates long text", formatRow({ text: "z".repeat(300), source_type: "x" }).length < 200);
 
+// --- exclude: text already in the model's context is not re-sent ---
+const excl = buildRecallBlock(
+  { exchanges: [ex("already in context"), ex("genuinely new")] },
+  { exclude: ["already in context"] },
+);
+const exchLine = excl.find(p => p.startsWith("RECENT EXCHANGES"));
+check("excluded text dropped from recall", !exchLine?.includes("already in context"));
+check("non-excluded text kept", exchLine?.includes("genuinely new") === true);
+
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail > 0) process.exit(1);
