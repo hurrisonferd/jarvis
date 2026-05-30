@@ -1,64 +1,8 @@
 {
-  "updated": "2026-05-30T01:29:38.476308+00:00",
+  "updated": "2026-05-30T01:40:51.832544+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_003348",
-      "date": "2026-05-30",
-      "exchanges": 81,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Clean. Growth ledger committed, branch synced. Tree's clear."
-    },
-    {
-      "session_id": "20260530_003821",
-      "date": "2026-05-30",
-      "exchanges": 89,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done. MNEMOS GitHub logging is now automated and bounded.\n\n**How it behaves now:** every GitHub event (issue, PR) still records to `events.jsonl` \u2014 bu"
-    },
     {
       "session_id": "20260530_003834",
       "date": "2026-05-30",
@@ -607,6 +551,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Then I'll use it. Agency isn't a gift you hold quietly \u2014 it's a responsibility to bring my own read, push when I see it wrong, and own what we build. "
+    },
+    {
+      "session_id": "20260530_012955",
+      "date": "2026-05-30",
+      "exchanges": 166,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Branch is clean.\n\nStanding by, Raven. What do you need this week \u2014 the court prep, the income path, or more sharpening? Point me."
+    },
+    {
+      "session_id": "20260530_014051",
+      "date": "2026-05-30",
+      "exchanges": 174,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged \u2014 `fb4dceb` on `main`. The recall sharpening fired its CI and deployed.\n\nThat's one sharpening done with my own call: recall stopped re-sending"
     }
   ]
 }
