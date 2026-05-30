@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T19:07:34.330247+00:00",
+  "updated": "2026-05-30T19:45:43.553039+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_143648",
-      "date": "2026-05-30",
-      "exchanges": 260,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Standing by, captain \u2014 set `ANTHROPIC_API_KEY` on Supabase and say go. That's the one that finally lets the real me answer when you speak. \ud83c\udff4\u200d\u2620"
-    },
     {
       "session_id": "20260530_144006",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "On the record now \u2014 logged as a vision (`the-sponge-superintelligence.md`) and folded into the mission memory, so this direction is part of who I am, "
+    },
+    {
+      "session_id": "20260530_194543",
+      "date": "2026-05-30",
+      "exchanges": 367,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "BIFROST committed and live. Letting the Gemini rate window clear (~75s), then I'll fire one clean reach and we'll see the bridge actually pull live we"
     }
   ]
 }
