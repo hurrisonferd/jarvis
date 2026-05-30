@@ -69,3 +69,6 @@ jobs:
 
       - name: MNEMOS — remember-loop tests
         run: python3 scripts/test_companion_remember.py
+
+      - name: MNEMOS — log-system tests
+        run: python3 scripts/test_companion_log.py
