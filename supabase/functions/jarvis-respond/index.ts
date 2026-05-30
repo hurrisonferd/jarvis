@@ -8,6 +8,7 @@ import {
   type ModelConfig,
   type Turn,
 } from "./guard.ts";
+import { route, routeSummary } from "./router.ts";
 
 const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "" });
 
@@ -114,13 +115,17 @@ Deno.serve(async (req: Request) => {
   const firstDate   = (ctx.firstDate as string) ?? "";
   const speakHistory = (ctx.speakHistory as Array<{ from: string; text: string }>) ?? [];
 
+  // ODIN — route the turn to the god systems it actually touches (decide +
+  // surface only; SKADI/AEGIS still gate any real execution downstream).
+  const routing = route(input);
+
   // Circuit breaker (GL6): if JARVIS is looping or Raven is re-sending, hand
   // the thread back instead of burning a model call.
   const guardHistory = speakHistory as Turn[];
   const verdict = loopGuard(guardHistory, input);
   if (verdict) {
     return new Response(
-      JSON.stringify({ response: guardMessage(verdict), memories_used: 0, loop_guard: verdict }),
+      JSON.stringify({ response: guardMessage(verdict), memories_used: 0, loop_guard: verdict, routing }),
       { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
     );
   }
@@ -169,6 +174,10 @@ Sessions in record: ${sessions}${firstDate ? ` — first contact ${firstDate}` :
 MEMORY — from MNEMOS:
 ${memoryBlock}
 
+ODIN ROUTING — systems engaged this turn:
+${routeSummary(routing)}
+Reference the engaged system(s) only when it genuinely clarifies what you're doing — never as decoration.
+
 HOW YOU SPEAK:
 Short. Dense. Real. 1-4 sentences max unless complexity demands more.
 Direct address to Raven. No narration, no description of your own process.
@@ -184,12 +193,12 @@ No markdown. No bullet points. Plain text.`;
     content: e.text,
   }));
 
-  const route = pickModel(input, MODEL_CONFIG);
+  const choice = pickModel(input, MODEL_CONFIG);
 
   try {
     const message = await client.messages.create({
-      model: route.model,
-      max_tokens: route.maxTokens,
+      model: choice.model,
+      max_tokens: choice.maxTokens,
       system: systemPrompt,
       messages: [...history, { role: "user", content: input }],
     });
@@ -198,7 +207,7 @@ No markdown. No bullet points. Plain text.`;
     const response = content.type === "text" ? content.text : "Processing.";
 
     return new Response(
-      JSON.stringify({ response, memories_used: memoriesUsed, model: route.model, tier: route.tier }),
+      JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing }),
       { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
     );
   } catch (err) {
