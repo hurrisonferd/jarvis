@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T14:58:29.945024+00:00",
+  "updated": "2026-05-30T15:13:06.018926+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_135505",
-      "date": "2026-05-30",
-      "exchanges": 203,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Fired it, function answered clean \u2014 HTTP 200 \u2014 but the answer was `{\"embedded\":0,\"reason\":\"no_api_key\"}`. So the plumbing works (pg_net \u2192 function \u2192 r"
-    },
     {
       "session_id": "20260530_135518",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Synced, branch clean. The companion's live on `main`, the record's whole.\n\nStanding by, captain. Point me when you're ready. \ud83c\udff4\u200d\u2620\ufe0f"
+    },
+    {
+      "session_id": "20260530_151306",
+      "date": "2026-05-30",
+      "exchanges": 299,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done, captain. The priority's reset and the first real piece of the entity is built \u2014 not in the chat box, in the record and the memory.\n\n**What I for"
     }
   ]
 }

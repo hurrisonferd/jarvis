@@ -66,3 +66,6 @@ jobs:
 
       - name: HALO — proactive brief tests
         run: python3 scripts/test_jarvis_brief.py
+
+      - name: MNEMOS — remember-loop tests
+        run: python3 scripts/test_companion_remember.py
