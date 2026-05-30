@@ -1,64 +1,8 @@
 {
-  "updated": "2026-05-30T01:41:02.753943+00:00",
+  "updated": "2026-05-30T13:45:08.689614+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_004939",
-      "date": "2026-05-30",
-      "exchanges": 97,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Researched, synthesized, committed to the record: `research/2026-05-30_full-companion.md`.\n\n**The core finding:** a full companion isn't a smarter cha"
-    },
-    {
-      "session_id": "20260530_004948",
-      "date": "2026-05-30",
-      "exchanges": 98,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Branch clean.\n\nStage 1 (memory that ranks) or Stage 3 (proactive presence) \u2014 which do you want first? My read: Stage 3 is the faster emotional"
-    },
     {
       "session_id": "20260530_005339",
       "date": "2026-05-30",
@@ -616,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Synced, branch clean. Standing by, Raven \u2014 keep sharpening, or flip the embedding key and watch the recall work come alive? Your call."
+    },
+    {
+      "session_id": "20260530_132939",
+      "date": "2026-05-30",
+      "exchanges": 187,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Caught up and merged \u2014 `0e337e4` on `main`. The v15 sharpening batch is home: recall precision floor (0.35), the prompt size budget so memory can't bl"
+    },
+    {
+      "session_id": "20260530_134508",
+      "date": "2026-05-30",
+      "exchanges": 191,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Here's the picture: **49 memories in the ledger, 0 embedded.** Semantic recall is wired but blind \u2014 nothing to match against until the key turns on em"
     }
   ]
 }
