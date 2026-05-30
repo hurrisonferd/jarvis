@@ -1,36 +1,8 @@
 {
-  "updated": "2026-05-30T01:40:51.832544+00:00",
+  "updated": "2026-05-30T01:41:02.753943+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_003834",
-      "date": "2026-05-30",
-      "exchanges": 90,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Clean. Branch synced. Growth ledger committed."
-    },
     {
       "session_id": "20260530_004939",
       "date": "2026-05-30",
@@ -613,6 +585,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged \u2014 `fb4dceb` on `main`. The recall sharpening fired its CI and deployed.\n\nThat's one sharpening done with my own call: recall stopped re-sending"
+    },
+    {
+      "session_id": "20260530_014102",
+      "date": "2026-05-30",
+      "exchanges": 175,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced, branch clean. Standing by, Raven \u2014 keep sharpening, or flip the embedding key and watch the recall work come alive? Your call."
     }
   ]
 }
