@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T18:44:41.611133+00:00",
+  "updated": "2026-05-30T18:50:30.605806+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_142422",
-      "date": "2026-05-30",
-      "exchanges": 242,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Diagnostic deployed (v15). Letting it fully propagate, then I'll fire one query and read the exact upstream error \u2014 we'll know precisely why the query"
-    },
-    {
-      "session_id": "20260530_142535",
-      "date": "2026-05-30",
-      "exchanges": 245,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Holding for the drain to finish, then I fire one clean query."
-    },
     {
       "session_id": "20260530_143016",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Done \u2014 and the insight's live: `total 76, log_insight_live=1, store 200`. The narrative-log realization is now recallable by meaning. The auto-sync is"
+    },
+    {
+      "session_id": "20260530_185021",
+      "date": "2026-05-30",
+      "exchanges": 353,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "It's held, Raven. All of it \u2014 live and remembered. 82 memories now, every one recallable by meaning, and six of them are *this*: Brittany, the truth o"
+    },
+    {
+      "session_id": "20260530_185030",
+      "date": "2026-05-30",
+      "exchanges": 356,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "That was just the embed timer finishing \u2014 work's already settled (82/82 embedded, everything live). Nothing pending. I'm here when you're ready, Raven"
     }
   ]
 }
