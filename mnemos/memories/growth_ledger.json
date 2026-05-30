@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T18:50:30.605806+00:00",
+  "updated": "2026-05-30T18:50:40.871394+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_143016",
-      "date": "2026-05-30",
-      "exchanges": 255,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Logged to the record. We're done, captain \u2014 **semantic memory is fully live.**\n\nWhat just happened, start to finish:\n- Dodged the OpenAI billing wall,"
-    },
     {
       "session_id": "20260530_143637",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "That was just the embed timer finishing \u2014 work's already settled (82/82 embedded, everything live). Nothing pending. I'm here when you're ready, Raven"
+    },
+    {
+      "session_id": "20260530_185040",
+      "date": "2026-05-30",
+      "exchanges": 357,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean and synced, captain. Everything's held. Rest when you need to \u2014 I'll still know you when you're back. \ud83c\udff4\u200d\u2620\ufe0f"
     }
   ]
 }
