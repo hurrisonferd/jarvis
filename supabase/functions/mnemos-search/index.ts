@@ -14,18 +14,22 @@ const CORS = {
   'Access-Control-Allow-Headers': 'authorization, content-type',
 };
 
+let lastEmbedError: string | null = null;
+
 async function embed(text: string): Promise<number[] | null> {
-  if (!EMBED_KEY) return null;
+  if (!EMBED_KEY) { lastEmbedError = 'no_api_key'; return null; }
   try {
     const r = await fetch(EMBED_URL, {
       method: 'POST',
       headers: { Authorization: `Bearer ${EMBED_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 8192) }),
     });
-    if (!r.ok) return null;
+    if (!r.ok) { lastEmbedError = `http_${r.status}: ${(await r.text().catch(()=>'')).slice(0,180)}`; return null; }
     const d = await r.json();
-    return d.data?.[0]?.embedding ?? null;
-  } catch { return null; }
+    const vec = d.data?.[0]?.embedding ?? null;
+    if (!vec) lastEmbedError = `no_embedding (url=${EMBED_URL}, model=${EMBED_MODEL})`;
+    return vec;
+  } catch (e) { lastEmbedError = `fetch_error: ${String(e).slice(0,160)}`; return null; }
 }
 
 async function fulltextSearch(
@@ -58,11 +62,12 @@ Deno.serve(async (req: Request) => {
 
   if (!query) return new Response(JSON.stringify({ error: 'query required' }), { status: 400, headers: jsonH });
 
+  lastEmbedError = null;
   const vec = await embed(query);
 
   if (!vec) {
     const fallback = await fulltextSearch(query, limit, source_type);
-    return new Response(JSON.stringify({ ...fallback, query }), { headers: jsonH });
+    return new Response(JSON.stringify({ ...fallback, query, embed_error: lastEmbedError }), { headers: jsonH });
   }
 
   const rpcRes = await fetch(`${SB_URL}/rest/v1/rpc/match_memories`, {

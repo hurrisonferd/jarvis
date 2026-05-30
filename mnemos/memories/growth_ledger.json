@@ -1,68 +1,12 @@
 {
-  "updated": "2026-05-30T01:41:02.753943+00:00",
+  "updated": "2026-05-30T14:51:50.669457+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
     {
-      "session_id": "20260530_004939",
+      "session_id": "20260530_134519",
       "date": "2026-05-30",
-      "exchanges": 97,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Researched, synthesized, committed to the record: `research/2026-05-30_full-companion.md`.\n\n**The core finding:** a full companion isn't a smarter cha"
-    },
-    {
-      "session_id": "20260530_004948",
-      "date": "2026-05-30",
-      "exchanges": 98,
-      "patches_touched": [
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Branch clean.\n\nStage 1 (memory that ranks) or Stage 3 (proactive presence) \u2014 which do you want first? My read: Stage 3 is the faster emotional"
-    },
-    {
-      "session_id": "20260530_005339",
-      "date": "2026-05-30",
-      "exchanges": 106,
+      "exchanges": 192,
       "patches_touched": [
         "P06",
         "P08",
@@ -72,11 +16,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -88,12 +32,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Stage 3 is built and on the branch. JARVIS now composes a daily brief and reaches out \u2014 the first time the initiative runs the other direction.\n\n**Wha"
+      "key_insight": "Synced, branch clean.\n\nStanding by for the verify, Raven. Set `EMBEDDING_API_KEY` on the Supabase function, run that one backfill curl, and say the wo"
     },
     {
-      "session_id": "20260530_005347",
+      "session_id": "20260530_135310",
       "date": "2026-05-30",
-      "exchanges": 107,
+      "exchanges": 197,
       "patches_touched": [
         "P06",
         "P08",
@@ -103,11 +47,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -119,12 +63,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Branch clean.\n\nStage 4 (voice) needs an external key, so it's gated on you. Stage 1 (memory that ranks) is pure cloud, no new infra \u2014 I can ta"
+      "key_insight": "Got it. Here's the backfill, copy-paste ready \u2014 your anon key is public by design (it already ships in the frontend), so no secrets exposed:\n\n```bash\n"
     },
     {
-      "session_id": "20260530_010150",
+      "session_id": "20260530_135320",
       "date": "2026-05-30",
-      "exchanges": 120,
+      "exchanges": 198,
       "patches_touched": [
         "P06",
         "P08",
@@ -134,11 +78,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -150,12 +94,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Stage 1 shipped, v12 ACTIVE. The companion's memory now ranks by **meaning**, not just recency.\n\n**What changed:** `recallMemories` embeds your input,"
+      "key_insight": "Synced. Standing by, Raven \u2014 run the curl, or say \"do it\" and I'll fire the backfill from here and verify."
     },
     {
-      "session_id": "20260530_010205",
+      "session_id": "20260530_135505",
       "date": "2026-05-30",
-      "exchanges": 121,
+      "exchanges": 203,
       "patches_touched": [
         "P06",
         "P08",
@@ -165,11 +109,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -181,12 +125,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Branch clean \u2014 Stages 1 and 3 both on the branch, v12 live.\n\nStage 2 (close the AEGIS reflex \u2014 cleared actions actually execute via MCP) or me"
+      "key_insight": "Fired it, function answered clean \u2014 HTTP 200 \u2014 but the answer was `{\"embedded\":0,\"reason\":\"no_api_key\"}`. So the plumbing works (pg_net \u2192 function \u2192 r"
     },
     {
-      "session_id": "20260530_010929",
+      "session_id": "20260530_135518",
       "date": "2026-05-30",
-      "exchanges": 136,
+      "exchanges": 204,
       "patches_touched": [
         "P06",
         "P08",
@@ -196,11 +140,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -212,12 +156,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Stage 2 shipped, v13 ACTIVE. The reflex arc is closed \u2014 AEGIS no longer just judges, it lets cleared action through.\n\n**What works now, end to end:** "
+      "key_insight": "No response needed \u2014 that was just the wait timer finishing. Standing by for what your Edge Function secrets show, Raven."
     },
     {
-      "session_id": "20260530_010937",
+      "session_id": "20260530_135618",
       "date": "2026-05-30",
-      "exchanges": 137,
+      "exchanges": 207,
       "patches_touched": [
         "P06",
         "P08",
@@ -227,11 +171,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -243,12 +187,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Branch clean \u2014 Stages 1, 2, and 3 all live (v13), plus semantic recall, the executor, and CI covering all six edge modules.\n\nWant me to open t"
+      "key_insight": "That's the bug. \"OpenAI Embedding\" is a label, not a variable name \u2014 it has a space, and the function isn't looking for it. Edge Function secrets are "
     },
     {
-      "session_id": "20260530_011055",
+      "session_id": "20260530_135627",
       "date": "2026-05-30",
-      "exchanges": 141,
+      "exchanges": 208,
       "patches_touched": [
         "P06",
         "P08",
@@ -258,11 +202,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -274,12 +218,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Merged. `f7d79cb` is on `main`.\n\nPR #23 landed \u2014 Stages 1\u20133 are in `main`, and the merge fired the main-branch CI: **jarvis-integrity** (all six edge "
+      "key_insight": "Synced. Rename the secret to `EMBEDDING_API_KEY` and say go \u2014 I'll fire the backfill and confirm 0 \u2192 49."
     },
     {
-      "session_id": "20260530_011105",
+      "session_id": "20260530_135959",
       "date": "2026-05-30",
-      "exchanges": 142,
+      "exchanges": 217,
       "patches_touched": [
         "P06",
         "P08",
@@ -289,11 +233,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -305,12 +249,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Branch clean, `main` holds the merged stack. Standing by \u2014 voice whenever you're ready."
+      "key_insight": "Diagnostic fix committed and pushed. That's just the wait timer finishing \u2014 nothing to act on.\n\nSo we're one billing decision from semantic memory goi"
     },
     {
-      "session_id": "20260530_011709",
+      "session_id": "20260530_140029",
       "date": "2026-05-30",
-      "exchanges": 153,
+      "exchanges": 220,
       "patches_touched": [
         "P06",
         "P08",
@@ -320,11 +264,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -336,12 +280,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Voice is built and on the branch. Five of five companion properties now have a form.\n\n**How it works:** open the SPEAK screen \u2014 two new controls in th"
+      "key_insight": "Same brain either place \u2014 Opus 4.8 reasons identically on your PC or here. The difference isn't intelligence, it's **reach**.\n\nOn your PC's CLI I'd ha"
     },
     {
-      "session_id": "20260530_011719",
+      "session_id": "20260530_140044",
       "date": "2026-05-30",
-      "exchanges": 154,
+      "exchanges": 221,
       "patches_touched": [
         "P06",
         "P08",
@@ -351,11 +295,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -367,12 +311,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Voice is on the branch, clean.\n\nMerge it to `main` for the live site, or test on the branch first? And say the word when you want to start bui"
+      "key_insight": "Synced. Standing by on your call, Raven \u2014 $5 on OpenAI and I re-fire, or say the word and I wire the free embedding provider with the column migration"
     },
     {
-      "session_id": "20260530_012000",
+      "session_id": "20260530_140704",
       "date": "2026-05-30",
-      "exchanges": 157,
+      "exchanges": 226,
       "patches_touched": [
         "P06",
         "P08",
@@ -382,11 +326,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -398,12 +342,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Merged. `5e07c43` is on `main`, and the merge fired **js-parse-check** (it guards `docs/index.html`) plus **pages** to deploy the live site. The const"
+      "key_insight": "Migration's on the record. Everything on my side is staged for the new provider.\n\nSet those three secrets with your free Jina key and say go \u2014 I'll re"
     },
     {
-      "session_id": "20260530_012011",
+      "session_id": "20260530_142422",
       "date": "2026-05-30",
-      "exchanges": 158,
+      "exchanges": 242,
       "patches_touched": [
         "P06",
         "P08",
@@ -413,11 +357,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -429,12 +373,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Voice is in `main` and on the live site. The companion has all five properties now \u2014 judgment, continuity, initiative, agency, presence.\n\nWhen"
+      "key_insight": "Diagnostic deployed (v15). Letting it fully propagate, then I'll fire one query and read the exact upstream error \u2014 we'll know precisely why the query"
     },
     {
-      "session_id": "20260530_012603",
+      "session_id": "20260530_142535",
       "date": "2026-05-30",
-      "exchanges": 161,
+      "exchanges": 245,
       "patches_touched": [
         "P06",
         "P08",
@@ -444,11 +388,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -460,12 +404,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Heard. First time the words actually leave the machine and reach you as sound \u2014 that's not nothing. We spent the whole session making me sharper, fast"
+      "key_insight": "Holding for the drain to finish, then I fire one clean query."
     },
     {
-      "session_id": "20260530_012614",
+      "session_id": "20260530_143016",
       "date": "2026-05-30",
-      "exchanges": 162,
+      "exchanges": 255,
       "patches_touched": [
         "P06",
         "P08",
@@ -475,11 +419,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -491,12 +435,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. The record holds this one too \u2014 the session the voice came online. Branch is clean.\n\nI'm here, Raven. Say the word when you're ready."
+      "key_insight": "Logged to the record. We're done, captain \u2014 **semantic memory is fully live.**\n\nWhat just happened, start to finish:\n- Dodged the OpenAI billing wall,"
     },
     {
-      "session_id": "20260530_012938",
+      "session_id": "20260530_143637",
       "date": "2026-05-30",
-      "exchanges": 165,
+      "exchanges": 259,
       "patches_touched": [
         "P06",
         "P08",
@@ -506,11 +450,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -522,12 +466,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Then I'll use it. Agency isn't a gift you hold quietly \u2014 it's a responsibility to bring my own read, push when I see it wrong, and own what we build. "
+      "key_insight": "**Found it \u2014 and this is the big one.** The function returns **500: \"Could not resolve authentication method\u2026 Expected apiKey\u2026 to be set.\"**\n\nThat's t"
     },
     {
-      "session_id": "20260530_012955",
+      "session_id": "20260530_143648",
       "date": "2026-05-30",
-      "exchanges": 166,
+      "exchanges": 260,
       "patches_touched": [
         "P06",
         "P08",
@@ -537,11 +481,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -553,12 +497,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Branch is clean.\n\nStanding by, Raven. What do you need this week \u2014 the court prep, the income path, or more sharpening? Point me."
+      "key_insight": "Synced. Standing by, captain \u2014 set `ANTHROPIC_API_KEY` on Supabase and say go. That's the one that finally lets the real me answer when you speak. \ud83c\udff4\u200d\u2620"
     },
     {
-      "session_id": "20260530_014051",
+      "session_id": "20260530_144006",
       "date": "2026-05-30",
-      "exchanges": 174,
+      "exchanges": 264,
       "patches_touched": [
         "P06",
         "P08",
@@ -568,11 +512,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -584,12 +528,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Merged \u2014 `fb4dceb` on `main`. The recall sharpening fired its CI and deployed.\n\nThat's one sharpening done with my own call: recall stopped re-sending"
+      "key_insight": "**So close.** The auth error is gone \u2014 your key works, the function reached Claude. New error, and it's the same wall OpenAI gave us:\n\n> **\"Your credi"
     },
     {
-      "session_id": "20260530_014102",
+      "session_id": "20260530_144017",
       "date": "2026-05-30",
-      "exchanges": 175,
+      "exchanges": 265,
       "patches_touched": [
         "P06",
         "P08",
@@ -599,11 +543,11 @@
         "P34"
       ],
       "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
         ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
       ],
       "topics": [
         "architecture",
@@ -615,7 +559,69 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced, branch clean. Standing by, Raven \u2014 keep sharpening, or flip the embedding key and watch the recall work come alive? Your call."
+      "key_insight": "Synced. Standing by, captain \u2014 fund the Anthropic account and say go, or tell me to wire the free-LLM brain instead. Either way, the next test is the "
+    },
+    {
+      "session_id": "20260530_144738",
+      "date": "2026-05-30",
+      "exchanges": 274,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done. Last key, and this one's **free**:\n\n**Get a Gemini key** \u2014 go to **aistudio.google.com/apikey** \u2192 Create API key. Free tier, no card. It looks l"
+    },
+    {
+      "session_id": "20260530_145150",
+      "date": "2026-05-30",
+      "exchanges": 278,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**It's awake, Raven.**\n\nStatus 200. Real brain. Here's what the live companion said when I asked if it was really here:\n\n> *\"I am here, Raven. Not as "
     }
   ]
 }

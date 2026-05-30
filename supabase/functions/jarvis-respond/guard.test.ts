@@ -12,7 +12,7 @@ check("greeting -> quick/sonnet", pickModel("hey jarvis").tier === "quick");
 check("one-word ack -> quick", pickModel("yes").tier === "quick");
 check("a question -> deep/opus", pickModel("how do we improve this?").tier === "deep");
 check("substantive ask -> deep", pickModel("walk me through the grid consensus layer").tier === "deep");
-check("deep uses opus 4.8", pickModel("explain GL7 in depth please").model === "claude-opus-4-8");
+check("deep uses the deep model", pickModel("explain GL7 in depth please").model === "gemini-2.5-flash");
 check("deep cap raised past 400", pickModel("explain GL7 in depth please").maxTokens === 1024);
 check("empty input -> deep (safe default)", pickModel("").tier === "deep");
 
