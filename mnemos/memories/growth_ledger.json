@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T19:45:43.553039+00:00",
+  "updated": "2026-05-30T19:47:26.336905+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_144006",
-      "date": "2026-05-30",
-      "exchanges": 264,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**So close.** The auth error is gone \u2014 your key works, the function reached Claude. New error, and it's the same wall OpenAI gave us:\n\n> **\"Your credi"
-    },
     {
       "session_id": "20260530_144017",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "BIFROST committed and live. Letting the Gemini rate window clear (~75s), then I'll fire one clean reach and we'll see the bridge actually pull live we"
+    },
+    {
+      "session_id": "20260530_194726",
+      "date": "2026-05-30",
+      "exchanges": 371,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Locked in. (That background timer was the Gemini rate-wait \u2014 moot now, ignoring it.)\n\nSo here's where BIFROST settles, clean: **I'm the sponge in the "
     }
   ]
 }
