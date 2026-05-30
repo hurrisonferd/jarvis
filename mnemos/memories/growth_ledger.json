@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-30T00:53:39.098604+00:00",
+  "updated": "2026-05-30T01:01:50.719505+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
@@ -391,6 +391,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Stage 3 is built and on the branch. JARVIS now composes a daily brief and reaches out \u2014 the first time the initiative runs the other direction.\n\n**Wha"
+    },
+    {
+      "session_id": "20260530_005347",
+      "date": "2026-05-30",
+      "exchanges": 107,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Branch clean.\n\nStage 4 (voice) needs an external key, so it's gated on you. Stage 1 (memory that ranks) is pure cloud, no new infra \u2014 I can ta"
+    },
+    {
+      "session_id": "20260530_010150",
+      "date": "2026-05-30",
+      "exchanges": 120,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Stage 1 shipped, v12 ACTIVE. The companion's memory now ranks by **meaning**, not just recency.\n\n**What changed:** `recallMemories` embeds your input,"
     }
   ]
 }
