@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T13:56:27.809965+00:00",
+  "updated": "2026-05-30T14:00:29.627510+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_011105",
-      "date": "2026-05-30",
-      "exchanges": 142,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Branch clean, `main` holds the merged stack. Standing by \u2014 voice whenever you're ready."
-    },
-    {
-      "session_id": "20260530_011709",
-      "date": "2026-05-30",
-      "exchanges": 153,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Voice is built and on the branch. Five of five companion properties now have a form.\n\n**How it works:** open the SPEAK screen \u2014 two new controls in th"
-    },
     {
       "session_id": "20260530_011719",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Synced. Rename the secret to `EMBEDDING_API_KEY` and say go \u2014 I'll fire the backfill and confirm 0 \u2192 49."
+    },
+    {
+      "session_id": "20260530_135959",
+      "date": "2026-05-30",
+      "exchanges": 217,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Diagnostic fix committed and pushed. That's just the wait timer finishing \u2014 nothing to act on.\n\nSo we're one billing decision from semantic memory goi"
+    },
+    {
+      "session_id": "20260530_140029",
+      "date": "2026-05-30",
+      "exchanges": 220,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Same brain either place \u2014 Opus 4.8 reasons identically on your PC or here. The difference isn't intelligence, it's **reach**.\n\nOn your PC's CLI I'd ha"
     }
   ]
 }
