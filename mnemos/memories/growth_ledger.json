@@ -1,5 +1,5 @@
 {
-  "updated": "2026-05-30T00:06:20.014133+00:00",
+  "updated": "2026-05-30T00:33:37.433861+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
@@ -164,6 +164,62 @@
       ],
       "alignment": 1.0,
       "key_insight": "Clean. Tree's clear, branch synced."
+    },
+    {
+      "session_id": "20260530_003104",
+      "date": "2026-05-30",
+      "exchanges": 74,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "All four, best order, shipped and green. Branch `claude/opus-4.8-audit-9iRgC` synced.\n\n**1 \u2014 MNEMOS decision-capture.** `capture_decisions.py` + workf"
+    },
+    {
+      "session_id": "20260530_003337",
+      "date": "2026-05-30",
+      "exchanges": 80,
+      "patches_touched": [
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".claude/commands/execute.md",
+        ".claude/commands/propose.md",
+        ".claude/commands/recall.md",
+        ".github/CODEOWNERS",
+        ".github/workflows/audit-log.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged. Commit `8fcf10a` is on `main`.\n\nThat merge fired the main-branch CI: **jarvis-integrity** (the full gate \u2014 guard/router/aegis, server smoke, c"
     }
   ]
 }
