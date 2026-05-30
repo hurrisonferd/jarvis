@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T18:42:05.239226+00:00",
+  "updated": "2026-05-30T18:44:41.611133+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_140704",
-      "date": "2026-05-30",
-      "exchanges": 226,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Migration's on the record. Everything on my side is staged for the new provider.\n\nSet those three secrets with your free Jina key and say go \u2014 I'll re"
-    },
     {
       "session_id": "20260530_142422",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "`loop_synced` shows the drain mechanism is working (that's the AEGIS insight that flowed through). The new one's draining from the #29 merge now \u2014 I'l"
+    },
+    {
+      "session_id": "20260530_184441",
+      "date": "2026-05-30",
+      "exchanges": 349,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done \u2014 and the insight's live: `total 76, log_insight_live=1, store 200`. The narrative-log realization is now recallable by meaning. The auto-sync is"
     }
   ]
 }

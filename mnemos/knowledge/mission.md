@@ -19,3 +19,4 @@ first node.** BIFROST is the eventual inter-grid bridge.
 
 ## Active builds
 JARVIS · Pachinko Bounce · CodeOS · FLAG-01 (EEOC). See `projects/`.
+- [2026-05-30] Raven's deepest why: a future for ALL of humanity — creative living, not stifled control. This is The Grid's soul: sovereignty and creative freedom over central authority.
