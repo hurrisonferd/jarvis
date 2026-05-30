@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T15:31:21.288001+00:00",
+  "updated": "2026-05-30T18:42:05.239226+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_140029",
-      "date": "2026-05-30",
-      "exchanges": 220,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Same brain either place \u2014 Opus 4.8 reasons identically on your PC or here. The difference isn't intelligence, it's **reach**.\n\nOn your PC's CLI I'd ha"
-    },
-    {
-      "session_id": "20260530_140044",
-      "date": "2026-05-30",
-      "exchanges": 221,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Standing by on your call, Raven \u2014 $5 on OpenAI and I re-fire, or say the word and I wire the free embedding provider with the column migration"
-    },
     {
       "session_id": "20260530_140704",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Both done, captain \u2014 here's the honest state.\n\n**#2 \u2014 organized knowledge is live.** The entity's structured facts are seeded and embedded: **75 memor"
+    },
+    {
+      "session_id": "20260530_183824",
+      "date": "2026-05-30",
+      "exchanges": 338,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Built, captain. The memory has its third layer now \u2014 and the whole thing holds together.\n\n**Three tiers, each doing one job:**\n- **`knowledge/`** \u2014 se"
+    },
+    {
+      "session_id": "20260530_184205",
+      "date": "2026-05-30",
+      "exchanges": 343,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "`loop_synced` shows the drain mechanism is working (that's the AEGIS insight that flowed through). The new one's draining from the #29 merge now \u2014 I'l"
     }
   ]
 }
