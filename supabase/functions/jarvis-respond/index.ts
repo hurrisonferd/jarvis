@@ -10,6 +10,7 @@ import {
 } from "./guard.ts";
 import { route, routeSummary } from "./router.ts";
 import { gate, capabilitiesFor, gateSummary } from "./aegis.ts";
+import { buildRecallBlock, type Scoped } from "./recall.ts";
 
 const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "" });
 
@@ -21,71 +22,67 @@ const MODEL_CONFIG: ModelConfig = {
   quickTokens: Number(Deno.env.get("JARVIS_QUICK_TOKENS") ?? 400),
 };
 
-type MemRow = { text: string; source_type: string; timestamp?: string; tags?: string[] };
+// Embedding for semantic recall — OpenAI-compatible, same env as mnemos-embed/
+// search so one key powers all of MNEMOS. Returns null (graceful) when unset.
+const EMBED_URL   = Deno.env.get("EMBEDDING_API_URL") || "https://api.openai.com/v1/embeddings";
+const EMBED_KEY   = Deno.env.get("EMBEDDING_API_KEY") || Deno.env.get("OPENAI_API_KEY") || "";
+const EMBED_MODEL = Deno.env.get("EMBEDDING_MODEL") || "text-embedding-3-small";
+
+async function embedQuery(text: string): Promise<number[] | null> {
+  if (!EMBED_KEY || !text.trim()) return null;
+  try {
+    const r = await fetch(EMBED_URL, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${EMBED_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 8192) }),
+    });
+    if (!r.ok) return null;
+    const d = await r.json();
+    return d.data?.[0]?.embedding ?? null;
+  } catch { return null; }
+}
 
 async function recallMemories(sb: ReturnType<typeof createClient>, input: string): Promise<string[]> {
-  const results: MemRow[] = [];
-  const seen = new Set<string>();
+  const mapRows = (rows: unknown): Scoped[] =>
+    (Array.isArray(rows) ? rows : []).map((r: any) => ({
+      text: r.text, source_type: r.source_type, timestamp: r.timestamp, tags: r.tags,
+    }));
+  const pull = async (q: any): Promise<Scoped[]> => { const { data } = await q; return mapRows(data); };
 
-  const add = (rows: MemRow[]) => {
-    for (const r of rows ?? []) {
-      if (!seen.has(r.text)) { seen.add(r.text); results.push(r); }
-    }
-  };
-
-  if (input.trim().length > 3) {
-    const { data: ftData } = await sb
-      .from("mnemos_memories")
-      .select("text, source_type, timestamp, tags")
-      .textSearch("tsv", input.trim(), { type: "plain", config: "english" })
-      .not("source_type", "eq", "decision")
-      .order("timestamp", { ascending: false })
-      .limit(5);
-    add(ftData ?? []);
+  // Semantic scope (pgvector match_memories) — ranks by meaning. Activates when
+  // an embedding key is set; otherwise the recency/full-text scopes carry recall.
+  let semantic: Scoped[] = [];
+  const vec = await embedQuery(input);
+  if (vec) {
+    try {
+      const { data } = await sb.rpc("match_memories", {
+        query_embedding: `[${vec.join(",")}]`,
+        match_count: 6,
+        filter_source: null,
+        min_similarity: 0.25,
+      });
+      if (Array.isArray(data)) {
+        semantic = data.map((r: any) => ({
+          text: r.content, source_type: r.source_type, timestamp: r.ts, tags: r.tags, similarity: r.similarity,
+        }));
+      }
+    } catch (_e) { /* fall back to recency scopes */ }
   }
 
-  const { data: exchanges } = await sb
-    .from("mnemos_memories")
-    .select("text, source_type, timestamp, tags")
-    .in("source_type", ["speak_input", "speak_output"])
-    .order("timestamp", { ascending: false })
-    .limit(6);
-  add(exchanges ?? []);
+  const sel = "text, source_type, timestamp, tags";
+  const context = input.trim().length > 3
+    ? await pull(sb.from("mnemos_memories").select(sel)
+        .textSearch("tsv", input.trim(), { type: "plain", config: "english" })
+        .not("source_type", "eq", "decision").order("timestamp", { ascending: false }).limit(5))
+    : [];
+  const exchanges = await pull(sb.from("mnemos_memories").select(sel)
+    .in("source_type", ["speak_input", "speak_output"]).order("timestamp", { ascending: false }).limit(6));
+  const profile = await pull(sb.from("mnemos_memories").select(sel)
+    .eq("source_type", "raven_profile").order("timestamp", { ascending: false }).limit(4));
+  const decisions = await pull(sb.from("mnemos_memories").select(sel)
+    .eq("source_type", "decision").order("timestamp", { ascending: false }).limit(4));
 
-  const { data: profile } = await sb
-    .from("mnemos_memories")
-    .select("text, source_type, timestamp, tags")
-    .eq("source_type", "raven_profile")
-    .order("timestamp", { ascending: false })
-    .limit(4);
-  add(profile ?? []);
-
-  const { data: decisions } = await sb
-    .from("mnemos_memories")
-    .select("text, source_type, timestamp, tags")
-    .eq("source_type", "decision")
-    .order("timestamp", { ascending: false })
-    .limit(4);
-  add(decisions ?? []);
-
-  const fmt = (r: MemRow) => {
-    const ts = (r.timestamp ?? "").slice(0, 10);
-    const type = (r.source_type ?? "memory").slice(0, 16);
-    return `[${type} ${ts}] ${(r.text ?? "").slice(0, 150)}`;
-  };
-
-  const exchanges_out = results.filter(r => ["speak_input","speak_output"].includes(r.source_type)).slice(0, 6).map(fmt);
-  const profile_out   = results.filter(r => r.source_type === "raven_profile").slice(0, 4).map(fmt);
-  const context_out   = results.filter(r => !["speak_input","speak_output","raven_profile","decision"].includes(r.source_type)).slice(0, 4).map(fmt);
-  const decision_out  = results.filter(r => r.source_type === "decision").slice(0, 3).map(fmt);
-
-  const parts: string[] = [];
-  if (exchanges_out.length)  parts.push("RECENT EXCHANGES:\n" + exchanges_out.join("\n"));
-  if (profile_out.length)    parts.push("RAVEN PROFILE:\n" + profile_out.join("\n"));
-  if (context_out.length)    parts.push("RELEVANT CONTEXT:\n" + context_out.join("\n"));
-  if (decision_out.length)   parts.push("ACTIVE DECISIONS:\n" + decision_out.join("\n"));
-
-  return parts;
+  return buildRecallBlock({ semantic, exchanges, profile, context, decisions });
 }
 
 Deno.serve(async (req: Request) => {
