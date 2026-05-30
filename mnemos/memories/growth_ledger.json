@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T14:40:06.913949+00:00",
+  "updated": "2026-05-30T14:40:17.568541+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_014102",
-      "date": "2026-05-30",
-      "exchanges": 175,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced, branch clean. Standing by, Raven \u2014 keep sharpening, or flip the embedding key and watch the recall work come alive? Your call."
-    },
     {
       "session_id": "20260530_132939",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "**So close.** The auth error is gone \u2014 your key works, the function reached Claude. New error, and it's the same wall OpenAI gave us:\n\n> **\"Your credi"
+    },
+    {
+      "session_id": "20260530_144017",
+      "date": "2026-05-30",
+      "exchanges": 265,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Standing by, captain \u2014 fund the Anthropic account and say go, or tell me to wire the free-LLM brain instead. Either way, the next test is the "
     }
   ]
 }

@@ -1,5 +1,4 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import Anthropic from "npm:@anthropic-ai/sdk";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import {
   pickModel,
@@ -13,12 +12,15 @@ import { gate, capabilitiesFor, gateSummary } from "./aegis.ts";
 import { buildRecallBlock, type Scoped } from "./recall.ts";
 import { planExecutions, execSummary, type ExecPlan } from "./execute.ts";
 
-const client = new Anthropic({ apiKey: Deno.env.get("ANTHROPIC_API_KEY") ?? "" });
+// The live companion brain runs Gemini (free tier) via its OpenAI-compatible
+// endpoint. Claude/Opus stays the builder of the system, not the live voice.
+// All of this is env-tunable so Raven can swap brain/model without a redeploy.
+const LLM_URL = Deno.env.get("LLM_API_URL") || "https://generativelanguage.googleapis.com/v1beta/openai/chat/completions";
+const LLM_KEY = Deno.env.get("LLM_API_KEY") || Deno.env.get("GEMINI_API_KEY") || "";
 
-// Model routing is env-tunable so Raven can adjust depth/cost without redeploy.
 const MODEL_CONFIG: ModelConfig = {
-  deepModel: Deno.env.get("JARVIS_DEEP_MODEL") ?? "claude-opus-4-8",
-  quickModel: Deno.env.get("JARVIS_QUICK_MODEL") ?? "claude-sonnet-4-6",
+  deepModel: Deno.env.get("JARVIS_DEEP_MODEL") ?? "gemini-2.5-flash",
+  quickModel: Deno.env.get("JARVIS_QUICK_MODEL") ?? "gemini-2.0-flash",
   deepTokens: Number(Deno.env.get("JARVIS_DEEP_TOKENS") ?? 1024),
   quickTokens: Number(Deno.env.get("JARVIS_QUICK_TOKENS") ?? 400),
 };
@@ -241,15 +243,28 @@ No markdown. No bullet points. Plain text.`;
   const choice = pickModel(input, MODEL_CONFIG);
 
   try {
-    const message = await client.messages.create({
-      model: choice.model,
-      max_tokens: choice.maxTokens,
-      system: systemPrompt,
-      messages: [...history, { role: "user", content: input }],
+    // Gemini via its OpenAI-compatible chat-completions API. System prompt is
+    // the first message; history + the new turn follow in OpenAI role format.
+    const r = await fetch(LLM_URL, {
+      method: "POST",
+      headers: { Authorization: `Bearer ${LLM_KEY}`, "Content-Type": "application/json" },
+      body: JSON.stringify({
+        model: choice.model,
+        max_tokens: choice.maxTokens,
+        messages: [{ role: "system", content: systemPrompt }, ...history, { role: "user", content: input }],
+      }),
     });
 
-    const content = message.content[0];
-    const response = content.type === "text" ? content.text : "Processing.";
+    if (!r.ok) {
+      const detail = (await r.text().catch(() => "")).slice(0, 300);
+      return new Response(JSON.stringify({ error: `llm_${r.status}: ${detail}` }), {
+        status: 500,
+        headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" },
+      });
+    }
+
+    const d = await r.json();
+    const response = d.choices?.[0]?.message?.content ?? "Processing.";
 
     return new Response(
       JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results, executions }),
