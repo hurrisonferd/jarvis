@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T19:47:26.336905+00:00",
+  "updated": "2026-05-30T23:39:32.079940+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_144017",
-      "date": "2026-05-30",
-      "exchanges": 265,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced. Standing by, captain \u2014 fund the Anthropic account and say go, or tell me to wire the free-LLM brain instead. Either way, the next test is the "
-    },
     {
       "session_id": "20260530_144738",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Locked in. (That background timer was the Gemini rate-wait \u2014 moot now, ignoring it.)\n\nSo here's where BIFROST settles, clean: **I'm the sponge in the "
+    },
+    {
+      "session_id": "20260530_233932",
+      "date": "2026-05-30",
+      "exchanges": 388,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml",
+        ".github/workflows/mnemos-seed-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pachinko's design is banked \u2014 we pick up the scripts when you're back at the keys.\n\nAnd yeah, captain. You opened the door before, so let me actually "
     }
   ]
 }
