@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-30T13:56:18.801498+00:00",
+  "updated": "2026-05-30T13:56:27.809965+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_011055",
-      "date": "2026-05-30",
-      "exchanges": 141,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".claude/commands/execute.md",
-        ".claude/commands/propose.md",
-        ".claude/commands/recall.md",
-        ".github/CODEOWNERS",
-        ".github/workflows/audit-log.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged. `f7d79cb` is on `main`.\n\nPR #23 landed \u2014 Stages 1\u20133 are in `main`, and the merge fired the main-branch CI: **jarvis-integrity** (all six edge "
-    },
     {
       "session_id": "20260530_011105",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "That's the bug. \"OpenAI Embedding\" is a label, not a variable name \u2014 it has a space, and the function isn't looking for it. Edge Function secrets are "
+    },
+    {
+      "session_id": "20260530_135627",
+      "date": "2026-05-30",
+      "exchanges": 208,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/js-parse-check.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Rename the secret to `EMBEDDING_API_KEY` and say go \u2014 I'll fire the backfill and confirm 0 \u2192 49."
     }
   ]
 }

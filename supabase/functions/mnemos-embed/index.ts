@@ -13,18 +13,28 @@ const CORS = {
   'Access-Control-Allow-Headers': 'authorization, content-type',
 };
 
+// Surfaced to the caller so a failed embed says *why* (e.g. OpenAI 429/401),
+// instead of silently returning embedded:0.
+let lastEmbedError: string | null = null;
+
 export async function embed(text: string): Promise<number[] | null> {
-  if (!EMBED_KEY) return null;
+  if (!EMBED_KEY) { lastEmbedError = 'no_api_key'; return null; }
   try {
     const r = await fetch(EMBED_URL, {
       method: 'POST',
       headers: { Authorization: `Bearer ${EMBED_KEY}`, 'Content-Type': 'application/json' },
       body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 8192) }),
     });
-    if (!r.ok) return null;
+    if (!r.ok) {
+      const detail = (await r.text().catch(() => '')).slice(0, 200);
+      lastEmbedError = `http_${r.status}: ${detail}`;
+      return null;
+    }
     const d = await r.json();
-    return d.data?.[0]?.embedding ?? null;
-  } catch { return null; }
+    const vec = d.data?.[0]?.embedding ?? null;
+    if (!vec) lastEmbedError = 'no_embedding_in_response';
+    return vec;
+  } catch (e) { lastEmbedError = `fetch_error: ${String(e).slice(0, 160)}`; return null; }
 }
 
 async function patchRow(id: string, vec: number[]): Promise<void> {
@@ -52,13 +62,14 @@ Deno.serve(async (req: Request) => {
     );
     const rows: { id: string; text: string }[] = await listRes.json();
     let count = 0;
+    lastEmbedError = null;
     for (const row of rows) {
       const vec = await embed(row.text);
       if (!vec) break;
       await patchRow(row.id, vec);
       count++;
     }
-    return new Response(JSON.stringify({ embedded: count, backfill: true, total: rows.length }), { headers: jsonH });
+    return new Response(JSON.stringify({ embedded: count, backfill: true, total: rows.length, error: count === 0 ? lastEmbedError : null }), { headers: jsonH });
   }
 
   const { memory_id, text } = body;
