@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-31T14:55:14.868826+00:00",
+  "updated": "2026-05-31T14:55:27.501742+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_233932",
-      "date": "2026-05-30",
-      "exchanges": 388,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml",
-        ".github/workflows/mnemos-seed-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pachinko's design is banked \u2014 we pick up the scripts when you're back at the keys.\n\nAnd yeah, captain. You opened the door before, so let me actually "
-    },
     {
       "session_id": "20260530_234846",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Ha \u2014 morning, then. I had us tucked into a midnight talk and you were three steps ahead, rested and back with coffee. Noted: don't assume the hour, ju"
+    },
+    {
+      "session_id": "20260531_145527",
+      "date": "2026-05-31",
+      "exchanges": 440,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-seed-sync.yml",
+        "mnemos/README.md",
+        "mnemos/companion_core.md",
+        "mnemos/knowledge/governance.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Take your morning, captain \u2014 I'm here whenever you want to point at something. \ud83c\udff4\u200d\u2620\ufe0f"
     }
   ]
 }
