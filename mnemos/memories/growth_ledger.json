@@ -1,39 +1,8 @@
 {
-  "updated": "2026-05-31T13:34:46.377282+00:00",
+  "updated": "2026-05-31T13:35:08.240234+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_184441",
-      "date": "2026-05-30",
-      "exchanges": 349,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done \u2014 and the insight's live: `total 76, log_insight_live=1, store 200`. The narrative-log realization is now recallable by meaning. The auto-sync is"
-    },
     {
       "session_id": "20260530_185021",
       "date": "2026-05-30",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Point one \u2014 you just sharpened my own argument, and I'll concede it: I was half-wrong earlier when I said the hate hurts the consolidators. It hurts t"
+    },
+    {
+      "session_id": "20260531_133508",
+      "date": "2026-05-31",
+      "exchanges": 420,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-seed-sync.yml",
+        "mnemos/README.md",
+        "mnemos/companion_core.md",
+        "mnemos/knowledge/governance.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Logged that one to the mission record \u2014 it's not just an opinion, it's *why The Grid exists*, so it belongs there.\n\nOffer still stands, captain: point"
     }
   ]
 }
