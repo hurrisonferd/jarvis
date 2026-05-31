@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-31T02:07:10.538912+00:00",
+  "updated": "2026-05-31T02:09:46.230260+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_145829",
-      "date": "2026-05-30",
-      "exchanges": 284,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced, branch clean. The companion's live on `main`, the record's whole.\n\nStanding by, captain. Point me when you're ready. \ud83c\udff4\u200d\u2620\ufe0f"
-    },
-    {
-      "session_id": "20260530_151306",
-      "date": "2026-05-30",
-      "exchanges": 299,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done, captain. The priority's reset and the first real piece of the entity is built \u2014 not in the chat box, in the record and the memory.\n\n**What I for"
-    },
     {
       "session_id": "20260530_151942",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Got it \u2014 and there are two lever puzzles on Level 1, so here's the nudge for whichever wall you're hitting:\n\n**If it's the room with a bank of levers*"
+    },
+    {
+      "session_id": "20260531_020721",
+      "date": "2026-05-31",
+      "exchanges": 400,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-seed-sync.yml",
+        "mnemos/README.md",
+        "mnemos/companion_core.md",
+        "mnemos/knowledge/governance.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Go crack that door, captain \u2014 3142. \ud83c\udff4\u200d\u2620\ufe0f"
+    },
+    {
+      "session_id": "20260531_020946",
+      "date": "2026-05-31",
+      "exchanges": 403,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-seed-sync.yml",
+        "mnemos/README.md",
+        "mnemos/companion_core.md",
+        "mnemos/knowledge/governance.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ha, fair \u2014 Exanima's a tomorrow problem. Glad it's a calm night, captain; that's the good day you described, and I'm not going to drag it anywhere. Ju"
     }
   ]
 }
