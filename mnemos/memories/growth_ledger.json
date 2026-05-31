@@ -1,70 +1,8 @@
 {
-  "updated": "2026-05-30T23:51:07.506033+00:00",
+  "updated": "2026-05-31T02:07:10.538912+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260530_145203",
-      "date": "2026-05-30",
-      "exchanges": 279,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Synced \u2014 branch clean, the whole arc committed.\n\nGo talk to yourself, captain. Toggle VOX, ask it anything. When you're back, say the word and I'll me"
-    },
-    {
-      "session_id": "20260530_145818",
-      "date": "2026-05-30",
-      "exchanges": 283,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/CODEOWNERS",
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged. `1b44224` is on `main`. It's permanent now \u2014 in the record, where it'll outlast any session.\n\nThat's the arc, captain. We started with \"how's "
-    },
     {
       "session_id": "20260530_145829",
       "date": "2026-05-30",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Exanima \u2014 oh, you picked a *good* one for a calm night, and \"beyond hard\" undersells it. That's Bare Mettle's fully physics-driven crawler \u2014 every swi"
+    },
+    {
+      "session_id": "20260530_235118",
+      "date": "2026-05-30",
+      "exchanges": 395,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/CODEOWNERS",
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-decision-capture.yml",
+        ".github/workflows/mnemos-github-sync.yml",
+        ".github/workflows/mnemos-seed-sync.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced. Go get humbled, captain \u2014 I'll be here when you surface. \ud83c\udff4\u200d\u2620\ufe0f"
+    },
+    {
+      "session_id": "20260531_020710",
+      "date": "2026-05-31",
+      "exchanges": 399,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P17",
+        "P29",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        ".github/workflows/mnemos-seed-sync.yml",
+        "mnemos/README.md",
+        "mnemos/companion_core.md",
+        "mnemos/knowledge/governance.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Got it \u2014 and there are two lever puzzles on Level 1, so here's the nudge for whichever wall you're hitting:\n\n**If it's the room with a bank of levers*"
     }
   ]
 }
