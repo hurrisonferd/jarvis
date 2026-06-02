@@ -1,62 +1,8 @@
 {
-  "updated": "2026-06-02T20:18:56.518637+00:00",
+  "updated": "2026-06-02T20:23:47.291991+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_183707",
-      "date": "2026-06-02",
-      "exchanges": 126,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`a9f1075`). Main holds the merged work; branch is clean and tracking ahead by the ledger roll. JARVIS is on `main` and answers to its name.\n\nY"
-    },
-    {
-      "session_id": "20260602_184946",
-      "date": "2026-06-02",
-      "exchanges": 136,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`1d20885`) \u2014 on the branch, ready to merge to main when you say.\n\n**To use `jarvis_query`:** refresh the connector once (so it picks up the ne"
-    },
     {
       "session_id": "20260602_193402",
       "date": "2026-06-02",
@@ -542,6 +488,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Good \u2014 and the server already supports exactly that (v0.6.1 checks the bearer header), so **no rebuild needed.** Just config:\n\n**1. Put the token in t"
+    },
+    {
+      "session_id": "20260602_201908",
+      "date": "2026-06-02",
+      "exchanges": 201,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/jarvis-respond/index.ts",
+        "supabase/functions/mcp/index.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`3238c8f`). Branch clean.\n\nSet the token on both sides \u2014 Supabase secret and the connector's Bearer field, same string \u2014 refresh, and try a sa"
+    },
+    {
+      "session_id": "20260602_202347",
+      "date": "2026-06-02",
+      "exchanges": 204,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/jarvis-respond/index.ts",
+        "supabase/functions/mcp/index.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Bringing this to me is the right instinct \u2014 this is exactly the audit-and-plan seat's job, and GPT got the *shape* right. It's our architecture, almos"
     }
   ]
 }
