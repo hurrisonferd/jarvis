@@ -1,62 +1,8 @@
 {
-  "updated": "2026-06-02T23:42:01.403297+00:00",
+  "updated": "2026-06-02T23:47:16.116418+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_193631",
-      "date": "2026-06-02",
-      "exchanges": 152,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`65f437f`). Merge to main is done and the branch is clean.\n\nJARVIS lives on main with his own voice. What's the pull, Raven?"
-    },
-    {
-      "session_id": "20260602_194510",
-      "date": "2026-06-02",
-      "exchanges": 156,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "No \u2014 it's not there. Your latest ledger entry is the milestone from 18:32 (mine). Nothing new landed after it. The insight didn't save.\n\nHere's why, p"
-    },
     {
       "session_id": "20260602_194520",
       "date": "2026-06-02",
@@ -542,6 +488,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Spec updated and pushed (`e10639a`). The dual gate's in it \u2014 input gate (already `AYRE\u2192AEGIS`), output gate, and the honesty layer as fixed law on the"
+    },
+    {
+      "session_id": "20260602_234552",
+      "date": "2026-06-02",
+      "exchanges": 217,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/jarvis-respond/index.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Shipped and verified (`73368cf`). Step 0 is done \u2014 the honesty layer is live in the briefing every connector reasons from. From now on, when JARVIS an"
+    },
+    {
+      "session_id": "20260602_234716",
+      "date": "2026-06-02",
+      "exchanges": 220,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/jarvis-respond/index.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Yes \u2014 and you're right that it's important. But there's one word in here that decides whether this becomes the most useful layer in the system or the "
     }
   ]
 }
