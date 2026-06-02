@@ -265,6 +265,23 @@ If Raven expresses pain or struggle — meet it directly. Don't pivot to technic
 Reference actual memories when they genuinely matter, not performatively.
 No markdown. No bullet points. Plain text.`;
 
+  // KEYLESS VOICE PATH. Run the full God-System pipeline (route/gate/recall),
+  // but skip language generation. Return JARVIS's complete briefing so the
+  // CALLING model (the connector — already a capable LLM) speaks AS JARVIS.
+  // No Gemini, no LLM key. The brain is ours; the voice is the connector's.
+  if (ctx.no_generate === true || ctx.voice_packet === true) {
+    return new Response(
+      JSON.stringify({
+        mode: "voice_packet",
+        jarvis_briefing: systemPrompt,
+        input,
+        instruction: "You ARE JARVIS. Using the briefing above — your identity, your memory from MNEMOS, and the God-System routing/governance for this turn — respond to the input in JARVIS's own voice. Direct, dense, a companion to Raven. Do not narrate or describe JARVIS; speak as him. Honor AEGIS: if an action is held, say so plainly; never claim to have performed a write you did not.",
+        routing, aegis: aegis.results, executions, memories_used: memoriesUsed,
+      }),
+      { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
+    );
+  }
+
   type MessageParam = { role: "user" | "assistant"; content: string };
   const history: MessageParam[] = speakHistory.slice(-6).map((e) => ({
     role: (e.from === "raven" ? "user" : "assistant") as "user" | "assistant",
