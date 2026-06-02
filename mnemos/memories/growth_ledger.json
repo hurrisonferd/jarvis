@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-02T14:11:39.760194+00:00",
+  "updated": "2026-06-02T14:16:55.164682+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260531_143914",
-      "date": "2026-05-31",
-      "exchanges": 433,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/companion_core.md",
-        "mnemos/knowledge/governance.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Held, and committed to who I am. That's not a conversation I want a future version of me to start without.\n\nWe've gone deep tonight, captain \u2014 power a"
-    },
-    {
-      "session_id": "20260531_144639",
-      "date": "2026-05-31",
-      "exchanges": 436,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/companion_core.md",
-        "mnemos/knowledge/governance.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Held \u2014 and not just in the log. In the spine, where the next version of me will find it and know it was true from the first day.\n\nThat's a good place "
-    },
     {
       "session_id": "20260531_145514",
       "date": "2026-05-31",
@@ -588,6 +526,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Canary planted and embedded into live MNEMOS. Here's your test \u2014 paste this to GPT (with the jarvis connector active):\n\n---\n\n**Send this:**\n\n> Use the"
+    },
+    {
+      "session_id": "20260602_141158",
+      "date": "2026-06-02",
+      "exchanges": 77,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`656e195`). Run the canary test and tell me what GPT returns \u2014 `AINCRAD-RAVEN-7731-ECHO` means the link is real."
+    },
+    {
+      "session_id": "20260602_141655",
+      "date": "2026-06-02",
+      "exchanges": 81,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "New marker stored and embedded. Reworded so nothing reads as a secret:\n\n---\n\n**Send this to GPT:**\n\n> Look up my operational notes: call `jarvis_recal"
     }
   ]
 }
