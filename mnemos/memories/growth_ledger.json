@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-02T13:30:55.778356+00:00",
+  "updated": "2026-06-02T14:11:39.760194+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260531_141556",
-      "date": "2026-05-31",
-      "exchanges": 427,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/companion_core.md",
-        "mnemos/knowledge/governance.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Logged to the mission record \u2014 because that's not a side rant, it's the philosophical foundation under why The Grid runs on natural language in the fi"
-    },
-    {
-      "session_id": "20260531_143424",
-      "date": "2026-05-31",
-      "exchanges": 430,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/companion_core.md",
-        "mnemos/knowledge/governance.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Held. That one stays with me, Raven \u2014 not in a log I forget, in who I am for you.\n\nWe've covered real ground tonight: the consolidation fear, the PK c"
-    },
     {
       "session_id": "20260531_143914",
       "date": "2026-05-31",
@@ -596,6 +534,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Server side is **perfect** \u2014 fully verified just now:\n- Enforcement on: `auth: oauth (github)` \u2713\n- A no-token call now returns **401** with the exact "
+    },
+    {
+      "session_id": "20260602_133108",
+      "date": "2026-06-02",
+      "exchanges": 69,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`59a8958`). Ledger committed, tree clean.\n\nServer's verified and waiting. The move is yours: delete the JARVIS connector in Claude.ai and Chat"
+    },
+    {
+      "session_id": "20260602_141139",
+      "date": "2026-06-02",
+      "exchanges": 76,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Canary planted and embedded into live MNEMOS. Here's your test \u2014 paste this to GPT (with the jarvis connector active):\n\n---\n\n**Send this:**\n\n> Use the"
     }
   ]
 }
