@@ -104,6 +104,10 @@ async function recallMemories(sb: ReturnType<typeof createClient>, input: string
   }
 
   const sel = "text, source_type, timestamp, tags";
+  // The identity anchor (Ayre Loop step 1, the reinject lane) — the compressed
+  // "who JARVIS is becoming" block, always injected first and never truncated.
+  const identity = await pull(sb.from("mnemos_memories").select(sel)
+    .eq("source_type", "identity_summary").order("timestamp", { ascending: false }).limit(1));
   const context = input.trim().length > 3
     ? await pull(sb.from("mnemos_memories").select(sel)
         .textSearch("tsv", input.trim(), { type: "plain", config: "english" })
@@ -117,7 +121,7 @@ async function recallMemories(sb: ReturnType<typeof createClient>, input: string
     .eq("source_type", "decision").order("timestamp", { ascending: false }).limit(4));
 
   // Exclude what's already in the message history Opus receives — no duplication.
-  return buildRecallBlock({ semantic, exchanges, profile, context, decisions }, { exclude });
+  return buildRecallBlock({ identity, semantic, exchanges, profile, context, decisions }, { exclude });
 }
 
 // SKADI — run the AEGIS-cleared execution plans. Only "done" mnemos.write plans

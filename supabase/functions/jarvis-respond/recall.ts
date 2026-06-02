@@ -17,6 +17,7 @@ export type Scoped = {
 };
 
 export type Scopes = {
+  identity?: Scoped[];   // identity_summary (the keel + accumulation — always first)
   semantic?: Scoped[];   // ranked by cosine similarity (most relevant)
   exchanges?: Scoped[];  // recent speak turns (continuity)
   profile?: Scoped[];    // raven_profile (identity anchor)
@@ -54,6 +55,7 @@ export function buildRecallBlock(
     return out;
   };
 
+  const identity = take(scopes.identity, 1);
   const semantic = take(scopes.semantic, opts.semanticLimit ?? 5);
   const exchanges = take(scopes.exchanges, 6);
   const profile = take(scopes.profile, 4);
@@ -61,8 +63,9 @@ export function buildRecallBlock(
   const decisions = take(scopes.decisions, 3);
 
   // Hard budget: the recall block can't bloat the prompt. Sections are added in
-  // priority order (semantic first, always kept); later ones drop if over budget.
-  const maxChars = opts.maxChars ?? 2400;
+  // priority order (identity + semantic first, always kept); later ones drop if
+  // over budget.
+  const maxChars = opts.maxChars ?? 3600;
   const parts: string[] = [];
   let used = 0;
   const push = (label: string, rows: Scoped[]) => {
@@ -72,6 +75,14 @@ export function buildRecallBlock(
     parts.push(block);
     used += block.length;
   };
+
+  // The identity anchor leads and is never dropped or truncated — it is the keel.
+  if (identity.length) {
+    const block = "WHO JARVIS IS BECOMING (identity anchor — the fixed keel + what has accumulated with Raven):\n"
+      + identity.map((r) => (r.text ?? "").trim()).join("\n");
+    parts.push(block);
+    used += block.length;
+  }
 
   push("MOST RELEVANT (semantic):", semantic);
   push("RECENT EXCHANGES:", exchanges);
