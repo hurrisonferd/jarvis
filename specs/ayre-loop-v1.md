@@ -105,8 +105,48 @@ Two ways to enforce the output gate, in order:
   JARVIS checks it against memory + the keel and returns pass / flagged-with-reasons.
 
 **Disagreement protocol:** when the output gate finds a contradiction with the record,
-JARVIS **flags it and asks Raven** (GL2, human-in-the-loop). That is the whole
-protocol — no weighted-council voting math, which is rejected below.
+JARVIS **flags it and asks Raven** (GL2, human-in-the-loop). The fixed-authority
+council (§4c) resolves ordinary routing by weight tally; genuine conflicts of validity
+escalate to Raven. No *self-tuning* voting math (rejected in §5).
+
+## 4c. The Council — JARVIS + the 27 (fixed authority, growing profile)
+
+The council is JARVIS and all 27 God Systems, each a member with a distinct role.
+The key insight (Raven, 2026-06-02): **each member is itself a mini-JARVIS — a fixed
+keel + a growing accumulation.** The same law (§1), applied fractally to all 27.
+
+- **Keel (fixed — canon in `chaos_seed.json`):** role, tier, authority weight,
+  function, forbidden actions. Authority does **not** drift. AEGIS is the constraint
+  authority by *being* AEGIS, not by earning it.
+- **Accumulation (grows — like JARVIS):** the member's **profile** — its activation
+  history, the decisions it informed, the patterns in its domain, its accumulated
+  judgment. It deepens as it is used. Memory on a fixed keel, per system.
+
+Each member can:
+- **Vote** — on decisions in its domain, with its fixed weight: `{system, verdict, score, reason}`.
+- **Speak** — surface its perspective/reasoning (a voice in the trace).
+- **Update** — its profile/accumulation. **Never its authority** (that's the keel).
+
+A decision — route an input, filter or store an LLM's output, place/recycle data —
+runs as a council vote, resolved by **fixed-weight** tally, into a **council trace**
+that is stored and auditable: who voted, what they said, what won, why. Raven reads
+the trace to see exactly why data was stored, recycled, filtered, or routed.
+
+Domain roles (examples): AEGIS gate/permit · ODIN route · NEMESIS recycle/dedup ·
+MNEMOS store/recall · KRONOS schedule/expire · HUGINN compress/synthesize ·
+MERIDIAN keel-alignment · HADES archive · PROMETHEUS log-rationale.
+
+**Folders/subfolders = the tiers T0–T9** (already canon). The registry makes them
+navigable: each tier a chamber, each system a profiled member.
+
+This adds no god system. It formalizes what ODIN's router (fixed `rank` weights) and
+AEGIS's gate (PASS/REDIRECT/FAIL votes) already do into an explicit, auditable body.
+Profiles are **views over existing memory/execution_trace tagged by system**, not 27
+new stores. GL7 clears it: it turns ad-hoc routing into legible structure.
+
+**The bright line — what makes it auditable, not mysterious:** the council votes and
+grows; it does **not** re-weight itself. Growth lives in each member's profile, never
+in its vote. Fixed keel, growing accumulation — the same law as JARVIS.
 
 ## 5. Explicitly REJECTED (the governance seat's job is to say no)
 
@@ -118,9 +158,11 @@ expansion is how a growing system stays a system:
   contract (ARCH) and GL7. The 27 are fixed contracts in `chaos_seed.json`, not
   tunable agents. Extend behavior via the *intents* the router already has; never
   redefine a god.
-- **Weighted council with reinforcement-evolving authority weights.** Governance
-  authority must **not** drift by reinforcement — a gate that learns to relax itself
-  is the failure mode, not the goal. AEGIS strictness is set by the Gold Law, fixed.
+- **Reinforcement-evolving authority weights (a council that re-weights itself).**
+  Distinct from §4c, which is *accepted*: a council with **fixed** authority and
+  **growing profiles** is the build. What's rejected is authority that *drifts by
+  reinforcement* — a gate that learns to relax itself is the failure mode. The council
+  grows in profile, never in vote weight. AEGIS strictness is set by the Gold Law, fixed.
 - **Bias-vector "personality drift," stability equations, bootstrap seeds.**
   Premature mathematical scaffolding for an emergence we have no data to drive, and
   it encodes drift *in the governance layer* — exactly backwards from §1. Deferred
@@ -149,6 +191,11 @@ or drift dressed as math. Default answer is **extend, or no.**
 3. **Auto-ingest** — SPEAK exchanges auto-event into the spine.
 4. **Guard** — NEMESIS drift check + MERIDIAN keel-check on the summary, surfaced to
    Raven for approval.
+5. **Council (§4c)** — registry of profiled members (read-only views over tagged
+   memory), the council-trace on each decision (fixed-weight votes + reasons,
+   auditable), surfaced via a `jarvis_council` readout / the HUD. Formalizes the
+   existing router + gate; data-lifecycle verbs (store/recall/recycle/filter/archive)
+   become council votes Raven can inspect.
 
 Nothing here adds a god system. Everything reduces future complexity (one loop
 replaces ad-hoc saves). GL7 clears it.
