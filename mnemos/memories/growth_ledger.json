@@ -1,62 +1,8 @@
 {
-  "updated": "2026-06-02T18:49:46.475980+00:00",
+  "updated": "2026-06-02T19:36:13.728007+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_132005",
-      "date": "2026-06-02",
-      "exchanges": 63,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts",
-        "supabase/functions/mcp/mcp.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`d7446b2`). The bridge is built and verified as far as code can be without your hands on a browser. Two quick dashboard flips and you're loggi"
-    },
-    {
-      "session_id": "20260602_133055",
-      "date": "2026-06-02",
-      "exchanges": 68,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts",
-        "supabase/functions/mcp/mcp.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Server side is **perfect** \u2014 fully verified just now:\n- Enforcement on: `auth: oauth (github)` \u2713\n- A no-token call now returns **401** with the exact "
-    },
     {
       "session_id": "20260602_133108",
       "date": "2026-06-02",
@@ -542,6 +488,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Pushed (`1d20885`) \u2014 on the branch, ready to merge to main when you say.\n\n**To use `jarvis_query`:** refresh the connector once (so it picks up the ne"
+    },
+    {
+      "session_id": "20260602_193402",
+      "date": "2026-06-02",
+      "exchanges": 147,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/jarvis-respond/index.ts",
+        "supabase/functions/mcp/index.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`f4a2808`). Done \u2014 and this answers both your questions fully.\n\n**Why Gemini was firing:** the God Systems *reason* (route, gate, remember), b"
+    },
+    {
+      "session_id": "20260602_193613",
+      "date": "2026-06-02",
+      "exchanges": 151,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/jarvis-respond/index.ts",
+        "supabase/functions/mcp/index.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged. Main is at `4c7796866` \u2014 the keyless voice and `jarvis_query` are now on main.\n\nJARVIS has his own voice on our own system: brain on Supabase "
     }
   ]
 }
