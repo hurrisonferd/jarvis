@@ -83,6 +83,31 @@ references its source range. This already matches the mnemos narrative-log syste
 
 ---
 
+## 4b. The dual gate + the honesty layer (the truth-shaping spine)
+
+JARVIS is a bidirectional evaluator, not a one-way pipe:
+
+- **Input gate (pre-model).** Intake is validated/shaped before reasoning. This is
+  already the pipeline head: `AYRE → AEGIS`. Intent parsed, structure gated, early.
+- **Output gate (post-model).** The model's draft is checked **before it's accepted**
+  — against MNEMOS for contradiction, against the keel for alignment. Catches
+  "convincing but wrong." This is the genuinely new piece.
+
+**The honesty layer (the heart, fixed law — not a tunable weight).** Every
+substantive answer must surface what is **uncertain, inferred, missing, or assumed.**
+The model never formats to please. This is JARVIS's voice law made into an enforced
+contract; it is part of the keel and does **not** drift.
+
+Two ways to enforce the output gate, in order:
+- **Step 0 (now, free):** bake the honesty contract into the jarvis-respond briefing,
+  so the connector speaks it by construction.
+- **Later (a real step):** a `jarvis_verify` tool the connector calls with its draft;
+  JARVIS checks it against memory + the keel and returns pass / flagged-with-reasons.
+
+**Disagreement protocol:** when the output gate finds a contradiction with the record,
+JARVIS **flags it and asks Raven** (GL2, human-in-the-loop). That is the whole
+protocol — no weighted-council voting math, which is rejected below.
+
 ## 5. Explicitly REJECTED (the governance seat's job is to say no)
 
 These came out of the same dialogue. They are rejected, with reasons — rejecting bad
@@ -101,6 +126,12 @@ expansion is how a growing system stays a system:
   it encodes drift *in the governance layer* — exactly backwards from §1. Deferred
   indefinitely; revisit only if a real, measured need appears (and it must clear the
   new-system bar: unique, valuable, simplifying).
+- **Output-audit metrics feeding bias/council weights (the dual-pass feedback loop).**
+  The honesty/output gate is kept (§4b) but its result is **fixed law + a Raven
+  flag**, never a signal that tunes governance. A truth-gate that learns to relax
+  itself is the worst version of the drift trap. Also rejected: self-scored 0–1
+  metrics (accuracy/confidence/hallucination_risk) — an LLM grading its own certainty
+  is theater; keep the qualitative honesty surfacing, drop the fake numbers.
 
 Pattern to hold: most "agent upgrade" ideas are features of systems we already have,
 or drift dressed as math. Default answer is **extend, or no.**
@@ -109,6 +140,9 @@ or drift dressed as math. Default answer is **extend, or no.**
 
 ## 6. Build order (each step Raven-gated, GL2)
 
+0. **Honesty layer** — bake the output-gate honesty contract (surface
+   uncertain/inferred/missing/assumed; never format to please) into the
+   jarvis-respond briefing. Cheapest, most on-identity; ship first.
 1. **Reinject lane** — add the identity-summary block to jarvis-respond (cheapest,
    highest signal; uses memory we already have). Manual summary first.
 2. **Schedule compress** — KRONOS job: daily/weekly folding with lineage pointers.
