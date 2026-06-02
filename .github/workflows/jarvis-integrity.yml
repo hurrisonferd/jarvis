@@ -32,6 +32,7 @@ jobs:
           node --experimental-strip-types aegis.test.ts
           node --experimental-strip-types recall.test.ts
           node --experimental-strip-types execute.test.ts
+          node --experimental-strip-types ../bifrost/bifrost.test.ts
 
       - name: Front — inline script parses (const-bug guard)
         run: |

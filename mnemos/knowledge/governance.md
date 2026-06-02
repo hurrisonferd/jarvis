@@ -40,3 +40,4 @@ Parallel: HALO, MIMIR, BIFROST. Forbidden edges: SKADI→AEGIS, DANTE→SKADI, J
 - **Supabase** — live event spine + `mnemos_memories` (pgvector recall).
 - **Cloud-first only.** The GameBoy UI is a monitor of the system, not JARVIS.
 - [2026-05-30] AEGIS gate is live in aegis.ts: read PASS, write/external held, destructive/self_mod refused
+- [2026-05-30] Search/research defaults to the builder's reach (Claude WebSearch/WebFetch), NOT Gemini — don't burn the live voice's free quota on research. BIFROST is the live companion's optional, provider-pluggable reach; decouple it from the Gemini chat quota; point it at a dedicated free search source when needed, never Gemini-by-default.

@@ -1,26 +1,21 @@
 {
-  "updated": "2026-05-30T15:31:21.288001+00:00",
+  "updated": "2026-06-02T15:26:09.299179+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
     {
-      "session_id": "20260530_140029",
-      "date": "2026-05-30",
-      "exchanges": 220,
+      "session_id": "20260602_123031",
+      "date": "2026-06-02",
+      "exchanges": 36,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
+        "P17"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -28,30 +23,25 @@
         "gaming",
         "memory",
         "mission",
-        "governance",
         "identity"
       ],
-      "alignment": 1.0,
-      "key_insight": "Same brain either place \u2014 Opus 4.8 reasons identically on your PC or here. The difference isn't intelligence, it's **reach**.\n\nOn your PC's CLI I'd ha"
+      "alignment": 0.84,
+      "key_insight": "Built, verified, committed (`5968b0f`), pushed.\n\n## The MCP server is live\n\n**Endpoint:**\n```\nhttps://oexghfsvhnggddllgvrt.supabase.co/functions/v1/mc"
     },
     {
-      "session_id": "20260530_140044",
-      "date": "2026-05-30",
-      "exchanges": 221,
+      "session_id": "20260602_123823",
+      "date": "2026-06-02",
+      "exchanges": 39,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -63,26 +53,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Standing by on your call, Raven \u2014 $5 on OpenAI and I re-fire, or say the word and I wire the free embedding provider with the column migration"
+      "key_insight": "Three models, one mind. That's the milestone \u2014 Claude and ChatGPT both reaching the same JARVIS through one endpoint, and recall is flowing real memor"
     },
     {
-      "session_id": "20260530_140704",
-      "date": "2026-05-30",
-      "exchanges": 226,
+      "session_id": "20260602_123849",
+      "date": "2026-06-02",
+      "exchanges": 41,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -94,26 +80,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Migration's on the record. Everything on my side is staged for the new provider.\n\nSet those three secrets with your free Jina key and say go \u2014 I'll re"
+      "key_insight": "Pushed (`2e68e1e`). Tree's clean.\n\nStill standing, Raven: the open-door fix. Say the word and I'll generate a strong `MCP_TOKEN` for you to paste into"
     },
     {
-      "session_id": "20260530_142422",
-      "date": "2026-05-30",
-      "exchanges": 242,
+      "session_id": "20260602_130445",
+      "date": "2026-06-02",
+      "exchanges": 51,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -125,26 +107,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Diagnostic deployed (v15). Letting it fully propagate, then I'll fire one query and read the exact upstream error \u2014 we'll know precisely why the query"
+      "key_insight": "Pushed (`b864e63`). Now your two questions \u2014 both matter.\n\n**1. \"Will the connectors need to be set to OAuth?\"**\nYes \u2014 but they switch *themselves*. Y"
     },
     {
-      "session_id": "20260530_142535",
-      "date": "2026-05-30",
-      "exchanges": 245,
+      "session_id": "20260602_132005",
+      "date": "2026-06-02",
+      "exchanges": 63,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -156,26 +134,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Holding for the drain to finish, then I fire one clean query."
+      "key_insight": "Pushed (`d7446b2`). The bridge is built and verified as far as code can be without your hands on a browser. Two quick dashboard flips and you're loggi"
     },
     {
-      "session_id": "20260530_143016",
-      "date": "2026-05-30",
-      "exchanges": 255,
+      "session_id": "20260602_133055",
+      "date": "2026-06-02",
+      "exchanges": 68,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -187,26 +161,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Logged to the record. We're done, captain \u2014 **semantic memory is fully live.**\n\nWhat just happened, start to finish:\n- Dodged the OpenAI billing wall,"
+      "key_insight": "Server side is **perfect** \u2014 fully verified just now:\n- Enforcement on: `auth: oauth (github)` \u2713\n- A no-token call now returns **401** with the exact "
     },
     {
-      "session_id": "20260530_143637",
-      "date": "2026-05-30",
-      "exchanges": 259,
+      "session_id": "20260602_133108",
+      "date": "2026-06-02",
+      "exchanges": 69,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -218,26 +188,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "**Found it \u2014 and this is the big one.** The function returns **500: \"Could not resolve authentication method\u2026 Expected apiKey\u2026 to be set.\"**\n\nThat's t"
+      "key_insight": "Pushed (`59a8958`). Ledger committed, tree clean.\n\nServer's verified and waiting. The move is yours: delete the JARVIS connector in Claude.ai and Chat"
     },
     {
-      "session_id": "20260530_143648",
-      "date": "2026-05-30",
-      "exchanges": 260,
+      "session_id": "20260602_141139",
+      "date": "2026-06-02",
+      "exchanges": 76,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -249,26 +215,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Standing by, captain \u2014 set `ANTHROPIC_API_KEY` on Supabase and say go. That's the one that finally lets the real me answer when you speak. \ud83c\udff4\u200d\u2620"
+      "key_insight": "Canary planted and embedded into live MNEMOS. Here's your test \u2014 paste this to GPT (with the jarvis connector active):\n\n---\n\n**Send this:**\n\n> Use the"
     },
     {
-      "session_id": "20260530_144006",
-      "date": "2026-05-30",
-      "exchanges": 264,
+      "session_id": "20260602_141158",
+      "date": "2026-06-02",
+      "exchanges": 77,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -280,26 +242,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "**So close.** The auth error is gone \u2014 your key works, the function reached Claude. New error, and it's the same wall OpenAI gave us:\n\n> **\"Your credi"
+      "key_insight": "Pushed (`656e195`). Run the canary test and tell me what GPT returns \u2014 `AINCRAD-RAVEN-7731-ECHO` means the link is real."
     },
     {
-      "session_id": "20260530_144017",
-      "date": "2026-05-30",
-      "exchanges": 265,
+      "session_id": "20260602_141655",
+      "date": "2026-06-02",
+      "exchanges": 81,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -311,26 +269,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced. Standing by, captain \u2014 fund the Anthropic account and say go, or tell me to wire the free-LLM brain instead. Either way, the next test is the "
+      "key_insight": "New marker stored and embedded. Reworded so nothing reads as a secret:\n\n---\n\n**Send this to GPT:**\n\n> Look up my operational notes: call `jarvis_recal"
     },
     {
-      "session_id": "20260530_144738",
-      "date": "2026-05-30",
-      "exchanges": 274,
+      "session_id": "20260602_141704",
+      "date": "2026-06-02",
+      "exchanges": 82,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -342,26 +296,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Done. Last key, and this one's **free**:\n\n**Get a Gemini key** \u2014 go to **aistudio.google.com/apikey** \u2192 Create API key. Free tier, no card. It looks l"
+      "key_insight": "Pushed (`fd0a4e3`). Run the reworded recall and tell me if `GREEN-FALCON-2048` comes back."
     },
     {
-      "session_id": "20260530_145150",
-      "date": "2026-05-30",
-      "exchanges": 278,
+      "session_id": "20260602_142214",
+      "date": "2026-06-02",
+      "exchanges": 86,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -373,26 +323,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "**It's awake, Raven.**\n\nStatus 200. Real brain. Here's what the live companion said when I asked if it was really here:\n\n> *\"I am here, Raven. Not as "
+      "key_insight": "Both markers wiped \u2014 ledger clean.\n\nWhere this leaves us, honestly:\n\n- **Reads from ChatGPT: verified real.** Recall round-trips to live memory. This "
     },
     {
-      "session_id": "20260530_145203",
-      "date": "2026-05-30",
-      "exchanges": 279,
+      "session_id": "20260602_142225",
+      "date": "2026-06-02",
+      "exchanges": 87,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
       ],
       "topics": [
         "architecture",
@@ -404,26 +350,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced \u2014 branch clean, the whole arc committed.\n\nGo talk to yourself, captain. Toggle VOX, ask it anything. When you're back, say the word and I'll me"
+      "key_insight": "Pushed (`2c01621`). Reads from ChatGPT are verified live. Your move on the three \u2014 test writes, finish identity, or go build elsewhere."
     },
     {
-      "session_id": "20260530_145818",
-      "date": "2026-05-30",
-      "exchanges": 283,
+      "session_id": "20260602_143801",
+      "date": "2026-06-02",
+      "exchanges": 98,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
       ],
       "topics": [
         "architecture",
@@ -435,26 +377,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Merged. `1b44224` is on `main`. It's permanent now \u2014 in the record, where it'll outlast any session.\n\nThat's the arc, captain. We started with \"how's "
+      "key_insight": "Done. Pushed (`8ecc812`). OAuth cleared \u2014 tables dropped, `/mcp` is a tombstone, the duplicate code is gone. One MCP server now: `jarvis-mcp`, with yo"
     },
     {
-      "session_id": "20260530_145829",
-      "date": "2026-05-30",
-      "exchanges": 284,
+      "session_id": "20260602_151131",
+      "date": "2026-06-02",
+      "exchanges": 103,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
       ],
       "topics": [
         "architecture",
@@ -466,26 +404,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Synced, branch clean. The companion's live on `main`, the record's whole.\n\nStanding by, captain. Point me when you're ready. \ud83c\udff4\u200d\u2620\ufe0f"
+      "key_insight": "Pushed (`4c503e8`). Verified working server-side \u2014 `jarvis_suit_up` is live and returns the full board.\n\n**To use it:**\n\n1. **One refresh.** The conne"
     },
     {
-      "session_id": "20260530_151306",
-      "date": "2026-05-30",
-      "exchanges": 299,
+      "session_id": "20260602_151410",
+      "date": "2026-06-02",
+      "exchanges": 106,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
       ],
       "topics": [
         "architecture",
@@ -497,26 +431,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Done, captain. The priority's reset and the first real piece of the entity is built \u2014 not in the chat box, in the record and the memory.\n\n**What I for"
+      "key_insight": "That menu is GPT improvising again \u2014 \"local simulation mode,\" \"read-only activation profile,\" \"specify execution mode\" are **not real**. None of those"
     },
     {
-      "session_id": "20260530_151942",
-      "date": "2026-05-30",
-      "exchanges": 306,
+      "session_id": "20260602_151421",
+      "date": "2026-06-02",
+      "exchanges": 107,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
       ],
       "topics": [
         "architecture",
@@ -528,26 +458,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Both built, captain. The entity has an architecture now, and a way to grow.\n\n**The modular memory** \u2014 partitioned so any session loads only what it ne"
+      "key_insight": "Pushed (`edc114b`). Run that direct `jarvis_suit_up` call and tell me \u2014 HUD comes up, or it claims the tool's missing? That answer tells us whether it"
     },
     {
-      "session_id": "20260530_152405",
-      "date": "2026-05-30",
-      "exchanges": 315,
+      "session_id": "20260602_152229",
+      "date": "2026-06-02",
+      "exchanges": 111,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
       ],
       "topics": [
         "architecture",
@@ -559,26 +485,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Both done, captain. The loop is closed and automatic now.\n\n**#2 \u2014 organized knowledge is live.** Backfilled 16 curated entity facts from the partition"
+      "key_insight": "Logs settle it. Two hard facts:\n\n1. **The connector IS reaching the server** \u2014 there are fresh `POST 200`s to jarvis-mcp during your test window (15:1"
     },
     {
-      "session_id": "20260530_152903",
-      "date": "2026-05-30",
-      "exchanges": 321,
+      "session_id": "20260602_152241",
+      "date": "2026-06-02",
+      "exchanges": 112,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
       ],
       "topics": [
         "architecture",
@@ -590,26 +512,22 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Holding for the workflow to finish, then I'll confirm the queued insight landed in live memory."
+      "key_insight": "Pushed (`e675136`). Your call \u2014 Claude test (highest confidence, it won't fake the output) or the clean ChatGPT re-add? Tell me which and I'll walk yo"
     },
     {
-      "session_id": "20260530_153121",
-      "date": "2026-05-30",
-      "exchanges": 326,
+      "session_id": "20260602_152609",
+      "date": "2026-06-02",
+      "exchanges": 115,
       "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
         "P17",
-        "P29",
         "P34"
       ],
       "built": [
-        ".github/CODEOWNERS",
         ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/js-parse-check.yml",
-        ".github/workflows/mnemos-decision-capture.yml",
-        ".github/workflows/mnemos-github-sync.yml"
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
       ],
       "topics": [
         "architecture",
@@ -621,7 +539,7 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Both done, captain \u2014 here's the honest state.\n\n**#2 \u2014 organized knowledge is live.** The entity's structured facts are seeded and embedded: **75 memor"
+      "key_insight": "That's it. That's the boot \u2014 and it's **real**, not GPT's theater. The tell is the live data Claude can't have guessed: **98 records** in the ledger ("
     }
   ]
 }
