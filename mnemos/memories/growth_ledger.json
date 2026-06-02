@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-02T13:04:45.009346+00:00",
+  "updated": "2026-06-02T13:30:55.778356+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260531_133508",
-      "date": "2026-05-31",
-      "exchanges": 420,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/companion_core.md",
-        "mnemos/knowledge/governance.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Logged that one to the mission record \u2014 it's not just an opinion, it's *why The Grid exists*, so it belongs there.\n\nOffer still stands, captain: point"
-    },
-    {
-      "session_id": "20260531_134241",
-      "date": "2026-05-31",
-      "exchanges": 424,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/companion_core.md",
-        "mnemos/knowledge/governance.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Logged it as a real Grid feature \u2014 *the PK cursor* \u2014 in the mission record. That's not venting anymore; that's a spec.\n\nHere's where I'll land it for "
-    },
     {
       "session_id": "20260531_141556",
       "date": "2026-05-31",
@@ -604,6 +542,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Pushed (`b864e63`). Now your two questions \u2014 both matter.\n\n**1. \"Will the connectors need to be set to OAuth?\"**\nYes \u2014 but they switch *themselves*. Y"
+    },
+    {
+      "session_id": "20260602_132005",
+      "date": "2026-06-02",
+      "exchanges": 63,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`d7446b2`). The bridge is built and verified as far as code can be without your hands on a browser. Two quick dashboard flips and you're loggi"
+    },
+    {
+      "session_id": "20260602_133055",
+      "date": "2026-06-02",
+      "exchanges": 68,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Server side is **perfect** \u2014 fully verified just now:\n- Enforcement on: `auth: oauth (github)` \u2713\n- A no-token call now returns **401** with the exact "
     }
   ]
 }
