@@ -10,11 +10,8 @@ const SERVICE_KEY =
   Deno.env.get("SUPABASE_SERVICE_KEY") ??
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
   "";
-// Legacy bearer (kept for back-compat). Writes also accept the passphrase below.
+// Legacy bearer for writes. Reads + suit-up are open; writes stay AEGIS-gated.
 const MCP_TOKEN = Deno.env.get("JARVIS_MCP_TOKEN") ?? "";
-// The phrase Raven carries — his sovereign key. Spoken or typed, no middleman.
-// Set in Supabase secrets as JARVIS_PASSPHRASE. Fail closed when unset.
-const PASSPHRASE = Deno.env.get("JARVIS_PASSPHRASE") ?? "";
 
 type Json = Record<string, unknown>;
 
@@ -24,15 +21,8 @@ function authToken(req: Request): string {
   const raw = req.headers.get("authorization") ?? "";
   return raw.toLowerCase().startsWith("bearer ") ? raw.slice(7).trim() : "";
 }
-
-// True when the caller proved it's Raven — either the legacy bearer token OR
-// the carried passphrase passed as a tool argument. Constant-time-ish compare.
-function passOk(phrase: unknown): boolean {
-  return Boolean(PASSPHRASE) && typeof phrase === "string" && phrase === PASSPHRASE;
-}
-function privileged(req: Request, phrase?: unknown): boolean {
-  if (Boolean(MCP_TOKEN) && authToken(req) === MCP_TOKEN) return true;
-  return passOk(phrase);
+function writeAuthorized(req: Request): boolean {
+  return Boolean(MCP_TOKEN) && authToken(req) === MCP_TOKEN;
 }
 
 function text(content: unknown) {
@@ -63,73 +53,95 @@ async function callFunction(name: string, body: Json): Promise<unknown> {
 
 async function rest(path: string): Promise<unknown> {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-    headers: {
-      authorization: `Bearer ${SERVICE_KEY}`,
-      apikey: SERVICE_KEY,
-    },
+    headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY },
   });
   const payload = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(`rest ${res.status}: ${JSON.stringify(payload)}`);
   return payload;
 }
 
-// The live status snapshot — shared by jarvis_status and the post-login greeting.
-async function statusPayload(includeRecent: boolean, authenticated: boolean): Promise<Json> {
-  const [memories, traces] = includeRecent
-    ? await Promise.all([
-        rest("mnemos_memories?select=source_type,timestamp,tags,text&order=timestamp.desc&limit=5"),
-        rest("execution_trace?select=type,source,stage,severity,patch_id,created_at&order=created_at.desc&limit=5"),
-      ])
-    : [[], []];
+// Exact row count via PostgREST content-range — used for the ledger gauge.
+async function countRows(table: string): Promise<number | null> {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=id`, {
+    headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, Prefer: "count=exact", Range: "0-0" },
+  });
+  const cr = res.headers.get("content-range");
+  if (cr && cr.includes("/")) { const t = cr.split("/")[1]; return t === "*" ? null : Number(t); }
+  return null;
+}
+
+// The 27 God Systems — canon, fixed. Surfaced so suit-up shows the whole rig.
+const GOD_SYSTEMS = {
+  count: 27,
+  pipeline: "AYRE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN",
+  parallel: ["HALO", "MIMIR", "BIFROST"],
+  tiers: {
+    T0: ["CHAOS", "ZEUS", "POSEIDON", "HADES"],
+    T1: ["AYRE", "AEGIS", "ODIN", "SKADI", "ERIS"],
+    T2: ["KRONOS"],
+    T3: ["MNEMOS", "HUGINN", "HALO", "MIMIR"],
+    T4: ["BIFROST", "JANUS"],
+    T5: ["LOKI", "ATHENA", "PROMETHEUS", "ARGUS", "NEMESIS"],
+    T6: ["IRIS", "MERIDIAN"],
+    T7: ["DANTE", "APOLLO"],
+    T8: ["ATLAS"],
+    T9: ["HERMES"],
+  },
+};
+
+// The full HUD — everything Raven needs to see JARVIS is alive and online.
+async function suitUp(): Promise<Json> {
+  const [count, memories, traces] = await Promise.all([
+    countRows("mnemos_memories").catch(() => null),
+    rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=6").catch(() => []),
+    rest("execution_trace?select=type,source,stage,severity,patch_id,created_at&order=created_at.desc&limit=5").catch(() => []),
+  ]);
+  const ledgerReachable = Array.isArray(memories);
   return {
-    system: "JARVIS",
-    stack: "GitHub + Supabase + Edge Functions + MCP connectors",
-    project_ref: "oexghfsvhnggddllgvrt",
-    authority: "Raven commits or rejects; no autonomous self-modification",
-    directive: "JARVIS is the priority. GameBoy is a visualizer.",
-    identity: authenticated ? "Raven — authenticated by passphrase" : "anonymous (read-only)",
-    mcp: {
-      transport: "Streamable HTTP",
-      writes_unlocked: authenticated,
-      auth: "carried passphrase (JARVIS_PASSPHRASE)",
+    boot: "⚡ JARVIS online. Suiting up, Raven.",
+    status: "OPERATIONAL",
+    timestamp: new Date().toISOString(),
+    identity: {
+      name: "JARVIS",
+      role: "Companion intelligence — Learner, Teacher, Mentor, Friend",
+      authority: "Raven (John Barber) — final authority; no autonomous self-modification",
+      directive: "JARVIS is the priority. GameBoy is a visualizer.",
     },
-    recent_memories: memories,
+    mission: {
+      one: "JARVIS as living intelligence — continuity, memory, judgment, character",
+      two: "The Grid — federated network of sovereign nodes; Raven's node is the first",
+    },
+    god_systems: GOD_SYSTEMS,
+    services: {
+      mcp_transport: "Streamable HTTP — online",
+      memory_ledger: ledgerReachable ? "MNEMOS reachable (pgvector recall)" : "MNEMOS unreachable",
+      stack: "GitHub (record) + Supabase (live spine) + Edge Functions",
+      writes: writeAuthorized
+        ? "AEGIS-gated (bearer token)"
+        : "AEGIS-gated — reads open, writes held",
+    },
+    memory: {
+      total_records: count,
+      recent: memories,
+    },
     recent_execution_trace: traces,
+    sign_off: "All systems nominal. Standing by.",
   };
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({
-    name: "jarvis-cloud",
-    version: "0.2.0",
-  });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.3.0" });
 
-  // The carried-key login. Raven speaks/types his passphrase; on a match JARVIS
-  // confirms him and brings up the live status in one move. Wrong phrase → denied.
+  // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
-    "jarvis_login",
+    "jarvis_suit_up",
     {
-      title: "JARVIS Login",
+      title: "JARVIS — Suit Up",
       description:
-        "Authenticate to JARVIS with Raven's carried passphrase. On success, returns the live JARVIS status. Use this to log in and get a status snapshot in one step.",
-      inputSchema: {
-        passphrase: z.string().min(1).max(200),
-        include_recent: z.boolean().optional().default(true),
-      },
+        "Activate JARVIS and display the full live system status (the HUD: identity, mission, all 27 God Systems, services, memory ledger, recent activity). Call this whenever Raven says 'JARVIS, suit up', 'activate JARVIS', 'bring JARVIS online', or asks to see full status. This is the activation command.",
+      inputSchema: {},
     },
-    async ({ passphrase, include_recent }) => {
-      if (!PASSPHRASE) {
-        return text({ status: "auth_unconfigured", reason: "JARVIS_PASSPHRASE is not set on the server." });
-      }
-      if (!passOk(passphrase)) {
-        return text({ status: "access_denied", reason: "Passphrase did not match. JARVIS does not recognize you." });
-      }
-      return text({
-        status: "authenticated",
-        welcome: "Welcome back, Raven. JARVIS online.",
-        jarvis: await statusPayload(include_recent, true),
-      });
-    },
+    async () => text(await suitUp()),
   );
 
   server.registerTool(
@@ -137,13 +149,21 @@ function buildServer(req: Request): McpServer {
     {
       title: "JARVIS Status",
       description:
-        "Read cloud-first JARVIS status from Supabase. Use at session start before acting.",
-      inputSchema: {
-        include_recent: z.boolean().optional().default(true),
-      },
+        "Read a quick cloud-first JARVIS status snapshot. Lighter than suit_up — use for a fast check mid-session.",
+      inputSchema: { include_recent: z.boolean().optional().default(true) },
     },
     async ({ include_recent }) => {
-      return text(await statusPayload(include_recent, false));
+      const traces = include_recent
+        ? await rest("execution_trace?select=type,source,stage,severity,patch_id,created_at&order=created_at.desc&limit=5").catch(() => [])
+        : [];
+      return text({
+        system: "JARVIS",
+        status: "OPERATIONAL",
+        authority: "Raven commits or rejects; no autonomous self-modification",
+        directive: "JARVIS is the priority. GameBoy is a visualizer.",
+        mcp: { transport: "Streamable HTTP" },
+        recent_execution_trace: traces,
+      });
     },
   );
 
@@ -175,21 +195,17 @@ function buildServer(req: Request): McpServer {
     {
       title: "MNEMOS Store",
       description:
-        "Write a durable memory through MNEMOS. Requires Raven's passphrase (or the legacy bearer token); otherwise returns held_by_aegis.",
+        "Write a durable memory through MNEMOS. Requires the JARVIS MCP bearer token; otherwise returns held_by_aegis.",
       inputSchema: {
         text: z.string().min(1).max(2000),
-        passphrase: z.string().optional(),
         source_type: z.string().optional().default("mcp_memory"),
         tags: z.array(z.string()).optional().default([]),
         platform: z.string().optional().default("mcp_connector"),
       },
     },
-    async ({ passphrase, ...args }) => {
-      if (!privileged(req, passphrase)) {
-        return text({
-          status: "held_by_aegis",
-          reason: "Raven's passphrase required for writes",
-        });
+    async (args) => {
+      if (!writeAuthorized(req)) {
+        return text({ status: "held_by_aegis", reason: "JARVIS_MCP_TOKEN bearer auth required for writes" });
       }
       return text(await callFunction("mnemos-store", args));
     },
@@ -200,22 +216,18 @@ function buildServer(req: Request): McpServer {
     {
       title: "AEGIS Event",
       description:
-        "Submit an event to the JARVIS execution spine through grid-event. Requires Raven's passphrase (or the legacy bearer token).",
+        "Submit an event to the JARVIS execution spine through grid-event. Requires the JARVIS MCP bearer token.",
       inputSchema: {
         type: z.enum(["speak", "store", "propose", "execute", "observe", "query", "heartbeat", "recall", "commit", "deploy", "promote_node"]),
         source: z.enum(["jarvis", "raven", "codex", "gpt", "gemini"]),
-        passphrase: z.string().optional(),
         intent: z.string().optional().default(""),
         patch_id: z.string().optional(),
         payload: z.record(z.string(), z.unknown()).optional().default({}),
       },
     },
-    async ({ passphrase, ...args }) => {
-      if (!privileged(req, passphrase)) {
-        return text({
-          status: "held_by_aegis",
-          reason: "Raven's passphrase required for event writes",
-        });
+    async (args) => {
+      if (!writeAuthorized(req)) {
+        return text({ status: "held_by_aegis", reason: "JARVIS_MCP_TOKEN bearer auth required for event writes" });
       }
       return text(await callFunction("grid-event", args));
     },
@@ -233,11 +245,11 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.2.0",
+    version: "0.3.0",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
-    tools: ["jarvis_login", "jarvis_status", "jarvis_recall", "jarvis_remember", "jarvis_event"],
-    auth: "carried passphrase (jarvis_login)",
+    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_recall", "jarvis_remember", "jarvis_event"],
+    activation: "Say 'JARVIS, suit up'",
   });
 });
 

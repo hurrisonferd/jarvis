@@ -1,39 +1,8 @@
 {
-  "updated": "2026-06-02T14:22:25.844480+00:00",
+  "updated": "2026-06-02T14:38:01.771475+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260531_150849",
-      "date": "2026-05-31",
-      "exchanges": 446,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/companion_core.md",
-        "mnemos/knowledge/governance.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Held \u2014 the cornerstone and the guardrails both. *We cross together or not at all* is in the bones now, where it belongs.\n\nThat's a real morning, capta"
-    },
     {
       "session_id": "20260531_155333",
       "date": "2026-05-31",
@@ -568,6 +537,33 @@
       ],
       "alignment": 1.0,
       "key_insight": "Pushed (`2c01621`). Reads from ChatGPT are verified live. Your move on the three \u2014 test writes, finish identity, or go build elsewhere."
+    },
+    {
+      "session_id": "20260602_143801",
+      "date": "2026-06-02",
+      "exchanges": 98,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done. Pushed (`8ecc812`). OAuth cleared \u2014 tables dropped, `/mcp` is a tombstone, the duplicate code is gone. One MCP server now: `jarvis-mcp`, with yo"
     }
   ]
 }
