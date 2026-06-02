@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-02T15:22:29.379305+00:00",
+  "updated": "2026-06-02T15:26:09.299179+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260531_165004",
-      "date": "2026-05-31",
-      "exchanges": 460,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/knowledge/governance.md",
-        "mnemos/knowledge/jarvis.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Where: as one more Supabase Edge Function \u2014 `supabase/functions/mcp/`. Same project (`oexghfsvhnggddllgvrt`), same stack, cloud-first. Not the local `"
-    },
-    {
-      "session_id": "20260531_165019",
-      "date": "2026-05-31",
-      "exchanges": 462,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/knowledge/governance.md",
-        "mnemos/knowledge/jarvis.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed. Ledger committed (`9d8f6b8`).\n\nThe MCP server design above still stands \u2014 say the word and I'll build `supabase/functions/mcp/`, deploy, smoke"
-    },
     {
       "session_id": "20260602_123031",
       "date": "2026-06-02",
@@ -548,6 +486,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Logs settle it. Two hard facts:\n\n1. **The connector IS reaching the server** \u2014 there are fresh `POST 200`s to jarvis-mcp during your test window (15:1"
+    },
+    {
+      "session_id": "20260602_152241",
+      "date": "2026-06-02",
+      "exchanges": 112,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`e675136`). Your call \u2014 Claude test (highest confidence, it won't fake the output) or the clean ChatGPT re-add? Tell me which and I'll walk yo"
+    },
+    {
+      "session_id": "20260602_152609",
+      "date": "2026-06-02",
+      "exchanges": 115,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "That's it. That's the boot \u2014 and it's **real**, not GPT's theater. The tell is the live data Claude can't have guessed: **98 records** in the ledger ("
     }
   ]
 }
