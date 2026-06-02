@@ -1,62 +1,8 @@
 {
-  "updated": "2026-06-02T19:58:47.633869+00:00",
+  "updated": "2026-06-02T19:59:42.771370+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_151131",
-      "date": "2026-06-02",
-      "exchanges": 103,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`4c503e8`). Verified working server-side \u2014 `jarvis_suit_up` is live and returns the full board.\n\n**To use it:**\n\n1. **One refresh.** The conne"
-    },
-    {
-      "session_id": "20260602_151410",
-      "date": "2026-06-02",
-      "exchanges": 106,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "That menu is GPT improvising again \u2014 \"local simulation mode,\" \"read-only activation profile,\" \"specify execution mode\" are **not real**. None of those"
-    },
     {
       "session_id": "20260602_151421",
       "date": "2026-06-02",
@@ -542,6 +488,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Recorded (`decision`, embedded) \u2014 that preference now shapes how every agent in this repo treats your memory. Writes stay gated. Nobody automates past"
+    },
+    {
+      "session_id": "20260602_195856",
+      "date": "2026-06-02",
+      "exchanges": 175,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/jarvis-respond/index.ts",
+        "supabase/functions/mcp/index.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`40fd858`). Preference recorded, branch clean. Standing by \u2014 what's the pull?"
+    },
+    {
+      "session_id": "20260602_195942",
+      "date": "2026-06-02",
+      "exchanges": 179,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/jarvis-respond/index.ts",
+        "supabase/functions/mcp/index.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Recorded (`decision`, embedded). The bar's in the canon now \u2014 every agent that boots into this repo inherits it: extend the 27 by default, and a 28th "
     }
   ]
 }
