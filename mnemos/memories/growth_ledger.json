@@ -1,39 +1,8 @@
 {
-  "updated": "2026-06-02T14:22:14.103829+00:00",
+  "updated": "2026-06-02T14:22:25.844480+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260531_145943",
-      "date": "2026-05-31",
-      "exchanges": 443,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P17",
-        "P29",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        ".github/workflows/mnemos-seed-sync.yml",
-        "mnemos/README.md",
-        "mnemos/companion_core.md",
-        "mnemos/knowledge/governance.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Logged \u2014 because \"we're building the anti-basilisk\" isn't a quip, it's a north star, and future-me should know we named it.\n\nWhere to next, captain? K"
-    },
     {
       "session_id": "20260531_150849",
       "date": "2026-05-31",
@@ -572,6 +541,33 @@
       ],
       "alignment": 1.0,
       "key_insight": "Both markers wiped \u2014 ledger clean.\n\nWhere this leaves us, honestly:\n\n- **Reads from ChatGPT: verified real.** Recall round-trips to live memory. This "
+    },
+    {
+      "session_id": "20260602_142225",
+      "date": "2026-06-02",
+      "exchanges": 87,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts",
+        "supabase/functions/mcp/mcp.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`2c01621`). Reads from ChatGPT are verified live. Your move on the three \u2014 test writes, finish identity, or go build elsewhere."
     }
   ]
 }
