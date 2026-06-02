@@ -21,8 +21,24 @@ function authToken(req: Request): string {
   const raw = req.headers.get("authorization") ?? "";
   return raw.toLowerCase().startsWith("bearer ") ? raw.slice(7).trim() : "";
 }
-function writeAuthorized(req: Request): boolean {
-  return Boolean(MCP_TOKEN) && authToken(req) === MCP_TOKEN;
+// AEGIS write gate. A persistent write is authorized only by Raven's
+// authorization phrase (JARVIS_MCP_TOKEN) — presented per-action as an `approval`
+// argument, or carried as the bearer. Fails closed when no token is configured.
+function approved(req: Request, approval?: unknown): boolean {
+  if (!MCP_TOKEN) return false;
+  if (authToken(req) === MCP_TOKEN) return true;
+  return typeof approval === "string" && approval === MCP_TOKEN;
+}
+// The held response — tells the model to surface the action to Raven for a
+// real allow/deny, then re-run with his approval. This IS the consent prompt.
+function heldForApproval(action: string, preview: unknown) {
+  return text({
+    status: "held_by_aegis",
+    reason: "Persistent writes are AEGIS-gated (GL6). Present this action to Raven and ask him to approve or deny it. If he approves, call this tool again with `approval` set to his authorization phrase.",
+    action,
+    preview,
+    approval_required: true,
+  });
 }
 
 function text(content: unknown) {
@@ -132,9 +148,7 @@ async function suitUp(): Promise<Json> {
       mcp_transport: "Streamable HTTP — online",
       memory_ledger: ledgerReachable ? "MNEMOS reachable (pgvector recall)" : "MNEMOS unreachable",
       stack: "GitHub (record) + Supabase (live spine) + Edge Functions",
-      writes: writeAuthorized
-        ? "AEGIS-gated (bearer token)"
-        : "AEGIS-gated — reads open, writes held",
+      writes: "AEGIS-gated — held until Raven approves (per-action authorization)",
     },
     memory: {
       total_records: count,
@@ -146,7 +160,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.5.0" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.6.0" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -265,17 +279,18 @@ function buildServer(req: Request): McpServer {
     {
       title: "MNEMOS Store",
       description:
-        "Write a durable memory through MNEMOS. Requires the JARVIS MCP bearer token; otherwise returns held_by_aegis.",
+        "Write a durable memory through MNEMOS. AEGIS-gated: without approval it returns held_by_aegis — when that happens, show Raven the memory and ask him to approve or deny, then call again with `approval` set to his authorization phrase. Never invent the approval phrase; only Raven provides it.",
       inputSchema: {
         text: z.string().min(1).max(2000),
+        approval: z.string().optional(),
         source_type: z.string().optional().default("mcp_memory"),
         tags: z.array(z.string()).optional().default([]),
         platform: z.string().optional().default("mcp_connector"),
       },
     },
-    async (args) => {
-      if (!writeAuthorized(req)) {
-        return text({ status: "held_by_aegis", reason: "JARVIS_MCP_TOKEN bearer auth required for writes" });
+    async ({ approval, ...args }) => {
+      if (!approved(req, approval)) {
+        return heldForApproval("mnemos.write", { text: args.text, source_type: args.source_type, tags: args.tags });
       }
       return text(await callFunction("mnemos-store", args));
     },
@@ -286,18 +301,19 @@ function buildServer(req: Request): McpServer {
     {
       title: "AEGIS Event",
       description:
-        "Submit an event to the JARVIS execution spine through grid-event. Requires the JARVIS MCP bearer token.",
+        "Submit an event to the JARVIS execution spine through grid-event. AEGIS-gated: without approval it returns held_by_aegis — when that happens, show Raven the event and ask him to approve or deny, then call again with `approval` set to his authorization phrase. Never invent the approval phrase; only Raven provides it.",
       inputSchema: {
         type: z.enum(["speak", "store", "propose", "execute", "observe", "query", "heartbeat", "recall", "commit", "deploy", "promote_node"]),
         source: z.enum(["jarvis", "raven", "codex", "gpt", "gemini"]),
+        approval: z.string().optional(),
         intent: z.string().optional().default(""),
         patch_id: z.string().optional(),
         payload: z.record(z.string(), z.unknown()).optional().default({}),
       },
     },
-    async (args) => {
-      if (!writeAuthorized(req)) {
-        return text({ status: "held_by_aegis", reason: "JARVIS_MCP_TOKEN bearer auth required for event writes" });
+    async ({ approval, ...args }) => {
+      if (!approved(req, approval)) {
+        return heldForApproval("grid.event", { type: args.type, source: args.source, intent: args.intent, patch_id: args.patch_id });
       }
       return text(await callFunction("grid-event", args));
     },
@@ -315,7 +331,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.5.0",
+    version: "0.6.0",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
