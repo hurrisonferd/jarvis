@@ -4,12 +4,19 @@
 // The shape: an MCP client (Claude.ai, ChatGPT) treats this endpoint as a
 // protected resource. On a 401 it discovers our authorization server, registers
 // itself (Dynamic Client Registration, RFC 7591), runs Authorization Code +
-// PKCE, and gets a token. We bridge that flow to Supabase Auth → Google, then
-// gate on the verified email being Raven's. Sovereign identity as the key.
+// PKCE, and gets a token. We bridge that flow to Supabase Auth → the identity
+// provider, then gate on the verified email being Raven's. Identity as the key.
 //
-// This module owns the deterministic pieces: discovery metadata, DCR, PKCE
-// verification. The Google round-trip (authorize/callback/token) lives in
-// index.ts because it needs network + Supabase, and is verified live.
+// Provider-neutral: Supabase decides which provider (GitHub, Google, …) backs
+// the login; this code only cares that a verified email comes back.
+//
+// This module owns the deterministic pieces (metadata, DCR, PKCE, URL building).
+// The network round-trip (talking to Supabase) lives in index.ts, verified live.
+
+// Default identity provider for the Supabase leg. Env-overridable in index.ts.
+export const DEFAULT_PROVIDER = "github";
+// Issued MCP access-token lifetime. Long, so re-login is rare; no refresh token.
+export const TOKEN_TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days
 
 // RFC 9728 — Protected Resource Metadata. Names which auth server guards us.
 export function protectedResourceMetadata(resource: string, issuer: string) {
@@ -66,6 +73,41 @@ export function registerClient(
   };
 }
 
+// Validate an inbound /authorize request. We require PKCE S256 — no exceptions.
+export function parseAuthorizeParams(
+  p: URLSearchParams,
+): { ok: true; clientId: string; redirectUri: string; codeChallenge: string; state: string }
+  | { ok: false; error: string } {
+  const responseType = p.get("response_type") ?? "";
+  const redirectUri = p.get("redirect_uri") ?? "";
+  const codeChallenge = p.get("code_challenge") ?? "";
+  const method = (p.get("code_challenge_method") ?? "").toLowerCase();
+  if (responseType !== "code") return { ok: false, error: "unsupported_response_type" };
+  if (!/^https?:\/\//.test(redirectUri)) return { ok: false, error: "invalid redirect_uri" };
+  if (!codeChallenge || method !== "s256") return { ok: false, error: "PKCE S256 required" };
+  return { ok: true, clientId: p.get("client_id") ?? "", redirectUri, codeChallenge, state: p.get("state") ?? "" };
+}
+
+// Build the Supabase Auth provider-login URL. Supabase runs the provider
+// handshake and redirects back to redirectTo with ?code= (PKCE), which our
+// /callback exchanges. code_challenge_method is lowercase per GoTrue.
+export function supabaseAuthorizeUrl(supabaseUrl: string, provider: string, redirectTo: string, codeChallenge: string): string {
+  const u = new URL(`${supabaseUrl}/auth/v1/authorize`);
+  u.searchParams.set("provider", provider);
+  u.searchParams.set("redirect_to", redirectTo);
+  u.searchParams.set("code_challenge", codeChallenge);
+  u.searchParams.set("code_challenge_method", "s256");
+  return u.toString();
+}
+
+// Hand the authorization code back to the MCP client at its registered redirect.
+export function buildClientRedirect(redirectUri: string, code: string, state: string): string {
+  const u = new URL(redirectUri);
+  u.searchParams.set("code", code);
+  if (state) u.searchParams.set("state", state);
+  return u.toString();
+}
+
 // base64url without padding — the PKCE + token wire format.
 export function b64url(bytes: Uint8Array): string {
   let s = "";
@@ -73,20 +115,25 @@ export function b64url(bytes: Uint8Array): string {
   return btoa(s).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
-// PKCE S256 verification: SHA-256(verifier) must equal the stored challenge.
-// async because it uses WebCrypto (present in Deno and Node 22 as global crypto).
-export async function verifyPkce(verifier: string, challenge: string): Promise<boolean> {
-  if (!verifier || !challenge) return false;
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier));
-  return b64url(new Uint8Array(digest)) === challenge;
+// SHA-256 → base64url. The PKCE challenge derivation. WebCrypto is global in
+// both Deno and Node 22.
+export async function s256(input: string): Promise<string> {
+  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(input));
+  return b64url(new Uint8Array(digest));
 }
 
-// A short random opaque token (authorization codes, flow ids).
+// PKCE S256 verification: SHA-256(verifier) must equal the stored challenge.
+export async function verifyPkce(verifier: string, challenge: string): Promise<boolean> {
+  if (!verifier || !challenge) return false;
+  return (await s256(verifier)) === challenge;
+}
+
+// A short random opaque token (authorization codes, flow ids, access tokens).
 export function randomToken(bytes = 32): string {
   return b64url(crypto.getRandomValues(new Uint8Array(bytes)));
 }
 
-// Is this the authority? Identity gate — only Raven's verified email may write.
+// Is this the authority? Identity gate — only Raven's verified email may in.
 export function isRaven(email: string | null | undefined, ravenEmail: string): boolean {
   return !!email && !!ravenEmail && email.toLowerCase() === ravenEmail.toLowerCase();
 }

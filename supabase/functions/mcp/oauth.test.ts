@@ -2,10 +2,14 @@
 import {
   authServerMetadata,
   b64url,
+  buildClientRedirect,
   isRaven,
+  parseAuthorizeParams,
   protectedResourceMetadata,
   randomToken,
   registerClient,
+  s256,
+  supabaseAuthorizeUrl,
   verifyPkce,
 } from "./oauth.ts";
 
@@ -60,6 +64,31 @@ const RAVEN = "johnbarber720@gmail.com";
 check("isRaven matches Raven (case-insensitive)", isRaven("JohnBarber720@Gmail.com", RAVEN));
 check("isRaven rejects a stranger", !isRaven("someone@else.com", RAVEN));
 check("isRaven rejects null", !isRaven(null, RAVEN));
+
+// --- authorize param validation ---
+const good = parseAuthorizeParams(new URLSearchParams({ response_type: "code", redirect_uri: "https://claude.ai/cb", code_challenge: "abc", code_challenge_method: "S256", state: "xyz", client_id: "mcp_1" }));
+check("authorize accepts a valid PKCE request", good.ok && (good as any).redirectUri === "https://claude.ai/cb" && (good as any).state === "xyz");
+check("authorize rejects non-code response_type", !parseAuthorizeParams(new URLSearchParams({ response_type: "token", redirect_uri: "https://x/cb", code_challenge: "a", code_challenge_method: "S256" })).ok);
+check("authorize rejects missing PKCE", !parseAuthorizeParams(new URLSearchParams({ response_type: "code", redirect_uri: "https://x/cb" })).ok);
+check("authorize rejects plain PKCE method", !parseAuthorizeParams(new URLSearchParams({ response_type: "code", redirect_uri: "https://x/cb", code_challenge: "a", code_challenge_method: "plain" })).ok);
+check("authorize rejects relative redirect_uri", !parseAuthorizeParams(new URLSearchParams({ response_type: "code", redirect_uri: "/cb", code_challenge: "a", code_challenge_method: "S256" })).ok);
+
+// --- supabase authorize URL ---
+const sbUrl = supabaseAuthorizeUrl("https://x.supabase.co", "github", "https://x.supabase.co/functions/v1/mcp/callback?flow=f1", "CHAL");
+check("supabase URL targets the provider authorize", sbUrl.startsWith("https://x.supabase.co/auth/v1/authorize?"));
+check("supabase URL carries the provider", new URL(sbUrl).searchParams.get("provider") === "github");
+check("supabase URL carries the PKCE challenge", new URL(sbUrl).searchParams.get("code_challenge") === "CHAL");
+check("supabase URL round-trips redirect_to", new URL(sbUrl).searchParams.get("redirect_to")!.includes("flow=f1"));
+
+// --- client redirect builder ---
+const cr = buildClientRedirect("https://claude.ai/cb", "AUTHCODE", "STATE");
+check("client redirect carries code + state", new URL(cr).searchParams.get("code") === "AUTHCODE" && new URL(cr).searchParams.get("state") === "STATE");
+const crNoState = buildClientRedirect("https://claude.ai/cb?x=1", "C", "");
+check("client redirect preserves existing query, omits empty state", crNoState.includes("x=1") && !crNoState.includes("state="));
+
+// --- s256 derivation matches verifyPkce ---
+const v = "verifier-xyz-1234567890";
+check("s256 derives the challenge verifyPkce accepts", await verifyPkce(v, await s256(v)));
 
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail > 0) process.exit(1);
