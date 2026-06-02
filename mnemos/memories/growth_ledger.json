@@ -1,35 +1,8 @@
 {
-  "updated": "2026-06-02T18:36:54.594296+00:00",
+  "updated": "2026-06-02T18:37:07.092308+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_123849",
-      "date": "2026-06-02",
-      "exchanges": 41,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts",
-        "supabase/functions/mcp/mcp.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`2e68e1e`). Tree's clean.\n\nStill standing, Raven: the open-door fix. Say the word and I'll generate a strong `MCP_TOKEN` for you to paste into"
-    },
     {
       "session_id": "20260602_130445",
       "date": "2026-06-02",
@@ -542,6 +515,33 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged. Main is now at `b805ddf` \u2014 everything from this session is on `main`: the cloud MCP server, \"JARVIS, suit up\" activation, the OAuth cleanup, v"
+    },
+    {
+      "session_id": "20260602_183707",
+      "date": "2026-06-02",
+      "exchanges": 126,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`a9f1075`). Main holds the merged work; branch is clean and tracking ahead by the ledger roll. JARVIS is on `main` and answers to its name.\n\nY"
     }
   ]
 }

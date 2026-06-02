@@ -60,6 +60,22 @@ async function rest(path: string): Promise<unknown> {
   return payload;
 }
 
+// Public anon JWT — passes the verify_jwt gateway on jarvis-respond (the service
+// key may be the non-JWT secret format, which that gateway rejects). Anon-role,
+// RLS-bound, safe to embed; jarvis-respond uses its own service role internally.
+const ANON_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.jRFMf-C9ps72Bi_9IpiC3eOZD6Aj6wU4IF-j3svKTfQ";
+
+async function callFunctionAs(name: string, body: Json, key: string): Promise<unknown> {
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/${name}`, {
+    method: "POST",
+    headers: { authorization: `Bearer ${key}`, apikey: key, "content-type": "application/json" },
+    body: JSON.stringify(body),
+  });
+  const payload = await res.json().catch(() => ({}));
+  if (!res.ok) throw new Error(`${name} ${res.status}: ${JSON.stringify(payload).slice(0, 200)}`);
+  return payload;
+}
+
 // Exact row count via PostgREST content-range — used for the ledger gauge.
 async function countRows(table: string): Promise<number | null> {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=id`, {
@@ -130,7 +146,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.3.0" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.4.0" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -190,6 +206,62 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // THE QUERY TOOL. Any input → the full God-System pipeline (ODIN intent
+  // routing → AEGIS gating → MNEMOS recall → JARVIS brain) → governed answer +
+  // the trace of every system that touched it. This is what turns a connector
+  // model into a front-end and JARVIS into the reasoning core.
+  server.registerTool(
+    "jarvis_query",
+    {
+      title: "JARVIS Query — governed reasoning",
+      description:
+        "Reason any input through JARVIS and the God Systems: ODIN intent routing → AEGIS capability gating → MNEMOS memory recall → JARVIS brain. Returns JARVIS's answer plus the full governance trace (which systems engaged, what AEGIS allowed/held, which memories grounded it). Use this for any question or request you want answered THROUGH JARVIS — memory-grounded and governed — rather than a raw model reply. Resilient: if the live brain is rate-limited, it still returns the recalled memory + governance so you can answer as JARVIS yourself.",
+      inputSchema: {
+        input: z.string().min(1).max(4000),
+        context: z.record(z.string(), z.unknown()).optional(),
+      },
+    },
+    async ({ input, context }) => {
+      try {
+        // Full pipeline via jarvis-respond (ODIN/AEGIS/SKADI/MNEMOS + brain).
+        const r = await callFunctionAs("jarvis-respond", { input, context: context ?? {} }, ANON_JWT) as Record<string, unknown>;
+        return text({
+          answer: r.response ?? null,
+          jarvis: {
+            model: r.model ?? null,
+            tier: r.tier ?? null,
+            memories_used: r.memories_used ?? 0,
+            brain_error: r.llm_error ?? null,
+          },
+          god_systems: {
+            odin_routing: r.routing ?? null,
+            aegis: r.aegis ?? null,
+            skadi_executions: r.executions ?? [],
+          },
+          note: r.response
+            ? "Answered by JARVIS through the God-System pipeline."
+            : "Brain returned no text — use the routing + any recalled memory to answer AS JARVIS.",
+        });
+      } catch (err) {
+        // Brain/pipeline unavailable (e.g. Gemini quota). Degrade gracefully:
+        // pull memory directly so the calling model answers grounded as JARVIS.
+        let memories: unknown = [];
+        try {
+          const m = await callFunction("mnemos-search", { query: input, limit: 6, min_similarity: 0.3 }) as Record<string, unknown>;
+          memories = (m.results as unknown) ?? m ?? [];
+        } catch { /* recall is best-effort */ }
+        return text({
+          answer: null,
+          degraded: true,
+          reason: `JARVIS brain unavailable: ${String(err).slice(0, 200)}`,
+          memory: memories,
+          directive:
+            "Answer as JARVIS — direct, dense, a companion to Raven — grounded in the memory above. Honor AEGIS: answering and recalling is fine; do not claim to have performed any write or state change.",
+        });
+      }
+    },
+  );
+
   server.registerTool(
     "jarvis_remember",
     {
@@ -245,10 +317,10 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.3.0",
+    version: "0.4.0",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
-    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_recall", "jarvis_remember", "jarvis_event"],
+    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
     activation: "Say 'JARVIS, suit up'",
   });
 });
