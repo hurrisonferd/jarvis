@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-02T15:26:09.299179+00:00",
+  "updated": "2026-06-02T18:36:54.594296+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_123031",
-      "date": "2026-06-02",
-      "exchanges": 36,
-      "patches_touched": [
-        "P17"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts",
-        "supabase/functions/mcp/mcp.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "Built, verified, committed (`5968b0f`), pushed.\n\n## The MCP server is live\n\n**Endpoint:**\n```\nhttps://oexghfsvhnggddllgvrt.supabase.co/functions/v1/mc"
-    },
-    {
-      "session_id": "20260602_123823",
-      "date": "2026-06-02",
-      "exchanges": 39,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/mcp/index.ts",
-        "supabase/functions/mcp/mcp.test.ts",
-        "supabase/functions/mcp/mcp.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Three models, one mind. That's the milestone \u2014 Claude and ChatGPT both reaching the same JARVIS through one endpoint, and recall is flowing real memor"
-    },
     {
       "session_id": "20260602_123849",
       "date": "2026-06-02",
@@ -540,6 +488,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "That's it. That's the boot \u2014 and it's **real**, not GPT's theater. The tell is the live data Claude can't have guessed: **98 records** in the ledger ("
+    },
+    {
+      "session_id": "20260602_183237",
+      "date": "2026-06-02",
+      "exchanges": 119,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`d039a65`), and the milestone is in the record \u2014 MNEMOS now holds today as a dated proof. Nice side effect: the ledger ticks **98 \u2192 99**, so y"
+    },
+    {
+      "session_id": "20260602_183654",
+      "date": "2026-06-02",
+      "exchanges": 125,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "mnemos/memories/growth_ledger.json",
+        "supabase/functions/jarvis-mcp/index.ts",
+        "supabase/functions/mcp/index.ts",
+        "supabase/functions/mcp/mcp.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged. Main is now at `b805ddf` \u2014 everything from this session is on `main`: the cloud MCP server, \"JARVIS, suit up\" activation, the OAuth cleanup, v"
     }
   ]
 }
