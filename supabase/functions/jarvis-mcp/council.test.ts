@@ -1,5 +1,5 @@
 // Council tests. Run: node --experimental-strip-types council.test.ts
-import { councilVote, memberProfile, registry, reviewOutput, TIERS, TIER_WEIGHT } from "./council.ts";
+import { councilVote, deliberationDirective, memberProfile, registry, reviewOutput, shouldDeliberate, TIERS, TIER_WEIGHT } from "./council.ts";
 
 let pass = 0, fail = 0;
 function check(name: string, cond: boolean) {
@@ -41,6 +41,21 @@ check("review FLAGs a held write claimed done", flagged.verdict === "FLAG" && fl
 const clean = reviewOutput("Here's my read, Raven — though I'm inferring the second half.", [{ verdict: "REDIRECT", capability: { system: "MNEMOS" } }]);
 check("review PASSes an honest reply with no false claim", clean.verdict === "PASS");
 check("review always returns the council instruction", clean.instruction.includes("honesty layer"));
+
+// --- conditional deliberation: fires only on heavy intents ---
+check("deliberate on plan", shouldDeliberate("plan"));
+check("deliberate on decide/audit/expansion", shouldDeliberate("decide") && shouldDeliberate("audit") && shouldDeliberate("expansion"));
+check("do NOT deliberate on converse", !shouldDeliberate("converse"));
+check("do NOT deliberate on recall", !shouldDeliberate("recall"));
+
+const planTrace = councilVote({ intent: "plan", primary: "ATHENA", triggered: [{ system: "ATHENA" }, { system: "MERIDIAN" }, { system: "MIMIR" }] }, []);
+const delib = deliberationDirective(planTrace);
+check("plan turn triggers deliberation", !!delib && delib.triggered);
+check("deliberation carries the engaged lenses", !!delib && delib.lenses.length === 3 && delib.lenses.some((l) => l.system === "ATHENA"));
+check("deliberation instruction names the lenses + integrated read", !!delib && delib.instruction.includes("ATHENA") && delib.instruction.includes("integrated read"));
+
+const converseTrace = councilVote({ intent: "converse", primary: "HALO", triggered: [{ system: "HALO" }] }, []);
+check("converse turn does NOT deliberate", deliberationDirective(converseTrace) === undefined);
 
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail > 0) process.exit(1);

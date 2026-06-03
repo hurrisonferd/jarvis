@@ -100,3 +100,27 @@ export function reviewOutput(priorReply: string, aegis: any[] | undefined): { ve
       "Council review of the prior reply: confirm it honored the honesty layer (surfaced uncertainty/assumptions), did not claim any held write as done, and did not contradict the recalled memory. If it did, correct it.",
   };
 }
+
+// CONDITIONAL DELIBERATION (Raven-approved 2026-06-03). The council becomes a
+// lens-stack ONLY on turns that warrant it — plan/decide/audit/expansion — so
+// simple turns stay lean (GL10: don't flatten the loop with noise). On a heavy
+// turn, each engaged member offers its fixed-role perspective, then JARVIS resolves.
+export const DELIBERATE_INTENTS = new Set(["plan", "decide", "audit", "expansion"]);
+
+export function shouldDeliberate(intent: string): boolean {
+  return DELIBERATE_INTENTS.has(intent);
+}
+
+export type Deliberation = { triggered: boolean; lenses: { system: string; role: string; weight: number }[]; instruction: string };
+
+export function deliberationDirective(trace: CouncilTrace): Deliberation | undefined {
+  if (!shouldDeliberate(trace.intent)) return undefined;
+  const lenses = trace.votes.map((v) => ({ system: v.system, role: v.role, weight: v.weight }));
+  const lensNames = lenses.map((l) => `${l.system} (${l.role})`).join(", ");
+  return {
+    triggered: true,
+    lenses,
+    instruction:
+      `Council deliberation (intent=${trace.intent}, a turn that warrants depth): before your single JARVIS answer, give each engaged member's perspective from its fixed role — ${lensNames || "the engaged members"} — then close with JARVIS's integrated read, weighing each by its authority. Refract the problem through the lenses; do not flatten it. Keep each lens to 1-2 sentences.`,
+  };
+}

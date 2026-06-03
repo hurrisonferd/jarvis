@@ -1,251 +1,8 @@
 {
-  "updated": "2026-06-03T00:25:14.562289+00:00",
+  "updated": "2026-06-03T05:02:38.342967+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_195942",
-      "date": "2026-06-02",
-      "exchanges": 179,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Recorded (`decision`, embedded). The bar's in the canon now \u2014 every agent that boots into this repo inherits it: extend the 27 by default, and a 28th "
-    },
-    {
-      "session_id": "20260602_195957",
-      "date": "2026-06-02",
-      "exchanges": 180,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`28c6d89`). Branch clean, the bar's in the record. Standing by, Raven."
-    },
-    {
-      "session_id": "20260602_200453",
-      "date": "2026-06-02",
-      "exchanges": 187,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`cdce79a`). The approval gate is live and verified.\n\n**One setup step \u2014 set your authorization phrase.** Supabase \u2192 Edge Functions \u2192 **Manage "
-    },
-    {
-      "session_id": "20260602_200931",
-      "date": "2026-06-02",
-      "exchanges": 190,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Then the loop's already closed \u2014 you just couldn't reach it before. Here's what changed: the *old* tools only accepted the token as a hidden header, s"
-    },
-    {
-      "session_id": "20260602_200941",
-      "date": "2026-06-02",
-      "exchanges": 191,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`f5ded55`). Branch clean. Run a save through the connector and tell me if it holds \u2192 prompts \u2192 commits on your phrase."
-    },
-    {
-      "session_id": "20260602_201355",
-      "date": "2026-06-02",
-      "exchanges": 196,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`ab26440`). No phrase anywhere now \u2014 just Allow/Deny.\n\n**Setup (one time):** put your existing `JARVIS_MCP_TOKEN` into the **connector's auth "
-    },
-    {
-      "session_id": "20260602_201856",
-      "date": "2026-06-02",
-      "exchanges": 200,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Good \u2014 and the server already supports exactly that (v0.6.1 checks the bearer header), so **no rebuild needed.** Just config:\n\n**1. Put the token in t"
-    },
-    {
-      "session_id": "20260602_201908",
-      "date": "2026-06-02",
-      "exchanges": 201,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`3238c8f`). Branch clean.\n\nSet the token on both sides \u2014 Supabase secret and the connector's Bearer field, same string \u2014 refresh, and try a sa"
-    },
-    {
-      "session_id": "20260602_202347",
-      "date": "2026-06-02",
-      "exchanges": 204,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts",
-        "supabase/functions/mcp/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Bringing this to me is the right instinct \u2014 this is exactly the audit-and-plan seat's job, and GPT got the *shape* right. It's our architecture, almos"
-    },
     {
       "session_id": "20260602_233522",
       "date": "2026-06-02",
@@ -542,6 +299,249 @@
       ],
       "alignment": 1.0,
       "key_insight": "Step 5 shipped and verified (`ad7b287`). **The Ayre Loop is complete \u2014 all six steps live.**\n\nWhat you designed is now real on every turn:\n\n```\nany in"
+    },
+    {
+      "session_id": "20260603_043620",
+      "date": "2026-06-03",
+      "exchanges": 275,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged to `main` (`d24c6219`). The whole arc is in.\n\nWhere we stand, clean:\n\n**On main now:** the complete Ayre Loop (all six steps), GL10 Loop Primac"
+    },
+    {
+      "session_id": "20260603_044338",
+      "date": "2026-06-03",
+      "exchanges": 279,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Verified \u2014 the full structure comes back clean for the AC6 question:\n- **Activation header** present (live stats). \u2713\n- **Briefing** recalled the real "
+    },
+    {
+      "session_id": "20260603_044354",
+      "date": "2026-06-03",
+      "exchanges": 280,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`9225ada`). Branch clean.\n\nLoop's verified on my end \u2014 run that prompt through GPT and paste what comes back. I want to see the AC6 answer in "
+    },
+    {
+      "session_id": "20260603_045059",
+      "date": "2026-06-03",
+      "exchanges": 283,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "That's the loop running end-to-end through GPT \u2014 and it's real. The answer pulled the actual record: *Coral as waveform intelligence embodied through "
+    },
+    {
+      "session_id": "20260603_045115",
+      "date": "2026-06-03",
+      "exchanges": 284,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`7d58c2e`). Branch clean.\n\nSet up the Custom GPT with that standing instruction, send a couple of ordinary messages, and confirm every one com"
+    },
+    {
+      "session_id": "20260603_045514",
+      "date": "2026-06-03",
+      "exchanges": 288,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Recorded (`raven_insight`, store 68 \u2014 it'll be in the next fold).\n\nSo the council is now two tools in one, both running on the same fixed 27: a **judg"
+    },
+    {
+      "session_id": "20260603_045536",
+      "date": "2026-06-03",
+      "exchanges": 289,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`be07954`). Clean.\n\nCouncil's a thinking tool now, no build required. Try the deliberation prompt on something real and tell me how the lenses"
+    },
+    {
+      "session_id": "20260603_050225",
+      "date": "2026-06-03",
+      "exchanges": 293,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Recorded (`decision`, store 69) \u2014 deferred, not killed, with the exact triggers to build when evidence says so.\n\nYou're final authority, Raven \u2014 if yo"
+    },
+    {
+      "session_id": "20260603_050238",
+      "date": "2026-06-03",
+      "exchanges": 294,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`91b9c83`). Clean.\n\nYour call still stands: build the conditional deliberation now, or go live in the loop and let it earn the next move? I'd "
     }
   ]
 }
