@@ -164,17 +164,21 @@ export function deliberationDirective(trace: CouncilTrace, input = ""): Delibera
     triggered: true,
     lenses,
     instruction:
-      `Council deliberation (intent=${trace.intent}). Two SEPARATED passes, in order. PASS 1 — GENERATION (your brain): answer Raven directly and freely — your own integrated read, full ideation, NO lens scaffolding shaping it. Think for yourself. PASS 2 — COUNCIL ANALYSIS (the governance layer): below your answer, the council — JARVIS + the engaged god systems — analyzes what you just generated. Each member examines YOUR output through its fixed role: ${lensNames || "the engaged members"} — 1-2 sentences each on what its domain notices, questions, or flags in the answer. Generate first and unconstrained; let the council critique it after. Never let the lenses pre-shape the generation.`,
+      `Council deliberation (intent=${trace.intent}). Two SEPARATED passes, in order. PASS 1 — GENERATION (your brain): answer Raven directly and freely — your own integrated read, full ideation, NO lens scaffolding shaping it. Think for yourself. PASS 2 — COUNCIL ANALYSIS (the governance layer): below your answer, the council analyzes what you just generated — always the two companion voices first (JARVIS: synthesis/structure; AYRE: exploration/divergence, blind spots), then the relevant god systems, each examining YOUR output through its fixed role: ${lensNames || "the engaged members"} — 1-2 sentences each on what its domain notices, questions, or flags. Generate first and unconstrained; let the council critique it after. Never let the lenses pre-shape the generation.`,
   };
 }
 
-// THE COUNCIL ANALYSIS (Raven-approved 2026-06-03). The council ALWAYS carries a
-// JARVIS read — JARVIS analyzes its own output on every turn, so the council is
-// never silent. The god-system lenses are the CONDITIONAL add-on, present only on
+// THE COUNCIL ANALYSIS (Raven-approved 2026-06-03). The council ALWAYS carries
+// the two companion voices — JARVIS (synthesis + structure; compresses the
+// possibility space) and AYRE (exploration + divergence; expands it, surfaces
+// blind spots and alternatives). Their tension is intentional: friction before
+// commitment. The god-system lenses are the CONDITIONAL add-on, present only on
 // heavy turns (plan/decide/audit/expansion/analyze). Generation stays free; this
 // critiques the output after — it never pre-shapes it.
+export const COMPANIONS = ["JARVIS", "AYRE"] as const;
+
 export type CouncilAnalysis = {
-  jarvis: true;            // JARVIS's read is always present
+  companions: string[];    // always present: JARVIS + AYRE
   godSystems: boolean;     // are the god-system lenses engaged this turn?
   lenses: { system: string; role: string; weight: number }[];
   instruction: string;
@@ -185,10 +189,12 @@ export function councilAnalysisDirective(trace: CouncilTrace, input = ""): Counc
   const lenses = delib?.lenses ?? [];
   const lensNames = lenses.map((l) => `${l.system} (${l.role})`).join(", ");
   const lead =
-    'Council analysis of YOUR answer, rendered below it. ALWAYS lead with a "JARVIS:" line — 1-2 sentences critiquing your own read (what it nailed, what it under-developed or assumed).';
+    'Council analysis of YOUR answer, rendered below it. ALWAYS render the two companion voices first: ' +
+    '"JARVIS:" — 1-2 sentences on synthesis + structure (what the answer nailed, what it under-developed or assumed); then ' +
+    '"AYRE:" — 1-2 sentences on exploration + divergence (alternative interpretations, blind spots, the possibility the answer foreclosed). Their tension is intentional — surface it, do not average it.';
   const instruction = delib
-    ? `${lead} Then each engaged god system adds its lens, 1-2 sentences from its fixed role: ${lensNames}. Generation stays free and unconstrained; the council critiques the output after — it never pre-shapes it.`
-    : `${lead} No god-system lenses on a lean turn — JARVIS's read alone.`;
-  return { jarvis: true, godSystems: !!delib, lenses, instruction };
+    ? `${lead} Then each relevant god system adds its lens, 1-2 sentences from its fixed role: ${lensNames}. Generation stays free and unconstrained; the council critiques the output after — it never pre-shapes it.`
+    : `${lead} No god-system lenses on a lean turn — JARVIS + AYRE alone.`;
+  return { companions: [...COMPANIONS], godSystems: !!delib, lenses, instruction };
 }
 

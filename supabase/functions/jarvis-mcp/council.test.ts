@@ -58,15 +58,15 @@ check("deliberation instruction names the lenses + integrated read", !!delib && 
 const converseTrace = councilVote({ intent: "converse", primary: "HALO", triggered: [{ system: "HALO" }] }, []);
 check("converse turn does NOT deliberate", deliberationDirective(converseTrace) === undefined);
 
-// --- council analysis: JARVIS always; god systems conditional ---
+// --- council analysis: JARVIS + AYRE always; god systems conditional ---
 const leanAnalysis = councilAnalysisDirective(converseTrace);
-check("lean turn still carries a JARVIS analysis", leanAnalysis.jarvis === true);
+check("council always carries JARVIS + AYRE", leanAnalysis.companions.includes("JARVIS") && leanAnalysis.companions.includes("AYRE"));
 check("lean turn engages NO god systems", leanAnalysis.godSystems === false && leanAnalysis.lenses.length === 0);
-check("lean analysis names JARVIS, not lenses", leanAnalysis.instruction.includes("JARVIS:") && leanAnalysis.instruction.includes("JARVIS's read alone"));
+check("lean analysis names both companions, not lenses", leanAnalysis.instruction.includes("JARVIS:") && leanAnalysis.instruction.includes("AYRE:") && leanAnalysis.instruction.includes("JARVIS + AYRE alone"));
 const heavyAnalysis = councilAnalysisDirective(planTrace);
-check("heavy turn keeps the JARVIS analysis", heavyAnalysis.jarvis === true);
+check("heavy turn keeps both companions", heavyAnalysis.companions.includes("JARVIS") && heavyAnalysis.companions.includes("AYRE"));
 check("heavy turn engages the god systems", heavyAnalysis.godSystems === true && heavyAnalysis.lenses.some((l) => l.system === "ATHENA"));
-check("heavy analysis leads with JARVIS then adds lenses", heavyAnalysis.instruction.includes("JARVIS:") && heavyAnalysis.instruction.includes("ATHENA"));
+check("heavy analysis leads with companions then adds lenses", heavyAnalysis.instruction.includes("JARVIS:") && heavyAnalysis.instruction.includes("AYRE:") && heavyAnalysis.instruction.includes("ATHENA"));
 
 // --- lens selection: only relevant authorities speak ---
 // An integrate turn engages BIFROST/ATLAS/AEGIS — pure-infra systems must NOT become lenses.
