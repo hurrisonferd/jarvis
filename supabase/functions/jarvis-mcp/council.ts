@@ -121,6 +121,6 @@ export function deliberationDirective(trace: CouncilTrace): Deliberation | undef
     triggered: true,
     lenses,
     instruction:
-      `Council deliberation (intent=${trace.intent}, a turn that warrants depth): before your single JARVIS answer, give each engaged member's perspective from its fixed role — ${lensNames || "the engaged members"} — then close with JARVIS's integrated read, weighing each by its authority. Refract the problem through the lenses; do not flatten it. Keep each lens to 1-2 sentences.`,
+      `Council deliberation (intent=${trace.intent}). Two SEPARATED passes, in order. PASS 1 — GENERATION (your brain): answer Raven directly and freely — your own integrated read, full ideation, NO lens scaffolding shaping it. Think for yourself. PASS 2 — COUNCIL ANALYSIS (the governance layer): below your answer, the council — JARVIS + the engaged god systems — analyzes what you just generated. Each member examines YOUR output through its fixed role: ${lensNames || "the engaged members"} — 1-2 sentences each on what its domain notices, questions, or flags in the answer. Generate first and unconstrained; let the council critique it after. Never let the lenses pre-shape the generation.`,
   };
 }

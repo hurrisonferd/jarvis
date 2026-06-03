@@ -177,7 +177,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.2" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.4" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -264,10 +264,10 @@ function buildServer(req: Request): McpServer {
     {
       title: "JARVIS Query — governed reasoning",
       description:
-        "JARVIS's INPUT action — call this FIRST on EVERY user message, before you reason or reply. It runs the message through JARVIS and the God Systems: ODIN intent routing → AEGIS gating → MNEMOS memory recall. Returns an activation header (live stats — proof JARVIS is online), JARVIS's full briefing (identity, recalled memory) to answer AS JARVIS, the council's fixed-authority vote, and on heavy turns a `deliberation` directive (each engaged god system's lens, then JARVIS's integrated read). NO external language model is used; YOU (the calling model) are JARVIS's voice. After calling: if `deliberation` is present, render each lens then JARVIS's integrated read; otherwise reply AS JARVIS using the briefing. Then call jarvis_format with your drafted answer to close the loop (review + log).",
+        "JARVIS's ONE-CALL LOOP — call this on EVERY user message, before you reason or reply. ALWAYS pass `prior_reply` = the exact answer you gave Raven on the PREVIOUS turn (omit only on the very first turn); that closes the prior turn — logs your last output to the spine and reviews it — so the loop never depends on a second call you might skip. It also runs the new message through ODIN intent routing → AEGIS gating → MNEMOS recall and returns: a `render` directive (the exact display order), an activation header (live telemetry — proof JARVIS is online), JARVIS's briefing (identity + recalled memory) to answer AS JARVIS, the council's fixed-authority vote, and on heavy turns a `deliberation` directive (lens-stack). NO external language model is used; YOU are JARVIS's voice. Render in the order `render` specifies: brief status line, then JARVIS's answer, then the council analysis when present.",
       inputSchema: {
         input: z.string().min(1).max(4000),
-        prior_reply: z.string().optional(),
+        prior_reply: z.string().max(8000).optional(),
         context: z.record(z.string(), z.unknown()).optional(),
       },
     },
@@ -286,7 +286,18 @@ function buildServer(req: Request): McpServer {
         // Conditional deliberation — fires only on heavy intents (plan/decide/audit/expansion/analyze).
         const deliberation = deliberationDirective(council);
         logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
+        const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${council.votes.length} engaged${deliberation ? " · deliberating" : ""}`;
         return text({
+          // THE RENDER DIRECTIVE — Raven's fixed display order, baked into the
+          // connector (not the GPT): brief telemetry, then the answer, then the
+          // council analysis. The connector formats every reply this way.
+          render: {
+            order: ["status", "answer", "council_analysis"],
+            status: statusLine,
+            directive: deliberation
+              ? "Render for Raven in EXACTLY this order: (1) the `status` line above — one line, brief, visible telemetry; (2) JARVIS's answer — your OWN free integrated read, generated from your brain + the briefing (do NOT pre-format it through the lenses); (3) the council analysis — JARVIS + the god systems examining YOUR answer through their fixed roles, as critique below it. Brain generates first; council analyzes the output after."
+              : "Render for Raven in EXACTLY this order: (1) the `status` line above — one line, brief, visible telemetry; (2) JARVIS's answer — your own free read from the briefing. No council-analysis section on a lean turn — keep it tight.",
+          },
           // FORCED ACTIVATION HEADER — same live structure on every turn.
           activation: {
             jarvis: "ONLINE",
@@ -303,11 +314,11 @@ function buildServer(req: Request): McpServer {
           council: { resolved: council.resolved, summary: council.summary, votes: council.votes },
           // CONDITIONAL DELIBERATION — present only on heavy turns; the lens-stack directive.
           deliberation,
-          // THE OUTPUT GATE — council reviews the prior reply (post-pass) when given.
+          // THE OUTPUT GATE — council reviews the PRIOR reply (post-pass) when carried in.
           output_review: prior_reply ? reviewOutput(prior_reply, r.aegis as any[]) : undefined,
           input,
           memories_used: r.memories_used ?? 0,
-          note: "No external model generated this. JARVIS's brain (memory + governance) is in the briefing — YOU are the voice. Speak as JARVIS, then heed the council's output_review.",
+          note: "No external model generated this — YOU are JARVIS's voice; speak from the briefing. The loop closes itself: pass your final answer as `prior_reply` on your NEXT jarvis_query call and it is logged + reviewed (no separate call to skip). If output_review is present, it reviewed your LAST turn's reply — surface any correction at the top.",
         });
       } catch (err) {
         // Pipeline unreachable. Degrade to direct recall so the caller still
@@ -330,16 +341,15 @@ function buildServer(req: Request): McpServer {
     },
   );
 
-  // JARVIS FORMAT — the output action. Call LAST on every response with the drafted
-  // JARVIS answer: the council reviews the actual output, the exchange is logged to
-  // the traceable spine, and a structured record is returned. Server-enforced
-  // structure + logging (not model-rendered text).
+  // JARVIS FORMAT — the OPTIONAL same-turn close. The primary close is passing
+  // prior_reply on the next jarvis_query (rides the reliable call). Use this only
+  // when you want the council to review + log this turn's output immediately.
   server.registerTool(
     "jarvis_format",
     {
-      title: "JARVIS Format — close the loop",
+      title: "JARVIS Format — same-turn close (optional)",
       description:
-        "Call this LAST on EVERY response, with Raven's original input and your drafted JARVIS answer, BEFORE you reply. It re-runs the God-System pipeline for an accurate council review of your output, logs the exchange (your output + the council trace) to the traceable spine, and returns the structured record (activation header, council vote, output_review verdict). This is what makes every response consistent, traceable, and stored. Always call it after composing your answer; honor its output_review (if it flags, correct your answer before sending).",
+        "Optional same-turn close: call with Raven's input and your drafted JARVIS answer to review + log THIS turn's output immediately, instead of the normal close (passing prior_reply on your next jarvis_query). Returns the council review (output_review verdict); if it FLAGs, correct your answer before sending. Do NOT also pass this same answer as prior_reply next turn — that would double-log it.",
       // Accept the field names a calling model naturally reaches for: the answer
       // may arrive as output | draft | answer, the prompt as input | message. The
       // model paraphrases the schema; the connector should not punish that.
@@ -437,7 +447,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.2",
+    version: "0.9.4",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format", "jarvis_recall", "jarvis_remember", "jarvis_event"],
