@@ -1,5 +1,5 @@
 // Council tests. Run: node --experimental-strip-types council.test.ts
-import { councilAnalysisDirective, councilVote, deliberationDirective, memberProfile, registry, reviewOutput, shouldDeliberate, TIERS, TIER_WEIGHT } from "./council.ts";
+import { COMMENTARY, councilAnalysisDirective, councilVote, deliberationDirective, MAX_LENSES, memberProfile, registry, reviewOutput, selectLenses, shouldDeliberate, TIERS, TIER_WEIGHT } from "./council.ts";
 
 let pass = 0, fail = 0;
 function check(name: string, cond: boolean) {
@@ -52,7 +52,7 @@ check("do NOT deliberate on recall", !shouldDeliberate("recall"));
 const planTrace = councilVote({ intent: "plan", primary: "ATHENA", triggered: [{ system: "ATHENA" }, { system: "MERIDIAN" }, { system: "MIMIR" }] }, []);
 const delib = deliberationDirective(planTrace);
 check("plan turn triggers deliberation", !!delib && delib.triggered);
-check("deliberation carries the engaged lenses", !!delib && delib.lenses.length === 3 && delib.lenses.some((l) => l.system === "ATHENA"));
+check("deliberation carries the engaged lenses + HUGINN synthesis", !!delib && delib.lenses.length >= 3 && delib.lenses.some((l) => l.system === "ATHENA") && delib.lenses.some((l) => l.system === "HUGINN"));
 check("deliberation instruction names the lenses + integrated read", !!delib && delib.instruction.includes("ATHENA") && delib.instruction.includes("integrated read"));
 
 const converseTrace = councilVote({ intent: "converse", primary: "HALO", triggered: [{ system: "HALO" }] }, []);
@@ -67,6 +67,26 @@ const heavyAnalysis = councilAnalysisDirective(planTrace);
 check("heavy turn keeps the JARVIS analysis", heavyAnalysis.jarvis === true);
 check("heavy turn engages the god systems", heavyAnalysis.godSystems === true && heavyAnalysis.lenses.some((l) => l.system === "ATHENA"));
 check("heavy analysis leads with JARVIS then adds lenses", heavyAnalysis.instruction.includes("JARVIS:") && heavyAnalysis.instruction.includes("ATHENA"));
+
+// --- lens selection: only relevant authorities speak ---
+// An integrate turn engages BIFROST/ATLAS/AEGIS — pure-infra systems must NOT become lenses.
+const integrateTrace = councilVote({ intent: "audit", primary: "ARGUS", triggered: [{ system: "ARGUS" }, { system: "BIFROST" }, { system: "ATLAS" }, { system: "AEGIS" }] }, []);
+const integLenses = selectLenses(integrateTrace, "deploy the edge function to supabase");
+check("infrastructure systems do NOT speak (no BIFROST/ATLAS)", !integLenses.some((l) => l.system === "BIFROST" || l.system === "ATLAS"));
+check("commentary systems still speak (ARGUS, AEGIS)", integLenses.some((l) => l.system === "ARGUS") && integLenses.some((l) => l.system === "AEGIS"));
+check("every selected lens is commentary-capable", integLenses.every((l) => COMMENTARY.has(l.system)));
+
+// Content signals invite the relevant specialist even if ODIN didn't route it.
+const riskLenses = selectLenses(planTrace, "what are the failure paths and rollback risks here");
+check("risk signal invites LOKI", riskLenses.some((l) => l.system === "LOKI"));
+const expandLenses = selectLenses(planTrace, "should we add a new capability to scale this");
+check("expansion signal invites PROMETHEUS", expandLenses.some((l) => l.system === "PROMETHEUS"));
+check("no false signal, no spurious lens", !selectLenses(planTrace, "tell me about the weather").some((l) => l.system === "LOKI"));
+
+// The cap holds — the council informs, it does not flood.
+const flood = selectLenses(planTrace, "expansion failure alignment integrity entropy time redundancy transition context");
+check("lenses are capped (no noise)", flood.length <= MAX_LENSES);
+check("lenses sorted by descending authority", flood.every((l, i) => i === 0 || flood[i - 1].weight >= l.weight));
 
 console.log(`\n${pass} passed, ${fail} failed`);
 if (fail > 0) process.exit(1);

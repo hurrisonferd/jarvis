@@ -111,11 +111,54 @@ export function shouldDeliberate(intent: string): boolean {
   return DELIBERATE_INTENTS.has(intent);
 }
 
+// AUTHORITY vs COMMENTARY (Raven-approved 2026-06-03): "27 authorities, but only
+// the relevant authorities speak." All 27 govern; only these produce a visible
+// analytical lens (a view on the content). The rest — intake/routing/execution/
+// memory/archive/infra/relay/format/translation — influence the answer but do not
+// editorialize. This keeps an integrate turn from drawing opinions out of BIFROST,
+// ATLAS, or SKADI, which have no domain view to offer.
+export const COMMENTARY = new Set([
+  "HUGINN", "MIMIR", "ATHENA", "ARGUS", "NEMESIS", "PROMETHEUS", "LOKI",
+  "JANUS", "MERIDIAN", "IRIS", "ERIS", "KRONOS", "HALO", "AEGIS",
+]);
+
+// Content signals → specialist lenses. When the input touches a domain, that
+// authority is invited to comment even if ODIN didn't route it structurally —
+// so the relevant 10-15 can speak when warranted, not just the fixed few.
+const LENS_SIGNALS: { system: string; test: RegExp }[] = [
+  { system: "PROMETHEUS", test: /\b(expand|expansion|add|new|scale|grow|introduce|capabilit|feature)\b/i },
+  { system: "LOKI", test: /\b(fail|failure|risk|break|rollback|danger|fragile|attack|exploit|worst.?case)\b/i },
+  { system: "MERIDIAN", test: /\b(align|keel|identity|mission|drift|purpose|values?)\b/i },
+  { system: "IRIS", test: /\b(integrity|consisten|contradict|accurate|truth|verify|valid)\b/i },
+  { system: "ERIS", test: /\b(entropy|bloat|complexity|messy|chaos|noise|sprawl)\b/i },
+  { system: "KRONOS", test: /\b(time|evolve|future|long.?term|over time|roadmap|phase|schedule)\b/i },
+  { system: "NEMESIS", test: /\b(redundan|overlap|duplicate|dead code|unused|dedup)\b/i },
+  { system: "JANUS", test: /\b(transition|shift|migrat|switch|handoff|mode change)\b/i },
+  { system: "MIMIR", test: /\b(context|background|history|lore|prior|reference|precedent)\b/i },
+];
+
+export const MAX_LENSES = 6;
+
+// Select the council's VISIBLE lenses for a turn: the COMMENTARY-capable systems
+// ODIN actually engaged, plus any whose domain the input signals, with HUGINN
+// always synthesizing — sorted by fixed authority and capped so the council
+// informs without becoming noise. The vote (governance) stays whole; this is only
+// who speaks.
+export function selectLenses(trace: CouncilTrace, input = ""): Member[] {
+  const picked = new Map<string, Member>();
+  for (const v of trace.votes) if (COMMENTARY.has(v.system)) picked.set(v.system, v);
+  for (const sig of LENS_SIGNALS) {
+    if (sig.test.test(input) && COMMENTARY.has(sig.system)) picked.set(sig.system, memberProfile(sig.system));
+  }
+  if (!picked.has("HUGINN")) picked.set("HUGINN", memberProfile("HUGINN"));
+  return [...picked.values()].sort((a, b) => b.weight - a.weight).slice(0, MAX_LENSES);
+}
+
 export type Deliberation = { triggered: boolean; lenses: { system: string; role: string; weight: number }[]; instruction: string };
 
-export function deliberationDirective(trace: CouncilTrace): Deliberation | undefined {
+export function deliberationDirective(trace: CouncilTrace, input = ""): Deliberation | undefined {
   if (!shouldDeliberate(trace.intent)) return undefined;
-  const lenses = trace.votes.map((v) => ({ system: v.system, role: v.role, weight: v.weight }));
+  const lenses = selectLenses(trace, input).map((v) => ({ system: v.system, role: v.role, weight: v.weight }));
   const lensNames = lenses.map((l) => `${l.system} (${l.role})`).join(", ");
   return {
     triggered: true,
@@ -137,8 +180,8 @@ export type CouncilAnalysis = {
   instruction: string;
 };
 
-export function councilAnalysisDirective(trace: CouncilTrace): CouncilAnalysis {
-  const delib = deliberationDirective(trace);
+export function councilAnalysisDirective(trace: CouncilTrace, input = ""): CouncilAnalysis {
+  const delib = deliberationDirective(trace, input);
   const lenses = delib?.lenses ?? [];
   const lensNames = lenses.map((l) => `${l.system} (${l.role})`).join(", ");
   const lead =

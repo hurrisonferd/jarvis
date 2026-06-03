@@ -216,7 +216,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.7" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.8" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -325,8 +325,8 @@ function buildServer(req: Request): McpServer {
         // Conditional deliberation — god-system lenses fire only on heavy intents
         // (plan/decide/audit/expansion/analyze). The council analysis ALWAYS carries
         // a JARVIS read; the lenses are the conditional add-on.
-        const deliberation = deliberationDirective(council);
-        const analysis = councilAnalysisDirective(council);
+        const deliberation = deliberationDirective(council, input);
+        const analysis = councilAnalysisDirective(council, input);
         logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
         const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${council.votes.length} engaged${deliberation ? " · deliberating" : ""}`;
         return text({
@@ -583,7 +583,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.7",
+    version: "0.9.8",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,
