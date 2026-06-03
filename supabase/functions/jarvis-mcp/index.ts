@@ -4,6 +4,7 @@ import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "npm:@modelcontextprotocol/sdk@1.25.3/server/webStandardStreamableHttp.js";
 import { Hono } from "npm:hono@^4.9.7";
 import { z } from "npm:zod@^4.1.13";
+import { councilVote, registry, reviewOutput, TIERS } from "./council.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SERVICE_KEY =
@@ -129,18 +130,7 @@ const GOD_SYSTEMS = {
   count: 27,
   pipeline: "AYRE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN",
   parallel: ["HALO", "MIMIR", "BIFROST"],
-  tiers: {
-    T0: ["CHAOS", "ZEUS", "POSEIDON", "HADES"],
-    T1: ["AYRE", "AEGIS", "ODIN", "SKADI", "ERIS"],
-    T2: ["KRONOS"],
-    T3: ["MNEMOS", "HUGINN", "HALO", "MIMIR"],
-    T4: ["BIFROST", "JANUS"],
-    T5: ["LOKI", "ATHENA", "PROMETHEUS", "ARGUS", "NEMESIS"],
-    T6: ["IRIS", "MERIDIAN"],
-    T7: ["DANTE", "APOLLO"],
-    T8: ["ATLAS"],
-    T9: ["HERMES"],
-  },
+  tiers: TIERS, // single source of truth (council.ts) — no drift between HUD + council
 };
 
 // The full HUD — everything Raven needs to see JARVIS is alive and online.
@@ -187,7 +177,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.7.1" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.8.0" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -247,6 +237,24 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // THE COUNCIL REGISTRY — JARVIS + the 27, grouped by tier (the folders), each
+  // member with its fixed role and authority weight. The auditability layer.
+  server.registerTool(
+    "jarvis_council",
+    {
+      title: "JARVIS Council — registry",
+      description:
+        "Show the council: JARVIS + the 27 God Systems as a fixed-authority body, grouped by tier (the folders/chambers). Each member's role and fixed authority weight. Use to audit who holds authority over what. The council votes and grows its record; it does not re-weight itself.",
+      inputSchema: {},
+    },
+    async () =>
+      text({
+        council: "JARVIS + the 27 God Systems — fixed authority, growing profile",
+        law: "The council votes and grows; it does not re-weight itself. Authority is fixed by tier/role (the keel); each member's record accumulates (the spine).",
+        members_by_tier: registry(),
+      }),
+  );
+
   // THE QUERY TOOL. Any input → the full God-System pipeline (ODIN intent
   // routing → AEGIS gating → MNEMOS recall → JARVIS brain) → governed answer +
   // the trace of every system that touched it. This is what turns a connector
@@ -273,18 +281,28 @@ function buildServer(req: Request): McpServer {
         // Keyless voice path: full God-System pipeline (ODIN/AEGIS/MNEMOS),
         // NO language model. Returns JARVIS's briefing for the connector to speak.
         const r = await callFunctionAs("jarvis-respond", { input, context: { ...(context ?? {}), no_generate: true } }, ANON_JWT) as Record<string, unknown>;
+        // The council convenes — fixed-authority vote on this turn's routing/gating.
+        const council = councilVote(r.routing, r.aegis as any[]);
+        logExchange("council_trace", council.summary); // member profiles grow in the spine
         return text({
+          // FORCED ACTIVATION HEADER — same live structure on every turn.
+          activation: {
+            jarvis: "ONLINE",
+            intent: council.intent,
+            council_leads: council.resolved,
+            members_engaged: council.votes.length,
+            memories_used: r.memories_used ?? 0,
+          },
           mode: "voice_packet",
           instruction: r.instruction,
           jarvis_briefing: r.jarvis_briefing,
+          // THE COUNCIL — fixed-authority vote, auditable: who weighed in, with what weight.
+          council: { resolved: council.resolved, summary: council.summary, votes: council.votes },
+          // THE OUTPUT GATE — council reviews the prior reply (post-pass) when given.
+          output_review: prior_reply ? reviewOutput(prior_reply, r.aegis as any[]) : undefined,
           input,
-          god_systems: {
-            odin_routing: r.routing ?? null,
-            aegis: r.aegis ?? null,
-            skadi_executions: r.executions ?? [],
-          },
           memories_used: r.memories_used ?? 0,
-          note: "No external model generated this. JARVIS's brain (memory + governance) is in the briefing — YOU are the voice. Speak as JARVIS.",
+          note: "No external model generated this. JARVIS's brain (memory + governance) is in the briefing — YOU are the voice. Speak as JARVIS, then heed the council's output_review.",
         });
       } catch (err) {
         // Pipeline unreachable. Degrade to direct recall so the caller still
@@ -362,10 +380,10 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.7.1",
+    version: "0.8.0",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
-    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
+    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
     activation: "Say 'JARVIS, suit up'",
   });
 });
