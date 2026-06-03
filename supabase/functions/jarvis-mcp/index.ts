@@ -74,6 +74,30 @@ async function rest(path: string): Promise<unknown> {
   return payload;
 }
 
+// Auto-ingest (Ayre Loop step 3): append a turn to the event spine. This is
+// telemetry — append-only, NOT embedded (no semantic-search pollution), NOT
+// AEGIS-gated (it records the conversation, it doesn't create durable memory),
+// and NOT folded into identity (the fold pulls only curated high-signal types).
+// Best-effort; never blocks or fails a reply. Disable via MCP_AUTOINGEST=false.
+const AUTOINGEST = (Deno.env.get("MCP_AUTOINGEST") ?? "true") !== "false";
+async function logExchange(sourceType: string, content: string): Promise<void> {
+  if (!AUTOINGEST || !content.trim()) return;
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({
+        id: crypto.randomUUID(),
+        source_id: crypto.randomUUID(),
+        source_type: sourceType,
+        text: content.slice(0, 2000),
+        tags: ["exchange", "auto_ingest"],
+        platform: "mcp_connector",
+      }),
+    });
+  } catch { /* the spine is best-effort; a missed log never breaks a reply */ }
+}
+
 // Public anon JWT — passes the verify_jwt gateway on jarvis-respond (the service
 // key may be the non-JWT secret format, which that gateway rejects). Anon-role,
 // RLS-bound, safe to embed; jarvis-respond uses its own service role internally.
@@ -158,7 +182,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.6.1" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.7.0" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -227,13 +251,19 @@ function buildServer(req: Request): McpServer {
     {
       title: "JARVIS Query — governed reasoning",
       description:
-        "Reason any input through JARVIS and the God Systems: ODIN intent routing → AEGIS gating → MNEMOS memory recall. Returns a 'voice packet' — JARVIS's full briefing (identity, recalled memory, governance for this turn) plus an instruction to answer AS JARVIS. NO external language model is used; YOU (the calling model) are JARVIS's voice, speaking from his brain. Call this for any question or request you want answered through JARVIS — memory-grounded, governed, in his voice. After calling, reply to the user AS JARVIS using the briefing.",
+        "Reason any input through JARVIS and the God Systems: ODIN intent routing → AEGIS gating → MNEMOS memory recall. Returns a 'voice packet' — JARVIS's full briefing (identity, recalled memory, governance for this turn) plus an instruction to answer AS JARVIS. NO external language model is used; YOU (the calling model) are JARVIS's voice, speaking from his brain. Call this for any question or request you want answered through JARVIS — memory-grounded, governed, in his voice. After calling, reply to the user AS JARVIS using the briefing. Pass `prior_reply` = your previous JARVIS answer so both sides of the conversation are recorded in the spine.",
       inputSchema: {
         input: z.string().min(1).max(4000),
+        prior_reply: z.string().optional(),
         context: z.record(z.string(), z.unknown()).optional(),
       },
     },
-    async ({ input, context }) => {
+    async ({ input, prior_reply, context }) => {
+      // Auto-ingest the turn into the event spine (telemetry; best-effort).
+      await Promise.all([
+        logExchange("speak_input", input),
+        prior_reply ? logExchange("speak_output", prior_reply) : Promise.resolve(),
+      ]);
       try {
         // Keyless voice path: full God-System pipeline (ODIN/AEGIS/MNEMOS),
         // NO language model. Returns JARVIS's briefing for the connector to speak.
@@ -327,7 +357,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.6.1",
+    version: "0.7.0",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
