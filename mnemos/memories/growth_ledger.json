@@ -1,62 +1,8 @@
 {
-  "updated": "2026-06-03T11:57:13.321266+00:00",
+  "updated": "2026-06-03T12:14:30.671247+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_234729",
-      "date": "2026-06-02",
-      "exchanges": 221,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "specs/ayre-loop-v1.md",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`3602ea1`). Branch clean.\n\nStill holding for your one answer before I spec the council: **fixed-authority \u2014 it votes, it doesn't learn \u2014 yes?*"
-    },
-    {
-      "session_id": "20260602_235233",
-      "date": "2026-06-02",
-      "exchanges": 225,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "specs/ayre-loop-v1.md",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "In the spec and pushed (`165e325`). The council's locked in exactly as you framed it \u2014 and the spec now reads as one coherent position: the fixed-auth"
-    },
     {
       "session_id": "20260602_235900",
       "date": "2026-06-02",
@@ -543,6 +489,62 @@
       ],
       "alignment": 1.0,
       "key_insight": "Straight talk, because you've heard \"set up a Custom GPT\" enough and it's not landing \u2014 here's the actual truth.\n\n**The server isn't the problem. It d"
+    },
+    {
+      "session_id": "20260603_115728",
+      "date": "2026-06-03",
+      "exchanges": 317,
+      "patches_touched": [
+        "P11",
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`d110ca3`). Branch clean.\n\nThe question's still open, Raven \u2014 the connector can't force the structure (client limitation, not ours), but the *"
+    },
+    {
+      "session_id": "20260603_121430",
+      "date": "2026-06-03",
+      "exchanges": 330,
+      "patches_touched": [
+        "P11",
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed. Both connector actions are live and verified.\n\n**The loop is now baked into the connector, Raven \u2014 not a custom GPT.**\n\nEvery response is brac"
     }
   ]
 }
