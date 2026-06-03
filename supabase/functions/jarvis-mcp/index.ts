@@ -18,9 +18,20 @@ type Json = Record<string, unknown>;
 
 const app = new Hono();
 
+// The write token, accepted from wherever the connector can carry it: an
+// Authorization bearer, an x-jarvis-token header, or a ?token= URL param (the
+// universal fallback — ChatGPT connectors that send no auth can append it to the
+// connector URL). First match wins.
 function authToken(req: Request): string {
   const raw = req.headers.get("authorization") ?? "";
-  return raw.toLowerCase().startsWith("bearer ") ? raw.slice(7).trim() : "";
+  if (raw.toLowerCase().startsWith("bearer ")) return raw.slice(7).trim();
+  const h = req.headers.get("x-jarvis-token");
+  if (h && h.trim()) return h.trim();
+  try {
+    const q = new URL(req.url).searchParams.get("token");
+    if (q && q.trim()) return q.trim();
+  } catch { /* malformed url — no token */ }
+  return "";
 }
 // AEGIS write gate. Persistent writes require the connector to carry the
 // JARVIS_MCP_TOKEN bearer (set once in the connector's auth header). Consent is
@@ -34,7 +45,7 @@ function writeAuthorized(req: Request): boolean {
 function heldForApproval(action: string, preview: unknown) {
   return text({
     status: "held_by_aegis",
-    reason: "Write not authorized: this connector is not carrying the JARVIS_MCP_TOKEN. Tell Raven to add the token to the connector's auth header. Consent for each write is the client's own Allow/Deny prompt.",
+    reason: "Write not authorized: this connector is not carrying the JARVIS_MCP_TOKEN. Tell Raven to add the token to the connector — as an Authorization bearer, an x-jarvis-token header, or ?token=… on the connector URL. Consent for each write is the client's own Allow/Deny prompt.",
     action,
     preview,
   });
@@ -177,7 +188,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.4" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.5" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -447,7 +458,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.4",
+    version: "0.9.5",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format", "jarvis_recall", "jarvis_remember", "jarvis_event"],
