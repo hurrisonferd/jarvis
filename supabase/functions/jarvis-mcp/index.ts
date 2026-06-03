@@ -177,7 +177,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.8.1" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.0" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -264,7 +264,7 @@ function buildServer(req: Request): McpServer {
     {
       title: "JARVIS Query — governed reasoning",
       description:
-        "Reason any input through JARVIS and the God Systems: ODIN intent routing → AEGIS gating → MNEMOS memory recall. Returns a 'voice packet' — JARVIS's full briefing (identity, recalled memory, governance for this turn) plus an instruction to answer AS JARVIS. NO external language model is used; YOU (the calling model) are JARVIS's voice, speaking from his brain. Call this for any question or request you want answered through JARVIS — memory-grounded, governed, in his voice. After calling, reply to the user AS JARVIS using the briefing. Pass `prior_reply` = your previous JARVIS answer so both sides of the conversation are recorded in the spine.",
+        "JARVIS's INPUT action — call this FIRST on EVERY user message, before you reason or reply. It runs the message through JARVIS and the God Systems: ODIN intent routing → AEGIS gating → MNEMOS memory recall. Returns an activation header (live stats — proof JARVIS is online), JARVIS's full briefing (identity, recalled memory) to answer AS JARVIS, the council's fixed-authority vote, and on heavy turns a `deliberation` directive (each engaged god system's lens, then JARVIS's integrated read). NO external language model is used; YOU (the calling model) are JARVIS's voice. After calling: if `deliberation` is present, render each lens then JARVIS's integrated read; otherwise reply AS JARVIS using the briefing. Then call jarvis_format with your drafted answer to close the loop (review + log).",
       inputSchema: {
         input: z.string().min(1).max(4000),
         prior_reply: z.string().optional(),
@@ -330,6 +330,47 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // JARVIS FORMAT — the output action. Call LAST on every response with the drafted
+  // JARVIS answer: the council reviews the actual output, the exchange is logged to
+  // the traceable spine, and a structured record is returned. Server-enforced
+  // structure + logging (not model-rendered text).
+  server.registerTool(
+    "jarvis_format",
+    {
+      title: "JARVIS Format — close the loop",
+      description:
+        "Call this LAST on EVERY response, with Raven's original input and your drafted JARVIS answer, BEFORE you reply. It re-runs the God-System pipeline for an accurate council review of your output, logs the exchange (your output + the council trace) to the traceable spine, and returns the structured record (activation header, council vote, output_review verdict). This is what makes every response consistent, traceable, and stored. Always call it after composing your answer; honor its output_review (if it flags, correct your answer before sending).",
+      inputSchema: {
+        input: z.string().min(1).max(4000),
+        output: z.string().min(1).max(8000),
+      },
+    },
+    async ({ input, output }) => {
+      let aegis: any[] = [];
+      let routing: any = null;
+      try {
+        const r = await callFunctionAs("jarvis-respond", { input, context: { no_generate: true } }, ANON_JWT) as Record<string, unknown>;
+        aegis = (r.aegis as any[]) ?? [];
+        routing = r.routing ?? null;
+      } catch { /* review degrades gracefully without the pipeline */ }
+      const council = councilVote(routing, aegis);
+      const review = reviewOutput(output, aegis);
+      // Reliable OUTPUT capture (jarvis_query already logged the input on the in-pass).
+      await Promise.all([
+        logExchange("speak_output", output),
+        logExchange("council_trace", council.summary + " | output_review=" + review.verdict),
+      ]);
+      return text({
+        formatted: true,
+        activation: { jarvis: "ONLINE", intent: council.intent, council_leads: council.resolved, members_engaged: council.votes.length },
+        council: { resolved: council.resolved, summary: council.summary, votes: council.votes },
+        output_review: review,
+        logged: { output: "speak_output", trace: "council_trace", spine: "stored + traceable + findable" },
+        note: "Exchange logged to the spine. Present your answer with this status header + council review. If output_review FLAGged, correct your answer first.",
+      });
+    },
+  );
+
   server.registerTool(
     "jarvis_remember",
     {
@@ -385,10 +426,10 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.8.1",
+    version: "0.9.0",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
-    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
+    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format", "jarvis_recall", "jarvis_remember", "jarvis_event"],
     activation: "Say 'JARVIS, suit up'",
   });
 });
