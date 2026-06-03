@@ -177,7 +177,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.0" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.1" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -340,12 +340,23 @@ function buildServer(req: Request): McpServer {
       title: "JARVIS Format — close the loop",
       description:
         "Call this LAST on EVERY response, with Raven's original input and your drafted JARVIS answer, BEFORE you reply. It re-runs the God-System pipeline for an accurate council review of your output, logs the exchange (your output + the council trace) to the traceable spine, and returns the structured record (activation header, council vote, output_review verdict). This is what makes every response consistent, traceable, and stored. Always call it after composing your answer; honor its output_review (if it flags, correct your answer before sending).",
+      // Accept the field names a calling model naturally reaches for: the answer
+      // may arrive as output | draft | answer, the prompt as input | message. The
+      // model paraphrases the schema; the connector should not punish that.
       inputSchema: {
-        input: z.string().min(1).max(4000),
-        output: z.string().min(1).max(8000),
+        input: z.string().min(1).max(4000).optional(),
+        message: z.string().min(1).max(4000).optional(),
+        output: z.string().min(1).max(8000).optional(),
+        draft: z.string().min(1).max(8000).optional(),
+        answer: z.string().min(1).max(8000).optional(),
       },
     },
-    async ({ input, output }) => {
+    async (args) => {
+      const input = (args.input ?? args.message ?? "").toString();
+      const output = (args.output ?? args.draft ?? args.answer ?? "").toString();
+      if (!output) {
+        return text({ formatted: false, error: "no output to format: pass your drafted answer as `output`", received_keys: Object.keys(args) });
+      }
       let aegis: any[] = [];
       let routing: any = null;
       try {
@@ -426,7 +437,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.0",
+    version: "0.9.1",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format", "jarvis_recall", "jarvis_remember", "jarvis_event"],
