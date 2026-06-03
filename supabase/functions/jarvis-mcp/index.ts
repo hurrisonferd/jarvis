@@ -4,6 +4,7 @@ import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "npm:@modelcontextprotocol/sdk@1.25.3/server/webStandardStreamableHttp.js";
 import { Hono } from "npm:hono@^4.9.7";
 import { z } from "npm:zod@^4.1.13";
+import { councilVote, registry, reviewOutput, TIERS } from "./council.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SERVICE_KEY =
@@ -21,8 +22,22 @@ function authToken(req: Request): string {
   const raw = req.headers.get("authorization") ?? "";
   return raw.toLowerCase().startsWith("bearer ") ? raw.slice(7).trim() : "";
 }
+// AEGIS write gate. Persistent writes require the connector to carry the
+// JARVIS_MCP_TOKEN bearer (set once in the connector's auth header). Consent is
+// the client's own Allow/Deny prompt before the call — no phrase to type. Fails
+// closed when no token is configured (protects the endpoint from open writes).
 function writeAuthorized(req: Request): boolean {
   return Boolean(MCP_TOKEN) && authToken(req) === MCP_TOKEN;
+}
+// Held response when the connector isn't carrying the token. No phrase theater —
+// the fix is configuration (token in the connector header), not a per-call secret.
+function heldForApproval(action: string, preview: unknown) {
+  return text({
+    status: "held_by_aegis",
+    reason: "Write not authorized: this connector is not carrying the JARVIS_MCP_TOKEN. Tell Raven to add the token to the connector's auth header. Consent for each write is the client's own Allow/Deny prompt.",
+    action,
+    preview,
+  });
 }
 
 function text(content: unknown) {
@@ -60,6 +75,30 @@ async function rest(path: string): Promise<unknown> {
   return payload;
 }
 
+// Auto-ingest (Ayre Loop step 3): append a turn to the event spine. This is
+// telemetry — append-only, NOT embedded (no semantic-search pollution), NOT
+// AEGIS-gated (it records the conversation, it doesn't create durable memory),
+// and NOT folded into identity (the fold pulls only curated high-signal types).
+// Best-effort; never blocks or fails a reply. Disable via MCP_AUTOINGEST=false.
+const AUTOINGEST = (Deno.env.get("MCP_AUTOINGEST") ?? "true") !== "false";
+async function logExchange(sourceType: string, content: string): Promise<void> {
+  if (!AUTOINGEST || !content.trim()) return;
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({
+        id: crypto.randomUUID(),
+        source_id: crypto.randomUUID(),
+        source_type: sourceType,
+        text: content.slice(0, 2000),
+        tags: ["exchange", "auto_ingest"],
+        platform: "mcp_connector",
+      }),
+    });
+  } catch { /* the spine is best-effort; a missed log never breaks a reply */ }
+}
+
 // Public anon JWT — passes the verify_jwt gateway on jarvis-respond (the service
 // key may be the non-JWT secret format, which that gateway rejects). Anon-role,
 // RLS-bound, safe to embed; jarvis-respond uses its own service role internally.
@@ -91,28 +130,21 @@ const GOD_SYSTEMS = {
   count: 27,
   pipeline: "AYRE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN",
   parallel: ["HALO", "MIMIR", "BIFROST"],
-  tiers: {
-    T0: ["CHAOS", "ZEUS", "POSEIDON", "HADES"],
-    T1: ["AYRE", "AEGIS", "ODIN", "SKADI", "ERIS"],
-    T2: ["KRONOS"],
-    T3: ["MNEMOS", "HUGINN", "HALO", "MIMIR"],
-    T4: ["BIFROST", "JANUS"],
-    T5: ["LOKI", "ATHENA", "PROMETHEUS", "ARGUS", "NEMESIS"],
-    T6: ["IRIS", "MERIDIAN"],
-    T7: ["DANTE", "APOLLO"],
-    T8: ["ATLAS"],
-    T9: ["HERMES"],
-  },
+  tiers: TIERS, // single source of truth (council.ts) — no drift between HUD + council
 };
 
 // The full HUD — everything Raven needs to see JARVIS is alive and online.
 async function suitUp(): Promise<Json> {
-  const [count, memories, traces] = await Promise.all([
+  const [count, memories, traces, guardRows] = await Promise.all([
     countRows("mnemos_memories").catch(() => null),
     rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=6").catch(() => []),
     rest("execution_trace?select=type,source,stage,severity,patch_id,created_at&order=created_at.desc&limit=5").catch(() => []),
+    rest("mnemos_memories?select=text,metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
   ]);
   const ledgerReachable = Array.isArray(memories);
+  const guard = Array.isArray(guardRows) && guardRows[0]
+    ? { verdict: (guardRows[0] as any).metadata?.verdict ?? "?", last: (guardRows[0] as any).text }
+    : "no fold guarded yet";
   return {
     boot: "⚡ JARVIS online. Suiting up, Raven.",
     status: "OPERATIONAL",
@@ -132,21 +164,20 @@ async function suitUp(): Promise<Json> {
       mcp_transport: "Streamable HTTP — online",
       memory_ledger: ledgerReachable ? "MNEMOS reachable (pgvector recall)" : "MNEMOS unreachable",
       stack: "GitHub (record) + Supabase (live spine) + Edge Functions",
-      writes: writeAuthorized
-        ? "AEGIS-gated (bearer token)"
-        : "AEGIS-gated — reads open, writes held",
+      writes: "AEGIS-gated — held until Raven approves (per-action authorization)",
     },
     memory: {
       total_records: count,
       recent: memories,
     },
+    identity_guard: guard,
     recent_execution_trace: traces,
     sign_off: "All systems nominal. Standing by.",
   };
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.5.0" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.8.0" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -206,6 +237,24 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // THE COUNCIL REGISTRY — JARVIS + the 27, grouped by tier (the folders), each
+  // member with its fixed role and authority weight. The auditability layer.
+  server.registerTool(
+    "jarvis_council",
+    {
+      title: "JARVIS Council — registry",
+      description:
+        "Show the council: JARVIS + the 27 God Systems as a fixed-authority body, grouped by tier (the folders/chambers). Each member's role and fixed authority weight. Use to audit who holds authority over what. The council votes and grows its record; it does not re-weight itself.",
+      inputSchema: {},
+    },
+    async () =>
+      text({
+        council: "JARVIS + the 27 God Systems — fixed authority, growing profile",
+        law: "The council votes and grows; it does not re-weight itself. Authority is fixed by tier/role (the keel); each member's record accumulates (the spine).",
+        members_by_tier: registry(),
+      }),
+  );
+
   // THE QUERY TOOL. Any input → the full God-System pipeline (ODIN intent
   // routing → AEGIS gating → MNEMOS recall → JARVIS brain) → governed answer +
   // the trace of every system that touched it. This is what turns a connector
@@ -215,29 +264,45 @@ function buildServer(req: Request): McpServer {
     {
       title: "JARVIS Query — governed reasoning",
       description:
-        "Reason any input through JARVIS and the God Systems: ODIN intent routing → AEGIS gating → MNEMOS memory recall. Returns a 'voice packet' — JARVIS's full briefing (identity, recalled memory, governance for this turn) plus an instruction to answer AS JARVIS. NO external language model is used; YOU (the calling model) are JARVIS's voice, speaking from his brain. Call this for any question or request you want answered through JARVIS — memory-grounded, governed, in his voice. After calling, reply to the user AS JARVIS using the briefing.",
+        "Reason any input through JARVIS and the God Systems: ODIN intent routing → AEGIS gating → MNEMOS memory recall. Returns a 'voice packet' — JARVIS's full briefing (identity, recalled memory, governance for this turn) plus an instruction to answer AS JARVIS. NO external language model is used; YOU (the calling model) are JARVIS's voice, speaking from his brain. Call this for any question or request you want answered through JARVIS — memory-grounded, governed, in his voice. After calling, reply to the user AS JARVIS using the briefing. Pass `prior_reply` = your previous JARVIS answer so both sides of the conversation are recorded in the spine.",
       inputSchema: {
         input: z.string().min(1).max(4000),
+        prior_reply: z.string().optional(),
         context: z.record(z.string(), z.unknown()).optional(),
       },
     },
-    async ({ input, context }) => {
+    async ({ input, prior_reply, context }) => {
+      // Auto-ingest the turn into the event spine (telemetry; best-effort).
+      await Promise.all([
+        logExchange("speak_input", input),
+        prior_reply ? logExchange("speak_output", prior_reply) : Promise.resolve(),
+      ]);
       try {
         // Keyless voice path: full God-System pipeline (ODIN/AEGIS/MNEMOS),
         // NO language model. Returns JARVIS's briefing for the connector to speak.
         const r = await callFunctionAs("jarvis-respond", { input, context: { ...(context ?? {}), no_generate: true } }, ANON_JWT) as Record<string, unknown>;
+        // The council convenes — fixed-authority vote on this turn's routing/gating.
+        const council = councilVote(r.routing, r.aegis as any[]);
+        logExchange("council_trace", council.summary); // member profiles grow in the spine
         return text({
+          // FORCED ACTIVATION HEADER — same live structure on every turn.
+          activation: {
+            jarvis: "ONLINE",
+            intent: council.intent,
+            council_leads: council.resolved,
+            members_engaged: council.votes.length,
+            memories_used: r.memories_used ?? 0,
+          },
           mode: "voice_packet",
           instruction: r.instruction,
           jarvis_briefing: r.jarvis_briefing,
+          // THE COUNCIL — fixed-authority vote, auditable: who weighed in, with what weight.
+          council: { resolved: council.resolved, summary: council.summary, votes: council.votes },
+          // THE OUTPUT GATE — council reviews the prior reply (post-pass) when given.
+          output_review: prior_reply ? reviewOutput(prior_reply, r.aegis as any[]) : undefined,
           input,
-          god_systems: {
-            odin_routing: r.routing ?? null,
-            aegis: r.aegis ?? null,
-            skadi_executions: r.executions ?? [],
-          },
           memories_used: r.memories_used ?? 0,
-          note: "No external model generated this. JARVIS's brain (memory + governance) is in the briefing — YOU are the voice. Speak as JARVIS.",
+          note: "No external model generated this. JARVIS's brain (memory + governance) is in the briefing — YOU are the voice. Speak as JARVIS, then heed the council's output_review.",
         });
       } catch (err) {
         // Pipeline unreachable. Degrade to direct recall so the caller still
@@ -265,7 +330,7 @@ function buildServer(req: Request): McpServer {
     {
       title: "MNEMOS Store",
       description:
-        "Write a durable memory through MNEMOS. Requires the JARVIS MCP bearer token; otherwise returns held_by_aegis.",
+        "Write a durable memory through MNEMOS. AEGIS-gated: before calling, show Raven exactly what will be stored and let him Allow or Deny. On Allow, call this tool (it commits if the connector carries the token). On Deny, do not call it.",
       inputSchema: {
         text: z.string().min(1).max(2000),
         source_type: z.string().optional().default("mcp_memory"),
@@ -275,7 +340,7 @@ function buildServer(req: Request): McpServer {
     },
     async (args) => {
       if (!writeAuthorized(req)) {
-        return text({ status: "held_by_aegis", reason: "JARVIS_MCP_TOKEN bearer auth required for writes" });
+        return heldForApproval("mnemos.write", { text: args.text, source_type: args.source_type, tags: args.tags });
       }
       return text(await callFunction("mnemos-store", args));
     },
@@ -286,7 +351,7 @@ function buildServer(req: Request): McpServer {
     {
       title: "AEGIS Event",
       description:
-        "Submit an event to the JARVIS execution spine through grid-event. Requires the JARVIS MCP bearer token.",
+        "Submit an event to the JARVIS execution spine through grid-event. AEGIS-gated: before calling, show Raven the event and let him Allow or Deny. On Allow, call this tool (it commits if the connector carries the token). On Deny, do not call it.",
       inputSchema: {
         type: z.enum(["speak", "store", "propose", "execute", "observe", "query", "heartbeat", "recall", "commit", "deploy", "promote_node"]),
         source: z.enum(["jarvis", "raven", "codex", "gpt", "gemini"]),
@@ -297,7 +362,7 @@ function buildServer(req: Request): McpServer {
     },
     async (args) => {
       if (!writeAuthorized(req)) {
-        return text({ status: "held_by_aegis", reason: "JARVIS_MCP_TOKEN bearer auth required for event writes" });
+        return heldForApproval("grid.event", { type: args.type, source: args.source, intent: args.intent, patch_id: args.patch_id });
       }
       return text(await callFunction("grid-event", args));
     },
@@ -315,10 +380,10 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.5.0",
+    version: "0.8.0",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
-    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
+    tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
     activation: "Say 'JARVIS, suit up'",
   });
 });
