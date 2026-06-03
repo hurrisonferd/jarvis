@@ -35,6 +35,7 @@ jobs:
           node --experimental-strip-types ../bifrost/bifrost.test.ts
           node --experimental-strip-types ../jarvis-mcp/council.test.ts
           node --experimental-strip-types ../jarvis-mcp/grid.test.ts
+          node --experimental-strip-types ../jarvis-mcp/halo.test.ts
           node --experimental-strip-types ../jarvis-mcp/crypto.test.ts
 
       - name: Front — inline script parses (const-bug guard)

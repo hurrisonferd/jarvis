@@ -7,6 +7,7 @@ import { z } from "npm:zod@^4.1.13";
 import { councilAnalysisDirective, councilVote, deliberationDirective, registry, reviewOutput, TIERS } from "./council.ts";
 import { buildNodeCard, buildPortableIdentity, GRID_VERSION, validateInbound } from "./grid.ts";
 import { identityAssertion, isBase64, messagePayload } from "./crypto.ts";
+import { haloThroughputCheck } from "./halo.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SERVICE_KEY =
@@ -24,6 +25,7 @@ const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
+  "jarvis_halo",
 ];
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
@@ -184,6 +186,7 @@ async function suitUp(): Promise<Json> {
   const guard = Array.isArray(guardRows) && guardRows[0]
     ? { verdict: (guardRows[0] as any).metadata?.verdict ?? "?", last: (guardRows[0] as any).text }
     : "no fold guarded yet";
+  const throughput = await haloPosture(30).catch(() => null);
   return {
     boot: "⚡ JARVIS online. Suiting up, Raven.",
     status: "OPERATIONAL",
@@ -210,6 +213,7 @@ async function suitUp(): Promise<Json> {
       recent: memories,
     },
     identity_guard: guard,
+    throughput: throughput ? { posture: throughput.posture, verdict: throughput.verdict, message: throughput.message } : "halo idle",
     recent_execution_trace: traces,
     sign_off: "All systems nominal. Standing by.",
   };
@@ -219,6 +223,33 @@ async function suitUp(): Promise<Json> {
 async function latestText(sourceType: string): Promise<string> {
   const rows = await rest(`mnemos_memories?select=text&source_type=eq.${sourceType}&order=timestamp.desc&limit=1`).catch(() => []);
   return Array.isArray(rows) && rows[0] ? String((rows[0] as any).text ?? "") : "";
+}
+
+// Count rows of a source_type since an ISO timestamp (windowed spine telemetry).
+async function countSince(sourceType: string, sinceIso: string): Promise<number> {
+  const res = await fetch(
+    `${SUPABASE_URL}/rest/v1/mnemos_memories?select=id&source_type=eq.${sourceType}&timestamp=gte.${sinceIso}`,
+    { headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, Prefer: "count=exact", Range: "0-0" } },
+  );
+  const cr = res.headers.get("content-range");
+  if (cr && cr.includes("/")) { const t = cr.split("/")[1]; return t === "*" ? 0 : Number(t); }
+  return 0;
+}
+
+// HALO — the throughput posture over a recent window. Reads the spine's cadence
+// (inputs/outputs/council traces) + the keel + the last fold guard, then applies
+// the rule: presentation may thin under load; memory + governance may not.
+async function haloPosture(windowMinutes = 30) {
+  const sinceIso = new Date(Date.now() - windowMinutes * 60000).toISOString();
+  const [inputs, outputs, councilTraces, keel, guardRows] = await Promise.all([
+    countSince("speak_input", sinceIso).catch(() => 0),
+    countSince("speak_output", sinceIso).catch(() => 0),
+    countSince("council_trace", sinceIso).catch(() => 0),
+    latestText("identity_keel").catch(() => ""),
+    rest("mnemos_memories?select=metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
+  ]);
+  const guardVerdict = Array.isArray(guardRows) && guardRows[0] ? ((guardRows[0] as any).metadata?.verdict ?? null) : null;
+  return haloThroughputCheck({ windowMinutes, inputs, outputs, councilTraces, keelPresent: Boolean(keel), guardVerdict });
 }
 
 // This node's registered signing key (public material only), if Raven has
@@ -249,7 +280,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.10" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.11" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -656,6 +687,21 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // HALO — throughput posture. Ambient read on conversation velocity, enforcing the
+  // rule: under load, presentation may thin (status/council formatting, the close)
+  // but the spine + keel + AEGIS may not. FLAGs only when MEMORY — not formatting —
+  // is degrading. Use during fast stretches to confirm the loop is still healthy.
+  server.registerTool(
+    "jarvis_halo",
+    {
+      title: "HALO — Throughput Posture",
+      description:
+        "HALO's ambient read on conversation velocity + the throughput posture: is production pressure compressing only PRESENTATION (status line, council formatting, same-turn close — safe), or also MEMORY/GOVERNANCE (the spine, keel, AEGIS — a FLAG)? The rule: thin the formatting under load, never the memory. PASS = healthy; NOTE = fast + formatting thinning while memory holds (correct); FLAG = memory integrity at risk. Read it when replies start losing structure to confirm the spine is still keeping pace.",
+      inputSchema: { window_minutes: z.number().int().min(5).max(180).optional().default(30) },
+    },
+    async ({ window_minutes }) => text({ halo: "throughput_posture", ...(await haloPosture(window_minutes)) }),
+  );
+
   return server;
 }
 
@@ -668,7 +714,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.10",
+    version: "0.9.11",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,
