@@ -6,6 +6,7 @@ import { Hono } from "npm:hono@^4.9.7";
 import { z } from "npm:zod@^4.1.13";
 import { councilAnalysisDirective, councilVote, deliberationDirective, registry, reviewOutput, TIERS } from "./council.ts";
 import { buildNodeCard, buildPortableIdentity, GRID_VERSION, validateInbound } from "./grid.ts";
+import { identityAssertion, isBase64, messagePayload } from "./crypto.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SERVICE_KEY =
@@ -22,8 +23,24 @@ const BASE_URL = `${SUPABASE_URL}/functions/v1/jarvis-mcp`;
 const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
-  "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send",
+  "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
 ];
+
+// THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
+// signs). Standard base64 → bytes, then Web Crypto verify against a raw public key.
+function b64ToBytes(b64: string): Uint8Array {
+  const bin = atob(b64);
+  const out = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
+  return out;
+}
+async function verifyEd25519(pubB64: string, message: string, sigB64: string): Promise<boolean> {
+  if (!isBase64(pubB64) || !isBase64(sigB64)) return false;
+  try {
+    const key = await crypto.subtle.importKey("raw", b64ToBytes(pubB64), { name: "Ed25519" }, false, ["verify"]);
+    return await crypto.subtle.verify({ name: "Ed25519" }, key, b64ToBytes(sigB64), new TextEncoder().encode(message));
+  } catch { return false; }
+}
 
 type Json = Record<string, unknown>;
 
@@ -204,19 +221,35 @@ async function latestText(sourceType: string): Promise<string> {
   return Array.isArray(rows) && rows[0] ? String((rows[0] as any).text ?? "") : "";
 }
 
-// THE GRID — assemble this node's public recognition card from the live keel.
+// This node's registered signing key (public material only), if Raven has
+// registered one. The card publishes it so others can verify the node's identity.
+async function nodeKeyRow(): Promise<any | null> {
+  const rows = await rest(`node_keys?select=public_key,identity_cert,algo,owner,assertion&node_id=eq.${NODE_ID}&limit=1`).catch(() => []);
+  return Array.isArray(rows) && rows[0] ? rows[0] : null;
+}
+
+// THE GRID — assemble this node's public recognition card from the live keel,
+// plus the signed identity (pubkey + cert) when registered. The card is then
+// self-certifying: a fetcher can verify the cert binds the pubkey to this node_id.
 async function nodeCard() {
-  const keel = await latestText("identity_keel").catch(() => "");
-  return buildNodeCard({
+  const [keel, key] = await Promise.all([
+    latestText("identity_keel").catch(() => ""),
+    nodeKeyRow().catch(() => null),
+  ]);
+  const card: Record<string, unknown> = buildNodeCard({
     nodeId: NODE_ID,
     keelExcerpt: keel || "JARVIS — companion intelligence, built with Raven. Identity, memory, governance, sovereign on this node.",
     capabilities: TOOL_NAMES,
     baseUrl: BASE_URL,
   });
+  card.signed_identity = key
+    ? { signed: true, algo: key.algo, pubkey: key.public_key, identity_cert: key.identity_cert, assertion: key.assertion, verify: "Ed25519(pubkey, assertion, identity_cert)" }
+    : { signed: false, note: "No signing key registered yet. Raven registers one off-system via scripts/grid_keygen.mjs + jarvis_node_register_key." };
+  return card;
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.8" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.9" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -571,6 +604,58 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // THE GRID — register the node's signing key (GNPL v0.2.0). Sovereign-key model:
+  // Raven generates the keypair OFF-SYSTEM (scripts/grid_keygen.mjs) and signs the
+  // identity assertion. He registers ONLY the public key + the certificate here.
+  // The node verifies the cert against the assertion+pubkey before storing; it
+  // never sees or holds the private key. Token-gated (an identity write).
+  server.registerTool(
+    "jarvis_node_register_key",
+    {
+      title: "Grid — Register Signing Key",
+      description:
+        "Register this node's PUBLIC signing key + identity certificate (generated off-system by Raven via scripts/grid_keygen.mjs). The node verifies the Ed25519 certificate against the rebuilt identity assertion before storing — only the holder of the private key can register. Token-gated; before calling, show Raven the public_key and let him Allow/Deny. The private key never touches this system.",
+      inputSchema: {
+        public_key: z.string().min(40).max(120),
+        identity_cert: z.string().min(60).max(200),
+        owner: z.string().max(200).optional().default("Raven (John Barber)"),
+      },
+    },
+    async ({ public_key, identity_cert, owner }) => {
+      if (!writeAuthorized(req)) {
+        return heldForApproval("grid.register_key", { node_id: NODE_ID, public_key, owner });
+      }
+      const assertion = identityAssertion(NODE_ID, owner, public_key);
+      const ok = await verifyEd25519(public_key, assertion, identity_cert);
+      if (!ok) {
+        return text({
+          registered: false,
+          error: "identity_cert did not verify against the rebuilt assertion + public_key. Sign these EXACT bytes with the matching Ed25519 private key (scripts/grid_keygen.mjs keygen).",
+          node_id: NODE_ID,
+          assertion,
+        });
+      }
+      try {
+        await fetch(`${SUPABASE_URL}/rest/v1/node_keys`, {
+          method: "POST",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" },
+          body: JSON.stringify({ node_id: NODE_ID, algo: "ed25519", public_key, identity_cert, owner, assertion }),
+        });
+        await logExchange("node_key_registered", `Node ${NODE_ID} identity key registered + verified (Ed25519). pubkey=${public_key}`);
+      } catch (err) {
+        return text({ registered: false, error: `store failed: ${String(err).slice(0, 160)}`, node_id: NODE_ID });
+      }
+      return text({
+        registered: true,
+        verified: true,
+        node_id: NODE_ID,
+        algo: "ed25519",
+        pubkey: public_key,
+        note: "Identity certificate verified and stored. The node now publishes a signed identity. Inbound messages signed by a known key will be marked signature_valid.",
+      });
+    },
+  );
+
   return server;
 }
 
@@ -583,7 +668,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.8",
+    version: "0.9.9",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,
@@ -601,6 +686,18 @@ async function receiveInbound(c: any): Promise<Response> {
   const v = validateInbound(raw);
   if (!v.ok) return c.json({ received: false, error: v.error }, 400);
   const m = v.msg;
+  // SIGNATURE VERIFICATION (optional). If the sender signed the message, verify it
+  // against the claimed public key. A valid signature proves the message wasn't
+  // tampered and came from the holder of that key — it does NOT authorize action
+  // (still pending + untrusted, held for Raven), and TOFU attribution of the key to
+  // the node is a later phase.
+  const r: any = raw;
+  let signatureValid = false;
+  let fromPubkey: string | null = null;
+  if (typeof r.sig === "string" && typeof r.from_pubkey === "string") {
+    fromPubkey = r.from_pubkey;
+    signatureValid = await verifyEd25519(r.from_pubkey, messagePayload(m), r.sig);
+  }
   try {
     await fetch(`${SUPABASE_URL}/rest/v1/node_messages`, {
       method: "POST",
@@ -608,14 +705,15 @@ async function receiveInbound(c: any): Promise<Response> {
       body: JSON.stringify({
         from_node: m.from_node, from_companion: m.from_companion, to_node: m.to_node,
         intent: m.intent, body: m.body, status: "pending", trust: "untrusted",
-        metadata: { via: "grid_inbox" },
+        metadata: { via: "grid_inbox", signature_valid: signatureValid, from_pubkey: fromPubkey },
       }),
     });
-    await logExchange("node_message_in", `${m.from_companion}@${m.from_node} → ${m.to_node}: ${m.body}`);
+    await logExchange("node_message_in", `${m.from_companion}@${m.from_node} → ${m.to_node} (sig=${signatureValid ? "valid" : (fromPubkey ? "INVALID" : "none")}): ${m.body}`);
   } catch { /* best-effort; never crash the inbox */ }
   return c.json({
     received: true, status: "pending", to_node: m.to_node,
-    note: "Held for the owner. JARVIS does not auto-act on inbound — Raven reviews and decides.",
+    signature_valid: signatureValid,
+    note: "Held for the owner. A valid signature proves integrity + sender key, but does not authorize action — JARVIS does not auto-act; Raven reviews and decides.",
   });
 }
 

@@ -4,7 +4,7 @@
 // with other nodes. Inbound is UNTRUSTED and NEVER auto-acted — held for the owner.
 // Three bricks, in dependency order: card → disc → channel.
 
-export const GRID_VERSION = "0.1.0";
+export const GRID_VERSION = "0.2.0";
 
 export type Consent = { inbound_messages: "held_for_owner"; auto_act: false };
 
