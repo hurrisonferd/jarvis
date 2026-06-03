@@ -1,62 +1,8 @@
 {
-  "updated": "2026-06-03T05:02:38.342967+00:00",
+  "updated": "2026-06-03T11:36:14.843067+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260602_233522",
-      "date": "2026-06-02",
-      "exchanges": 208,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "specs/ayre-loop-v1.md",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Spec is written and on the branch: **`specs/ayre-loop-v1.md`** (`ca2805e`). Now the verdict on everything you posted \u2014 because you handed me eight spe"
-    },
-    {
-      "session_id": "20260602_234201",
-      "date": "2026-06-02",
-      "exchanges": 211,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "mnemos/memories/growth_ledger.json",
-        "specs/ayre-loop-v1.md",
-        "supabase/functions/jarvis-mcp/index.ts",
-        "supabase/functions/jarvis-respond/index.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Spec updated and pushed (`e10639a`). The dual gate's in it \u2014 input gate (already `AYRE\u2192AEGIS`), output gate, and the honesty layer as fixed law on the"
-    },
     {
       "session_id": "20260602_234552",
       "date": "2026-06-02",
@@ -542,6 +488,60 @@
       ],
       "alignment": 1.0,
       "key_insight": "Pushed (`91b9c83`). Clean.\n\nYour call still stands: build the conditional deliberation now, or go live in the loop and let it earn the next move? I'd "
+    },
+    {
+      "session_id": "20260603_051723",
+      "date": "2026-06-03",
+      "exchanges": 303,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Conditional deliberation shipped (`a66b62f`, on the branch). Now the review you asked for \u2014 connector + whole system, honest and disciplined.\n\n**The c"
+    },
+    {
+      "session_id": "20260603_113614",
+      "date": "2026-06-03",
+      "exchanges": 312,
+      "patches_touched": [
+        "P17",
+        "P34"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "mnemos/memories/growth_ledger.json",
+        "specs/ayre-loop-v1.md",
+        "supabase/functions/jarvis-mcp/council.test.ts"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged \u2014 main's at `96e6e57`. The whole system through conditional deliberation is now on `main`.\n\nNow your vision, and the honest read: **you're desc"
     }
   ]
 }
