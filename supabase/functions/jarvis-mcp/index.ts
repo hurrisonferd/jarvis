@@ -177,7 +177,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.1" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.2" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -283,7 +283,7 @@ function buildServer(req: Request): McpServer {
         const r = await callFunctionAs("jarvis-respond", { input, context: { ...(context ?? {}), no_generate: true } }, ANON_JWT) as Record<string, unknown>;
         // The council convenes — fixed-authority vote on this turn's routing/gating.
         const council = councilVote(r.routing, r.aegis as any[]);
-        // Conditional deliberation — fires only on heavy intents (plan/decide/audit/expansion).
+        // Conditional deliberation — fires only on heavy intents (plan/decide/audit/expansion/analyze).
         const deliberation = deliberationDirective(council);
         logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
         return text({
@@ -437,7 +437,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.1",
+    version: "0.9.2",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format", "jarvis_recall", "jarvis_remember", "jarvis_event"],

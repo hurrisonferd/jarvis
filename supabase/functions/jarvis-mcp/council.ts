@@ -102,10 +102,10 @@ export function reviewOutput(priorReply: string, aegis: any[] | undefined): { ve
 }
 
 // CONDITIONAL DELIBERATION (Raven-approved 2026-06-03). The council becomes a
-// lens-stack ONLY on turns that warrant it — plan/decide/audit/expansion — so
-// simple turns stay lean (GL10: don't flatten the loop with noise). On a heavy
-// turn, each engaged member offers its fixed-role perspective, then JARVIS resolves.
-export const DELIBERATE_INTENTS = new Set(["plan", "decide", "audit", "expansion"]);
+// lens-stack ONLY on turns that warrant it — plan/decide/audit/expansion/analyze
+// — so simple turns stay lean (GL10: don't flatten the loop with noise). On a
+// heavy turn, each engaged member offers its fixed-role perspective, then JARVIS resolves.
+export const DELIBERATE_INTENTS = new Set(["plan", "decide", "audit", "expansion", "analyze"]);
 
 export function shouldDeliberate(intent: string): boolean {
   return DELIBERATE_INTENTS.has(intent);

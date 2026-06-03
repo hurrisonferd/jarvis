@@ -45,6 +45,7 @@ check("review always returns the council instruction", clean.instruction.include
 // --- conditional deliberation: fires only on heavy intents ---
 check("deliberate on plan", shouldDeliberate("plan"));
 check("deliberate on decide/audit/expansion", shouldDeliberate("decide") && shouldDeliberate("audit") && shouldDeliberate("expansion"));
+check("deliberate on analyze", shouldDeliberate("analyze"));
 check("do NOT deliberate on converse", !shouldDeliberate("converse"));
 check("do NOT deliberate on recall", !shouldDeliberate("recall"));
 

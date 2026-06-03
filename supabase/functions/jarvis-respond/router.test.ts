@@ -11,6 +11,7 @@ function check(name: string, cond: boolean) {
 check("recall -> MNEMOS primary", route("what did we decide last time about the grid").primary === "MNEMOS");
 check("execute -> SKADI primary", route("build the handler carve and push it").primary === "SKADI");
 check("audit -> NEMESIS primary", route("audit the god systems for overlap").primary === "NEMESIS");
+check("analyze -> HUGINN primary", route("lets do an analysis of ac last raven").primary === "HUGINN");
 check("plan -> ATHENA primary", route("how do we design the routing layer").primary === "ATHENA");
 check("integrate -> BIFROST primary", route("deploy the edge function to supabase").primary === "BIFROST");
 check("render -> APOLLO primary", route("generate a concept card image").primary === "APOLLO");

@@ -98,6 +98,14 @@ const RULES: Rule[] = [
     primary: "NEMESIS",
     systems: ["ARGUS", "NEMESIS", "HUGINN", "AEGIS"],
   },
+  // Analysis / breakdown / interpretation — a heavy turn that warrants the
+  // council lens-stack (HUGINN synthesizes the engaged perspectives).
+  {
+    intent: "analyze",
+    test: /\b(analy[sz]e|analysis|break\s?down|dissect|deconstruct|interpret|unpack|examine)\b/i,
+    primary: "HUGINN",
+    systems: ["HUGINN", "MIMIR", "ATHENA", "ARGUS"],
+  },
   // Plan / design / architecture / strategy.
   {
     intent: "plan",
