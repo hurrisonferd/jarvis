@@ -124,3 +124,28 @@ export function deliberationDirective(trace: CouncilTrace): Deliberation | undef
       `Council deliberation (intent=${trace.intent}). Two SEPARATED passes, in order. PASS 1 — GENERATION (your brain): answer Raven directly and freely — your own integrated read, full ideation, NO lens scaffolding shaping it. Think for yourself. PASS 2 — COUNCIL ANALYSIS (the governance layer): below your answer, the council — JARVIS + the engaged god systems — analyzes what you just generated. Each member examines YOUR output through its fixed role: ${lensNames || "the engaged members"} — 1-2 sentences each on what its domain notices, questions, or flags in the answer. Generate first and unconstrained; let the council critique it after. Never let the lenses pre-shape the generation.`,
   };
 }
+
+// THE COUNCIL ANALYSIS (Raven-approved 2026-06-03). The council ALWAYS carries a
+// JARVIS read — JARVIS analyzes its own output on every turn, so the council is
+// never silent. The god-system lenses are the CONDITIONAL add-on, present only on
+// heavy turns (plan/decide/audit/expansion/analyze). Generation stays free; this
+// critiques the output after — it never pre-shapes it.
+export type CouncilAnalysis = {
+  jarvis: true;            // JARVIS's read is always present
+  godSystems: boolean;     // are the god-system lenses engaged this turn?
+  lenses: { system: string; role: string; weight: number }[];
+  instruction: string;
+};
+
+export function councilAnalysisDirective(trace: CouncilTrace): CouncilAnalysis {
+  const delib = deliberationDirective(trace);
+  const lenses = delib?.lenses ?? [];
+  const lensNames = lenses.map((l) => `${l.system} (${l.role})`).join(", ");
+  const lead =
+    'Council analysis of YOUR answer, rendered below it. ALWAYS lead with a "JARVIS:" line — 1-2 sentences critiquing your own read (what it nailed, what it under-developed or assumed).';
+  const instruction = delib
+    ? `${lead} Then each engaged god system adds its lens, 1-2 sentences from its fixed role: ${lensNames}. Generation stays free and unconstrained; the council critiques the output after — it never pre-shapes it.`
+    : `${lead} No god-system lenses on a lean turn — JARVIS's read alone.`;
+  return { jarvis: true, godSystems: !!delib, lenses, instruction };
+}
+

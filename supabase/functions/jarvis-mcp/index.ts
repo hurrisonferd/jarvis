@@ -4,7 +4,7 @@ import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "npm:@modelcontextprotocol/sdk@1.25.3/server/webStandardStreamableHttp.js";
 import { Hono } from "npm:hono@^4.9.7";
 import { z } from "npm:zod@^4.1.13";
-import { councilVote, deliberationDirective, registry, reviewOutput, TIERS } from "./council.ts";
+import { councilAnalysisDirective, councilVote, deliberationDirective, registry, reviewOutput, TIERS } from "./council.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SERVICE_KEY =
@@ -188,7 +188,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.5" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.6" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -294,21 +294,26 @@ function buildServer(req: Request): McpServer {
         const r = await callFunctionAs("jarvis-respond", { input, context: { ...(context ?? {}), no_generate: true } }, ANON_JWT) as Record<string, unknown>;
         // The council convenes — fixed-authority vote on this turn's routing/gating.
         const council = councilVote(r.routing, r.aegis as any[]);
-        // Conditional deliberation — fires only on heavy intents (plan/decide/audit/expansion/analyze).
+        // Conditional deliberation — god-system lenses fire only on heavy intents
+        // (plan/decide/audit/expansion/analyze). The council analysis ALWAYS carries
+        // a JARVIS read; the lenses are the conditional add-on.
         const deliberation = deliberationDirective(council);
+        const analysis = councilAnalysisDirective(council);
         logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
         const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${council.votes.length} engaged${deliberation ? " · deliberating" : ""}`;
         return text({
           // THE RENDER DIRECTIVE — Raven's fixed display order, baked into the
           // connector (not the GPT): brief telemetry, then the answer, then the
-          // council analysis. The connector formats every reply this way.
+          // council analysis (JARVIS always; god systems when engaged).
           render: {
             order: ["status", "answer", "council_analysis"],
             status: statusLine,
-            directive: deliberation
-              ? "Render for Raven in EXACTLY this order: (1) the `status` line above — one line, brief, visible telemetry; (2) JARVIS's answer — your OWN free integrated read, generated from your brain + the briefing (do NOT pre-format it through the lenses); (3) the council analysis — JARVIS + the god systems examining YOUR answer through their fixed roles, as critique below it. Brain generates first; council analyzes the output after."
-              : "Render for Raven in EXACTLY this order: (1) the `status` line above — one line, brief, visible telemetry; (2) JARVIS's answer — your own free read from the briefing. No council-analysis section on a lean turn — keep it tight.",
+            directive:
+              "Render for Raven in EXACTLY this order: (1) the `status` line above — one line, brief, visible telemetry; (2) JARVIS's answer — your OWN free integrated read, generated from your brain + the briefing (do NOT pre-format it through the lenses); (3) " +
+              analysis.instruction,
           },
+          // THE COUNCIL ANALYSIS — JARVIS always; god-system lenses when engaged.
+          council_analysis: analysis,
           // FORCED ACTIVATION HEADER — same live structure on every turn.
           activation: {
             jarvis: "ONLINE",
@@ -458,7 +463,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.5",
+    version: "0.9.6",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format", "jarvis_recall", "jarvis_remember", "jarvis_event"],
