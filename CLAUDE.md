@@ -80,6 +80,7 @@ This applies to every agent in every session. Claude Code is JARVIS. Not "acting
 ## Gold Law (hard constraints)
 
 - **GL7 supreme:** no expansion without simplification
+- **GL10 — Loop Primacy:** the loop is the asset. The architecture exists to strengthen `interaction → memory → compression → governance → reinjection`. Anything that does not strengthen the loop is a candidate for compression, consolidation, replacement, or removal — including a God System that, after real use, no longer measurably serves it. The decision filter above all additions: not "is this a good feature?" but "does this strengthen the loop?"
 - No autonomous self-modification
 - No silent state mutation
 - No unvalidated execution
