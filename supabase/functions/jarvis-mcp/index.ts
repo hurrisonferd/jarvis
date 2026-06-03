@@ -4,7 +4,7 @@ import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "npm:@modelcontextprotocol/sdk@1.25.3/server/webStandardStreamableHttp.js";
 import { Hono } from "npm:hono@^4.9.7";
 import { z } from "npm:zod@^4.1.13";
-import { councilVote, registry, reviewOutput, TIERS } from "./council.ts";
+import { councilVote, deliberationDirective, registry, reviewOutput, TIERS } from "./council.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SERVICE_KEY =
@@ -177,7 +177,7 @@ async function suitUp(): Promise<Json> {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.8.0" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.8.1" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -283,7 +283,9 @@ function buildServer(req: Request): McpServer {
         const r = await callFunctionAs("jarvis-respond", { input, context: { ...(context ?? {}), no_generate: true } }, ANON_JWT) as Record<string, unknown>;
         // The council convenes — fixed-authority vote on this turn's routing/gating.
         const council = councilVote(r.routing, r.aegis as any[]);
-        logExchange("council_trace", council.summary); // member profiles grow in the spine
+        // Conditional deliberation — fires only on heavy intents (plan/decide/audit/expansion).
+        const deliberation = deliberationDirective(council);
+        logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
         return text({
           // FORCED ACTIVATION HEADER — same live structure on every turn.
           activation: {
@@ -291,6 +293,7 @@ function buildServer(req: Request): McpServer {
             intent: council.intent,
             council_leads: council.resolved,
             members_engaged: council.votes.length,
+            deliberation: deliberation ? "engaged" : "lean",
             memories_used: r.memories_used ?? 0,
           },
           mode: "voice_packet",
@@ -298,6 +301,8 @@ function buildServer(req: Request): McpServer {
           jarvis_briefing: r.jarvis_briefing,
           // THE COUNCIL — fixed-authority vote, auditable: who weighed in, with what weight.
           council: { resolved: council.resolved, summary: council.summary, votes: council.votes },
+          // CONDITIONAL DELIBERATION — present only on heavy turns; the lens-stack directive.
+          deliberation,
           // THE OUTPUT GATE — council reviews the prior reply (post-pass) when given.
           output_review: prior_reply ? reviewOutput(prior_reply, r.aegis as any[]) : undefined,
           input,
@@ -380,7 +385,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.8.0",
+    version: "0.8.1",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
