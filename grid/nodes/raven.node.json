@@ -1,0 +1,14 @@
+{
+  "node_id": "raven-node-0",
+  "owner": "Raven (John Barber)",
+  "companion": "JARVIS",
+  "status": "first_node",
+  "grid_version": "0.1.0",
+  "endpoints": {
+    "mcp": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp",
+    "node_card": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp/node",
+    "inbox": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp/node/message"
+  },
+  "stack": "GitHub (record) + Supabase (live spine) + Edge Functions",
+  "note": "The first node of The Grid. Identity, memory, and governance are sovereign and owned by Raven."
+}
