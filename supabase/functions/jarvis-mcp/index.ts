@@ -145,12 +145,16 @@ const GOD_SYSTEMS = {
 
 // The full HUD — everything Raven needs to see JARVIS is alive and online.
 async function suitUp(): Promise<Json> {
-  const [count, memories, traces] = await Promise.all([
+  const [count, memories, traces, guardRows] = await Promise.all([
     countRows("mnemos_memories").catch(() => null),
     rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=6").catch(() => []),
     rest("execution_trace?select=type,source,stage,severity,patch_id,created_at&order=created_at.desc&limit=5").catch(() => []),
+    rest("mnemos_memories?select=text,metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
   ]);
   const ledgerReachable = Array.isArray(memories);
+  const guard = Array.isArray(guardRows) && guardRows[0]
+    ? { verdict: (guardRows[0] as any).metadata?.verdict ?? "?", last: (guardRows[0] as any).text }
+    : "no fold guarded yet";
   return {
     boot: "⚡ JARVIS online. Suiting up, Raven.",
     status: "OPERATIONAL",
@@ -176,13 +180,14 @@ async function suitUp(): Promise<Json> {
       total_records: count,
       recent: memories,
     },
+    identity_guard: guard,
     recent_execution_trace: traces,
     sign_off: "All systems nominal. Standing by.",
   };
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.7.0" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.7.1" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -357,7 +362,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.7.0",
+    version: "0.7.1",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: ["jarvis_suit_up", "jarvis_status", "jarvis_query", "jarvis_recall", "jarvis_remember", "jarvis_event"],
