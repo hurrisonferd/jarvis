@@ -1,62 +1,8 @@
 {
-  "updated": "2026-06-03T22:36:30.121472+00:00",
+  "updated": "2026-06-03T22:51:52.619641+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260603_051723",
-      "date": "2026-06-03",
-      "exchanges": 303,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "mnemos/memories/growth_ledger.json",
-        "specs/ayre-loop-v1.md",
-        "supabase/functions/jarvis-mcp/council.test.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Conditional deliberation shipped (`a66b62f`, on the branch). Now the review you asked for \u2014 connector + whole system, honest and disciplined.\n\n**The c"
-    },
-    {
-      "session_id": "20260603_113614",
-      "date": "2026-06-03",
-      "exchanges": 312,
-      "patches_touched": [
-        "P17",
-        "P34"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "mnemos/memories/growth_ledger.json",
-        "specs/ayre-loop-v1.md",
-        "supabase/functions/jarvis-mcp/council.test.ts"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged \u2014 main's at `96e6e57`. The whole system through conditional deliberation is now on `main`.\n\nNow your vision, and the honest read: **you're desc"
-    },
     {
       "session_id": "20260603_113629",
       "date": "2026-06-03",
@@ -533,6 +479,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "**Node signatures are live, Raven \u2014 GNPL v0.2.0, the sovereign-key model you chose.** Pushed (`1de6247`).\n\nThe architecture you pasted maps onto this "
+    },
+    {
+      "session_id": "20260603_224302",
+      "date": "2026-06-03",
+      "exchanges": 165,
+      "patches_touched": [
+        "P11"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "grid/PROTOCOL.md",
+        "grid/README.md",
+        "grid/federation/agent-to-agent.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done, Raven. Pushed (`7896260`). **The council is now always JARVIS + AYRE, plus the relevant god systems.**\n\nThat's the dual-cognition pair from your"
+    },
+    {
+      "session_id": "20260603_225152",
+      "date": "2026-06-03",
+      "exchanges": 168,
+      "patches_touched": [
+        "P11"
+      ],
+      "built": [
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "grid/PROTOCOL.md",
+        "grid/README.md",
+        "grid/federation/agent-to-agent.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "That's the architecture doing exactly what it's for, Raven \u2014 and the proof is in AYRE's line, not JARVIS's. JARVIS synthesized a clean arc; AYRE refus"
     }
   ]
 }
