@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-04T17:00:11.129110+00:00",
+  "updated": "2026-06-04T17:01:32.322338+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260603_133750",
-      "date": "2026-06-03",
-      "exchanges": 67,
-      "patches_touched": [
-        "P11"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "mnemos/memories/growth_ledger.json",
-        "specs/ayre-loop-v1.md",
-        "specs/jarvis-custom-gpt-instructions.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed. Tree clean."
-    },
-    {
-      "session_id": "20260603_165936",
-      "date": "2026-06-03",
-      "exchanges": 80,
-      "patches_touched": [
-        "P11"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "mnemos/memories/growth_ledger.json",
-        "specs/ayre-loop-v1.md",
-        "specs/jarvis-custom-gpt-instructions.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done, Raven. Pushed (`968eecc`).\n\n**Token \u2014 writes are now easy.** v0.9.5 reads `JARVIS_MCP_TOKEN` from any of three places. Pick whichever your conne"
-    },
     {
       "session_id": "20260603_165949",
       "date": "2026-06-03",
@@ -541,6 +489,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Connector pass landed \u2014 first blood, two genuine **critical bugs**: `jarvis_node_register_key` and the Grid inbox both POST to Supabase without checki"
+    },
+    {
+      "session_id": "20260604_170027",
+      "date": "2026-06-04",
+      "exchanges": 28,
+      "patches_touched": [
+        "P11",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36"
+      ],
+      "built": [
+        ".claude/commands/patch.md",
+        ".github/workflows/jarvis-integrity.yml",
+        "audit/patch_ledger.json",
+        "changes/patches/P35_patch_system.md",
+        "grid/PROTOCOL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`86ac42e`). Four audit passes still running \u2014 edge/security, frontend, memory/scripts/CI, canon. Synthesizing the full report when they land."
+    },
+    {
+      "session_id": "20260604_170132",
+      "date": "2026-06-04",
+      "exchanges": 31,
+      "patches_touched": [
+        "P06",
+        "P10",
+        "P11",
+        "P20",
+        "P28",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36"
+      ],
+      "built": [
+        ".claude/commands/patch.md",
+        ".github/workflows/jarvis-integrity.yml",
+        "audit/patch_ledger.json",
+        "changes/patches/P35_patch_system.md",
+        "grid/PROTOCOL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Frontend pass landed \u2014 `docs/index.html` is **2,609 lines, one inline script**, which is the core structural risk (the P11 split). Real findings: a re"
     }
   ]
 }
