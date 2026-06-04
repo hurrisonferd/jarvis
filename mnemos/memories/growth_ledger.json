@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-04T17:38:04.286232+00:00",
+  "updated": "2026-06-04T17:48:54.944300+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260603_225152",
-      "date": "2026-06-03",
-      "exchanges": 168,
-      "patches_touched": [
-        "P11"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "grid/PROTOCOL.md",
-        "grid/README.md",
-        "grid/federation/agent-to-agent.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "That's the architecture doing exactly what it's for, Raven \u2014 and the proof is in AYRE's line, not JARVIS's. JARVIS synthesized a clean arc; AYRE refus"
-    },
     {
       "session_id": "20260603_225209",
       "date": "2026-06-03",
@@ -668,6 +642,56 @@
       ],
       "alignment": 1.0,
       "key_insight": "P34 Phase 2a is shipped and **live-verified** \u2014 the core GL5 win. Through the council:\n\n**JARVIS (synthesis):** The audit oversold the difficulty. The"
+    },
+    {
+      "session_id": "20260604_174854",
+      "date": "2026-06-04",
+      "exchanges": 94,
+      "patches_touched": [
+        "P00",
+        "P01",
+        "P06",
+        "P1",
+        "P10",
+        "P100",
+        "P101",
+        "P11",
+        "P17",
+        "P20",
+        "P24",
+        "P28",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38",
+        "P39",
+        "P40",
+        "P41",
+        "P99"
+      ],
+      "built": [
+        ".claude/commands/patch.md",
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "audit/2026-06-04_full_system_audit.md",
+        "audit/patch_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done. The `consensus_proposals` reroute closes the last anon-writable governance table.\n\n**P34 Phase 2 \u2014 essentially complete:**\n- `jarvis-propose.py`"
     }
   ]
 }
