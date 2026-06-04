@@ -1,9 +1,11 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { type Op, validateWrite } from "./validate.ts";
 
 // P34 phase 2: governed write proxy.
 // The public anon key is read-only at the DB. Every browser write flows through here,
-// is checked against a strict (table, op) whitelist, and is performed with the service role.
+// is checked against a strict (table, op) whitelist (validate.ts — pure + tested),
+// and is performed with the service role.
 // Closes GL5: the public key can no longer insert/update/delete arbitrary tables.
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
@@ -12,21 +14,6 @@ const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SUPABASE_SERVICE_KEY =
   Deno.env.get("SUPABASE_SERVICE_KEY") ??
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
-
-type Op = "insert" | "update" | "upsert" | "delete";
-
-// Exactly the writes the browser performs. Nothing else is permitted.
-const WHITELIST: Record<string, Set<Op>> = {
-  sessions:           new Set(["insert", "update"]),
-  events:             new Set(["insert"]),
-  mnemos_memories:    new Set(["insert"]),
-  prometheus_log:     new Set(["insert"]),
-  god_system_stats:   new Set(["update"]),
-  push_subscriptions: new Set(["upsert", "delete"]),
-  rom_library:        new Set(["insert"]),
-  save_states:        new Set(["insert"]),
-  consensus_proposals: new Set(["insert", "update"]),
-};
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
@@ -58,15 +45,8 @@ Deno.serve(async (req) => {
   const onConflict = body.onConflict ? String(body.onConflict) : undefined;
   const returning = body.returning ? String(body.returning) : undefined;
 
-  const allowed = WHITELIST[table];
-  if (!allowed) return reject(`table not writable: ${table}`);
-  if (!allowed.has(op)) return reject(`op not allowed on ${table}: ${op}`);
-  if ((op === "update" || op === "delete") && (!match || Object.keys(match).length === 0)) {
-    return reject(`${op} on ${table} requires a match filter`);
-  }
-  if ((op === "insert" || op === "upsert") && (data === null || typeof data !== "object")) {
-    return reject(`${op} on ${table} requires a data object`);
-  }
+  const check = validateWrite({ table, op, data, match });
+  if (!check.ok) return reject(check.error);
 
   const sb = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
