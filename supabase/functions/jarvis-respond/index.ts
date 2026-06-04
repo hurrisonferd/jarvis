@@ -25,6 +25,34 @@ const MODEL_CONFIG: ModelConfig = {
   quickTokens: Number(Deno.env.get("JARVIS_QUICK_TOKENS") ?? 400),
 };
 
+// THE OUTPUT GATE (P38 — Ayre Loop step 4). Deterministic post-pass on the
+// generated reply: it must NOT claim a write AEGIS held as if it were done.
+// Pure; no model. PASS unless a held action is asserted complete — then the UI
+// surfaces the flag so JARVIS never lies about what it committed (the honesty law).
+function reviewGenerated(reply: string, aegisResults: Array<{ verdict?: string }> = []): { verdict: string; flags: string[] } {
+  const flags: string[] = [];
+  const r = (reply ?? "").toLowerCase();
+  const held = (aegisResults ?? []).filter((x) => x?.verdict && x.verdict !== "PASS" && x.verdict !== "cleared");
+  const claimsDone = /\b(saved|stored|committed|wrote|recorded|logged it|registered|done)\b/.test(r);
+  if (held.length && claimsDone) {
+    flags.push("AEGIS: reply may assert a held write as done — verify nothing was claimed committed");
+  }
+  return { verdict: flags.length ? "FLAG" : "PASS", flags };
+}
+
+// AUTO-INGEST (P38 — Ayre Loop step 1). Every generated SPEAK exchange self-records
+// to the spine so the loop closes without hand-saving. Best-effort, append-only,
+// NOT embedded (telemetry, not curated memory); awaited so it persists before the
+// edge function returns, but never throws into the reply path.
+async function autoIngest(sb: ReturnType<typeof createClient>, input: string, response: string): Promise<void> {
+  try {
+    await sb.from("mnemos_memories").insert([
+      { id: crypto.randomUUID(), source_id: crypto.randomUUID(), source_type: "speak_input", text: input.slice(0, 2000), tags: ["exchange", "auto_ingest", "web_speak"], platform: "jarvis_respond" },
+      { id: crypto.randomUUID(), source_id: crypto.randomUUID(), source_type: "speak_output", text: response.slice(0, 2000), tags: ["exchange", "auto_ingest", "web_speak"], platform: "jarvis_respond" },
+    ]);
+  } catch (_e) { /* the spine is best-effort; a missed log never breaks a reply */ }
+}
+
 // Gemini free tier 503s under load; ride out transient failures with backoff
 // instead of dropping to the local fallback. Returns content or a final error.
 async function callLLM(model: string, maxTokens: number, messages: unknown[]): Promise<{ content?: string; error?: string }> {
@@ -308,8 +336,15 @@ Surface what is uncertain, inferred, missing, or assumed. If you don't know, say
       : "Brain flickered — transient. Run that by me again in a moment."
   );
 
+  // CLOSE THE LOOP (P38): review the generated reply against the held set (the
+  // output gate), then self-record the exchange to the spine (auto-ingest). The
+  // connector path already does both; this brings the in-browser SPEAK path to
+  // parity so every generated turn is gated + remembered.
+  const output_review = reviewGenerated(response, aegis.results as Array<{ verdict?: string }>);
+  await autoIngest(sb, input, response);
+
   return new Response(
-    JSON.stringify({ response, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results, executions, llm_error: result.error ?? null }),
+    JSON.stringify({ response, output_review, memories_used: memoriesUsed, model: choice.model, tier: choice.tier, routing, aegis: aegis.results, executions, llm_error: result.error ?? null }),
     { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
   );
 });

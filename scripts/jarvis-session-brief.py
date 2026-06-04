@@ -71,13 +71,21 @@ def git(cmd: str) -> str:
         return ""
 
 
-def load_pending_patches() -> list:
+def load_ledger() -> dict:
     try:
         with open(LEDGER_PATH, "r") as f:
-            ledger = json.load(f)
-        return [p for p in ledger.get("patches", []) if p.get("status") in ("partial", "pending")]
+            return json.load(f)
     except Exception:
-        return []
+        return {}
+
+
+def load_open_patches() -> list:
+    """Patches actively being built (status=open) — accumulating before execution."""
+    return [p for p in load_ledger().get("patches", []) if p.get("status") == "open"]
+
+
+def load_pending_patches() -> list:
+    return [p for p in load_ledger().get("patches", []) if p.get("status") in ("partial", "pending")]
 
 
 def query_open_proposals(limit: int = 3) -> list:
@@ -246,6 +254,18 @@ def main():
             desc = ((p.get("payload") or {}).get("description") or "")[:90]
             ts = (p.get("created_at") or "")[:10]
             print(f"  [{ptype} {ts}]{pid_str} {desc}")
+        print()
+
+    # ── Open patches (actively building — accumulating before execution)
+    building = load_open_patches()
+    if building:
+        print("OPEN PATCHES (building — not yet executed):")
+        for p in building:
+            entries = p.get("entries", [])
+            n = len(entries)
+            last = entries[-1]["note"] if entries else "no entries yet"
+            print(f"  ● {p['id']} ({n} entr{'y' if n == 1 else 'ies'}) {p.get('summary', '')[:60]}")
+            print(f"      last: {last[:88]}")
         print()
 
     # ── Pending / partial patches

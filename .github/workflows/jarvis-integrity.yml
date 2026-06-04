@@ -34,6 +34,10 @@ jobs:
           node --experimental-strip-types execute.test.ts
           node --experimental-strip-types ../bifrost/bifrost.test.ts
           node --experimental-strip-types ../jarvis-mcp/council.test.ts
+          node --experimental-strip-types ../jarvis-mcp/grid.test.ts
+          node --experimental-strip-types ../jarvis-mcp/halo.test.ts
+          node --experimental-strip-types ../jarvis-mcp/crypto.test.ts
+          node --experimental-strip-types ../grid-write/validate.test.ts
 
       - name: Front — inline script parses (const-bug guard)
         run: |
@@ -74,3 +78,6 @@ jobs:
 
       - name: MNEMOS — log-system tests
         run: python3 scripts/test_companion_log.py
+
+      - name: PATCH — register writer tests
+        run: python3 scripts/test_jarvis_patch.py

@@ -1,0 +1,27 @@
+name: KRONOS — Identity Consolidation
+
+# P42: the loop's COMPRESS step, made autonomous. On a schedule, KRONOS folds recent
+# memory onto the keel into a fresh identity_summary (append-only, lineage-strict) and
+# runs the drift guard. Governed: it compresses existing memory into a NEW layer, never
+# edits old layers, never changes the keel; a guard FLAG is surfaced, not acted on (GL2).
+# fold_identity/guard_identity are service-role-only (P42 migration) — this is the sole path.
+
+on:
+  schedule:
+    - cron: "0 9 * * *"   # daily, 09:00 UTC
+  workflow_dispatch: {}     # manual trigger for an on-demand fold
+
+jobs:
+  consolidate:
+    name: KRONOS — fold recent memory onto the keel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Fold + guard (service role)
+        env:
+          SUPABASE_URL: https://oexghfsvhnggddllgvrt.supabase.co
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python3 scripts/jarvis-consolidate.py
