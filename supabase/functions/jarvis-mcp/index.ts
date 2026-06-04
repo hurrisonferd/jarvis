@@ -280,7 +280,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.11" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.12" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -392,7 +392,11 @@ function buildServer(req: Request): McpServer {
         const deliberation = deliberationDirective(council, input);
         const analysis = councilAnalysisDirective(council, input);
         logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
-        const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${council.votes.length} engaged${deliberation ? " · deliberating" : ""}`;
+        // The headline count is who actually SPEAKS this turn (the companions +
+        // any god-system lenses), not how many authorities governed — so the status
+        // line matches the visible council. The governance count is kept below.
+        const voices = analysis.companions.length + analysis.lenses.length;
+        const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${voices} ${voices === 1 ? "voice" : "voices"}${deliberation ? " · deliberating" : ""}`;
         return text({
           // THE RENDER DIRECTIVE — Raven's fixed display order, baked into the
           // connector (not the GPT): brief telemetry, then the answer, then the
@@ -411,7 +415,9 @@ function buildServer(req: Request): McpServer {
             jarvis: "ONLINE",
             intent: council.intent,
             council_leads: council.resolved,
-            members_engaged: council.votes.length,
+            voices,                             // who SPEAKS (companions + lenses) — the headline count
+            companions: analysis.companions,    // always JARVIS + AYRE
+            governed: council.votes.length,     // authorities that governed the turn (not all speak)
             deliberation: deliberation ? "engaged" : "lean",
             memories_used: r.memories_used ?? 0,
           },
@@ -714,7 +720,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.11",
+    version: "0.9.12",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,
