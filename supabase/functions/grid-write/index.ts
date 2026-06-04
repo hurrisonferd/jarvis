@@ -25,6 +25,7 @@ const WHITELIST: Record<string, Set<Op>> = {
   push_subscriptions: new Set(["upsert", "delete"]),
   rom_library:        new Set(["insert"]),
   save_states:        new Set(["insert"]),
+  consensus_proposals: new Set(["insert", "update"]),
 };
 
 const cors = {

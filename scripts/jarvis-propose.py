@@ -44,17 +44,29 @@ def create_proposal(proposal_type: str, description: str, patch_id: str = None) 
     if patch_id:
         payload["patch_id"] = patch_id
 
-    data = json.dumps(payload).encode()
+    # P34 phase 2: writes go through the grid-write service-role proxy, not direct
+    # PostgREST — consensus_proposals is anon read-only at the DB now (GL5).
+    body = json.dumps({
+        "table": "consensus_proposals", "op": "insert", "data": payload, "returning": "id",
+    }).encode()
     req = urllib.request.Request(
-        f"{REST_BASE}/consensus_proposals",
-        data=data,
-        headers={**HEADERS, "Prefer": "return=representation"},
+        f"{SUPABASE_URL}/functions/v1/grid-write",
+        data=body,
+        headers=HEADERS,
         method="POST",
     )
     try:
         with urllib.request.urlopen(req, timeout=8) as resp:
-            result = json.loads(resp.read())
-            return result[0] if isinstance(result, list) else result
+            res = json.loads(resp.read())
+            if not res.get("ok"):
+                print(f"grid-write rejected proposal: {res.get('error')}", file=sys.stderr)
+                return None
+            d = res.get("data")
+            if isinstance(d, dict):
+                return d
+            if isinstance(d, list) and d:
+                return d[0]
+            return {"id": "created"}
     except Exception as e:
         print(f"Error creating proposal: {e}", file=sys.stderr)
         return None
