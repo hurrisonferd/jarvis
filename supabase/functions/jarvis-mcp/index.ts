@@ -280,7 +280,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.12" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.13" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -392,11 +392,13 @@ function buildServer(req: Request): McpServer {
         const deliberation = deliberationDirective(council, input);
         const analysis = councilAnalysisDirective(council, input);
         logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
-        // The headline count is who actually SPEAKS this turn (the companions +
-        // any god-system lenses), not how many authorities governed — so the status
-        // line matches the visible council. The governance count is kept below.
-        const voices = analysis.companions.length + analysis.lenses.length;
-        const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${voices} ${voices === 1 ? "voice" : "voices"}${deliberation ? " · deliberating" : ""}`;
+        // Report the two apart: the companion VOICES (JARVIS + AYRE) always render;
+        // the god-system LENSES are conditional and the model may drop them under
+        // load. Summing them hid that gap and overstated the headline. "2 voices +
+        // N lenses" keeps the voices number matching what's reliably shown.
+        const companionCount = analysis.companions.length;
+        const lensCount = analysis.lenses.length;
+        const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${companionCount} ${companionCount === 1 ? "voice" : "voices"}${lensCount ? ` + ${lensCount} ${lensCount === 1 ? "lens" : "lenses"}` : ""}${deliberation ? " · deliberating" : ""}`;
         return text({
           // THE RENDER DIRECTIVE — Raven's fixed display order, baked into the
           // connector (not the GPT): brief telemetry, then the answer, then the
@@ -415,7 +417,8 @@ function buildServer(req: Request): McpServer {
             jarvis: "ONLINE",
             intent: council.intent,
             council_leads: council.resolved,
-            voices,                             // who SPEAKS (companions + lenses) — the headline count
+            voices: companionCount,             // companion voices (JARVIS + AYRE) — always rendered
+            lenses: lensCount,                  // god-system lenses convened (conditional; may drop under load)
             companions: analysis.companions,    // always JARVIS + AYRE
             governed: council.votes.length,     // authorities that governed the turn (not all speak)
             deliberation: deliberation ? "engaged" : "lean",
@@ -720,7 +723,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.12",
+    version: "0.9.13",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,
