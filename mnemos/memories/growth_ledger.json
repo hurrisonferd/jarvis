@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-04T21:44:55.864759+00:00",
+  "updated": "2026-06-04T22:00:19.242382+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260603_232119",
-      "date": "2026-06-03",
-      "exchanges": 185,
-      "patches_touched": [
-        "P11"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "grid/PROTOCOL.md",
-        "grid/README.md",
-        "grid/federation/agent-to-agent.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Built and live, Raven. Pushed (`53f8f04`). **The HALO throughput-flag loop turns the boundary from a principle into a test.**\n\nThe rule you reached fo"
-    },
     {
       "session_id": "20260603_232835",
       "date": "2026-06-03",
@@ -757,6 +731,55 @@
       ],
       "alignment": 1.0,
       "key_insight": "Committed and pushed. P40's durability fix proved itself on first contact \u2014 the archive caught 2 rotated entries that the old code would have silently"
+    },
+    {
+      "session_id": "20260604_220019",
+      "date": "2026-06-04",
+      "exchanges": 142,
+      "patches_touched": [
+        "P00",
+        "P01",
+        "P06",
+        "P10",
+        "P11",
+        "P17",
+        "P20",
+        "P24",
+        "P28",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38",
+        "P39",
+        "P40",
+        "P41",
+        "P42",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".claude/commands/patch.md",
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "audit/2026-06-04_full_system_audit.md",
+        "audit/patch_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done \u2014 AYRE is split from JARVIS, live and verified.\n\n**What shipped (P44, connector v0.9.15, version 35):** AYRE stopped being a sub-voice that criti"
     }
   ]
 }
