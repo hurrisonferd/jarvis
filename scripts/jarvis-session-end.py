@@ -20,7 +20,7 @@ SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supa
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
 STORE_FN = f"{SUPABASE_URL}/functions/v1/mnemos-store"
 
-PATCH_RE = re.compile(r'\bP(\d{1,2})\b')
+PATCH_RE = re.compile(r'\bP(\d{1,3})\b')  # 1-3 digits — P0..P999 (P{1,2} silently missed P100+)
 
 DOMAIN_PATTERNS = {
     "architecture": ["god system", "ayre", "aegis", "odin", "kronos", "skadi", "mnemos", "huginn", "grid", "tron"],

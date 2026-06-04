@@ -77,3 +77,6 @@ jobs:
 
       - name: MNEMOS — log-system tests
         run: python3 scripts/test_companion_log.py
+
+      - name: PATCH — register writer tests
+        run: python3 scripts/test_jarvis_patch.py
