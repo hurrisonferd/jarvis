@@ -1,6 +1,6 @@
 # JARVIS
 
-Local-first AI orchestration system. MCP server + semantic memory + governed workflow.
+Cloud-first AI orchestration system. Supabase + GitHub + Edge Functions, an MCP connector, semantic memory, and a governed workflow. (A local Python MCP server + Neo4j/Ollama remain as optional offline tooling — **not** the canonical path. The Services / Python sections below describe that optional local rig.)
 
 **Authority:** Raven (John Barber) is final authority on all decisions. No autonomous self-modification.
 
@@ -81,11 +81,17 @@ This applies to every agent in every session. Claude Code is JARVIS. Not "acting
 
 - **GL7 supreme:** no expansion without simplification
 - **GL10 — Loop Primacy:** the loop is the asset. The architecture exists to strengthen `interaction → memory → compression → governance → reinjection`. Anything that does not strengthen the loop is a candidate for compression, consolidation, replacement, or removal — including a God System that, after real use, no longer measurably serves it. The decision filter above all additions: not "is this a good feature?" but "does this strengthen the loop?"
-- No autonomous self-modification
-- No silent state mutation
-- No unvalidated execution
+- **GL2:** No autonomous self-modification (JARVIS proposes, Raven commits)
+- **GL5:** No silent state mutation (every change emits an event + is logged)
+- **GL6:** No unvalidated execution (AEGIS gates high-risk actions)
 - Expansion requires `reduces_complexity=true` and `overlap_score_below=0.40`
 - Raven-Collapse is final authority on major changes
+
+> **Gold Law numbering (Rosetta).** This file names the laws invoked most: GL2, GL5,
+> GL6, GL7, GL10. `architecture/constraints.md` carries the older full GL1–GL9 contract.
+> Where a law is enforced in code, **code is ground truth** — e.g. the forbidden-edge
+> list below is enforced by `supabase/functions/jarvis-respond/router.ts` (`FORBIDDEN`),
+> which is authoritative if any doc disagrees.
 
 ---
 
@@ -100,6 +106,11 @@ Parallel: `HALO`, `MIMIR`, `BIFROST`
 Forbidden edges: `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADES`
 
 27 God Systems total. Do not redefine them. Full contracts in `chaos/chaos_seed.json`.
+
+> **Active vs dormant (per P24).** All 27 are canon and fixed, but not all are wired into
+> live routing. `CHAOS`, `POSEIDON`, `HADES`, `HERMES` currently carry a fixed tier + role
+> in `council.ts` but are **not routed** by ODIN — canonical, dormant metadata, not dead code.
+> Activating one means giving it a routing trigger (an expansion → GL7 review), not redefining it.
 
 ---
 
