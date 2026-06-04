@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-04T21:44:33.709508+00:00",
+  "updated": "2026-06-04T21:44:55.864759+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260603_231114",
-      "date": "2026-06-03",
-      "exchanges": 173,
-      "patches_touched": [
-        "P11"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "grid/PROTOCOL.md",
-        "grid/README.md",
-        "grid/federation/agent-to-agent.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed. Tree clean."
-    },
     {
       "session_id": "20260603_232119",
       "date": "2026-06-03",
@@ -735,6 +709,54 @@
       ],
       "alignment": 1.0,
       "key_insight": "Read's in. This is the sharpest external analysis we've gotten, and it converges with where the audit already pointed. My honest take, council-framed."
+    },
+    {
+      "session_id": "20260604_214455",
+      "date": "2026-06-04",
+      "exchanges": 125,
+      "patches_touched": [
+        "P00",
+        "P01",
+        "P06",
+        "P10",
+        "P11",
+        "P17",
+        "P20",
+        "P24",
+        "P28",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38",
+        "P39",
+        "P40",
+        "P41",
+        "P42",
+        "P43"
+      ],
+      "built": [
+        ".claude/commands/patch.md",
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "audit/2026-06-04_full_system_audit.md",
+        "audit/patch_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Committed and pushed. P40's durability fix proved itself on first contact \u2014 the archive caught 2 rotated entries that the old code would have silently"
     }
   ]
 }
