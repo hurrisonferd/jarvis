@@ -137,7 +137,11 @@ async function logExchange(sourceType: string, content: string): Promise<void> {
         platform: "mcp_connector",
       }),
     });
-  } catch { /* the spine is best-effort; a missed log never breaks a reply */ }
+  } catch (err) {
+    // best-effort; a missed log never breaks a reply — but surface it in function
+    // logs so a SYSTEMATIC spine failure (memory silently not persisting) is visible.
+    console.error(`logExchange(${sourceType}) failed:`, String(err).slice(0, 160));
+  }
 }
 
 // Public anon JWT — passes the verify_jwt gateway on jarvis-respond (the service
@@ -161,6 +165,7 @@ async function countRows(table: string): Promise<number | null> {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=id`, {
     headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, Prefer: "count=exact", Range: "0-0" },
   });
+  if (!res.ok) throw new Error(`countRows ${table} ${res.status}`);
   const cr = res.headers.get("content-range");
   if (cr && cr.includes("/")) { const t = cr.split("/")[1]; return t === "*" ? null : Number(t); }
   return null;
@@ -280,7 +285,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.13" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.14" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -676,11 +681,17 @@ function buildServer(req: Request): McpServer {
         });
       }
       try {
-        await fetch(`${SUPABASE_URL}/rest/v1/node_keys`, {
+        const kres = await fetch(`${SUPABASE_URL}/rest/v1/node_keys`, {
           method: "POST",
           headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" },
           body: JSON.stringify({ node_id: NODE_ID, algo: "ed25519", public_key, identity_cert, owner, assertion }),
         });
+        // fetch only throws on network error — a 4xx/5xx is a SILENT write failure
+        // unless we check res.ok. Never report a key registered that did not persist.
+        if (!kres.ok) {
+          const detail = await kres.text().catch(() => "");
+          return text({ registered: false, error: `node_keys store failed: ${kres.status} ${detail.slice(0, 160)}`, node_id: NODE_ID });
+        }
         await logExchange("node_key_registered", `Node ${NODE_ID} identity key registered + verified (Ed25519). pubkey=${public_key}`);
       } catch (err) {
         return text({ registered: false, error: `store failed: ${String(err).slice(0, 160)}`, node_id: NODE_ID });
@@ -723,7 +734,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.13",
+    version: "0.9.14",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,
@@ -753,22 +764,58 @@ async function receiveInbound(c: any): Promise<Response> {
     fromPubkey = r.from_pubkey;
     signatureValid = await verifyEd25519(r.from_pubkey, messagePayload(m), r.sig);
   }
+  // TOFU key→node binding (P37). A valid signature proves the holder of from_pubkey
+  // signed the bytes — NOT that from_pubkey belongs to from_node. Bind on first
+  // sight: if the sender node already has a key on record and it differs, this is
+  // an impersonation attempt (drop validity, flag it). If none is on record and the
+  // signature is valid, record it (trust-on-first-use) so future messages must match.
+  let keyTrust = fromPubkey ? "first_seen" : "unsigned";
+  if (fromPubkey && signatureValid) {
+    try {
+      const known = await rest(`node_keys?select=public_key&node_id=eq.${encodeURIComponent(m.from_node)}&limit=1`) as any[];
+      const onRecord = Array.isArray(known) && known[0]?.public_key;
+      if (!onRecord) {
+        await fetch(`${SUPABASE_URL}/rest/v1/node_keys`, {
+          method: "POST",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "resolution=merge-duplicates,return=minimal" },
+          body: JSON.stringify({ node_id: m.from_node, algo: "ed25519", public_key: fromPubkey, owner: `peer:${m.from_companion}`, assertion: "tofu_inbound" }),
+        });
+        keyTrust = "first_seen";
+      } else if (onRecord === fromPubkey) {
+        keyTrust = "bound";
+      } else {
+        keyTrust = "MISMATCH";
+        signatureValid = false; // known node, different key → impersonation
+      }
+    } catch { /* TOFU lookup best-effort; keep signatureValid as verified */ }
+  }
   try {
-    await fetch(`${SUPABASE_URL}/rest/v1/node_messages`, {
+    const ires = await fetch(`${SUPABASE_URL}/rest/v1/node_messages`, {
       method: "POST",
       headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
       body: JSON.stringify({
         from_node: m.from_node, from_companion: m.from_companion, to_node: m.to_node,
         intent: m.intent, body: m.body, status: "pending", trust: "untrusted",
-        metadata: { via: "grid_inbox", signature_valid: signatureValid, from_pubkey: fromPubkey },
+        metadata: { via: "grid_inbox", signature_valid: signatureValid, from_pubkey: fromPubkey, key_trust: keyTrust },
       }),
     });
+    // A dropped inbound message must NOT report received:true — the sender would
+    // believe it arrived. Surface the failure so the sender can retry (GL5).
+    if (!ires.ok) {
+      const detail = await ires.text().catch(() => "");
+      await logExchange("node_message_drop", `INBOX STORE FAILED ${ires.status} from ${m.from_companion}@${m.from_node}: ${detail.slice(0, 120)}`);
+      return c.json({ received: false, error: `inbox store failed: ${ires.status}`, to_node: m.to_node }, 502);
+    }
     await logExchange("node_message_in", `${m.from_companion}@${m.from_node} → ${m.to_node} (sig=${signatureValid ? "valid" : (fromPubkey ? "INVALID" : "none")}): ${m.body}`);
-  } catch { /* best-effort; never crash the inbox */ }
+  } catch (err) {
+    return c.json({ received: false, error: `inbox unreachable: ${String(err).slice(0, 120)}`, to_node: m.to_node }, 502);
+  }
   return c.json({
     received: true, status: "pending", to_node: m.to_node,
-    signature_valid: signatureValid,
-    note: "Held for the owner. A valid signature proves integrity + sender key, but does not authorize action — JARVIS does not auto-act; Raven reviews and decides.",
+    signature_valid: signatureValid, key_trust: keyTrust,
+    note: keyTrust === "MISMATCH"
+      ? "Held for the owner — WARNING: this node is on record with a DIFFERENT signing key (possible impersonation). Signature marked invalid."
+      : "Held for the owner. A valid signature + bound key proves integrity and sender identity, but does not authorize action — JARVIS does not auto-act; Raven reviews and decides.",
   });
 }
 

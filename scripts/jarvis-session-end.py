@@ -74,8 +74,13 @@ def store_memory(text: str, metadata: dict, tags: list[str]) -> bool:
     )
     try:
         with urllib.request.urlopen(req, timeout=8) as resp:
+            if resp.status not in (200, 201):
+                print(f"MNEMOS store: HTTP {resp.status} — session held local-only", file=sys.stderr)
             return resp.status in (200, 201)
-    except Exception:
+    except Exception as e:
+        # GL5: never silently lose a session sync. The local growth_ledger still
+        # records it, but a systematic Supabase failure must be visible, not swallowed.
+        print(f"MNEMOS store: Supabase unreachable ({e}) — session held local-only", file=sys.stderr)
         return False
 
 
