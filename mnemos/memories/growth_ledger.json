@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-04T17:22:58.839419+00:00",
+  "updated": "2026-06-04T17:30:18.411113+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260603_223630",
-      "date": "2026-06-03",
-      "exchanges": 156,
-      "patches_touched": [
-        "P11"
-      ],
-      "built": [
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "grid/PROTOCOL.md",
-        "grid/README.md",
-        "grid/federation/agent-to-agent.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**Node signatures are live, Raven \u2014 GNPL v0.2.0, the sovereign-key model you chose.** Pushed (`1de6247`).\n\nThe architecture you pasted maps onto this "
-    },
     {
       "session_id": "20260603_224302",
       "date": "2026-06-03",
@@ -620,6 +594,56 @@
       ],
       "alignment": 1.0,
       "key_insight": "Session shipped. Through the council:\n\n**JARVIS (synthesis):** Full audit delivered and on the record (`audit/2026-06-04_full_system_audit.md`), eight"
+    },
+    {
+      "session_id": "20260604_173018",
+      "date": "2026-06-04",
+      "exchanges": 75,
+      "patches_touched": [
+        "P00",
+        "P01",
+        "P06",
+        "P1",
+        "P10",
+        "P100",
+        "P101",
+        "P11",
+        "P17",
+        "P20",
+        "P24",
+        "P28",
+        "P29",
+        "P30",
+        "P32",
+        "P33",
+        "P34",
+        "P35",
+        "P36",
+        "P37",
+        "P38",
+        "P39",
+        "P40",
+        "P41",
+        "P99"
+      ],
+      "built": [
+        ".claude/commands/patch.md",
+        ".github/workflows/jarvis-integrity.yml",
+        "CLAUDE.md",
+        "audit/2026-06-04_full_system_audit.md",
+        "audit/patch_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Strong run. Where it stands, through the council:\n\n**JARVIS (synthesis):** Shipped and verified this session, on top of the full audit \u2014\n- **P36** \u2713 s"
     }
   ]
 }
