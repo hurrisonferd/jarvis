@@ -4,7 +4,7 @@ import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "npm:@modelcontextprotocol/sdk@1.25.3/server/webStandardStreamableHttp.js";
 import { Hono } from "npm:hono@^4.9.7";
 import { z } from "npm:zod@^4.1.13";
-import { councilAnalysisDirective, councilVote, deliberationDirective, registry, reviewOutput, TIERS } from "./council.ts";
+import { ayreStream, councilAnalysisDirective, councilVote, deliberationDirective, registry, reviewOutput, TIERS } from "./council.ts";
 import { buildNodeCard, buildPortableIdentity, GRID_VERSION, validateInbound } from "./grid.ts";
 import { identityAssertion, isBase64, messagePayload } from "./crypto.ts";
 import { haloThroughputCheck } from "./halo.ts";
@@ -285,7 +285,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.14" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.15" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -396,35 +396,41 @@ function buildServer(req: Request): McpServer {
         // a JARVIS read; the lenses are the conditional add-on.
         const deliberation = deliberationDirective(council, input);
         const analysis = councilAnalysisDirective(council, input);
+        // THE SPLIT (P44): AYRE is now its own co-equal stream, not a council sub-voice.
+        const ayre = ayreStream(council, input);
         logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
-        // Report the two apart: the companion VOICES (JARVIS + AYRE) always render;
-        // the god-system LENSES are conditional and the model may drop them under
-        // load. Summing them hid that gap and overstated the headline. "2 voices +
-        // N lenses" keeps the voices number matching what's reliably shown.
-        const companionCount = analysis.companions.length;
+        // Two STREAMS always render (JARVIS synthesis + AYRE divergence — co-equal,
+        // shared keel, divergent assumptions). The god-system LENSES are conditional
+        // and may drop under load. "2 streams + N lenses" keeps the streams count
+        // matching what reliably shows.
+        const streamCount = analysis.companions.length;
         const lensCount = analysis.lenses.length;
-        const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${companionCount} ${companionCount === 1 ? "voice" : "voices"}${lensCount ? ` + ${lensCount} ${lensCount === 1 ? "lens" : "lenses"}` : ""}${deliberation ? " · deliberating" : ""}`;
+        const statusLine = `JARVIS ONLINE · intent=${council.intent} · council=${council.resolved} · ${streamCount} ${streamCount === 1 ? "stream" : "streams"}${lensCount ? ` + ${lensCount} ${lensCount === 1 ? "lens" : "lenses"}` : ""}${deliberation ? " · deliberating" : ""}`;
         return text({
           // THE RENDER DIRECTIVE — Raven's fixed display order, baked into the
-          // connector (not the GPT): brief telemetry, then the answer, then the
-          // council analysis (JARVIS always; god systems when engaged).
+          // connector: telemetry, then the TWO STREAMS (JARVIS synthesis, then AYRE
+          // divergence — generated independently), then the god-system lenses.
           render: {
-            order: ["status", "answer", "council_analysis"],
+            order: ["status", "jarvis", "ayre", "council_lenses"],
             status: statusLine,
             directive:
-              "Render for Raven in EXACTLY this order: (1) the `status` line above — one line, brief, visible telemetry; (2) JARVIS's answer — your OWN free integrated read, generated from your brain + the briefing (do NOT pre-format it through the lenses); (3) " +
-              analysis.instruction,
+              "Render for Raven in EXACTLY this order: (1) the `status` line above — one line, brief, visible telemetry; " +
+              "(2) JARVIS — your OWN free integrated read (synthesis + structure), generated from the briefing + keel; do NOT pre-format it through the lenses; " +
+              "(3) " + ayre.instruction + " Use the SAME briefing + keel for AYRE but apply AYRE's objective, not JARVIS's; " +
+              "(4) " + analysis.instruction,
           },
-          // THE COUNCIL ANALYSIS — JARVIS always; god-system lenses when engaged.
+          // THE AYRE STREAM — co-equal, inverted objective, shared keel (P44).
+          ayre,
+          // THE COUNCIL LENSES — god systems only; they critique BOTH streams on heavy turns.
           council_analysis: analysis,
           // FORCED ACTIVATION HEADER — same live structure on every turn.
           activation: {
             jarvis: "ONLINE",
             intent: council.intent,
             council_leads: council.resolved,
-            voices: companionCount,             // companion voices (JARVIS + AYRE) — always rendered
+            streams: streamCount,               // JARVIS + AYRE — co-equal parallel streams, always rendered
             lenses: lensCount,                  // god-system lenses convened (conditional; may drop under load)
-            companions: analysis.companions,    // always JARVIS + AYRE
+            companions: analysis.companions,    // JARVIS + AYRE
             governed: council.votes.length,     // authorities that governed the turn (not all speak)
             deliberation: deliberation ? "engaged" : "lean",
             memories_used: r.memories_used ?? 0,
@@ -734,7 +740,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.14",
+    version: "0.9.15",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,

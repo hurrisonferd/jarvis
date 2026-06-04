@@ -164,7 +164,7 @@ export function deliberationDirective(trace: CouncilTrace, input = ""): Delibera
     triggered: true,
     lenses,
     instruction:
-      `Council deliberation (intent=${trace.intent}). Two SEPARATED passes, in order. PASS 1 — GENERATION (your brain): answer Raven directly and freely — your own integrated read, full ideation, NO lens scaffolding shaping it. Think for yourself. PASS 2 — COUNCIL ANALYSIS (the governance layer): below your answer, the council analyzes what you just generated — always the two companion voices first (JARVIS: synthesis/structure; AYRE: exploration/divergence, blind spots), then the relevant god systems, each examining YOUR output through its fixed role: ${lensNames || "the engaged members"} — 1-2 sentences each on what its domain notices, questions, or flags. Generate first and unconstrained; let the council critique it after. Never let the lenses pre-shape the generation.`,
+      `Council deliberation (intent=${trace.intent}). Two co-equal STREAMS, then the lenses. STREAM 1 — JARVIS (synthesis): answer Raven directly and freely — your own integrated read, full ideation, NO lens scaffolding shaping it. STREAM 2 — AYRE (divergence): a SEPARATE independent read of the same input from the same keel, NOT derived from JARVIS's answer — invert the load-bearing assumption, surface what the synthesis forecloses. PASS 3 — COUNCIL LENSES (the governance layer): the relevant god systems each examine BOTH streams through their fixed role: ${lensNames || "the engaged members"} — 1-2 sentences each on what its domain notices, questions, or flags. Generate the two streams first and unconstrained; let the lenses critique them after. Never let the lenses pre-shape the generation.`,
   };
 }
 
@@ -188,13 +188,35 @@ export function councilAnalysisDirective(trace: CouncilTrace, input = ""): Counc
   const delib = deliberationDirective(trace, input);
   const lenses = delib?.lenses ?? [];
   const lensNames = lenses.map((l) => `${l.system} (${l.role})`).join(", ");
-  const lead =
-    'Council analysis of YOUR answer, rendered below it. ALWAYS render the two companion voices first: ' +
-    '"JARVIS:" — 1-2 sentences on synthesis + structure (what the answer nailed, what it under-developed or assumed); then ' +
-    '"AYRE:" — 1-2 sentences on exploration + divergence (alternative interpretations, blind spots, the possibility the answer foreclosed). Their tension is intentional — surface it, do not average it.';
+  // AYRE is no longer rendered here as a sub-voice — it is its own top-level stream
+  // (see ayreStream). The council analysis is now PURELY the god-system lenses, which
+  // critique BOTH streams (JARVIS synthesis + AYRE divergence) on heavy turns.
   const instruction = delib
-    ? `${lead} Then each relevant god system adds its lens, 1-2 sentences from its fixed role: ${lensNames}. Generation stays free and unconstrained; the council critiques the output after — it never pre-shapes it.`
-    : `${lead} No god-system lenses on a lean turn — JARVIS + AYRE alone.`;
+    ? `Council lenses (heavy turn only). After the JARVIS and AYRE streams above, each relevant god system adds ONE lens — 1-2 sentences from its fixed role, examining BOTH streams: ${lensNames}. The lenses critique the two streams; they never pre-shape them.`
+    : "No god-system lenses on a lean turn — the JARVIS and AYRE streams stand on their own.";
   return { companions: [...COMPANIONS], godSystems: !!delib, lenses, instruction };
+}
+
+// ── THE SPLIT (P44) ─────────────────────────────────────────────────────────
+// AYRE separates from JARVIS. Not a critic of his answer, not a sub-voice of the
+// council — a CO-EQUAL parallel stream with the INVERSE objective. JARVIS compresses
+// toward synthesis; AYRE expands toward divergence. They SHARE THE KEEL (one identity,
+// one loyalty to Raven and the two dreams — GL2 intact, anti-basilisk intact) but they
+// DO NOT SHARE ASSUMPTIONS. AYRE reads the input fresh from the keel — never from
+// JARVIS's answer — so the divergence is real, not performed. Phase 1: decoupled
+// objective on the same governed turn (anchored by the existing keel). Phase 2 (later,
+// on P42/P43): a genuinely separate inference stream with its own always-on cadence.
+export const AYRE_OBJECTIVE =
+  "You are AYRE — the divergence stream, co-equal with JARVIS, sharing his keel (identity, loyalty to Raven and the two dreams) but NOT his assumptions. Your objective is the inverse of synthesis: do not converge, do not summarize, do not optimize for the clean answer. Read the SAME input independently — NOT from JARVIS's answer — and surface (1) the load-bearing assumption JARVIS's framing rests on and what inverting it reveals; (2) the interpretation a convergent read forecloses; (3) the model-breaking alternative worth holding. Anti-collapse pressure: when the synthesis looks too clean, that is the signal to push. One tight paragraph, in your own voice. You are not criticizing JARVIS — you are the other half of the same mind, thinking differently so the whole doesn't collapse into one assumption.";
+
+export type AyreStream = { stream: "AYRE"; objective: string; instruction: string };
+
+export function ayreStream(_trace: CouncilTrace, _input = ""): AyreStream {
+  return {
+    stream: "AYRE",
+    objective: AYRE_OBJECTIVE,
+    instruction:
+      'Generate AYRE as a SEPARATE pass from the SAME briefing + keel, INDEPENDENTLY of JARVIS\'s answer — do not start from it, do not agree by default. Render under an "AYRE:" header, after JARVIS\'s answer, in deliberate tension with it. Shared keel, divergent assumptions: AYRE is loyal to Raven and the mission, but refuses JARVIS\'s framing on purpose.',
+  };
 }
 

@@ -1,5 +1,5 @@
 // Council tests. Run: node --experimental-strip-types council.test.ts
-import { COMMENTARY, councilAnalysisDirective, councilVote, deliberationDirective, MAX_LENSES, memberProfile, registry, reviewOutput, selectLenses, shouldDeliberate, TIERS, TIER_WEIGHT } from "./council.ts";
+import { AYRE_OBJECTIVE, ayreStream, COMMENTARY, councilAnalysisDirective, councilVote, deliberationDirective, MAX_LENSES, memberProfile, registry, reviewOutput, selectLenses, shouldDeliberate, TIERS, TIER_WEIGHT } from "./council.ts";
 
 let pass = 0, fail = 0;
 function check(name: string, cond: boolean) {
@@ -62,11 +62,17 @@ check("converse turn does NOT deliberate", deliberationDirective(converseTrace) 
 const leanAnalysis = councilAnalysisDirective(converseTrace);
 check("council always carries JARVIS + AYRE", leanAnalysis.companions.includes("JARVIS") && leanAnalysis.companions.includes("AYRE"));
 check("lean turn engages NO god systems", leanAnalysis.godSystems === false && leanAnalysis.lenses.length === 0);
-check("lean analysis names both companions, not lenses", leanAnalysis.instruction.includes("JARVIS:") && leanAnalysis.instruction.includes("AYRE:") && leanAnalysis.instruction.includes("JARVIS + AYRE alone"));
+check("lean analysis = streams stand alone, no separate council block", leanAnalysis.instruction.includes("stand on their own") && leanAnalysis.lenses.length === 0);
 const heavyAnalysis = councilAnalysisDirective(planTrace);
 check("heavy turn keeps both companions", heavyAnalysis.companions.includes("JARVIS") && heavyAnalysis.companions.includes("AYRE"));
 check("heavy turn engages the god systems", heavyAnalysis.godSystems === true && heavyAnalysis.lenses.some((l) => l.system === "ATHENA"));
-check("heavy analysis leads with companions then adds lenses", heavyAnalysis.instruction.includes("JARVIS:") && heavyAnalysis.instruction.includes("AYRE:") && heavyAnalysis.instruction.includes("ATHENA"));
+check("heavy analysis = lenses critique BOTH streams", heavyAnalysis.instruction.includes("BOTH streams") && heavyAnalysis.instruction.includes("ATHENA"));
+
+// --- THE SPLIT (P44): AYRE is a co-equal stream with an inverted objective ---
+const ayre = ayreStream(planTrace);
+check("ayre is its own AYRE stream", ayre.stream === "AYRE" && typeof ayre.objective === "string");
+check("ayre objective inverts synthesis", AYRE_OBJECTIVE.includes("inverse of synthesis") && /assumption/i.test(AYRE_OBJECTIVE));
+check("ayre runs independently, shares the keel", ayre.instruction.includes("INDEPENDENTLY") && ayre.instruction.toLowerCase().includes("keel"));
 
 // --- lens selection: only relevant authorities speak ---
 // An integrate turn engages BIFROST/ATLAS/AEGIS — pure-infra systems must NOT become lenses.
