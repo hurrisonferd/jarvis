@@ -5,6 +5,10 @@
 const EMBED_URL   = Deno.env.get('EMBEDDING_API_URL') || 'https://api.openai.com/v1/embeddings';
 const EMBED_KEY   = Deno.env.get('EMBEDDING_API_KEY') || Deno.env.get('OPENAI_API_KEY');
 const EMBED_MODEL = Deno.env.get('EMBEDDING_MODEL') || 'text-embedding-3-small';
+// MUST match mnemos_memories.embedding = vector(1024) (migration 20260530). The
+// default model (text-embedding-3-small) natively outputs 1536; we request 1024
+// via the `dimensions` param so the vector fits the column. Override per provider.
+const EMBED_DIM   = Number(Deno.env.get('EMBEDDING_DIM') || '1024');
 const SB_URL      = Deno.env.get('SUPABASE_URL')!;
 const SB_KEY      = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
 
@@ -23,7 +27,7 @@ export async function embed(text: string): Promise<number[] | null> {
     const r = await fetch(EMBED_URL, {
       method: 'POST',
       headers: { Authorization: `Bearer ${EMBED_KEY}`, 'Content-Type': 'application/json' },
-      body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 8192) }),
+      body: JSON.stringify({ model: EMBED_MODEL, input: text.slice(0, 8192), dimensions: EMBED_DIM }),
     });
     if (!r.ok) {
       const detail = (await r.text().catch(() => '')).slice(0, 200);
@@ -32,7 +36,9 @@ export async function embed(text: string): Promise<number[] | null> {
     }
     const d = await r.json();
     const vec = d.data?.[0]?.embedding ?? null;
-    if (!vec) lastEmbedError = 'no_embedding_in_response';
+    if (!vec) { lastEmbedError = 'no_embedding_in_response'; return null; }
+    // Refuse a dimension mismatch loudly rather than fail the insert silently.
+    if (vec.length !== EMBED_DIM) { lastEmbedError = `dim_mismatch: model returned ${vec.length}, column is ${EMBED_DIM}`; return null; }
     return vec;
   } catch (e) { lastEmbedError = `fetch_error: ${String(e).slice(0, 160)}`; return null; }
 }

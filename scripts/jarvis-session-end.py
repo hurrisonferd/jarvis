@@ -15,6 +15,38 @@ from datetime import datetime, timezone
 
 REPO_ROOT = os.path.join(os.path.dirname(__file__), "..")
 GROWTH_LEDGER_PATH = os.path.join(REPO_ROOT, "mnemos", "memories", "growth_ledger.json")
+# P40: the ledger keeps the last N entries (headroom); rotated-out entries are
+# NOT dropped — they append here so session history is never silently lost (GL5).
+GROWTH_ARCHIVE_PATH = os.path.join(REPO_ROOT, "mnemos", "memories", "growth_archive.jsonl")
+PATCH_LEDGER_PATH = os.path.join(REPO_ROOT, "audit", "patch_ledger.json")
+
+
+def _archive_entries(dropped: list) -> None:
+    """Append rotated-out growth entries to the archive (append-only, durable)."""
+    if not dropped:
+        return
+    try:
+        with open(GROWTH_ARCHIVE_PATH, "a") as f:
+            for e in dropped:
+                f.write(json.dumps(e) + "\n")
+    except Exception as exc:
+        print(f"growth archive append failed: {exc}", file=sys.stderr)
+
+
+def _real_patch_ids() -> set:
+    """Canonical patch IDs — used to drop prose false-positives (P1/P99/P100…)
+    that the transcript regex picks up from ordinary text, not real patches."""
+    try:
+        with open(PATCH_LEDGER_PATH, "r") as f:
+            return {p["id"] for p in json.load(f).get("patches", [])}
+    except Exception:
+        return set()
+
+
+def _filter_patches(patches: list) -> list:
+    """Keep only IDs that are real patches in the ledger (when the ledger loads)."""
+    real = _real_patch_ids()
+    return [p for p in patches if p in real] if real else patches
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
@@ -108,7 +140,7 @@ def write_growth_record(session_data: dict, alignment: float) -> None:
         "session_id": now.strftime("%Y%m%d_%H%M%S"),
         "date": now.strftime("%Y-%m-%d"),
         "exchanges": session_data["exchanges"],
-        "patches_touched": session_data["patches"],
+        "patches_touched": _filter_patches(session_data["patches"]),
         "built": git_built_today(),
         "topics": session_data["topics"],
         "alignment": alignment,
@@ -117,7 +149,10 @@ def write_growth_record(session_data: dict, alignment: float) -> None:
 
     entries = ledger.get("entries", [])
     entries.append(entry)
-    entries = entries[-ledger.get("max_entries", 20):]
+    cap = ledger.get("max_entries", 20)
+    if len(entries) > cap:
+        _archive_entries(entries[:-cap])  # don't silently drop the oldest — archive it
+        entries = entries[-cap:]
     ledger["updated"] = now.isoformat()
     ledger["entries"] = entries
 
