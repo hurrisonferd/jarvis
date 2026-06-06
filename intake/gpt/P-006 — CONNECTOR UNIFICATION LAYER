@@ -1,0 +1,380 @@
+# P-006 — CONNECTOR UNIFICATION LAYER
+
+## (GitHub + Supabase + MCP Orchestration Backbone)
+
+### Purpose
+
+Create a single abstraction layer that removes direct tool fragmentation and enforces **one routing surface for all external writes/reads**:
+
+* GitHub (code + commits + repo state)
+* Supabase (memory, events, audit, execution traces)
+* MCP (tool registry + orchestration entrypoint)
+
+All systems become **targets behind a unified connector interface**, not independently invoked endpoints.
+
+---
+
+# 1. CORE PRINCIPLE
+
+### Canonical Rule
+
+> All external interaction flows through one system: **JARVIS CONNECTOR LAYER (JCL)**
+
+No direct:
+
+* Supabase client calls outside SKADI
+* GitHub API calls outside SKADI/GOD routing
+* MCP tool execution outside ODIN classification
+
+Everything is mediated.
+
+---
+
+# 2. ARCHITECTURE OVERVIEW
+
+## New Layer: JCL (Jarvis Connector Layer)
+
+```
+USER / AGENT
+    ↓
+MCP ENTRYPOINT
+    ↓
+ODIN (intent classification)
+    ↓
+AEGIS (authorization gate)
+    ↓
+KRONOS (temporal + constraint validation)
+    ↓
+SKADI (execution runtime)
+    ↓
+JCL (connector abstraction layer)
+    ↓
+    ├── Supabase Adapter
+    ├── GitHub Adapter
+    └── MCP Tool Adapter
+```
+
+---
+
+# 3. CONNECTOR ABSTRACTION MODEL
+
+## 3.1 Unified Connector Interface
+
+```ts
+interface JCLRequest {
+  trace_id: string;
+  intent: "memory" | "event" | "decision" | "patch" | "github_commit" | "query";
+  target: "supabase" | "github" | "mcp";
+  operation: "read" | "write" | "update" | "delete";
+  payload: any;
+  metadata: {
+    source: string;
+    correlation_id: string;
+    timestamp: string;
+  };
+}
+```
+
+---
+
+## 3.2 Connector Response Contract
+
+```ts
+interface JCLResponse {
+  trace_id: string;
+  success: boolean;
+  target: string;
+  result?: any;
+  error?: string;
+  routed_by: "JCL";
+}
+```
+
+---
+
+# 4. CONNECTOR ADAPTERS
+
+## 4.1 Supabase Adapter
+
+### Responsibilities
+
+* All writes to:
+
+  * mnemos_memories
+  * event_spine
+  * execution_trace
+  * decision_ledger
+  * patch_proposals
+
+### Rules
+
+* MUST attach:
+
+  * trace_id
+  * correlation_id
+* MUST pass through SKADI validation first
+
+### Output
+
+Normalized insert/update payload only (no SQL leakage upward)
+
+---
+
+## 4.2 GitHub Adapter
+
+### Responsibilities
+
+* Commits
+* Branch creation
+* PR generation
+* Patch deployment sync
+
+### Rules
+
+* All commits require:
+
+  * patch_id OR trace_id
+  * KRONOS approval stage
+* No direct git CLI calls outside adapter
+
+### Output
+
+```ts
+{
+  commit_hash,
+  branch,
+  status,
+  linked_trace_id
+}
+```
+
+---
+
+## 4.3 MCP Adapter
+
+### Responsibilities
+
+* Tool invocation registry
+* Tool routing normalization
+* External agent tool calls (Claude/Codex/GPT)
+
+### Rules
+
+* Tools must be pre-registered in ODIN registry
+* No dynamic tool invocation without classification
+
+---
+
+# 5. ODIN ROUTING EXTENSION (P-006 CHANGE)
+
+Replace fragmented routing with:
+
+```ts
+ODIN → returns:
+{
+  intent,
+  target_connector,
+  operation_type,
+  confidence,
+  fallback_route
+}
+```
+
+### Example Mapping
+
+| Intent        | Connector         |
+| ------------- | ----------------- |
+| memory        | supabase          |
+| event         | supabase          |
+| decision      | supabase          |
+| patch         | github + supabase |
+| github_commit | github            |
+| tool_call     | mcp               |
+
+---
+
+# 6. SKADI ROLE CHANGE (IMPORTANT)
+
+## BEFORE
+
+SKADI = execution runtime + direct DB writes
+
+## AFTER (P-006)
+
+SKADI = execution orchestrator ONLY
+
+### SKADI responsibilities:
+
+* validate AEGIS result
+* enrich trace_id
+* pass structured request to JCL
+* never touch external APIs directly
+
+---
+
+# 7. AEGIS INTEGRATION UPDATE
+
+Add new layer:
+
+### AEGIS Output Extended
+
+```ts
+{
+  decision: "ALLOW" | "WARN" | "BLOCK",
+  severity: "low" | "medium" | "high",
+  reasoning: string,
+  warning_log?: AEGISWarningLog,
+  suggested_route?: string
+}
+```
+
+---
+
+# 8. AEGIS WARNING LOG (NEW SYSTEM OUTPUT)
+
+Instead of blocking immediately (hybrid autonomy model):
+
+```ts
+interface AEGISWarningLog {
+  trace_id: string;
+  risk_type: string;
+  severity: "low" | "medium" | "high";
+  message: string;
+  context: any;
+  recommended_action: string;
+  emitted_to: "event_spine";
+}
+```
+
+### Behavior:
+
+* LOW → allow + log
+* MEDIUM → allow + log + flag
+* HIGH → require confirmation OR escalate to ODIN re-route suggestion
+
+---
+
+# 9. HYBRID AUTONOMY RULE (CORE CHANGE)
+
+### OLD MODEL
+
+* strict binary block/allow
+
+### NEW MODEL
+
+* allow execution
+* emit structured risk telemetry
+* optionally escalate routing suggestion
+
+This enables:
+
+* self-observation
+* system debugging
+* no execution deadlocks
+
+---
+
+# 10. EVENT FLOW AFTER P-006
+
+```
+intent → ODIN
+    → AEGIS decision + warning log
+        → KRONOS validation
+            → SKADI orchestration
+                → JCL routing
+                    → Supabase / GitHub / MCP
+                        → event_spine log (trace_id unified)
+```
+
+---
+
+# 11. TRACE UNIFICATION RULE
+
+Every action must include:
+
+```ts
+trace_id
+correlation_id
+intent
+origin_system
+target_connector
+```
+
+Single trace across:
+
+* memory
+* event spine
+* execution trace
+* github commit
+* MCP tool calls
+
+---
+
+# 12. GOVERNANCE IMPACT
+
+### GL5 reinforced
+
+No silent mutation — now enforced at connector boundary.
+
+### GL10 strengthened
+
+Loop now explicitly includes:
+ODIN → AEGIS → SKADI → JCL → External → HADES
+
+---
+
+# 13. BENEFITS
+
+### Removes:
+
+* scattered Supabase calls
+* direct GitHub API usage
+* tool-level fragmentation
+* hidden side effects
+
+### Adds:
+
+* single routing plane
+* full trace observability
+* modular adapters
+* hybrid autonomy logging (not blocking-only system)
+
+---
+
+# 14. RISKS / CONSTRAINTS
+
+### Risk
+
+Over-centralization of JCL becomes bottleneck
+
+### Mitigation
+
+* adapters remain stateless
+* SKADI remains orchestrator, not executor
+* ODIN retains routing autonomy
+
+---
+
+# 15. PATCH ID
+
+```
+P-006-CONNECTOR-UNIFICATION-LAYER
+```
+
+---
+
+# 16. IMPLEMENTATION ORDER
+
+1. Add JCL interface types
+2. Build Supabase adapter wrapper
+3. Build GitHub adapter wrapper
+4. Modify SKADI → remove direct DB writes
+5. Extend ODIN routing output schema
+6. Add AEGIS warning log emission
+7. Route all writes through JCL
+8. Verify trace_id continuity end-to-end
+
+---
+
+If you want next step:
+P-007 should likely be **“Full Trace Spine Enforcement (trace_id becomes global invariant across MCP + GitHub + Supabase + event + execution)”**
