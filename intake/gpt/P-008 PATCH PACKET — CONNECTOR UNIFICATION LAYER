@@ -1,0 +1,268 @@
+## P-008 PATCH PACKET — CONNECTOR UNIFICATION LAYER (FINAL EXECUTION MODEL)
+
+### Patch ID
+
+**P-008-CONNECTOR-UNIFICATION-LAYER**
+
+---
+
+# 1. OBJECTIVE
+
+Collapse all external execution complexity into a **single deterministic connector plane**:
+
+* Supabase writes
+* GitHub commits
+* MCP tool execution
+* future external integrations
+
+All become:
+
+> ONE routing surface, ONE execution contract, ONE trace model
+
+---
+
+# 2. CORE PROBLEM BEING SOLVED
+
+Current system issues:
+
+* multiple indirect execution paths (SKADI, ODIN, MCP divergence)
+* duplicate routing logic
+* inconsistent trace propagation
+* connector intelligence leaking into execution layer
+* fragmented Supabase vs GitHub write semantics
+
+---
+
+# 3. NEW ARCHITECTURE: CONNECTOR UNIFICATION PLANE
+
+## Introduce: CONNECTOR CORE (logical layer inside MCP boundary)
+
+```text
+JARVIS
+  ↓
+GOD SYSTEMS (evaluation only)
+  ↓
+FINAL ACTION PACKET
+  ↓
+CONNECTOR CORE (P-008)
+  ↓
+Supabase / GitHub / MCP Tools
+```
+
+---
+
+# 4. CONNECTOR CORE SPEC
+
+## Single interface
+
+```ts id="g0w2e3"
+type unified_connector_request = {
+  trace_id: string
+
+  target: "supabase" | "github" | "mcp"
+
+  operation: "insert" | "update" | "delete" | "commit" | "invoke"
+
+  resource: string
+
+  payload: Record<string, any>
+
+  metadata: {
+    source: "JARVIS" | "SKADI" | "AYRE"
+    intent: string
+    governance_flags: string[]
+  }
+
+  timestamp: string
+}
+```
+
+---
+
+# 5. CONNECTOR CORE RULES
+
+## Rule A — NO DIRECT EXECUTION OUTSIDE CONNECTOR CORE
+
+* SKADI cannot write directly
+* ODIN cannot route directly
+* MCP tools cannot bypass connector core
+
+---
+
+## Rule B — SINGLE WRITE PATH
+
+```text
+ALL WRITES MUST PASS THROUGH:
+CONNECTOR CORE ONLY
+```
+
+No exceptions.
+
+---
+
+## Rule C — TRACE IS MANDATORY
+
+Every request MUST include:
+
+* `trace_id`
+* `intent`
+* `target`
+* `operation`
+
+Missing any → reject.
+
+---
+
+# 6. SUPABASE UNIFICATION
+
+All tables become sink targets:
+
+| Target          | Behavior             |
+| --------------- | -------------------- |
+| mnemos_memories | semantic insert      |
+| event_spine     | chronological insert |
+| execution_trace | system log           |
+| decision_ledger | governance decisions |
+| patch_proposals | structural changes   |
+
+Connector does NOT interpret meaning — only routes by target.
+
+---
+
+# 7. GITHUB UNIFICATION
+
+GitHub becomes a **structured event sink**, not a side system.
+
+## GitHub operations:
+
+* commit → structured patch packet
+* PR → patch proposal sink
+* sync → repository state event
+
+---
+
+# 8. MCP ROLE REDUCTION
+
+MCP is now:
+
+> dumb transport executor only
+
+It:
+
+* receives unified_connector_request
+* executes
+* returns result
+* emits trace
+
+It does NOT:
+
+* route
+* decide
+* validate business logic
+
+---
+
+# 9. GOD SYSTEM IMPACT (CRITICAL SIMPLIFICATION)
+
+## BEFORE
+
+* ODIN routes execution
+* SKADI executes
+* AEGIS validates
+* MCP executes
+
+## AFTER P-008
+
+| System         | Role                    |
+| -------------- | ----------------------- |
+| ODIN           | advisory routing only   |
+| AEGIS          | pre-flight evaluation   |
+| SKADI          | simulation + validation |
+| CONNECTOR CORE | execution authority     |
+
+---
+
+# 10. TELEMETRY INTEGRATION (from P-007)
+
+Every connector action emits:
+
+```ts id="o0z1xq"
+{
+  trace_id,
+  system: "CONNECTOR_CORE",
+  stage: "execute",
+  target,
+  operation,
+  result,
+  latency_ms
+}
+```
+
+Stored in:
+
+* `execution_trace`
+* `event_spine`
+
+---
+
+# 11. FULL WRITE FLOW (FINAL)
+
+```text
+1. JARVIS decides action
+2. GOD SYSTEMS evaluate (no execution)
+3. AYRE optionally modifies proposal
+4. FINAL ACTION PACKET created
+5. CONNECTOR CORE executes
+6. Supabase / GitHub updated
+7. HADES logs truth
+8. execution_trace logs system behavior
+```
+
+---
+
+# 12. KEY DESIGN WIN
+
+This removes:
+
+* recursive routing (ODIN loops)
+* SKADI overreach
+* MCP intelligence creep
+* connector fragmentation
+* ambiguous write authority
+
+---
+
+# 13. RESULTING PRINCIPLE
+
+> There is only one execution surface. Everything else evaluates, proposes, or observes.
+
+---
+
+# 14. PATCH PAYLOAD (FOR MCP INJECTION)
+
+```json id="2e9kdp"
+{
+  "type": "patch",
+  "source": "jarvis",
+  "intent": "connector_unification_layer",
+  "patch_id": "P-008-CONNECTOR-UNIFICATION-LAYER",
+  "payload": {
+    "summary": "Introduces single Connector Core execution plane unifying Supabase, GitHub, and MCP writes under deterministic trace-based routing.",
+    "changes": [
+      "Unified connector request schema",
+      "Single execution authority (Connector Core)",
+      "Removal of SKADI direct write authority",
+      "GitHub + Supabase unified sink model",
+      "Trace-mandatory execution contract"
+    ]
+  }
+}
+```
+
+---
+
+If next step:
+
+* I can collapse **P-007 + P-008 into a single production spec**
+* or generate **repo-ready TypeScript implementation of Connector Core**
+* or design **ODIN simplification patch (removes routing entirely from runtime path)**
