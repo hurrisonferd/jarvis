@@ -1,0 +1,306 @@
+## P-009 PATCH PACKET — MCP INTENT COMPILER LAYER (PRODUCTION SPEC)
+
+### Patch ID
+
+**P-009-MCP-INTENT-COMPILER-LAYER**
+
+---
+
+# 1. OBJECTIVE
+
+Introduce a **single MCP-side compilation layer** that converts:
+
+> natural intent → optimized execution packet → connector-ready request
+
+This eliminates:
+
+* tool chaining
+* repeated querying
+* multi-step MCP orchestration overhead
+* fragmented retrieval logic
+
+---
+
+# 2. CORE PRINCIPLE
+
+> MCP does not execute intelligence. It compiles intent into minimal deterministic actions.
+
+---
+
+# 3. SYSTEM POSITION (CRITICAL)
+
+### BEFORE (wrong model)
+
+```text id="x91kq1"
+JARVIS → GOD SYSTEMS → MCP → tools → connectors
+```
+
+### AFTER (P-009)
+
+```text id="mcp009"
+JARVIS → GOD SYSTEMS (evaluation only)
+       → MCP INTENT COMPILER (P-009)
+       → CONNECTOR CORE (P-008)
+       → Supabase / GitHub
+```
+
+---
+
+# 4. NEW MODULE: INTENT COMPILER
+
+## Name:
+
+**MCP Intent Compiler (MIC)**
+
+---
+
+## Responsibilities
+
+### 1. Intent normalization
+
+* convert raw requests into structured intent objects
+
+### 2. Query minimization
+
+* collapse multiple tool calls into single batched requests
+
+### 3. retrieval planning (NOT execution)
+
+* decide *what must be fetched together*
+
+### 4. payload construction
+
+* build connector-ready request
+
+---
+
+## Explicit NON-RESPONSIBILITIES
+
+MIC does NOT:
+
+* decide governance (AEGIS owns this)
+* route meaning (ODIN is deprecated for runtime routing)
+* execute writes (CONNECTOR CORE does)
+* store memory (MNEMOS does)
+
+---
+
+# 5. CORE DATA STRUCTURE
+
+```ts id="p9core01"
+type compiled_intent_packet = {
+  trace_id: string
+
+  intent: string
+
+  mode: "retrieve" | "write" | "sync" | "observe"
+
+  targets: string[]
+
+  operations: {
+    supabase?: any
+    github?: any
+    mcp?: any
+  }
+
+  compression_level: "low" | "medium" | "high"
+
+  dependency_graph: string[]
+
+  metadata: {
+    source: "JARVIS" | "AYRE"
+    optimization_score: number
+  }
+
+  timestamp: string
+}
+```
+
+---
+
+# 6. COMPILATION RULES
+
+## Rule A — Multi-call collapse
+
+If more than 1 tool is needed → MUST merge into single packet.
+
+---
+
+## Rule B — No sequential MCP calls
+
+MIC outputs ONE structured request per intent cycle.
+
+---
+
+## Rule C — Dependency flattening
+
+All tool dependencies must be expressed as:
+
+```text id="flatdep"
+dependency_graph[]
+```
+
+NOT runtime chaining.
+
+---
+
+## Rule D — Connector-ready output only
+
+MIC output is FINAL before execution.
+
+No downstream interpretation allowed.
+
+---
+
+# 7. INTENT CLASSIFICATION LAYERS
+
+MIC must classify into:
+
+| Intent   | Behavior                    |
+| -------- | --------------------------- |
+| retrieve | batch reads across systems  |
+| write    | single unified write packet |
+| sync     | GitHub + Supabase alignment |
+| observe  | telemetry + state snapshot  |
+
+---
+
+# 8. TOOL COLLAPSE MODEL (KEY OPTIMIZATION)
+
+### BEFORE:
+
+* jarvis_recall
+* jarvis_query
+* jarvis_event
+* jarvis_status
+
+### AFTER:
+
+```text id="collapse1"
+1 compiled_intent_packet → MCP → result
+```
+
+MIC replaces all intermediate orchestration.
+
+---
+
+# 9. MCP ROLE REDUCTION (IMPORTANT)
+
+MCP is now split into:
+
+## A. MIC (P-009)
+
+* compiles intent
+* optimizes calls
+* builds execution packets
+
+## B. CONNECTOR CORE (P-008)
+
+* executes packet
+* writes to Supabase/GitHub
+* emits trace
+
+---
+
+# 10. PERFORMANCE MODEL
+
+## Before:
+
+* 3–12 tool calls per intent
+
+## After:
+
+* 1 compile step
+* 1 execution step
+* 1 trace emission
+
+---
+
+# 11. TELEMETRY INTEGRATION
+
+MIC MUST emit:
+
+```json id="telemp9"
+{
+  "trace_id": "...",
+  "stage": "compile",
+  "intent": "...",
+  "optimization_score": 0.0-1.0,
+  "collapsed_calls": number
+}
+```
+
+Stored in:
+
+* `execution_trace`
+* `event_spine`
+
+---
+
+# 12. GOVERNANCE ALIGNMENT
+
+| Layer          | Responsibility      |
+| -------------- | ------------------- |
+| JARVIS         | decision            |
+| AYRE           | divergence pressure |
+| GOD SYSTEMS    | evaluation          |
+| MIC (P-009)    | compilation         |
+| CONNECTOR CORE | execution           |
+
+---
+
+# 13. CORE DESIGN SHIFT
+
+> Routing is no longer a runtime process. It is a compile-time optimization.
+
+---
+
+# 14. BENEFITS
+
+### Eliminates:
+
+* MCP call bloat
+* tool chaining loops
+* redundant memory queries
+* distributed decision logic
+
+### Enables:
+
+* single-shot retrieval
+* deterministic execution graphs
+* predictable connector behavior
+* scalable system expansion without complexity increase
+
+---
+
+# 15. FINAL SYSTEM STATEMENT
+
+> MCP is no longer a mediator of tools. It is a compiler of intent into executable structure.
+
+---
+
+# 16. PATCH PAYLOAD (FOR IMPLEMENTATION)
+
+```json id="p9payload"
+{
+  "type": "patch",
+  "source": "jarvis",
+  "intent": "mcp_intent_compiler_layer",
+  "patch_id": "P-009-MCP-INTENT-COMPILER-LAYER",
+  "payload": {
+    "summary": "Introduces MCP Intent Compiler (MIC) to collapse multi-tool orchestration into single compiled execution packets for Connector Core.",
+    "changes": [
+      "Intent compilation layer added to MCP",
+      "Tool call collapse into single packet execution",
+      "Dependency graph formalization",
+      "Separation of compile vs execute responsibilities",
+      "Telemetry emission for optimization tracking"
+    ]
+  }
+}
+```
+
+---
+
+If next step:
+I can unify **P-007 + P-008 + P-009 into a single production architecture spec (v1.0 JARVIS Execution Stack)** or generate **repo-ready TypeScript MIC + Connector Core implementation**.
