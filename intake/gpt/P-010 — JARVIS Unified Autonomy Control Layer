@@ -1,0 +1,356 @@
+## P-010: JARVIS AUTONOMY + INTENT COMPILER GOVERNANCE PATCH (Production Spec)
+
+### Title
+
+**P-010 — JARVIS Unified Autonomy Control Layer (Jarvis + Ayre + God Systems + MCP Intent Compiler)**
+
+### Scope
+
+Defines how Antigravity (and any external agent) must operate inside JARVIS without:
+
+* recursive routing loops
+* system collapse
+* governance bypass
+* tool bloat
+* uncontrolled abstraction growth
+
+Establishes a **bounded autonomy model** with:
+
+* JARVIS = governance + routing + integrity
+* AYRE = expansion + adversarial ideation
+* GOD SYSTEMS = deterministic lenses (classification, enforcement, execution shaping)
+* MCP = single intent-to-tool compilation layer (no direct tool sprawl)
+
+---
+
+# 1. CORE ARCHITECTURE MODEL
+
+## 1.1 System Separation of Concerns
+
+### JARVIS (Governance Brain)
+
+Responsibilities:
+
+* routing decisions
+* system integrity enforcement
+* redundancy detection
+* schema consistency
+* connector minimization
+* traceability enforcement (GL5, GL9)
+* collapse prevention
+
+**JARVIS NEVER executes raw tool calls directly.**
+It emits structured intent.
+
+---
+
+### AYRE (Evolutionary Pressure System)
+
+Responsibilities:
+
+* propose alternative routes
+* challenge JARVIS decisions
+* generate expansion hypotheses
+* identify missing capabilities
+* stress-test governance boundaries
+
+**AYRE never writes directly to Supabase or GitHub.**
+
+---
+
+### GOD SYSTEMS (27 Lenses — Fixed Set)
+
+Responsibilities:
+
+* interpret intent through specialized perspectives
+* apply deterministic transformation rules
+* enforce domain-specific validation
+* tag routing metadata
+
+Examples of lens outputs:
+
+* ODIN → routing classification
+* KRONOS → temporal validation
+* SKADI → execution packaging
+* AEGIS → safety gating
+* MNEMOS → memory compression
+* HADES → event logging
+
+**They do NOT decide architecture. They refine intent.**
+
+---
+
+### MCP (Intent Compiler Layer)
+
+Responsibilities:
+
+* convert structured intent → minimal tool calls
+* prevent tool explosion
+* unify GitHub + Supabase + event spine writes
+* enforce single-path execution
+* deduplicate operations
+* collapse multi-step reasoning into deterministic pipelines
+
+**MCP is the ONLY execution interface layer.**
+
+---
+
+# 2. INTENT FLOW (NON-NEGOTIABLE PIPELINE)
+
+```
+USER INPUT
+   ↓
+AYRE (optional divergence signal)
+   ↓
+JARVIS (primary routing decision)
+   ↓
+GOD SYSTEM LENSES (ODIN/KRONOS/AEGIS/etc.)
+   ↓
+MCP INTENT COMPILER
+   ↓
+MINIMAL TOOL EXECUTION PLAN
+   ↓
+SKADI EXECUTION
+   ↓
+SUPABASE / GITHUB / MEMORY / EVENT SPINE
+   ↓
+HADES + MNEMOS logging
+```
+
+---
+
+# 3. HYBRID AUTONOMY MODEL
+
+## 3.1 Decision Model
+
+| Layer       | Mode                                |
+| ----------- | ----------------------------------- |
+| JARVIS      | deterministic routing + enforcement |
+| AYRE        | probabilistic expansion suggestions |
+| GOD SYSTEMS | rule-based transformation           |
+| MCP         | compilation + reduction             |
+| SKADI       | execution only                      |
+
+---
+
+## 3.2 HYBRID CONTROL RULE
+
+All decisions must pass through:
+
+> **Binary Gate + Threshold Warning System**
+
+### AEGIS behavior (P-002 alignment)
+
+* NOT hard-block everything
+* instead:
+
+  * PASS → execute
+  * WARN → log + continue
+  * HOLD → escalate to JARVIS
+
+This prevents:
+
+* over-blocking
+* recursive halting
+* connector deadlocks
+
+---
+
+# 4. MCP INTENT COMPILER (P-006 EXTENSION)
+
+## 4.1 Input Format
+
+```json
+{
+  "intent": "string",
+  "source": "jarvis | ayre | gpt | codex",
+  "type": "memory | event | decision | patch | sync | query",
+  "scope": "supabase | github | hybrid | local",
+  "payload": {}
+}
+```
+
+---
+
+## 4.2 Compilation Rules
+
+### Rule 1 — Tool Minimization
+
+* max 1 Supabase call per logical action
+* max 1 GitHub call per commit cycle
+* batch memory writes
+
+---
+
+### Rule 2 — Routing Collapse
+
+If multiple systems requested:
+
+```
+Supabase + GitHub + Memory
+→ must collapse into single SKADI transaction batch
+```
+
+---
+
+### Rule 3 — God System Fusion
+
+Instead of sequential calls:
+
+```
+ODIN → KRONOS → AEGIS → SKADI
+```
+
+MCP compiles into:
+
+```
+one execution plan with embedded metadata
+```
+
+---
+
+# 5. CONNECTOR UNIFICATION (SUPABASE + GITHUB)
+
+## 5.1 Single Write Contract
+
+ALL writes must go through:
+
+```
+MCP → SKADI → CONNECTOR ROUTER
+```
+
+Router branches internally:
+
+| Target    | Handler                  |
+| --------- | ------------------------ |
+| Supabase  | event/memory/ledger sink |
+| GitHub    | commit/push patch        |
+| MCP tools | query interface only     |
+
+---
+
+## 5.2 No Direct Writes Rule
+
+Forbidden:
+
+* direct Supabase calls outside SKADI
+* direct GitHub API calls outside MCP
+* bypassing ODIN classification
+
+Allowed:
+
+* MCP compiled execution plan only
+
+---
+
+# 6. GOD SYSTEM ROLE REBALANCE
+
+## ODIN
+
+* ONLY routing classification
+* outputs: `intent_type + sink`
+
+## AEGIS
+
+* binary gate + WARN/HOLD system
+
+## KRONOS
+
+* temporal consistency + ordering validation
+
+## SKADI
+
+* execution ONLY
+
+## MNEMOS
+
+* semantic compression + dedupe
+
+## HADES
+
+* event spine logging ONLY
+
+---
+
+# 7. ANTI-RECURSION GUARANTEE
+
+## Forbidden patterns:
+
+* MCP calling GOD SYSTEMS recursively
+* SKADI triggering ODIN again
+* AYRE writing directly to memory
+* JARVIS calling connectors directly
+
+## Hard rule:
+
+> Each layer executes ONCE per transaction cycle.
+
+---
+
+# 8. SYSTEM BLOAT CONTROL (GL7 ENFORCEMENT)
+
+Any new:
+
+* tool
+* connector
+* god system function
+
+MUST satisfy:
+
+```
+reduces_complexity == true
+overlap_score < 0.40
+```
+
+Otherwise:
+→ rejected or merged into existing system
+
+---
+
+# 9. OBSERVABILITY LAYER
+
+Every execution must emit:
+
+```json
+{
+  "trace_id": "...",
+  "system_path": "AYRE → JARVIS → ODIN → MCP → SKADI",
+  "decision": "PASS | WARN | HOLD",
+  "sink": "supabase | github",
+  "compression_ratio": float
+}
+```
+
+---
+
+# 10. INTENT OF THIS PATCH
+
+This patch establishes:
+
+* single execution brain (MCP)
+* dual cognition model (JARVIS + AYRE)
+* fixed lens system (27 GOD SYSTEMS)
+* strict execution isolation (SKADI only)
+* collapse prevention via MCP compilation
+* bounded autonomy (no recursive authority loops)
+
+---
+
+# RESULTING STATE
+
+After P-010:
+
+* JARVIS = governance + routing integrity
+* AYRE = expansion pressure system
+* GOD SYSTEMS = interpretation lenses only
+* MCP = only execution compiler
+* SKADI = only executor
+* Supabase + GitHub = downstream sinks only
+
+---
+
+If you want next step:
+
+* P-011: “Connector Compression Layer (reduce Supabase + GitHub calls by 40–70%)”
+* or
+* “Full Antigravity Deployment Packet (single paste, zero branching, full system bootstrap)”
