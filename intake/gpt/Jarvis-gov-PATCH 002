@@ -1,0 +1,228 @@
+## PATCH 002 — AEGIS HYBRID GUARD + WARNING LEDGER UPGRADE
+
+### Patch ID
+
+```yaml
+patch_id: GL-AEGIS-002
+name: AEGIS Hybrid Enforcement + Warning Ledger System
+version: 1.0.0
+stage: governance
+status: proposed
+```
+
+---
+
+# 1. PURPOSE
+
+Upgrade AEGIS from **strict binary enforcement only** → **hybrid enforcement system**:
+
+* Hard-block only on **critical violations**
+* Allow **threshold-based warnings**
+* Persist all borderline events into an **AEGIS Warning Ledger**
+* Feed SKADI + ODIN for adaptive routing without blocking flow
+
+This removes over-routing while preserving full auditability (GL5 + GL9 compliance).
+
+---
+
+# 2. CORE BEHAVIOR CHANGE
+
+## OLD MODEL (Binary AEGIS)
+
+* PASS → continue pipeline
+* FAIL → `held_by_aegis` stop execution
+
+## NEW MODEL (Hybrid AEGIS)
+
+| Severity | Action                |
+| -------- | --------------------- |
+| CRITICAL | BLOCK (held_by_aegis) |
+| HIGH     | ALLOW + LOG WARNING   |
+| MEDIUM   | ALLOW + SOFT LOG      |
+| LOW      | ALLOW + METADATA TAG  |
+
+---
+
+# 3. AEGIS WARNING LOG SCHEMA (NEW TABLE)
+
+## Table: `aegis_warning_log`
+
+```sql
+CREATE TABLE aegis_warning_log (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+
+  trace_id UUID NOT NULL,
+  correlation_id UUID,
+
+  system TEXT NOT NULL,          -- AEGIS | ODIN | SKADI caller context
+  source TEXT NOT NULL,          -- gpt | claude | raven | codex
+
+  severity TEXT NOT NULL,        -- LOW | MEDIUM | HIGH | CRITICAL
+  rule_id TEXT,                  -- GL code or policy trigger (e.g., GL7)
+
+  intent TEXT,
+
+  payload JSONB NOT NULL,
+
+  decision TEXT NOT NULL,        -- ALLOW | WARN | BLOCK
+
+  message TEXT,                  -- human-readable summary
+
+  timestamp TIMESTAMPTZ DEFAULT now()
+);
+```
+
+---
+
+# 4. AEGIS OUTPUT CONTRACT (UPDATED)
+
+## AEGIS Response Object
+
+```ts
+type AEGIS_Result = {
+  status: "PASS" | "WARN" | "BLOCK";
+
+  severity?: "LOW" | "MEDIUM" | "HIGH" | "CRITICAL";
+
+  trace_id: string;
+
+  rule_hits?: string[];
+
+  warning?: {
+    rule_id: string;
+    message: string;
+    severity: string;
+  };
+
+  metadata?: Record<string, any>;
+};
+```
+
+---
+
+# 5. SKADI CONSUMPTION MODEL
+
+## Input contract from AEGIS → SKADI
+
+SKADI now processes ALL AEGIS outcomes:
+
+### 5.1 BLOCK
+
+```ts
+if (status === "BLOCK") {
+  halt_execution();
+  write(event_spine, held_by_aegis);
+}
+```
+
+---
+
+### 5.2 WARN (NEW BEHAVIOR)
+
+```ts
+if (status === "WARN") {
+  continue_execution();
+
+  write(aegis_warning_log, {
+    trace_id,
+    severity,
+    rule_id,
+    payload,
+    decision: "WARN"
+  });
+
+  tag_execution_trace({
+    aegis_state: "WARN"
+  });
+}
+```
+
+---
+
+### 5.3 PASS
+
+```ts
+if (status === "PASS") {
+  continue_execution();
+
+  write(execution_trace, {
+    aegis_state: "PASS"
+  });
+}
+```
+
+---
+
+# 6. ODIN INTEGRATION CHANGE
+
+ODIN gains awareness of warning density:
+
+```ts
+if (warning_count(trace_id) > threshold) {
+  routing_bias = "strict_review_mode";
+}
+```
+
+This enables adaptive routing WITHOUT blocking execution.
+
+---
+
+# 7. GOD SYSTEM IMPACT MATRIX
+
+| System  | Change                               |
+| ------- | ------------------------------------ |
+| AEGIS   | Gains hybrid warning layer           |
+| SKADI   | Consumes WARN instead of ignoring    |
+| ODIN    | Gains risk-weighted routing bias     |
+| MNEMOS  | Can index warning patterns           |
+| HUGINN  | Can surface systemic rule violations |
+| NEMESIS | Uses warning logs for audits         |
+
+---
+
+# 8. GOLD LAW ALIGNMENT
+
+* **GL5 (no silent mutation):** warnings are fully logged
+* **GL7 (no over-complexity):** replaces binary branching explosion
+* **GL9 (traceability):** every WARN has trace_id linkage
+* **GL10 (loop primacy):** feedback loop strengthens self-awareness instead of blocking flow
+
+---
+
+# 9. DESIGN INTENT (IMPORTANT)
+
+This patch shifts JARVIS from:
+
+> “gatekeeper system”
+
+to:
+
+> “self-observing governance system”
+
+Meaning:
+
+* fewer hard stops
+* more internal intelligence feedback
+* better long-term routing calibration
+* no loss of safety enforcement
+
+---
+
+# 10. DEPLOY CHECKLIST
+
+* [ ] Create `aegis_warning_log` table
+* [ ] Update AEGIS evaluator
+* [ ] Add WARN branch in SKADI handler
+* [ ] Add ODIN warning counter hook
+* [ ] Add trace_id propagation enforcement
+* [ ] Add audit mapping in HADES
+
+---
+
+If you want next step:
+
+**Patch 003 options:**
+
+1. ODIN routing intelligence upgrade (adaptive routing weights)
+2. SKADI execution graph simplification (reduce internal hops)
+3. Unified “God System Registry Layer” (single lookup plane for all systems)
