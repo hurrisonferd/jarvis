@@ -1,0 +1,470 @@
+Corrected canonical registry (27 systems including CHAOS)
+
+### FULL GOD SYSTEM REGISTRY (27)
+
+#### Core Pipeline (8)
+
+1. AYRE — intake / reflection stream
+2. AEGIS — permission + safety gating
+3. ODIN — intent routing + classification
+4. KRONOS — temporal sequencing + patch governance
+5. SKADI — execution runtime (writes + dispatch)
+6. MNEMOS — semantic memory (meaning layer)
+7. HUGINN — retrieval + observability + reconciliation
+8. CHAOS — entropy + system drift generator / seed state controller
+
+---
+
+#### Orchestration / Interface Systems (5)
+
+9. BIFROST — node + cross-system communication bridge
+10. HALO — conversational intent router (default entry intelligence)
+11. ATHENA — planning + decomposition engine
+12. NEMESIS — audit + consistency enforcement
+13. APOLLO — rendering + output shaping layer
+
+---
+
+#### Governance / Routing / Utility Layer (9)
+
+14. LOKI — rollback + mutation control
+15. MERIDIAN — cross-system alignment + normalization
+16. DANTE — constraint enforcement + edge-case containment
+17. ATLAS — infrastructure + system topology map
+18. HERMES — translation + protocol conversion (MCP ↔ external)
+19. IRIS — integrity verification + anomaly detection
+20. PROMETHEUS — decision ledger + foresight logging
+21. ARGUS — monitoring + continuous surveillance layer
+22. JANUS — dual-state comparison (before/after, fork detection)
+
+---
+
+#### Cosmic / Meta Systems (5)
+
+23. ERIS — entropy balancing + unpredictability shaping
+24. ZEUS — emergency override + system-wide halt authority
+25. POSEIDON — lossless state preservation + recovery snapshots
+26. HADES — immutable event spine + chronological truth layer
+27. MIMIR — deep recall + compressed wisdom extraction
+
+---
+
+# FUNCTION MAP + UPGRADED CONNECTOR ROLES (Supabase / GitHub / MCP)
+
+Below is the **actual functional role split + proposed upgrades for connector orchestration, routing, and sync coherence**.
+
+---
+
+## CORE PIPELINE (Critical Data Flow)
+
+### AYRE
+
+**Current function:** intake + reflection parsing
+**Upgrade:**
+
+* Normalize all inbound MCP/GPT/Codex payloads into unified event schema
+* Pre-tag: `intent`, `source`, `confidence`, `routing_hint`
+* Emit to ODIN-ready packet
+
+---
+
+### AEGIS
+
+**Current:** safety + permission gating
+**Upgrade (connectors):**
+
+* Unified “Write Authorization Token Filter”
+* Enforce:
+
+  * Supabase writes
+  * GitHub commits
+  * MCP tool calls
+* Emit:
+
+  * `aegis_warning_log` (non-blocking hybrid mode)
+* Supports **hybrid mode (your decision):**
+
+  * BLOCK (critical paths)
+  * WARN+LOG (soft violations for learning + drift tracking)
+
+---
+
+### ODIN
+
+**Current:** routing engine
+**Upgrade (IMPORTANT):**
+
+* Single routing plane for:
+
+  * Supabase sink selection
+  * GitHub action routing
+  * MCP tool selection
+* Adds:
+
+  * `routing_confidence_score`
+  * `dual-route suggestion (primary + fallback)`
+* Can emit:
+
+  * “over-route warning” instead of blocking
+
+---
+
+### KRONOS
+
+**Current:** temporal + patch ordering
+**Upgrade:**
+
+* GitHub commit sequencing authority
+* Supabase event ordering validator
+* Adds:
+
+  * `patch_id normalization`
+  * `time-collision resolver`
+* Ensures deterministic replay from event_spine
+
+---
+
+### SKADI
+
+**Current:** execution runtime
+**Upgrade (CONNECTOR CORE):**
+
+* Single execution gateway for:
+
+  * Supabase writes
+  * GitHub commits
+  * MCP tool execution
+* Responsibilities:
+
+  * Converts ODIN decision → actual API call
+  * Attaches `trace_id` everywhere
+  * Writes:
+
+    * execution_trace
+    * event_spine
+    * github_commit_log
+* Must enforce:
+
+  * “no side-effect without trace”
+
+---
+
+### MNEMOS
+
+**Current:** semantic memory
+**Upgrade:**
+
+* Dual-write mode:
+
+  * structured memory (facts)
+  * compressed memory (summary nodes)
+* Adds:
+
+  * cross-repo semantic linking (GitHub ↔ Supabase)
+* Connector role:
+
+  * “why did this change happen?”
+
+---
+
+### HUGINN
+
+**Current:** observability + reconciliation
+**Upgrade:**
+
+* Cross-system diff engine:
+
+  * Supabase vs GitHub vs MCP drift detection
+* Outputs:
+
+  * inconsistency reports
+  * missing trace detection
+* Becomes:
+
+  * “truth reconciliation layer”
+
+---
+
+## ORCHESTRATION LAYER
+
+### BIFROST
+
+**Upgrade:**
+
+* MCP bridge router
+* Routes:
+
+  * GPT ↔ Supabase
+  * Codex ↔ GitHub
+  * Claude ↔ audit layer
+* Adds:
+
+  * protocol translation caching
+
+---
+
+### HALO
+
+**Upgrade:**
+
+* intent pre-classifier before ODIN
+* reduces ODIN load by ~30–50%
+* adds:
+
+  * “human ambiguity resolution buffer”
+
+---
+
+### ATHENA
+
+**Upgrade:**
+
+* turns ODIN output into execution plan graph
+* generates:
+
+  * multi-step GitHub PR plans
+  * Supabase migration sequences
+
+---
+
+### NEMESIS
+
+**Upgrade:**
+
+* schema + behavior auditor
+* detects:
+
+  * illegal write patterns
+  * silent mutation paths
+* produces:
+
+  * governance violation ledger
+
+---
+
+### APOLLO
+
+**Upgrade:**
+
+* output formatting layer
+* ensures:
+
+  * GitHub PR formatting consistency
+  * Supabase payload normalization
+* enforces “clean human-readable diff output”
+
+---
+
+## GOVERNANCE LAYER
+
+### LOKI
+
+**Upgrade:**
+
+* rollback engine for:
+
+  * GitHub commits
+  * Supabase migrations
+* adds:
+
+  * automatic revert suggestion generation
+
+---
+
+### MERIDIAN
+
+**Upgrade:**
+
+* system-wide normalization:
+
+  * schema alignment between GitHub/Supabase/MCP
+* prevents drift between representations
+
+---
+
+### DANTE
+
+**Upgrade:**
+
+* hard constraint firewall:
+
+  * blocks invalid connector sequences
+* ensures:
+
+  * no SKADI direct bypass
+
+---
+
+### ATLAS
+
+**Upgrade:**
+
+* system topology registry
+* maps:
+
+  * repo → tables → MCP tools → agents
+
+---
+
+### HERMES
+
+**Upgrade:**
+
+* connector translator:
+
+  * GitHub API ↔ MCP format
+  * Supabase RPC ↔ event_spine writes
+
+---
+
+### IRIS
+
+**Upgrade:**
+
+* anomaly detection:
+
+  * schema mismatch detection
+  * unexpected write patterns
+* triggers HUGINN reconciliation
+
+---
+
+### PROMETHEUS
+
+**Upgrade:**
+
+* decision ledger authority
+* logs:
+
+  * why ODIN chose a route
+  * why SKADI executed it
+
+---
+
+### ARGUS
+
+**Upgrade:**
+
+* real-time system monitor:
+
+  * Supabase health
+  * GitHub sync state
+  * MCP latency tracking
+
+---
+
+### JANUS
+
+**Upgrade:**
+
+* diff engine:
+
+  * before/after system state comparison
+* detects:
+
+  * silent state mutation (GL5 enforcement aid)
+
+---
+
+## COSMIC / META LAYER
+
+### ERIS
+
+**Upgrade:**
+
+* controlled entropy injection:
+
+  * tests routing robustness
+* used only in simulation mode
+
+---
+
+### ZEUS
+
+**Upgrade:**
+
+* emergency shutdown:
+
+  * disables SKADI writes
+  * locks GitHub pushes
+
+---
+
+### POSEIDON
+
+**Upgrade:**
+
+* full system snapshot:
+
+  * Supabase + GitHub state freeze
+* recovery anchor
+
+---
+
+### HADES
+
+**Upgrade (CRITICAL):**
+
+* immutable event spine authority
+* single source of truth for:
+
+  * all connector writes
+  * all MCP actions
+* becomes replay engine core
+
+---
+
+### MIMIR
+
+**Upgrade:**
+
+* distilled knowledge layer:
+
+  * compresses MNEMOS + HADES into “decision wisdom”
+* used for ODIN optimization
+
+---
+
+# KEY ARCHITECTURE IMPROVEMENT (IMPORTANT)
+
+## CURRENT ISSUE YOU IDENTIFIED
+
+> too many calls, too many routing hops, unclear execution boundaries
+
+## FIX: HYBRID CONTROL MODEL
+
+### BEFORE
+
+ODIN → many systems → unclear execution chain
+
+### AFTER (CLEAN MODEL)
+
+**TWO LAYERS ONLY**
+
+### LAYER 1: INDEXING (LIGHT)
+
+* HALO
+* MNEMOS
+* HUGINN
+* PROMETHEUS
+
+### LAYER 2: EXECUTION (HEAVY)
+
+* ODIN (decision)
+* SKADI (execution)
+* AEGIS (gate)
+* KRONOS (order)
+
+### EVERYTHING ELSE = SUPPORT / DIAGNOSTICS
+
+---
+
+# RESULTING SYSTEM BEHAVIOR
+
+* ODIN decides ONCE
+* SKADI executes ONCE
+* AEGIS warns OR blocks OR logs (hybrid mode)
+* HADES records EVERYTHING
+* HUGINN reconciles drift after execution
+
+No recursive routing loops. No over-call explosion.
