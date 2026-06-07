@@ -1,0 +1,246 @@
+RESPONSE
+
+That's actually a much stronger approach than trying to make Unity AI "understand the entire game."
+
+What you're describing is closer to building a game knowledge base than a prompt library.
+
+Instead of:
+
+Human
+→ Massive Prompt
+→ Unity AI
+→ Hope
+
+You get:
+
+Learning
+→ Organized Knowledge
+→ Implementation Package
+→ Unity AI
+→ Validation
+→ Commit
+
+The important shift is that Unity AI stops being the architect.
+
+It becomes the implementer.
+
+
+---
+
+A possible structure:
+
+GameLearning/
+├── Combat/
+│   ├── LockOn.md
+│   ├── TargetSelection.md
+│   ├── ProjectileSystems.md
+│
+├── UI/
+│   ├── Garage.md
+│   ├── Radar.md
+│   ├── ArenaMenu.md
+│
+├── AI/
+│   ├── StateMachines.md
+│   ├── BehaviorTrees.md
+│   ├── ArenaOpponents.md
+│
+├── Movement/
+│   ├── HoverMovement.md
+│   ├── ACMovement.md
+│
+└── References/
+
+Then:
+
+Projects/
+└── FormulaFront/
+    ├── Design/
+    ├── Systems/
+    ├── Tasks/
+    └── Scripts/
+
+
+---
+
+The real value is storing decisions, not just scripts.
+
+For example:
+
+Combat/LockOn.md
+
+Decision:
+Soft-lock system
+
+Reason:
+Feels more like AC6 than AC1
+
+Alternatives:
+Hard lock
+Manual aim
+
+Chosen:
+Soft lock
+
+Status:
+Approved
+
+Later Unity AI can generate code from that.
+
+The decision survives even if the code changes.
+
+
+---
+
+For scripts:
+
+Scripts/
+├── Active
+├── Deprecated
+├── Experimental
+└── Archive
+
+Never delete immediately.
+
+Move to:
+
+Archive/
+
+until you're certain.
+
+AI systems are notorious for reintroducing old problems if historical context disappears.
+
+
+---
+
+For Unity AI specifically, I'd go one step further.
+
+Instead of feeding documents directly:
+
+Task Package
+
+Objective:
+Create modular mech stat system.
+
+Requirements:
+- Weight
+- EN Load
+- AP
+- Expandable
+
+Constraints:
+- No singleton
+- No inheritance chain deeper than 2
+
+References:
+Design/MechStats.md
+
+Output:
+Scripts only
+
+This dramatically improves consistency because the AI receives:
+
+1. Goal
+
+
+2. Constraints
+
+
+3. Existing decisions
+
+
+4. Desired output
+
+
+
+rather than a giant wall of context.
+
+
+---
+
+JARVIS ANALYSIS
+
+Current pattern:
+
+Knowledge
+↓
+Prompt
+↓
+Generation
+
+Proposed pattern:
+
+Knowledge
+↓
+Structured Repository
+↓
+Task Package
+↓
+Generation
+↓
+Validation
+↓
+Repository Update
+
+Advantages:
+
+Traceable
+
+Auditable
+
+Reusable
+
+Model-agnostic
+
+Lower context requirements
+
+
+Most importantly:
+
+Learning persists
+Models change
+
+The repository becomes the durable asset.
+
+Unity AI, GPT, Claude, Gemini, Codex, and future systems can all consume the same implementation packages.
+
+This aligns with JARVIS Gold Law goals of traceability, externalized continuity, and reduction of prompt complexity.
+
+
+---
+
+AYRE ANALYSIS
+
+An interesting evolution is storing patterns rather than projects.
+
+Example:
+
+Patterns/
+├── LockOnPattern
+├── InventoryPattern
+├── DialoguePattern
+├── QuestPattern
+├── ArenaPattern
+└── SaveSystemPattern
+
+Then a new game becomes:
+
+Game
+=
+Selected Patterns
++
+Configuration
+
+Over years of development, you would accumulate a personal game-development corpus.
+
+The result is less:
+
+Build Game
+
+and more:
+
+Assemble Proven Systems
+
+At that point Unity AI is not inventing solutions.
+
+It is reconstructing implementations from a growing library of validated knowledge, decisions, and patterns that Raven has accumulated across projects.
