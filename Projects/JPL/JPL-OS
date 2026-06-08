@@ -1,0 +1,277 @@
+[JPL-OS::SYSTEM_BOOTSTRAP_v0.1]
+
+PURPOSE:
+JPL-OS is a deterministic graph IR operating system for:
+- cross-model translation (GPT / Gemini / Claude)
+- structural diffing of semantic graphs
+- entropy + compression benchmarking
+- versioned ontology evolution (JPL Codec)
+
+PRIMARY PRINCIPLES:
+- no natural-language dependency inside kernel
+- all meaning = graph primitives
+- all outputs = diff-computable structures
+- all state = externalized (Supabase)
+- all execution = traceable (GitHub + MCP logs)
+
+------------------------------------------------------------
+1. CORE ARCHITECTURE (YGGDRASIL LAYER MAP)
+------------------------------------------------------------
+
+JPL_ROOT (System Spine)
+│
+├── JARVIS_GOVERNANCE_LAYER
+│   ├── validation_rules
+│   ├── gold_laws (JPL-Gold)
+│   ├── schema_integrity_checks
+│   ├── mutation_control (no silent overwrite)
+│   └── version authorization (semantic locks)
+│
+├── YGGDRASIL_MEMORY_LAYER
+│   ├── index_registry (canonical node/edge registry)
+│   ├── graph_state_store
+│   ├── model_output_archive
+│   ├── diff_history_log
+│   └── entropy_metrics_store
+│
+├── JPL_CODEC_LAYER
+│   ├── tokenizer (entity/event/state extractor)
+│   ├── λ-compression engine
+│   ├── Ξ-layer graph builder
+│   ├── OCE ontology mapper
+│   └── normalization pipeline
+│
+├── JPL_DIFF_ENGINE
+│   ├── node_diff (ΔNODE)
+│   ├── edge_diff (ΔEDGE)
+│   ├── graph_diff (ΔGRAPH)
+│   ├── convergence score (C_cross)
+│   └── entropy divergence (HΔ)
+│
+├── MCP_RUNTIME_SERVER
+│   ├── execution bus (tool router)
+│   ├── model connectors (GPT / Gemini / Claude adapters)
+│   ├── job queue (async evaluations)
+│   ├── test harness runner
+│   └── validation hooks
+│
+└── SUPABASE_STATE_LAYER
+    ├── persistent graph DB
+    ├── versioned JPL packets
+    ├── model outputs
+    ├── diff results
+    └── telemetry logs
+
+------------------------------------------------------------
+2. SUPABASE SCHEMA (CANONICAL)
+------------------------------------------------------------
+
+TABLE: jpl_nodes
+- id (uuid, pk)
+- node_id (text, unique)           // N01 format
+- name (text)
+- type (text)                      // ENTITY | EVENT | STATE | BOUNDARY
+- vector (jsonb)                   // compressed attributes
+- model_origin (text)              // gpt | gemini | claude
+- version (int)
+- created_at (timestamp)
+
+TABLE: jpl_edges
+- id (uuid)
+- from_node (text)
+- to_node (text)
+- relation (text)                  // CLOSED SET ONLY
+- layer (int)                     // Ξ index
+- model_origin (text)
+- version (int)
+
+TABLE: jpl_legends
+- id (uuid)
+- λ_id (text)
+- definition (jsonb)
+- immutability_lock (bool)
+
+TABLE: jpl_graph_runs
+- id (uuid)
+- input_hash (text)
+- model (text)
+- execution_trace (jsonb)
+- entropy_score (float)
+- compression_score (float)
+- convergence_score (float)
+
+TABLE: jpl_diffs
+- id (uuid)
+- run_a (uuid)
+- run_b (uuid)
+- delta_node (jsonb)
+- delta_edge (jsonb)
+- delta_graph (jsonb)
+- c_cross (float)
+
+TABLE: jpl_index_registry  (YGGDRASIL CORE MIRROR)
+- id (uuid)
+- canonical_key (text)
+- node_ref (text)
+- embedding_hash (text optional)
+- frequency_weight (float)
+- stability_score (float)
+- last_seen_model (text)
+
+------------------------------------------------------------
+3. GITHUB REPO STRUCTURE (JPL-OS)
+------------------------------------------------------------
+
+/jpl-os
+│
+├── /core
+│   ├── codec_engine.ts
+│   ├── lexer_jpl.ts
+│   ├── lambda_compressor.ts
+│   ├── xi_graph_builder.ts
+│   ├── oce_mapper.ts
+│   └── normalization.ts
+│
+├── /diff
+│   ├── node_diff.ts
+│   ├── edge_diff.ts
+│   ├── graph_diff.ts
+│   ├── convergence.ts
+│   └── entropy.ts
+│
+├── /mcp-server
+│   ├── server.ts
+│   ├── router.ts
+│   ├── job_queue.ts
+│   ├── model_adapter_gpt.ts
+│   ├── model_adapter_gemini.ts
+│   ├── model_adapter_claude.ts
+│   └── hooks/
+│
+├── /supabase
+│   ├── schema.sql
+│   ├── migrations/
+│   ├── policies/
+│   └── triggers/
+│
+├── /jarvis
+│   ├── governance_engine.ts
+│   ├── gold_laws.ts
+│   ├── validation.ts
+│   └── mutation_guard.ts
+│
+├── /yggdrasil
+│   ├── index_registry.ts
+│   ├── graph_memory.ts
+│   ├── state_sync.ts
+│   └── stability_scoring.ts
+│
+├── /benchmarks
+│   ├── corpus_loader.ts
+│   ├── test_vectors/
+│   ├── translation_tests.ts
+│   └── diff_suite.ts
+│
+├── /metrics
+│   ├── entropy.ts
+│   ├── compression.ts
+│   ├── convergence.ts
+│   └── token_efficiency.ts
+│
+└── /contracts
+    ├── jpl_codec_v1.json
+    ├── relation_set.json
+    ├── node_schema.json
+    └── validation_rules.json
+
+------------------------------------------------------------
+4. MCP SERVER DESIGN (PRODUCTION)
+------------------------------------------------------------
+
+ENDPOINTS:
+
+POST /ingest
+- input: raw text OR JPL packet
+- output: normalized JPL graph
+
+POST /translate/gpt
+POST /translate/gemini
+POST /translate/claude
+- output: JPL graph
+
+POST /diff
+- input: graph_a, graph_b
+- output: ΔNODE, ΔEDGE, C_cross
+
+POST /benchmark/run
+- executes corpus across models
+- stores in Supabase
+
+POST /metrics/entropy
+- returns H(X), E_struct, C_eff
+
+POST /registry/sync
+- syncs YGGDRASIL index_registry with Supabase
+
+------------------------------------------------------------
+5. JARVIS GOVERNANCE RULESET (HARD LOCK)
+------------------------------------------------------------
+
+GL1: No schema mutation without version bump
+GL2: No node renaming across versions
+GL3: All graphs must be DAG unless explicitly marked LOOP_UNROLL
+GL4: No implicit semantic inference in MCP layer
+GL5: All outputs must be diff-computable
+GL6: All model outputs must be traceable to source run_id
+GL7: No silent registry overwrite (YGGDRASIL lock)
+GL8: Supabase is source-of-record for all persistence
+
+------------------------------------------------------------
+6. YGGDRASIL INDEX REGISTRY BEHAVIOR
+------------------------------------------------------------
+
+- Every node is hashed into canonical_key
+- Frequency increases stability_score
+- Cross-model recurrence increases weight
+- Divergence across models decreases trust_score
+- Nodes with high variance become "unstable primitives"
+
+------------------------------------------------------------
+7. SHANNON LAYER (INTEGRATED METRICS)
+
+H(X) = entropy of node distribution
+H(E) = entropy of edge distribution
+
+Compression Efficiency:
+C_eff = (unique_semantic_units / total_tokens) * (1 / H(X))
+
+Cross-model stability:
+S_model = 1 - normalized variance across translations
+
+------------------------------------------------------------
+8. SYSTEM OBJECTIVE FUNCTION
+
+Maximize:
+- C_cross (model agreement)
+- C_eff (compression efficiency)
+- S_model (stability across models)
+
+Minimize:
+- ΔGRAPH divergence
+- entropy explosion
+- token redundancy
+
+------------------------------------------------------------
+9. MCP + SUPABASE AUTONOMY LOOP
+
+LOOP:
+input → MCP ingest → JPL graph →
+translate models →
+store outputs →
+diff engine →
+update registry →
+reweight nodes →
+retrain compression heuristics (offline)
+
+------------------------------------------------------------
+END JPL-OS BOOTSTRAP SPEC
