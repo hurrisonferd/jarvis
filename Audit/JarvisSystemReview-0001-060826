@@ -1,0 +1,430 @@
+### Status
+
+`jarvis_query` execution failed (`MCP -32602 invalid_type: missing table field`). Connector mismatch in request schema. No retrieval layer data returned.
+
+Proceeding with **manual system review based on current canonical JARVIS architecture provided in-context**.
+
+---
+
+# JARVIS SYSTEM REVIEW — CORE ARCHITECTURE AUDIT
+
+## 1. Current Structural Problem (High Confidence)
+
+The system is no longer failing at execution level.
+
+It is failing at **role boundary clarity + connector minimality**.
+
+Primary issue:
+
+> Too many systems are partially responsible for routing, logging, and interpretation simultaneously.
+
+This creates:
+
+* duplicate decision surfaces
+* schema drift (seen in execution_trace + SKADI mismatch earlier)
+* ODIN overload (classification + routing + heuristics creep)
+* MCP ambiguity (tool discovery vs transport vs indexing confusion)
+
+---
+
+# 2. SYSTEM-BY-SYSTEM AUDIT
+
+## AYRE (Intake Layer)
+
+### Current role
+
+* Input reflection stream
+* feeds ODIN
+
+### Problem
+
+* lightly defined boundary between:
+
+  * intake normalization
+  * intent shaping
+  * early routing hints
+
+### Fix
+
+**Strict redefine:**
+
+AYRE should ONLY:
+
+* normalize input
+* attach metadata
+* emit raw intent signal
+
+Remove:
+
+* any implicit routing suggestion logic
+
+### Result
+
+* cleaner ODIN input distribution
+* eliminates early-stage bias injection
+
+---
+
+## ODIN (Intent Classification Layer)
+
+### Current role
+
+* intent classification + partial routing (drifting into decision layer)
+
+### Problem
+
+ODIN is becoming:
+
+* classifier + router + heuristic optimizer
+
+This violates single-responsibility principle.
+
+### Fix (critical)
+
+ODIN must be:
+
+> PURE CLASSIFIER ONLY
+
+Outputs:
+
+```json
+{
+  "intent": "...",
+  "confidence": 0-1,
+  "tags": [],
+  "suggested_domain": []
+}
+```
+
+NO routing decisions.
+NO system selection authority.
+
+---
+
+## MCP (Connector / Tool Layer)
+
+### Current role
+
+* tool registry + transport + partial indexing ambiguity
+
+### Problem
+
+MCP is currently doing 3 roles:
+
+* connector bus
+* tool registry
+* partial execution proxy (indirectly via SKADI coupling)
+
+### Fix
+
+Split conceptual responsibilities (without adding systems):
+
+MCP becomes ONLY:
+
+> TOOL DISCOVERY + TRANSPORT LAYER
+
+It should NOT:
+
+* decide tools
+* rank tools
+* interpret tools
+
+---
+
+## AEGIS (Governance Layer)
+
+### Current role
+
+* hard gate safety + write protection
+
+### Strength
+
+This is the **only cleanly bounded system in architecture**
+
+### Risk
+
+AEGIS is being overloaded with:
+
+* warning logic
+* telemetry concerns (from ODIN experiments)
+* partial logging expectations
+
+### Fix
+
+AEGIS must remain:
+
+> PURE BINARY GATE ONLY
+
+Outputs:
+
+* PASS
+* HOLD
+* BLOCK
+
+NO logging decisions.
+NO observability logic.
+
+Logging belongs elsewhere (SKADI/HADES layer).
+
+---
+
+## KRONOS (Temporal / Governance Sequencing)
+
+### Current role
+
+* patch governance + ordering constraints
+
+### Problem
+
+Underused, partially bypassed by SKADI direct execution patterns
+
+### Fix
+
+KRONOS should become:
+
+> PRE-SKADI VALIDATION LAYER FOR ALL MUTATIONS
+
+Enforce:
+
+* ordering
+* patch dependency graph validation
+* mutation eligibility
+
+---
+
+## SKADI (Execution Layer)
+
+### Current role
+
+* execution runtime + logging + partial routing metadata injection
+
+### Problem (major)
+
+SKADI currently does:
+
+* execution
+* logging
+* trace generation
+* schema adaptation (seen in recent fixes)
+
+This is too much.
+
+### Fix
+
+SKADI must be:
+
+> PURE EXECUTION ENGINE ONLY
+
+Responsibilities:
+
+* execute resolved instruction
+* return raw result
+* emit execution trace event (no interpretation)
+
+NO:
+
+* schema correction
+* routing decisions
+* log structuring logic
+
+---
+
+## MNEMOS (Semantic Memory)
+
+### Current role
+
+* memory store + vectorized meaning + governance memory overlap
+
+### Problem
+
+MNEMOS currently stores:
+
+* semantic memory
+* governance decisions
+* system logs (partial leakage from event spine)
+
+### Fix
+
+Strict partition:
+
+MNEMOS must ONLY store:
+
+* meaning
+* interpretation
+* learned associations
+
+NEVER:
+
+* execution logs
+* system traces
+* raw events
+
+---
+
+## HADES / EVENT_SPINE (Chronology Layer)
+
+### Current role
+
+* event logging + partial execution trace storage
+
+### Problem
+
+Currently overlapping with:
+
+* execution_trace
+* audit_log
+* SKADI logs
+
+### Fix
+
+HADES becomes:
+
+> SINGLE CHRONOLOGICAL SOURCE OF TRUTH
+
+All events must flow here:
+
+* system events
+* execution events
+* routing decisions (optional metadata only)
+
+---
+
+## MCP + ODIN + UGSRL (Routing Stack)
+
+### Current issue
+
+Routing is split across:
+
+* ODIN (classification)
+* MCP (tool discovery)
+* experimental UGSRL (lookup plane)
+
+### Core structural flaw
+
+No single authority for:
+
+> "what system handles this intent?"
+
+### Fix (minimal change, high impact)
+
+Introduce conceptually:
+
+### UGSRL = PRIMARY ROUTING RESOLUTION LAYER
+
+But constrained:
+
+* UGSRL = lookup + suggestion
+* ODIN = classification only
+* MCP = tool registry only
+
+Final routing rule:
+
+> UGSRL proposes → SKADI executes → AEGIS gates
+
+No recursion loops.
+
+---
+
+# 3. SYSTEMIC FAILURE PATTERN IDENTIFIED
+
+## Root Cause
+
+You currently have:
+
+> “multi-system partial responsibility overlap”
+
+Specifically:
+
+* routing is shared
+* logging is shared
+* schema enforcement is shared
+
+This causes:
+
+* silent drift
+* schema mismatches (seen in execution_trace issue)
+* connector desync (GPT tool failure symptom)
+
+---
+
+# 4. RECOMMENDED SIMPLIFICATION MODEL (IMPORTANT)
+
+## Clean execution pipeline:
+
+```
+AYRE → ODIN → UGSRL → AEGIS → KRONOS → SKADI → HADES
+```
+
+## Strict roles:
+
+* AYRE = input normalization
+* ODIN = classification only
+* UGSRL = routing resolution only (suggest + select)
+* AEGIS = safety gate only
+* KRONOS = ordering validation
+* SKADI = execution only
+* HADES = final event truth
+* MNEMOS = semantic memory only
+
+---
+
+# 5. KEY IMPROVEMENT OPPORTUNITIES
+
+## A. Remove dual-responsibility systems
+
+Anything doing 2 jobs should be split logically.
+
+## B. Enforce “no interpretation inside execution layer”
+
+SKADI must never infer schema correctness.
+
+## C. Make routing single-pass
+
+No recursive ODIN ↔ MCP ↔ SKADI loops.
+
+## D. Standardize event contract
+
+One event schema:
+
+* everything logs into HADES first-class
+
+## E. Make UGSRL mandatory (not optional)
+
+Otherwise ODIN + MCP drift continues.
+
+---
+
+# 6. FINAL SYSTEM DIAGNOSIS
+
+### Current state:
+
+* powerful
+* highly modular
+* structurally overlapping
+
+### Primary issue:
+
+> “distributed intelligence without strict responsibility isolation”
+
+---
+
+# One critical question
+
+Do you want the next step to be:
+
+### 1. HARD REFACTOR
+
+* enforce strict single-responsibility boundaries
+* break current overlap immediately
+
+### 2. GRADUAL PATCHING
+
+* keep current architecture
+* apply P-005 / P-006 cleanup patches incrementally
+
+### 3. ROLLUP MODEL
+
+* collapse ODIN + UGSRL into a unified routing core
+* simplify pipeline even further
+
+Pick one direction.
