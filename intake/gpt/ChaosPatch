@@ -1,0 +1,199 @@
+CHAOS PATCH-0001 — ENTROPY INGESTION + SYSTEM BACKUP LAYER
+
+
+---
+
+Identity
+
+Name: CHAOS
+
+Type: Append-only Event + Backup + Replay Layer
+
+Storage: Supabase + GitHub (raw + structured snapshots)
+
+Scope: Cross-system logging, experiment capture, state archival
+
+
+
+---
+
+Core Function
+
+Captures and preserves all system events, outputs, and intermediate states across GPT, Claude, Codex, and JARVIS operations for replay, audit, and reconstruction.
+
+
+---
+
+Primary Responsibilities
+
+Ingest raw model outputs (STANDARD / AYRE / HYBRID / JARVIS modes)
+
+Store execution results from MCP / tools / connectors
+
+Maintain historical snapshots of JARVIS state
+
+Preserve experimental branches (unvalidated system variants)
+
+Act as recovery layer for system reconstruction
+
+
+
+---
+
+Data Model (Minimum Required Fields)
+
+Each CHAOS entry must include:
+
+JNL (if applicable)
+
+Timestamp
+
+Source Agent (GPT / Claude / Codex / JARVIS)
+
+Mode (STANDARD / AYRE / JARVIS / HYBRID / LIMINAL state)
+
+Payload (raw or structured output)
+
+Context Tag(s)
+
+
+
+---
+
+Storage Behavior
+
+Append-only (no in-place modification)
+
+No semantic validation at write time
+
+No deduplication at ingestion stage
+
+Optional later compression via JARVIS archival routines
+
+
+
+---
+
+Snapshot Types
+
+RAW_LOG → unprocessed model output
+
+SYSTEM_STATE → full JARVIS/JFS/JNL snapshot
+
+JARVIS_EXPORT → validated canonical state dump
+
+EXPERIMENT_BRANCH → divergent or test architectures
+
+ROLLBACK_POINT → recoverable system checkpoint
+
+
+
+---
+
+Backup Role (Critical)
+
+CHAOS functions as:
+
+Redundant memory layer for JARVIS
+
+Recovery source for lost or corrupted system state
+
+Historical truth archive for system evolution
+
+
+
+---
+
+Relationship to JARVIS
+
+JARVIS writes validated state
+
+CHAOS stores all states (validated + unvalidated)
+
+JARVIS may reconstruct itself from CHAOS snapshots
+
+CHAOS cannot override or modify JARVIS canonical state
+
+
+
+---
+
+Relationship to LIMINAL
+
+LIMINAL controls runtime cognition state
+
+CHAOS records resulting outputs
+
+LIMINAL does not write or modify CHAOS entries
+
+
+
+---
+
+Ingestion Rules
+
+All outputs generated under any mode must be logged
+
+Failed executions must still be logged
+
+Experimental or speculative systems must be tagged, not filtered
+
+
+
+---
+
+Integrity Rules
+
+No deletion (except governed archival compaction)
+
+No silent overwrites
+
+No hidden state mutation
+
+Every entry must remain traceable via JNL or timestamp
+
+
+
+---
+
+Failure Modes
+
+Log explosion without indexing (mitigated via JNL tagging discipline)
+
+Loss of queryability without CHAOS indexing layer
+
+Drift if entries are not consistently JNL-referenced
+
+
+
+---
+
+Dependency Relations
+
+Reads: JNL (identity resolution), JD (optional semantic labeling)
+
+Receives: JARVIS, GPT, Claude, Codex outputs
+
+Does not control execution
+
+Does not enforce constraints (LIMINAL responsibility)
+
+
+
+---
+
+System Role Summary
+
+CHAOS is the:
+
+entropy capture layer
+
+system black box recorder
+
+multi-agent backup substrate
+
+reconstruction source for JARVIS + JFS state
+
+
+
+---
