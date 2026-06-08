@@ -1,0 +1,178 @@
+JFS PATCH-0002 — STATE INTEGRITY + RECOVERY SPECIFICATION
+
+
+---
+
+1. SYSTEM STATE MODEL
+
+System state is defined as the live composite of:
+
+JFS → structural hierarchy state
+
+JNL → identity routing map
+
+JD → semantic meaning registry
+
+CHAOS → raw event history stream
+
+HADES → canonical event spine
+
+
+System state is not documentation. It is the resolved combination of these layers at runtime.
+
+
+---
+
+2. CHANGE CLASSIFICATION SYSTEM
+
+All modifications must be explicitly categorized:
+
+STRUCTURAL → JFS hierarchy / layout changes
+
+SEMANTIC → JD meaning or definition changes
+
+IDENTITY → JNL creation, modification, or reassignment
+
+EXECUTION → JARVIS / SKADI behavior changes
+
+OBSERVATIONAL → CHAOS-only logging or tracking updates
+
+
+No change may be applied without classification.
+
+
+---
+
+3. TRACE ID STANDARD
+
+Every system action MUST emit a trace record:
+
+Required fields:
+
+JNL_ID (if applicable)
+
+timestamp
+
+source system
+
+change type (from classification system)
+
+diff reference pointer
+
+CHAOS log reference
+
+
+Purpose:
+
+deterministic replay
+
+auditability
+
+cross-system reconciliation
+
+
+
+---
+
+4. SYSTEM DRIFT DETECTION RULE
+
+Drift is defined as any mismatch between layers:
+
+Triggers include:
+
+JD meaning ≠ CHAOS observed behavior
+
+JFS structure ≠ JNL routing paths
+
+SKADI execution without HADES logging
+
+LIMINAL mode inconsistency across session state
+
+
+When detected:
+
+HUGINN reconciliation required
+
+JARVIS validation required before correction
+
+
+
+---
+
+5. RECONSTRUCTION PROTOCOL
+
+If partial or full system loss occurs, rebuild in order:
+
+1. HADES → canonical event spine
+
+
+2. CHAOS → raw logs + entropy history
+
+
+3. JD → semantic reconstruction
+
+
+4. JFS → structural regeneration
+
+
+5. JNL → identity rehydration layer
+
+
+
+This defines the full recovery hierarchy.
+
+
+---
+
+6. VERSIONING RULE
+
+Every change increments:
+
+JFS version → structural evolution
+
+JD version → semantic evolution (if impacted)
+
+CHAOS snapshot ID → always incremented
+
+KRONOS patch index → temporal ordering integrity
+
+
+
+---
+
+7. SYSTEM BOUNDARY RULE
+
+Strict separation of concerns:
+
+JFS = structure only
+
+JD = meaning only
+
+JNL = identity only
+
+CHAOS = raw event truth only
+
+JARVIS = execution authority only
+
+
+Cross-layer mutation requires JARVIS mediation.
+
+
+---
+
+8. CORE TRUTH STACK (FALLBACK INVARIANT)
+
+If system degradation occurs, only the following are required for reconstruction:
+
+JNL → identity
+JD → meaning
+JFS → structure
+CHAOS → event history
+JARVIS → execution authority
+
+
+---
+
+END OF PATCH
+
+This patch establishes system resilience, traceability, and deterministic recovery behavior across all future operations.
