@@ -1,0 +1,478 @@
+JPL CODEC — REPOSITORY INSTRUCTION DOCUMENT (Claude Code Setup Spec)
+
+This document defines the canonical structure, governance, and deployment spine for the JPL Codec system across:
+
+GitHub (code + versioned grammar + CLI tools)
+
+Supabase (state, telemetry, benchmarks, model outputs)
+
+
+It explicitly inherits architectural constraints from JARVIS governance principles and the YGGDRASIL hierarchical memory model.
+
+
+---
+
+1. SYSTEM IDENTITY
+
+Project Name
+
+JPL CODEC
+
+Purpose
+
+A cross-model reasoning compiler system that:
+
+Encodes natural language into graph IR (JPL)
+
+Compares outputs across models (GPT / Gemini / Claude)
+
+Computes structural divergence metrics
+
+Builds consensus graphs from reasoning traces
+
+
+
+---
+
+2. CORE ARCHITECTURAL PRINCIPLES (JARVIS-INHERITED)
+
+2.1 Governance Spine (JARVIS MODEL)
+
+All system components must obey:
+
+Single source of truth per layer
+
+No implicit state mutation
+
+All transformations must be traceable
+
+No duplication of semantic responsibility
+
+Strict separation of:
+
+Encoding (E0)
+
+Evaluation (Δ / CSF engine)
+
+Storage (Supabase)
+
+Execution (CLI / API layer)
+
+
+
+
+---
+
+2.2 Hierarchical Memory Spine (YGGDRASIL MODEL)
+
+System is organized as a tree of controlled abstraction layers:
+
+ROOT (YGGDRASIL)
+│
+├── 0. CORE IR LAYER (JPL GRAPH MODEL)
+│
+├── 1. ENCODERS (E0 family)
+│
+├── 2. DECODERS (D0 family)
+│
+├── 3. METRICS ENGINE (Δ / Ω / CSF)
+│
+├── 4. CONSENSUS ENGINE (JPL-Σ)
+│
+├── 5. BENCHMARK HARNESS (multi-model testing)
+│
+├── 6. STORAGE LAYER (Supabase)
+│
+└── 7. INTERFACE LAYER (CLI / API / future UI)
+
+Rule:
+
+No lower layer may depend on higher layers.
+
+
+---
+
+3. GITHUB REPOSITORY STRUCTURE
+
+3.1 Root Layout
+
+jpl-codec/
+│
+├── core/
+│   ├── graph_ir/
+│   ├── nodes/
+│   ├── edges/
+│   ├── strata/
+│   └── macros/
+│
+├── encoder/
+│   └── e0.py
+│
+├── decoder/
+│   └── d0.py
+│
+├── metrics/
+│   ├── delta2.py
+│   ├── delta3.py
+│   ├── delta4.py
+│   ├── omega.py
+│   ├── entropy.py
+│   └── csf.py
+│
+├── consensus/
+│   └── jpl_sigma.py
+│
+├── benchmark/
+│   ├── harness.py
+│   ├── adversarial_tests.py
+│   └── datasets/
+│
+├── cli/
+│   └── jpl_cli.py
+│
+├── api/
+│   └── fastapi_service.py
+│
+├── supabase/
+│   ├── schema.sql
+│   ├── migrations/
+│   └── telemetry_sync.py
+│
+├── tests/
+│   ├── test_encoder.py
+│   ├── test_metrics.py
+│   └── test_diff_engine.py
+│
+├── docs/
+│   ├── jpl_spec.md
+│   ├── codec_theory.md
+│   └── benchmark_protocol.md
+│
+└── README.md
+
+
+---
+
+3.2 Design Rules (STRICT)
+
+No cross-folder circular dependencies
+
+All metrics must be stateless functions
+
+All graph transformations must be deterministic
+
+CLI must be the ONLY entry point for execution
+
+Supabase is read/write state only (never logic)
+
+
+
+---
+
+4. SUPABASE ARCHITECTURE (STATE LAYER)
+
+4.1 Database Name
+
+jpl_codec_db
+
+
+---
+
+4.2 Tables
+
+4.2.1 models
+
+Stores model metadata.
+
+model_id TEXT PRIMARY KEY
+name TEXT
+version TEXT
+capabilities JSONB
+
+
+---
+
+4.2.2 runs
+
+Each benchmark execution.
+
+run_id UUID PRIMARY KEY
+timestamp TIMESTAMP
+input_hash TEXT
+mode TEXT (LOSSLESS | PARAPHRASE | ADVERSARIAL)
+
+
+---
+
+4.2.3 jpl_outputs
+
+Stores encoded graphs per model.
+
+output_id UUID
+run_id UUID
+model_id TEXT
+jpl_graph JSONB
+token_count INT
+
+
+---
+
+4.2.4 diff_results
+
+Stores comparison outputs.
+
+diff_id UUID
+run_id UUID
+csf_score FLOAT
+delta2 FLOAT
+delta3 FLOAT
+delta4 FLOAT
+omega FLOAT
+entropy JSONB
+
+
+---
+
+4.2.5 consensus_graphs
+
+Stores merged outputs.
+
+consensus_id UUID
+run_id UUID
+graph JSONB
+confidence FLOAT
+
+
+---
+
+4.3 Supabase Rules
+
+No logic execution in SQL
+
+No graph transformation in DB
+
+Only storage + retrieval
+
+All computation happens in GitHub layer
+
+
+
+---
+
+5. CLI SPEC (PRIMARY INTERFACE)
+
+Commands
+
+jpl encode input.txt
+jpl decode graph.json
+jpl diff gpt.json gemini.json
+jpl run benchmark --mode adversarial
+jpl consensus run
+jpl score run_id
+
+
+---
+
+CLI Flow
+
+input → encoder → graph → metrics → diff → supabase store → report
+
+
+---
+
+6. CLAUDE CODE EXECUTION RULES
+
+Claude Code must follow:
+
+6.1 Execution Constraints
+
+Always treat JPL IR as immutable once generated
+
+Never reinterpret graph semantics
+
+Always preserve node IDs exactly
+
+No "helpful simplification" allowed
+
+
+
+---
+
+6.2 Build Discipline
+
+Claude Code must:
+
+implement stateless functions for all metrics
+
+ensure deterministic outputs for same inputs
+
+never introduce probabilistic logic into core engine
+
+never modify schema without version bump
+
+
+
+---
+
+6.3 Allowed Outputs
+
+Python modules
+
+SQL schema
+
+CLI commands
+
+JSON graph transformations
+
+test suites
+
+
+
+---
+
+7. VERSIONING SYSTEM (JPL EVOLUTION TRACK)
+
+v0.1 → Conceptual IR
+v0.2 → Metric system introduced
+v0.3 → Executable benchmark harness
+v0.4 → Consensus engine (JPL-Σ)
+v0.5 → Self-evolving grammar layer
+
+
+---
+
+Version Rule:
+
+> No version increment unless a new measurable capability is added.
+
+
+
+
+---
+
+8. GOVERNANCE MODEL (JARVIS CORE LAYER)
+
+Hard Rules
+
+No hidden state mutation
+
+No silent schema drift
+
+No cross-layer logic leakage
+
+All changes must be traceable:
+
+intent → implementation → metric impact → log
+
+
+
+---
+
+System Integrity Constraint
+
+If any module violates:
+
+determinism
+
+traceability
+
+graph immutability
+
+
+→ system is considered corrupted state
+
+
+---
+
+9. MEMORY TOPOLOGY (YGGDRASIL SPINE)
+
+Conceptual Structure
+
+ROOT
+ ├── JPL CORE (truth model)
+ ├── METRICS (evaluation truth)
+ ├── CONSENSUS (emergent truth)
+ ├── STORAGE (historical truth)
+ └── INTERFACE (observed truth)
+
+
+---
+
+Rule of Flow
+
+data flows downward only
+metrics flow upward only
+consensus emerges laterally
+
+
+---
+
+10. DEPLOYMENT STRATEGY
+
+Phase 1
+
+GitHub repo scaffold
+
+Supabase schema deployment
+
+CLI skeleton
+
+
+Phase 2
+
+Encoder + decoder implementation
+
+Metric engine v0.1
+
+
+Phase 3
+
+GPT vs Gemini benchmarking harness
+
+first CSF runs
+
+
+Phase 4
+
+consensus graph system
+
+
+
+---
+
+11. SYSTEM INTENT (FINAL)
+
+JPL Codec is not:
+
+a prompt system
+
+a compression trick
+
+a formatting language
+
+
+It is:
+
+> A cross-model reasoning compiler + structural truth measurement system
+
+
+
+
+---
+
+NEXT STEP OPTIONS
+
+If you want to proceed cleanly, the next builds are:
+
+1. GitHub bootstrap scaffold (ready-to-push repo)
+
+2. Supabase SQL migration file (fully runnable)
+
+3. First CLI prototype (encode + diff only)
+
+4. Benchmark runner that connects GPT + Gemini outputs
+
+
+---
+
+If you say “build repo scaffold”, I will generate the full file tree + initial codebase ready to paste into GitHub.
