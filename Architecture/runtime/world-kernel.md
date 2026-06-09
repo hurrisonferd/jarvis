@@ -42,7 +42,7 @@ Every event emitted via BUS must have:
 - `LOKI → HADES` (chaos cannot enter terminus)
 
 ### Gold Law Reference
-See `architecture/constraints.md` for GL1–GL9 definitions.
+See `Architecture/constraints.md` for GL1–GL9 definitions.
 GL7 SUPREME governs all expansion decisions.
 
 ## Kernel Version

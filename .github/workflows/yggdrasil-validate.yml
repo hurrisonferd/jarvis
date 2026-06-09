@@ -1,0 +1,35 @@
+name: yggdrasil-validate
+
+# Enforce the JFS/JNL substrate: grammar + GL12 addressability + JMS mirror consistency.
+# Fails the build if any governed object loses its address, location, tags, or index ref,
+# or if the seed/registries drift from the entries on disk.
+
+on:
+  pull_request:
+    paths:
+      - 'yggdrasil/**'
+      - '.github/workflows/yggdrasil-validate.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'yggdrasil/**'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Validate substrate (grammar + GL12 + mirror)
+        run: python yggdrasil/tools/validate.py
+      - name: Check registries are in sync with entries (no drift)
+        run: |
+          python yggdrasil/tools/seed.py
+          if ! git diff --quiet yggdrasil/; then
+            echo "::error::LAL registries / JD entries are out of sync. Run 'python yggdrasil/tools/seed.py' and commit."
+            git --no-pager diff --stat yggdrasil/
+            exit 1
+          fi
+          echo "Registries in sync."

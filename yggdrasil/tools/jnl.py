@@ -11,8 +11,8 @@ import re
 from dataclasses import dataclass
 
 # Canonical code tables (mirror of jfs/jnl-grammar.md).
-DOMAINS = {"GS", "ARCH", "GOV", "PROJ", "GRID", "CONN", "LOG"}
-TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG"}
+DOMAINS = {"GS", "ARCH", "GOV", "IMPL", "PROJ", "GRID", "CONN", "AUD", "LOG"}
+TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW"}
 
 # Substrate + the 27 fixed God Systems. Do not add god systems (GL constraint).
 SUBSTRATE = {"YGG", "JFS", "JNS", "JNL", "JSL", "JMS", "JD", "LAL"}
@@ -57,8 +57,10 @@ def parse(addr: str) -> JNLAddress:
         raise ValueError(f"'{addr}': unknown Type '{typ}' (allowed: {sorted(TYPES)})")
     if domain == "GS" and system not in GOD_SYSTEMS:
         raise ValueError(f"'{addr}': '{system}' is not one of the 27 God Systems")
-    if domain == "ARCH" and system not in SUBSTRATE:
-        raise ValueError(f"'{addr}': '{system}' is not a known ARCH substrate system")
+    # The kernel family (ARCH-<system>-CORE) is reserved for the 8 substrate primitives.
+    # Other ARCH types (SPEC/RT/etc.) may name architecture docs freely.
+    if domain == "ARCH" and typ == "CORE" and system not in SUBSTRATE:
+        raise ValueError(f"'{addr}': '{system}' is not a substrate kernel primitive (ARCH-*-CORE is reserved)")
     return JNLAddress(domain, system, typ, log, patch, block)
 
 
