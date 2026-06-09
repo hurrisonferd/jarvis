@@ -125,6 +125,9 @@
     "discovery": [
       "ARCH-LAL-CORE-0001"
     ],
+    "federation": [
+      "PROJ-GRD-BIO-0001"
+    ],
     "filesystem": [
       "ARCH-JFS-CORE-0001"
     ],
@@ -188,6 +191,9 @@
     ],
     "gpt": [
       "ARCH-GPT-SPEC-0001"
+    ],
+    "grid": [
+      "PROJ-GRD-BIO-0001"
     ],
     "hygiene": [
       "IMPL-HYG-SPEC-0001"
@@ -295,6 +301,7 @@
       "PROJ-COS-BIO-0001",
       "PROJ-DEO-BIO-0001",
       "PROJ-GEN-BIO-0001",
+      "PROJ-GRD-BIO-0001",
       "PROJ-JPL-BIO-0001",
       "PROJ-LEG-BIO-0001",
       "PROJ-NAR-BIO-0001",

@@ -9,7 +9,7 @@ jnl: PROJ-LEG-BIO-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: JarvisSide/Projects/Legion/LegionBio
+source: JarvisSide/Projects/Legion/BIO/LegionBio
 related: []
 references: []
 tags: [project, legion]

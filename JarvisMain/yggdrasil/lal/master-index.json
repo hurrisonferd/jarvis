@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 77,
+  "count": 78,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -834,7 +834,7 @@
     {
       "object": "CodeOS",
       "jnl": "PROJ-COS-BIO-0001",
-      "location": "JarvisSide/Projects/CodeOSProjectBio",
+      "location": "JarvisSide/Projects/CodeOS/BIO/CodeOSProjectBio",
       "tags": [
         "project",
         "codeos"
@@ -845,7 +845,7 @@
     {
       "object": "Deoxys",
       "jnl": "PROJ-DEO-BIO-0001",
-      "location": "JarvisSide/Projects/Deoxys/ProjectBio",
+      "location": "JarvisSide/Projects/Deoxys/BIO/ProjectBio",
       "tags": [
         "project",
         "deoxys"
@@ -856,7 +856,7 @@
     {
       "object": "Genesis",
       "jnl": "PROJ-GEN-BIO-0001",
-      "location": "JarvisSide/Projects/Genesis/GenesisBio",
+      "location": "JarvisSide/Projects/Genesis/BIO/GenesisBio",
       "tags": [
         "project",
         "genesis"
@@ -865,9 +865,21 @@
       "state": "active"
     },
     {
+      "object": "The Grid",
+      "jnl": "PROJ-GRD-BIO-0001",
+      "location": "JarvisSide/Projects/Grid/BIO/GRIDBIO-060926-0001-THE-GRID.md",
+      "tags": [
+        "project",
+        "grid",
+        "federation"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "JPL",
       "jnl": "PROJ-JPL-BIO-0001",
-      "location": "JarvisSide/Projects/JPL/JPLBio",
+      "location": "JarvisSide/Projects/JPL/BIO/JPLBio",
       "tags": [
         "project",
         "jpl"
@@ -878,7 +890,7 @@
     {
       "object": "Legion",
       "jnl": "PROJ-LEG-BIO-0001",
-      "location": "JarvisSide/Projects/Legion/LegionBio",
+      "location": "JarvisSide/Projects/Legion/BIO/LegionBio",
       "tags": [
         "project",
         "legion"
@@ -889,7 +901,7 @@
     {
       "object": "Naruto",
       "jnl": "PROJ-NAR-BIO-0001",
-      "location": "JarvisSide/Projects/Naruto/NarutoBio",
+      "location": "JarvisSide/Projects/Naruto/BIO/NarutoBio",
       "tags": [
         "project",
         "naruto"

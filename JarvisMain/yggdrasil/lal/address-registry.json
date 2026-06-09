@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 77,
+  "count": 78,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -1328,7 +1328,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "CodeOS",
-      "location": "JarvisSide/Projects/CodeOSProjectBio",
+      "location": "JarvisSide/Projects/CodeOS/BIO/CodeOSProjectBio",
       "tags": [
         "project",
         "codeos"
@@ -1346,7 +1346,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Deoxys",
-      "location": "JarvisSide/Projects/Deoxys/ProjectBio",
+      "location": "JarvisSide/Projects/Deoxys/BIO/ProjectBio",
       "tags": [
         "project",
         "deoxys"
@@ -1364,10 +1364,29 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Genesis",
-      "location": "JarvisSide/Projects/Genesis/GenesisBio",
+      "location": "JarvisSide/Projects/Genesis/BIO/GenesisBio",
       "tags": [
         "project",
         "genesis"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "PROJ-GRD-BIO-0001",
+      "name": "The Grid",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "The Grid",
+      "location": "JarvisSide/Projects/Grid/BIO/GRIDBIO-060926-0001-THE-GRID.md",
+      "tags": [
+        "project",
+        "grid",
+        "federation"
       ],
       "anchors": [],
       "status": "ACTIVE",
@@ -1382,7 +1401,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "JPL",
-      "location": "JarvisSide/Projects/JPL/JPLBio",
+      "location": "JarvisSide/Projects/JPL/BIO/JPLBio",
       "tags": [
         "project",
         "jpl"
@@ -1400,7 +1419,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Legion",
-      "location": "JarvisSide/Projects/Legion/LegionBio",
+      "location": "JarvisSide/Projects/Legion/BIO/LegionBio",
       "tags": [
         "project",
         "legion"
@@ -1418,7 +1437,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Naruto",
-      "location": "JarvisSide/Projects/Naruto/NarutoBio",
+      "location": "JarvisSide/Projects/Naruto/BIO/NarutoBio",
       "tags": [
         "project",
         "naruto"

@@ -7,12 +7,14 @@ name: yggdrasil-validate
 on:
   pull_request:
     paths:
-      - 'JarvisMain/yggdrasil/**'
+      - 'JarvisMain/**'
+      - 'JarvisSide/**'
       - '.github/workflows/yggdrasil-validate.yml'
   push:
     branches: [main]
     paths:
-      - 'JarvisMain/yggdrasil/**'
+      - 'JarvisMain/**'
+      - 'JarvisSide/**'
 
 jobs:
   validate:

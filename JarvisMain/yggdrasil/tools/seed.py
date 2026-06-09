@@ -8,8 +8,12 @@ from __future__ import annotations
 import json
 import os
 import re
+import sys
 from datetime import date
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import jnl as jnllib  # noqa: E402
 
 ROOT = Path(__file__).resolve().parents[3]
 JD_DIR = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
@@ -17,6 +21,28 @@ LAL_DIR = ROOT / "JarvisMain" / "yggdrasil" / "lal"
 TODAY = date.today().isoformat()
 
 _CREATED_RE = re.compile(r"^created:\s*(\S+)", re.MULTILINE)
+
+# Frontmatter intake roots: any .md under these that declares `jnl:` in its frontmatter
+# is adopted into the dex — the file is its own manifest (natural growth, no list edits).
+SCAN_ROOTS = ("JarvisSide/Projects", "JarvisMain/Implementation",
+              "JarvisSide/Ideas", "JarvisSide/Breakthroughs", "JarvisSide/Archive")
+_FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
+
+
+def parse_front_matter(text: str) -> dict:
+    m = _FM_RE.match(text)
+    if not m:
+        return {}
+    out = {}
+    for line in m.group(1).splitlines():
+        if ":" not in line:
+            continue
+        k, v = line.split(":", 1)
+        v = v.strip()
+        if v.startswith("[") and v.endswith("]"):
+            v = [x.strip() for x in v[1:-1].split(",") if x.strip()]
+        out[k.strip()] = v
+    return out
 
 
 def existing_created(jnl: str) -> str:
@@ -153,17 +179,17 @@ KNOWLEDGE = [
      "JGPP v3 implementation packet series (JIP-0608-*).", "Track the evolving implementation stream.",
      ["implementation", "jip"]),
     # Projects (each a node)
-    ("PROJ-COS-BIO-0001", "CodeOS", "PROJ", "JarvisSide/Projects/CodeOSProjectBio",
+    ("PROJ-COS-BIO-0001", "CodeOS", "PROJ", "JarvisSide/Projects/CodeOS/BIO/CodeOSProjectBio",
      "CodeOS project.", "Project node bio.", ["project", "codeos"]),
-    ("PROJ-JPL-BIO-0001", "JPL", "PROJ", "JarvisSide/Projects/JPL/JPLBio",
+    ("PROJ-JPL-BIO-0001", "JPL", "PROJ", "JarvisSide/Projects/JPL/BIO/JPLBio",
      "JPL project (JARVIS Programming Language).", "Project node bio.", ["project", "jpl"]),
-    ("PROJ-GEN-BIO-0001", "Genesis", "PROJ", "JarvisSide/Projects/Genesis/GenesisBio",
+    ("PROJ-GEN-BIO-0001", "Genesis", "PROJ", "JarvisSide/Projects/Genesis/BIO/GenesisBio",
      "Genesis project.", "Project node bio.", ["project", "genesis"]),
-    ("PROJ-DEO-BIO-0001", "Deoxys", "PROJ", "JarvisSide/Projects/Deoxys/ProjectBio",
+    ("PROJ-DEO-BIO-0001", "Deoxys", "PROJ", "JarvisSide/Projects/Deoxys/BIO/ProjectBio",
      "Deoxys project.", "Project node bio.", ["project", "deoxys"]),
-    ("PROJ-LEG-BIO-0001", "Legion", "PROJ", "JarvisSide/Projects/Legion/LegionBio",
+    ("PROJ-LEG-BIO-0001", "Legion", "PROJ", "JarvisSide/Projects/Legion/BIO/LegionBio",
      "Legion project.", "Project node bio.", ["project", "legion"]),
-    ("PROJ-NAR-BIO-0001", "Naruto", "PROJ", "JarvisSide/Projects/Naruto/NarutoBio",
+    ("PROJ-NAR-BIO-0001", "Naruto", "PROJ", "JarvisSide/Projects/Naruto/BIO/NarutoBio",
      "Naruto project.", "Project node bio.", ["project", "naruto"]),
     ("PROJ-PAC-BIO-0001", "Pachinko Bounce", "PROJ", "pachinko-bounce",
      "Pachinko Bounce game (Godot, RGB encoding).", "Project node bio.", ["project", "pachinko", "game"]),
@@ -388,6 +414,54 @@ def main() -> None:
                             e.get("related", []), ["PRI", "IDX"], loc, status, cls, tr, own, []))
             register(jnl, loc, tags, e["name"], typ, status)
 
+    # Frontmatter intake (the natural-growth path): a truth file under a SCAN_ROOT that
+    # declares its own `jnl` is adopted — JD entry + LAL records derive from the file.
+    # Hardcoded manifest + dynamic.json win on conflict; a relocated file just re-registers
+    # at its new location (JMS: identity travels with the JNL, not the path).
+    seeded = {r["jnl"]: r["location"] for r in address_registry}
+    problems: list[str] = []
+    scanned = 0
+    for root in SCAN_ROOTS:
+        base = ROOT / root
+        if not base.is_dir():
+            continue
+        for f in sorted(base.rglob("*.md")):
+            fm = parse_front_matter(f.read_text())
+            addr = fm.get("jnl", "")
+            if not addr or not isinstance(addr, str):
+                continue  # not self-describing — manifest-tracked or plain doc
+            loc = f.relative_to(ROOT).as_posix()
+            if addr in seeded:
+                if seeded[addr] != loc:
+                    problems.append(f"{loc}: claims '{addr}' already registered at {seeded[addr]}")
+                continue
+            try:
+                jnllib.parse(addr)
+            except ValueError as e:
+                problems.append(f"{loc}: {e}")
+                continue
+            dom, jtype = addr.split("-")[0], addr.split("-")[2]
+            name = fm.get("name") or f.stem
+            typ = fm.get("type") or jtype
+            status = fm.get("status") or "ACTIVE"
+            if status not in jnllib.STATUSES:
+                problems.append(f"{loc}: status '{status}' not in JSS vocabulary")
+                continue
+            tags = fm.get("tags") if isinstance(fm.get("tags"), list) else []
+            related = fm.get("related") if isinstance(fm.get("related"), list) else []
+            cls, tr, own = ontology_class(dom, typ, addr), tier(dom, status), owner(dom, name)
+            (JD_DIR / f"{addr}.md").write_text(
+                jd_entry_md(name, typ, fm.get("authority", "CANON"), addr,
+                            fm.get("definition", ""), fm.get("purpose", ""), tags,
+                            related, ["PRI", "IDX"], loc, status, cls, tr, own, []))
+            register(addr, loc, tags, name, typ, status)
+            seeded[addr] = loc
+            scanned += 1
+    if problems:
+        for p in problems:
+            print(f"  ✗ intake: {p}")
+        raise SystemExit("seed: frontmatter intake failed — fix the files above.")
+
     address_registry.sort(key=lambda r: r["jnl"])
     (LAL_DIR / "address-registry.json").write_text(json.dumps(
         {"note": "Derived mirror — rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
@@ -404,7 +478,8 @@ def main() -> None:
         {"note": "Canonical tag vocabulary -> addresses carrying each tag. Derived.",
          "tags": {t: sorted(v) for t, v in sorted(tag_index.items())}}, indent=2) + "\n")
 
-    print(f"seeded {len(SUBSTRATE)} substrate + {len(GOD_SYSTEMS)} god-system + {len(KNOWLEDGE)} knowledge JD entries")
+    print(f"seeded {len(SUBSTRATE)} substrate + {len(GOD_SYSTEMS)} god-system + {len(KNOWLEDGE)} knowledge"
+          f" + {scanned} frontmatter-intake JD entries")
     print(f"LAL: {len(address_registry)} addresses, {len(tag_index)} tags")
 
 

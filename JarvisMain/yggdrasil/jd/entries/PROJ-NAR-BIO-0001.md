@@ -9,7 +9,7 @@ jnl: PROJ-NAR-BIO-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: JarvisSide/Projects/Naruto/NarutoBio
+source: JarvisSide/Projects/Naruto/BIO/NarutoBio
 related: []
 references: []
 tags: [project, naruto]

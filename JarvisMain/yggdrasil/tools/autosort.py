@@ -23,6 +23,11 @@ REG_PATH = ROOT / "JarvisMain" / "yggdrasil" / "lal" / "address-registry.json"
 
 # Status-managed roots (prefixes). Periphery roots live under Side/.
 MANAGED_ROOTS = ("JarvisSide/Ideas", "JarvisMain/Implementation", "JarvisSide/Breakthroughs")
+# Project artifacts stay flat (status lives in frontmatter + registries); only the
+# terminal states relocate, into the project's own archive shelf.
+PROJECTS_ROOT = "JarvisSide/Projects"
+ARCHIVE_ROOT = "JarvisSide/Archive"
+TERMINAL = ("ARCHIVED", "DEPRECATED")
 FM = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 
@@ -33,6 +38,12 @@ def field(text: str, key: str) -> str:
 
 def desired_path(location: str, status: str) -> str | None:
     """Return the status-correct path for a managed-root object, or None if already correct."""
+    # Project artifacts: flat until terminal, then -> Archive/<Project>/<file>.
+    if location.startswith(PROJECTS_ROOT + "/"):
+        if status not in TERMINAL:
+            return None
+        rest = location[len(PROJECTS_ROOT) + 1:].split("/")
+        return "/".join([ARCHIVE_ROOT, rest[0], rest[-1]])
     root = next((r for r in MANAGED_ROOTS if location == r or location.startswith(r + "/")), None)
     if not root:
         return None

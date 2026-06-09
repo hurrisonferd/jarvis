@@ -1,0 +1,13 @@
+{
+  "note": "Project code registry — JNL System segment for the PROJ domain. Code -> node folder. Used by tools/new.py and the seed scan. Adding a project = add a row here (or run new.py --new-project).",
+  "codes": {
+    "COS": {"name": "CodeOS", "folder": "JarvisSide/Projects/CodeOS"},
+    "DEO": {"name": "Deoxys", "folder": "JarvisSide/Projects/Deoxys"},
+    "GEN": {"name": "Genesis", "folder": "JarvisSide/Projects/Genesis"},
+    "GRD": {"name": "Grid", "folder": "JarvisSide/Projects/Grid"},
+    "JPL": {"name": "JPL", "folder": "JarvisSide/Projects/JPL"},
+    "LEG": {"name": "Legion", "folder": "JarvisSide/Projects/Legion"},
+    "NAR": {"name": "Naruto", "folder": "JarvisSide/Projects/Naruto"},
+    "PAC": {"name": "Pachinko Bounce", "folder": "JarvisSide/Projects/PachinkoBounce"}
+  }
+}

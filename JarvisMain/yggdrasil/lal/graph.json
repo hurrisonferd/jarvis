@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 77,
+    "nodes": 78,
     "edges": 18,
     "main": 66,
-    "side": 11
+    "side": 12
   },
   "nodes": [
     {
@@ -663,6 +663,15 @@
       "tier": "SIDE",
       "status": "ACTIVE",
       "owner": "Genesis"
+    },
+    {
+      "id": "PROJ-GRD-BIO-0001",
+      "name": "The Grid",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "The Grid"
     },
     {
       "id": "PROJ-JPL-BIO-0001",

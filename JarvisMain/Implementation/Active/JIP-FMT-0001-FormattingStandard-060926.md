@@ -74,6 +74,10 @@ jd_propose {name, domain:"PROJ", system:"DEO", type:"JGPP", definition, purpose,
 Upload meaning; the connector derives identity, class, tier, routing, and the file. That is
 the whole point: **autonomy proposes in perfect JFS hygiene; Raven commits.**
 
-## 7. Open follow-ups
-- Move `yggdrasil/` into `JarvisMain/` (substrate belongs with the core; tooling-path update).
-- Per-project folder scaffold under `JarvisSide/Projects/<P>/` (`JGPP/ JIP/ JD/ BIO/`).
+## 7. Follow-ups — closed 2026-06-09
+- Move `yggdrasil/` into `JarvisMain/` — **done** (`JarvisMain/yggdrasil/`; tool root-paths, CI, specs updated).
+- Per-project folder scaffold under `JarvisSide/Projects/<P>/` (`JGPP/ JIP/ JD/ BIO/`) — **done**,
+  plus the intake layer: `tools/new.py` mints JNL + formatted file in one command, and `seed.py`
+  adopts any drop-in file that declares its own frontmatter (`jnl`/`name`/`type`/`status`/`tags`).
+  Project codes live in `jfs/project-codes.json`. Flat folders; ARCHIVED/DEPRECATED auto-sort to
+  `JarvisSide/Archive/<Project>/`.

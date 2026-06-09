@@ -146,7 +146,14 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
   memory by time horizon (JSTM/JLTM/JATM) beside MNEMOS. Specs: `JarvisMain/yggdrasil/jss/`, `JarvisMain/yggdrasil/jmms/`.
 - **Tools:** `JarvisMain/yggdrasil/tools/seed.py` regenerates entries + registries;
   `JarvisMain/yggdrasil/tools/validate.py` enforces grammar + GL12 + status + mirror consistency (run before commit);
-  `JarvisMain/yggdrasil/tools/autosort.py` relocates files to match their status (JNL preserved — JMS law).
+  `JarvisMain/yggdrasil/tools/autosort.py` relocates files to match their status (JNL preserved — JMS law);
+  `JarvisMain/yggdrasil/tools/new.py` mints a new governed object (JNL + formatted file + reseed) in one command.
+- **Intake (how objects are born):** `new.py --project <P> --type JGPP|JIP|JD|BIO --name "..."`
+  mints everything; or drop a `.md` with self-describing frontmatter (`jnl/name/type/status/tags/definition/purpose`)
+  under a `SCAN_ROOT` (Projects/Implementation/Ideas/Breakthroughs/Archive) and run `seed.py` — the file is its
+  own manifest. Project codes: `JarvisMain/yggdrasil/jfs/project-codes.json`. Each project node carries
+  `{JGPP,JIP,JD,BIO}/`; folders stay flat, status lives in frontmatter, ARCHIVED/DEPRECATED auto-sort to
+  `JarvisSide/Archive/<Project>/`. Filename grammar: `<PROJECT><TYPE>-<MMDDYY>-<NNNN>-<SUBJECT>.md` (FMT spec §3).
 - **Runtime cognition pipeline:** `JGPP → JIP → JCS → JD` (spec → evolving impl → runtime → truth).
   **JCS** (Jarvis Cognitive Stack) is the runtime reasoning/simulation engine over JIP structures +
   JD truth; layers JCS-D (temporal) / -E (query) / -F (simulation) / -G (interface). Addressed under

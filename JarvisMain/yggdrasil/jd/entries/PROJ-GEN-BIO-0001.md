@@ -9,7 +9,7 @@ jnl: PROJ-GEN-BIO-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: JarvisSide/Projects/Genesis/GenesisBio
+source: JarvisSide/Projects/Genesis/BIO/GenesisBio
 related: []
 references: []
 tags: [project, genesis]
