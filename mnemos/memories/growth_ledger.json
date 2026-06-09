@@ -1,55 +1,8 @@
 {
-  "updated": "2026-06-09T22:53:53.769723+00:00",
+  "updated": "2026-06-09T22:54:41.875907+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260604_213748",
-      "date": "2026-06-04",
-      "exchanges": 118,
-      "patches_touched": [
-        "P00",
-        "P01",
-        "P06",
-        "P10",
-        "P11",
-        "P17",
-        "P20",
-        "P24",
-        "P28",
-        "P29",
-        "P30",
-        "P32",
-        "P33",
-        "P34",
-        "P35",
-        "P36",
-        "P37",
-        "P38",
-        "P39",
-        "P40",
-        "P41",
-        "P42"
-      ],
-      "built": [
-        ".claude/commands/patch.md",
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "audit/2026-06-04_full_system_audit.md",
-        "audit/patch_ledger.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Two pieces, both worth a real read.\n\n**On MemoryOS + Headroom.** GPT's framing is sharp and it lands on something true: the two concepts are halves \u2014 "
-    },
     {
       "session_id": "20260604_214433",
       "date": "2026-06-04",
@@ -614,6 +567,35 @@
       ],
       "alignment": 1.0,
       "key_insight": "State confirmed unchanged \u2014 `event_spine` is still the one critical exposure (RLS fully disabled, 9 rows of HADES spine writable by anyone holding the"
+    },
+    {
+      "session_id": "20260609_225441",
+      "date": "2026-06-09",
+      "exchanges": 80,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger merged (#69), tree clean. Holding for your call on the two cloud items \u2014 `event_spine` RLS lock and the legacy `mcp` retirement."
     }
   ]
 }
