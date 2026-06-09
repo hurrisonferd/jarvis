@@ -6,7 +6,7 @@ import {
 
 // jarvis-dex — governed access to the JD/JNL dex (JIP-DEX-0001).
 // Privilege ladder via x-jarvis-token, mapped onto JSS status:
-//   READ (no token) → PROPOSE (agent) → DRAFT (elevated) → COMMIT (raven/AEGIS).
+//   READ → PROPOSE (agent) → DRAFT (elevated) → COMMIT (raven) → OVERRIDE (skeleton/ZEUS).
 // Files stay truth; this writes the Supabase mirror + proposals. Approved ACTIVE rows
 // are reconciled back to files by a GitHub Action.
 
@@ -17,16 +17,20 @@ const SERVICE_KEY =
 const AGENT_TOKEN = Deno.env.get("DEX_AGENT_TOKEN") ?? "";
 const ELEVATED_TOKEN = Deno.env.get("DEX_ELEVATED_TOKEN") ?? "";
 const RAVEN_TOKEN = Deno.env.get("DEX_RAVEN_TOKEN") ?? "";
+// Break-glass: Raven-only supreme authority (ZEUS — emergency override + halt).
+// Read from the secret; the value never lives in the repo.
+const SKELETON_KEY = Deno.env.get("RAVEN_SKELETON_KEY") ?? "";
 
 const cors = {
   "Access-Control-Allow-Origin": "*",
   "Access-Control-Allow-Headers": "authorization, content-type, apikey, x-jarvis-token",
 };
 
-type Tier = "READ" | "PROPOSE" | "DRAFT" | "COMMIT";
-const RANK: Record<Tier, number> = { READ: 0, PROPOSE: 1, DRAFT: 2, COMMIT: 3 };
+type Tier = "READ" | "PROPOSE" | "DRAFT" | "COMMIT" | "OVERRIDE";
+const RANK: Record<Tier, number> = { READ: 0, PROPOSE: 1, DRAFT: 2, COMMIT: 3, OVERRIDE: 4 };
 
 function tierOfToken(tok: string): Tier {
+  if (tok && SKELETON_KEY && tok === SKELETON_KEY) return "OVERRIDE"; // ZEUS — checked first
   if (tok && tok === RAVEN_TOKEN) return "COMMIT";
   if (tok && tok === ELEVATED_TOKEN) return "DRAFT";
   if (tok && tok === AGENT_TOKEN) return "PROPOSE";
@@ -87,9 +91,16 @@ async function deriveCandidate(a: Record<string, unknown>, status: string) {
 
 const TOOL_TIER: Record<string, Tier> = {
   jd_lookup: "READ", jnl_resolve: "READ", jd_list: "READ", jd_graph: "READ", jd_diff: "READ",
+  dex_status: "READ",
   jd_propose: "PROPOSE", jd_draft: "DRAFT",
   jd_approve: "COMMIT", jd_reject: "COMMIT", jd_archive: "COMMIT", jd_deprecate: "COMMIT",
+  dex_halt: "OVERRIDE", dex_resume: "OVERRIDE",
 };
+
+async function isHalted(): Promise<boolean> {
+  const { data } = await db.from("dex_control").select("halted").eq("id", 1).maybeSingle();
+  return !!data?.halted;
+}
 
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
@@ -109,8 +120,32 @@ Deno.serve(async (req) => {
   }
   const actor = tier.toLowerCase();
 
+  // ZEUS halt: when halted, only READ + OVERRIDE pass. Break-glass refuses all writes.
+  if (RANK[need] >= RANK["PROPOSE"] && tier !== "OVERRIDE" && (await isHalted())) {
+    return fail("dex is HALTED (emergency override). Writes are frozen until resumed.", 423);
+  }
+
   try {
     switch (tool) {
+      // ---------- OVERRIDE (skeleton key / ZEUS) ----------
+      case "dex_status": {
+        const { data } = await db.from("dex_control").select("*").eq("id", 1).maybeSingle();
+        return json({ ok: true, tier, halted: !!data?.halted, control: data ?? null });
+      }
+      case "dex_halt": {
+        await db.from("dex_control").update({
+          halted: true, reason: String(args.reason ?? ""), by_actor: "raven", at: new Date().toISOString(),
+        }).eq("id", 1);
+        await logEvent("dex_halt", tier, null, "raven", { reason: args.reason ?? "" });
+        return json({ ok: true, halted: true, note: "all dex writes frozen except OVERRIDE" });
+      }
+      case "dex_resume": {
+        await db.from("dex_control").update({
+          halted: false, reason: null, by_actor: "raven", at: new Date().toISOString(),
+        }).eq("id", 1);
+        await logEvent("dex_resume", tier, null, "raven", {});
+        return json({ ok: true, halted: false, note: "dex writes resumed" });
+      }
       // ---------- READ ----------
       case "jd_lookup": {
         const term = String(args.term ?? "");
@@ -125,9 +160,9 @@ Deno.serve(async (req) => {
         return data ? json({ ok: true, record: data }) : fail(`no such JNL '${jnl}'`, 404);
       }
       case "jd_list": {
-        let q = db.from("jnl_registry").select("jnl,name,class,tier,status,domain:type");
+        let q = db.from("jnl_registry").select("jnl,name,class,tier,status,type");
         for (const k of ["class", "tier", "status", "type"]) {
-          if (args[k]) q = q.eq(k === "type" ? "type" : k, String(args[k]));
+          if (args[k]) q = q.eq(k, String(args[k]));
         }
         if (args.tag) q = q.contains("tags", [String(args.tag)]);
         const { data } = await q.limit(Number(args.limit ?? 200));
@@ -144,7 +179,6 @@ Deno.serve(async (req) => {
         return json({ ok: true, node, neighbors: nbrs ?? [] });
       }
       case "jd_diff": {
-        // preview a write WITHOUT writing — what JNL/class/tier it would get + diff vs canon.
         const cand = await deriveCandidate(args, String(args.status ?? "TASK"));
         const { data: existing } = await db.from("jd_entries").select("*").eq("jnl", cand.jnl).maybeSingle();
         return json({ ok: true, candidate: cand, exists: !!existing, current: existing ?? null });
@@ -188,16 +222,15 @@ Deno.serve(async (req) => {
         const { data: p } = await db.from("jd_proposals").select("*")
           .eq("jnl", jnl).eq("decision", "pending").maybeSingle();
         if (!p) return fail(`no pending proposal for '${jnl}'`, 404);
+        const today = new Date().toISOString().slice(0, 10);
         await db.from("jnl_registry").upsert({
           jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier,
-          owner: p.owner, location: p.source, tags: p.tags, status: "ACTIVE",
-          created: new Date().toISOString().slice(0, 10), updated: new Date().toISOString().slice(0, 10),
+          owner: p.owner, location: p.source, tags: p.tags, status: "ACTIVE", created: today, updated: today,
         });
         await db.from("jd_entries").upsert({
           jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier, owner: p.owner,
           authority: "CANON", definition: p.definition, purpose: p.purpose, source: p.source,
-          related: p.related, tags: p.tags, status: "ACTIVE",
-          created: new Date().toISOString().slice(0, 10), updated: new Date().toISOString().slice(0, 10),
+          related: p.related, tags: p.tags, status: "ACTIVE", created: today, updated: today,
         });
         await db.from("jd_proposals").update({
           decision: "approved", decided_by: "raven", decided_at: new Date().toISOString(),
@@ -218,9 +251,8 @@ Deno.serve(async (req) => {
       case "jd_deprecate": {
         const jnl = String(args.jnl ?? "");
         const status = tool === "jd_archive" ? "ARCHIVED" : "DEPRECATED";
-        const newTier = "SIDE";
-        await db.from("jnl_registry").update({ status, tier: newTier }).eq("jnl", jnl);
-        await db.from("jd_entries").update({ status, tier: newTier }).eq("jnl", jnl);
+        await db.from("jnl_registry").update({ status, tier: "SIDE" }).eq("jnl", jnl);
+        await db.from("jd_entries").update({ status, tier: "SIDE" }).eq("jnl", jnl);
         await logEvent(tool, tier, jnl, "raven", { status });
         return json({ ok: true, jnl, status });
       }

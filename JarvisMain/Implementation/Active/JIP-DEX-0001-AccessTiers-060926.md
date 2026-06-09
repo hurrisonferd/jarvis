@@ -22,6 +22,19 @@ back to files (`seed.py` + commit), closing the loop: *propose → approve → A
 | **PROPOSE** | agent | `jd_propose` | auto-format + validate → `jd_proposals` (status `TASK`). Canon untouched. |
 | **DRAFT** | elevated | `jd_draft` | write into `jd_entries` directly as `TASK`/`EXPANSION` (visible, non-ACTIVE). |
 | **COMMIT** | Raven (AEGIS) | `jd_approve` · `jd_reject` · `jd_archive` · `jd_deprecate` | move objects along the lifecycle; `approve` → `ACTIVE` + triggers file reconciliation. |
+| **OVERRIDE** | Raven (skeleton key / ZEUS) | all of the above · `dex_halt` · `dex_resume` · `dex_status` | break-glass for when governance is stuck. Outranks COMMIT; bypasses the halt. |
+
+## OVERRIDE — the skeleton key (ZEUS)
+
+A single break-glass key, **Raven-only**, for emergencies. It maps to **ZEUS** (emergency
+override + system-wide halt). Read by the connector from the `RAVEN_SKELETON_KEY` secret —
+**the value never lives in the repo**. The OVERRIDE tier:
+- outranks every other tier (can invoke any tool, even if the normal RAVEN_TOKEN is lost);
+- can **`dex_halt`** — freeze all writes (PROPOSE/DRAFT/COMMIT) instantly; only READ and
+  OVERRIDE work while halted. **`dex_resume`** lifts it. State lives in `dex_control`.
+- every override action is logged to `dex_events` (GL5).
+
+Use it only when the normal loop is compromised. It is the system's last word, and it is Raven's.
 
 ## Auto-formatting (what the connector derives)
 A proposer supplies only **meaning**: `{name, domain, type, definition, purpose, tags}`.
