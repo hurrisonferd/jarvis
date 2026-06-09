@@ -27,12 +27,20 @@ Every JD entry is a small record:
 | `Name` | the canonical name |
 | `Type` | ARCH · GS · GOV · PROJ · GRID · CONN |
 | `Authority` | CANON · DERIVED · DRAFT |
+| `JNL` | its own JNL address (identity) |
+| `Created` | ISO date first registered (preserved across re-seeds) |
+| `Updated` | ISO date last regenerated |
+| `Source` | path to the truth this entry mirrors |
 | `Definition` | one or two sentences — what it *is* |
 | `Purpose` | what it's *for* |
-| `JNL` | its own JNL address (identity) |
 | `Related` | JNL addresses of related objects |
 | `Tags` | semantic tags |
 | `ReferenceMap` | tokens resolving to locations via JNL → LAL |
+
+Every entry is a dated, addressed record — a "pokedex" card for a system or object:
+identity (`JNL`), provenance (`Source`), lineage (`Created`/`Updated`), meaning
+(`Definition`/`Purpose`), and routing (`Related`/`ReferenceMap`). `Created` is minted once
+and preserved; `Updated` moves on every regeneration.
 
 ### ReferenceMap tokens
 

@@ -3,6 +3,9 @@ name: Jarvis Navigation Language
 type: ARCH
 authority: CANON
 jnl: ARCH-JNL-CORE-0001
+created: 2026-06-09
+updated: 2026-06-09
+source: yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JFS-CORE-0001]
 tags: [addressing, core, architecture]
 ref: [PRI, SPEC, IDX]

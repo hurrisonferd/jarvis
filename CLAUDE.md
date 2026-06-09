@@ -114,6 +114,42 @@ Forbidden edges: `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADE
 
 ---
 
+## Yggdrasil — Addressing & Hierarchy Substrate
+
+The 27 God Systems are *cognition*. **Yggdrasil** is the *ground they stand on* — the
+filesystem/addressing/hierarchy layer that lets the repo grow without naming or path
+chaos. It is separate from the 27 and adds no god systems.
+
+```
+Yggdrasil (truth / world-tree)
+└── JFS — Jarvis File System (kernel)
+     ├── JNS — naming      (what it's called)    → semantic filenames
+     ├── JNL — navigation  (what + where)        → global address/identity
+     ├── JSL — structure   (how it's organized)  → folder/format invariants
+     └── JMS — mirror       (reflect, not duplicate)
+JD explains → JNL identifies → LAL locates → Yggdrasil stores
+```
+
+- **JNL address grammar:** `[Domain]-[System]-[Type]-[Log]-[Patch]-[Block]`
+  (e.g. `ARCH-JFS-CORE-0001`, `GS-ODN-RT-0001-P005-B002`). Full tables in
+  `yggdrasil/jfs/jnl-grammar.md`.
+- **JD = semantic DNS.** Thin entries (definition + JNL + tags + timestamps), one file per
+  object in `yggdrasil/jd/entries/`. JD explains and points; it never duplicates content.
+- **LAL = discovery.** Derived registries (`address` / `master-index` / `tag`) that resolve
+  a JNL to a real location. Pointers only (JMS law: move references, never truth).
+- **GL12 — Canonical Addressability:** every persistent object must have a JNL address,
+  location, tags, anchors, and index reference, or it is **non-governed** (invisible to the loop).
+- **Tools:** `yggdrasil/tools/seed.py` regenerates entries + registries;
+  `yggdrasil/tools/validate.py` enforces grammar + GL12 + mirror consistency (run it before commit).
+- **Rosetta (legacy → canon):** MIDAS→AEGIS · SENTINEL→ARGUS+IRIS+HUGINN · GRAVEYARD→HADES ·
+  FATES→KRONOS · JORMUNGANDR=codec · HELP→MIMIR · CHAOS stays entropy (raw ingestion is AYRE→HADES).
+
+> **Portability is the point.** Any node — JARVIS-core or a `Projects/` repo — mounts the
+> same JFS kernel and inherits the same guarantees. That is what makes JARVIS a standard
+> for governance and growth: stable, auditable, explainable.
+
+---
+
 ## Key Files
 
 | Path | Purpose |
@@ -125,6 +161,8 @@ Forbidden edges: `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADE
 | `mnemos/mnemos_vector.py` | Semantic memory (SQLite + Ollama) |
 | `chaos/session_sync.py` | Session start/end helpers |
 | `intake/` | AI handoff review lane |
+| `yggdrasil/` | Addressing/hierarchy substrate — JFS kernel, JD dictionary, LAL registries |
+| `yggdrasil/tools/validate.py` | GL12 + grammar + mirror validator — run before committing substrate changes |
 | `.env` | Secrets — do not commit |
 | `start.bat` | Starts MCP server |
 

@@ -3,6 +3,9 @@ name: KRONOS
 type: GS
 authority: CANON
 jnl: GS-KRN-CORE-0001
+created: 2026-06-09
+updated: 2026-06-09
+source: god_systems/T2_KRONOS/contract.json
 related: []
 tags: [core, god-system, canon]
 ref: [PRI, IDX]

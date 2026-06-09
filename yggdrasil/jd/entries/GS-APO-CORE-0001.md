@@ -3,6 +3,9 @@ name: APOLLO
 type: GS
 authority: CANON
 jnl: GS-APO-CORE-0001
+created: 2026-06-09
+updated: 2026-06-09
+source: god_systems/T7_APOLLO/contract.json
 related: []
 tags: [orchestration, god-system, canon]
 ref: [PRI, IDX]

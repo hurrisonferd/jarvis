@@ -7,11 +7,26 @@ Run from repo root:  python yggdrasil/tools/seed.py
 from __future__ import annotations
 import json
 import os
+import re
+from datetime import date
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
 LAL_DIR = ROOT / "yggdrasil" / "lal"
+TODAY = date.today().isoformat()
+
+_CREATED_RE = re.compile(r"^created:\s*(\S+)", re.MULTILINE)
+
+
+def existing_created(jnl: str) -> str:
+    """Preserve an entry's original created date across re-seeds; mint today if new."""
+    f = JD_DIR / f"{jnl}.md"
+    if f.exists():
+        m = _CREATED_RE.search(f.read_text())
+        if m:
+            return m.group(1)
+    return TODAY
 
 # --- Substrate entries (ARCH). location = where truth actually lives. ---
 SUBSTRATE = [
@@ -93,13 +108,16 @@ def gs_location(name: str) -> str:
     return "god_systems"
 
 
-def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref) -> str:
+def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source) -> str:
     fm = [
         "---",
         f"name: {name}",
         f"type: {typ}",
         f"authority: {authority}",
         f"jnl: {jnl}",
+        f"created: {existing_created(jnl)}",
+        f"updated: {TODAY}",
+        f"source: {source}",
         f"related: [{', '.join(related)}]",
         f"tags: [{', '.join(tags)}]",
         f"ref: [{', '.join(ref)}]",
@@ -120,8 +138,9 @@ def main() -> None:
 
     def register(jnl, location, tags, name, typ, state="active"):
         address_registry.append({
-            "jnl": jnl, "name": name, "type": typ,
-            "location": location, "tags": tags, "anchors": [], "state": state,
+            "jnl": jnl, "name": name, "type": typ, "location": location,
+            "tags": tags, "anchors": [], "state": state,
+            "created": existing_created(jnl), "updated": TODAY,
         })
         for t in tags:
             tag_index.setdefault(t, []).append(jnl)
@@ -130,7 +149,7 @@ def main() -> None:
     for code, name, jnl, loc, definition, purpose, tags, related in SUBSTRATE:
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, "ARCH", "CANON", jnl, definition, purpose, tags, related,
-                        ["PRI", "SPEC", "IDX"]))
+                        ["PRI", "SPEC", "IDX"], "yggdrasil/jfs/JFS-SPEC.md"))
         register(jnl, loc, tags, name, "ARCH")
 
     # God-system entries.
@@ -140,7 +159,7 @@ def main() -> None:
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, "GS", "CANON", jnl, definition,
                         f"Canonical God System ({group} tier). Fixed; do not redefine.",
-                        tags, [], ["PRI", "IDX"]))
+                        tags, [], ["PRI", "IDX"], gs_location(name) + "/contract.json"))
         register(jnl, gs_location(name), tags, name, "GS")
 
     address_registry.sort(key=lambda r: r["jnl"])

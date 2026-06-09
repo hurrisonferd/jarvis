@@ -14,7 +14,9 @@
         "architecture"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "ARCH-JFS-CORE-0001",
@@ -27,7 +29,9 @@
         "architecture"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "ARCH-JMS-CORE-0001",
@@ -40,7 +44,9 @@
         "architecture"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "ARCH-JNL-CORE-0001",
@@ -53,7 +59,9 @@
         "architecture"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "ARCH-JNS-CORE-0001",
@@ -66,7 +74,9 @@
         "architecture"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "ARCH-JSL-CORE-0001",
@@ -79,7 +89,9 @@
         "architecture"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "ARCH-LAL-CORE-0001",
@@ -93,7 +105,9 @@
         "architecture"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "ARCH-YGG-CORE-0001",
@@ -106,7 +120,9 @@
         "architecture"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-AEG-CORE-0001",
@@ -119,7 +135,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-APO-CORE-0001",
@@ -132,7 +150,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-ARG-CORE-0001",
@@ -145,7 +165,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-ATH-CORE-0001",
@@ -158,7 +180,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-ATL-CORE-0001",
@@ -171,7 +195,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-AYR-CORE-0001",
@@ -184,7 +210,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-BFR-CORE-0001",
@@ -197,7 +225,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-CHA-CORE-0001",
@@ -210,7 +240,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-DAN-CORE-0001",
@@ -223,7 +255,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-ERI-CORE-0001",
@@ -236,7 +270,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-HAD-CORE-0001",
@@ -249,7 +285,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-HAL-CORE-0001",
@@ -262,7 +300,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-HER-CORE-0001",
@@ -275,7 +315,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-HUG-CORE-0001",
@@ -288,7 +330,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-IRS-CORE-0001",
@@ -301,7 +345,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-JAN-CORE-0001",
@@ -314,7 +360,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-KRN-CORE-0001",
@@ -327,7 +375,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-LOK-CORE-0001",
@@ -340,7 +390,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-MER-CORE-0001",
@@ -353,7 +405,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-MIM-CORE-0001",
@@ -366,7 +420,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-MNE-CORE-0001",
@@ -379,7 +435,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-NEM-CORE-0001",
@@ -392,7 +450,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-ODN-CORE-0001",
@@ -405,7 +465,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-POS-CORE-0001",
@@ -418,7 +480,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-PRO-CORE-0001",
@@ -431,7 +495,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-SKD-CORE-0001",
@@ -444,7 +510,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     },
     {
       "jnl": "GS-ZEU-CORE-0001",
@@ -457,7 +525,9 @@
         "canon"
       ],
       "anchors": [],
-      "state": "active"
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
     }
   ]
 }
