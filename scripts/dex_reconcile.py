@@ -67,6 +67,8 @@ def materialize_project(row: dict) -> bool:
 
 def fetch_active() -> list[dict]:
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    if url and not url.startswith(("http://", "https://")):
+        url = f"https://{url}"  # secret may omit the scheme
     key = os.environ.get("SUPABASE_ANON_KEY", "")
     if not url or not key:
         print("dex_reconcile: SUPABASE_URL / SUPABASE_ANON_KEY unset — skipping.")

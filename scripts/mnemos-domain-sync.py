@@ -24,6 +24,9 @@ import urllib.request
 from datetime import datetime, timezone
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
+if not SUPABASE_URL.startswith(("http://", "https://")):
+    SUPABASE_URL = f"https://{SUPABASE_URL}"  # secret may omit the scheme
+
 SUPABASE_KEY = (
     os.environ.get("SUPABASE_SERVICE_KEY")
     or os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")

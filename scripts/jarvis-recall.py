@@ -11,6 +11,9 @@ import sys
 import urllib.request
 
 SUPABASE_URL  = os.environ.get("SUPABASE_URL",  "https://oexghfsvhnggddllgvrt.supabase.co")
+if not SUPABASE_URL.startswith(("http://", "https://")):
+    SUPABASE_URL = f"https://{SUPABASE_URL}"  # secret may omit the scheme
+
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
 SEARCH_FN     = f"{SUPABASE_URL}/functions/v1/mnemos-search"
 RECALL_FN     = f"{SUPABASE_URL}/functions/v1/mnemos-recall"

@@ -49,6 +49,9 @@ def _filter_patches(patches: list) -> list:
     return [p for p in patches if p in real] if real else patches
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
+if not SUPABASE_URL.startswith(("http://", "https://")):
+    SUPABASE_URL = f"https://{SUPABASE_URL}"  # secret may omit the scheme
+
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
 STORE_FN = f"{SUPABASE_URL}/functions/v1/mnemos-store"
 

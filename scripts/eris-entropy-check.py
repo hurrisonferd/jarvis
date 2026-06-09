@@ -14,6 +14,9 @@ import sys
 import urllib.request
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
+if not SUPABASE_URL.startswith(("http://", "https://")):
+    SUPABASE_URL = f"https://{SUPABASE_URL}"  # secret may omit the scheme
+
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "")
 COMMIT_SHA = os.environ.get("COMMIT_SHA", "unknown")
 COMMIT_MSG = os.environ.get("COMMIT_MESSAGE", "")
