@@ -3,6 +3,9 @@ name: Yggdrasil
 type: ARCH
 authority: CANON
 jnl: ARCH-YGG-CORE-0001
+created: 2026-06-09
+updated: 2026-06-09
+source: yggdrasil/jfs/JFS-SPEC.md
 related: []
 tags: [root, core, architecture]
 ref: [PRI, SPEC, IDX]

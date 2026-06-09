@@ -50,7 +50,7 @@ def main() -> int:
         fm = parse_front_matter(f.read_text())
         addr = fm.get("jnl", "")
         # GL12: every entry needs jnl, tags, ref (index ref), and resolvable location.
-        for req in ("name", "type", "jnl", "tags", "ref"):
+        for req in ("name", "type", "jnl", "created", "updated", "tags", "ref"):
             if not fm.get(req):
                 errors.append(f"{f.name}: missing GL12 field '{req}'")
         if not addr:
