@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 74,
+  "count": 75,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -235,6 +235,18 @@
         "root",
         "core",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Companion Research",
+      "jnl": "AUD-COMP-REVW-0001",
+      "location": "JarvisSide/Archive/CompanionResearch-0001-053026.md",
+      "tags": [
+        "research",
+        "companion",
+        "archive"
       ],
       "anchors": [],
       "state": "active"

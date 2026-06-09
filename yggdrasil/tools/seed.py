@@ -214,6 +214,10 @@ MANAGED = [
      "Eight archived GPT hygiene packets with per-packet governance verdicts.",
      "Preserve the proposals for later mining; record what was adopted vs rejected.",
      ["hygiene", "archive", "reference"], "ARCHIVED"),
+    ("AUD-COMP-REVW-0001", "Companion Research", "AUD", "JarvisSide/Archive/CompanionResearch-0001-053026.md",
+     "Archived research note on the full-companion direction (2026-05-30).",
+     "Preserve early companion research for the record.",
+     ["research", "companion", "archive"], "ARCHIVED"),
 ]
 
 # Each God System's truth lives in its own contract folder: god_systems/<TIER>_<NAME>/.

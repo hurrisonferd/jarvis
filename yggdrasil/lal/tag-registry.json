@@ -30,6 +30,7 @@
       "ARCH-YGG-CORE-0001"
     ],
     "archive": [
+      "AUD-COMP-REVW-0001",
       "IMPL-HYG-SPEC-0001"
     ],
     "audit": [
@@ -76,6 +77,9 @@
     ],
     "codeos": [
       "PROJ-COS-BIO-0001"
+    ],
+    "companion": [
+      "AUD-COMP-REVW-0001"
     ],
     "connector": [
       "CONN-MSB-CORE-0001",
@@ -287,6 +291,9 @@
     ],
     "reference": [
       "IMPL-HYG-SPEC-0001"
+    ],
+    "research": [
+      "AUD-COMP-REVW-0001"
     ],
     "review": [
       "AUD-FULL-REVW-0001",
