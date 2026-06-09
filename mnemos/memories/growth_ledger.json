@@ -1,108 +1,8 @@
 {
-  "updated": "2026-06-09T22:52:53.082661+00:00",
+  "updated": "2026-06-09T22:53:53.769723+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260604_173804",
-      "date": "2026-06-04",
-      "exchanges": 84,
-      "patches_touched": [
-        "P00",
-        "P01",
-        "P06",
-        "P1",
-        "P10",
-        "P100",
-        "P101",
-        "P11",
-        "P17",
-        "P20",
-        "P24",
-        "P28",
-        "P29",
-        "P30",
-        "P32",
-        "P33",
-        "P34",
-        "P35",
-        "P36",
-        "P37",
-        "P38",
-        "P39",
-        "P40",
-        "P41",
-        "P99"
-      ],
-      "built": [
-        ".claude/commands/patch.md",
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "audit/2026-06-04_full_system_audit.md",
-        "audit/patch_ledger.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "P34 Phase 2a is shipped and **live-verified** \u2014 the core GL5 win. Through the council:\n\n**JARVIS (synthesis):** The audit oversold the difficulty. The"
-    },
-    {
-      "session_id": "20260604_174854",
-      "date": "2026-06-04",
-      "exchanges": 94,
-      "patches_touched": [
-        "P00",
-        "P01",
-        "P06",
-        "P1",
-        "P10",
-        "P100",
-        "P101",
-        "P11",
-        "P17",
-        "P20",
-        "P24",
-        "P28",
-        "P29",
-        "P30",
-        "P32",
-        "P33",
-        "P34",
-        "P35",
-        "P36",
-        "P37",
-        "P38",
-        "P39",
-        "P40",
-        "P41",
-        "P99"
-      ],
-      "built": [
-        ".claude/commands/patch.md",
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "audit/2026-06-04_full_system_audit.md",
-        "audit/patch_ledger.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done. The `consensus_proposals` reroute closes the last anon-writable governance table.\n\n**P34 Phase 2 \u2014 essentially complete:**\n- `jarvis-propose.py`"
-    },
     {
       "session_id": "20260604_213748",
       "date": "2026-06-04",
@@ -656,6 +556,64 @@
       ],
       "alignment": 1.0,
       "key_insight": "Audit complete. Both answers:\n\n## 1. Yes \u2014 the connectors can start feeding the dex today\n\nThe loop is live end to end, and ZEUS is not halted (`dex_c"
+    },
+    {
+      "session_id": "20260609_225339",
+      "date": "2026-06-09",
+      "exchanges": 77,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger's on main (#68, `0323ac8`) \u2014 tree clean.\n\nStanding where we left it: the dex pipe is open for the GPT and Claude connectors, and two cleanup de"
+    },
+    {
+      "session_id": "20260609_225353",
+      "date": "2026-06-09",
+      "exchanges": 79,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "State confirmed unchanged \u2014 `event_spine` is still the one critical exposure (RLS fully disabled, 9 rows of HADES spine writable by anyone holding the"
     }
   ]
 }
