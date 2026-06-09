@@ -1,6 +1,9 @@
 {
   "note": "Canonical tag vocabulary -> addresses carrying each tag. Derived.",
   "tags": {
+    "action": [
+      "CONN-DEX-SPEC-0001"
+    ],
     "addressing": [
       "ARCH-JNL-CORE-0001"
     ],
@@ -87,6 +90,7 @@
       "AUD-COMP-REVW-0001"
     ],
     "connector": [
+      "CONN-DEX-SPEC-0001",
       "CONN-MSB-CORE-0001",
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
@@ -122,6 +126,7 @@
       "PROJ-DEO-BIO-0001"
     ],
     "dex": [
+      "CONN-DEX-SPEC-0001",
       "IMPL-DEX-SPEC-0001"
     ],
     "dictionary": [
@@ -197,7 +202,8 @@
       "IMPL-FMT-SPEC-0001"
     ],
     "gpt": [
-      "ARCH-GPT-SPEC-0001"
+      "ARCH-GPT-SPEC-0001",
+      "CONN-DEX-SPEC-0001"
     ],
     "grid": [
       "PROJ-GRD-BIO-0001"

@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 85,
+  "count": 86,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -302,6 +302,19 @@
       "tags": [
         "audit",
         "review"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Dex Action",
+      "jnl": "CONN-DEX-SPEC-0001",
+      "location": "JarvisMain/Connectors/JarvisDexAction",
+      "tags": [
+        "connector",
+        "dex",
+        "gpt",
+        "action"
       ],
       "anchors": [],
       "state": "active"

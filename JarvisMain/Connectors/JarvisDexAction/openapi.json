@@ -1,0 +1,78 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "JARVIS Dex Connector",
+    "description": "Governed access to the JARVIS dex (JD/JNL). Privilege ladder via x-jarvis-token: READ -> PROPOSE -> DRAFT -> COMMIT -> OVERRIDE. Propose meaning; the connector derives JNL, class, tier, owner, timestamps and validates (GL6/GL12). Files in git stay truth; approved entries reconcile to files automatically.",
+    "version": "0.7.0"
+  },
+  "servers": [
+    { "url": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1" }
+  ],
+  "paths": {
+    "/jarvis-dex": {
+      "post": {
+        "operationId": "dex",
+        "summary": "Call a dex tool",
+        "description": "Single endpoint, tool-dispatched. READ tools: jd_lookup {term}, jnl_resolve {jnl}, jd_list {class?, tier?, status?, type?, tag?, limit?}, jd_graph {jnl}, jd_diff {name, domain, system, type, ...}, dex_status {}. PROPOSE tool: jd_propose {name, domain, system, type, definition, purpose, tags?, related?, source?} — stages a proposal for Raven's approval; JNL is derived, never supplied.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["tool"],
+                "properties": {
+                  "tool": {
+                    "type": "string",
+                    "enum": ["jd_lookup", "jnl_resolve", "jd_list", "jd_graph", "jd_diff", "dex_status", "jd_propose"],
+                    "description": "The dex tool to invoke."
+                  },
+                  "args": {
+                    "type": "object",
+                    "description": "Tool arguments. For jd_propose: name (required), domain (e.g. PROJ), system (project code e.g. DEO), type (JGPP|JIP|JD|BIO), definition, purpose, tags (array), related (array of JNLs, optional).",
+                    "properties": {
+                      "term": { "type": "string" },
+                      "jnl": { "type": "string" },
+                      "name": { "type": "string" },
+                      "domain": { "type": "string" },
+                      "system": { "type": "string" },
+                      "type": { "type": "string" },
+                      "definition": { "type": "string" },
+                      "purpose": { "type": "string" },
+                      "tags": { "type": "array", "items": { "type": "string" } },
+                      "related": { "type": "array", "items": { "type": "string" } },
+                      "source": { "type": "string" },
+                      "class": { "type": "string" },
+                      "tier": { "type": "string" },
+                      "status": { "type": "string" },
+                      "tag": { "type": "string" },
+                      "limit": { "type": "integer" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool result. ok=true with tool-specific payload.",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          },
+          "403": { "description": "Tool requires a higher tier than the supplied token." },
+          "423": { "description": "Dex is HALTED (ZEUS emergency override). Writes frozen." }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "JarvisToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "x-jarvis-token"
+      }
+    }
+  },
+  "security": [{ "JarvisToken": [] }]
+}

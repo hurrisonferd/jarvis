@@ -1,0 +1,22 @@
+---
+name: Jarvis Dex Action
+type: CONN
+class: MODULE
+tier: MAIN
+authority: CANON
+owner: Connectors
+parent: IMPL-DEX-SPEC-0001
+jnl: CONN-DEX-SPEC-0001
+status: ACTIVE
+created: 2026-06-09
+updated: 2026-06-09
+source: JarvisMain/Connectors/JarvisDexAction
+related: [IMPL-DEX-SPEC-0001]
+references: []
+tags: [connector, dex, gpt, action]
+ref: [PRI, IDX]
+---
+
+**Definition:** OpenAPI Action schema + setup for external agents (custom GPT) to use jarvis-dex.
+
+**Purpose:** Let any agent propose to the dex in perfect JFS hygiene via the connector.
