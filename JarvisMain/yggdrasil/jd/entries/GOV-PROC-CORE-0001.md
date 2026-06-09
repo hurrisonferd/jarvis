@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Patches/PatchProcess.md
-related: []
+related: [GOV-PAT-REG-0001]
 references: []
 tags: [governance, patches, process]
 ref: [PRI, IDX]

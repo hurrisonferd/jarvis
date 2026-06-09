@@ -66,3 +66,13 @@ Change an object's status in its JD entry, run `JarvisMain/yggdrasil/tools/autos
 the file relocates to the matching subfolder. The **JNL is preserved** (JMS law: move
 references, never truth) and the LAL location is updated. Auto-sorting based on the JFS
 systems — structure follows state, automatically.
+
+## Default statuses in practice (2026-06-09)
+
+| Object | Birth status | Moves when |
+|---|---|---|
+| JGPP (exploration) | `TASK` | promoted to a JIP, or parked `INACTIVE` |
+| JIP / JD / BIO | `ACTIVE` | superseded → `ARCHIVED`/`DEPRECATED` |
+| GL7-review pending | `EXPANSION` | approved → `ACTIVE`, rejected → `ARCHIVED` |
+
+The validator warns on `ACTIVE` JGPPs — exploration is not canon until promoted.

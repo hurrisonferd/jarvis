@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
-related: []
+related: [ARCH-JFS-CORE-0001]
 references: []
 tags: [root, core, architecture]
 ref: [PRI, SPEC, IDX]

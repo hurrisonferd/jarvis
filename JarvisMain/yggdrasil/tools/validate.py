@@ -39,6 +39,7 @@ def main() -> int:
     errors: list[str] = []
     warnings: list[str] = []
     seen: dict[str, Path] = {}
+    related_edges: list[tuple[str, str]] = []
 
     entries = sorted(JD_DIR.glob("*.md"))
     if not entries:
@@ -82,10 +83,15 @@ def main() -> int:
             errors.append(f"{addr}: duplicate (also {seen[addr].name})")
         seen[addr] = f
         entry_jnls.add(addr)
-        # Related must be valid grammar too.
+        # Related must be valid grammar too; targets checked for existence after the scan.
         for rel in fm.get("related", []) or []:
             if not jnllib.is_valid(rel):
                 errors.append(f"{f.name}: related '{rel}' is not a valid JNL")
+            else:
+                related_edges.append((addr, rel))
+        # JSS discipline: JGPP is exploration — it should be TASK, or promoted to a JIP.
+        if addr.split("-")[2] == "JGPP" and st == "ACTIVE":
+            warnings.append(f"{addr}: JGPP with status ACTIVE — exploration should be TASK or promoted (JSS)")
 
     # LAL mirror consistency (JMS law): every address points to real truth; every entry indexed.
     reg_path = LAL_DIR / "address-registry.json"
@@ -107,6 +113,11 @@ def main() -> int:
         missing = entry_jnls - reg_jnls
         for a in sorted(missing):
             errors.append(f"{a}: JD entry not indexed in LAL (GL12 IndexSummary ref)")
+
+    # The dex web must not dangle: every related edge resolves to a real entry.
+    for src, tgt in related_edges:
+        if tgt not in entry_jnls:
+            errors.append(f"{src}: related '{tgt}' has no JD entry (dangling edge)")
 
     # JNS lock (FMT spec §3): project artifacts must carry the canonical filename grammar
     # <PROJECT><TYPE>-<MMDDYY>-<NNNN>-<SUBJECT>.md, with NNNN == the JNL Log segment.
@@ -139,6 +150,24 @@ def main() -> int:
                 continue
             errors.append(f"{rel}: ungoverned — no JNL covers it (GL12)")
 
+    # Grammar lockstep (YGG manifest law): jarvis-dex/jfs.ts mirrors jnl.py by hand.
+    # If the token tables drift, the connector accepts addresses the validator rejects.
+    ts_path = ROOT / "supabase" / "functions" / "jarvis-dex" / "jfs.ts"
+    if ts_path.exists():
+        ts = ts_path.read_text()
+        ts_sets = {m.group(1): set(re.findall(r'"([^"]+)"', m.group(2)))
+                   for m in re.finditer(r"export const (\w+) = new Set\(\[(.*?)\]\)", ts, re.DOTALL)}
+        for name, py in (("DOMAINS", jnllib.DOMAINS), ("TYPES", jnllib.TYPES),
+                         ("SUBSTRATE", jnllib.SUBSTRATE), ("GOD_SYSTEMS", jnllib.GOD_SYSTEMS),
+                         ("STATUSES", jnllib.STATUSES), ("CLASSES", jnllib.CLASSES),
+                         ("TIERS", jnllib.TIERS)):
+            tsv = ts_sets.get(name)
+            if tsv is None:
+                errors.append(f"jfs.ts: token table {name} not found (grammar mirror broken)")
+            elif tsv != py:
+                drift = sorted((tsv - py) | (py - tsv))
+                errors.append(f"grammar drift {name}: jnl.py and jfs.ts disagree on {drift}")
+
     total = len(entry_jnls)
     if errors:
         print(f"VALIDATION FAILED — {len(errors)} error(s) across {total} addresses:")
@@ -147,6 +176,8 @@ def main() -> int:
         for w in warnings:
             print(f"  ! {w}")
         return 1
+    for w in warnings:
+        print(f"  ! {w}")
     print(f"GREEN — {total} governed objects: grammar OK, GL12 satisfied, LAL mirror consistent.")
     return 0
 

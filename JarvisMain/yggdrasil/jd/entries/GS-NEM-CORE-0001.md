@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T5_NEMESIS/contract.json
-related: []
+related: [GS-IRS-CORE-0001]
 references: []
 tags: [orchestration, god-system, canon]
 ref: [PRI, IDX]

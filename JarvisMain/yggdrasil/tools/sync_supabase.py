@@ -1,28 +1,24 @@
-"""Emit idempotent upsert SQL to sync the JD/JNL substrate into the Supabase mirror.
+"""Sync the JD/JNL substrate into the Supabase mirror (JMS — files are truth).
 
-Files are truth; this regenerates the rows for public.jnl_registry + public.jd_entries.
-Usage:  python JarvisMain/yggdrasil/tools/sync_supabase.py > /tmp/jd_load.sql
-Then run via the Supabase MCP execute_sql (or psql with the service role).
+Two modes:
+  SQL (default):  python JarvisMain/yggdrasil/tools/sync_supabase.py > /tmp/jd_load.sql
+                  then run via Supabase MCP execute_sql (or psql with the service role).
+  --push:         POST upserts straight to PostgREST. Needs SUPABASE_URL +
+                  SUPABASE_SERVICE_KEY env; skips cleanly if unset. Run by CI on
+                  every push to main (yggdrasil-validate.yml `mirror` job).
 """
 from __future__ import annotations
 import json
+import os
 import re
+import sys
+import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 JD = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
 REG = ROOT / "JarvisMain" / "yggdrasil" / "lal" / "address-registry.json"
 FM = re.compile(r"^---\n(.*?)\n---\n(.*)", re.DOTALL)
-
-
-def arr(xs) -> str:
-    if not xs:
-        return "'{}'"
-    return "'{" + ",".join('"' + x.replace('"', '\\"') + '"' for x in xs) + "}'"
-
-
-def q(s) -> str:
-    return "'" + (s or "").replace("'", "''") + "'"
 
 
 def parse(text: str) -> dict:
@@ -43,24 +39,57 @@ def parse(text: str) -> dict:
     return fm
 
 
-def main() -> None:
-    reg = json.loads(REG.read_text())["records"]
-    reg_vals = [
-        f"({q(r['jnl'])},{q(r['name'])},{q(r['type'])},{q(r.get('class',''))},{q(r.get('tier',''))},"
-        f"{q(r.get('owner',''))},{q(r['location'])},{arr(r['tags'])},{arr(r['anchors'])},"
-        f"{q(r['state'])},{q(r.get('status','ACTIVE'))},{q(r['created'])},{q(r['updated'])})"
-        for r in reg
-    ]
-    jd_vals = []
+def reg_rows() -> list[dict]:
+    return [{
+        "jnl": r["jnl"], "name": r["name"], "type": r["type"], "class": r.get("class", ""),
+        "tier": r.get("tier", ""), "owner": r.get("owner", ""), "location": r["location"],
+        "tags": r["tags"], "anchors": r["anchors"], "state": r["state"],
+        "status": r.get("status", "ACTIVE"), "created": r["created"], "updated": r["updated"],
+    } for r in json.loads(REG.read_text())["records"]]
+
+
+def jd_rows() -> list[dict]:
+    rows = []
     for f in sorted(JD.glob("*.md")):
         e = parse(f.read_text())
-        jd_vals.append(
-            f"({q(e['jnl'])},{q(e['name'])},{q(e['type'])},{q(e.get('class',''))},{q(e.get('tier',''))},"
-            f"{q(e.get('owner',''))},{q(e['authority'])},{q(e['definition'])},{q(e['purpose'])},"
-            f"{q(e.get('source',''))},{arr(e.get('related',[]))},{arr(e.get('references',[]))},"
-            f"{arr(e.get('tags',[]))},{arr(e.get('ref',[]))},"
-            f"{q(e.get('status','ACTIVE'))},{q(e['created'])},{q(e['updated'])})"
-        )
+        rows.append({
+            "jnl": e["jnl"], "name": e["name"], "type": e["type"], "class": e.get("class", ""),
+            "tier": e.get("tier", ""), "owner": e.get("owner", ""), "authority": e["authority"],
+            "definition": e["definition"], "purpose": e["purpose"], "source": e.get("source", ""),
+            "related": e.get("related", []), "cross_refs": e.get("references", []),
+            "tags": e.get("tags", []), "ref": e.get("ref", []),
+            "status": e.get("status", "ACTIVE"), "created": e["created"], "updated": e["updated"],
+        })
+    return rows
+
+
+# --- SQL mode ---
+
+def arr(xs) -> str:
+    if not xs:
+        return "'{}'"
+    return "'{" + ",".join('"' + x.replace('"', '\\"') + '"' for x in xs) + "}'"
+
+
+def q(s) -> str:
+    return "'" + (s or "").replace("'", "''") + "'"
+
+
+def emit_sql() -> None:
+    reg_vals = [
+        f"({q(r['jnl'])},{q(r['name'])},{q(r['type'])},{q(r['class'])},{q(r['tier'])},"
+        f"{q(r['owner'])},{q(r['location'])},{arr(r['tags'])},{arr(r['anchors'])},"
+        f"{q(r['state'])},{q(r['status'])},{q(r['created'])},{q(r['updated'])})"
+        for r in reg_rows()
+    ]
+    jd_vals = [
+        f"({q(e['jnl'])},{q(e['name'])},{q(e['type'])},{q(e['class'])},{q(e['tier'])},"
+        f"{q(e['owner'])},{q(e['authority'])},{q(e['definition'])},{q(e['purpose'])},"
+        f"{q(e['source'])},{arr(e['related'])},{arr(e['cross_refs'])},"
+        f"{arr(e['tags'])},{arr(e['ref'])},"
+        f"{q(e['status'])},{q(e['created'])},{q(e['updated'])})"
+        for e in jd_rows()
+    ]
 
     print("insert into public.jnl_registry (jnl,name,type,class,tier,owner,location,tags,anchors,state,status,created,updated) values")
     print(",\n".join(reg_vals))
@@ -78,5 +107,29 @@ def main() -> None:
           "created=excluded.created,updated=excluded.updated,synced_at=now();")
 
 
+# --- push mode (PostgREST upsert) ---
+
+def push() -> int:
+    url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    if url and not url.startswith(("http://", "https://")):
+        url = f"https://{url}"  # secret may omit the scheme
+    key = os.environ.get("SUPABASE_SERVICE_KEY", "")
+    if not url or not key:
+        print("sync_supabase: SUPABASE_URL / SUPABASE_SERVICE_KEY unset — skipping (mirror stays stale).")
+        return 0
+    headers = {
+        "apikey": key, "Authorization": f"Bearer {key}",
+        "Content-Type": "application/json",
+        "Prefer": "resolution=merge-duplicates,return=minimal",
+    }
+    for table, rows in (("jnl_registry", reg_rows()), ("jd_entries", jd_rows())):
+        req = urllib.request.Request(
+            f"{url}/rest/v1/{table}?on_conflict=jnl",
+            data=json.dumps(rows).encode(), headers=headers, method="POST")
+        with urllib.request.urlopen(req, timeout=60) as r:
+            print(f"sync_supabase: {table} <- {len(rows)} rows (HTTP {r.status})")
+    return 0
+
+
 if __name__ == "__main__":
-    main()
+    raise SystemExit(push() if "--push" in sys.argv[1:] else emit_sql())

@@ -10,7 +10,7 @@ status: INACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T9_HERMES/contract.json
-related: []
+related: [CONN-MSB-CORE-0001]
 references: []
 tags: [governance, god-system, canon]
 ref: [PRI, IDX]

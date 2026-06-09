@@ -2,7 +2,7 @@
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
     "nodes": 85,
-    "edges": 18,
+    "edges": 92,
     "main": 72,
     "side": 13
   },
@@ -775,6 +775,31 @@
   ],
   "edges": [
     {
+      "source": "ARCH-AYR-SPEC-0001",
+      "target": "GS-AYR-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-SPEC-0002",
+      "target": "GS-AYR-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-FLOW-SPEC-0001",
+      "target": "GS-SKD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-GPT-SPEC-0001",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-GS-IDX-0001",
+      "target": "GS-ODN-CORE-0001",
+      "type": "related"
+    },
+    {
       "source": "ARCH-JATM-CORE-0001",
       "target": "ARCH-JMMS-CORE-0001",
       "type": "related"
@@ -862,6 +887,351 @@
     {
       "source": "ARCH-LAL-CORE-0001",
       "target": "ARCH-JNL-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-RT-SPEC-0001",
+      "target": "GS-SKD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-RT-SPEC-0002",
+      "target": "GS-SKD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-RT-SPEC-0003",
+      "target": "ARCH-RT-SPEC-0002",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-YGG-CORE-0001",
+      "target": "ARCH-JFS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "AUD-CHK-SPEC-0001",
+      "target": "GS-AEG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "AUD-COMP-REVW-0001",
+      "target": "GOV-BRF-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "AUD-FULL-REVW-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "AUD-OPUS-REVW-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "AUD-SYS-REVW-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "CONN-OTH-LOG-0001",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-BRF-CORE-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-CON-CORE-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-PAT-REG-0001",
+      "target": "GS-KRN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-PROC-CORE-0001",
+      "target": "GOV-PAT-REG-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-AEG-CORE-0001",
+      "target": "GS-ODN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-APO-CORE-0001",
+      "target": "GS-HAL-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-ARG-CORE-0001",
+      "target": "GS-IRS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-ATH-CORE-0001",
+      "target": "GS-ODN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-ATL-CORE-0001",
+      "target": "ARCH-JSL-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-AYR-CORE-0001",
+      "target": "GS-AEG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-BFR-CORE-0001",
+      "target": "GS-HER-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-CHA-CORE-0001",
+      "target": "GS-AYR-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-DAN-CORE-0001",
+      "target": "GS-AEG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-ERI-CORE-0001",
+      "target": "GS-CHA-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-HAD-CORE-0001",
+      "target": "ARCH-JATM-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-HAL-CORE-0001",
+      "target": "GS-ODN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-HER-CORE-0001",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-HUG-CORE-0001",
+      "target": "GS-ARG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-IRS-CORE-0001",
+      "target": "GS-AEG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-JAN-CORE-0001",
+      "target": "GS-HUG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-KRN-CORE-0001",
+      "target": "GS-SKD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-LOK-CORE-0001",
+      "target": "GS-JAN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-MER-CORE-0001",
+      "target": "GS-NEM-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-MIM-CORE-0001",
+      "target": "GS-MNE-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-MNE-CORE-0001",
+      "target": "GS-HUG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-MNE-CORE-0001",
+      "target": "ARCH-JLTM-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-NEM-CORE-0001",
+      "target": "GS-IRS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-ODN-CORE-0001",
+      "target": "GS-KRN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-POS-CORE-0001",
+      "target": "GS-LOK-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-PRO-CORE-0001",
+      "target": "GS-KRN-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-SKD-CORE-0001",
+      "target": "GS-MNE-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GS-ZEU-CORE-0001",
+      "target": "GS-AEG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IDEA-USED-LOG-0001",
+      "target": "IDEA-UNUS-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-DEX-SPEC-0001",
+      "target": "IMPL-FMT-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-DEX-SPEC-0001",
+      "target": "ARCH-JD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-FMT-SPEC-0001",
+      "target": "ARCH-JNS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-FMT-SPEC-0001",
+      "target": "ARCH-JNL-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-FMT-SPEC-0001",
+      "target": "ARCH-JSS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-HYG-SPEC-0001",
+      "target": "IMPL-FMT-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-IDX-REG-0001",
+      "target": "ARCH-LAL-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-IMP-LOG-0001",
+      "target": "ARCH-JSS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-INA-LOG-0001",
+      "target": "ARCH-JSS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JCS-CORE-0001",
+      "target": "ARCH-JD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JCSD-SPEC-0001",
+      "target": "IMPL-JCS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JCSE-SPEC-0001",
+      "target": "IMPL-JCS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JCSF-SPEC-0001",
+      "target": "IMPL-JCS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JCSG-SPEC-0001",
+      "target": "IMPL-JCS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JGPP-CORE-0001",
+      "target": "IMPL-JCS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JIP-SPEC-0608",
+      "target": "IMPL-JGPP-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JQL-CORE-0001",
+      "target": "IMPL-JCSE-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "IMPL-JQL-CORE-0001",
+      "target": "ARCH-JD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-COS-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-DEO-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-GEN-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-GRD-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-JPL-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-LEG-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-NAR-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-PAC-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
       "type": "related"
     }
   ]

@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Implementation/Active/JIP-0608-E
-related: []
+related: [IMPL-JCSE-SPEC-0001, ARCH-JD-CORE-0001]
 references: []
 tags: [pipeline, jql, query]
 ref: [PRI, IDX]

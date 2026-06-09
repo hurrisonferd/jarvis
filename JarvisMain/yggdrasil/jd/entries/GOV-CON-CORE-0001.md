@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Architecture/constraints.md
-related: []
+related: [GOV-CAN-CORE-0001]
 references: []
 tags: [governance, gold-law]
 ref: [PRI, IDX]

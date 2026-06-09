@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T7_APOLLO/contract.json
-related: []
+related: [GS-HAL-CORE-0001]
 references: []
 tags: [orchestration, god-system, canon]
 ref: [PRI, IDX]

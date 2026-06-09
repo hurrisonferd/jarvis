@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Audit/required-checks-setup.md
-related: []
+related: [GS-AEG-CORE-0001]
 references: []
 tags: [audit, ci]
 ref: [PRI, IDX]

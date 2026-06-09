@@ -10,7 +10,7 @@ status: ARCHIVED
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisSide/Archive/CompanionResearch-0001-053026.md
-related: []
+related: [GOV-BRF-CORE-0001]
 references: []
 tags: [research, companion, archive]
 ref: [PRI, IDX]

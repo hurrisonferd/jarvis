@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T0_ZEUS/contract.json
-related: []
+related: [GS-AEG-CORE-0001]
 references: []
 tags: [cosmic, god-system, canon]
 ref: [PRI, IDX]

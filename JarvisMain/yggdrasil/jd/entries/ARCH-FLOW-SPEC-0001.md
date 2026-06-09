@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Architecture/specs/throughput-posture.md
-related: []
+related: [GS-SKD-CORE-0001]
 references: []
 tags: [architecture, throughput]
 ref: [PRI, IDX]

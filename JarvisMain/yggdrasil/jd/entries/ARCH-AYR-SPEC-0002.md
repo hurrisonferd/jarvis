@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Architecture/specs/ayre-loop-v1.md
-related: []
+related: [GS-AYR-CORE-0001]
 references: []
 tags: [architecture, ayre]
 ref: [PRI, IDX]

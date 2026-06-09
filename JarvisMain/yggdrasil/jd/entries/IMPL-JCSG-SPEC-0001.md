@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Implementation/Active/JIP-0608-G
-related: []
+related: [IMPL-JCS-CORE-0001]
 references: []
 tags: [jcs, layer, interface]
 ref: [PRI, IDX]
