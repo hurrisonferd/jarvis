@@ -109,10 +109,22 @@ def emit_sql() -> None:
 
 # --- push mode (PostgREST upsert) ---
 
+def norm_url(u: str) -> str:
+    """Tolerate secret variants: bare host (no scheme) and bare project ref (no domain)."""
+    u = u.strip().rstrip("/")
+    if not u:
+        return u
+    if "://" not in u:
+        u = f"https://{u}"
+    host = u.split("://", 1)[1].split("/", 1)[0]
+    if "." not in host:
+        u = u.replace(host, f"{host}.supabase.co", 1)
+    return u
+
+
 def push() -> int:
-    url = os.environ.get("SUPABASE_URL", "").rstrip("/")
-    if url and not url.startswith(("http://", "https://")):
-        url = f"https://{url}"  # secret may omit the scheme
+    import time
+    url = norm_url(os.environ.get("SUPABASE_URL", ""))
     key = os.environ.get("SUPABASE_SERVICE_KEY", "")
     if not url or not key:
         print("sync_supabase: SUPABASE_URL / SUPABASE_SERVICE_KEY unset — skipping (mirror stays stale).")
@@ -126,8 +138,17 @@ def push() -> int:
         req = urllib.request.Request(
             f"{url}/rest/v1/{table}?on_conflict=jnl",
             data=json.dumps(rows).encode(), headers=headers, method="POST")
-        with urllib.request.urlopen(req, timeout=60) as r:
-            print(f"sync_supabase: {table} <- {len(rows)} rows (HTTP {r.status})")
+        for attempt in range(3):  # runner DNS hiccups are real — retry before failing loudly
+            try:
+                with urllib.request.urlopen(req, timeout=60) as r:
+                    print(f"sync_supabase: {table} <- {len(rows)} rows (HTTP {r.status})")
+                break
+            except urllib.error.URLError as e:
+                if attempt == 2:
+                    raise
+                wait = 2 ** (attempt + 1)
+                print(f"sync_supabase: {table} attempt {attempt + 1} failed ({e}); retrying in {wait}s")
+                time.sleep(wait)
     return 0
 
 
