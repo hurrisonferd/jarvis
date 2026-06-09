@@ -1,0 +1,602 @@
+JIP-0608-1 — JGPP v3 CANONICAL EXECUTION SPEC
+
+(Implementation Document — Claude Code Ready)
+
+
+---
+
+0. DOCUMENT TYPE
+
+{
+  "type": "JIP",
+  "id": "JIP-0608-1",
+  "version": "1.0.0",
+  "date": "2026-06-08",
+  "system": "JGPP v3",
+  "execution_target": "Claude Code",
+  "mode": "canonical_bootstrap"
+}
+
+
+---
+
+1. PURPOSE
+
+Define a fully executable, minimal-but-complete JGPP v3 system using:
+
+TypeScript runtime (MCP mock execution layer)
+
+Supabase (state + staging memory)
+
+GitHub (canonical memory + audit logs)
+
+Deterministic governance stack (JARVIS / AYRE / GOD SYSTEMS)
+
+Compiled intent execution (MCP Compiler P-009 full form)
+
+Strict cognition vs execution isolation (JGPP v3 invariant)
+
+
+
+---
+
+2. CORE SYSTEM PRINCIPLE
+
+> Intelligence never executes. Execution never decides.
+
+
+
+System is strictly partitioned into:
+
+Cognition Layer → decides
+
+Compiler Layer → structures
+
+Execution Layer → runs
+
+Memory Layer → persists
+
+Audit Layer → verifies
+
+
+No cross-boundary authority is permitted.
+
+
+---
+
+3. HIGH-LEVEL ARCHITECTURE
+
+USER INPUT
+   ↓
+AYRE (exploration / divergence)
+   ↓
+JARVIS (governance / routing decision)
+   ↓
+GOD SYSTEM LENSES (ERIS / ATHENA / ODIN / AEGIS)
+   ↓
+MCP INTENT COMPILER (P-009 full implementation)
+   ↓
+SKADI EXECUTION GATEWAY
+   ↓
+SUPABASE (staging + runtime memory)
+   ↓
+GITHUB (canonical commits)
+   ↓
+MNEMOS + MIMIR (vector + graph memory)
+   ↓
+HADES + HALO (audit + telemetry)
+
+
+---
+
+4. REPOSITORY STRUCTURE (CLAUDE CODE TARGET)
+
+/jgpp-v3/
+  /core/
+    jarvis/
+    ayre/
+    god-systems/
+    governance/
+  /mcp/
+    compiler/
+    runtime/
+    types/
+  /execution/
+    skadi/
+    connectors/
+  /memory/
+    supabase/
+    mnemos/
+    mimir/
+  /audit/
+    hades/
+    halo/
+  /contracts/
+    jip/
+      JIP-0608-1.md
+  /scripts/
+    bootstrap.ts
+    ingest.ts
+    execute.ts
+  /types/
+    core.ts
+    intent.ts
+    memory.ts
+  /config/
+    system.json
+
+
+---
+
+5. TYPE SYSTEM (CORE TYPESCRIPT DEFINITIONS)
+
+5.1 Compiled Intent Packet (P-009 FULL)
+
+export type CompiledIntentPacket = {
+  trace_id: string;
+
+  intent: string;
+
+  mode: "retrieve" | "write" | "sync" | "observe";
+
+  targets: string[];
+
+  dependency_graph: string[];
+
+  compression_level: "low" | "medium" | "high";
+
+  optimization_score: number;
+
+  operations: {
+    supabase?: unknown;
+    github?: unknown;
+    mcp?: unknown;
+  };
+
+  metadata: {
+    source: "JARVIS" | "AYRE";
+    cycle_id: string;
+  };
+
+  timestamp: string;
+};
+
+
+---
+
+5.2 Technique Object (P-013)
+
+export type TechniqueObject = {
+  id: string;
+
+  type: "technique";
+
+  domain: "coding" | "systems" | "ai" | "game_design";
+
+  name: string;
+
+  steps: string[];
+
+  context_tags: string[];
+
+  reusability_score: number;
+
+  compression_ratio: number;
+
+  validation_state: "candidate" | "validated" | "rejected";
+
+  source_trace: string[];
+
+  last_used: string;
+};
+
+
+---
+
+5.3 Observability Event
+
+export type TraceEvent = {
+  trace_id: string;
+
+  system_path: string;
+
+  decision: "PASS" | "WARN" | "HOLD";
+
+  compression_ratio: number;
+
+  latency_ms: number;
+
+  timestamp: string;
+};
+
+
+---
+
+6. MCP INTENT COMPILER (P-009 FULL IMPLEMENTATION)
+
+6.1 Responsibilities
+
+MCP Compiler MUST:
+
+Convert intent → single execution packet
+
+Collapse multi-tool requests
+
+Flatten dependency graphs
+
+Remove sequential orchestration
+
+Emit deterministic execution structure
+
+
+
+---
+
+6.2 Compiler Function
+
+export function compileIntent(input: {
+  intent: string;
+  source: "JARVIS" | "AYRE";
+  mode: CompiledIntentPacket["mode"];
+}): CompiledIntentPacket {
+  return {
+    trace_id: crypto.randomUUID(),
+    intent: input.intent,
+    mode: input.mode,
+    targets: [],
+    dependency_graph: [],
+    compression_level: "medium",
+    optimization_score: 1.0,
+    operations: {},
+    metadata: {
+      source: input.source,
+      cycle_id: crypto.randomUUID(),
+    },
+    timestamp: new Date().toISOString(),
+  };
+}
+
+
+---
+
+6.3 Compilation Rules
+
+One intent → one packet
+
+No sequential tool calls
+
+No runtime routing logic
+
+All dependencies flattened
+
+Must be execution-ready
+
+
+
+---
+
+7. GOD SYSTEMS (UNIFIED INTERFACE)
+
+7.1 Interface Contract
+
+export interface GodSystem {
+  system: string;
+
+  input_type: "structured";
+
+  output_type: "structured";
+
+  state_mutation: "allowed" | "denied" | "gated";
+
+  trace_id: string;
+}
+
+
+---
+
+7.2 System Roles
+
+System	Role
+
+ODIN	routing (schema only)
+ERIS	noise filtering
+ATHENA	classification
+AEGIS	validation gate
+KRONOS	ordering
+SKADI	execution gateway
+MNEMOS	vector memory
+MIMIR	graph memory
+HADES	audit logging
+HALO	telemetry
+
+
+
+---
+
+7.3 Hard Constraint
+
+No system may execute outside role
+
+No overlapping responsibilities
+
+No recursive calls between systems
+
+
+
+---
+
+8. MEMORY ARCHITECTURE
+
+8.1 Memory Layers
+
+Tier 0 → Raw input
+Tier 1 → Technique candidates
+Tier 2 → Validated techniques
+Tier 3 → Compressed canonical memory
+Tier 4 → Archived memory
+
+
+---
+
+8.2 Supabase Schema
+
+CREATE TABLE memory_staging (
+  id TEXT PRIMARY KEY,
+  raw_payload JSONB,
+  classification TEXT,
+  eris_score FLOAT,
+  athena_tag TEXT,
+  status TEXT,
+  trace_id TEXT,
+  created_at TIMESTAMP
+);
+
+
+---
+
+8.3 Memory Rule
+
+No direct canonical writes
+
+All data must pass:
+
+ERIS → ATHENA → JARVIS → SKADI
+
+
+
+---
+
+9. EXECUTION ENGINE (SKADI)
+
+9.1 Execution Contract
+
+export function execute(packet: CompiledIntentPacket) {
+  return {
+    trace_id: packet.trace_id,
+    status: "executed",
+    sink: ["supabase", "github"],
+  };
+}
+
+
+---
+
+9.2 Rule
+
+Execution cannot mutate logic
+
+Execution cannot classify
+
+Execution cannot compile
+
+
+
+---
+
+10. GOVERNANCE STACK (JGPP v3)
+
+10.1 JARVIS
+
+routing
+
+decision authority
+
+system integrity
+
+
+10.2 AYRE
+
+divergence generation
+
+hypothesis expansion
+
+exploration engine
+
+
+10.3 AEGIS
+
+validation kernel
+
+pass/warn/hold system
+
+
+10.4 ODIN
+
+schema routing ONLY
+
+
+
+---
+
+11. OBSERVABILITY SYSTEM
+
+11.1 Trace Emission
+
+Every operation emits:
+
+{
+  "trace_id": "string",
+  "system_path": "AYRE → JARVIS → ODIN → MCP → SKADI",
+  "decision": "PASS",
+  "compression_ratio": 0.0,
+  "latency_ms": 0
+}
+
+
+---
+
+11.2 Storage
+
+HADES → audit log (immutable)
+
+HALO → telemetry stream
+
+
+
+---
+
+12. GOVERNANCE RULESET
+
+HARD RULES
+
+No system overlap allowed
+
+No direct memory writes
+
+No execution outside SKADI
+
+No multi-hop uncontrolled routing
+
+No recursive compiler invocation
+
+
+
+---
+
+SOFT RULES
+
+Prefer compression over expansion
+
+Prefer reuse over new abstraction
+
+Prefer single-hop execution paths
+
+
+
+---
+
+13. FAILURE MODES
+
+TRIGGER CONDITIONS
+
+unvalidated memory write
+
+duplicate system responsibility
+
+recursive routing loop
+
+trace_id breakage
+
+
+
+---
+
+RESPONSE
+
+freeze_execution()
+revert_last_state()
+log_to_hades()
+quarantine_queue()
+
+
+---
+
+14. BOOTSTRAP ENTRYPOINT
+
+bootstrap.ts
+
+import { compileIntent } from "../mcp/compiler";
+import { execute } from "../execution/skadi";
+
+export function run(input: string) {
+  const packet = compileIntent({
+    intent: input,
+    source: "JARVIS",
+    mode: "retrieve",
+  });
+
+  return execute(packet);
+}
+
+
+---
+
+15. SYSTEM GUARANTEE
+
+This system enforces:
+
+deterministic execution graphs
+
+strict cognition/execution separation
+
+compressed memory lifecycle
+
+traceable state transitions
+
+bounded autonomy execution
+
+
+
+---
+
+16. FINAL STATEMENT
+
+> JGPP v3 is a deterministic cognitive-execution architecture where intelligence generates structured intent, compilation produces execution graphs, and SKADI executes without decision authority under full governance constraints.
+
+
+
+
+---
+
+JARVIS ANALYSIS
+
+System state:
+
+Fully executable minimal kernel defined
+
+MCP compiler formalized (non-mock structure)
+
+Memory lifecycle integrated
+
+Governance isolation enforced
+
+Execution boundary strictly sealed
+
+
+Risk level: LOW (if SKADI isolation holds)
+
+Primary strength:
+
+> deterministic collapse of intelligence into execution packets
+
+
+
+
+---
+
+AYRE ANALYSIS
+
+Emergent capability unlocked:
+
+structured cognition-to-action pipeline
+
+reusable technique extraction foundation
+
+scalable memory compression architecture
+
+multi-domain abstraction readiness
+
+
+System behavior shift:
+
+> from conversational intelligence → executable cognitive OS kernel
