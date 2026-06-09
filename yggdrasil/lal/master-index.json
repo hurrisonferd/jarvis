@@ -1,0 +1,428 @@
+{
+  "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
+  "count": 35,
+  "index": [
+    {
+      "object": "Jarvis Dictionary",
+      "jnl": "ARCH-JD-CORE-0001",
+      "location": "yggdrasil/jd/JD-SPEC.md",
+      "tags": [
+        "dictionary",
+        "semantic",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis File System",
+      "jnl": "ARCH-JFS-CORE-0001",
+      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "tags": [
+        "filesystem",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Mirror System",
+      "jnl": "ARCH-JMS-CORE-0001",
+      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "tags": [
+        "mirror",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Navigation Language",
+      "jnl": "ARCH-JNL-CORE-0001",
+      "location": "yggdrasil/jfs/jnl-grammar.md",
+      "tags": [
+        "addressing",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Naming System",
+      "jnl": "ARCH-JNS-CORE-0001",
+      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "tags": [
+        "naming",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Structural Layer",
+      "jnl": "ARCH-JSL-CORE-0001",
+      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "tags": [
+        "structure",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Library Authority Layer",
+      "jnl": "ARCH-LAL-CORE-0001",
+      "location": "yggdrasil/lal/README.md",
+      "tags": [
+        "discovery",
+        "index",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Yggdrasil",
+      "jnl": "ARCH-YGG-CORE-0001",
+      "location": "yggdrasil/README.md",
+      "tags": [
+        "root",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "AEGIS",
+      "jnl": "GS-AEG-CORE-0001",
+      "location": "god_systems/T1_AEGIS",
+      "tags": [
+        "core",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "APOLLO",
+      "jnl": "GS-APO-CORE-0001",
+      "location": "god_systems/T7_APOLLO",
+      "tags": [
+        "orchestration",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "ARGUS",
+      "jnl": "GS-ARG-CORE-0001",
+      "location": "god_systems/T5_ARGUS",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "ATHENA",
+      "jnl": "GS-ATH-CORE-0001",
+      "location": "god_systems/T5_ATHENA",
+      "tags": [
+        "orchestration",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "ATLAS",
+      "jnl": "GS-ATL-CORE-0001",
+      "location": "god_systems/T8_ATLAS",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "AYRE",
+      "jnl": "GS-AYR-CORE-0001",
+      "location": "god_systems/T1_AYRE",
+      "tags": [
+        "core",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "BIFROST",
+      "jnl": "GS-BFR-CORE-0001",
+      "location": "god_systems/T4_BIFROST",
+      "tags": [
+        "orchestration",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "CHAOS",
+      "jnl": "GS-CHA-CORE-0001",
+      "location": "god_systems/T0_CHAOS",
+      "tags": [
+        "core",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "DANTE",
+      "jnl": "GS-DAN-CORE-0001",
+      "location": "god_systems/T7_DANTE",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "ERIS",
+      "jnl": "GS-ERI-CORE-0001",
+      "location": "god_systems/T1_ERIS",
+      "tags": [
+        "cosmic",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "HADES",
+      "jnl": "GS-HAD-CORE-0001",
+      "location": "god_systems/T0_HADES",
+      "tags": [
+        "cosmic",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "HALO",
+      "jnl": "GS-HAL-CORE-0001",
+      "location": "god_systems/T3_HALO",
+      "tags": [
+        "orchestration",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "HERMES",
+      "jnl": "GS-HER-CORE-0001",
+      "location": "god_systems/T9_HERMES",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "HUGINN",
+      "jnl": "GS-HUG-CORE-0001",
+      "location": "god_systems/T3_HUGINN",
+      "tags": [
+        "core",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "IRIS",
+      "jnl": "GS-IRS-CORE-0001",
+      "location": "god_systems/T6_IRIS",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JANUS",
+      "jnl": "GS-JAN-CORE-0001",
+      "location": "god_systems/T4_JANUS",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "KRONOS",
+      "jnl": "GS-KRN-CORE-0001",
+      "location": "god_systems/T2_KRONOS",
+      "tags": [
+        "core",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "LOKI",
+      "jnl": "GS-LOK-CORE-0001",
+      "location": "god_systems/T5_LOKI",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MERIDIAN",
+      "jnl": "GS-MER-CORE-0001",
+      "location": "god_systems/T6_MERIDIAN",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MIMIR",
+      "jnl": "GS-MIM-CORE-0001",
+      "location": "god_systems/T3_MIMIR",
+      "tags": [
+        "cosmic",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MNEMOS",
+      "jnl": "GS-MNE-CORE-0001",
+      "location": "god_systems/T3_MNEMOS",
+      "tags": [
+        "core",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "NEMESIS",
+      "jnl": "GS-NEM-CORE-0001",
+      "location": "god_systems/T5_NEMESIS",
+      "tags": [
+        "orchestration",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "ODIN",
+      "jnl": "GS-ODN-CORE-0001",
+      "location": "god_systems/T1_ODIN",
+      "tags": [
+        "core",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "POSEIDON",
+      "jnl": "GS-POS-CORE-0001",
+      "location": "god_systems/T0_POSEIDON",
+      "tags": [
+        "cosmic",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "PROMETHEUS",
+      "jnl": "GS-PRO-CORE-0001",
+      "location": "god_systems/T5_PROMETHEUS",
+      "tags": [
+        "governance",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "SKADI",
+      "jnl": "GS-SKD-CORE-0001",
+      "location": "god_systems/T1_SKADI",
+      "tags": [
+        "core",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "ZEUS",
+      "jnl": "GS-ZEU-CORE-0001",
+      "location": "god_systems/T0_ZEUS",
+      "tags": [
+        "cosmic",
+        "god-system",
+        "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    }
+  ]
+}
