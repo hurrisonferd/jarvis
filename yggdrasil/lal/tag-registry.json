@@ -186,11 +186,30 @@
     "index": [
       "ARCH-LAL-CORE-0001"
     ],
+    "interface": [
+      "IMPL-JCSG-SPEC-0001"
+    ],
+    "jcs": [
+      "IMPL-JCS-CORE-0001",
+      "IMPL-JCSD-SPEC-0001",
+      "IMPL-JCSE-SPEC-0001",
+      "IMPL-JCSF-SPEC-0001",
+      "IMPL-JCSG-SPEC-0001"
+    ],
+    "jgpp": [
+      "IMPL-JGPP-CORE-0001"
+    ],
     "jip": [
       "IMPL-JIP-SPEC-0608"
     ],
     "jpl": [
       "PROJ-JPL-BIO-0001"
+    ],
+    "layer": [
+      "IMPL-JCSD-SPEC-0001",
+      "IMPL-JCSE-SPEC-0001",
+      "IMPL-JCSF-SPEC-0001",
+      "IMPL-JCSG-SPEC-0001"
     ],
     "legion": [
       "PROJ-LEG-BIO-0001"
@@ -236,6 +255,10 @@
     "patches": [
       "GOV-PROC-CORE-0001"
     ],
+    "pipeline": [
+      "IMPL-JCS-CORE-0001",
+      "IMPL-JGPP-CORE-0001"
+    ],
     "process": [
       "GOV-PROC-CORE-0001"
     ],
@@ -248,6 +271,9 @@
       "PROJ-NAR-BIO-0001",
       "PROJ-PAC-BIO-0001"
     ],
+    "query": [
+      "IMPL-JCSE-SPEC-0001"
+    ],
     "review": [
       "AUD-FULL-REVW-0001",
       "AUD-OPUS-REVW-0001",
@@ -259,13 +285,20 @@
     "runtime": [
       "ARCH-RT-SPEC-0001",
       "ARCH-RT-SPEC-0002",
-      "ARCH-RT-SPEC-0003"
+      "ARCH-RT-SPEC-0003",
+      "IMPL-JCS-CORE-0001"
     ],
     "semantic": [
       "ARCH-JD-CORE-0001"
     ],
     "short-term": [
       "ARCH-JSTM-CORE-0001"
+    ],
+    "simulation": [
+      "IMPL-JCSF-SPEC-0001"
+    ],
+    "spec": [
+      "IMPL-JGPP-CORE-0001"
     ],
     "status": [
       "ARCH-JSS-CORE-0001"
@@ -275,6 +308,9 @@
     ],
     "supabase": [
       "CONN-MSB-CORE-0001"
+    ],
+    "temporal": [
+      "IMPL-JCSD-SPEC-0001"
     ],
     "throughput": [
       "ARCH-FLOW-SPEC-0001"

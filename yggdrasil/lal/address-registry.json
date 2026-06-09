@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 66,
+  "count": 72,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -910,6 +910,102 @@
       "tags": [
         "idea",
         "log"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-JCS-CORE-0001",
+      "name": "JCS \u2014 Jarvis Cognitive Stack",
+      "type": "IMPL",
+      "location": "Implementation/Active/JIP-0608-2",
+      "tags": [
+        "pipeline",
+        "jcs",
+        "runtime"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-JCSD-SPEC-0001",
+      "name": "JCS-D Temporal Reconstruction",
+      "type": "IMPL",
+      "location": "Implementation/Active/JIP-0608-D",
+      "tags": [
+        "jcs",
+        "layer",
+        "temporal"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-JCSE-SPEC-0001",
+      "name": "JCS-E Query & Traversal",
+      "type": "IMPL",
+      "location": "Implementation/Active/JIP-0608-E",
+      "tags": [
+        "jcs",
+        "layer",
+        "query"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-JCSF-SPEC-0001",
+      "name": "JCS-F Runtime Simulation",
+      "type": "IMPL",
+      "location": "Implementation/Active/JIP-0608-F",
+      "tags": [
+        "jcs",
+        "layer",
+        "simulation"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-JCSG-SPEC-0001",
+      "name": "JCS-G External Interface Binding",
+      "type": "IMPL",
+      "location": "Implementation/Active/JIP-0608-G",
+      "tags": [
+        "jcs",
+        "layer",
+        "interface"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-JGPP-CORE-0001",
+      "name": "JGPP \u2014 Generative Process Protocol",
+      "type": "IMPL",
+      "location": "Implementation/Active/JIP-0608-1",
+      "tags": [
+        "pipeline",
+        "jgpp",
+        "spec"
       ],
       "anchors": [],
       "status": "ACTIVE",
