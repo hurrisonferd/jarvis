@@ -24,6 +24,7 @@ const BASE_URL = `${SUPABASE_URL}/functions/v1/jarvis-mcp`;
 const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
+  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_propose",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
 ];
@@ -560,6 +561,72 @@ function buildServer(req: Request): McpServer {
         return heldForApproval("grid.event", { type: args.type, source: args.source, intent: args.intent, patch_id: args.patch_id });
       }
       return text(await callFunction("grid-event", args));
+    },
+  );
+
+  // THE DEX — the JD/JNL shared truth (jarvis-dex). Reads are open; proposing is
+  // write-gated like every other write. The dex derives identity (JNL/class/tier/
+  // owner) from meaning — the proposer never constructs a JNL by hand.
+  async function callDex(tool: string, args: Json, withAgentToken = false): Promise<unknown> {
+    const headers: Record<string, string> = { "content-type": "application/json" };
+    if (withAgentToken) headers["x-jarvis-token"] = Deno.env.get("DEX_AGENT_TOKEN") ?? "";
+    const res = await fetch(`${SUPABASE_URL}/functions/v1/jarvis-dex`, {
+      method: "POST", headers, body: JSON.stringify({ tool, args }),
+    });
+    return await res.json().catch(() => ({}));
+  }
+
+  server.registerTool(
+    "jarvis_dex_list",
+    {
+      title: "Dex — list governed objects",
+      description:
+        "List the dex (JD/JNL registry — the shared truth across all agents and sessions). Open every session with status:'ACTIVE' to load true architecture state instead of reconstructing it from chat memory. Filter by status/class/tier/type/tag.",
+      inputSchema: {
+        status: z.string().optional(),
+        class: z.string().optional(),
+        tier: z.string().optional(),
+        type: z.string().optional(),
+        tag: z.string().optional(),
+        limit: z.number().int().min(1).max(200).optional(),
+      },
+    },
+    async (args) => text(await callDex("jd_list", args)),
+  );
+
+  server.registerTool(
+    "jarvis_dex_search",
+    {
+      title: "Dex — search",
+      description:
+        "Search the dex by JNL address, name, or tag. Always search before proposing — the object may already exist. Returns full entries: definition, purpose, status, parent (family), related (web).",
+      inputSchema: { term: z.string().min(1).max(120) },
+    },
+    async ({ term }) => text(await callDex("jd_lookup", { term })),
+  );
+
+  server.registerTool(
+    "jarvis_dex_propose",
+    {
+      title: "Dex — propose entry (JGPP/JIP/JD/BIO)",
+      description:
+        "Stage a new governed object in the dex. Supply MEANING ONLY — name, domain (e.g. PROJ), system (project code, e.g. DEO for Deoxys — see project-codes), type (JGPP|JIP|JD|BIO), definition, purpose, tags. The connector derives JNL/class/tier/owner and stages it for Raven's approval; approved entries materialize as governed repo files automatically. AEGIS-gated: show Raven the proposal and let him Allow or Deny before calling. NEVER construct a JNL by hand.",
+      inputSchema: {
+        name: z.string().min(1).max(120),
+        domain: z.string().min(2).max(4),
+        system: z.string().min(2).max(4),
+        type: z.string().min(2).max(5),
+        definition: z.string().max(500).optional().default(""),
+        purpose: z.string().max(500).optional().default(""),
+        tags: z.array(z.string()).optional().default([]),
+        related: z.array(z.string()).optional().default([]),
+      },
+    },
+    async (args) => {
+      if (!writeAuthorized(req)) {
+        return heldForApproval("dex.propose", args);
+      }
+      return text(await callDex("jd_propose", args, true));
     },
   );
 
