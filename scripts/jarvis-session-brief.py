@@ -12,6 +12,9 @@ import urllib.request
 from datetime import datetime, timezone
 
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co")
+if not SUPABASE_URL.startswith(("http://", "https://")):
+    SUPABASE_URL = f"https://{SUPABASE_URL}"  # secret may omit the scheme
+
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
 RECALL_FN = f"{SUPABASE_URL}/functions/v1/mnemos-recall"
 REST_BASE = f"{SUPABASE_URL}/rest/v1"
