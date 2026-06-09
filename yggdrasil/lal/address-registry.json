@@ -1,11 +1,14 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 73,
+  "count": 74,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
       "name": "AYRE/JARVIS Split",
       "type": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "Architecture/specs/ayre-jarvis-split-v1.md",
       "tags": [
         "architecture",
@@ -21,6 +24,9 @@
       "jnl": "ARCH-AYR-SPEC-0002",
       "name": "AYRE Loop",
       "type": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "Architecture/specs/ayre-loop-v1.md",
       "tags": [
         "architecture",
@@ -36,6 +42,9 @@
       "jnl": "ARCH-FLOW-SPEC-0001",
       "name": "Throughput Posture",
       "type": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "Architecture/specs/throughput-posture.md",
       "tags": [
         "architecture",
@@ -51,6 +60,9 @@
       "jnl": "ARCH-GPT-SPEC-0001",
       "name": "Custom GPT Instructions",
       "type": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "Architecture/specs/jarvis-custom-gpt-instructions.md",
       "tags": [
         "architecture",
@@ -66,6 +78,9 @@
       "jnl": "ARCH-JATM-CORE-0001",
       "name": "Jarvis Ancestral Memory",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
@@ -83,6 +98,9 @@
       "jnl": "ARCH-JD-CORE-0001",
       "name": "Jarvis Dictionary",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jd/JD-SPEC.md",
       "tags": [
         "dictionary",
@@ -100,6 +118,9 @@
       "jnl": "ARCH-JFS-CORE-0001",
       "name": "Jarvis File System",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "filesystem",
@@ -116,6 +137,9 @@
       "jnl": "ARCH-JLTM-CORE-0001",
       "name": "Jarvis Long-Term Memory",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
@@ -132,6 +156,9 @@
       "jnl": "ARCH-JMMS-CORE-0001",
       "name": "Jarvis MultiMemory System",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
@@ -148,6 +175,9 @@
       "jnl": "ARCH-JMS-CORE-0001",
       "name": "Jarvis Mirror System",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "mirror",
@@ -164,6 +194,9 @@
       "jnl": "ARCH-JNL-CORE-0001",
       "name": "Jarvis Navigation Language",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jfs/jnl-grammar.md",
       "tags": [
         "addressing",
@@ -180,6 +213,9 @@
       "jnl": "ARCH-JNS-CORE-0001",
       "name": "Jarvis Naming System",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "naming",
@@ -196,6 +232,9 @@
       "jnl": "ARCH-JSL-CORE-0001",
       "name": "Jarvis Structural Layer",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "structure",
@@ -212,6 +251,9 @@
       "jnl": "ARCH-JSS-CORE-0001",
       "name": "Jarvis Status System",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jss/JSS-SPEC.md",
       "tags": [
         "status",
@@ -229,6 +271,9 @@
       "jnl": "ARCH-JSTM-CORE-0001",
       "name": "Jarvis Short-Term Memory",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
@@ -245,6 +290,9 @@
       "jnl": "ARCH-LAL-CORE-0001",
       "name": "Library Authority Layer",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/lal/README.md",
       "tags": [
         "discovery",
@@ -262,6 +310,9 @@
       "jnl": "ARCH-RT-SPEC-0001",
       "name": "Event Contract",
       "type": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "Architecture/runtime/event-contract.md",
       "tags": [
         "architecture",
@@ -277,6 +328,9 @@
       "jnl": "ARCH-RT-SPEC-0002",
       "name": "Execution Model",
       "type": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "Architecture/runtime/execution-model.md",
       "tags": [
         "architecture",
@@ -292,6 +346,9 @@
       "jnl": "ARCH-RT-SPEC-0003",
       "name": "World Kernel",
       "type": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "Architecture/runtime/world-kernel.md",
       "tags": [
         "architecture",
@@ -307,6 +364,9 @@
       "jnl": "ARCH-YGG-CORE-0001",
       "name": "Yggdrasil",
       "type": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
       "location": "yggdrasil/README.md",
       "tags": [
         "root",
@@ -323,6 +383,9 @@
       "jnl": "AUD-FULL-REVW-0001",
       "name": "Full System Audit",
       "type": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "owner": "Audit",
       "location": "Audit/2026-06-04_full_system_audit.md",
       "tags": [
         "audit",
@@ -338,6 +401,9 @@
       "jnl": "AUD-OPUS-REVW-0001",
       "name": "Opus 4.8 Audit",
       "type": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "owner": "Audit",
       "location": "Audit/2026-05-29_opus48_audit.md",
       "tags": [
         "audit",
@@ -353,6 +419,9 @@
       "jnl": "AUD-SYS-REVW-0001",
       "name": "Jarvis System Review",
       "type": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "owner": "Audit",
       "location": "Audit/JarvisSystemReview-0001-060826",
       "tags": [
         "audit",
@@ -368,6 +437,9 @@
       "jnl": "CONN-MSB-CORE-0001",
       "name": "MCP-Supabase Connector",
       "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
       "location": "Connectors/JarvisMCPSupabase/JMCPSB-0001",
       "tags": [
         "connector",
@@ -384,6 +456,9 @@
       "jnl": "CONN-OTH-LOG-0001",
       "name": "Other Connectors",
       "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
       "location": "Connectors/OtherConnectors/OCLog-0001",
       "tags": [
         "connector"
@@ -398,6 +473,9 @@
       "jnl": "GOV-BRF-CORE-0001",
       "name": "Jarvis Brief",
       "type": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
       "location": "Architecture/JarvisBrief.md",
       "tags": [
         "governance",
@@ -413,6 +491,9 @@
       "jnl": "GOV-CAN-CORE-0001",
       "name": "Canon",
       "type": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
       "location": "Architecture/canon.md",
       "tags": [
         "governance",
@@ -428,6 +509,9 @@
       "jnl": "GOV-CON-CORE-0001",
       "name": "Constraints",
       "type": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
       "location": "Architecture/constraints.md",
       "tags": [
         "governance",
@@ -443,6 +527,9 @@
       "jnl": "GOV-PROC-CORE-0001",
       "name": "Patch Process",
       "type": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
       "location": "Patches/PatchProcess.md",
       "tags": [
         "governance",
@@ -459,6 +546,9 @@
       "jnl": "GS-AEG-CORE-0001",
       "name": "AEGIS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T1_AEGIS",
       "tags": [
         "core",
@@ -475,6 +565,9 @@
       "jnl": "GS-APO-CORE-0001",
       "name": "APOLLO",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T7_APOLLO",
       "tags": [
         "orchestration",
@@ -491,6 +584,9 @@
       "jnl": "GS-ARG-CORE-0001",
       "name": "ARGUS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T5_ARGUS",
       "tags": [
         "governance",
@@ -507,6 +603,9 @@
       "jnl": "GS-ATH-CORE-0001",
       "name": "ATHENA",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T5_ATHENA",
       "tags": [
         "orchestration",
@@ -523,6 +622,9 @@
       "jnl": "GS-ATL-CORE-0001",
       "name": "ATLAS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T8_ATLAS",
       "tags": [
         "governance",
@@ -539,6 +641,9 @@
       "jnl": "GS-AYR-CORE-0001",
       "name": "AYRE",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T1_AYRE",
       "tags": [
         "core",
@@ -555,6 +660,9 @@
       "jnl": "GS-BFR-CORE-0001",
       "name": "BIFROST",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T4_BIFROST",
       "tags": [
         "orchestration",
@@ -571,6 +679,9 @@
       "jnl": "GS-CHA-CORE-0001",
       "name": "CHAOS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T0_CHAOS",
       "tags": [
         "core",
@@ -587,6 +698,9 @@
       "jnl": "GS-DAN-CORE-0001",
       "name": "DANTE",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T7_DANTE",
       "tags": [
         "governance",
@@ -603,6 +717,9 @@
       "jnl": "GS-ERI-CORE-0001",
       "name": "ERIS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T1_ERIS",
       "tags": [
         "cosmic",
@@ -619,6 +736,9 @@
       "jnl": "GS-HAD-CORE-0001",
       "name": "HADES",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T0_HADES",
       "tags": [
         "cosmic",
@@ -635,6 +755,9 @@
       "jnl": "GS-HAL-CORE-0001",
       "name": "HALO",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T3_HALO",
       "tags": [
         "orchestration",
@@ -651,6 +774,9 @@
       "jnl": "GS-HER-CORE-0001",
       "name": "HERMES",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T9_HERMES",
       "tags": [
         "governance",
@@ -667,6 +793,9 @@
       "jnl": "GS-HUG-CORE-0001",
       "name": "HUGINN",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T3_HUGINN",
       "tags": [
         "core",
@@ -683,6 +812,9 @@
       "jnl": "GS-IRS-CORE-0001",
       "name": "IRIS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T6_IRIS",
       "tags": [
         "governance",
@@ -699,6 +831,9 @@
       "jnl": "GS-JAN-CORE-0001",
       "name": "JANUS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T4_JANUS",
       "tags": [
         "governance",
@@ -715,6 +850,9 @@
       "jnl": "GS-KRN-CORE-0001",
       "name": "KRONOS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T2_KRONOS",
       "tags": [
         "core",
@@ -731,6 +869,9 @@
       "jnl": "GS-LOK-CORE-0001",
       "name": "LOKI",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T5_LOKI",
       "tags": [
         "governance",
@@ -747,6 +888,9 @@
       "jnl": "GS-MER-CORE-0001",
       "name": "MERIDIAN",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T6_MERIDIAN",
       "tags": [
         "governance",
@@ -763,6 +907,9 @@
       "jnl": "GS-MIM-CORE-0001",
       "name": "MIMIR",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T3_MIMIR",
       "tags": [
         "cosmic",
@@ -779,6 +926,9 @@
       "jnl": "GS-MNE-CORE-0001",
       "name": "MNEMOS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T3_MNEMOS",
       "tags": [
         "core",
@@ -795,6 +945,9 @@
       "jnl": "GS-NEM-CORE-0001",
       "name": "NEMESIS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T5_NEMESIS",
       "tags": [
         "orchestration",
@@ -811,6 +964,9 @@
       "jnl": "GS-ODN-CORE-0001",
       "name": "ODIN",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T1_ODIN",
       "tags": [
         "core",
@@ -827,6 +983,9 @@
       "jnl": "GS-POS-CORE-0001",
       "name": "POSEIDON",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T0_POSEIDON",
       "tags": [
         "cosmic",
@@ -843,6 +1002,9 @@
       "jnl": "GS-PRO-CORE-0001",
       "name": "PROMETHEUS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T5_PROMETHEUS",
       "tags": [
         "governance",
@@ -859,6 +1021,9 @@
       "jnl": "GS-SKD-CORE-0001",
       "name": "SKADI",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T1_SKADI",
       "tags": [
         "core",
@@ -875,6 +1040,9 @@
       "jnl": "GS-ZEU-CORE-0001",
       "name": "ZEUS",
       "type": "GS",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "God Systems",
       "location": "god_systems/T0_ZEUS",
       "tags": [
         "cosmic",
@@ -891,7 +1059,10 @@
       "jnl": "IDEA-UNUS-LOG-0001",
       "name": "Unused Ideas Log",
       "type": "IDEA",
-      "location": "Ideas/inactive/UnusedLog-0001",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Unused Ideas Log",
+      "location": "Side/Ideas/inactive/UnusedLog-0001",
       "tags": [
         "idea",
         "log"
@@ -906,7 +1077,10 @@
       "jnl": "IDEA-USED-LOG-0001",
       "name": "Used Ideas Log",
       "type": "IDEA",
-      "location": "Ideas/active/UsedLog-0001",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Used Ideas Log",
+      "location": "Side/Ideas/active/UsedLog-0001",
       "tags": [
         "idea",
         "log"
@@ -918,9 +1092,31 @@
       "updated": "2026-06-09"
     },
     {
-      "jnl": "IMPL-JCS-CORE-0001",
-      "name": "JCS \u2014 Jarvis Cognitive Stack",
+      "jnl": "IMPL-HYG-SPEC-0001",
+      "name": "Hygiene Packets Archive",
       "type": "IMPL",
+      "class": "SPEC",
+      "tier": "SIDE",
+      "owner": "JCS Pipeline",
+      "location": "Side/Archive/HygienePackets-0001-060926.md",
+      "tags": [
+        "hygiene",
+        "archive",
+        "reference"
+      ],
+      "anchors": [],
+      "status": "ARCHIVED",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-JCS-CORE-0001",
+      "name": "JCS - Jarvis Cognitive Stack",
+      "type": "IMPL",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
       "location": "Implementation/Active/JIP-0608-2",
       "tags": [
         "pipeline",
@@ -937,6 +1133,9 @@
       "jnl": "IMPL-JCSD-SPEC-0001",
       "name": "JCS-D Temporal Reconstruction",
       "type": "IMPL",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
       "location": "Implementation/Active/JIP-0608-D",
       "tags": [
         "jcs",
@@ -953,6 +1152,9 @@
       "jnl": "IMPL-JCSE-SPEC-0001",
       "name": "JCS-E Query & Traversal",
       "type": "IMPL",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
       "location": "Implementation/Active/JIP-0608-E",
       "tags": [
         "jcs",
@@ -969,6 +1171,9 @@
       "jnl": "IMPL-JCSF-SPEC-0001",
       "name": "JCS-F Runtime Simulation",
       "type": "IMPL",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
       "location": "Implementation/Active/JIP-0608-F",
       "tags": [
         "jcs",
@@ -985,6 +1190,9 @@
       "jnl": "IMPL-JCSG-SPEC-0001",
       "name": "JCS-G External Interface Binding",
       "type": "IMPL",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
       "location": "Implementation/Active/JIP-0608-G",
       "tags": [
         "jcs",
@@ -999,8 +1207,11 @@
     },
     {
       "jnl": "IMPL-JGPP-CORE-0001",
-      "name": "JGPP \u2014 Generative Process Protocol",
+      "name": "JGPP - Generative Process Protocol",
       "type": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
       "location": "Implementation/Active/JIP-0608-1",
       "tags": [
         "pipeline",
@@ -1017,6 +1228,9 @@
       "jnl": "IMPL-JIP-SPEC-0608",
       "name": "JIP-0608 Series",
       "type": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
       "location": "Implementation/Active/JIP-0608-ReadMe",
       "tags": [
         "implementation",
@@ -1030,8 +1244,11 @@
     },
     {
       "jnl": "IMPL-JQL-CORE-0001",
-      "name": "JQL \u2014 JD Query Language",
+      "name": "JQL - JD Query Language",
       "type": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
       "location": "Implementation/Active/JIP-0608-E",
       "tags": [
         "pipeline",
@@ -1048,7 +1265,10 @@
       "jnl": "PROJ-COS-BIO-0001",
       "name": "CodeOS",
       "type": "PROJ",
-      "location": "Projects/CodeOSProjectBio",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "CodeOS",
+      "location": "Side/Projects/CodeOSProjectBio",
       "tags": [
         "project",
         "codeos"
@@ -1063,7 +1283,10 @@
       "jnl": "PROJ-DEO-BIO-0001",
       "name": "Deoxys",
       "type": "PROJ",
-      "location": "Projects/Deoxys/ProjectBio",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Deoxys",
+      "location": "Side/Projects/Deoxys/ProjectBio",
       "tags": [
         "project",
         "deoxys"
@@ -1078,7 +1301,10 @@
       "jnl": "PROJ-GEN-BIO-0001",
       "name": "Genesis",
       "type": "PROJ",
-      "location": "Projects/Genesis/GenesisBio",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Genesis",
+      "location": "Side/Projects/Genesis/GenesisBio",
       "tags": [
         "project",
         "genesis"
@@ -1093,7 +1319,10 @@
       "jnl": "PROJ-JPL-BIO-0001",
       "name": "JPL",
       "type": "PROJ",
-      "location": "Projects/JPL/JPLBio",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "JPL",
+      "location": "Side/Projects/JPL/JPLBio",
       "tags": [
         "project",
         "jpl"
@@ -1108,7 +1337,10 @@
       "jnl": "PROJ-LEG-BIO-0001",
       "name": "Legion",
       "type": "PROJ",
-      "location": "Projects/Legion/LegionBio",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Legion",
+      "location": "Side/Projects/Legion/LegionBio",
       "tags": [
         "project",
         "legion"
@@ -1123,7 +1355,10 @@
       "jnl": "PROJ-NAR-BIO-0001",
       "name": "Naruto",
       "type": "PROJ",
-      "location": "Projects/Naruto/NarutoBio",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Naruto",
+      "location": "Side/Projects/Naruto/NarutoBio",
       "tags": [
         "project",
         "naruto"
@@ -1138,6 +1373,9 @@
       "jnl": "PROJ-PAC-BIO-0001",
       "name": "Pachinko Bounce",
       "type": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Pachinko Bounce",
       "location": "pachinko-bounce",
       "tags": [
         "project",

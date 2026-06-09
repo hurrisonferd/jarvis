@@ -1,13 +1,17 @@
 ---
 name: Jarvis Status System
 type: ARCH
+class: SYSTEM
+tier: MAIN
 authority: CANON
+owner: JFS
 jnl: ARCH-JSS-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMS-CORE-0001]
+references: []
 tags: [status, lifecycle, core, architecture]
 ref: [PRI, SPEC, IDX]
 ---

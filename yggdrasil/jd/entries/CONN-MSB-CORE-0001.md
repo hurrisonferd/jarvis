@@ -1,13 +1,17 @@
 ---
 name: MCP-Supabase Connector
 type: CONN
+class: MODULE
+tier: MAIN
 authority: CANON
+owner: Connectors
 jnl: CONN-MSB-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Connectors/JarvisMCPSupabase/JMCPSB-0001
 related: []
+references: []
 tags: [connector, mcp, supabase]
 ref: [PRI, IDX]
 ---

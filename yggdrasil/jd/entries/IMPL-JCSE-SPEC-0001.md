@@ -1,13 +1,17 @@
 ---
 name: JCS-E Query & Traversal
 type: IMPL
+class: MODULE
+tier: MAIN
 authority: CANON
+owner: JCS Pipeline
 jnl: IMPL-JCSE-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Implementation/Active/JIP-0608-E
 related: []
+references: []
 tags: [jcs, layer, query]
 ref: [PRI, IDX]
 ---

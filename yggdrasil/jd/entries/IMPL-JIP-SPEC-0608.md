@@ -1,13 +1,17 @@
 ---
 name: JIP-0608 Series
 type: IMPL
+class: SPEC
+tier: MAIN
 authority: CANON
+owner: JCS Pipeline
 jnl: IMPL-JIP-SPEC-0608
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Implementation/Active/JIP-0608-ReadMe
 related: []
+references: []
 tags: [implementation, jip]
 ref: [PRI, IDX]
 ---

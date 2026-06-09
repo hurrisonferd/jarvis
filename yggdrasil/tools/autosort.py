@@ -21,7 +21,8 @@ ROOT = Path(__file__).resolve().parents[2]
 JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
 REG_PATH = ROOT / "yggdrasil" / "lal" / "address-registry.json"
 
-MANAGED_ROOTS = {"Ideas", "Implementation", "Breakthroughs"}
+# Status-managed roots (prefixes). Periphery roots live under Side/.
+MANAGED_ROOTS = ("Side/Ideas", "Implementation", "Side/Breakthroughs")
 FM = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 
@@ -32,18 +33,16 @@ def field(text: str, key: str) -> str:
 
 def desired_path(location: str, status: str) -> str | None:
     """Return the status-correct path for a managed-root object, or None if already correct."""
-    parts = location.split("/")
-    if not parts or parts[0] not in MANAGED_ROOTS:
+    root = next((r for r in MANAGED_ROOTS if location == r or location.startswith(r + "/")), None)
+    if not root:
         return None
-    root = parts[0]
+    rest = location[len(root) + 1:].split("/")  # segments below the root
     sub = status.lower()
-    # tail = everything below the status subfolder (object may be file or nested)
-    tail = parts[2:] if len(parts) >= 3 else parts[1:]
-    target = "/".join([root, sub, *tail])
+    tail = rest[1:] if len(rest) >= 2 else rest    # below the status subfolder
     # already correct if the current subfolder matches the status (case-insensitive)
-    if len(parts) >= 2 and parts[1].lower() == sub:
+    if rest and rest[0].lower() == sub:
         return None
-    return target
+    return "/".join([root, sub, *tail])
 
 
 def main() -> int:

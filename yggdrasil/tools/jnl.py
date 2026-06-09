@@ -25,6 +25,12 @@ SUBSTRATE = {
 
 # JSS — Jarvis Status System. The governed lifecycle vocabulary for every object.
 STATUSES = {"TASK", "EXPANSION", "ACTIVE", "INACTIVE", "ARCHIVED", "DEPRECATED"}
+
+# Ontology classes (hygiene packet 1): what kind of object this is.
+CLASSES = {"SYSTEM", "SPEC", "MODULE", "ENTITY", "EVENT", "REGISTRY"}
+
+# MAIN = canonical core; SIDE = periphery (projects / ideas / breakthroughs / archived / deprecated).
+TIERS = {"MAIN", "SIDE"}
 GOD_SYSTEMS = {
     "AYR", "AEG", "ODN", "KRN", "SKD", "MNE", "HUG", "CHA",          # core 8
     "BFR", "HAL", "ATH", "NEM", "APO",                               # orchestration 5

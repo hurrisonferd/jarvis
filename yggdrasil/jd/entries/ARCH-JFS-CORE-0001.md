@@ -1,13 +1,17 @@
 ---
 name: Jarvis File System
 type: ARCH
+class: SYSTEM
+tier: MAIN
 authority: CANON
+owner: JFS
 jnl: ARCH-JFS-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JNS-CORE-0001, ARCH-JNL-CORE-0001, ARCH-JSL-CORE-0001, ARCH-JMS-CORE-0001]
+references: []
 tags: [filesystem, core, architecture]
 ref: [PRI, SPEC, IDX]
 ---
