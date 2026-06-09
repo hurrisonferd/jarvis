@@ -9,7 +9,7 @@ jnl: IMPL-JCS-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Implementation/Active/JIP-0608-2
+source: JarvisMain/Implementation/Active/JIP-0608-2
 related: []
 references: []
 tags: [pipeline, jcs, runtime]

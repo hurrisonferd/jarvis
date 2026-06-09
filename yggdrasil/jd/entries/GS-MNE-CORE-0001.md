@@ -9,7 +9,7 @@ jnl: GS-MNE-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: god_systems/T3_MNEMOS/contract.json
+source: JarvisMain/god_systems/T3_MNEMOS/contract.json
 related: []
 references: []
 tags: [core, god-system, canon]

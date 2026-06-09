@@ -9,7 +9,7 @@ jnl: GS-CHA-CORE-0001
 status: INACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: god_systems/T0_CHAOS/contract.json
+source: JarvisMain/god_systems/T0_CHAOS/contract.json
 related: []
 references: []
 tags: [core, god-system, canon]

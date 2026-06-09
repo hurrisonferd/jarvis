@@ -120,85 +120,85 @@ GOD_SYSTEMS = [
 # (jnl, name, type, location, definition, purpose, tags) ---
 KNOWLEDGE = [
     # Governance / canon
-    ("GOV-CAN-CORE-0001", "Canon", "GOV", "Architecture/canon.md",
+    ("GOV-CAN-CORE-0001", "Canon", "GOV", "JarvisMain/Architecture/canon.md",
      "Canonical architecture statement for JARVIS.", "Hold the agreed system truth.",
      ["governance", "canon"]),
-    ("GOV-CON-CORE-0001", "Constraints", "GOV", "Architecture/constraints.md",
+    ("GOV-CON-CORE-0001", "Constraints", "GOV", "JarvisMain/Architecture/constraints.md",
      "The full GL1–GL9 Gold Law contract.", "Define the hard constraints all agents obey.",
      ["governance", "gold-law"]),
-    ("GOV-BRF-CORE-0001", "Jarvis Brief", "GOV", "Architecture/JarvisBrief.md",
+    ("GOV-BRF-CORE-0001", "Jarvis Brief", "GOV", "JarvisMain/Architecture/JarvisBrief.md",
      "High-level orientation brief for JARVIS.", "Onboard agents to the mission and system.",
      ["governance", "brief"]),
-    ("GOV-PROC-CORE-0001", "Patch Process", "GOV", "Patches/PatchProcess.md",
+    ("GOV-PROC-CORE-0001", "Patch Process", "GOV", "JarvisMain/Patches/PatchProcess.md",
      "How patches are proposed, numbered, and recorded.", "Govern change flow into the record.",
      ["governance", "patches", "process"]),
     # Architecture specs / runtime contracts
-    ("ARCH-RT-SPEC-0001", "Event Contract", "ARCH", "Architecture/runtime/event-contract.md",
+    ("ARCH-RT-SPEC-0001", "Event Contract", "ARCH", "JarvisMain/Architecture/runtime/event-contract.md",
      "The runtime event contract.", "Define event shape across the loop.", ["architecture", "runtime"]),
-    ("ARCH-RT-SPEC-0002", "Execution Model", "ARCH", "Architecture/runtime/execution-model.md",
+    ("ARCH-RT-SPEC-0002", "Execution Model", "ARCH", "JarvisMain/Architecture/runtime/execution-model.md",
      "The runtime execution model.", "Define how execution proceeds.", ["architecture", "runtime"]),
-    ("ARCH-RT-SPEC-0003", "World Kernel", "ARCH", "Architecture/runtime/world-kernel.md",
+    ("ARCH-RT-SPEC-0003", "World Kernel", "ARCH", "JarvisMain/Architecture/runtime/world-kernel.md",
      "The world-kernel runtime spec.", "Define the world runtime substrate.", ["architecture", "runtime"]),
-    ("ARCH-AYR-SPEC-0001", "AYRE/JARVIS Split", "ARCH", "Architecture/specs/ayre-jarvis-split-v1.md",
+    ("ARCH-AYR-SPEC-0001", "AYRE/JARVIS Split", "ARCH", "JarvisMain/Architecture/specs/ayre-jarvis-split-v1.md",
      "Spec for splitting AYRE from JARVIS as co-equal streams.", "Record the split design.",
      ["architecture", "ayre"]),
-    ("ARCH-AYR-SPEC-0002", "AYRE Loop", "ARCH", "Architecture/specs/ayre-loop-v1.md",
+    ("ARCH-AYR-SPEC-0002", "AYRE Loop", "ARCH", "JarvisMain/Architecture/specs/ayre-loop-v1.md",
      "Spec for the AYRE reflection loop.", "Define the reflection cycle.", ["architecture", "ayre"]),
-    ("ARCH-GPT-SPEC-0001", "Custom GPT Instructions", "ARCH", "Architecture/specs/jarvis-custom-gpt-instructions.md",
+    ("ARCH-GPT-SPEC-0001", "Custom GPT Instructions", "ARCH", "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
      "Instruction spec for the JARVIS custom GPT.", "Align external GPT behavior.", ["architecture", "gpt"]),
-    ("ARCH-FLOW-SPEC-0001", "Throughput Posture", "ARCH", "Architecture/specs/throughput-posture.md",
+    ("ARCH-FLOW-SPEC-0001", "Throughput Posture", "ARCH", "JarvisMain/Architecture/specs/throughput-posture.md",
      "Spec for system throughput posture.", "Set performance/throughput stance.", ["architecture", "throughput"]),
     # Implementation (JIP series anchor)
-    ("IMPL-JIP-SPEC-0608", "JIP-0608 Series", "IMPL", "Implementation/Active/JIP-0608-ReadMe",
+    ("IMPL-JIP-SPEC-0608", "JIP-0608 Series", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-ReadMe",
      "JGPP v3 implementation packet series (JIP-0608-*).", "Track the evolving implementation stream.",
      ["implementation", "jip"]),
     # Projects (each a node)
-    ("PROJ-COS-BIO-0001", "CodeOS", "PROJ", "Side/Projects/CodeOSProjectBio",
+    ("PROJ-COS-BIO-0001", "CodeOS", "PROJ", "JarvisSide/Projects/CodeOSProjectBio",
      "CodeOS project.", "Project node bio.", ["project", "codeos"]),
-    ("PROJ-JPL-BIO-0001", "JPL", "PROJ", "Side/Projects/JPL/JPLBio",
+    ("PROJ-JPL-BIO-0001", "JPL", "PROJ", "JarvisSide/Projects/JPL/JPLBio",
      "JPL project (JARVIS Programming Language).", "Project node bio.", ["project", "jpl"]),
-    ("PROJ-GEN-BIO-0001", "Genesis", "PROJ", "Side/Projects/Genesis/GenesisBio",
+    ("PROJ-GEN-BIO-0001", "Genesis", "PROJ", "JarvisSide/Projects/Genesis/GenesisBio",
      "Genesis project.", "Project node bio.", ["project", "genesis"]),
-    ("PROJ-DEO-BIO-0001", "Deoxys", "PROJ", "Side/Projects/Deoxys/ProjectBio",
+    ("PROJ-DEO-BIO-0001", "Deoxys", "PROJ", "JarvisSide/Projects/Deoxys/ProjectBio",
      "Deoxys project.", "Project node bio.", ["project", "deoxys"]),
-    ("PROJ-LEG-BIO-0001", "Legion", "PROJ", "Side/Projects/Legion/LegionBio",
+    ("PROJ-LEG-BIO-0001", "Legion", "PROJ", "JarvisSide/Projects/Legion/LegionBio",
      "Legion project.", "Project node bio.", ["project", "legion"]),
-    ("PROJ-NAR-BIO-0001", "Naruto", "PROJ", "Side/Projects/Naruto/NarutoBio",
+    ("PROJ-NAR-BIO-0001", "Naruto", "PROJ", "JarvisSide/Projects/Naruto/NarutoBio",
      "Naruto project.", "Project node bio.", ["project", "naruto"]),
     ("PROJ-PAC-BIO-0001", "Pachinko Bounce", "PROJ", "pachinko-bounce",
      "Pachinko Bounce game (Godot, RGB encoding).", "Project node bio.", ["project", "pachinko", "game"]),
     # Connectors
-    ("CONN-MSB-CORE-0001", "MCP-Supabase Connector", "CONN", "Connectors/JarvisMCPSupabase/JMCPSB-0001",
+    ("CONN-MSB-CORE-0001", "MCP-Supabase Connector", "CONN", "JarvisMain/Connectors/JarvisMCPSupabase/JMCPSB-0001",
      "JARVIS MCP-to-Supabase connector.", "Bridge MCP to Supabase.", ["connector", "mcp", "supabase"]),
-    ("CONN-OTH-LOG-0001", "Other Connectors", "CONN", "Connectors/OtherConnectors/OCLog-0001",
+    ("CONN-OTH-LOG-0001", "Other Connectors", "CONN", "JarvisMain/Connectors/OtherConnectors/OCLog-0001",
      "Log of other/auxiliary connectors.", "Track additional connectors.", ["connector"]),
     # Audit reviews
-    ("AUD-SYS-REVW-0001", "Jarvis System Review", "AUD", "Audit/JarvisSystemReview-0001-060826",
+    ("AUD-SYS-REVW-0001", "Jarvis System Review", "AUD", "JarvisMain/Audit/JarvisSystemReview-0001-060826",
      "System review (2026-06-08).", "Recorded architecture review.", ["audit", "review"]),
-    ("AUD-OPUS-REVW-0001", "Opus 4.8 Audit", "AUD", "Audit/2026-05-29_opus48_audit.md",
+    ("AUD-OPUS-REVW-0001", "Opus 4.8 Audit", "AUD", "JarvisMain/Audit/2026-05-29_opus48_audit.md",
      "Opus 4.8 audit (2026-05-29).", "Recorded audit.", ["audit", "review"]),
-    ("AUD-FULL-REVW-0001", "Full System Audit", "AUD", "Audit/2026-06-04_full_system_audit.md",
+    ("AUD-FULL-REVW-0001", "Full System Audit", "AUD", "JarvisMain/Audit/2026-06-04_full_system_audit.md",
      "Full system audit (2026-06-04).", "Recorded audit.", ["audit", "review"]),
     # Runtime cognition pipeline: JGPP -> JIP -> JCS -> JD (spec -> impl -> runtime -> truth)
-    ("IMPL-JGPP-CORE-0001", "JGPP - Generative Process Protocol", "IMPL", "Implementation/Active/JIP-0608-1",
+    ("IMPL-JGPP-CORE-0001", "JGPP - Generative Process Protocol", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-1",
      "Generation/specification ruleset; pre-implementation compiler logic.",
      "Turn intelligence into structured intent + execution graphs.", ["pipeline", "jgpp", "spec"]),
-    ("IMPL-JCS-CORE-0001", "JCS - Jarvis Cognitive Stack", "IMPL", "Implementation/Active/JIP-0608-2",
+    ("IMPL-JCS-CORE-0001", "JCS - Jarvis Cognitive Stack", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-2",
      "Runtime reasoning/simulation engine operating over JIP structures and JD truth.",
      "Execute interpretation, simulation, and actor interaction at runtime.", ["pipeline", "jcs", "runtime"]),
-    ("IMPL-JCSD-SPEC-0001", "JCS-D Temporal Reconstruction", "IMPL", "Implementation/Active/JIP-0608-D",
+    ("IMPL-JCSD-SPEC-0001", "JCS-D Temporal Reconstruction", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-D",
      "JCS layer D: rebuilds historical JD states from JIP + logs.",
      "Temporal reconstruction of truth state.", ["jcs", "layer", "temporal"]),
-    ("IMPL-JCSE-SPEC-0001", "JCS-E Query & Traversal", "IMPL", "Implementation/Active/JIP-0608-E",
+    ("IMPL-JCSE-SPEC-0001", "JCS-E Query & Traversal", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-E",
      "JCS layer E: JD query and traversal engine.",
      "Query and traverse JD truth.", ["jcs", "layer", "query"]),
-    ("IMPL-JCSF-SPEC-0001", "JCS-F Runtime Simulation", "IMPL", "Implementation/Active/JIP-0608-F",
+    ("IMPL-JCSF-SPEC-0001", "JCS-F Runtime Simulation", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-F",
      "JCS layer F: runtime simulation over JD state.",
      "Simulate execution before committing it.", ["jcs", "layer", "simulation"]),
-    ("IMPL-JCSG-SPEC-0001", "JCS-G External Interface Binding", "IMPL", "Implementation/Active/JIP-0608-G",
+    ("IMPL-JCSG-SPEC-0001", "JCS-G External Interface Binding", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-G",
      "JCS layer G: external interface binding.",
      "Bind the runtime to external interfaces.", ["jcs", "layer", "interface"]),
-    ("IMPL-JQL-CORE-0001", "JQL - JD Query Language", "IMPL", "Implementation/Active/JIP-0608-E",
+    ("IMPL-JQL-CORE-0001", "JQL - JD Query Language", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-E",
      "Query language over JD truth — interactive runtime queries with traversal semantics.",
      "Let agents query and traverse the dex at runtime (executed by JCS-E).", ["pipeline", "jql", "query"]),
 ]
@@ -206,26 +206,26 @@ KNOWLEDGE = [
 # Status-managed objects under JSS-managed roots (location = the status-sorted path).
 # (jnl, name, type, location, definition, purpose, tags, status)
 MANAGED = [
-    ("IDEA-USED-LOG-0001", "Used Ideas Log", "IDEA", "Side/Ideas/active/UsedLog-0001",
+    ("IDEA-USED-LOG-0001", "Used Ideas Log", "IDEA", "JarvisSide/Ideas/active/UsedLog-0001",
      "Log of ideas that were adopted.", "Track adopted ideas.", ["idea", "log"], "ACTIVE"),
-    ("IDEA-UNUS-LOG-0001", "Unused Ideas Log", "IDEA", "Side/Ideas/inactive/UnusedLog-0001",
+    ("IDEA-UNUS-LOG-0001", "Unused Ideas Log", "IDEA", "JarvisSide/Ideas/inactive/UnusedLog-0001",
      "Log of ideas not (yet) adopted.", "Track parked ideas.", ["idea", "log"], "INACTIVE"),
-    ("IMPL-HYG-SPEC-0001", "Hygiene Packets Archive", "IMPL", "Side/Archive/HygienePackets-0001-060926.md",
+    ("IMPL-HYG-SPEC-0001", "Hygiene Packets Archive", "IMPL", "JarvisSide/Archive/HygienePackets-0001-060926.md",
      "Eight archived GPT hygiene packets with per-packet governance verdicts.",
      "Preserve the proposals for later mining; record what was adopted vs rejected.",
      ["hygiene", "archive", "reference"], "ARCHIVED"),
 ]
 
 # Each God System's truth lives in its own contract folder: god_systems/<TIER>_<NAME>/.
-GOD_SYSTEMS_DIR = ROOT / "god_systems"
+GOD_SYSTEMS_DIR = ROOT / "JarvisMain" / "god_systems"
 
 
 def gs_location(name: str) -> str:
     """Resolve a God System's truth folder (god_systems/T#_NAME). Falls back to the dir."""
     for d in GOD_SYSTEMS_DIR.iterdir() if GOD_SYSTEMS_DIR.is_dir() else []:
         if d.is_dir() and d.name.split("_", 1)[-1] == name:
-            return f"god_systems/{d.name}"
-    return "god_systems"
+            return f"JarvisMain/god_systems/{d.name}"
+    return "JarvisMain/god_systems"
 
 
 # Dormant God Systems (per CLAUDE.md P24): canonical but not routed → JSS status INACTIVE.

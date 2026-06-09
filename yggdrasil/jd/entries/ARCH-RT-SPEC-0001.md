@@ -9,7 +9,7 @@ jnl: ARCH-RT-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Architecture/runtime/event-contract.md
+source: JarvisMain/Architecture/runtime/event-contract.md
 related: []
 references: []
 tags: [architecture, runtime]

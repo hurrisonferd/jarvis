@@ -5,7 +5,7 @@
     {
       "object": "AYRE/JARVIS Split",
       "jnl": "ARCH-AYR-SPEC-0001",
-      "location": "Architecture/specs/ayre-jarvis-split-v1.md",
+      "location": "JarvisMain/Architecture/specs/ayre-jarvis-split-v1.md",
       "tags": [
         "architecture",
         "ayre"
@@ -16,7 +16,7 @@
     {
       "object": "AYRE Loop",
       "jnl": "ARCH-AYR-SPEC-0002",
-      "location": "Architecture/specs/ayre-loop-v1.md",
+      "location": "JarvisMain/Architecture/specs/ayre-loop-v1.md",
       "tags": [
         "architecture",
         "ayre"
@@ -27,7 +27,7 @@
     {
       "object": "Throughput Posture",
       "jnl": "ARCH-FLOW-SPEC-0001",
-      "location": "Architecture/specs/throughput-posture.md",
+      "location": "JarvisMain/Architecture/specs/throughput-posture.md",
       "tags": [
         "architecture",
         "throughput"
@@ -38,7 +38,7 @@
     {
       "object": "Custom GPT Instructions",
       "jnl": "ARCH-GPT-SPEC-0001",
-      "location": "Architecture/specs/jarvis-custom-gpt-instructions.md",
+      "location": "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
       "tags": [
         "architecture",
         "gpt"
@@ -197,7 +197,7 @@
     {
       "object": "Event Contract",
       "jnl": "ARCH-RT-SPEC-0001",
-      "location": "Architecture/runtime/event-contract.md",
+      "location": "JarvisMain/Architecture/runtime/event-contract.md",
       "tags": [
         "architecture",
         "runtime"
@@ -208,7 +208,7 @@
     {
       "object": "Execution Model",
       "jnl": "ARCH-RT-SPEC-0002",
-      "location": "Architecture/runtime/execution-model.md",
+      "location": "JarvisMain/Architecture/runtime/execution-model.md",
       "tags": [
         "architecture",
         "runtime"
@@ -219,7 +219,7 @@
     {
       "object": "World Kernel",
       "jnl": "ARCH-RT-SPEC-0003",
-      "location": "Architecture/runtime/world-kernel.md",
+      "location": "JarvisMain/Architecture/runtime/world-kernel.md",
       "tags": [
         "architecture",
         "runtime"
@@ -242,7 +242,7 @@
     {
       "object": "Full System Audit",
       "jnl": "AUD-FULL-REVW-0001",
-      "location": "Audit/2026-06-04_full_system_audit.md",
+      "location": "JarvisMain/Audit/2026-06-04_full_system_audit.md",
       "tags": [
         "audit",
         "review"
@@ -253,7 +253,7 @@
     {
       "object": "Opus 4.8 Audit",
       "jnl": "AUD-OPUS-REVW-0001",
-      "location": "Audit/2026-05-29_opus48_audit.md",
+      "location": "JarvisMain/Audit/2026-05-29_opus48_audit.md",
       "tags": [
         "audit",
         "review"
@@ -264,7 +264,7 @@
     {
       "object": "Jarvis System Review",
       "jnl": "AUD-SYS-REVW-0001",
-      "location": "Audit/JarvisSystemReview-0001-060826",
+      "location": "JarvisMain/Audit/JarvisSystemReview-0001-060826",
       "tags": [
         "audit",
         "review"
@@ -275,7 +275,7 @@
     {
       "object": "MCP-Supabase Connector",
       "jnl": "CONN-MSB-CORE-0001",
-      "location": "Connectors/JarvisMCPSupabase/JMCPSB-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/JMCPSB-0001",
       "tags": [
         "connector",
         "mcp",
@@ -287,7 +287,7 @@
     {
       "object": "Other Connectors",
       "jnl": "CONN-OTH-LOG-0001",
-      "location": "Connectors/OtherConnectors/OCLog-0001",
+      "location": "JarvisMain/Connectors/OtherConnectors/OCLog-0001",
       "tags": [
         "connector"
       ],
@@ -297,7 +297,7 @@
     {
       "object": "Jarvis Brief",
       "jnl": "GOV-BRF-CORE-0001",
-      "location": "Architecture/JarvisBrief.md",
+      "location": "JarvisMain/Architecture/JarvisBrief.md",
       "tags": [
         "governance",
         "brief"
@@ -308,7 +308,7 @@
     {
       "object": "Canon",
       "jnl": "GOV-CAN-CORE-0001",
-      "location": "Architecture/canon.md",
+      "location": "JarvisMain/Architecture/canon.md",
       "tags": [
         "governance",
         "canon"
@@ -319,7 +319,7 @@
     {
       "object": "Constraints",
       "jnl": "GOV-CON-CORE-0001",
-      "location": "Architecture/constraints.md",
+      "location": "JarvisMain/Architecture/constraints.md",
       "tags": [
         "governance",
         "gold-law"
@@ -330,7 +330,7 @@
     {
       "object": "Patch Process",
       "jnl": "GOV-PROC-CORE-0001",
-      "location": "Patches/PatchProcess.md",
+      "location": "JarvisMain/Patches/PatchProcess.md",
       "tags": [
         "governance",
         "patches",
@@ -342,7 +342,7 @@
     {
       "object": "AEGIS",
       "jnl": "GS-AEG-CORE-0001",
-      "location": "god_systems/T1_AEGIS",
+      "location": "JarvisMain/god_systems/T1_AEGIS",
       "tags": [
         "core",
         "god-system",
@@ -354,7 +354,7 @@
     {
       "object": "APOLLO",
       "jnl": "GS-APO-CORE-0001",
-      "location": "god_systems/T7_APOLLO",
+      "location": "JarvisMain/god_systems/T7_APOLLO",
       "tags": [
         "orchestration",
         "god-system",
@@ -366,7 +366,7 @@
     {
       "object": "ARGUS",
       "jnl": "GS-ARG-CORE-0001",
-      "location": "god_systems/T5_ARGUS",
+      "location": "JarvisMain/god_systems/T5_ARGUS",
       "tags": [
         "governance",
         "god-system",
@@ -378,7 +378,7 @@
     {
       "object": "ATHENA",
       "jnl": "GS-ATH-CORE-0001",
-      "location": "god_systems/T5_ATHENA",
+      "location": "JarvisMain/god_systems/T5_ATHENA",
       "tags": [
         "orchestration",
         "god-system",
@@ -390,7 +390,7 @@
     {
       "object": "ATLAS",
       "jnl": "GS-ATL-CORE-0001",
-      "location": "god_systems/T8_ATLAS",
+      "location": "JarvisMain/god_systems/T8_ATLAS",
       "tags": [
         "governance",
         "god-system",
@@ -402,7 +402,7 @@
     {
       "object": "AYRE",
       "jnl": "GS-AYR-CORE-0001",
-      "location": "god_systems/T1_AYRE",
+      "location": "JarvisMain/god_systems/T1_AYRE",
       "tags": [
         "core",
         "god-system",
@@ -414,7 +414,7 @@
     {
       "object": "BIFROST",
       "jnl": "GS-BFR-CORE-0001",
-      "location": "god_systems/T4_BIFROST",
+      "location": "JarvisMain/god_systems/T4_BIFROST",
       "tags": [
         "orchestration",
         "god-system",
@@ -426,7 +426,7 @@
     {
       "object": "CHAOS",
       "jnl": "GS-CHA-CORE-0001",
-      "location": "god_systems/T0_CHAOS",
+      "location": "JarvisMain/god_systems/T0_CHAOS",
       "tags": [
         "core",
         "god-system",
@@ -438,7 +438,7 @@
     {
       "object": "DANTE",
       "jnl": "GS-DAN-CORE-0001",
-      "location": "god_systems/T7_DANTE",
+      "location": "JarvisMain/god_systems/T7_DANTE",
       "tags": [
         "governance",
         "god-system",
@@ -450,7 +450,7 @@
     {
       "object": "ERIS",
       "jnl": "GS-ERI-CORE-0001",
-      "location": "god_systems/T1_ERIS",
+      "location": "JarvisMain/god_systems/T1_ERIS",
       "tags": [
         "cosmic",
         "god-system",
@@ -462,7 +462,7 @@
     {
       "object": "HADES",
       "jnl": "GS-HAD-CORE-0001",
-      "location": "god_systems/T0_HADES",
+      "location": "JarvisMain/god_systems/T0_HADES",
       "tags": [
         "cosmic",
         "god-system",
@@ -474,7 +474,7 @@
     {
       "object": "HALO",
       "jnl": "GS-HAL-CORE-0001",
-      "location": "god_systems/T3_HALO",
+      "location": "JarvisMain/god_systems/T3_HALO",
       "tags": [
         "orchestration",
         "god-system",
@@ -486,7 +486,7 @@
     {
       "object": "HERMES",
       "jnl": "GS-HER-CORE-0001",
-      "location": "god_systems/T9_HERMES",
+      "location": "JarvisMain/god_systems/T9_HERMES",
       "tags": [
         "governance",
         "god-system",
@@ -498,7 +498,7 @@
     {
       "object": "HUGINN",
       "jnl": "GS-HUG-CORE-0001",
-      "location": "god_systems/T3_HUGINN",
+      "location": "JarvisMain/god_systems/T3_HUGINN",
       "tags": [
         "core",
         "god-system",
@@ -510,7 +510,7 @@
     {
       "object": "IRIS",
       "jnl": "GS-IRS-CORE-0001",
-      "location": "god_systems/T6_IRIS",
+      "location": "JarvisMain/god_systems/T6_IRIS",
       "tags": [
         "governance",
         "god-system",
@@ -522,7 +522,7 @@
     {
       "object": "JANUS",
       "jnl": "GS-JAN-CORE-0001",
-      "location": "god_systems/T4_JANUS",
+      "location": "JarvisMain/god_systems/T4_JANUS",
       "tags": [
         "governance",
         "god-system",
@@ -534,7 +534,7 @@
     {
       "object": "KRONOS",
       "jnl": "GS-KRN-CORE-0001",
-      "location": "god_systems/T2_KRONOS",
+      "location": "JarvisMain/god_systems/T2_KRONOS",
       "tags": [
         "core",
         "god-system",
@@ -546,7 +546,7 @@
     {
       "object": "LOKI",
       "jnl": "GS-LOK-CORE-0001",
-      "location": "god_systems/T5_LOKI",
+      "location": "JarvisMain/god_systems/T5_LOKI",
       "tags": [
         "governance",
         "god-system",
@@ -558,7 +558,7 @@
     {
       "object": "MERIDIAN",
       "jnl": "GS-MER-CORE-0001",
-      "location": "god_systems/T6_MERIDIAN",
+      "location": "JarvisMain/god_systems/T6_MERIDIAN",
       "tags": [
         "governance",
         "god-system",
@@ -570,7 +570,7 @@
     {
       "object": "MIMIR",
       "jnl": "GS-MIM-CORE-0001",
-      "location": "god_systems/T3_MIMIR",
+      "location": "JarvisMain/god_systems/T3_MIMIR",
       "tags": [
         "cosmic",
         "god-system",
@@ -582,7 +582,7 @@
     {
       "object": "MNEMOS",
       "jnl": "GS-MNE-CORE-0001",
-      "location": "god_systems/T3_MNEMOS",
+      "location": "JarvisMain/god_systems/T3_MNEMOS",
       "tags": [
         "core",
         "god-system",
@@ -594,7 +594,7 @@
     {
       "object": "NEMESIS",
       "jnl": "GS-NEM-CORE-0001",
-      "location": "god_systems/T5_NEMESIS",
+      "location": "JarvisMain/god_systems/T5_NEMESIS",
       "tags": [
         "orchestration",
         "god-system",
@@ -606,7 +606,7 @@
     {
       "object": "ODIN",
       "jnl": "GS-ODN-CORE-0001",
-      "location": "god_systems/T1_ODIN",
+      "location": "JarvisMain/god_systems/T1_ODIN",
       "tags": [
         "core",
         "god-system",
@@ -618,7 +618,7 @@
     {
       "object": "POSEIDON",
       "jnl": "GS-POS-CORE-0001",
-      "location": "god_systems/T0_POSEIDON",
+      "location": "JarvisMain/god_systems/T0_POSEIDON",
       "tags": [
         "cosmic",
         "god-system",
@@ -630,7 +630,7 @@
     {
       "object": "PROMETHEUS",
       "jnl": "GS-PRO-CORE-0001",
-      "location": "god_systems/T5_PROMETHEUS",
+      "location": "JarvisMain/god_systems/T5_PROMETHEUS",
       "tags": [
         "governance",
         "god-system",
@@ -642,7 +642,7 @@
     {
       "object": "SKADI",
       "jnl": "GS-SKD-CORE-0001",
-      "location": "god_systems/T1_SKADI",
+      "location": "JarvisMain/god_systems/T1_SKADI",
       "tags": [
         "core",
         "god-system",
@@ -654,7 +654,7 @@
     {
       "object": "ZEUS",
       "jnl": "GS-ZEU-CORE-0001",
-      "location": "god_systems/T0_ZEUS",
+      "location": "JarvisMain/god_systems/T0_ZEUS",
       "tags": [
         "cosmic",
         "god-system",
@@ -666,7 +666,7 @@
     {
       "object": "Unused Ideas Log",
       "jnl": "IDEA-UNUS-LOG-0001",
-      "location": "Side/Ideas/inactive/UnusedLog-0001",
+      "location": "JarvisSide/Ideas/inactive/UnusedLog-0001",
       "tags": [
         "idea",
         "log"
@@ -677,7 +677,7 @@
     {
       "object": "Used Ideas Log",
       "jnl": "IDEA-USED-LOG-0001",
-      "location": "Side/Ideas/active/UsedLog-0001",
+      "location": "JarvisSide/Ideas/active/UsedLog-0001",
       "tags": [
         "idea",
         "log"
@@ -688,7 +688,7 @@
     {
       "object": "Hygiene Packets Archive",
       "jnl": "IMPL-HYG-SPEC-0001",
-      "location": "Side/Archive/HygienePackets-0001-060926.md",
+      "location": "JarvisSide/Archive/HygienePackets-0001-060926.md",
       "tags": [
         "hygiene",
         "archive",
@@ -700,7 +700,7 @@
     {
       "object": "JCS - Jarvis Cognitive Stack",
       "jnl": "IMPL-JCS-CORE-0001",
-      "location": "Implementation/Active/JIP-0608-2",
+      "location": "JarvisMain/Implementation/Active/JIP-0608-2",
       "tags": [
         "pipeline",
         "jcs",
@@ -712,7 +712,7 @@
     {
       "object": "JCS-D Temporal Reconstruction",
       "jnl": "IMPL-JCSD-SPEC-0001",
-      "location": "Implementation/Active/JIP-0608-D",
+      "location": "JarvisMain/Implementation/Active/JIP-0608-D",
       "tags": [
         "jcs",
         "layer",
@@ -724,7 +724,7 @@
     {
       "object": "JCS-E Query & Traversal",
       "jnl": "IMPL-JCSE-SPEC-0001",
-      "location": "Implementation/Active/JIP-0608-E",
+      "location": "JarvisMain/Implementation/Active/JIP-0608-E",
       "tags": [
         "jcs",
         "layer",
@@ -736,7 +736,7 @@
     {
       "object": "JCS-F Runtime Simulation",
       "jnl": "IMPL-JCSF-SPEC-0001",
-      "location": "Implementation/Active/JIP-0608-F",
+      "location": "JarvisMain/Implementation/Active/JIP-0608-F",
       "tags": [
         "jcs",
         "layer",
@@ -748,7 +748,7 @@
     {
       "object": "JCS-G External Interface Binding",
       "jnl": "IMPL-JCSG-SPEC-0001",
-      "location": "Implementation/Active/JIP-0608-G",
+      "location": "JarvisMain/Implementation/Active/JIP-0608-G",
       "tags": [
         "jcs",
         "layer",
@@ -760,7 +760,7 @@
     {
       "object": "JGPP - Generative Process Protocol",
       "jnl": "IMPL-JGPP-CORE-0001",
-      "location": "Implementation/Active/JIP-0608-1",
+      "location": "JarvisMain/Implementation/Active/JIP-0608-1",
       "tags": [
         "pipeline",
         "jgpp",
@@ -772,7 +772,7 @@
     {
       "object": "JIP-0608 Series",
       "jnl": "IMPL-JIP-SPEC-0608",
-      "location": "Implementation/Active/JIP-0608-ReadMe",
+      "location": "JarvisMain/Implementation/Active/JIP-0608-ReadMe",
       "tags": [
         "implementation",
         "jip"
@@ -783,7 +783,7 @@
     {
       "object": "JQL - JD Query Language",
       "jnl": "IMPL-JQL-CORE-0001",
-      "location": "Implementation/Active/JIP-0608-E",
+      "location": "JarvisMain/Implementation/Active/JIP-0608-E",
       "tags": [
         "pipeline",
         "jql",
@@ -795,7 +795,7 @@
     {
       "object": "CodeOS",
       "jnl": "PROJ-COS-BIO-0001",
-      "location": "Side/Projects/CodeOSProjectBio",
+      "location": "JarvisSide/Projects/CodeOSProjectBio",
       "tags": [
         "project",
         "codeos"
@@ -806,7 +806,7 @@
     {
       "object": "Deoxys",
       "jnl": "PROJ-DEO-BIO-0001",
-      "location": "Side/Projects/Deoxys/ProjectBio",
+      "location": "JarvisSide/Projects/Deoxys/ProjectBio",
       "tags": [
         "project",
         "deoxys"
@@ -817,7 +817,7 @@
     {
       "object": "Genesis",
       "jnl": "PROJ-GEN-BIO-0001",
-      "location": "Side/Projects/Genesis/GenesisBio",
+      "location": "JarvisSide/Projects/Genesis/GenesisBio",
       "tags": [
         "project",
         "genesis"
@@ -828,7 +828,7 @@
     {
       "object": "JPL",
       "jnl": "PROJ-JPL-BIO-0001",
-      "location": "Side/Projects/JPL/JPLBio",
+      "location": "JarvisSide/Projects/JPL/JPLBio",
       "tags": [
         "project",
         "jpl"
@@ -839,7 +839,7 @@
     {
       "object": "Legion",
       "jnl": "PROJ-LEG-BIO-0001",
-      "location": "Side/Projects/Legion/LegionBio",
+      "location": "JarvisSide/Projects/Legion/LegionBio",
       "tags": [
         "project",
         "legion"
@@ -850,7 +850,7 @@
     {
       "object": "Naruto",
       "jnl": "PROJ-NAR-BIO-0001",
-      "location": "Side/Projects/Naruto/NarutoBio",
+      "location": "JarvisSide/Projects/Naruto/NarutoBio",
       "tags": [
         "project",
         "naruto"

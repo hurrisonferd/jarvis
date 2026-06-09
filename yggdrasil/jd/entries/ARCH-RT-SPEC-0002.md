@@ -9,7 +9,7 @@ jnl: ARCH-RT-SPEC-0002
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Architecture/runtime/execution-model.md
+source: JarvisMain/Architecture/runtime/execution-model.md
 related: []
 references: []
 tags: [architecture, runtime]

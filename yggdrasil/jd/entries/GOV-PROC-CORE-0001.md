@@ -9,7 +9,7 @@ jnl: GOV-PROC-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Patches/PatchProcess.md
+source: JarvisMain/Patches/PatchProcess.md
 related: []
 references: []
 tags: [governance, patches, process]

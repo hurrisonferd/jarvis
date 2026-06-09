@@ -9,7 +9,7 @@ jnl: IMPL-JIP-SPEC-0608
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Implementation/Active/JIP-0608-ReadMe
+source: JarvisMain/Implementation/Active/JIP-0608-ReadMe
 related: []
 references: []
 tags: [implementation, jip]

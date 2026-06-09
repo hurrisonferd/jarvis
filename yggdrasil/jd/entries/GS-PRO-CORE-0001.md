@@ -9,7 +9,7 @@ jnl: GS-PRO-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: god_systems/T5_PROMETHEUS/contract.json
+source: JarvisMain/god_systems/T5_PROMETHEUS/contract.json
 related: []
 references: []
 tags: [governance, god-system, canon]
