@@ -5,6 +5,7 @@ class: ENTITY
 tier: SIDE
 authority: CANON
 owner: Unused Ideas Log
+parent: 
 jnl: IDEA-UNUS-LOG-0001
 status: INACTIVE
 created: 2026-06-09

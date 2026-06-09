@@ -5,6 +5,7 @@ class: SYSTEM
 tier: MAIN
 authority: CANON
 owner: JFS
+parent: 
 jnl: ARCH-YGG-CORE-0001
 status: ACTIVE
 created: 2026-06-09

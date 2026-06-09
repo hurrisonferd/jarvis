@@ -5,6 +5,7 @@ class: SYSTEM
 tier: SIDE
 authority: CANON
 owner: Project Log Summary
+parent: 
 jnl: PROJ-ALL-LOG-0001
 status: ACTIVE
 created: 2026-06-09

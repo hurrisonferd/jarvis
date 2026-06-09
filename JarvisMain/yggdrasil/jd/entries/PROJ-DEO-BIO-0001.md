@@ -5,6 +5,7 @@ class: SYSTEM
 tier: SIDE
 authority: CANON
 owner: Deoxys
+parent: 
 jnl: PROJ-DEO-BIO-0001
 status: ACTIVE
 created: 2026-06-09

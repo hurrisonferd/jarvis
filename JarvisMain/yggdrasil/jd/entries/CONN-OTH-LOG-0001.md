@@ -5,6 +5,7 @@ class: MODULE
 tier: MAIN
 authority: CANON
 owner: Connectors
+parent: 
 jnl: CONN-OTH-LOG-0001
 status: ACTIVE
 created: 2026-06-09

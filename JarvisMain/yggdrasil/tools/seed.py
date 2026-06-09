@@ -261,6 +261,65 @@ KNOWLEDGE = [
      ["format", "ids", "jnl", "governance", "spec"]),
 ]
 
+# --- PARENT: containment/ownership — the family tree. A system code names its whole
+# subtree: "JFS-compliant" = JFS + every descendant (JNS/JNL/JSL/JMS/JSS/JMMS/JSTM/JLTM/JATM).
+# Project artifacts derive their parent (the project bio) automatically at scan time.
+PARENT = {
+    # The substrate family under the world-tree
+    "ARCH-JFS-CORE-0001": "ARCH-YGG-CORE-0001",
+    "ARCH-JD-CORE-0001": "ARCH-YGG-CORE-0001",
+    "ARCH-LAL-CORE-0001": "ARCH-YGG-CORE-0001",
+    "ARCH-JNS-CORE-0001": "ARCH-JFS-CORE-0001",
+    "ARCH-JNL-CORE-0001": "ARCH-JFS-CORE-0001",
+    "ARCH-JSL-CORE-0001": "ARCH-JFS-CORE-0001",
+    "ARCH-JMS-CORE-0001": "ARCH-JFS-CORE-0001",
+    "ARCH-JSS-CORE-0001": "ARCH-JFS-CORE-0001",
+    "ARCH-JMMS-CORE-0001": "ARCH-JFS-CORE-0001",
+    "ARCH-JSTM-CORE-0001": "ARCH-JMMS-CORE-0001",
+    "ARCH-JLTM-CORE-0001": "ARCH-JMMS-CORE-0001",
+    "ARCH-JATM-CORE-0001": "ARCH-JMMS-CORE-0001",
+    # Specs belong to the system they specify
+    "ARCH-AYR-SPEC-0001": "GS-AYR-CORE-0001",
+    "ARCH-AYR-SPEC-0002": "GS-AYR-CORE-0001",
+    "ARCH-RT-SPEC-0001": "GS-SKD-CORE-0001",
+    "ARCH-RT-SPEC-0002": "GS-SKD-CORE-0001",
+    "ARCH-RT-SPEC-0003": "GS-SKD-CORE-0001",
+    "ARCH-GPT-SPEC-0001": "CONN-MSB-CORE-0001",
+    "ARCH-FLOW-SPEC-0001": "GS-SKD-CORE-0001",
+    # Governance under canon
+    "GOV-CON-CORE-0001": "GOV-CAN-CORE-0001",
+    "GOV-BRF-CORE-0001": "GOV-CAN-CORE-0001",
+    "GOV-PAT-REG-0001": "GOV-CAN-CORE-0001",
+    "GOV-PROC-CORE-0001": "GOV-PAT-REG-0001",
+    # Cognition pipeline under the JIP-0608 series anchor
+    "IMPL-JGPP-CORE-0001": "IMPL-JIP-SPEC-0608",
+    "IMPL-JCS-CORE-0001": "IMPL-JIP-SPEC-0608",
+    "IMPL-FMT-SPEC-0001": "IMPL-JIP-SPEC-0608",
+    "IMPL-DEX-SPEC-0001": "IMPL-JIP-SPEC-0608",
+    "IMPL-JCSD-SPEC-0001": "IMPL-JCS-CORE-0001",
+    "IMPL-JCSE-SPEC-0001": "IMPL-JCS-CORE-0001",
+    "IMPL-JCSF-SPEC-0001": "IMPL-JCS-CORE-0001",
+    "IMPL-JCSG-SPEC-0001": "IMPL-JCS-CORE-0001",
+    "IMPL-JQL-CORE-0001": "IMPL-JCSE-SPEC-0001",
+}
+# The 27 God Systems all hang from the pantheon index.
+GS_PARENT = "ARCH-GS-IDX-0001"
+
+
+def derive_parent(jnl: str, explicit: str = "") -> str:
+    """Explicit wins; PARENT map next; project artifacts fall to their project bio."""
+    if explicit:
+        return explicit
+    if jnl in PARENT:
+        return PARENT[jnl]
+    parts = jnl.split("-")
+    if parts[0] == "GS":
+        return GS_PARENT
+    if parts[0] == "PROJ" and len(parts) >= 4 and parts[2] in ("JGPP", "JIP", "JD"):
+        return f"PROJ-{parts[1]}-BIO-0001"
+    return ""
+
+
 # --- RELATED: the semantic web of the dex. One defensible edge beats five vague ones.
 # Sources: the God System pipeline (CLAUDE.md), the Rosetta, and the spec->system bindings.
 RELATED = {
@@ -427,7 +486,7 @@ def write_entry(jnl: str, text: str) -> None:
 
 
 def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source, status,
-                cls, tr, own, references) -> str:
+                cls, tr, own, references, parent="") -> str:
     fm = [
         "---",
         f"name: {name}",
@@ -436,6 +495,7 @@ def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, r
         f"tier: {tr}",
         f"authority: {authority}",
         f"owner: {own}",
+        f"parent: {parent}",
         f"jnl: {jnl}",
         f"status: {status}",
         f"created: {existing_created(jnl)}",
@@ -463,12 +523,13 @@ def main() -> None:
     prev_records = ({r["jnl"]: r for r in json.loads(reg_file.read_text()).get("records", [])}
                     if reg_file.exists() else {})
 
-    def register(jnl, location, tags, name, typ, status="ACTIVE", state="active"):
+    def register(jnl, location, tags, name, typ, status="ACTIVE", state="active", parent=""):
         dom = jnl.split("-")[0]
         rec = {
             "jnl": jnl, "name": name, "type": typ,
             "class": ontology_class(dom, typ, jnl), "tier": tier(dom, status),
-            "owner": owner(dom, name), "location": location, "tags": tags, "anchors": [],
+            "owner": owner(dom, name), "parent": derive_parent(jnl, parent),
+            "location": location, "tags": tags, "anchors": [],
             "status": status, "state": state,
             "created": existing_created(jnl), "updated": TODAY,
         }
@@ -484,7 +545,8 @@ def main() -> None:
         cls, tr, own = ontology_class("ARCH", "CORE", jnl), tier("ARCH", "ACTIVE"), owner("ARCH", name)
         write_entry(jnl, 
             jd_entry_md(name, "ARCH", "CANON", jnl, definition, purpose, tags, related,
-                        ["PRI", "SPEC", "IDX"], "JarvisMain/yggdrasil/jfs/JFS-SPEC.md", "ACTIVE", cls, tr, own, []))
+                        ["PRI", "SPEC", "IDX"], "JarvisMain/yggdrasil/jfs/JFS-SPEC.md", "ACTIVE", cls, tr, own, [],
+                        parent=derive_parent(jnl)))
         register(jnl, loc, tags, name, "ARCH")
 
     # God-system entries (dormant ones carry JSS status INACTIVE).
@@ -496,7 +558,8 @@ def main() -> None:
         write_entry(jnl, 
             jd_entry_md(name, "GS", "CANON", jnl, definition,
                         f"Canonical God System ({group} tier). Fixed; do not redefine.",
-                        tags, RELATED.get(jnl, []), ["PRI", "IDX"], gs_location(name) + "/contract.json", status, cls, tr, own, []))
+                        tags, RELATED.get(jnl, []), ["PRI", "IDX"], gs_location(name) + "/contract.json", status, cls, tr, own, [],
+                        parent=derive_parent(jnl)))
         register(jnl, gs_location(name), tags, name, "GS", status)
 
     # Knowledge entries (the reorganized doc tree).
@@ -505,7 +568,7 @@ def main() -> None:
         cls, tr, own = ontology_class(dom, typ, jnl), tier(dom, "ACTIVE"), owner(dom, name)
         write_entry(jnl, 
             jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, RELATED.get(jnl, []),
-                        ["PRI", "IDX"], loc, "ACTIVE", cls, tr, own, []))
+                        ["PRI", "IDX"], loc, "ACTIVE", cls, tr, own, [], parent=derive_parent(jnl)))
         register(jnl, loc, tags, name, typ, "ACTIVE")
 
     # Status-managed entries (JSS status drives their folder; see autosort.py).
@@ -514,7 +577,7 @@ def main() -> None:
         cls, tr, own = ontology_class(dom, typ, jnl), tier(dom, status), owner(dom, name)
         write_entry(jnl, 
             jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, RELATED.get(jnl, []),
-                        ["PRI", "IDX"], loc, status, cls, tr, own, []))
+                        ["PRI", "IDX"], loc, status, cls, tr, own, [], parent=derive_parent(jnl)))
         register(jnl, loc, tags, name, typ, status)
 
     # Connector-approved entries (reconciled from Supabase by scripts/dex_reconcile.py).
@@ -532,8 +595,9 @@ def main() -> None:
             write_entry(jnl, 
                 jd_entry_md(e["name"], typ, e.get("authority", "CANON"), jnl,
                             e.get("definition", ""), e.get("purpose", ""), tags,
-                            e.get("related", []), ["PRI", "IDX"], loc, status, cls, tr, own, []))
-            register(jnl, loc, tags, e["name"], typ, status)
+                            e.get("related", []), ["PRI", "IDX"], loc, status, cls, tr, own, [],
+                            parent=derive_parent(jnl, e.get("parent", ""))))
+            register(jnl, loc, tags, e["name"], typ, status, parent=e.get("parent", ""))
 
     # Frontmatter intake (the natural-growth path): a truth file under a SCAN_ROOT that
     # declares its own `jnl` is adopted — JD entry + LAL records derive from the file.
@@ -571,11 +635,13 @@ def main() -> None:
             tags = fm.get("tags") if isinstance(fm.get("tags"), list) else []
             related = fm.get("related") if isinstance(fm.get("related"), list) else []
             cls, tr, own = ontology_class(dom, typ, addr), tier(dom, status), owner(dom, name)
+            fparent = fm.get("parent", "") if isinstance(fm.get("parent"), str) else ""
             write_entry(addr, 
                 jd_entry_md(name, typ, fm.get("authority", "CANON"), addr,
                             fm.get("definition", ""), fm.get("purpose", ""), tags,
-                            related, ["PRI", "IDX"], loc, status, cls, tr, own, []))
-            register(addr, loc, tags, name, typ, status)
+                            related, ["PRI", "IDX"], loc, status, cls, tr, own, [],
+                            parent=derive_parent(addr, fparent)))
+            register(addr, loc, tags, name, typ, status, parent=fparent)
             seeded[addr] = loc
             scanned += 1
     if problems:
