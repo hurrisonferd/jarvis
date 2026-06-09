@@ -361,6 +361,24 @@ def main() -> None:
                         ["PRI", "IDX"], loc, status, cls, tr, own, []))
         register(jnl, loc, tags, name, typ, status)
 
+    # Connector-approved entries (reconciled from Supabase by scripts/dex_reconcile.py).
+    # These are first-class: seeded like the hardcoded manifests, but sourced dynamically.
+    seeded = {r["jnl"] for r in address_registry}
+    dyn_path = JD_DIR.parent / "dynamic.json"
+    if dyn_path.exists():
+        for e in json.loads(dyn_path.read_text()).get("entries", []):
+            jnl = e["jnl"]
+            if jnl in seeded:
+                continue  # hardcoded manifest wins; never duplicate canon
+            dom, typ, status = jnl.split("-")[0], e["type"], e.get("status", "ACTIVE")
+            loc, tags = e.get("source", ""), e.get("tags", [])
+            cls, tr, own = ontology_class(dom, typ, jnl), tier(dom, status), owner(dom, e["name"])
+            (JD_DIR / f"{jnl}.md").write_text(
+                jd_entry_md(e["name"], typ, e.get("authority", "CANON"), jnl,
+                            e.get("definition", ""), e.get("purpose", ""), tags,
+                            e.get("related", []), ["PRI", "IDX"], loc, status, cls, tr, own, []))
+            register(jnl, loc, tags, e["name"], typ, status)
+
     address_registry.sort(key=lambda r: r["jnl"])
     (LAL_DIR / "address-registry.json").write_text(json.dumps(
         {"note": "Derived mirror — rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
