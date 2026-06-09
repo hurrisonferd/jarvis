@@ -145,7 +145,7 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
   roots (`Ideas/ Implementation/ Breakthroughs/`) the status decides the subfolder. JMMS tiers
   memory by time horizon (JSTM/JLTM/JATM) beside MNEMOS. Specs: `JarvisMain/yggdrasil/jss/`, `JarvisMain/yggdrasil/jmms/`.
 - **Tools:** `JarvisMain/yggdrasil/tools/seed.py` regenerates entries + registries;
-  `JarvisMain/yggdrasil/tools/validate.py` enforces grammar + GL12 + status + mirror consistency (run before commit);
+  `JarvisMain/yggdrasil/tools/validate.py` enforces JNL grammar, JNS filenames (FMT §3), GL12 closure (zero ungoverned files under the umbrellas), status + mirror consistency (run before commit);
   `JarvisMain/yggdrasil/tools/autosort.py` relocates files to match their status (JNL preserved — JMS law);
   `JarvisMain/yggdrasil/tools/new.py` mints a new governed object (JNL + formatted file + reseed) in one command.
 - **Intake (how objects are born):** `new.py --project <P> --type JGPP|JIP|JD|BIO --name "..."`

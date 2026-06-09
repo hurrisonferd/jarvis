@@ -31,9 +31,11 @@
     ],
     "archive": [
       "AUD-COMP-REVW-0001",
+      "GOV-PAT-REG-0001",
       "IMPL-HYG-SPEC-0001"
     ],
     "audit": [
+      "AUD-CHK-SPEC-0001",
       "AUD-FULL-REVW-0001",
       "AUD-OPUS-REVW-0001",
       "AUD-SYS-REVW-0001"
@@ -74,6 +76,9 @@
       "GS-PRO-CORE-0001",
       "GS-SKD-CORE-0001",
       "GS-ZEU-CORE-0001"
+    ],
+    "ci": [
+      "AUD-CHK-SPEC-0001"
     ],
     "codeos": [
       "PROJ-COS-BIO-0001"
@@ -141,6 +146,7 @@
       "PROJ-GEN-BIO-0001"
     ],
     "god-system": [
+      "ARCH-GS-IDX-0001",
       "GS-AEG-CORE-0001",
       "GS-APO-CORE-0001",
       "GS-ARG-CORE-0001",
@@ -176,6 +182,7 @@
       "GOV-BRF-CORE-0001",
       "GOV-CAN-CORE-0001",
       "GOV-CON-CORE-0001",
+      "GOV-PAT-REG-0001",
       "GOV-PROC-CORE-0001",
       "GS-ARG-CORE-0001",
       "GS-ATL-CORE-0001",
@@ -209,10 +216,15 @@
       "ARCH-JATM-CORE-0001"
     ],
     "implementation": [
+      "IMPL-IDX-REG-0001",
+      "IMPL-IMP-LOG-0001",
+      "IMPL-INA-LOG-0001",
       "IMPL-JIP-SPEC-0608"
     ],
     "index": [
-      "ARCH-LAL-CORE-0001"
+      "ARCH-GS-IDX-0001",
+      "ARCH-LAL-CORE-0001",
+      "IMPL-IDX-REG-0001"
     ],
     "interface": [
       "IMPL-JCSG-SPEC-0001"
@@ -253,7 +265,10 @@
     ],
     "log": [
       "IDEA-UNUS-LOG-0001",
-      "IDEA-USED-LOG-0001"
+      "IDEA-USED-LOG-0001",
+      "IMPL-IMP-LOG-0001",
+      "IMPL-INA-LOG-0001",
+      "PROJ-ALL-LOG-0001"
     ],
     "long-term": [
       "ARCH-JLTM-CORE-0001"
@@ -287,6 +302,7 @@
       "PROJ-PAC-BIO-0001"
     ],
     "patches": [
+      "GOV-PAT-REG-0001",
       "GOV-PROC-CORE-0001"
     ],
     "pipeline": [
@@ -298,6 +314,7 @@
       "GOV-PROC-CORE-0001"
     ],
     "project": [
+      "PROJ-ALL-LOG-0001",
       "PROJ-COS-BIO-0001",
       "PROJ-DEO-BIO-0001",
       "PROJ-GEN-BIO-0001",

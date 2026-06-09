@@ -1,0 +1,21 @@
+---
+name: Implemented Stream
+type: IMPL
+class: SPEC
+tier: MAIN
+authority: CANON
+owner: JCS Pipeline
+jnl: IMPL-IMP-LOG-0001
+status: ACTIVE
+created: 2026-06-09
+updated: 2026-06-09
+source: JarvisMain/Implementation/Implemented
+related: []
+references: []
+tags: [implementation, log]
+ref: [PRI, IDX]
+---
+
+**Definition:** Folder of implemented packets + log.
+
+**Purpose:** Hold the completed implementation stream.

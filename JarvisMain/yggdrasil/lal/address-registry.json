@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 78,
+  "count": 85,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -67,6 +67,24 @@
       "tags": [
         "architecture",
         "gpt"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "ARCH-GS-IDX-0001",
+      "name": "God Systems Index",
+      "type": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "location": "JarvisMain/god_systems",
+      "tags": [
+        "god-system",
+        "index"
       ],
       "anchors": [],
       "status": "ACTIVE",
@@ -380,6 +398,24 @@
       "updated": "2026-06-09"
     },
     {
+      "jnl": "AUD-CHK-SPEC-0001",
+      "name": "Required Checks Setup",
+      "type": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "owner": "Audit",
+      "location": "JarvisMain/Audit/required-checks-setup.md",
+      "tags": [
+        "audit",
+        "ci"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
       "jnl": "AUD-COMP-REVW-0001",
       "name": "Companion Research",
       "type": "AUD",
@@ -535,6 +571,25 @@
       "tags": [
         "governance",
         "gold-law"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "GOV-PAT-REG-0001",
+      "name": "Patch Archive",
+      "type": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "location": "JarvisMain/Patches",
+      "tags": [
+        "governance",
+        "patches",
+        "archive"
       ],
       "anchors": [],
       "status": "ACTIVE",
@@ -1171,6 +1226,60 @@
       "updated": "2026-06-09"
     },
     {
+      "jnl": "IMPL-IDX-REG-0001",
+      "name": "Implementation Index",
+      "type": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
+      "location": "JarvisMain/Implementation/IndexSummary",
+      "tags": [
+        "implementation",
+        "index"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-IMP-LOG-0001",
+      "name": "Implemented Stream",
+      "type": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
+      "location": "JarvisMain/Implementation/Implemented",
+      "tags": [
+        "implementation",
+        "log"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-INA-LOG-0001",
+      "name": "Inactive Stream",
+      "type": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
+      "location": "JarvisMain/Implementation/Inactive",
+      "tags": [
+        "implementation",
+        "log"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
       "jnl": "IMPL-JCS-CORE-0001",
       "name": "JCS - Jarvis Cognitive Stack",
       "type": "IMPL",
@@ -1291,7 +1400,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-ReadMe",
+      "location": "JarvisMain/Implementation/Active",
       "tags": [
         "implementation",
         "jip"
@@ -1314,6 +1423,24 @@
         "pipeline",
         "jql",
         "query"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "PROJ-ALL-LOG-0001",
+      "name": "Project Log Summary",
+      "type": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Project Log Summary",
+      "location": "JarvisSide/Projects/ProjectLogSummary-0001",
+      "tags": [
+        "project",
+        "log"
       ],
       "anchors": [],
       "status": "ACTIVE",
