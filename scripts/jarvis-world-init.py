@@ -15,6 +15,10 @@ from datetime import datetime, timezone
 
 SUPABASE_URL  = os.environ.get("SUPABASE_URL",  "https://oexghfsvhnggddllgvrt.supabase.co")
 SUPABASE_ANON = os.environ.get("SUPABASE_ANON_KEY", "sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA")
+# P34: the world_* tables are anon read-only; writes go through the service role.
+# Heartbeat (CI) carries SUPABASE_SERVICE_KEY; falls back to anon for local reads.
+SUPABASE_SERVICE_KEY = os.environ.get("SUPABASE_SERVICE_KEY") or os.environ.get("SUPABASE_SERVICE_ROLE_KEY")
+WRITE_KEY     = SUPABASE_SERVICE_KEY or SUPABASE_ANON
 REST_BASE     = f"{SUPABASE_URL}/rest/v1"
 REPO_ROOT     = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 WORLDS_DIR    = os.path.join(REPO_ROOT, "worlds")
@@ -38,8 +42,8 @@ def rest_upsert(table: str, payload: dict) -> bool:
         data=data,
         headers={
             "Content-Type":  "application/json",
-            "apikey":        SUPABASE_ANON,
-            "Authorization": f"Bearer {SUPABASE_ANON}",
+            "apikey":        WRITE_KEY,
+            "Authorization": f"Bearer {WRITE_KEY}",
             "Prefer":        "resolution=merge-duplicates,return=minimal",
         },
         method="POST",

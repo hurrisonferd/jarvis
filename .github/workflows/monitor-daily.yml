@@ -143,4 +143,5 @@ jobs:
       - name: World kernel heartbeat (soft-fail)
         env:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}   # world_* writes are service-role (P34)
         run: python3 scripts/jarvis-world-init.py || echo "World heartbeat skipped (no Supabase)"
