@@ -38,6 +38,7 @@ jobs:
           node --experimental-strip-types ../jarvis-mcp/halo.test.ts
           node --experimental-strip-types ../jarvis-mcp/crypto.test.ts
           node --experimental-strip-types ../grid-write/validate.test.ts
+          node --experimental-strip-types ../jarvis-dex/jfs.test.ts
 
       - name: Front — inline script parses (const-bug guard)
         run: |
