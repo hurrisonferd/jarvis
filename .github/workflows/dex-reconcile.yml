@@ -30,9 +30,9 @@ jobs:
 
       - name: Regenerate substrate + validate (the gate)
         run: |
-          python3 yggdrasil/tools/seed.py
-          python3 yggdrasil/tools/validate.py
-          python3 yggdrasil/tools/graph_export.py
+          python3 JarvisMain/yggdrasil/tools/seed.py
+          python3 JarvisMain/yggdrasil/tools/validate.py
+          python3 JarvisMain/yggdrasil/tools/graph_export.py
 
       - name: Open PR if anything changed
         uses: peter-evans/create-pull-request@v6

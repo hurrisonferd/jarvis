@@ -9,7 +9,7 @@ jnl: ARCH-LAL-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: yggdrasil/jfs/JFS-SPEC.md
+source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JNL-CORE-0001]
 references: []
 tags: [discovery, index, core, architecture]

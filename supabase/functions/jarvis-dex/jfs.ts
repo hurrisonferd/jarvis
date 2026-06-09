@@ -1,4 +1,4 @@
-// JFS helpers for the dex connector — pure, testable. Mirror of yggdrasil/tools/jnl.py
+// JFS helpers for the dex connector — pure, testable. Mirror of JarvisMain/yggdrasil/tools/jnl.py
 // + seed.py derivation rules. Keep in lockstep with the Python truth.
 
 export const DOMAINS = new Set([

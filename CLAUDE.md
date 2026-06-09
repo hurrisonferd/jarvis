@@ -134,19 +134,19 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
 
 - **JNL address grammar:** `[Domain]-[System]-[Type]-[Log]-[Patch]-[Block]`
   (e.g. `ARCH-JFS-CORE-0001`, `GS-ODN-RT-0001-P005-B002`). Full tables in
-  `yggdrasil/jfs/jnl-grammar.md`.
+  `JarvisMain/yggdrasil/jfs/jnl-grammar.md`.
 - **JD = semantic DNS.** Thin entries (definition + JNL + tags + timestamps), one file per
-  object in `yggdrasil/jd/entries/`. JD explains and points; it never duplicates content.
+  object in `JarvisMain/yggdrasil/jd/entries/`. JD explains and points; it never duplicates content.
 - **LAL = discovery.** Derived registries (`address` / `master-index` / `tag`) that resolve
   a JNL to a real location. Pointers only (JMS law: move references, never truth).
 - **GL12 — Canonical Addressability:** every persistent object must have a JNL address,
   location, tags, anchors, and index reference, or it is **non-governed** (invisible to the loop).
 - **JSS (status) + JMMS (memory):** every object carries a JSS `status`; for status-managed
   roots (`Ideas/ Implementation/ Breakthroughs/`) the status decides the subfolder. JMMS tiers
-  memory by time horizon (JSTM/JLTM/JATM) beside MNEMOS. Specs: `yggdrasil/jss/`, `yggdrasil/jmms/`.
-- **Tools:** `yggdrasil/tools/seed.py` regenerates entries + registries;
-  `yggdrasil/tools/validate.py` enforces grammar + GL12 + status + mirror consistency (run before commit);
-  `yggdrasil/tools/autosort.py` relocates files to match their status (JNL preserved — JMS law).
+  memory by time horizon (JSTM/JLTM/JATM) beside MNEMOS. Specs: `JarvisMain/yggdrasil/jss/`, `JarvisMain/yggdrasil/jmms/`.
+- **Tools:** `JarvisMain/yggdrasil/tools/seed.py` regenerates entries + registries;
+  `JarvisMain/yggdrasil/tools/validate.py` enforces grammar + GL12 + status + mirror consistency (run before commit);
+  `JarvisMain/yggdrasil/tools/autosort.py` relocates files to match their status (JNL preserved — JMS law).
 - **Runtime cognition pipeline:** `JGPP → JIP → JCS → JD` (spec → evolving impl → runtime → truth).
   **JCS** (Jarvis Cognitive Stack) is the runtime reasoning/simulation engine over JIP structures +
   JD truth; layers JCS-D (temporal) / -E (query) / -F (simulation) / -G (interface). Addressed under
@@ -160,7 +160,7 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
 
 ### Repo hierarchy rule (JSL)
 
-Two top-level umbrellas, plus the substrate root and the live runtime.
+Two top-level umbrellas, plus the live runtime.
 
 **`JarvisMain/` — the canonical core (MAIN tier).** What JARVIS *is*: the 27 god-system
 contracts (`JarvisMain/god_systems/`) + the canonical knowledge (`JarvisMain/Architecture/`,
@@ -170,8 +170,9 @@ contracts (`JarvisMain/god_systems/`) + the canonical knowledge (`JarvisMain/Arc
 `Ideas/` · `Breakthroughs/` · `Archive/` · `Deprecated/`. Anything `ARCHIVED`/`DEPRECATED`
 or a project/idea/breakthrough is SIDE.
 
-**`yggdrasil/` stays at repo root** — the substrate kernel that *addresses* JarvisMain and
-JarvisSide. Yggdrasil is the root the tree grows from; its tooling is root-relative.
+**`JarvisMain/yggdrasil/` — the substrate kernel** that *addresses* JarvisMain and
+JarvisSide. Moved into the core 2026-06-09 (substrate belongs with what JARVIS *is*);
+tooling resolves the repo root from its own location, so run it from anywhere.
 
 **Live runtime stays at root** (cannot relocate without breaking deploys/CI/Pages):
 `supabase/` (functions + migrations) · `docs/` (GitHub Pages) · `.github/` (CI) · `scripts/`
@@ -200,8 +201,8 @@ registries drift. Don't re-introduce lowercase doc folders — those folded into
 | `chaos/prometheus_log.json` | Local decision log — do not commit |
 | `chaos/session_sync.py` | Session start/end helpers |
 | `intake/` | AI handoff review lane |
-| `yggdrasil/` | Addressing/hierarchy substrate — JFS kernel, JD dictionary, LAL registries |
-| `yggdrasil/tools/validate.py` | GL12 + grammar + mirror validator (JVE) — run before committing substrate changes |
+| `JarvisMain/yggdrasil/` | Addressing/hierarchy substrate — JFS kernel, JD dictionary, LAL registries |
+| `JarvisMain/yggdrasil/tools/validate.py` | GL12 + grammar + mirror validator (JVE) — run before committing substrate changes |
 | `JarvisMain/` | Canonical core — god systems + canonical knowledge |
 | `JarvisSide/` | Periphery — projects, ideas, breakthroughs, archive |
 | `.env` | Secrets — do not commit |

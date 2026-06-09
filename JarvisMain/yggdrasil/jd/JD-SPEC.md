@@ -57,7 +57,7 @@ Instead of storing paths, JD stores tokens that LAL resolves:
 
 ## Canonical form (on-disk)
 
-JD entries live in `yggdrasil/jd/entries/` as one file per entry, named by JNS:
+JD entries live in `JarvisMain/yggdrasil/jd/entries/` as one file per entry, named by JNS:
 `<JNL>.md` (e.g. `ARCH-JFS-CORE-0001.md`). Front-matter carries the structured fields so
 both a human and a parser can read them:
 

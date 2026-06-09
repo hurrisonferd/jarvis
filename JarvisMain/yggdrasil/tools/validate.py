@@ -1,6 +1,6 @@
 """Validate the Yggdrasil substrate against the JNL grammar, GL12, and JMS mirror law.
 
-Run from repo root:  python yggdrasil/tools/validate.py
+Run from repo root:  python JarvisMain/yggdrasil/tools/validate.py
 Exit 0 = green; exit 1 = violations found.
 """
 from __future__ import annotations
@@ -12,9 +12,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import jnl as jnllib  # noqa: E402
 
-ROOT = Path(__file__).resolve().parents[2]
-JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
-LAL_DIR = ROOT / "yggdrasil" / "lal"
+ROOT = Path(__file__).resolve().parents[3]
+JD_DIR = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
+LAL_DIR = ROOT / "JarvisMain" / "yggdrasil" / "lal"
 
 FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 

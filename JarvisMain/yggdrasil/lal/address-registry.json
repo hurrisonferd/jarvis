@@ -81,7 +81,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "ancestral",
@@ -101,7 +101,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jd/JD-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jd/JD-SPEC.md",
       "tags": [
         "dictionary",
         "semantic",
@@ -121,7 +121,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "filesystem",
         "core",
@@ -140,7 +140,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "long-term",
@@ -159,7 +159,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "core",
@@ -178,7 +178,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "mirror",
         "core",
@@ -197,7 +197,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jfs/jnl-grammar.md",
+      "location": "JarvisMain/yggdrasil/jfs/jnl-grammar.md",
       "tags": [
         "addressing",
         "core",
@@ -216,7 +216,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "naming",
         "core",
@@ -235,7 +235,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "structure",
         "core",
@@ -254,7 +254,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jss/JSS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jss/JSS-SPEC.md",
       "tags": [
         "status",
         "lifecycle",
@@ -274,7 +274,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "short-term",
@@ -293,7 +293,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/lal/README.md",
+      "location": "JarvisMain/yggdrasil/lal/README.md",
       "tags": [
         "discovery",
         "index",
@@ -367,7 +367,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "location": "yggdrasil/README.md",
+      "location": "JarvisMain/yggdrasil/README.md",
       "tags": [
         "root",
         "core",

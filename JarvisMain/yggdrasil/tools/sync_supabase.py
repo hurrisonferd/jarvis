@@ -1,7 +1,7 @@
 """Emit idempotent upsert SQL to sync the JD/JNL substrate into the Supabase mirror.
 
 Files are truth; this regenerates the rows for public.jnl_registry + public.jd_entries.
-Usage:  python yggdrasil/tools/sync_supabase.py > /tmp/jd_load.sql
+Usage:  python JarvisMain/yggdrasil/tools/sync_supabase.py > /tmp/jd_load.sql
 Then run via the Supabase MCP execute_sql (or psql with the service role).
 """
 from __future__ import annotations
@@ -9,9 +9,9 @@ import json
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-JD = ROOT / "yggdrasil" / "jd" / "entries"
-REG = ROOT / "yggdrasil" / "lal" / "address-registry.json"
+ROOT = Path(__file__).resolve().parents[3]
+JD = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
+REG = ROOT / "JarvisMain" / "yggdrasil" / "lal" / "address-registry.json"
 FM = re.compile(r"^---\n(.*?)\n---\n(.*)", re.DOTALL)
 
 

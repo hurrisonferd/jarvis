@@ -62,7 +62,7 @@ Ideas/
  └── deprecated/
 ```
 
-Change an object's status in its JD entry, run `yggdrasil/tools/autosort.py --apply`, and
+Change an object's status in its JD entry, run `JarvisMain/yggdrasil/tools/autosort.py --apply`, and
 the file relocates to the matching subfolder. The **JNL is preserved** (JMS law: move
 references, never truth) and the LAL location is updated. Auto-sorting based on the JFS
 systems — structure follows state, automatically.

@@ -2,18 +2,18 @@
 
 The data layer of the visualizer (packet 4). Reads the JD entries + LAL registry and
 emits a renderer-agnostic graph (D3 / Three.js / the web UI can all consume it). Derived
-only — never authoritative (JMS law). Writes yggdrasil/lal/graph.json.
+only — never authoritative (JMS law). Writes JarvisMain/yggdrasil/lal/graph.json.
 
-Run from repo root:  python yggdrasil/tools/graph_export.py
+Run from repo root:  python JarvisMain/yggdrasil/tools/graph_export.py
 """
 from __future__ import annotations
 import json
 import re
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
-OUT = ROOT / "yggdrasil" / "lal" / "graph.json"
+ROOT = Path(__file__).resolve().parents[3]
+JD_DIR = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
+OUT = ROOT / "JarvisMain" / "yggdrasil" / "lal" / "graph.json"
 FM = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 

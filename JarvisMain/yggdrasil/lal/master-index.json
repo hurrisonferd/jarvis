@@ -49,7 +49,7 @@
     {
       "object": "Jarvis Ancestral Memory",
       "jnl": "ARCH-JATM-CORE-0001",
-      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "ancestral",
@@ -62,7 +62,7 @@
     {
       "object": "Jarvis Dictionary",
       "jnl": "ARCH-JD-CORE-0001",
-      "location": "yggdrasil/jd/JD-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jd/JD-SPEC.md",
       "tags": [
         "dictionary",
         "semantic",
@@ -75,7 +75,7 @@
     {
       "object": "Jarvis File System",
       "jnl": "ARCH-JFS-CORE-0001",
-      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "filesystem",
         "core",
@@ -87,7 +87,7 @@
     {
       "object": "Jarvis Long-Term Memory",
       "jnl": "ARCH-JLTM-CORE-0001",
-      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "long-term",
@@ -99,7 +99,7 @@
     {
       "object": "Jarvis MultiMemory System",
       "jnl": "ARCH-JMMS-CORE-0001",
-      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "core",
@@ -111,7 +111,7 @@
     {
       "object": "Jarvis Mirror System",
       "jnl": "ARCH-JMS-CORE-0001",
-      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "mirror",
         "core",
@@ -123,7 +123,7 @@
     {
       "object": "Jarvis Navigation Language",
       "jnl": "ARCH-JNL-CORE-0001",
-      "location": "yggdrasil/jfs/jnl-grammar.md",
+      "location": "JarvisMain/yggdrasil/jfs/jnl-grammar.md",
       "tags": [
         "addressing",
         "core",
@@ -135,7 +135,7 @@
     {
       "object": "Jarvis Naming System",
       "jnl": "ARCH-JNS-CORE-0001",
-      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "naming",
         "core",
@@ -147,7 +147,7 @@
     {
       "object": "Jarvis Structural Layer",
       "jnl": "ARCH-JSL-CORE-0001",
-      "location": "yggdrasil/jfs/JFS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "structure",
         "core",
@@ -159,7 +159,7 @@
     {
       "object": "Jarvis Status System",
       "jnl": "ARCH-JSS-CORE-0001",
-      "location": "yggdrasil/jss/JSS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jss/JSS-SPEC.md",
       "tags": [
         "status",
         "lifecycle",
@@ -172,7 +172,7 @@
     {
       "object": "Jarvis Short-Term Memory",
       "jnl": "ARCH-JSTM-CORE-0001",
-      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "short-term",
@@ -184,7 +184,7 @@
     {
       "object": "Library Authority Layer",
       "jnl": "ARCH-LAL-CORE-0001",
-      "location": "yggdrasil/lal/README.md",
+      "location": "JarvisMain/yggdrasil/lal/README.md",
       "tags": [
         "discovery",
         "index",
@@ -230,7 +230,7 @@
     {
       "object": "Yggdrasil",
       "jnl": "ARCH-YGG-CORE-0001",
-      "location": "yggdrasil/README.md",
+      "location": "JarvisMain/yggdrasil/README.md",
       "tags": [
         "root",
         "core",

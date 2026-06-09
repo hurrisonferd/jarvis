@@ -6,8 +6,8 @@ with --apply, relocates the file via `git mv`, preserves its JNL, and updates th
 location + the JD entry source. Structure follows state.
 
 Usage:
-  python yggdrasil/tools/autosort.py            # dry-run: report what would move
-  python yggdrasil/tools/autosort.py --apply    # perform the moves
+  python JarvisMain/yggdrasil/tools/autosort.py            # dry-run: report what would move
+  python JarvisMain/yggdrasil/tools/autosort.py --apply    # perform the moves
 Exit 1 (dry-run) if anything is out of place — usable as a CI gate.
 """
 from __future__ import annotations
@@ -17,9 +17,9 @@ import subprocess
 import sys
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
-REG_PATH = ROOT / "yggdrasil" / "lal" / "address-registry.json"
+ROOT = Path(__file__).resolve().parents[3]
+JD_DIR = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
+REG_PATH = ROOT / "JarvisMain" / "yggdrasil" / "lal" / "address-registry.json"
 
 # Status-managed roots (prefixes). Periphery roots live under Side/.
 MANAGED_ROOTS = ("JarvisSide/Ideas", "JarvisMain/Implementation", "JarvisSide/Breakthroughs")

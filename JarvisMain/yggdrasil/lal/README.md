@@ -27,7 +27,7 @@ lal/
 The authoritative resolution table. One record per governed object:
 
 ```json
-{ "jnl": "ARCH-JFS-CORE-0001", "location": "yggdrasil/jfs/JFS-SPEC.md",
+{ "jnl": "ARCH-JFS-CORE-0001", "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
   "tags": ["filesystem","core","architecture"], "anchors": [], "state": "active" }
 ```
 
@@ -47,8 +47,8 @@ LAL registries are **derived mirrors** — they are rebuilt from the JD entries 
 on-disk tree, never hand-edited as truth. Run:
 
 ```
-python yggdrasil/tools/seed.py       # (re)generate entries + registries
-python yggdrasil/tools/validate.py   # verify grammar + GL12 + mirror consistency
+python JarvisMain/yggdrasil/tools/seed.py       # (re)generate entries + registries
+python JarvisMain/yggdrasil/tools/validate.py   # verify grammar + GL12 + mirror consistency
 ```
 
 If `validate.py` is green, every governed object has an address, a location, tags, and

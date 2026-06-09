@@ -2,7 +2,7 @@
 
 Idempotent and data-driven. JD entry files are the readable truth; the LAL registries
 (address / master-index / tag) are derived mirrors rebuilt from this data + the tree.
-Run from repo root:  python yggdrasil/tools/seed.py
+Run from repo root:  python JarvisMain/yggdrasil/tools/seed.py
 """
 from __future__ import annotations
 import json
@@ -11,9 +11,9 @@ import re
 from datetime import date
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
-JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
-LAL_DIR = ROOT / "yggdrasil" / "lal"
+ROOT = Path(__file__).resolve().parents[3]
+JD_DIR = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
+LAL_DIR = ROOT / "JarvisMain" / "yggdrasil" / "lal"
 TODAY = date.today().isoformat()
 
 _CREATED_RE = re.compile(r"^created:\s*(\S+)", re.MULTILINE)
@@ -30,56 +30,56 @@ def existing_created(jnl: str) -> str:
 
 # --- Substrate entries (ARCH). location = where truth actually lives. ---
 SUBSTRATE = [
-    ("YGG", "Yggdrasil", "ARCH-YGG-CORE-0001", "yggdrasil/README.md",
+    ("YGG", "Yggdrasil", "ARCH-YGG-CORE-0001", "JarvisMain/yggdrasil/README.md",
      "Root world-tree architecture; the truth/memory layer above JFS, JD, LAL, and the God Systems.",
      "Ensure repository growth increases organization rather than complexity (GL7).",
      ["root", "core", "architecture"], []),
-    ("JFS", "Jarvis File System", "ARCH-JFS-CORE-0001", "yggdrasil/jfs/JFS-SPEC.md",
+    ("JFS", "Jarvis File System", "ARCH-JFS-CORE-0001", "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
      "Filesystem kernel providing naming, identity, structure, and mirroring.",
      "Give every persistent object a deterministic name, address, structure, and mirror.",
      ["filesystem", "core", "architecture"],
      ["ARCH-JNS-CORE-0001", "ARCH-JNL-CORE-0001", "ARCH-JSL-CORE-0001", "ARCH-JMS-CORE-0001"]),
-    ("JNS", "Jarvis Naming System", "ARCH-JNS-CORE-0001", "yggdrasil/jfs/JFS-SPEC.md",
+    ("JNS", "Jarvis Naming System", "ARCH-JNS-CORE-0001", "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
      "Defines what something is called — semantic, specific filenames.",
      "Make filenames state system, type, and sequence so they are known before opening.",
      ["naming", "core", "architecture"], ["ARCH-JFS-CORE-0001"]),
-    ("JNL", "Jarvis Navigation Language", "ARCH-JNL-CORE-0001", "yggdrasil/jfs/jnl-grammar.md",
+    ("JNL", "Jarvis Navigation Language", "ARCH-JNL-CORE-0001", "JarvisMain/yggdrasil/jfs/jnl-grammar.md",
      "Defines what something is and where it exists — the global address/identity.",
      "Deterministic repository-wide addressing, stable across relocation (GL12).",
      ["addressing", "core", "architecture"], ["ARCH-JFS-CORE-0001"]),
-    ("JSL", "Jarvis Structural Layer", "ARCH-JSL-CORE-0001", "yggdrasil/jfs/JFS-SPEC.md",
+    ("JSL", "Jarvis Structural Layer", "ARCH-JSL-CORE-0001", "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
      "Defines how information is organized — folder hierarchy and structural invariants.",
      "Fix structure so a JNL address maps deterministically to a location.",
      ["structure", "core", "architecture"], ["ARCH-JFS-CORE-0001"]),
-    ("JMS", "Jarvis Mirror System", "ARCH-JMS-CORE-0001", "yggdrasil/jfs/JFS-SPEC.md",
+    ("JMS", "Jarvis Mirror System", "ARCH-JMS-CORE-0001", "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
      "Reflects and synchronizes information without duplication — move references, never truth.",
      "Keep JD and LAL thin and consistent; preserve JNL identity across moves.",
      ["mirror", "core", "architecture"], ["ARCH-JFS-CORE-0001"]),
-    ("JD", "Jarvis Dictionary", "ARCH-JD-CORE-0001", "yggdrasil/jd/JD-SPEC.md",
+    ("JD", "Jarvis Dictionary", "ARCH-JD-CORE-0001", "JarvisMain/yggdrasil/jd/JD-SPEC.md",
      "Semantic authority — a semantic DNS storing definition, identity, authority, routing hints.",
      "Explain what every object is and why it exists, delegating retrieval to JNL/LAL.",
      ["dictionary", "semantic", "core", "architecture"], ["ARCH-JNL-CORE-0001", "ARCH-LAL-CORE-0001"]),
-    ("LAL", "Library Authority Layer", "ARCH-LAL-CORE-0001", "yggdrasil/lal/README.md",
+    ("LAL", "Library Authority Layer", "ARCH-LAL-CORE-0001", "JarvisMain/yggdrasil/lal/README.md",
      "Discovery layer — the map of all maps; resolves JNL addresses to locations. Pure mirror.",
      "Provide repository-wide discovery without duplicating truth.",
      ["discovery", "index", "core", "architecture"], ["ARCH-JNL-CORE-0001"]),
-    ("JSS", "Jarvis Status System", "ARCH-JSS-CORE-0001", "yggdrasil/jss/JSS-SPEC.md",
+    ("JSS", "Jarvis Status System", "ARCH-JSS-CORE-0001", "JarvisMain/yggdrasil/jss/JSS-SPEC.md",
      "Lifecycle status layer — TASK/EXPANSION/ACTIVE/INACTIVE/ARCHIVED/DEPRECATED; drives auto-sort.",
      "Give every object a governed state that determines its place in the tree.",
      ["status", "lifecycle", "core", "architecture"], ["ARCH-JMS-CORE-0001"]),
-    ("JMMS", "Jarvis MultiMemory System", "ARCH-JMMS-CORE-0001", "yggdrasil/jmms/JMMS-SPEC.md",
+    ("JMMS", "Jarvis MultiMemory System", "ARCH-JMMS-CORE-0001", "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
      "Memory tiering/addressing across time horizons (JSTM/JLTM/JATM); sits beside MNEMOS.",
      "Make memory navigable across time the way JNL makes the repo navigable across space.",
      ["memory", "core", "architecture"], ["ARCH-JSTM-CORE-0001", "ARCH-JLTM-CORE-0001", "ARCH-JATM-CORE-0001"]),
-    ("JSTM", "Jarvis Short-Term Memory", "ARCH-JSTM-CORE-0001", "yggdrasil/jmms/JMMS-SPEC.md",
+    ("JSTM", "Jarvis Short-Term Memory", "ARCH-JSTM-CORE-0001", "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
      "Working/session memory tier — current context and recent events; high-churn, summarized.",
      "Hold the live working set before consolidation.",
      ["memory", "short-term", "architecture"], ["ARCH-JMMS-CORE-0001"]),
-    ("JLTM", "Jarvis Long-Term Memory", "ARCH-JLTM-CORE-0001", "yggdrasil/jmms/JMMS-SPEC.md",
+    ("JLTM", "Jarvis Long-Term Memory", "ARCH-JLTM-CORE-0001", "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
      "Consolidated semantic memory tier — durable compressed knowledge; the MNEMOS store.",
      "Hold durable, recallable knowledge promoted out of short-term.",
      ["memory", "long-term", "architecture"], ["ARCH-JMMS-CORE-0001"]),
-    ("JATM", "Jarvis Ancestral Memory", "ARCH-JATM-CORE-0001", "yggdrasil/jmms/JMMS-SPEC.md",
+    ("JATM", "Jarvis Ancestral Memory", "ARCH-JATM-CORE-0001", "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
      "Ancestral immutable memory tier — the dated lineage/spine; append-only, never rewritten.",
      "Preserve the foundational record that outlives sessions (HADES-adjacent).",
      ["memory", "ancestral", "immutable", "architecture"], ["ARCH-JMMS-CORE-0001"]),
@@ -337,7 +337,7 @@ def main() -> None:
         cls, tr, own = ontology_class("ARCH", "CORE", jnl), tier("ARCH", "ACTIVE"), owner("ARCH", name)
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, "ARCH", "CANON", jnl, definition, purpose, tags, related,
-                        ["PRI", "SPEC", "IDX"], "yggdrasil/jfs/JFS-SPEC.md", "ACTIVE", cls, tr, own, []))
+                        ["PRI", "SPEC", "IDX"], "JarvisMain/yggdrasil/jfs/JFS-SPEC.md", "ACTIVE", cls, tr, own, []))
         register(jnl, loc, tags, name, "ARCH")
 
     # God-system entries (dormant ones carry JSS status INACTIVE).
