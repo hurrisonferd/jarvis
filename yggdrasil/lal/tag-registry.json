@@ -128,6 +128,9 @@
     "filesystem": [
       "ARCH-JFS-CORE-0001"
     ],
+    "format": [
+      "IMPL-FMT-SPEC-0001"
+    ],
     "game": [
       "PROJ-PAC-BIO-0001"
     ],
@@ -180,7 +183,8 @@
       "GS-LOK-CORE-0001",
       "GS-MER-CORE-0001",
       "GS-PRO-CORE-0001",
-      "IMPL-DEX-SPEC-0001"
+      "IMPL-DEX-SPEC-0001",
+      "IMPL-FMT-SPEC-0001"
     ],
     "gpt": [
       "ARCH-GPT-SPEC-0001"
@@ -191,6 +195,9 @@
     "idea": [
       "IDEA-UNUS-LOG-0001",
       "IDEA-USED-LOG-0001"
+    ],
+    "ids": [
+      "IMPL-FMT-SPEC-0001"
     ],
     "immutable": [
       "ARCH-JATM-CORE-0001"
@@ -216,6 +223,9 @@
     ],
     "jip": [
       "IMPL-JIP-SPEC-0608"
+    ],
+    "jnl": [
+      "IMPL-FMT-SPEC-0001"
     ],
     "jpl": [
       "PROJ-JPL-BIO-0001"
@@ -325,6 +335,7 @@
     ],
     "spec": [
       "IMPL-DEX-SPEC-0001",
+      "IMPL-FMT-SPEC-0001",
       "IMPL-JGPP-CORE-0001"
     ],
     "status": [

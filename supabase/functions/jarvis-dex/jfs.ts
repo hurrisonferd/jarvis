@@ -6,6 +6,7 @@ export const DOMAINS = new Set([
 ]);
 export const TYPES = new Set([
   "CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW",
+  "JGPP", "JIP", "JD", // cognition-pipeline artifact types (exploration / commit / truth)
 ]);
 export const STATUSES = new Set([
   "TASK", "EXPANSION", "ACTIVE", "INACTIVE", "ARCHIVED", "DEPRECATED",
@@ -58,6 +59,8 @@ export function ontologyClass(jnl: string): string {
   const parts = jnl.split("-");
   const domain = parts[0];
   const jtype = parts.length >= 3 ? parts[2] : "";
+  if (jtype === "JGPP") return "ENTITY";          // exploration
+  if (jtype === "JIP" || jtype === "JD") return "SPEC"; // commit / truth
   if (domain === "GS") return "SYSTEM";
   if (domain === "ARCH") return jtype === "CORE" ? "SYSTEM" : "SPEC";
   if (domain === "GOV") return "SPEC";

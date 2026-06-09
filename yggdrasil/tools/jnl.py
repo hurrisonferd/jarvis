@@ -12,7 +12,9 @@ from dataclasses import dataclass
 
 # Canonical code tables (mirror of jfs/jnl-grammar.md).
 DOMAINS = {"GS", "ARCH", "GOV", "IMPL", "PROJ", "GRID", "CONN", "AUD", "IDEA", "BRK", "LOG"}
-TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW"}
+# JGPP/JIP/JD: the cognition-pipeline artifact types (exploration / commit / truth),
+# usable per project, e.g. PROJ-DEO-JGPP-0001, PROJ-DEO-JIP-0001, PROJ-DEO-JD-0001.
+TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW", "JGPP", "JIP", "JD"}
 
 # Substrate + the 27 fixed God Systems. Do not add god systems (GL constraint).
 # JFS family: kernel primitives (JNS/JNL/JSL/JMS) + status (JSS) + memory (JMMS/tiers)

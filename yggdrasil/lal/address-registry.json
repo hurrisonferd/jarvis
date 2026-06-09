@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 76,
+  "count": 77,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -1121,6 +1121,27 @@
       "tags": [
         "dex",
         "connector",
+        "governance",
+        "spec"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-FMT-SPEC-0001",
+      "name": "JFS Formatting Standard",
+      "type": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
+      "location": "JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md",
+      "tags": [
+        "format",
+        "ids",
+        "jnl",
         "governance",
         "spec"
       ],
