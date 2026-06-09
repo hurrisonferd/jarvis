@@ -83,7 +83,8 @@
     ],
     "connector": [
       "CONN-MSB-CORE-0001",
-      "CONN-OTH-LOG-0001"
+      "CONN-OTH-LOG-0001",
+      "IMPL-DEX-SPEC-0001"
     ],
     "core": [
       "ARCH-JD-CORE-0001",
@@ -114,6 +115,9 @@
     ],
     "deoxys": [
       "PROJ-DEO-BIO-0001"
+    ],
+    "dex": [
+      "IMPL-DEX-SPEC-0001"
     ],
     "dictionary": [
       "ARCH-JD-CORE-0001"
@@ -175,7 +179,8 @@
       "GS-JAN-CORE-0001",
       "GS-LOK-CORE-0001",
       "GS-MER-CORE-0001",
-      "GS-PRO-CORE-0001"
+      "GS-PRO-CORE-0001",
+      "IMPL-DEX-SPEC-0001"
     ],
     "gpt": [
       "ARCH-GPT-SPEC-0001"
@@ -319,6 +324,7 @@
       "IMPL-JCSF-SPEC-0001"
     ],
     "spec": [
+      "IMPL-DEX-SPEC-0001",
       "IMPL-JGPP-CORE-0001"
     ],
     "status": [

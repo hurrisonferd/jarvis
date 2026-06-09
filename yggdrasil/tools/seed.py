@@ -201,6 +201,10 @@ KNOWLEDGE = [
     ("IMPL-JQL-CORE-0001", "JQL - JD Query Language", "IMPL", "JarvisMain/Implementation/Active/JIP-0608-E",
      "Query language over JD truth — interactive runtime queries with traversal semantics.",
      "Let agents query and traverse the dex at runtime (executed by JCS-E).", ["pipeline", "jql", "query"]),
+    ("IMPL-DEX-SPEC-0001", "Dex Connector & Access Tiers", "IMPL", "JarvisMain/Implementation/Active/JIP-DEX-0001-AccessTiers-060926.md",
+     "Design contract for jarvis-dex: read/propose/draft/commit tiers over the dex with auto-formatting.",
+     "Govern autonomous dex reads/writes with a human-in-the-loop commit gate (GL2/GL5/GL6).",
+     ["dex", "connector", "governance", "spec"]),
 ]
 
 # Status-managed objects under JSS-managed roots (location = the status-sorted path).
