@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 66,
+  "count": 72,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -681,6 +681,78 @@
       "tags": [
         "idea",
         "log"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JCS \u2014 Jarvis Cognitive Stack",
+      "jnl": "IMPL-JCS-CORE-0001",
+      "location": "Implementation/Active/JIP-0608-2",
+      "tags": [
+        "pipeline",
+        "jcs",
+        "runtime"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JCS-D Temporal Reconstruction",
+      "jnl": "IMPL-JCSD-SPEC-0001",
+      "location": "Implementation/Active/JIP-0608-D",
+      "tags": [
+        "jcs",
+        "layer",
+        "temporal"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JCS-E Query & Traversal",
+      "jnl": "IMPL-JCSE-SPEC-0001",
+      "location": "Implementation/Active/JIP-0608-E",
+      "tags": [
+        "jcs",
+        "layer",
+        "query"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JCS-F Runtime Simulation",
+      "jnl": "IMPL-JCSF-SPEC-0001",
+      "location": "Implementation/Active/JIP-0608-F",
+      "tags": [
+        "jcs",
+        "layer",
+        "simulation"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JCS-G External Interface Binding",
+      "jnl": "IMPL-JCSG-SPEC-0001",
+      "location": "Implementation/Active/JIP-0608-G",
+      "tags": [
+        "jcs",
+        "layer",
+        "interface"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JGPP \u2014 Generative Process Protocol",
+      "jnl": "IMPL-JGPP-CORE-0001",
+      "location": "Implementation/Active/JIP-0608-1",
+      "tags": [
+        "pipeline",
+        "jgpp",
+        "spec"
       ],
       "anchors": [],
       "state": "active"

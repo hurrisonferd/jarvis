@@ -179,6 +179,25 @@ KNOWLEDGE = [
      "Opus 4.8 audit (2026-05-29).", "Recorded audit.", ["audit", "review"]),
     ("AUD-FULL-REVW-0001", "Full System Audit", "AUD", "Audit/2026-06-04_full_system_audit.md",
      "Full system audit (2026-06-04).", "Recorded audit.", ["audit", "review"]),
+    # Runtime cognition pipeline: JGPP -> JIP -> JCS -> JD (spec -> impl -> runtime -> truth)
+    ("IMPL-JGPP-CORE-0001", "JGPP — Generative Process Protocol", "IMPL", "Implementation/Active/JIP-0608-1",
+     "Generation/specification ruleset; pre-implementation compiler logic.",
+     "Turn intelligence into structured intent + execution graphs.", ["pipeline", "jgpp", "spec"]),
+    ("IMPL-JCS-CORE-0001", "JCS — Jarvis Cognitive Stack", "IMPL", "Implementation/Active/JIP-0608-2",
+     "Runtime reasoning/simulation engine operating over JIP structures and JD truth.",
+     "Execute interpretation, simulation, and actor interaction at runtime.", ["pipeline", "jcs", "runtime"]),
+    ("IMPL-JCSD-SPEC-0001", "JCS-D Temporal Reconstruction", "IMPL", "Implementation/Active/JIP-0608-D",
+     "JCS layer D: rebuilds historical JD states from JIP + logs.",
+     "Temporal reconstruction of truth state.", ["jcs", "layer", "temporal"]),
+    ("IMPL-JCSE-SPEC-0001", "JCS-E Query & Traversal", "IMPL", "Implementation/Active/JIP-0608-E",
+     "JCS layer E: JD query and traversal engine.",
+     "Query and traverse JD truth.", ["jcs", "layer", "query"]),
+    ("IMPL-JCSF-SPEC-0001", "JCS-F Runtime Simulation", "IMPL", "Implementation/Active/JIP-0608-F",
+     "JCS layer F: runtime simulation over JD state.",
+     "Simulate execution before committing it.", ["jcs", "layer", "simulation"]),
+    ("IMPL-JCSG-SPEC-0001", "JCS-G External Interface Binding", "IMPL", "Implementation/Active/JIP-0608-G",
+     "JCS layer G: external interface binding.",
+     "Bind the runtime to external interfaces.", ["jcs", "layer", "interface"]),
 ]
 
 # Status-managed objects under JSS-managed roots (location = the status-sorted path).

@@ -147,6 +147,10 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
 - **Tools:** `yggdrasil/tools/seed.py` regenerates entries + registries;
   `yggdrasil/tools/validate.py` enforces grammar + GL12 + status + mirror consistency (run before commit);
   `yggdrasil/tools/autosort.py` relocates files to match their status (JNL preserved — JMS law).
+- **Runtime cognition pipeline:** `JGPP → JIP → JCS → JD` (spec → evolving impl → runtime → truth).
+  **JCS** (Jarvis Cognitive Stack) is the runtime reasoning/simulation engine over JIP structures +
+  JD truth; layers JCS-D (temporal) / -E (query) / -F (simulation) / -G (interface). Addressed under
+  the `IMPL` domain; specs in `Implementation/Active/JIP-0608-*`.
 - **Rosetta (legacy → canon):** MIDAS→AEGIS · SENTINEL→ARGUS+IRIS+HUGINN · GRAVEYARD→HADES ·
   FATES→KRONOS · JORMUNGANDR=codec · HELP→MIMIR · CHAOS stays entropy (raw ingestion is AYRE→HADES).
 
