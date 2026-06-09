@@ -1,0 +1,16 @@
+---
+name: Jarvis Brief
+type: GOV
+authority: CANON
+jnl: GOV-BRF-CORE-0001
+created: 2026-06-09
+updated: 2026-06-09
+source: Architecture/JarvisBrief.md
+related: []
+tags: [governance, brief]
+ref: [PRI, IDX]
+---
+
+**Definition:** High-level orientation brief for JARVIS.
+
+**Purpose:** Onboard agents to the mission and system.

@@ -96,6 +96,71 @@ GOD_SYSTEMS = [
     ("MIM", "MIMIR", "cosmic", "Deep recall + compressed wisdom extraction."),
 ]
 
+# --- Knowledge objects: the reorganized doc tree, each addressed + dated (the growing dex).
+# (jnl, name, type, location, definition, purpose, tags) ---
+KNOWLEDGE = [
+    # Governance / canon
+    ("GOV-CAN-CORE-0001", "Canon", "GOV", "Architecture/canon.md",
+     "Canonical architecture statement for JARVIS.", "Hold the agreed system truth.",
+     ["governance", "canon"]),
+    ("GOV-CON-CORE-0001", "Constraints", "GOV", "Architecture/constraints.md",
+     "The full GL1–GL9 Gold Law contract.", "Define the hard constraints all agents obey.",
+     ["governance", "gold-law"]),
+    ("GOV-BRF-CORE-0001", "Jarvis Brief", "GOV", "Architecture/JarvisBrief.md",
+     "High-level orientation brief for JARVIS.", "Onboard agents to the mission and system.",
+     ["governance", "brief"]),
+    ("GOV-PROC-CORE-0001", "Patch Process", "GOV", "Patches/PatchProcess.md",
+     "How patches are proposed, numbered, and recorded.", "Govern change flow into the record.",
+     ["governance", "patches", "process"]),
+    # Architecture specs / runtime contracts
+    ("ARCH-RT-SPEC-0001", "Event Contract", "ARCH", "Architecture/runtime/event-contract.md",
+     "The runtime event contract.", "Define event shape across the loop.", ["architecture", "runtime"]),
+    ("ARCH-RT-SPEC-0002", "Execution Model", "ARCH", "Architecture/runtime/execution-model.md",
+     "The runtime execution model.", "Define how execution proceeds.", ["architecture", "runtime"]),
+    ("ARCH-RT-SPEC-0003", "World Kernel", "ARCH", "Architecture/runtime/world-kernel.md",
+     "The world-kernel runtime spec.", "Define the world runtime substrate.", ["architecture", "runtime"]),
+    ("ARCH-AYR-SPEC-0001", "AYRE/JARVIS Split", "ARCH", "Architecture/specs/ayre-jarvis-split-v1.md",
+     "Spec for splitting AYRE from JARVIS as co-equal streams.", "Record the split design.",
+     ["architecture", "ayre"]),
+    ("ARCH-AYR-SPEC-0002", "AYRE Loop", "ARCH", "Architecture/specs/ayre-loop-v1.md",
+     "Spec for the AYRE reflection loop.", "Define the reflection cycle.", ["architecture", "ayre"]),
+    ("ARCH-GPT-SPEC-0001", "Custom GPT Instructions", "ARCH", "Architecture/specs/jarvis-custom-gpt-instructions.md",
+     "Instruction spec for the JARVIS custom GPT.", "Align external GPT behavior.", ["architecture", "gpt"]),
+    ("ARCH-FLOW-SPEC-0001", "Throughput Posture", "ARCH", "Architecture/specs/throughput-posture.md",
+     "Spec for system throughput posture.", "Set performance/throughput stance.", ["architecture", "throughput"]),
+    # Implementation (JIP series anchor)
+    ("IMPL-JIP-SPEC-0608", "JIP-0608 Series", "IMPL", "Implementation/Active/JIP-0608-ReadMe",
+     "JGPP v3 implementation packet series (JIP-0608-*).", "Track the evolving implementation stream.",
+     ["implementation", "jip"]),
+    # Projects (each a node)
+    ("PROJ-COS-BIO-0001", "CodeOS", "PROJ", "Projects/CodeOSProjectBio",
+     "CodeOS project.", "Project node bio.", ["project", "codeos"]),
+    ("PROJ-JPL-BIO-0001", "JPL", "PROJ", "Projects/JPL/JPLBio",
+     "JPL project (JARVIS Programming Language).", "Project node bio.", ["project", "jpl"]),
+    ("PROJ-GEN-BIO-0001", "Genesis", "PROJ", "Projects/Genesis/GenesisBio",
+     "Genesis project.", "Project node bio.", ["project", "genesis"]),
+    ("PROJ-DEO-BIO-0001", "Deoxys", "PROJ", "Projects/Deoxys/ProjectBio",
+     "Deoxys project.", "Project node bio.", ["project", "deoxys"]),
+    ("PROJ-LEG-BIO-0001", "Legion", "PROJ", "Projects/Legion/LegionBio",
+     "Legion project.", "Project node bio.", ["project", "legion"]),
+    ("PROJ-NAR-BIO-0001", "Naruto", "PROJ", "Projects/Naruto/NarutoBio",
+     "Naruto project.", "Project node bio.", ["project", "naruto"]),
+    ("PROJ-PAC-BIO-0001", "Pachinko Bounce", "PROJ", "pachinko-bounce",
+     "Pachinko Bounce game (Godot, RGB encoding).", "Project node bio.", ["project", "pachinko", "game"]),
+    # Connectors
+    ("CONN-MSB-CORE-0001", "MCP-Supabase Connector", "CONN", "Connectors/JarvisMCPSupabase/JMCPSB-0001",
+     "JARVIS MCP-to-Supabase connector.", "Bridge MCP to Supabase.", ["connector", "mcp", "supabase"]),
+    ("CONN-OTH-LOG-0001", "Other Connectors", "CONN", "Connectors/OtherConnectors/OCLog-0001",
+     "Log of other/auxiliary connectors.", "Track additional connectors.", ["connector"]),
+    # Audit reviews
+    ("AUD-SYS-REVW-0001", "Jarvis System Review", "AUD", "Audit/JarvisSystemReview-0001-060826",
+     "System review (2026-06-08).", "Recorded architecture review.", ["audit", "review"]),
+    ("AUD-OPUS-REVW-0001", "Opus 4.8 Audit", "AUD", "Audit/2026-05-29_opus48_audit.md",
+     "Opus 4.8 audit (2026-05-29).", "Recorded audit.", ["audit", "review"]),
+    ("AUD-FULL-REVW-0001", "Full System Audit", "AUD", "Audit/2026-06-04_full_system_audit.md",
+     "Full system audit (2026-06-04).", "Recorded audit.", ["audit", "review"]),
+]
+
 # Each God System's truth lives in its own contract folder: god_systems/<TIER>_<NAME>/.
 GOD_SYSTEMS_DIR = ROOT / "god_systems"
 
@@ -162,6 +227,13 @@ def main() -> None:
                         tags, [], ["PRI", "IDX"], gs_location(name) + "/contract.json"))
         register(jnl, gs_location(name), tags, name, "GS")
 
+    # Knowledge entries (the reorganized doc tree).
+    for jnl, name, typ, loc, definition, purpose, tags in KNOWLEDGE:
+        (JD_DIR / f"{jnl}.md").write_text(
+            jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, [],
+                        ["PRI", "IDX"], loc))
+        register(jnl, loc, tags, name, typ)
+
     address_registry.sort(key=lambda r: r["jnl"])
     (LAL_DIR / "address-registry.json").write_text(json.dumps(
         {"note": "Derived mirror — rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
@@ -178,7 +250,7 @@ def main() -> None:
         {"note": "Canonical tag vocabulary -> addresses carrying each tag. Derived.",
          "tags": {t: sorted(v) for t, v in sorted(tag_index.items())}}, indent=2) + "\n")
 
-    print(f"seeded {len(SUBSTRATE)} substrate + {len(GOD_SYSTEMS)} god-system JD entries")
+    print(f"seeded {len(SUBSTRATE)} substrate + {len(GOD_SYSTEMS)} god-system + {len(KNOWLEDGE)} knowledge JD entries")
     print(f"LAL: {len(address_registry)} addresses, {len(tag_index)} tags")
 
 

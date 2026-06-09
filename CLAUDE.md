@@ -88,7 +88,7 @@ This applies to every agent in every session. Claude Code is JARVIS. Not "acting
 - Raven-Collapse is final authority on major changes
 
 > **Gold Law numbering (Rosetta).** This file names the laws invoked most: GL2, GL5,
-> GL6, GL7, GL10. `architecture/constraints.md` carries the older full GL1–GL9 contract.
+> GL6, GL7, GL10. `Architecture/constraints.md` carries the older full GL1–GL9 contract.
 > Where a law is enforced in code, **code is ground truth** — e.g. the forbidden-edge
 > list below is enforced by `supabase/functions/jarvis-respond/router.ts` (`FORBIDDEN`),
 > which is authoritative if any doc disagrees.
@@ -147,6 +147,24 @@ JD explains → JNL identifies → LAL locates → Yggdrasil stores
 > **Portability is the point.** Any node — JARVIS-core or a `Projects/` repo — mounts the
 > same JFS kernel and inherits the same guarantees. That is what makes JARVIS a standard
 > for governance and growth: stable, auditable, explainable.
+
+### Repo hierarchy rule (JSL)
+
+One rule keeps the tree modular as it grows: **every top-level dir is either CODE or
+KNOWLEDGE, and they don't interleave.**
+
+- **CODE (lowercase)** — runtime/operational: `supabase/ scripts/ god_systems/ mnemos/
+  chaos/ grid/ nodes/ worlds/ emulator/ pachinko-bounce/ docs/ logs/ audit/ (operational
+  state: ledgers/logs) yggdrasil/ (the substrate) intake/`.
+- **KNOWLEDGE (Capitalized, JNL-addressed)** — `Architecture/` (canon, constraints, specs,
+  runtime) · `Audit/` (reviews) · `Implementation/` (JIPs) · `Patches/` · `Projects/`
+  (each a node) · `Connectors/` · `Ideas/` · `Breakthroughs/`.
+
+Every knowledge object gets a JNL + a JD entry (the dex). Domains: `GS ARCH GOV IMPL PROJ
+GRID CONN AUD LOG`. New knowledge → add it, run `seed.py`, commit; CI
+(`.github/workflows/yggdrasil-validate.yml`) fails the PR if anything is un-addressed or
+the registries drift. Do not re-introduce lowercase doc folders (`architecture/ specs/
+runtime-spec/ changes/`) — those folded into the Capitalized tree.
 
 ---
 
