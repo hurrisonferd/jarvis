@@ -109,8 +109,14 @@ def emit_sql() -> None:
 
 # --- push mode (PostgREST upsert) ---
 
+# The canonical project host (CLAUDE.md Services). The SUPABASE_URL secret has proven
+# unreliable in shape; anything that doesn't yield a *.supabase.co host falls back here.
+CANONICAL_URL = "https://oexghfsvhnggddllgvrt.supabase.co"
+
+
 def norm_url(u: str) -> str:
-    """Tolerate secret variants: bare host (no scheme) and bare project ref (no domain)."""
+    """Tolerate secret variants: bare host (no scheme) and bare project ref (no domain).
+    Anything that still doesn't look like a Supabase host falls back to CANONICAL_URL."""
     u = u.strip().rstrip("/")
     if not u:
         return u
@@ -118,7 +124,12 @@ def norm_url(u: str) -> str:
         u = f"https://{u}"
     host = u.split("://", 1)[1].split("/", 1)[0]
     if "." not in host:
-        u = u.replace(host, f"{host}.supabase.co", 1)
+        host_fixed = f"{host}.supabase.co"
+        u = u.replace(host, host_fixed, 1)
+        host = host_fixed
+    if not u.startswith("https://") or not host.endswith(".supabase.co"):
+        print(f"sync_supabase: SUPABASE_URL secret has unusable shape — using canonical project URL")
+        return CANONICAL_URL
     return u
 
 
@@ -134,21 +145,29 @@ def push() -> int:
         "Content-Type": "application/json",
         "Prefer": "resolution=merge-duplicates,return=minimal",
     }
+    candidates = [url] + ([CANONICAL_URL] if url != CANONICAL_URL else [])
     for table, rows in (("jnl_registry", reg_rows()), ("jd_entries", jd_rows())):
-        req = urllib.request.Request(
-            f"{url}/rest/v1/{table}?on_conflict=jnl",
-            data=json.dumps(rows).encode(), headers=headers, method="POST")
-        for attempt in range(3):  # runner DNS hiccups are real — retry before failing loudly
-            try:
-                with urllib.request.urlopen(req, timeout=60) as r:
-                    print(f"sync_supabase: {table} <- {len(rows)} rows (HTTP {r.status})")
+        last_err: Exception | None = None
+        done = False
+        for base in candidates:  # secret-derived URL first, canonical as the safety net
+            for attempt in range(2):
+                req = urllib.request.Request(
+                    f"{base}/rest/v1/{table}?on_conflict=jnl",
+                    data=json.dumps(rows).encode(), headers=headers, method="POST")
+                try:
+                    with urllib.request.urlopen(req, timeout=60) as r:
+                        print(f"sync_supabase: {table} <- {len(rows)} rows (HTTP {r.status}) via {base.split('//')[1].split('.')[0][:4]}…")
+                    done = True
+                    break
+                except urllib.error.URLError as e:
+                    last_err = e
+                    print(f"sync_supabase: {table} attempt failed ({e}); ", end="")
+                    print("retrying" if attempt == 0 else "next URL")
+                    time.sleep(2)
+            if done:
                 break
-            except urllib.error.URLError as e:
-                if attempt == 2:
-                    raise
-                wait = 2 ** (attempt + 1)
-                print(f"sync_supabase: {table} attempt {attempt + 1} failed ({e}); retrying in {wait}s")
-                time.sleep(wait)
+        if not done:
+            raise SystemExit(f"sync_supabase: {table} failed on all URLs: {last_err}")
     return 0
 
 
