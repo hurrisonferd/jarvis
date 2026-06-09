@@ -46,18 +46,33 @@ locate it. **JPL** is the language the system is expressed in. All of it is JFS.
 **Responsibilities:** semantic file naming, log naming, system naming, version naming.
 
 **Rule:** filenames are *specific and semantic*, never generic. A name states the
-system, the kind of object, and its sequence. As the tree grows, a name alone tells
-you what a file is before you open it.
+subject, the kind of object, its sequence, and its date. As the tree grows, a name alone
+tells you what a file is — and when it landed — before you open it.
 
-**Form:** `SYSTEM-TYPE-Descriptor-NNNN.ext`
+### Canonical filename convention
 
 ```
-YGGDRASIL-PATCH-CorePrimitives-0001.md
-JPL-OS-PATCH-RoutingRefactor-0003.md
-JD-SPEC-SemanticDNS-0001.md
+<Subject><Type>-<NNNN>-<MMDDYY>
 ```
 
-Forbidden: `notes.md`, `final.md`, `untitled.md`, `Placeholder`, date-only names.
+- **`<Subject>`** — the specific folder/system/topic the object belongs to (never generic).
+- **`<Type>`** — the kind: `Patch`, `Idea`, `Review`, `Log`, `Bio`, `Spec`, …
+- **`<NNNN>`** — 4-digit zero-padded sequence within that subject+type.
+- **`<MMDDYY>`** — the date the object was created.
+
+```
+PatchesPatch-0001-060826        # patch #1 in Patches, created 06/08/26
+IdeasIdea-0025-112027           # idea #25 in Ideas, created 11/20/27
+AuditReview-0003-060926         # audit review #3, created 06/09/26
+```
+
+Every dated artifact also carries a **JNL address** (its formal identity) and a **JD
+entry**. The filename is the human/JNS form; the JNL is the machine identity. They agree:
+the JNL's `Log` number matches `NNNN`, and JMS preserves both across moves.
+
+**Forbidden:** `notes.md`, `final.md`, `untitled.md`, `Placeholder`, `Patch 1`, bare
+numbers, or any name missing subject/type/sequence. (Stable canonical specs like
+`JFS-SPEC.md` keep their established names; the convention governs new dated artifacts.)
 
 ---
 
