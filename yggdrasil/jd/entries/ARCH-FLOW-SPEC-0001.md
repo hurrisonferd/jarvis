@@ -9,7 +9,7 @@ jnl: ARCH-FLOW-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Architecture/specs/throughput-posture.md
+source: JarvisMain/Architecture/specs/throughput-posture.md
 related: []
 references: []
 tags: [architecture, throughput]

@@ -22,7 +22,7 @@ JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
 REG_PATH = ROOT / "yggdrasil" / "lal" / "address-registry.json"
 
 # Status-managed roots (prefixes). Periphery roots live under Side/.
-MANAGED_ROOTS = ("Side/Ideas", "Implementation", "Side/Breakthroughs")
+MANAGED_ROOTS = ("JarvisSide/Ideas", "JarvisMain/Implementation", "JarvisSide/Breakthroughs")
 FM = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 

@@ -9,7 +9,7 @@ jnl: PROJ-JPL-BIO-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Side/Projects/JPL/JPLBio
+source: JarvisSide/Projects/JPL/JPLBio
 related: []
 references: []
 tags: [project, jpl]

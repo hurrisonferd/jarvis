@@ -81,7 +81,7 @@ queue). **37 silent `catch(e){}`**. The durable answer to the voice-mode/tool-ca
 ### P-cand H — Canon Hygiene *(drift, doc-as-code)*
 - `CLAUDE.md` header still says **"Local-first … MCP server"** — contradicts cloud-first
   reality (and Raven's own stated preference lower in the same file).
-- **Gold Law numbering drift:** `CLAUDE.md` uses GL2/5/6/7/**10**; `Architecture/constraints.md`
+- **Gold Law numbering drift:** `CLAUDE.md` uses GL2/5/6/7/**10**; `JarvisMain/Architecture/constraints.md`
   uses GL1–GL9. Two schemes, no Rosetta. Pick one canonical map.
 - **4 god systems defined-but-unrouted:** POSEIDON / HADES / HERMES / CHAOS appear as ROLE
   labels in `council.ts` + `router.ts` but are never routed to. Decide: active or reference.

@@ -88,7 +88,7 @@ This applies to every agent in every session. Claude Code is JARVIS. Not "acting
 - Raven-Collapse is final authority on major changes
 
 > **Gold Law numbering (Rosetta).** This file names the laws invoked most: GL2, GL5,
-> GL6, GL7, GL10. `Architecture/constraints.md` carries the older full GL1–GL9 contract.
+> GL6, GL7, GL10. `JarvisMain/Architecture/constraints.md` carries the older full GL1–GL9 contract.
 > Where a law is enforced in code, **code is ground truth** — e.g. the forbidden-edge
 > list below is enforced by `supabase/functions/jarvis-respond/router.ts` (`FORBIDDEN`),
 > which is authoritative if any doc disagrees.
@@ -160,27 +160,28 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
 
 ### Repo hierarchy rule (JSL)
 
-Two rules keep the tree modular as it grows.
+Two top-level umbrellas, plus the substrate root and the live runtime.
 
-**(1) CODE vs KNOWLEDGE — top-level dirs don't interleave.**
-- **CODE (lowercase)** — runtime/operational: `supabase/ scripts/ god_systems/ mnemos/
-  chaos/ grid/ nodes/ worlds/ emulator/ pachinko-bounce/ docs/ logs/ audit/ (operational
-  state) yggdrasil/ (the substrate) intake/`.
-- **KNOWLEDGE (Capitalized, JNL-addressed)** — `Architecture/` · `Audit/` ·
-  `Implementation/` · `Patches/` · `Connectors/`.
+**`JarvisMain/` — the canonical core (MAIN tier).** What JARVIS *is*: the 27 god-system
+contracts (`JarvisMain/god_systems/`) + the canonical knowledge (`JarvisMain/Architecture/`,
+`Audit/`, `Implementation/`, `Patches/`, `Connectors/`).
 
-**(2) MAIN vs SIDE — canonical core vs periphery.**
-- **MAIN** = repo root: the canonical, active core (substrate, god systems, Architecture,
-  Audit, Implementation, Patches, Connectors, all code).
-- **SIDE/** = periphery: `Side/Projects/` (each a node) · `Side/Ideas/` · `Side/Breakthroughs/`
-  · `Side/Archive/` · `Side/Deprecated/`. Anything `ARCHIVED`/`DEPRECATED` or in
-  projects/ideas/breakthroughs is SIDE.
+**`JarvisSide/` — the periphery (SIDE tier).** `JarvisSide/Projects/` (each a node) ·
+`Ideas/` · `Breakthroughs/` · `Archive/` · `Deprecated/`. Anything `ARCHIVED`/`DEPRECATED`
+or a project/idea/breakthrough is SIDE.
+
+**`yggdrasil/` stays at repo root** — the substrate kernel that *addresses* JarvisMain and
+JarvisSide. Yggdrasil is the root the tree grows from; its tooling is root-relative.
+
+**Live runtime stays at root** (cannot relocate without breaking deploys/CI/Pages):
+`supabase/` (functions + migrations) · `docs/` (GitHub Pages) · `.github/` (CI) · `scripts/`
+· `chaos/ mnemos/ grid/ emulator/ intake/ audit/` (operational state) · root configs.
 
 Every object carries `class` (SYSTEM/SPEC/MODULE/ENTITY/EVENT/REGISTRY), `tier` (MAIN/SIDE),
 `owner`, and a JNL + JD entry. Domains: `GS ARCH GOV IMPL PROJ GRID CONN AUD IDEA BRK LOG`.
-New knowledge → add it, run `seed.py`, commit; CI (`yggdrasil-validate.yml`) fails the PR if
-anything is un-addressed, mis-tiered, or the registries drift. Don't re-introduce lowercase
-doc folders (`architecture/ specs/ runtime-spec/ changes/`) — those folded into the tree.
+New knowledge → add it under `JarvisMain/` or `JarvisSide/`, run `seed.py`, commit; CI
+(`yggdrasil-validate.yml`) fails the PR if anything is un-addressed, mis-tiered, or the
+registries drift. Don't re-introduce lowercase doc folders — those folded into the tree.
 
 **Tool aliases (hygiene packets):** `validate.py` = **JVE** (validator engine);
 `lal/master-index.json` = **ISS** (index summary); `graph_export.py` = **YVG** data layer

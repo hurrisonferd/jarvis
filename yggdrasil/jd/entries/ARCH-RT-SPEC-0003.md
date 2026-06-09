@@ -9,7 +9,7 @@ jnl: ARCH-RT-SPEC-0003
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Architecture/runtime/world-kernel.md
+source: JarvisMain/Architecture/runtime/world-kernel.md
 related: []
 references: []
 tags: [architecture, runtime]

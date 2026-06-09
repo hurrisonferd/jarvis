@@ -9,7 +9,7 @@ jnl: IDEA-USED-LOG-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Side/Ideas/active/UsedLog-0001
+source: JarvisSide/Ideas/active/UsedLog-0001
 related: []
 references: []
 tags: [idea, log]

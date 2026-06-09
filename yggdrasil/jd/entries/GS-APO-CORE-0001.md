@@ -9,7 +9,7 @@ jnl: GS-APO-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: god_systems/T7_APOLLO/contract.json
+source: JarvisMain/god_systems/T7_APOLLO/contract.json
 related: []
 references: []
 tags: [orchestration, god-system, canon]

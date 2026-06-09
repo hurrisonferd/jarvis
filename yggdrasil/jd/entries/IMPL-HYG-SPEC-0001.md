@@ -9,7 +9,7 @@ jnl: IMPL-HYG-SPEC-0001
 status: ARCHIVED
 created: 2026-06-09
 updated: 2026-06-09
-source: Side/Archive/HygienePackets-0001-060926.md
+source: JarvisSide/Archive/HygienePackets-0001-060926.md
 related: []
 references: []
 tags: [hygiene, archive, reference]

@@ -9,7 +9,7 @@ jnl: GS-MIM-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: god_systems/T3_MIMIR/contract.json
+source: JarvisMain/god_systems/T3_MIMIR/contract.json
 related: []
 references: []
 tags: [cosmic, god-system, canon]

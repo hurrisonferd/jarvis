@@ -9,7 +9,7 @@ jnl: IMPL-JCSG-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Implementation/Active/JIP-0608-G
+source: JarvisMain/Implementation/Active/JIP-0608-G
 related: []
 references: []
 tags: [jcs, layer, interface]

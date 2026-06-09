@@ -9,7 +9,7 @@ jnl: IDEA-UNUS-LOG-0001
 status: INACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Side/Ideas/inactive/UnusedLog-0001
+source: JarvisSide/Ideas/inactive/UnusedLog-0001
 related: []
 references: []
 tags: [idea, log]

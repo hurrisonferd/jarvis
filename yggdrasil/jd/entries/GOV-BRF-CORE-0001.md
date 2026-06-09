@@ -9,7 +9,7 @@ jnl: GOV-BRF-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Architecture/JarvisBrief.md
+source: JarvisMain/Architecture/JarvisBrief.md
 related: []
 references: []
 tags: [governance, brief]

@@ -9,7 +9,7 @@ jnl: PROJ-DEO-BIO-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Side/Projects/Deoxys/ProjectBio
+source: JarvisSide/Projects/Deoxys/ProjectBio
 related: []
 references: []
 tags: [project, deoxys]
