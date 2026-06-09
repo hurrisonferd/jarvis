@@ -5,10 +5,11 @@
 **Type:** Architecture / Kernel
 
 JFS is the foundational filesystem architecture for all Yggdrasil-compatible systems.
-It defines **naming, identity, structure, and mirroring**. Everything else in the
-architecture builds on top of JFS.
+Everything else in the architecture builds on top of JFS. **JFS is the umbrella for the
+whole family of `J*` systems** — name, address, structure, mirror, status, memory,
+dictionary, discovery, and language.
 
-The four components are **not peers** — together they form a single filesystem kernel.
+The **kernel** is four components — not peers, but one filesystem kernel:
 
 ```
 JNS → Naming      (what something is called)
@@ -16,6 +17,25 @@ JNL → Identity    (what something is and where it exists)
 JSL → Structure   (how information is organized)
 JMS → Mirroring   (how information is reflected without duplication)
 ```
+
+## The JFS family
+
+| System | JNL | Role |
+|--------|-----|------|
+| **JNS** | `ARCH-JNS-CORE-0001` | naming — what it's called |
+| **JNL** | `ARCH-JNL-CORE-0001` | identity/address — what + where |
+| **JSL** | `ARCH-JSL-CORE-0001` | structure — how it's organized |
+| **JMS** | `ARCH-JMS-CORE-0001` | mirroring — reflect, never duplicate |
+| **JSS** | `ARCH-JSS-CORE-0001` | status — lifecycle state (drives auto-sort) → `jss/JSS-SPEC.md` |
+| **JMMS** | `ARCH-JMMS-CORE-0001` | memory tiers (JSTM/JLTM/JATM) → `jmms/JMMS-SPEC.md` |
+| **JD** | `ARCH-JD-CORE-0001` | dictionary — what it means |
+| **LAL** | `ARCH-LAL-CORE-0001` | discovery — how to get there |
+| **JPL** | `PROJ-JPL-BIO-0001` | language — the JARVIS programming/encoding layer |
+| **YGG** | `ARCH-YGG-CORE-0001` | root — the world tree that holds it all |
+
+The **kernel** (JNS/JNL/JSL/JMS) gives every object a name, address, place, and mirror.
+**JSS** gives it a lifecycle. **JMMS** gives memory a time-horizon. **JD/LAL** explain and
+locate it. **JPL** is the language the system is expressed in. All of it is JFS.
 
 ---
 
@@ -105,6 +125,34 @@ nothing that referenced it breaks.
 
 ---
 
+## JSS — Jarvis Status System
+
+**Defines:** the lifecycle state of every object — `TASK · EXPANSION · ACTIVE · INACTIVE ·
+ARCHIVED · DEPRECATED`.
+
+**Responsibilities:** carry one governed `status` per object; gate growth through
+`EXPANSION` (GL7); drive physical location via auto-sort. Status changes emit to the record
+(GL5). Full spec: **`jss/JSS-SPEC.md`**.
+
+**Principle:** *Structure follows state.* Change the status, and JMS relocates the file to
+the matching status subfolder — JNL preserved.
+
+---
+
+## JMMS — Jarvis MultiMemory System
+
+**Defines:** how memory is tiered across time — **JSTM** (working) · **JLTM** (consolidated)
+· **JATM** (ancestral, immutable).
+
+**Responsibilities:** address memory by horizon; promote one-way JSTM → JLTM → JATM; keep
+JATM append-only. Sits beside MNEMOS (meaning) as the *structure* of memory. Full spec:
+**`jmms/JMMS-SPEC.md`**.
+
+**Principle:** *JMMS is to time what JNL is to space* — it makes memory navigable across
+horizons.
+
+---
+
 ## Relationship & dependency model
 
 ```
@@ -128,19 +176,25 @@ JMS → maintains consistency of all JNL-referenced objects
 
 ```
 Yggdrasil
-├── JFS
-│   ├── JNS
-│   ├── JNL
-│   ├── JSL
-│   └── JMS
-├── JD
-├── LAL
-└── GOD_SYSTEMS
+├── JFS  (umbrella)
+│   ├── JNS    naming
+│   ├── JNL    identity / address
+│   ├── JSL    structure
+│   ├── JMS    mirror
+│   ├── JSS    status / lifecycle
+│   └── JMMS   memory tiers
+│       ├── JSTM   working
+│       ├── JLTM   consolidated
+│       └── JATM   ancestral
+├── JD          dictionary (meaning)
+├── LAL         discovery (location)
+├── JPL         language
+└── GOD_SYSTEMS execution (the 27)
 ```
 
 **Design rule:** all persistent information entering Yggdrasil must conform to JFS —
 names through JNS, identities through JNL, structure validated by JSL, mirrors managed
-by JMS.
+by JMS, **status assigned by JSS, memory tiered by JMMS**.
 
 **Mental model:** Yggdrasil = World Tree (memory). JFS = Root System (filesystem).
 Everything else grows from it. Understand JFS, then everything else becomes

@@ -22,8 +22,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Validate substrate (grammar + GL12 + mirror)
+      - name: Validate substrate (grammar + GL12 + status + mirror)
         run: python yggdrasil/tools/validate.py
+      - name: Check status-managed files are sorted (JSS/autosort)
+        run: python yggdrasil/tools/autosort.py
       - name: Check registries are in sync with entries (no drift)
         run: |
           python yggdrasil/tools/seed.py

@@ -1,0 +1,95 @@
+"""autosort — JSS-driven file placement (the JMS law in action).
+
+For status-managed roots (Ideas/, Implementation/, Breakthroughs/), every governed object
+should live in the subfolder matching its JSS status. This tool reports mismatches and,
+with --apply, relocates the file via `git mv`, preserves its JNL, and updates the LAL
+location + the JD entry source. Structure follows state.
+
+Usage:
+  python yggdrasil/tools/autosort.py            # dry-run: report what would move
+  python yggdrasil/tools/autosort.py --apply    # perform the moves
+Exit 1 (dry-run) if anything is out of place — usable as a CI gate.
+"""
+from __future__ import annotations
+import json
+import re
+import subprocess
+import sys
+from pathlib import Path
+
+ROOT = Path(__file__).resolve().parents[2]
+JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
+REG_PATH = ROOT / "yggdrasil" / "lal" / "address-registry.json"
+
+MANAGED_ROOTS = {"Ideas", "Implementation", "Breakthroughs"}
+FM = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
+
+
+def field(text: str, key: str) -> str:
+    m = re.search(rf"^{key}:\s*(.*)$", text, re.MULTILINE)
+    return m.group(1).strip() if m else ""
+
+
+def desired_path(location: str, status: str) -> str | None:
+    """Return the status-correct path for a managed-root object, or None if already correct."""
+    parts = location.split("/")
+    if not parts or parts[0] not in MANAGED_ROOTS:
+        return None
+    root = parts[0]
+    sub = status.lower()
+    # tail = everything below the status subfolder (object may be file or nested)
+    tail = parts[2:] if len(parts) >= 3 else parts[1:]
+    target = "/".join([root, sub, *tail])
+    # already correct if the current subfolder matches the status (case-insensitive)
+    if len(parts) >= 2 and parts[1].lower() == sub:
+        return None
+    return target
+
+
+def main() -> int:
+    apply = "--apply" in sys.argv[1:]
+    reg = json.loads(REG_PATH.read_text())
+    moves = []
+    for rec in reg["records"]:
+        loc, status = rec["location"], rec.get("status", "ACTIVE")
+        tgt = desired_path(loc, status)
+        if tgt:
+            moves.append((rec["jnl"], loc, tgt, status))
+
+    if not moves:
+        print(f"autosort: all managed-root objects are status-sorted ({len(reg['records'])} scanned).")
+        return 0
+
+    print(f"autosort: {len(moves)} object(s) out of place" + (" — applying:" if apply else " (dry-run):"))
+    for jnl, src, tgt, status in moves:
+        print(f"  [{status}] {jnl}\n      {src}\n   -> {tgt}")
+        if not apply:
+            continue
+        src_p, tgt_p = ROOT / src, ROOT / tgt
+        if not src_p.exists():
+            print(f"      ! source missing, skipping")
+            continue
+        tgt_p.parent.mkdir(parents=True, exist_ok=True)
+        subprocess.run(["git", "mv", src, tgt], cwd=ROOT, check=True)
+        # update LAL location (JNL preserved — JMS law)
+        for rec in reg["records"]:
+            if rec["jnl"] == jnl:
+                rec["location"] = tgt
+        # update the JD entry's source pointer
+        ent = JD_DIR / f"{jnl}.md"
+        if ent.exists():
+            t = ent.read_text()
+            t = re.sub(r"^source:.*$", f"source: {tgt}", t, count=1, flags=re.MULTILINE)
+            ent.write_text(t)
+
+    if apply:
+        REG_PATH.write_text(json.dumps(reg, indent=2) + "\n")
+        print("autosort: applied. JNLs preserved; LAL + entries updated. "
+              "Re-run seed.py if locations are also pinned in the manifest.")
+        return 0
+    print("\nRun with --apply to relocate. (CI uses dry-run as a gate.)")
+    return 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

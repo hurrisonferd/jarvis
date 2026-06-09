@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 59,
+  "count": 66,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -47,6 +47,19 @@
       "state": "active"
     },
     {
+      "object": "Jarvis Ancestral Memory",
+      "jnl": "ARCH-JATM-CORE-0001",
+      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "tags": [
+        "memory",
+        "ancestral",
+        "immutable",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Jarvis Dictionary",
       "jnl": "ARCH-JD-CORE-0001",
       "location": "yggdrasil/jd/JD-SPEC.md",
@@ -65,6 +78,30 @@
       "location": "yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "filesystem",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Long-Term Memory",
+      "jnl": "ARCH-JLTM-CORE-0001",
+      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "tags": [
+        "memory",
+        "long-term",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis MultiMemory System",
+      "jnl": "ARCH-JMMS-CORE-0001",
+      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "tags": [
+        "memory",
         "core",
         "architecture"
       ],
@@ -114,6 +151,31 @@
       "tags": [
         "structure",
         "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Status System",
+      "jnl": "ARCH-JSS-CORE-0001",
+      "location": "yggdrasil/jss/JSS-SPEC.md",
+      "tags": [
+        "status",
+        "lifecycle",
+        "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Short-Term Memory",
+      "jnl": "ARCH-JSTM-CORE-0001",
+      "location": "yggdrasil/jmms/JMMS-SPEC.md",
+      "tags": [
+        "memory",
+        "short-term",
         "architecture"
       ],
       "anchors": [],
@@ -597,6 +659,28 @@
         "cosmic",
         "god-system",
         "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Unused Ideas Log",
+      "jnl": "IDEA-UNUS-LOG-0001",
+      "location": "Ideas/inactive/UnusedLog-0001",
+      "tags": [
+        "idea",
+        "log"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Used Ideas Log",
+      "jnl": "IDEA-USED-LOG-0001",
+      "location": "Ideas/active/UsedLog-0001",
+      "tags": [
+        "idea",
+        "log"
       ],
       "anchors": [],
       "state": "active"

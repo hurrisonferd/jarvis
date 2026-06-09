@@ -3,6 +3,7 @@ name: Jarvis Dictionary
 type: ARCH
 authority: CANON
 jnl: ARCH-JD-CORE-0001
+status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: yggdrasil/jfs/JFS-SPEC.md

@@ -63,6 +63,26 @@ SUBSTRATE = [
      "Discovery layer — the map of all maps; resolves JNL addresses to locations. Pure mirror.",
      "Provide repository-wide discovery without duplicating truth.",
      ["discovery", "index", "core", "architecture"], ["ARCH-JNL-CORE-0001"]),
+    ("JSS", "Jarvis Status System", "ARCH-JSS-CORE-0001", "yggdrasil/jss/JSS-SPEC.md",
+     "Lifecycle status layer — TASK/EXPANSION/ACTIVE/INACTIVE/ARCHIVED/DEPRECATED; drives auto-sort.",
+     "Give every object a governed state that determines its place in the tree.",
+     ["status", "lifecycle", "core", "architecture"], ["ARCH-JMS-CORE-0001"]),
+    ("JMMS", "Jarvis MultiMemory System", "ARCH-JMMS-CORE-0001", "yggdrasil/jmms/JMMS-SPEC.md",
+     "Memory tiering/addressing across time horizons (JSTM/JLTM/JATM); sits beside MNEMOS.",
+     "Make memory navigable across time the way JNL makes the repo navigable across space.",
+     ["memory", "core", "architecture"], ["ARCH-JSTM-CORE-0001", "ARCH-JLTM-CORE-0001", "ARCH-JATM-CORE-0001"]),
+    ("JSTM", "Jarvis Short-Term Memory", "ARCH-JSTM-CORE-0001", "yggdrasil/jmms/JMMS-SPEC.md",
+     "Working/session memory tier — current context and recent events; high-churn, summarized.",
+     "Hold the live working set before consolidation.",
+     ["memory", "short-term", "architecture"], ["ARCH-JMMS-CORE-0001"]),
+    ("JLTM", "Jarvis Long-Term Memory", "ARCH-JLTM-CORE-0001", "yggdrasil/jmms/JMMS-SPEC.md",
+     "Consolidated semantic memory tier — durable compressed knowledge; the MNEMOS store.",
+     "Hold durable, recallable knowledge promoted out of short-term.",
+     ["memory", "long-term", "architecture"], ["ARCH-JMMS-CORE-0001"]),
+    ("JATM", "Jarvis Ancestral Memory", "ARCH-JATM-CORE-0001", "yggdrasil/jmms/JMMS-SPEC.md",
+     "Ancestral immutable memory tier — the dated lineage/spine; append-only, never rewritten.",
+     "Preserve the foundational record that outlives sessions (HADES-adjacent).",
+     ["memory", "ancestral", "immutable", "architecture"], ["ARCH-JMMS-CORE-0001"]),
 ]
 
 # --- The 27 God Systems (GS). (code, name, tier_group, definition) ---
@@ -161,6 +181,15 @@ KNOWLEDGE = [
      "Full system audit (2026-06-04).", "Recorded audit.", ["audit", "review"]),
 ]
 
+# Status-managed objects under JSS-managed roots (location = the status-sorted path).
+# (jnl, name, type, location, definition, purpose, tags, status)
+MANAGED = [
+    ("IDEA-USED-LOG-0001", "Used Ideas Log", "IDEA", "Ideas/active/UsedLog-0001",
+     "Log of ideas that were adopted.", "Track adopted ideas.", ["idea", "log"], "ACTIVE"),
+    ("IDEA-UNUS-LOG-0001", "Unused Ideas Log", "IDEA", "Ideas/inactive/UnusedLog-0001",
+     "Log of ideas not (yet) adopted.", "Track parked ideas.", ["idea", "log"], "INACTIVE"),
+]
+
 # Each God System's truth lives in its own contract folder: god_systems/<TIER>_<NAME>/.
 GOD_SYSTEMS_DIR = ROOT / "god_systems"
 
@@ -173,13 +202,18 @@ def gs_location(name: str) -> str:
     return "god_systems"
 
 
-def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source) -> str:
+# Dormant God Systems (per CLAUDE.md P24): canonical but not routed → JSS status INACTIVE.
+DORMANT_GS = {"CHAOS", "POSEIDON", "HADES", "HERMES"}
+
+
+def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source, status) -> str:
     fm = [
         "---",
         f"name: {name}",
         f"type: {typ}",
         f"authority: {authority}",
         f"jnl: {jnl}",
+        f"status: {status}",
         f"created: {existing_created(jnl)}",
         f"updated: {TODAY}",
         f"source: {source}",
@@ -201,10 +235,10 @@ def main() -> None:
     address_registry = []
     tag_index: dict[str, list[str]] = {}
 
-    def register(jnl, location, tags, name, typ, state="active"):
+    def register(jnl, location, tags, name, typ, status="ACTIVE", state="active"):
         address_registry.append({
             "jnl": jnl, "name": name, "type": typ, "location": location,
-            "tags": tags, "anchors": [], "state": state,
+            "tags": tags, "anchors": [], "status": status, "state": state,
             "created": existing_created(jnl), "updated": TODAY,
         })
         for t in tags:
@@ -214,25 +248,33 @@ def main() -> None:
     for code, name, jnl, loc, definition, purpose, tags, related in SUBSTRATE:
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, "ARCH", "CANON", jnl, definition, purpose, tags, related,
-                        ["PRI", "SPEC", "IDX"], "yggdrasil/jfs/JFS-SPEC.md"))
+                        ["PRI", "SPEC", "IDX"], "yggdrasil/jfs/JFS-SPEC.md", "ACTIVE"))
         register(jnl, loc, tags, name, "ARCH")
 
-    # God-system entries.
+    # God-system entries (dormant ones carry JSS status INACTIVE).
     for code, name, group, definition in GOD_SYSTEMS:
         jnl = f"GS-{code}-CORE-0001"
+        status = "INACTIVE" if name in DORMANT_GS else "ACTIVE"
         tags = [group, "god-system", "canon"]
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, "GS", "CANON", jnl, definition,
                         f"Canonical God System ({group} tier). Fixed; do not redefine.",
-                        tags, [], ["PRI", "IDX"], gs_location(name) + "/contract.json"))
-        register(jnl, gs_location(name), tags, name, "GS")
+                        tags, [], ["PRI", "IDX"], gs_location(name) + "/contract.json", status))
+        register(jnl, gs_location(name), tags, name, "GS", status)
 
     # Knowledge entries (the reorganized doc tree).
     for jnl, name, typ, loc, definition, purpose, tags in KNOWLEDGE:
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, [],
-                        ["PRI", "IDX"], loc))
-        register(jnl, loc, tags, name, typ)
+                        ["PRI", "IDX"], loc, "ACTIVE"))
+        register(jnl, loc, tags, name, typ, "ACTIVE")
+
+    # Status-managed entries (JSS status drives their folder; see autosort.py).
+    for jnl, name, typ, loc, definition, purpose, tags, status in MANAGED:
+        (JD_DIR / f"{jnl}.md").write_text(
+            jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, [],
+                        ["PRI", "IDX"], loc, status))
+        register(jnl, loc, tags, name, typ, status)
 
     address_registry.sort(key=lambda r: r["jnl"])
     (LAL_DIR / "address-registry.json").write_text(json.dumps(
