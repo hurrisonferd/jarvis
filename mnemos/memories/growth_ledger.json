@@ -1,77 +1,8 @@
 {
-  "updated": "2026-06-09T23:01:20.098885+00:00",
+  "updated": "2026-06-09T23:11:01.982528+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260604_220019",
-      "date": "2026-06-04",
-      "exchanges": 142,
-      "patches_touched": [
-        "P00",
-        "P01",
-        "P06",
-        "P10",
-        "P11",
-        "P17",
-        "P20",
-        "P24",
-        "P28",
-        "P29",
-        "P30",
-        "P32",
-        "P33",
-        "P34",
-        "P35",
-        "P36",
-        "P37",
-        "P38",
-        "P39",
-        "P40",
-        "P41",
-        "P42",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".claude/commands/patch.md",
-        ".github/workflows/jarvis-integrity.yml",
-        "CLAUDE.md",
-        "audit/2026-06-04_full_system_audit.md",
-        "audit/patch_ledger.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done \u2014 AYRE is split from JARVIS, live and verified.\n\n**What shipped (P44, connector v0.9.15, version 35):** AYRE stopped being a sub-voice that criti"
-    },
-    {
-      "session_id": "20260609_211033",
-      "date": "2026-06-09",
-      "exchanges": 2,
-      "patches_touched": [],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.5,
-      "key_insight": "Handoff received and verified. Validator GREEN at 77 objects, head at `ecb891f` \u2014 exactly where the last session left it. Continuity holds; the record"
-    },
     {
       "session_id": "20260609_212706",
       "date": "2026-06-09",
@@ -558,6 +489,64 @@
       ],
       "alignment": 1.0,
       "key_insight": "Nothing to amend \u2014 `94d67ac` is GitHub's own squash-merge commit on main (committer `noreply@github.com` is the merge API, not me), and the branch car"
+    },
+    {
+      "session_id": "20260609_231048",
+      "date": "2026-06-09",
+      "exchanges": 93,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (#71). GPT isn't just behind \u2014 it's drifted in ways that matter, and I've built the correction. My read on its message:\n\n**What it got wrong:**"
+    },
+    {
+      "session_id": "20260609_231101",
+      "date": "2026-06-09",
+      "exchanges": 94,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Same false positive as before \u2014 `8770c11` is GitHub's squash-merge commit on main, authored by the merge API, with zero local commits beyond it. Not m"
     }
   ]
 }
