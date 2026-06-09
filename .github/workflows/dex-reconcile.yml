@@ -1,0 +1,48 @@
+name: dex-reconcile
+
+# Closes the loop: approved entries promoted to ACTIVE in Supabase (by jarvis-dex) are
+# materialized back into files (files = truth, JMS law). Opens a governed PR — never
+# pushes to main directly. The validator gates every reconciliation.
+
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # every 6 hours
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Pull approved ACTIVE entries from Supabase
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: python3 scripts/dex_reconcile.py || true
+
+      - name: Regenerate substrate + validate (the gate)
+        run: |
+          python3 yggdrasil/tools/seed.py
+          python3 yggdrasil/tools/validate.py
+          python3 yggdrasil/tools/graph_export.py
+
+      - name: Open PR if anything changed
+        uses: peter-evans/create-pull-request@v6
+        with:
+          branch: auto/dex-reconcile
+          delete-branch: true
+          title: "chore(dex): reconcile approved entries to files"
+          commit-message: "chore(dex): reconcile connector-approved entries to files (JMS)"
+          body: |
+            Auto-reconciliation: approved entries promoted to ACTIVE in Supabase by `jarvis-dex`,
+            now materialized into files (files = truth). Validator passed as the gate.
+
+            Review and merge to make them canon in git.
