@@ -1,13 +1,17 @@
 ---
 name: JCS-D Temporal Reconstruction
 type: IMPL
+class: MODULE
+tier: MAIN
 authority: CANON
+owner: JCS Pipeline
 jnl: IMPL-JCSD-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Implementation/Active/JIP-0608-D
 related: []
+references: []
 tags: [jcs, layer, temporal]
 ref: [PRI, IDX]
 ---

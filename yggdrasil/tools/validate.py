@@ -46,16 +46,27 @@ def main() -> int:
         return 1
 
     entry_jnls: set[str] = set()
+    name_index: dict[str, str] = {}
     for f in entries:
         fm = parse_front_matter(f.read_text())
         addr = fm.get("jnl", "")
-        # GL12: every entry needs jnl, status, tags, ref (index ref), and resolvable location.
-        for req in ("name", "type", "jnl", "status", "created", "updated", "tags", "ref"):
+        # GL12: every entry needs jnl, status, class, tier, tags, ref, and resolvable location.
+        for req in ("name", "type", "class", "tier", "jnl", "status", "created", "updated", "tags", "ref"):
             if not fm.get(req):
                 errors.append(f"{f.name}: missing GL12 field '{req}'")
-        st = fm.get("status", "")
+        st, cls, tr = fm.get("status", ""), fm.get("class", ""), fm.get("tier", "")
         if st and st not in jnllib.STATUSES:
             errors.append(f"{f.name}: status '{st}' not in JSS vocabulary {sorted(jnllib.STATUSES)}")
+        if cls and cls not in jnllib.CLASSES:
+            errors.append(f"{f.name}: class '{cls}' not in ontology {sorted(jnllib.CLASSES)}")
+        if tr and tr not in jnllib.TIERS:
+            errors.append(f"{f.name}: tier '{tr}' not in {sorted(jnllib.TIERS)}")
+        # Redundancy (overlap_score Gold Law): two entries may not claim the same canonical name.
+        nm = fm.get("name", "")
+        if nm:
+            if nm in name_index and name_index[nm] != addr:
+                warnings.append(f"redundant name '{nm}': {addr} duplicates {name_index[nm]}")
+            name_index[nm] = addr
         if not addr:
             continue
         # Filename must equal the JNL (JNS determinism).

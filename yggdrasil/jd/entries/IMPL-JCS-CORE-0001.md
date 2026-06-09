@@ -1,13 +1,17 @@
 ---
-name: JCS — Jarvis Cognitive Stack
+name: JCS - Jarvis Cognitive Stack
 type: IMPL
+class: MODULE
+tier: MAIN
 authority: CANON
+owner: JCS Pipeline
 jnl: IMPL-JCS-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Implementation/Active/JIP-0608-2
 related: []
+references: []
 tags: [pipeline, jcs, runtime]
 ref: [PRI, IDX]
 ---

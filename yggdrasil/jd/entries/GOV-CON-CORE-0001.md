@@ -1,13 +1,17 @@
 ---
 name: Constraints
 type: GOV
+class: SPEC
+tier: MAIN
 authority: CANON
+owner: Governance
 jnl: GOV-CON-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Architecture/constraints.md
 related: []
+references: []
 tags: [governance, gold-law]
 ref: [PRI, IDX]
 ---

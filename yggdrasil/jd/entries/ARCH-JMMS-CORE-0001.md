@@ -1,13 +1,17 @@
 ---
 name: Jarvis MultiMemory System
 type: ARCH
+class: SYSTEM
+tier: MAIN
 authority: CANON
+owner: JFS
 jnl: ARCH-JMMS-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JSTM-CORE-0001, ARCH-JLTM-CORE-0001, ARCH-JATM-CORE-0001]
+references: []
 tags: [memory, core, architecture]
 ref: [PRI, SPEC, IDX]
 ---

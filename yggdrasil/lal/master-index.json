@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 73,
+  "count": 74,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -666,7 +666,7 @@
     {
       "object": "Unused Ideas Log",
       "jnl": "IDEA-UNUS-LOG-0001",
-      "location": "Ideas/inactive/UnusedLog-0001",
+      "location": "Side/Ideas/inactive/UnusedLog-0001",
       "tags": [
         "idea",
         "log"
@@ -677,7 +677,7 @@
     {
       "object": "Used Ideas Log",
       "jnl": "IDEA-USED-LOG-0001",
-      "location": "Ideas/active/UsedLog-0001",
+      "location": "Side/Ideas/active/UsedLog-0001",
       "tags": [
         "idea",
         "log"
@@ -686,7 +686,19 @@
       "state": "active"
     },
     {
-      "object": "JCS \u2014 Jarvis Cognitive Stack",
+      "object": "Hygiene Packets Archive",
+      "jnl": "IMPL-HYG-SPEC-0001",
+      "location": "Side/Archive/HygienePackets-0001-060926.md",
+      "tags": [
+        "hygiene",
+        "archive",
+        "reference"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JCS - Jarvis Cognitive Stack",
       "jnl": "IMPL-JCS-CORE-0001",
       "location": "Implementation/Active/JIP-0608-2",
       "tags": [
@@ -746,7 +758,7 @@
       "state": "active"
     },
     {
-      "object": "JGPP \u2014 Generative Process Protocol",
+      "object": "JGPP - Generative Process Protocol",
       "jnl": "IMPL-JGPP-CORE-0001",
       "location": "Implementation/Active/JIP-0608-1",
       "tags": [
@@ -769,7 +781,7 @@
       "state": "active"
     },
     {
-      "object": "JQL \u2014 JD Query Language",
+      "object": "JQL - JD Query Language",
       "jnl": "IMPL-JQL-CORE-0001",
       "location": "Implementation/Active/JIP-0608-E",
       "tags": [
@@ -783,7 +795,7 @@
     {
       "object": "CodeOS",
       "jnl": "PROJ-COS-BIO-0001",
-      "location": "Projects/CodeOSProjectBio",
+      "location": "Side/Projects/CodeOSProjectBio",
       "tags": [
         "project",
         "codeos"
@@ -794,7 +806,7 @@
     {
       "object": "Deoxys",
       "jnl": "PROJ-DEO-BIO-0001",
-      "location": "Projects/Deoxys/ProjectBio",
+      "location": "Side/Projects/Deoxys/ProjectBio",
       "tags": [
         "project",
         "deoxys"
@@ -805,7 +817,7 @@
     {
       "object": "Genesis",
       "jnl": "PROJ-GEN-BIO-0001",
-      "location": "Projects/Genesis/GenesisBio",
+      "location": "Side/Projects/Genesis/GenesisBio",
       "tags": [
         "project",
         "genesis"
@@ -816,7 +828,7 @@
     {
       "object": "JPL",
       "jnl": "PROJ-JPL-BIO-0001",
-      "location": "Projects/JPL/JPLBio",
+      "location": "Side/Projects/JPL/JPLBio",
       "tags": [
         "project",
         "jpl"
@@ -827,7 +839,7 @@
     {
       "object": "Legion",
       "jnl": "PROJ-LEG-BIO-0001",
-      "location": "Projects/Legion/LegionBio",
+      "location": "Side/Projects/Legion/LegionBio",
       "tags": [
         "project",
         "legion"
@@ -838,7 +850,7 @@
     {
       "object": "Naruto",
       "jnl": "PROJ-NAR-BIO-0001",
-      "location": "Projects/Naruto/NarutoBio",
+      "location": "Side/Projects/Naruto/NarutoBio",
       "tags": [
         "project",
         "naruto"
