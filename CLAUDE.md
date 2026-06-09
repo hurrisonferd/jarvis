@@ -1,6 +1,6 @@
 # JARVIS
 
-Cloud-first AI orchestration system. Supabase + GitHub + Edge Functions, an MCP connector, semantic memory, and a governed workflow. (A local Python MCP server + Neo4j/Ollama remain as optional offline tooling — **not** the canonical path. The Services / Python sections below describe that optional local rig.)
+Cloud-first AI orchestration system. Supabase + GitHub + Edge Functions, an MCP connector, semantic memory, and a governed workflow. Everything canonical runs in the cloud — no local-PC-dependent services.
 
 **Authority:** Raven (John Barber) is final authority on all decisions. No autonomous self-modification.
 
@@ -193,17 +193,18 @@ registries drift. Don't re-introduce lowercase doc folders — those folded into
 
 | Path | Purpose |
 |------|---------|
-| `jarvis_mcp_server.py` | FastAPI MCP server, port 7777 |
+| `supabase/functions/jarvis-mcp/` | The cloud MCP connector (live, v0.9.x) |
+| `supabase/functions/jarvis-respond/` | Edge logic — router, guard, AEGIS, execute |
 | `chaos/chaos_seed.json` | Canonical system state — do not commit |
 | `chaos/session_log.json` | Local session log — do not commit |
 | `chaos/prometheus_log.json` | Local decision log — do not commit |
-| `mnemos/mnemos_vector.py` | Semantic memory (SQLite + Ollama) |
 | `chaos/session_sync.py` | Session start/end helpers |
 | `intake/` | AI handoff review lane |
 | `yggdrasil/` | Addressing/hierarchy substrate — JFS kernel, JD dictionary, LAL registries |
-| `yggdrasil/tools/validate.py` | GL12 + grammar + mirror validator — run before committing substrate changes |
+| `yggdrasil/tools/validate.py` | GL12 + grammar + mirror validator (JVE) — run before committing substrate changes |
+| `JarvisMain/` | Canonical core — god systems + canonical knowledge |
+| `JarvisSide/` | Periphery — projects, ideas, breakthroughs, archive |
 | `.env` | Secrets — do not commit |
-| `start.bat` | Starts MCP server |
 
 ---
 
@@ -211,33 +212,19 @@ registries drift. Don't re-introduce lowercase doc folders — those folded into
 
 | Service | Address | Notes |
 |---------|---------|-------|
-| JARVIS MCP | `http://localhost:7777` | Start with `python jarvis_mcp_server.py` |
-| Neo4j | `bolt://localhost:7687` | Password in `.env` as `NEO4J_PASSWORD` |
-| Ollama | `http://localhost:11434` | `nomic-embed-text` for embeddings |
-| Supabase | `oexghfsvhnggddllgvrt` | Credentials in `.env` |
-| GBrain | `~/.gbrain/brain.pglite` | `ollama:nomic-embed-text`, 768d |
+| Supabase | `oexghfsvhnggddllgvrt` | Project; credentials in `.env`. Edge functions + dex tables. |
+| `jarvis-mcp` | edge function | The cloud MCP connector |
+
+> **Cloud-first only.** The legacy local rig (FastAPI MCP server, Neo4j, Ollama) was removed
+> 2026-06-09 — it was not the canonical path. Everything runs on Supabase + GitHub + the edge
+> functions. Do not reintroduce local-PC-dependent services.
 
 ---
 
 ## Python Environment
 
-No venv. Use system Python:
-
-```powershell
-python jarvis_mcp_server.py
-```
-
-Key packages: `fastapi`, `uvicorn`, `neo4j>=5.0.0`
-
----
-
-## File Permissions
-
-Existing files are owned by `DESIGN\britt`. Grant write before editing:
-
-```powershell
-icacls "C:\Users\JB\jarvis\<file>" /grant "britt:(M)"
-```
+System Python (no venv). The `scripts/` are stdlib-only except `cryptography` (VAPID keys).
+See `requirements.txt`.
 
 ---
 

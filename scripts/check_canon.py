@@ -24,7 +24,7 @@ CANON = {
     "T9_HERMES",
 }
 
-root = Path(__file__).resolve().parent.parent / "god_systems"
+root = Path(__file__).resolve().parent.parent / "JarvisMain" / "god_systems"
 present = {p.name for p in root.iterdir() if p.is_dir() and p.name.startswith("T")}
 
 added = present - CANON

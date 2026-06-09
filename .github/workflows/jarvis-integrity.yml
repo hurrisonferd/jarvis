@@ -56,11 +56,6 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: AEGIS — MCP server smoke test
-        run: |
-          pip install --quiet fastapi uvicorn
-          python3 scripts/smoke_server.py
-
       - name: MERIDIAN — god-system canon guard
         run: python3 scripts/check_canon.py
 

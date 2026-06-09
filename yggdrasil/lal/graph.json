@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 74,
+    "nodes": 75,
     "edges": 18,
     "main": 64,
-    "side": 10
+    "side": 11
   },
   "nodes": [
     {
@@ -186,6 +186,15 @@
       "tier": "MAIN",
       "status": "ACTIVE",
       "owner": "JFS"
+    },
+    {
+      "id": "AUD-COMP-REVW-0001",
+      "name": "Companion Research",
+      "domain": "AUD",
+      "class": "EVENT",
+      "tier": "SIDE",
+      "status": "ARCHIVED",
+      "owner": "Audit"
     },
     {
       "id": "AUD-FULL-REVW-0001",
