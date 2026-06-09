@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 75,
+    "nodes": 76,
     "edges": 18,
-    "main": 64,
+    "main": 65,
     "side": 11
   },
   "nodes": [
@@ -537,6 +537,15 @@
       "tier": "SIDE",
       "status": "ACTIVE",
       "owner": "Used Ideas Log"
+    },
+    {
+      "id": "IMPL-DEX-SPEC-0001",
+      "name": "Dex Connector & Access Tiers",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
     },
     {
       "id": "IMPL-HYG-SPEC-0001",

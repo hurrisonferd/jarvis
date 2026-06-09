@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 75,
+  "count": 76,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -693,6 +693,19 @@
       "tags": [
         "idea",
         "log"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Dex Connector & Access Tiers",
+      "jnl": "IMPL-DEX-SPEC-0001",
+      "location": "JarvisMain/Implementation/Active/JIP-DEX-0001-AccessTiers-060926.md",
+      "tags": [
+        "dex",
+        "connector",
+        "governance",
+        "spec"
       ],
       "anchors": [],
       "state": "active"
