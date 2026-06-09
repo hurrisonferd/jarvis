@@ -205,6 +205,10 @@ KNOWLEDGE = [
      "Design contract for jarvis-dex: read/propose/draft/commit tiers over the dex with auto-formatting.",
      "Govern autonomous dex reads/writes with a human-in-the-loop commit gate (GL2/GL5/GL6).",
      ["dex", "connector", "governance", "spec"]),
+    ("IMPL-FMT-SPEC-0001", "JFS Formatting Standard", "IMPL", "JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md",
+     "Canonical model for IDs/tags/status/routing; one identity (JNL), JGPP/JIP/JD pipeline types.",
+     "Let the connector upload JGPP/JIP/JD with auto-format, routing, and queryable retrieval.",
+     ["format", "ids", "jnl", "governance", "spec"]),
 ]
 
 # Status-managed objects under JSS-managed roots (location = the status-sorted path).
@@ -245,6 +249,11 @@ def ontology_class(domain: str, typ: str, jnl: str) -> str:
     Reads the JNL's own type segment so registry + entry always agree."""
     parts = jnl.split("-")
     jtype = parts[2] if len(parts) >= 3 else typ
+    # Cognition-pipeline artifact types resolve by type, across any domain.
+    if jtype == "JGPP":
+        return "ENTITY"   # exploration (mutable hypothesis)
+    if jtype in ("JIP", "JD"):
+        return "SPEC"     # commit / truth
     if domain == "GS":
         return "SYSTEM"
     if domain == "ARCH":

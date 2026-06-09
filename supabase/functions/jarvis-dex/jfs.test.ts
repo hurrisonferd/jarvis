@@ -34,6 +34,13 @@ check("PROJ -> SYSTEM", ontologyClass("PROJ-JPL-BIO-0001") === "SYSTEM");
 check("CONN -> MODULE", ontologyClass("CONN-MSB-CORE-0001") === "MODULE");
 check("AUD -> EVENT", ontologyClass("AUD-SYS-REVW-0001") === "EVENT");
 check("IDEA -> ENTITY", ontologyClass("IDEA-USED-LOG-0001") === "ENTITY");
+// project cognition-pipeline types
+check("project JGPP valid", isValidJNL("PROJ-DEO-JGPP-0001"));
+check("project JIP valid", isValidJNL("PROJ-DEO-JIP-0001"));
+check("project JD valid", isValidJNL("PROJ-DEO-JD-0001"));
+check("JGPP -> ENTITY (exploration)", ontologyClass("PROJ-DEO-JGPP-0001") === "ENTITY");
+check("JIP -> SPEC (commit)", ontologyClass("PROJ-DEO-JIP-0001") === "SPEC");
+check("JD -> SPEC (truth)", ontologyClass("PROJ-DEO-JD-0001") === "SPEC");
 
 // --- tier ---
 check("PROJ -> SIDE", tierOf("PROJ", "ACTIVE") === "SIDE");

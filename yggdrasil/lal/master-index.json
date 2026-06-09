@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 76,
+  "count": 77,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -704,6 +704,20 @@
       "tags": [
         "dex",
         "connector",
+        "governance",
+        "spec"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JFS Formatting Standard",
+      "jnl": "IMPL-FMT-SPEC-0001",
+      "location": "JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md",
+      "tags": [
+        "format",
+        "ids",
+        "jnl",
         "governance",
         "spec"
       ],
