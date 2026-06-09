@@ -5,6 +5,7 @@ class: EVENT
 tier: MAIN
 authority: CANON
 owner: Audit
+parent: 
 jnl: AUD-CHK-SPEC-0001
 status: ACTIVE
 created: 2026-06-09

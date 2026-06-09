@@ -42,7 +42,7 @@ def parse(text: str) -> dict:
 def reg_rows() -> list[dict]:
     return [{
         "jnl": r["jnl"], "name": r["name"], "type": r["type"], "class": r.get("class", ""),
-        "tier": r.get("tier", ""), "owner": r.get("owner", ""), "location": r["location"],
+        "tier": r.get("tier", ""), "owner": r.get("owner", ""), "parent": r.get("parent", ""), "location": r["location"],
         "tags": r["tags"], "anchors": r["anchors"], "state": r["state"],
         "status": r.get("status", "ACTIVE"), "created": r["created"], "updated": r["updated"],
     } for r in json.loads(REG.read_text())["records"]]
@@ -54,7 +54,7 @@ def jd_rows() -> list[dict]:
         e = parse(f.read_text())
         rows.append({
             "jnl": e["jnl"], "name": e["name"], "type": e["type"], "class": e.get("class", ""),
-            "tier": e.get("tier", ""), "owner": e.get("owner", ""), "authority": e["authority"],
+            "tier": e.get("tier", ""), "owner": e.get("owner", ""), "parent": e.get("parent", "") if isinstance(e.get("parent"), str) else "", "authority": e["authority"],
             "definition": e["definition"], "purpose": e["purpose"], "source": e.get("source", ""),
             "related": e.get("related", []), "cross_refs": e.get("references", []),
             "tags": e.get("tags", []), "ref": e.get("ref", []),
@@ -78,30 +78,30 @@ def q(s) -> str:
 def emit_sql() -> None:
     reg_vals = [
         f"({q(r['jnl'])},{q(r['name'])},{q(r['type'])},{q(r['class'])},{q(r['tier'])},"
-        f"{q(r['owner'])},{q(r['location'])},{arr(r['tags'])},{arr(r['anchors'])},"
+        f"{q(r['owner'])},{q(r['parent'])},{q(r['location'])},{arr(r['tags'])},{arr(r['anchors'])},"
         f"{q(r['state'])},{q(r['status'])},{q(r['created'])},{q(r['updated'])})"
         for r in reg_rows()
     ]
     jd_vals = [
         f"({q(e['jnl'])},{q(e['name'])},{q(e['type'])},{q(e['class'])},{q(e['tier'])},"
-        f"{q(e['owner'])},{q(e['authority'])},{q(e['definition'])},{q(e['purpose'])},"
+        f"{q(e['owner'])},{q(e['parent'])},{q(e['authority'])},{q(e['definition'])},{q(e['purpose'])},"
         f"{q(e['source'])},{arr(e['related'])},{arr(e['cross_refs'])},"
         f"{arr(e['tags'])},{arr(e['ref'])},"
         f"{q(e['status'])},{q(e['created'])},{q(e['updated'])})"
         for e in jd_rows()
     ]
 
-    print("insert into public.jnl_registry (jnl,name,type,class,tier,owner,location,tags,anchors,state,status,created,updated) values")
+    print("insert into public.jnl_registry (jnl,name,type,class,tier,owner,parent,location,tags,anchors,state,status,created,updated) values")
     print(",\n".join(reg_vals))
     print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,class=excluded.class,"
-          "tier=excluded.tier,owner=excluded.owner,location=excluded.location,tags=excluded.tags,"
+          "tier=excluded.tier,owner=excluded.owner,parent=excluded.parent,location=excluded.location,tags=excluded.tags,"
           "anchors=excluded.anchors,state=excluded.state,status=excluded.status,"
           "created=excluded.created,updated=excluded.updated,synced_at=now();\n")
 
-    print("insert into public.jd_entries (jnl,name,type,class,tier,owner,authority,definition,purpose,source,related,cross_refs,tags,ref,status,created,updated) values")
+    print("insert into public.jd_entries (jnl,name,type,class,tier,owner,parent,authority,definition,purpose,source,related,cross_refs,tags,ref,status,created,updated) values")
     print(",\n".join(jd_vals))
     print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,class=excluded.class,"
-          "tier=excluded.tier,owner=excluded.owner,authority=excluded.authority,definition=excluded.definition,"
+          "tier=excluded.tier,owner=excluded.owner,parent=excluded.parent,authority=excluded.authority,definition=excluded.definition,"
           "purpose=excluded.purpose,source=excluded.source,related=excluded.related,cross_refs=excluded.cross_refs,"
           "tags=excluded.tags,ref=excluded.ref,status=excluded.status,"
           "created=excluded.created,updated=excluded.updated,synced_at=now();")

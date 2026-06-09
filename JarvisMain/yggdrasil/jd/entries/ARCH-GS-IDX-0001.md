@@ -5,6 +5,7 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
+parent: 
 jnl: ARCH-GS-IDX-0001
 status: ACTIVE
 created: 2026-06-09

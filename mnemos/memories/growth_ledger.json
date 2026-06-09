@@ -1,49 +1,8 @@
 {
-  "updated": "2026-06-09T22:21:32.974379+00:00",
+  "updated": "2026-06-09T22:22:17.288621+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260604_170242",
-      "date": "2026-06-04",
-      "exchanges": 36,
-      "patches_touched": [
-        "P00",
-        "P01",
-        "P06",
-        "P1",
-        "P10",
-        "P11",
-        "P20",
-        "P28",
-        "P29",
-        "P30",
-        "P32",
-        "P33",
-        "P34",
-        "P35",
-        "P36",
-        "P99"
-      ],
-      "built": [
-        ".claude/commands/patch.md",
-        ".github/workflows/jarvis-integrity.yml",
-        "audit/patch_ledger.json",
-        "changes/patches/P35_patch_system.md",
-        "grid/PROTOCOL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Memory/scripts/CI pass in. Headline finds, mostly verified by inspection: **zero test coverage** on the session hooks, `jarvis-patch.py` (sole ledger "
-    },
     {
       "session_id": "20260604_170256",
       "date": "2026-06-04",
@@ -726,6 +685,33 @@
       ],
       "alignment": 1.0,
       "key_insight": "**85 / 85 \u2014 mirror live, synced at 22:19 by the CI job itself.** The loop closed on its own power: merge \u2192 validate \u2192 mirror \u2192 cloud current. All four"
+    },
+    {
+      "session_id": "20260609_222217",
+      "date": "2026-06-09",
+      "exchanges": 64,
+      "patches_touched": [
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Settled \u2014 the flagged commit was GitHub's squash-merge again, not mine to rewrite; my commits carry the right identity. Ledger landed (#65), tree clea"
     }
   ]
 }

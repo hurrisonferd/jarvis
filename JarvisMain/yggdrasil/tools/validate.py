@@ -114,6 +114,26 @@ def main() -> int:
         for a in sorted(missing):
             errors.append(f"{a}: JD entry not indexed in LAL (GL12 IndexSummary ref)")
 
+    # Family tree (parent): every parent resolves to a real entry; no cycles.
+    parents: dict[str, str] = {}
+    for f in entries:
+        fm = parse_front_matter(f.read_text())
+        a, par = fm.get("jnl", ""), fm.get("parent", "")
+        if not a or not par or not isinstance(par, str):
+            continue
+        parents[a] = par
+        if not jnllib.is_valid(par):
+            errors.append(f"{a}: parent '{par}' is not a valid JNL")
+        elif par not in entry_jnls:
+            errors.append(f"{a}: parent '{par}' has no JD entry (orphaned family)")
+    for start in parents:
+        node, hops = start, 0
+        while node in parents and hops <= len(parents):
+            node, hops = parents[node], hops + 1
+        if hops > len(parents):
+            errors.append(f"{start}: parent chain forms a cycle")
+            break
+
     # The dex web must not dangle: every related edge resolves to a real entry.
     for src, tgt in related_edges:
         if tgt not in entry_jnls:

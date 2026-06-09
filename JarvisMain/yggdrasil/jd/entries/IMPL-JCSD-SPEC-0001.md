@@ -5,6 +5,7 @@ class: MODULE
 tier: MAIN
 authority: CANON
 owner: JCS Pipeline
+parent: IMPL-JCS-CORE-0001
 jnl: IMPL-JCSD-SPEC-0001
 status: ACTIVE
 created: 2026-06-09

@@ -5,6 +5,7 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: Governance
+parent: GOV-PAT-REG-0001
 jnl: GOV-PROC-CORE-0001
 status: ACTIVE
 created: 2026-06-09

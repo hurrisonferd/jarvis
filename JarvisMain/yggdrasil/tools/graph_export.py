@@ -47,6 +47,9 @@ def main() -> None:
             edges.append({"source": jnl, "target": rel, "type": "related"})
         for ref in e.get("references", []) or []:
             edges.append({"source": jnl, "target": ref, "type": "reference"})
+        par = e.get("parent", "")
+        if par and isinstance(par, str):
+            edges.append({"source": jnl, "target": par, "type": "parent"})
 
     ids = {n["id"] for n in nodes}
     dangling = [edge for edge in edges if edge["target"] not in ids]

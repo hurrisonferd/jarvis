@@ -5,6 +5,7 @@ class: SPEC
 tier: SIDE
 authority: CANON
 owner: JCS Pipeline
+parent: 
 jnl: IMPL-HYG-SPEC-0001
 status: ARCHIVED
 created: 2026-06-09

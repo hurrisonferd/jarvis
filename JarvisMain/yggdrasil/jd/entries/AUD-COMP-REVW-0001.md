@@ -5,6 +5,7 @@ class: EVENT
 tier: SIDE
 authority: CANON
 owner: Audit
+parent: 
 jnl: AUD-COMP-REVW-0001
 status: ARCHIVED
 created: 2026-06-09

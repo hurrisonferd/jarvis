@@ -85,6 +85,32 @@ def cmd_related(a) -> int:
     return 0
 
 
+def cmd_family(a) -> int:
+    """Transitive children via parent edges: 'JFS-compliant' = this whole listing."""
+    recs = records()
+    kids: dict[str, list[str]] = defaultdict(list)
+    byjnl = {r["jnl"]: r for r in recs}
+    for r in recs:
+        if r.get("parent"):
+            kids[r["parent"]].append(r["jnl"])
+    if a.jnl not in byjnl:
+        print(f"'{a.jnl}' not in the registry")
+        return 1
+    count = 0
+
+    def walk(jnl: str, depth: int) -> None:
+        nonlocal count
+        for c in sorted(kids.get(jnl, [])):
+            print(f"  {'· ' * depth}{c:24} {byjnl[c]['name']}")
+            count += 1
+            walk(c, depth + 1)
+
+    print(f"{a.jnl} — {byjnl[a.jnl]['name']}")
+    walk(a.jnl, 1)
+    print(f"-- family of {count} under {a.jnl}")
+    return 0
+
+
 def cmd_stats(a) -> int:
     print((LAL / "version.json").read_text(), end="")
     g = json.loads((LAL / "graph.json").read_text())
@@ -105,9 +131,12 @@ def main() -> int:
     s.add_argument("jnl")
     r = sub.add_parser("related")
     r.add_argument("jnl"), r.add_argument("--depth", type=int, default=1)
+    fam = sub.add_parser("family")
+    fam.add_argument("jnl")
     sub.add_parser("stats")
     a = ap.parse_args()
-    return {"find": cmd_find, "show": cmd_show, "related": cmd_related, "stats": cmd_stats}[a.cmd](a)
+    return {"find": cmd_find, "show": cmd_show, "related": cmd_related,
+            "family": cmd_family, "stats": cmd_stats}[a.cmd](a)
 
 
 if __name__ == "__main__":

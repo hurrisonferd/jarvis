@@ -5,6 +5,7 @@ class: SYSTEM
 tier: SIDE
 authority: CANON
 owner: The Grid
+parent: 
 jnl: PROJ-GRD-BIO-0001
 status: ACTIVE
 created: 2026-06-09

@@ -186,7 +186,9 @@ tooling resolves the repo root from its own location, so run it from anywhere.
 · `chaos/ mnemos/ grid/ emulator/ intake/ audit/` (operational state) · root configs.
 
 Every object carries `class` (SYSTEM/SPEC/MODULE/ENTITY/EVENT/REGISTRY), `tier` (MAIN/SIDE),
-`owner`, and a JNL + JD entry. Domains: `GS ARCH GOV IMPL PROJ GRID CONN AUD IDEA BRK LOG`.
+`owner`, `parent` (the family tree: a system code names its whole subtree — "JFS-compliant"
+= JFS + all descendants; resolve with `dex.py family <JNL>`; project artifacts auto-parent
+to their project bio), and a JNL + JD entry. Domains: `GS ARCH GOV IMPL PROJ GRID CONN AUD IDEA BRK LOG`.
 New knowledge → add it under `JarvisMain/` or `JarvisSide/`, run `seed.py`, commit; CI
 (`yggdrasil-validate.yml`) fails the PR if anything is un-addressed, mis-tiered, or the
 registries drift. Don't re-introduce lowercase doc folders — those folded into the tree.

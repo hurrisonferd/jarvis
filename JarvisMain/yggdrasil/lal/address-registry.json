@@ -9,6 +9,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "GS-AYR-CORE-0001",
       "location": "JarvisMain/Architecture/specs/ayre-jarvis-split-v1.md",
       "tags": [
         "architecture",
@@ -27,6 +28,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "GS-AYR-CORE-0001",
       "location": "JarvisMain/Architecture/specs/ayre-loop-v1.md",
       "tags": [
         "architecture",
@@ -45,6 +47,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "GS-SKD-CORE-0001",
       "location": "JarvisMain/Architecture/specs/throughput-posture.md",
       "tags": [
         "architecture",
@@ -63,6 +66,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "CONN-MSB-CORE-0001",
       "location": "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
       "tags": [
         "architecture",
@@ -81,6 +85,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "",
       "location": "JarvisMain/god_systems",
       "tags": [
         "god-system",
@@ -99,6 +104,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JMMS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
@@ -119,6 +125,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-YGG-CORE-0001",
       "location": "JarvisMain/yggdrasil/jd/JD-SPEC.md",
       "tags": [
         "dictionary",
@@ -139,6 +146,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-YGG-CORE-0001",
       "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "filesystem",
@@ -158,6 +166,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JMMS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
@@ -177,6 +186,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JFS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
@@ -196,6 +206,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JFS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "mirror",
@@ -215,6 +226,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JFS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jfs/jnl-grammar.md",
       "tags": [
         "addressing",
@@ -234,6 +246,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JFS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "naming",
@@ -253,6 +266,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JFS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "structure",
@@ -272,6 +286,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JFS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jss/JSS-SPEC.md",
       "tags": [
         "status",
@@ -292,6 +307,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-JMMS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
@@ -311,6 +327,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "ARCH-YGG-CORE-0001",
       "location": "JarvisMain/yggdrasil/lal/README.md",
       "tags": [
         "discovery",
@@ -331,6 +348,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "GS-SKD-CORE-0001",
       "location": "JarvisMain/Architecture/runtime/event-contract.md",
       "tags": [
         "architecture",
@@ -349,6 +367,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "GS-SKD-CORE-0001",
       "location": "JarvisMain/Architecture/runtime/execution-model.md",
       "tags": [
         "architecture",
@@ -367,6 +386,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "GS-SKD-CORE-0001",
       "location": "JarvisMain/Architecture/runtime/world-kernel.md",
       "tags": [
         "architecture",
@@ -385,6 +405,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
+      "parent": "",
       "location": "JarvisMain/yggdrasil/README.md",
       "tags": [
         "root",
@@ -404,6 +425,7 @@
       "class": "EVENT",
       "tier": "MAIN",
       "owner": "Audit",
+      "parent": "",
       "location": "JarvisMain/Audit/required-checks-setup.md",
       "tags": [
         "audit",
@@ -422,6 +444,7 @@
       "class": "EVENT",
       "tier": "SIDE",
       "owner": "Audit",
+      "parent": "",
       "location": "JarvisSide/Archive/CompanionResearch-0001-053026.md",
       "tags": [
         "research",
@@ -441,6 +464,7 @@
       "class": "EVENT",
       "tier": "MAIN",
       "owner": "Audit",
+      "parent": "",
       "location": "JarvisMain/Audit/2026-06-04_full_system_audit.md",
       "tags": [
         "audit",
@@ -459,6 +483,7 @@
       "class": "EVENT",
       "tier": "MAIN",
       "owner": "Audit",
+      "parent": "",
       "location": "JarvisMain/Audit/2026-05-29_opus48_audit.md",
       "tags": [
         "audit",
@@ -477,6 +502,7 @@
       "class": "EVENT",
       "tier": "MAIN",
       "owner": "Audit",
+      "parent": "",
       "location": "JarvisMain/Audit/JarvisSystemReview-0001-060826",
       "tags": [
         "audit",
@@ -495,6 +521,7 @@
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
+      "parent": "",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/JMCPSB-0001",
       "tags": [
         "connector",
@@ -514,6 +541,7 @@
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
+      "parent": "",
       "location": "JarvisMain/Connectors/OtherConnectors/OCLog-0001",
       "tags": [
         "connector"
@@ -531,6 +559,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Architecture/JarvisBrief.md",
       "tags": [
         "governance",
@@ -549,6 +578,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
+      "parent": "",
       "location": "JarvisMain/Architecture/canon.md",
       "tags": [
         "governance",
@@ -567,6 +597,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Architecture/constraints.md",
       "tags": [
         "governance",
@@ -585,6 +616,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Patches",
       "tags": [
         "governance",
@@ -604,6 +636,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
+      "parent": "GOV-PAT-REG-0001",
       "location": "JarvisMain/Patches/PatchProcess.md",
       "tags": [
         "governance",
@@ -623,6 +656,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T1_AEGIS",
       "tags": [
         "core",
@@ -642,6 +676,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T7_APOLLO",
       "tags": [
         "orchestration",
@@ -661,6 +696,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T5_ARGUS",
       "tags": [
         "governance",
@@ -680,6 +716,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T5_ATHENA",
       "tags": [
         "orchestration",
@@ -699,6 +736,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T8_ATLAS",
       "tags": [
         "governance",
@@ -718,6 +756,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T1_AYRE",
       "tags": [
         "core",
@@ -737,6 +776,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T4_BIFROST",
       "tags": [
         "orchestration",
@@ -756,6 +796,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T0_CHAOS",
       "tags": [
         "core",
@@ -775,6 +816,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T7_DANTE",
       "tags": [
         "governance",
@@ -794,6 +836,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T1_ERIS",
       "tags": [
         "cosmic",
@@ -813,6 +856,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T0_HADES",
       "tags": [
         "cosmic",
@@ -832,6 +876,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T3_HALO",
       "tags": [
         "orchestration",
@@ -851,6 +896,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T9_HERMES",
       "tags": [
         "governance",
@@ -870,6 +916,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T3_HUGINN",
       "tags": [
         "core",
@@ -889,6 +936,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T6_IRIS",
       "tags": [
         "governance",
@@ -908,6 +956,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T4_JANUS",
       "tags": [
         "governance",
@@ -927,6 +976,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T2_KRONOS",
       "tags": [
         "core",
@@ -946,6 +996,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T5_LOKI",
       "tags": [
         "governance",
@@ -965,6 +1016,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T6_MERIDIAN",
       "tags": [
         "governance",
@@ -984,6 +1036,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T3_MIMIR",
       "tags": [
         "cosmic",
@@ -1003,6 +1056,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T3_MNEMOS",
       "tags": [
         "core",
@@ -1022,6 +1076,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T5_NEMESIS",
       "tags": [
         "orchestration",
@@ -1041,6 +1096,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T1_ODIN",
       "tags": [
         "core",
@@ -1060,6 +1116,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T0_POSEIDON",
       "tags": [
         "cosmic",
@@ -1079,6 +1136,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T5_PROMETHEUS",
       "tags": [
         "governance",
@@ -1098,6 +1156,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T1_SKADI",
       "tags": [
         "core",
@@ -1117,6 +1176,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
+      "parent": "ARCH-GS-IDX-0001",
       "location": "JarvisMain/god_systems/T0_ZEUS",
       "tags": [
         "cosmic",
@@ -1136,6 +1196,7 @@
       "class": "ENTITY",
       "tier": "SIDE",
       "owner": "Unused Ideas Log",
+      "parent": "",
       "location": "JarvisSide/Ideas/inactive/UnusedLog-0001",
       "tags": [
         "idea",
@@ -1154,6 +1215,7 @@
       "class": "ENTITY",
       "tier": "SIDE",
       "owner": "Used Ideas Log",
+      "parent": "",
       "location": "JarvisSide/Ideas/active/UsedLog-0001",
       "tags": [
         "idea",
@@ -1172,6 +1234,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JIP-SPEC-0608",
       "location": "JarvisMain/Implementation/Active/JIP-DEX-0001-AccessTiers-060926.md",
       "tags": [
         "dex",
@@ -1192,6 +1255,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JIP-SPEC-0608",
       "location": "JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md",
       "tags": [
         "format",
@@ -1213,6 +1277,7 @@
       "class": "SPEC",
       "tier": "SIDE",
       "owner": "JCS Pipeline",
+      "parent": "",
       "location": "JarvisSide/Archive/HygienePackets-0001-060926.md",
       "tags": [
         "hygiene",
@@ -1232,6 +1297,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "",
       "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
@@ -1250,6 +1316,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "",
       "location": "JarvisMain/Implementation/Implemented",
       "tags": [
         "implementation",
@@ -1268,6 +1335,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "",
       "location": "JarvisMain/Implementation/Inactive",
       "tags": [
         "implementation",
@@ -1286,6 +1354,7 @@
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JIP-SPEC-0608",
       "location": "JarvisMain/Implementation/Active/JIP-0608-2",
       "tags": [
         "pipeline",
@@ -1305,6 +1374,7 @@
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JCS-CORE-0001",
       "location": "JarvisMain/Implementation/Active/JIP-0608-D",
       "tags": [
         "jcs",
@@ -1324,6 +1394,7 @@
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JCS-CORE-0001",
       "location": "JarvisMain/Implementation/Active/JIP-0608-E",
       "tags": [
         "jcs",
@@ -1343,6 +1414,7 @@
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JCS-CORE-0001",
       "location": "JarvisMain/Implementation/Active/JIP-0608-F",
       "tags": [
         "jcs",
@@ -1362,6 +1434,7 @@
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JCS-CORE-0001",
       "location": "JarvisMain/Implementation/Active/JIP-0608-G",
       "tags": [
         "jcs",
@@ -1381,6 +1454,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JIP-SPEC-0608",
       "location": "JarvisMain/Implementation/Active/JIP-0608-1",
       "tags": [
         "pipeline",
@@ -1400,6 +1474,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "",
       "location": "JarvisMain/Implementation/Active",
       "tags": [
         "implementation",
@@ -1418,6 +1493,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
+      "parent": "IMPL-JCSE-SPEC-0001",
       "location": "JarvisMain/Implementation/Active/JIP-0608-E",
       "tags": [
         "pipeline",
@@ -1437,6 +1513,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Project Log Summary",
+      "parent": "",
       "location": "JarvisSide/Projects/ProjectLogSummary-0001",
       "tags": [
         "project",
@@ -1455,6 +1532,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "CodeOS",
+      "parent": "",
       "location": "JarvisSide/Projects/CodeOS/BIO/CodeOSProjectBio",
       "tags": [
         "project",
@@ -1473,6 +1551,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Deoxys",
+      "parent": "",
       "location": "JarvisSide/Projects/Deoxys/BIO/ProjectBio",
       "tags": [
         "project",
@@ -1491,6 +1570,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Genesis",
+      "parent": "",
       "location": "JarvisSide/Projects/Genesis/BIO/GenesisBio",
       "tags": [
         "project",
@@ -1509,6 +1589,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "The Grid",
+      "parent": "",
       "location": "JarvisSide/Projects/Grid/BIO/GRIDBIO-060926-0001-THE-GRID.md",
       "tags": [
         "project",
@@ -1528,6 +1609,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "JPL",
+      "parent": "",
       "location": "JarvisSide/Projects/JPL/BIO/JPLBio",
       "tags": [
         "project",
@@ -1546,6 +1628,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Legion",
+      "parent": "",
       "location": "JarvisSide/Projects/Legion/BIO/LegionBio",
       "tags": [
         "project",
@@ -1564,6 +1647,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Naruto",
+      "parent": "",
       "location": "JarvisSide/Projects/Naruto/BIO/NarutoBio",
       "tags": [
         "project",
@@ -1582,6 +1666,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Pachinko Bounce",
+      "parent": "",
       "location": "pachinko-bounce",
       "tags": [
         "project",

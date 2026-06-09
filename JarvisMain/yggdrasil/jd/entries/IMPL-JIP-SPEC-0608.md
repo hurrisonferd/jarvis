@@ -5,6 +5,7 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JCS Pipeline
+parent: 
 jnl: IMPL-JIP-SPEC-0608
 status: ACTIVE
 created: 2026-06-09
