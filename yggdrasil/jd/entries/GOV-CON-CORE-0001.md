@@ -3,6 +3,7 @@ name: Constraints
 type: GOV
 authority: CANON
 jnl: GOV-CON-CORE-0001
+status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Architecture/constraints.md

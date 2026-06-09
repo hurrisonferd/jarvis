@@ -3,6 +3,7 @@ name: Opus 4.8 Audit
 type: AUD
 authority: CANON
 jnl: AUD-OPUS-REVW-0001
+status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Audit/2026-05-29_opus48_audit.md

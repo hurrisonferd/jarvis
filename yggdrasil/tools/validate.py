@@ -49,10 +49,13 @@ def main() -> int:
     for f in entries:
         fm = parse_front_matter(f.read_text())
         addr = fm.get("jnl", "")
-        # GL12: every entry needs jnl, tags, ref (index ref), and resolvable location.
-        for req in ("name", "type", "jnl", "created", "updated", "tags", "ref"):
+        # GL12: every entry needs jnl, status, tags, ref (index ref), and resolvable location.
+        for req in ("name", "type", "jnl", "status", "created", "updated", "tags", "ref"):
             if not fm.get(req):
                 errors.append(f"{f.name}: missing GL12 field '{req}'")
+        st = fm.get("status", "")
+        if st and st not in jnllib.STATUSES:
+            errors.append(f"{f.name}: status '{st}' not in JSS vocabulary {sorted(jnllib.STATUSES)}")
         if not addr:
             continue
         # Filename must equal the JNL (JNS determinism).

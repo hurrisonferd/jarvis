@@ -3,6 +3,7 @@ name: JPL
 type: PROJ
 authority: CANON
 jnl: PROJ-JPL-BIO-0001
+status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Projects/JPL/JPLBio

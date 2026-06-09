@@ -4,17 +4,25 @@
     "addressing": [
       "ARCH-JNL-CORE-0001"
     ],
+    "ancestral": [
+      "ARCH-JATM-CORE-0001"
+    ],
     "architecture": [
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002",
       "ARCH-FLOW-SPEC-0001",
       "ARCH-GPT-SPEC-0001",
+      "ARCH-JATM-CORE-0001",
       "ARCH-JD-CORE-0001",
       "ARCH-JFS-CORE-0001",
+      "ARCH-JLTM-CORE-0001",
+      "ARCH-JMMS-CORE-0001",
       "ARCH-JMS-CORE-0001",
       "ARCH-JNL-CORE-0001",
       "ARCH-JNS-CORE-0001",
       "ARCH-JSL-CORE-0001",
+      "ARCH-JSS-CORE-0001",
+      "ARCH-JSTM-CORE-0001",
       "ARCH-LAL-CORE-0001",
       "ARCH-RT-SPEC-0001",
       "ARCH-RT-SPEC-0002",
@@ -73,10 +81,12 @@
     "core": [
       "ARCH-JD-CORE-0001",
       "ARCH-JFS-CORE-0001",
+      "ARCH-JMMS-CORE-0001",
       "ARCH-JMS-CORE-0001",
       "ARCH-JNL-CORE-0001",
       "ARCH-JNS-CORE-0001",
       "ARCH-JSL-CORE-0001",
+      "ARCH-JSS-CORE-0001",
       "ARCH-LAL-CORE-0001",
       "ARCH-YGG-CORE-0001",
       "GS-AEG-CORE-0001",
@@ -163,6 +173,13 @@
     "gpt": [
       "ARCH-GPT-SPEC-0001"
     ],
+    "idea": [
+      "IDEA-UNUS-LOG-0001",
+      "IDEA-USED-LOG-0001"
+    ],
+    "immutable": [
+      "ARCH-JATM-CORE-0001"
+    ],
     "implementation": [
       "IMPL-JIP-SPEC-0608"
     ],
@@ -178,8 +195,24 @@
     "legion": [
       "PROJ-LEG-BIO-0001"
     ],
+    "lifecycle": [
+      "ARCH-JSS-CORE-0001"
+    ],
+    "log": [
+      "IDEA-UNUS-LOG-0001",
+      "IDEA-USED-LOG-0001"
+    ],
+    "long-term": [
+      "ARCH-JLTM-CORE-0001"
+    ],
     "mcp": [
       "CONN-MSB-CORE-0001"
+    ],
+    "memory": [
+      "ARCH-JATM-CORE-0001",
+      "ARCH-JLTM-CORE-0001",
+      "ARCH-JMMS-CORE-0001",
+      "ARCH-JSTM-CORE-0001"
     ],
     "mirror": [
       "ARCH-JMS-CORE-0001"
@@ -230,6 +263,12 @@
     ],
     "semantic": [
       "ARCH-JD-CORE-0001"
+    ],
+    "short-term": [
+      "ARCH-JSTM-CORE-0001"
+    ],
+    "status": [
+      "ARCH-JSS-CORE-0001"
     ],
     "structure": [
       "ARCH-JSL-CORE-0001"

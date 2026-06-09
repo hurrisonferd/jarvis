@@ -122,12 +122,14 @@ chaos. It is separate from the 27 and adds no god systems.
 
 ```
 Yggdrasil (truth / world-tree)
-└── JFS — Jarvis File System (kernel)
-     ├── JNS — naming      (what it's called)    → semantic filenames
-     ├── JNL — navigation  (what + where)        → global address/identity
-     ├── JSL — structure   (how it's organized)  → folder/format invariants
-     └── JMS — mirror       (reflect, not duplicate)
-JD explains → JNL identifies → LAL locates → Yggdrasil stores
+└── JFS — Jarvis File System (umbrella for the J* family)
+     ├── JNS  — naming      (what it's called)    → semantic filenames
+     ├── JNL  — navigation  (what + where)        → global address/identity
+     ├── JSL  — structure   (how it's organized)  → folder/format invariants
+     ├── JMS  — mirror       (reflect, not duplicate)
+     ├── JSS  — status       (TASK/EXPANSION/ACTIVE/INACTIVE/ARCHIVED/DEPRECATED) → drives auto-sort
+     └── JMMS — memory tiers (JSTM working · JLTM consolidated · JATM ancestral/immutable)
+JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stores
 ```
 
 - **JNL address grammar:** `[Domain]-[System]-[Type]-[Log]-[Patch]-[Block]`
@@ -139,8 +141,12 @@ JD explains → JNL identifies → LAL locates → Yggdrasil stores
   a JNL to a real location. Pointers only (JMS law: move references, never truth).
 - **GL12 — Canonical Addressability:** every persistent object must have a JNL address,
   location, tags, anchors, and index reference, or it is **non-governed** (invisible to the loop).
+- **JSS (status) + JMMS (memory):** every object carries a JSS `status`; for status-managed
+  roots (`Ideas/ Implementation/ Breakthroughs/`) the status decides the subfolder. JMMS tiers
+  memory by time horizon (JSTM/JLTM/JATM) beside MNEMOS. Specs: `yggdrasil/jss/`, `yggdrasil/jmms/`.
 - **Tools:** `yggdrasil/tools/seed.py` regenerates entries + registries;
-  `yggdrasil/tools/validate.py` enforces grammar + GL12 + mirror consistency (run it before commit).
+  `yggdrasil/tools/validate.py` enforces grammar + GL12 + status + mirror consistency (run before commit);
+  `yggdrasil/tools/autosort.py` relocates files to match their status (JNL preserved — JMS law).
 - **Rosetta (legacy → canon):** MIDAS→AEGIS · SENTINEL→ARGUS+IRIS+HUGINN · GRAVEYARD→HADES ·
   FATES→KRONOS · JORMUNGANDR=codec · HELP→MIMIR · CHAOS stays entropy (raw ingestion is AYRE→HADES).
 

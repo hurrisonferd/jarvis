@@ -3,6 +3,7 @@ name: Other Connectors
 type: CONN
 authority: CANON
 jnl: CONN-OTH-LOG-0001
+status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Connectors/OtherConnectors/OCLog-0001
