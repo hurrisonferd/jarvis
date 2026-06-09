@@ -7,12 +7,14 @@ name: yggdrasil-validate
 on:
   pull_request:
     paths:
-      - 'yggdrasil/**'
+      - 'JarvisMain/**'
+      - 'JarvisSide/**'
       - '.github/workflows/yggdrasil-validate.yml'
   push:
     branches: [main]
     paths:
-      - 'yggdrasil/**'
+      - 'JarvisMain/**'
+      - 'JarvisSide/**'
 
 jobs:
   validate:
@@ -23,15 +25,15 @@ jobs:
         with:
           python-version: '3.11'
       - name: Validate substrate (grammar + GL12 + status + mirror)
-        run: python yggdrasil/tools/validate.py
+        run: python JarvisMain/yggdrasil/tools/validate.py
       - name: Check status-managed files are sorted (JSS/autosort)
-        run: python yggdrasil/tools/autosort.py
+        run: python JarvisMain/yggdrasil/tools/autosort.py
       - name: Check registries are in sync with entries (no drift)
         run: |
-          python yggdrasil/tools/seed.py
-          if ! git diff --quiet yggdrasil/; then
-            echo "::error::LAL registries / JD entries are out of sync. Run 'python yggdrasil/tools/seed.py' and commit."
-            git --no-pager diff --stat yggdrasil/
+          python JarvisMain/yggdrasil/tools/seed.py
+          if ! git diff --quiet JarvisMain/yggdrasil/; then
+            echo "::error::LAL registries / JD entries are out of sync. Run 'python JarvisMain/yggdrasil/tools/seed.py' and commit."
+            git --no-pager diff --stat JarvisMain/yggdrasil/
             exit 1
           fi
           echo "Registries in sync."

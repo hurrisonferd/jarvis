@@ -2,7 +2,7 @@
 
 The dex connector (jarvis-dex) promotes approved proposals to ACTIVE in Supabase. This
 script pulls ACTIVE entries that aren't yet represented as local JD files, writes them into
-yggdrasil/jd/dynamic.json, and regenerates the substrate. Run by .github/workflows/dex-reconcile.yml.
+JarvisMain/yggdrasil/jd/dynamic.json, and regenerates the substrate. Run by .github/workflows/dex-reconcile.yml.
 
 Auth: SUPABASE_URL + SUPABASE_ANON_KEY (anon has public read on jd_entries). Skips cleanly
 if unset. Idempotent: only adds entries missing from the current dex.
@@ -18,8 +18,8 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-JD_DIR = ROOT / "yggdrasil" / "jd" / "entries"
-DYN = ROOT / "yggdrasil" / "jd" / "dynamic.json"
+JD_DIR = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
+DYN = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "dynamic.json"
 
 # Fields a dynamic entry carries (the rest is derived by seed.py).
 KEEP = ("jnl", "name", "type", "definition", "purpose", "source", "related", "tags", "status")
