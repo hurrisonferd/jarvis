@@ -3,6 +3,7 @@ name: PROMETHEUS
 type: GS
 authority: CANON
 jnl: GS-PRO-CORE-0001
+status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: god_systems/T5_PROMETHEUS/contract.json

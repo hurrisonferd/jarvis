@@ -11,11 +11,20 @@ import re
 from dataclasses import dataclass
 
 # Canonical code tables (mirror of jfs/jnl-grammar.md).
-DOMAINS = {"GS", "ARCH", "GOV", "IMPL", "PROJ", "GRID", "CONN", "AUD", "LOG"}
+DOMAINS = {"GS", "ARCH", "GOV", "IMPL", "PROJ", "GRID", "CONN", "AUD", "IDEA", "BRK", "LOG"}
 TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW"}
 
 # Substrate + the 27 fixed God Systems. Do not add god systems (GL constraint).
-SUBSTRATE = {"YGG", "JFS", "JNS", "JNL", "JSL", "JMS", "JD", "LAL"}
+# JFS family: kernel primitives (JNS/JNL/JSL/JMS) + status (JSS) + memory (JMMS/tiers)
+# + dictionary (JD) + discovery (LAL) + language (JPL) + root (YGG).
+SUBSTRATE = {
+    "YGG", "JFS", "JNS", "JNL", "JSL", "JMS", "JD", "LAL", "JPL",
+    "JSS",                              # status system
+    "JMMS", "JSTM", "JLTM", "JATM",     # multimemory system + tiers
+}
+
+# JSS — Jarvis Status System. The governed lifecycle vocabulary for every object.
+STATUSES = {"TASK", "EXPANSION", "ACTIVE", "INACTIVE", "ARCHIVED", "DEPRECATED"}
 GOD_SYSTEMS = {
     "AYR", "AEG", "ODN", "KRN", "SKD", "MNE", "HUG", "CHA",          # core 8
     "BFR", "HAL", "ATH", "NEM", "APO",                               # orchestration 5

@@ -3,6 +3,7 @@ name: HERMES
 type: GS
 authority: CANON
 jnl: GS-HER-CORE-0001
+status: INACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: god_systems/T9_HERMES/contract.json

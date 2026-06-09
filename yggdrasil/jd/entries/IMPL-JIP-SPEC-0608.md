@@ -3,6 +3,7 @@ name: JIP-0608 Series
 type: IMPL
 authority: CANON
 jnl: IMPL-JIP-SPEC-0608
+status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Implementation/Active/JIP-0608-ReadMe
