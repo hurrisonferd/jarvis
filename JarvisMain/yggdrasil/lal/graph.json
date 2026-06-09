@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 78,
+    "nodes": 85,
     "edges": 18,
-    "main": 66,
-    "side": 12
+    "main": 72,
+    "side": 13
   },
   "nodes": [
     {
@@ -37,6 +37,15 @@
     {
       "id": "ARCH-GPT-SPEC-0001",
       "name": "Custom GPT Instructions",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-GS-IDX-0001",
+      "name": "God Systems Index",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -188,6 +197,15 @@
       "owner": "JFS"
     },
     {
+      "id": "AUD-CHK-SPEC-0001",
+      "name": "Required Checks Setup",
+      "domain": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Audit"
+    },
+    {
       "id": "AUD-COMP-REVW-0001",
       "name": "Companion Research",
       "domain": "AUD",
@@ -262,6 +280,15 @@
     {
       "id": "GOV-CON-CORE-0001",
       "name": "Constraints",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Governance"
+    },
+    {
+      "id": "GOV-PAT-REG-0001",
+      "name": "Patch Archive",
       "domain": "GOV",
       "class": "SPEC",
       "tier": "MAIN",
@@ -566,6 +593,33 @@
       "owner": "JCS Pipeline"
     },
     {
+      "id": "IMPL-IDX-REG-0001",
+      "name": "Implementation Index",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-IMP-LOG-0001",
+      "name": "Implemented Stream",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-INA-LOG-0001",
+      "name": "Inactive Stream",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
       "id": "IMPL-JCS-CORE-0001",
       "name": "JCS - Jarvis Cognitive Stack",
       "domain": "IMPL",
@@ -636,6 +690,15 @@
       "tier": "MAIN",
       "status": "ACTIVE",
       "owner": "JCS Pipeline"
+    },
+    {
+      "id": "PROJ-ALL-LOG-0001",
+      "name": "Project Log Summary",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "Project Log Summary"
     },
     {
       "id": "PROJ-COS-BIO-0001",

@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 78,
+  "count": 85,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -42,6 +42,17 @@
       "tags": [
         "architecture",
         "gpt"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "God Systems Index",
+      "jnl": "ARCH-GS-IDX-0001",
+      "location": "JarvisMain/god_systems",
+      "tags": [
+        "god-system",
+        "index"
       ],
       "anchors": [],
       "state": "active"
@@ -240,6 +251,17 @@
       "state": "active"
     },
     {
+      "object": "Required Checks Setup",
+      "jnl": "AUD-CHK-SPEC-0001",
+      "location": "JarvisMain/Audit/required-checks-setup.md",
+      "tags": [
+        "audit",
+        "ci"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Companion Research",
       "jnl": "AUD-COMP-REVW-0001",
       "location": "JarvisSide/Archive/CompanionResearch-0001-053026.md",
@@ -335,6 +357,18 @@
       "tags": [
         "governance",
         "gold-law"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Patch Archive",
+      "jnl": "GOV-PAT-REG-0001",
+      "location": "JarvisMain/Patches",
+      "tags": [
+        "governance",
+        "patches",
+        "archive"
       ],
       "anchors": [],
       "state": "active"
@@ -737,6 +771,39 @@
       "state": "active"
     },
     {
+      "object": "Implementation Index",
+      "jnl": "IMPL-IDX-REG-0001",
+      "location": "JarvisMain/Implementation/IndexSummary",
+      "tags": [
+        "implementation",
+        "index"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Implemented Stream",
+      "jnl": "IMPL-IMP-LOG-0001",
+      "location": "JarvisMain/Implementation/Implemented",
+      "tags": [
+        "implementation",
+        "log"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Inactive Stream",
+      "jnl": "IMPL-INA-LOG-0001",
+      "location": "JarvisMain/Implementation/Inactive",
+      "tags": [
+        "implementation",
+        "log"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "JCS - Jarvis Cognitive Stack",
       "jnl": "IMPL-JCS-CORE-0001",
       "location": "JarvisMain/Implementation/Active/JIP-0608-2",
@@ -811,7 +878,7 @@
     {
       "object": "JIP-0608 Series",
       "jnl": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-ReadMe",
+      "location": "JarvisMain/Implementation/Active",
       "tags": [
         "implementation",
         "jip"
@@ -827,6 +894,17 @@
         "pipeline",
         "jql",
         "query"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Project Log Summary",
+      "jnl": "PROJ-ALL-LOG-0001",
+      "location": "JarvisSide/Projects/ProjectLogSummary-0001",
+      "tags": [
+        "project",
+        "log"
       ],
       "anchors": [],
       "state": "active"

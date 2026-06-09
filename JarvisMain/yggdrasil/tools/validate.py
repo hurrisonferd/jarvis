@@ -89,12 +89,14 @@ def main() -> int:
 
     # LAL mirror consistency (JMS law): every address points to real truth; every entry indexed.
     reg_path = LAL_DIR / "address-registry.json"
+    records: list[dict] = []
     if not reg_path.exists():
         errors.append("lal/address-registry.json missing — run tools/seed.py")
     else:
         reg = json.loads(reg_path.read_text())
+        records = reg.get("records", [])
         reg_jnls = set()
-        for rec in reg.get("records", []):
+        for rec in records:
             a = rec.get("jnl", "")
             reg_jnls.add(a)
             if not jnllib.is_valid(a):
@@ -105,6 +107,37 @@ def main() -> int:
         missing = entry_jnls - reg_jnls
         for a in sorted(missing):
             errors.append(f"{a}: JD entry not indexed in LAL (GL12 IndexSummary ref)")
+
+    # JNS lock (FMT spec §3): project artifacts must carry the canonical filename grammar
+    # <PROJECT><TYPE>-<MMDDYY>-<NNNN>-<SUBJECT>.md, with NNNN == the JNL Log segment.
+    jns_proj = re.compile(r"^[A-Z0-9]+(JGPP|JIP|JD|BIO)-\d{6}-(\d{4})-[A-Z0-9][A-Z0-9-]*\.md$")
+    for rec in records:
+        loc = rec.get("location", "")
+        if not re.match(r"JarvisSide/Projects/[^/]+/(JGPP|JIP|JD|BIO)/[^/]+\.md$", loc):
+            continue
+        m = jns_proj.match(Path(loc).name)
+        if not m:
+            errors.append(f"{rec['jnl']}: filename '{Path(loc).name}' violates JNS project grammar (FMT §3)")
+        elif m.group(2) != rec["jnl"].split("-")[3]:
+            errors.append(f"{rec['jnl']}: filename sequence {m.group(2)} != JNL Log segment (JNS/JNL must agree)")
+
+    # GL12 closure: every file under the umbrellas must be governed — either a registered
+    # location, inside a registered folder-location, or inside a registered project node.
+    locations = {r.get("location", "") for r in records}
+    governed_dirs = {l for l in locations if (ROOT / l).is_dir()}
+    codes_path = ROOT / "JarvisMain" / "yggdrasil" / "jfs" / "project-codes.json"
+    if codes_path.exists():
+        governed_dirs |= {i["folder"] for i in json.loads(codes_path.read_text())["codes"].values()}
+    for base in ("JarvisMain", "JarvisSide"):
+        for f in sorted((ROOT / base).rglob("*")):
+            if f.is_dir() or f.name == ".gitkeep":
+                continue
+            rel = f.relative_to(ROOT).as_posix()
+            if rel.startswith("JarvisMain/yggdrasil/"):
+                continue  # the substrate kernel governs itself (entries/registries/tools)
+            if rel in locations or any(rel.startswith(d + "/") for d in governed_dirs):
+                continue
+            errors.append(f"{rel}: ungoverned — no JNL covers it (GL12)")
 
     total = len(entry_jnls)
     if errors:

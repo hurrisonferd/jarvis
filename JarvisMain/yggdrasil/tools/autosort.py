@@ -62,6 +62,8 @@ def main() -> int:
     moves = []
     for rec in reg["records"]:
         loc, status = rec["location"], rec.get("status", "ACTIVE")
+        if (ROOT / loc).is_dir():
+            continue  # folder-anchored containers are structure, not sortable objects
         tgt = desired_path(loc, status)
         if tgt:
             moves.append((rec["jnl"], loc, tgt, status))
