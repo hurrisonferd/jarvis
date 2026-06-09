@@ -29,6 +29,9 @@
       "ARCH-RT-SPEC-0003",
       "ARCH-YGG-CORE-0001"
     ],
+    "archive": [
+      "IMPL-HYG-SPEC-0001"
+    ],
     "audit": [
       "AUD-FULL-REVW-0001",
       "AUD-OPUS-REVW-0001",
@@ -173,6 +176,9 @@
     "gpt": [
       "ARCH-GPT-SPEC-0001"
     ],
+    "hygiene": [
+      "IMPL-HYG-SPEC-0001"
+    ],
     "idea": [
       "IDEA-UNUS-LOG-0001",
       "IDEA-USED-LOG-0001"
@@ -278,6 +284,9 @@
     "query": [
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JQL-CORE-0001"
+    ],
+    "reference": [
+      "IMPL-HYG-SPEC-0001"
     ],
     "review": [
       "AUD-FULL-REVW-0001",

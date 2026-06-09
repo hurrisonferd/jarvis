@@ -1,13 +1,17 @@
 ---
 name: ERIS
 type: GS
+class: SYSTEM
+tier: MAIN
 authority: CANON
+owner: God Systems
 jnl: GS-ERI-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: god_systems/T1_ERIS/contract.json
 related: []
+references: []
 tags: [cosmic, god-system, canon]
 ref: [PRI, IDX]
 ---

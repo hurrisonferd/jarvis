@@ -1,13 +1,17 @@
 ---
-name: JQL — JD Query Language
+name: JQL - JD Query Language
 type: IMPL
+class: SPEC
+tier: MAIN
 authority: CANON
+owner: JCS Pipeline
 jnl: IMPL-JQL-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Implementation/Active/JIP-0608-E
 related: []
+references: []
 tags: [pipeline, jql, query]
 ref: [PRI, IDX]
 ---

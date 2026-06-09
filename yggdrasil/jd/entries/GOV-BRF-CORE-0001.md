@@ -1,13 +1,17 @@
 ---
 name: Jarvis Brief
 type: GOV
+class: SPEC
+tier: MAIN
 authority: CANON
+owner: Governance
 jnl: GOV-BRF-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: Architecture/JarvisBrief.md
 related: []
+references: []
 tags: [governance, brief]
 ref: [PRI, IDX]
 ---

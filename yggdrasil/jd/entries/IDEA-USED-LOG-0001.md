@@ -1,13 +1,17 @@
 ---
 name: Used Ideas Log
 type: IDEA
+class: ENTITY
+tier: SIDE
 authority: CANON
+owner: Used Ideas Log
 jnl: IDEA-USED-LOG-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
-source: Ideas/active/UsedLog-0001
+source: Side/Ideas/active/UsedLog-0001
 related: []
+references: []
 tags: [idea, log]
 ref: [PRI, IDX]
 ---

@@ -160,21 +160,31 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
 
 ### Repo hierarchy rule (JSL)
 
-One rule keeps the tree modular as it grows: **every top-level dir is either CODE or
-KNOWLEDGE, and they don't interleave.**
+Two rules keep the tree modular as it grows.
 
+**(1) CODE vs KNOWLEDGE — top-level dirs don't interleave.**
 - **CODE (lowercase)** — runtime/operational: `supabase/ scripts/ god_systems/ mnemos/
   chaos/ grid/ nodes/ worlds/ emulator/ pachinko-bounce/ docs/ logs/ audit/ (operational
-  state: ledgers/logs) yggdrasil/ (the substrate) intake/`.
-- **KNOWLEDGE (Capitalized, JNL-addressed)** — `Architecture/` (canon, constraints, specs,
-  runtime) · `Audit/` (reviews) · `Implementation/` (JIPs) · `Patches/` · `Projects/`
-  (each a node) · `Connectors/` · `Ideas/` · `Breakthroughs/`.
+  state) yggdrasil/ (the substrate) intake/`.
+- **KNOWLEDGE (Capitalized, JNL-addressed)** — `Architecture/` · `Audit/` ·
+  `Implementation/` · `Patches/` · `Connectors/`.
 
-Every knowledge object gets a JNL + a JD entry (the dex). Domains: `GS ARCH GOV IMPL PROJ
-GRID CONN AUD LOG`. New knowledge → add it, run `seed.py`, commit; CI
-(`.github/workflows/yggdrasil-validate.yml`) fails the PR if anything is un-addressed or
-the registries drift. Do not re-introduce lowercase doc folders (`architecture/ specs/
-runtime-spec/ changes/`) — those folded into the Capitalized tree.
+**(2) MAIN vs SIDE — canonical core vs periphery.**
+- **MAIN** = repo root: the canonical, active core (substrate, god systems, Architecture,
+  Audit, Implementation, Patches, Connectors, all code).
+- **SIDE/** = periphery: `Side/Projects/` (each a node) · `Side/Ideas/` · `Side/Breakthroughs/`
+  · `Side/Archive/` · `Side/Deprecated/`. Anything `ARCHIVED`/`DEPRECATED` or in
+  projects/ideas/breakthroughs is SIDE.
+
+Every object carries `class` (SYSTEM/SPEC/MODULE/ENTITY/EVENT/REGISTRY), `tier` (MAIN/SIDE),
+`owner`, and a JNL + JD entry. Domains: `GS ARCH GOV IMPL PROJ GRID CONN AUD IDEA BRK LOG`.
+New knowledge → add it, run `seed.py`, commit; CI (`yggdrasil-validate.yml`) fails the PR if
+anything is un-addressed, mis-tiered, or the registries drift. Don't re-introduce lowercase
+doc folders (`architecture/ specs/ runtime-spec/ changes/`) — those folded into the tree.
+
+**Tool aliases (hygiene packets):** `validate.py` = **JVE** (validator engine);
+`lal/master-index.json` = **ISS** (index summary); `graph_export.py` = **YVG** data layer
+(`lal/graph.json`, nodes+edges for the visualizer).
 
 ---
 

@@ -153,17 +153,17 @@ KNOWLEDGE = [
      "JGPP v3 implementation packet series (JIP-0608-*).", "Track the evolving implementation stream.",
      ["implementation", "jip"]),
     # Projects (each a node)
-    ("PROJ-COS-BIO-0001", "CodeOS", "PROJ", "Projects/CodeOSProjectBio",
+    ("PROJ-COS-BIO-0001", "CodeOS", "PROJ", "Side/Projects/CodeOSProjectBio",
      "CodeOS project.", "Project node bio.", ["project", "codeos"]),
-    ("PROJ-JPL-BIO-0001", "JPL", "PROJ", "Projects/JPL/JPLBio",
+    ("PROJ-JPL-BIO-0001", "JPL", "PROJ", "Side/Projects/JPL/JPLBio",
      "JPL project (JARVIS Programming Language).", "Project node bio.", ["project", "jpl"]),
-    ("PROJ-GEN-BIO-0001", "Genesis", "PROJ", "Projects/Genesis/GenesisBio",
+    ("PROJ-GEN-BIO-0001", "Genesis", "PROJ", "Side/Projects/Genesis/GenesisBio",
      "Genesis project.", "Project node bio.", ["project", "genesis"]),
-    ("PROJ-DEO-BIO-0001", "Deoxys", "PROJ", "Projects/Deoxys/ProjectBio",
+    ("PROJ-DEO-BIO-0001", "Deoxys", "PROJ", "Side/Projects/Deoxys/ProjectBio",
      "Deoxys project.", "Project node bio.", ["project", "deoxys"]),
-    ("PROJ-LEG-BIO-0001", "Legion", "PROJ", "Projects/Legion/LegionBio",
+    ("PROJ-LEG-BIO-0001", "Legion", "PROJ", "Side/Projects/Legion/LegionBio",
      "Legion project.", "Project node bio.", ["project", "legion"]),
-    ("PROJ-NAR-BIO-0001", "Naruto", "PROJ", "Projects/Naruto/NarutoBio",
+    ("PROJ-NAR-BIO-0001", "Naruto", "PROJ", "Side/Projects/Naruto/NarutoBio",
      "Naruto project.", "Project node bio.", ["project", "naruto"]),
     ("PROJ-PAC-BIO-0001", "Pachinko Bounce", "PROJ", "pachinko-bounce",
      "Pachinko Bounce game (Godot, RGB encoding).", "Project node bio.", ["project", "pachinko", "game"]),
@@ -180,10 +180,10 @@ KNOWLEDGE = [
     ("AUD-FULL-REVW-0001", "Full System Audit", "AUD", "Audit/2026-06-04_full_system_audit.md",
      "Full system audit (2026-06-04).", "Recorded audit.", ["audit", "review"]),
     # Runtime cognition pipeline: JGPP -> JIP -> JCS -> JD (spec -> impl -> runtime -> truth)
-    ("IMPL-JGPP-CORE-0001", "JGPP — Generative Process Protocol", "IMPL", "Implementation/Active/JIP-0608-1",
+    ("IMPL-JGPP-CORE-0001", "JGPP - Generative Process Protocol", "IMPL", "Implementation/Active/JIP-0608-1",
      "Generation/specification ruleset; pre-implementation compiler logic.",
      "Turn intelligence into structured intent + execution graphs.", ["pipeline", "jgpp", "spec"]),
-    ("IMPL-JCS-CORE-0001", "JCS — Jarvis Cognitive Stack", "IMPL", "Implementation/Active/JIP-0608-2",
+    ("IMPL-JCS-CORE-0001", "JCS - Jarvis Cognitive Stack", "IMPL", "Implementation/Active/JIP-0608-2",
      "Runtime reasoning/simulation engine operating over JIP structures and JD truth.",
      "Execute interpretation, simulation, and actor interaction at runtime.", ["pipeline", "jcs", "runtime"]),
     ("IMPL-JCSD-SPEC-0001", "JCS-D Temporal Reconstruction", "IMPL", "Implementation/Active/JIP-0608-D",
@@ -198,7 +198,7 @@ KNOWLEDGE = [
     ("IMPL-JCSG-SPEC-0001", "JCS-G External Interface Binding", "IMPL", "Implementation/Active/JIP-0608-G",
      "JCS layer G: external interface binding.",
      "Bind the runtime to external interfaces.", ["jcs", "layer", "interface"]),
-    ("IMPL-JQL-CORE-0001", "JQL — JD Query Language", "IMPL", "Implementation/Active/JIP-0608-E",
+    ("IMPL-JQL-CORE-0001", "JQL - JD Query Language", "IMPL", "Implementation/Active/JIP-0608-E",
      "Query language over JD truth — interactive runtime queries with traversal semantics.",
      "Let agents query and traverse the dex at runtime (executed by JCS-E).", ["pipeline", "jql", "query"]),
 ]
@@ -206,10 +206,14 @@ KNOWLEDGE = [
 # Status-managed objects under JSS-managed roots (location = the status-sorted path).
 # (jnl, name, type, location, definition, purpose, tags, status)
 MANAGED = [
-    ("IDEA-USED-LOG-0001", "Used Ideas Log", "IDEA", "Ideas/active/UsedLog-0001",
+    ("IDEA-USED-LOG-0001", "Used Ideas Log", "IDEA", "Side/Ideas/active/UsedLog-0001",
      "Log of ideas that were adopted.", "Track adopted ideas.", ["idea", "log"], "ACTIVE"),
-    ("IDEA-UNUS-LOG-0001", "Unused Ideas Log", "IDEA", "Ideas/inactive/UnusedLog-0001",
+    ("IDEA-UNUS-LOG-0001", "Unused Ideas Log", "IDEA", "Side/Ideas/inactive/UnusedLog-0001",
      "Log of ideas not (yet) adopted.", "Track parked ideas.", ["idea", "log"], "INACTIVE"),
+    ("IMPL-HYG-SPEC-0001", "Hygiene Packets Archive", "IMPL", "Side/Archive/HygienePackets-0001-060926.md",
+     "Eight archived GPT hygiene packets with per-packet governance verdicts.",
+     "Preserve the proposals for later mining; record what was adopted vs rejected.",
+     ["hygiene", "archive", "reference"], "ARCHIVED"),
 ]
 
 # Each God System's truth lives in its own contract folder: god_systems/<TIER>_<NAME>/.
@@ -228,18 +232,60 @@ def gs_location(name: str) -> str:
 DORMANT_GS = {"CHAOS", "POSEIDON", "HADES", "HERMES"}
 
 
-def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source, status) -> str:
+def ontology_class(domain: str, typ: str, jnl: str) -> str:
+    """Packet-1 ontology class: SYSTEM/SPEC/MODULE/ENTITY/EVENT/REGISTRY.
+    Reads the JNL's own type segment so registry + entry always agree."""
+    parts = jnl.split("-")
+    jtype = parts[2] if len(parts) >= 3 else typ
+    if domain == "GS":
+        return "SYSTEM"
+    if domain == "ARCH":
+        return "SYSTEM" if jtype == "CORE" else "SPEC"
+    if domain == "GOV":
+        return "SPEC"
+    if domain == "IMPL":
+        return "MODULE" if jnl.startswith(("IMPL-JCS-", "IMPL-JCSD", "IMPL-JCSE",
+                                           "IMPL-JCSF", "IMPL-JCSG")) else "SPEC"
+    if domain == "PROJ":
+        return "SYSTEM"
+    if domain == "CONN":
+        return "MODULE"
+    if domain == "AUD":
+        return "EVENT"
+    return "ENTITY"  # IDEA, BRK, etc.
+
+
+def tier(domain: str, status: str) -> str:
+    """MAIN (canonical core) vs SIDE (periphery: projects/ideas/breakthroughs/archived/deprecated)."""
+    if domain in ("PROJ", "IDEA", "BRK"):
+        return "SIDE"
+    if status in ("ARCHIVED", "DEPRECATED"):
+        return "SIDE"
+    return "MAIN"
+
+
+def owner(domain: str, name: str) -> str:
+    return {"GS": "God Systems", "ARCH": "JFS", "GOV": "Governance", "IMPL": "JCS Pipeline",
+            "CONN": "Connectors", "AUD": "Audit"}.get(domain, name)
+
+
+def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source, status,
+                cls, tr, own, references) -> str:
     fm = [
         "---",
         f"name: {name}",
         f"type: {typ}",
+        f"class: {cls}",
+        f"tier: {tr}",
         f"authority: {authority}",
+        f"owner: {own}",
         f"jnl: {jnl}",
         f"status: {status}",
         f"created: {existing_created(jnl)}",
         f"updated: {TODAY}",
         f"source: {source}",
         f"related: [{', '.join(related)}]",
+        f"references: [{', '.join(references)}]",
         f"tags: [{', '.join(tags)}]",
         f"ref: [{', '.join(ref)}]",
         "---",
@@ -258,19 +304,23 @@ def main() -> None:
     tag_index: dict[str, list[str]] = {}
 
     def register(jnl, location, tags, name, typ, status="ACTIVE", state="active"):
+        dom = jnl.split("-")[0]
         address_registry.append({
-            "jnl": jnl, "name": name, "type": typ, "location": location,
-            "tags": tags, "anchors": [], "status": status, "state": state,
+            "jnl": jnl, "name": name, "type": typ,
+            "class": ontology_class(dom, typ, jnl), "tier": tier(dom, status),
+            "owner": owner(dom, name), "location": location, "tags": tags, "anchors": [],
+            "status": status, "state": state,
             "created": existing_created(jnl), "updated": TODAY,
         })
         for t in tags:
             tag_index.setdefault(t, []).append(jnl)
 
-    # Substrate entries.
+    # Substrate entries (ARCH domain).
     for code, name, jnl, loc, definition, purpose, tags, related in SUBSTRATE:
+        cls, tr, own = ontology_class("ARCH", "CORE", jnl), tier("ARCH", "ACTIVE"), owner("ARCH", name)
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, "ARCH", "CANON", jnl, definition, purpose, tags, related,
-                        ["PRI", "SPEC", "IDX"], "yggdrasil/jfs/JFS-SPEC.md", "ACTIVE"))
+                        ["PRI", "SPEC", "IDX"], "yggdrasil/jfs/JFS-SPEC.md", "ACTIVE", cls, tr, own, []))
         register(jnl, loc, tags, name, "ARCH")
 
     # God-system entries (dormant ones carry JSS status INACTIVE).
@@ -278,24 +328,29 @@ def main() -> None:
         jnl = f"GS-{code}-CORE-0001"
         status = "INACTIVE" if name in DORMANT_GS else "ACTIVE"
         tags = [group, "god-system", "canon"]
+        cls, tr, own = ontology_class("GS", "CORE", jnl), tier("GS", status), owner("GS", name)
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, "GS", "CANON", jnl, definition,
                         f"Canonical God System ({group} tier). Fixed; do not redefine.",
-                        tags, [], ["PRI", "IDX"], gs_location(name) + "/contract.json", status))
+                        tags, [], ["PRI", "IDX"], gs_location(name) + "/contract.json", status, cls, tr, own, []))
         register(jnl, gs_location(name), tags, name, "GS", status)
 
     # Knowledge entries (the reorganized doc tree).
     for jnl, name, typ, loc, definition, purpose, tags in KNOWLEDGE:
+        dom = jnl.split("-")[0]
+        cls, tr, own = ontology_class(dom, typ, jnl), tier(dom, "ACTIVE"), owner(dom, name)
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, [],
-                        ["PRI", "IDX"], loc, "ACTIVE"))
+                        ["PRI", "IDX"], loc, "ACTIVE", cls, tr, own, []))
         register(jnl, loc, tags, name, typ, "ACTIVE")
 
     # Status-managed entries (JSS status drives their folder; see autosort.py).
     for jnl, name, typ, loc, definition, purpose, tags, status in MANAGED:
+        dom = jnl.split("-")[0]
+        cls, tr, own = ontology_class(dom, typ, jnl), tier(dom, status), owner(dom, name)
         (JD_DIR / f"{jnl}.md").write_text(
             jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, [],
-                        ["PRI", "IDX"], loc, status))
+                        ["PRI", "IDX"], loc, status, cls, tr, own, []))
         register(jnl, loc, tags, name, typ, status)
 
     address_registry.sort(key=lambda r: r["jnl"])

@@ -1,13 +1,17 @@
 ---
 name: Jarvis Short-Term Memory
 type: ARCH
+class: SYSTEM
+tier: MAIN
 authority: CANON
+owner: JFS
 jnl: ARCH-JSTM-CORE-0001
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
+references: []
 tags: [memory, short-term, architecture]
 ref: [PRI, SPEC, IDX]
 ---

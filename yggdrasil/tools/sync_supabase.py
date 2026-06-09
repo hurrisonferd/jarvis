@@ -46,33 +46,36 @@ def parse(text: str) -> dict:
 def main() -> None:
     reg = json.loads(REG.read_text())["records"]
     reg_vals = [
-        f"({q(r['jnl'])},{q(r['name'])},{q(r['type'])},{q(r['location'])},"
-        f"{arr(r['tags'])},{arr(r['anchors'])},{q(r['state'])},{q(r.get('status','ACTIVE'))},"
-        f"{q(r['created'])},{q(r['updated'])})"
+        f"({q(r['jnl'])},{q(r['name'])},{q(r['type'])},{q(r.get('class',''))},{q(r.get('tier',''))},"
+        f"{q(r.get('owner',''))},{q(r['location'])},{arr(r['tags'])},{arr(r['anchors'])},"
+        f"{q(r['state'])},{q(r.get('status','ACTIVE'))},{q(r['created'])},{q(r['updated'])})"
         for r in reg
     ]
     jd_vals = []
     for f in sorted(JD.glob("*.md")):
         e = parse(f.read_text())
         jd_vals.append(
-            f"({q(e['jnl'])},{q(e['name'])},{q(e['type'])},{q(e['authority'])},"
-            f"{q(e['definition'])},{q(e['purpose'])},{q(e.get('source',''))},"
-            f"{arr(e.get('related',[]))},{arr(e.get('tags',[]))},{arr(e.get('ref',[]))},"
+            f"({q(e['jnl'])},{q(e['name'])},{q(e['type'])},{q(e.get('class',''))},{q(e.get('tier',''))},"
+            f"{q(e.get('owner',''))},{q(e['authority'])},{q(e['definition'])},{q(e['purpose'])},"
+            f"{q(e.get('source',''))},{arr(e.get('related',[]))},{arr(e.get('references',[]))},"
+            f"{arr(e.get('tags',[]))},{arr(e.get('ref',[]))},"
             f"{q(e.get('status','ACTIVE'))},{q(e['created'])},{q(e['updated'])})"
         )
 
-    print("insert into public.jnl_registry (jnl,name,type,location,tags,anchors,state,status,created,updated) values")
+    print("insert into public.jnl_registry (jnl,name,type,class,tier,owner,location,tags,anchors,state,status,created,updated) values")
     print(",\n".join(reg_vals))
-    print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,"
-          "location=excluded.location,tags=excluded.tags,anchors=excluded.anchors,"
-          "state=excluded.state,status=excluded.status,created=excluded.created,updated=excluded.updated,synced_at=now();\n")
+    print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,class=excluded.class,"
+          "tier=excluded.tier,owner=excluded.owner,location=excluded.location,tags=excluded.tags,"
+          "anchors=excluded.anchors,state=excluded.state,status=excluded.status,"
+          "created=excluded.created,updated=excluded.updated,synced_at=now();\n")
 
-    print("insert into public.jd_entries (jnl,name,type,authority,definition,purpose,source,related,tags,ref,status,created,updated) values")
+    print("insert into public.jd_entries (jnl,name,type,class,tier,owner,authority,definition,purpose,source,related,cross_refs,tags,ref,status,created,updated) values")
     print(",\n".join(jd_vals))
-    print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,"
-          "authority=excluded.authority,definition=excluded.definition,purpose=excluded.purpose,"
-          "source=excluded.source,related=excluded.related,tags=excluded.tags,ref=excluded.ref,"
-          "status=excluded.status,created=excluded.created,updated=excluded.updated,synced_at=now();")
+    print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,class=excluded.class,"
+          "tier=excluded.tier,owner=excluded.owner,authority=excluded.authority,definition=excluded.definition,"
+          "purpose=excluded.purpose,source=excluded.source,related=excluded.related,cross_refs=excluded.cross_refs,"
+          "tags=excluded.tags,ref=excluded.ref,status=excluded.status,"
+          "created=excluded.created,updated=excluded.updated,synced_at=now();")
 
 
 if __name__ == "__main__":
