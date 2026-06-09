@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md
-related: []
+related: [CONN-MSB-CORE-0001]
 references: []
 tags: [architecture, gpt]
 ref: [PRI, IDX]

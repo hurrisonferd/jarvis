@@ -10,7 +10,7 @@ status: ARCHIVED
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisSide/Archive/HygienePackets-0001-060926.md
-related: []
+related: [IMPL-FMT-SPEC-0001]
 references: []
 tags: [hygiene, archive, reference]
 ref: [PRI, IDX]

@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Architecture/runtime/world-kernel.md
-related: []
+related: [ARCH-RT-SPEC-0002]
 references: []
 tags: [architecture, runtime]
 ref: [PRI, IDX]

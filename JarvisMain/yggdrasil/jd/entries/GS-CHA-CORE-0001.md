@@ -10,7 +10,7 @@ status: INACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T0_CHAOS/contract.json
-related: []
+related: [GS-AYR-CORE-0001]
 references: []
 tags: [core, god-system, canon]
 ref: [PRI, IDX]

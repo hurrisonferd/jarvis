@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T1_AYRE/contract.json
-related: []
+related: [GS-AEG-CORE-0001]
 references: []
 tags: [core, god-system, canon]
 ref: [PRI, IDX]

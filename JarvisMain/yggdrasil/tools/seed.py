@@ -5,6 +5,8 @@ Idempotent and data-driven. JD entry files are the readable truth; the LAL regis
 Run from repo root:  python JarvisMain/yggdrasil/tools/seed.py
 """
 from __future__ import annotations
+import collections
+import hashlib
 import json
 import os
 import re
@@ -59,7 +61,7 @@ SUBSTRATE = [
     ("YGG", "Yggdrasil", "ARCH-YGG-CORE-0001", "JarvisMain/yggdrasil/README.md",
      "Root world-tree architecture; the truth/memory layer above JFS, JD, LAL, and the God Systems.",
      "Ensure repository growth increases organization rather than complexity (GL7).",
-     ["root", "core", "architecture"], []),
+     ["root", "core", "architecture"], ["ARCH-JFS-CORE-0001"]),
     ("JFS", "Jarvis File System", "ARCH-JFS-CORE-0001", "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
      "Filesystem kernel providing naming, identity, structure, and mirroring.",
      "Give every persistent object a deterministic name, address, structure, and mirror.",
@@ -259,6 +261,85 @@ KNOWLEDGE = [
      ["format", "ids", "jnl", "governance", "spec"]),
 ]
 
+# --- RELATED: the semantic web of the dex. One defensible edge beats five vague ones.
+# Sources: the God System pipeline (CLAUDE.md), the Rosetta, and the spec->system bindings.
+RELATED = {
+    # Pipeline: AYRE -> AEGIS -> ODIN -> KRONOS -> SKADI -> MNEMOS -> HUGINN
+    "GS-AYR-CORE-0001": ["GS-AEG-CORE-0001"],
+    "GS-AEG-CORE-0001": ["GS-ODN-CORE-0001"],
+    "GS-ODN-CORE-0001": ["GS-KRN-CORE-0001"],
+    "GS-KRN-CORE-0001": ["GS-SKD-CORE-0001"],
+    "GS-SKD-CORE-0001": ["GS-MNE-CORE-0001"],
+    "GS-MNE-CORE-0001": ["GS-HUG-CORE-0001", "ARCH-JLTM-CORE-0001"],
+    "GS-HUG-CORE-0001": ["GS-ARG-CORE-0001"],
+    # Orchestration + governance pairs
+    "GS-HAL-CORE-0001": ["GS-ODN-CORE-0001"],
+    "GS-ATH-CORE-0001": ["GS-ODN-CORE-0001"],
+    "GS-APO-CORE-0001": ["GS-HAL-CORE-0001"],
+    "GS-BFR-CORE-0001": ["GS-HER-CORE-0001"],
+    "GS-NEM-CORE-0001": ["GS-IRS-CORE-0001"],
+    "GS-MER-CORE-0001": ["GS-NEM-CORE-0001"],
+    "GS-DAN-CORE-0001": ["GS-AEG-CORE-0001"],
+    "GS-ATL-CORE-0001": ["ARCH-JSL-CORE-0001"],
+    "GS-HER-CORE-0001": ["CONN-MSB-CORE-0001"],
+    "GS-IRS-CORE-0001": ["GS-AEG-CORE-0001"],
+    "GS-PRO-CORE-0001": ["GS-KRN-CORE-0001"],
+    "GS-ARG-CORE-0001": ["GS-IRS-CORE-0001"],
+    "GS-JAN-CORE-0001": ["GS-HUG-CORE-0001"],
+    "GS-LOK-CORE-0001": ["GS-JAN-CORE-0001"],
+    # Cosmic
+    "GS-ERI-CORE-0001": ["GS-CHA-CORE-0001"],
+    "GS-CHA-CORE-0001": ["GS-AYR-CORE-0001"],
+    "GS-ZEU-CORE-0001": ["GS-AEG-CORE-0001"],
+    "GS-POS-CORE-0001": ["GS-LOK-CORE-0001"],
+    "GS-HAD-CORE-0001": ["ARCH-JATM-CORE-0001"],
+    "GS-MIM-CORE-0001": ["GS-MNE-CORE-0001"],
+    # Specs -> the systems they define
+    "ARCH-AYR-SPEC-0001": ["GS-AYR-CORE-0001"],
+    "ARCH-AYR-SPEC-0002": ["GS-AYR-CORE-0001"],
+    "ARCH-RT-SPEC-0001": ["GS-SKD-CORE-0001"],
+    "ARCH-RT-SPEC-0002": ["GS-SKD-CORE-0001"],
+    "ARCH-RT-SPEC-0003": ["ARCH-RT-SPEC-0002"],
+    "ARCH-GPT-SPEC-0001": ["CONN-MSB-CORE-0001"],
+    "ARCH-FLOW-SPEC-0001": ["GS-SKD-CORE-0001"],
+    "ARCH-GS-IDX-0001": ["GS-ODN-CORE-0001"],
+    # Governance
+    "GOV-CON-CORE-0001": ["GOV-CAN-CORE-0001"],
+    "GOV-BRF-CORE-0001": ["GOV-CAN-CORE-0001"],
+    "GOV-PROC-CORE-0001": ["GOV-PAT-REG-0001"],
+    "GOV-PAT-REG-0001": ["GS-KRN-CORE-0001"],
+    # Cognition pipeline: JGPP -> JIP -> JCS -> JD
+    "IMPL-JGPP-CORE-0001": ["IMPL-JCS-CORE-0001"],
+    "IMPL-JCS-CORE-0001": ["ARCH-JD-CORE-0001"],
+    "IMPL-JCSD-SPEC-0001": ["IMPL-JCS-CORE-0001"],
+    "IMPL-JCSE-SPEC-0001": ["IMPL-JCS-CORE-0001"],
+    "IMPL-JCSF-SPEC-0001": ["IMPL-JCS-CORE-0001"],
+    "IMPL-JCSG-SPEC-0001": ["IMPL-JCS-CORE-0001"],
+    "IMPL-JQL-CORE-0001": ["IMPL-JCSE-SPEC-0001", "ARCH-JD-CORE-0001"],
+    "IMPL-DEX-SPEC-0001": ["IMPL-FMT-SPEC-0001", "ARCH-JD-CORE-0001"],
+    "IMPL-FMT-SPEC-0001": ["ARCH-JNS-CORE-0001", "ARCH-JNL-CORE-0001", "ARCH-JSS-CORE-0001"],
+    "IMPL-JIP-SPEC-0608": ["IMPL-JGPP-CORE-0001"],
+    "IMPL-IMP-LOG-0001": ["ARCH-JSS-CORE-0001"],
+    "IMPL-INA-LOG-0001": ["ARCH-JSS-CORE-0001"],
+    "IMPL-IDX-REG-0001": ["ARCH-LAL-CORE-0001"],
+    "IMPL-HYG-SPEC-0001": ["IMPL-FMT-SPEC-0001"],
+    # Connectors / audits / projects / ideas
+    "CONN-OTH-LOG-0001": ["CONN-MSB-CORE-0001"],
+    "AUD-SYS-REVW-0001": ["GOV-CAN-CORE-0001"],
+    "AUD-OPUS-REVW-0001": ["GOV-CAN-CORE-0001"],
+    "AUD-FULL-REVW-0001": ["GOV-CAN-CORE-0001"],
+    "AUD-CHK-SPEC-0001": ["GS-AEG-CORE-0001"],
+    "AUD-COMP-REVW-0001": ["GOV-BRF-CORE-0001"],
+    "PROJ-COS-BIO-0001": ["PROJ-ALL-LOG-0001"],
+    "PROJ-JPL-BIO-0001": ["PROJ-ALL-LOG-0001"],
+    "PROJ-GEN-BIO-0001": ["PROJ-ALL-LOG-0001"],
+    "PROJ-DEO-BIO-0001": ["PROJ-ALL-LOG-0001"],
+    "PROJ-LEG-BIO-0001": ["PROJ-ALL-LOG-0001"],
+    "PROJ-NAR-BIO-0001": ["PROJ-ALL-LOG-0001"],
+    "PROJ-PAC-BIO-0001": ["PROJ-ALL-LOG-0001"],
+    "IDEA-USED-LOG-0001": ["IDEA-UNUS-LOG-0001"],
+}
+
 # Status-managed objects under JSS-managed roots (location = the status-sorted path).
 # (jnl, name, type, location, definition, purpose, tags, status)
 MANAGED = [
@@ -334,6 +415,17 @@ def owner(domain: str, name: str) -> str:
             "CONN": "Connectors", "AUD": "Audit"}.get(domain, name)
 
 
+def write_entry(jnl: str, text: str) -> None:
+    """Write a JD entry, preserving its `updated` date when content is otherwise
+    unchanged — a reseed is not a change (JMS), and the CI drift gate stays quiet."""
+    f = JD_DIR / f"{jnl}.md"
+    if f.exists():
+        strip = lambda t: re.sub(r"^updated:.*$", "", t, count=1, flags=re.MULTILINE)
+        if strip(f.read_text()) == strip(text):
+            return
+    f.write_text(text)
+
+
 def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source, status,
                 cls, tr, own, references) -> str:
     fm = [
@@ -367,23 +459,30 @@ def main() -> None:
     JD_DIR.mkdir(parents=True, exist_ok=True)
     address_registry = []
     tag_index: dict[str, list[str]] = {}
+    reg_file = LAL_DIR / "address-registry.json"
+    prev_records = ({r["jnl"]: r for r in json.loads(reg_file.read_text()).get("records", [])}
+                    if reg_file.exists() else {})
 
     def register(jnl, location, tags, name, typ, status="ACTIVE", state="active"):
         dom = jnl.split("-")[0]
-        address_registry.append({
+        rec = {
             "jnl": jnl, "name": name, "type": typ,
             "class": ontology_class(dom, typ, jnl), "tier": tier(dom, status),
             "owner": owner(dom, name), "location": location, "tags": tags, "anchors": [],
             "status": status, "state": state,
             "created": existing_created(jnl), "updated": TODAY,
-        })
+        }
+        prev = prev_records.get(jnl)
+        if prev and {k: v for k, v in rec.items() if k != "updated"} ==                 {k: v for k, v in prev.items() if k != "updated"}:
+            rec["updated"] = prev["updated"]  # a reseed is not a change (JMS)
+        address_registry.append(rec)
         for t in tags:
             tag_index.setdefault(t, []).append(jnl)
 
     # Substrate entries (ARCH domain).
     for code, name, jnl, loc, definition, purpose, tags, related in SUBSTRATE:
         cls, tr, own = ontology_class("ARCH", "CORE", jnl), tier("ARCH", "ACTIVE"), owner("ARCH", name)
-        (JD_DIR / f"{jnl}.md").write_text(
+        write_entry(jnl, 
             jd_entry_md(name, "ARCH", "CANON", jnl, definition, purpose, tags, related,
                         ["PRI", "SPEC", "IDX"], "JarvisMain/yggdrasil/jfs/JFS-SPEC.md", "ACTIVE", cls, tr, own, []))
         register(jnl, loc, tags, name, "ARCH")
@@ -394,18 +493,18 @@ def main() -> None:
         status = "INACTIVE" if name in DORMANT_GS else "ACTIVE"
         tags = [group, "god-system", "canon"]
         cls, tr, own = ontology_class("GS", "CORE", jnl), tier("GS", status), owner("GS", name)
-        (JD_DIR / f"{jnl}.md").write_text(
+        write_entry(jnl, 
             jd_entry_md(name, "GS", "CANON", jnl, definition,
                         f"Canonical God System ({group} tier). Fixed; do not redefine.",
-                        tags, [], ["PRI", "IDX"], gs_location(name) + "/contract.json", status, cls, tr, own, []))
+                        tags, RELATED.get(jnl, []), ["PRI", "IDX"], gs_location(name) + "/contract.json", status, cls, tr, own, []))
         register(jnl, gs_location(name), tags, name, "GS", status)
 
     # Knowledge entries (the reorganized doc tree).
     for jnl, name, typ, loc, definition, purpose, tags in KNOWLEDGE:
         dom = jnl.split("-")[0]
         cls, tr, own = ontology_class(dom, typ, jnl), tier(dom, "ACTIVE"), owner(dom, name)
-        (JD_DIR / f"{jnl}.md").write_text(
-            jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, [],
+        write_entry(jnl, 
+            jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, RELATED.get(jnl, []),
                         ["PRI", "IDX"], loc, "ACTIVE", cls, tr, own, []))
         register(jnl, loc, tags, name, typ, "ACTIVE")
 
@@ -413,8 +512,8 @@ def main() -> None:
     for jnl, name, typ, loc, definition, purpose, tags, status in MANAGED:
         dom = jnl.split("-")[0]
         cls, tr, own = ontology_class(dom, typ, jnl), tier(dom, status), owner(dom, name)
-        (JD_DIR / f"{jnl}.md").write_text(
-            jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, [],
+        write_entry(jnl, 
+            jd_entry_md(name, typ, "CANON", jnl, definition, purpose, tags, RELATED.get(jnl, []),
                         ["PRI", "IDX"], loc, status, cls, tr, own, []))
         register(jnl, loc, tags, name, typ, status)
 
@@ -430,7 +529,7 @@ def main() -> None:
             dom, typ, status = jnl.split("-")[0], e["type"], e.get("status", "ACTIVE")
             loc, tags = e.get("source", ""), e.get("tags", [])
             cls, tr, own = ontology_class(dom, typ, jnl), tier(dom, status), owner(dom, e["name"])
-            (JD_DIR / f"{jnl}.md").write_text(
+            write_entry(jnl, 
                 jd_entry_md(e["name"], typ, e.get("authority", "CANON"), jnl,
                             e.get("definition", ""), e.get("purpose", ""), tags,
                             e.get("related", []), ["PRI", "IDX"], loc, status, cls, tr, own, []))
@@ -472,7 +571,7 @@ def main() -> None:
             tags = fm.get("tags") if isinstance(fm.get("tags"), list) else []
             related = fm.get("related") if isinstance(fm.get("related"), list) else []
             cls, tr, own = ontology_class(dom, typ, addr), tier(dom, status), owner(dom, name)
-            (JD_DIR / f"{addr}.md").write_text(
+            write_entry(addr, 
                 jd_entry_md(name, typ, fm.get("authority", "CANON"), addr,
                             fm.get("definition", ""), fm.get("purpose", ""), tags,
                             related, ["PRI", "IDX"], loc, status, cls, tr, own, []))
@@ -499,6 +598,30 @@ def main() -> None:
     (LAL_DIR / "tag-registry.json").write_text(json.dumps(
         {"note": "Canonical tag vocabulary -> addresses carrying each tag. Derived.",
          "tags": {t: sorted(v) for t, v in sorted(tag_index.items())}}, indent=2) + "\n")
+
+    fp = hashlib.sha256(json.dumps({
+        "domains": sorted(jnllib.DOMAINS), "types": sorted(jnllib.TYPES),
+        "substrate": sorted(jnllib.SUBSTRATE), "god_systems": sorted(jnllib.GOD_SYSTEMS),
+        "statuses": sorted(jnllib.STATUSES), "classes": sorted(jnllib.CLASSES),
+        "tiers": sorted(jnllib.TIERS)}, sort_keys=True).encode()).hexdigest()[:16]
+    manifest = {
+        "note": "YGG manifest — derived version snapshot of the substrate's moving parts. "
+                "Rebuilt by seed.py; the grammar fingerprint must match jarvis-dex/jfs.ts "
+                "(validate.py enforces).",
+        "generated": TODAY,
+        "objects": len(address_registry),
+        "by_class": dict(sorted(collections.Counter(r["class"] for r in address_registry).items())),
+        "by_tier": dict(sorted(collections.Counter(r["tier"] for r in address_registry).items())),
+        "by_status": dict(sorted(collections.Counter(r["status"] for r in address_registry).items())),
+        "tags": len(tag_index),
+        "grammar_fingerprint": fp,
+    }
+    ver_file = LAL_DIR / "version.json"
+    if ver_file.exists():
+        prev = json.loads(ver_file.read_text())
+        if {k: v for k, v in manifest.items() if k != "generated"} ==                 {k: v for k, v in prev.items() if k != "generated"}:
+            manifest["generated"] = prev["generated"]
+    ver_file.write_text(json.dumps(manifest, indent=2) + "\n")
 
     print(f"seeded {len(SUBSTRATE)} substrate + {len(GOD_SYSTEMS)} god-system + {len(KNOWLEDGE)} knowledge"
           f" + {scanned} frontmatter-intake JD entries")

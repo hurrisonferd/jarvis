@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Implementation/Implemented
-related: []
+related: [ARCH-JSS-CORE-0001]
 references: []
 tags: [implementation, log]
 ref: [PRI, IDX]

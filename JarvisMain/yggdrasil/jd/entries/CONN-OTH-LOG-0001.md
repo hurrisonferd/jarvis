@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Connectors/OtherConnectors/OCLog-0001
-related: []
+related: [CONN-MSB-CORE-0001]
 references: []
 tags: [connector]
 ref: [PRI, IDX]

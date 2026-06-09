@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisSide/Ideas/active/UsedLog-0001
-related: []
+related: [IDEA-UNUS-LOG-0001]
 references: []
 tags: [idea, log]
 ref: [PRI, IDX]

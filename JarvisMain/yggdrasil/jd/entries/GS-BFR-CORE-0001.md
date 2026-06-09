@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T4_BIFROST/contract.json
-related: []
+related: [GS-HER-CORE-0001]
 references: []
 tags: [orchestration, god-system, canon]
 ref: [PRI, IDX]

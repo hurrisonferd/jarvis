@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisSide/Projects/Deoxys/BIO/ProjectBio
-related: []
+related: [PROJ-ALL-LOG-0001]
 references: []
 tags: [project, deoxys]
 ref: [PRI, IDX]

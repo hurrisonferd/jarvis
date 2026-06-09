@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Architecture/runtime/event-contract.md
-related: []
+related: [GS-SKD-CORE-0001]
 references: []
 tags: [architecture, runtime]
 ref: [PRI, IDX]

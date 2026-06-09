@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisSide/Projects/Grid/BIO/GRIDBIO-060926-0001-THE-GRID.md
-related: []
+related: [PROJ-ALL-LOG-0001]
 references: []
 tags: [project, grid, federation]
 ref: [PRI, IDX]

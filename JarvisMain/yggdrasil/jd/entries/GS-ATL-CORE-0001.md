@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T8_ATLAS/contract.json
-related: []
+related: [ARCH-JSL-CORE-0001]
 references: []
 tags: [governance, god-system, canon]
 ref: [PRI, IDX]

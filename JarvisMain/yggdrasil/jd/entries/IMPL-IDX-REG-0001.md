@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Implementation/IndexSummary
-related: []
+related: [ARCH-LAL-CORE-0001]
 references: []
 tags: [implementation, index]
 ref: [PRI, IDX]

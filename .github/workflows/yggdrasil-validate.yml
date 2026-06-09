@@ -37,3 +37,20 @@ jobs:
             exit 1
           fi
           echo "Registries in sync."
+
+  # JMS: every change to canon refreshes the cloud mirror, so the dex READ tier
+  # never serves stale truth. Skips cleanly when secrets are absent.
+  mirror:
+    if: github.event_name == 'push'
+    needs: validate
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Mirror substrate to Supabase (JMS)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python JarvisMain/yggdrasil/tools/sync_supabase.py --push

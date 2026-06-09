@@ -193,7 +193,11 @@ registries drift. Don't re-introduce lowercase doc folders — those folded into
 
 **Tool aliases (hygiene packets):** `validate.py` = **JVE** (validator engine);
 `lal/master-index.json` = **ISS** (index summary); `graph_export.py` = **YVG** data layer
-(`lal/graph.json`, nodes+edges for the visualizer).
+(`lal/graph.json`, nodes+edges for the visualizer); `lal/version.json` = **YGG manifest**
+(derived version snapshot — object counts + grammar fingerprint; JVE fails if `jnl.py`
+and `jarvis-dex/jfs.ts` token tables drift); `tools/dex.py` = **JQL-lite** (query CLI:
+`find` / `show` / `related` / `stats` over the dex). Mirror job in `yggdrasil-validate.yml`
+pushes the registries to Supabase on every merge to main (JMS — READ tier never stale).
 
 ---
 

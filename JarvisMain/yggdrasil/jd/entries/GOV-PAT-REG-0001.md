@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/Patches
-related: []
+related: [GS-KRN-CORE-0001]
 references: []
 tags: [governance, patches, archive]
 ref: [PRI, IDX]

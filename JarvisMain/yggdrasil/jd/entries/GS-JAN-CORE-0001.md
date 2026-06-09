@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems/T4_JANUS/contract.json
-related: []
+related: [GS-HUG-CORE-0001]
 references: []
 tags: [governance, god-system, canon]
 ref: [PRI, IDX]

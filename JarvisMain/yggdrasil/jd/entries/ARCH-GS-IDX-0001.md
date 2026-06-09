@@ -10,7 +10,7 @@ status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-09
 source: JarvisMain/god_systems
-related: []
+related: [GS-ODN-CORE-0001]
 references: []
 tags: [god-system, index]
 ref: [PRI, IDX]
