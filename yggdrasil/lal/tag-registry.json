@@ -205,6 +205,9 @@
     "jpl": [
       "PROJ-JPL-BIO-0001"
     ],
+    "jql": [
+      "IMPL-JQL-CORE-0001"
+    ],
     "layer": [
       "IMPL-JCSD-SPEC-0001",
       "IMPL-JCSE-SPEC-0001",
@@ -257,7 +260,8 @@
     ],
     "pipeline": [
       "IMPL-JCS-CORE-0001",
-      "IMPL-JGPP-CORE-0001"
+      "IMPL-JGPP-CORE-0001",
+      "IMPL-JQL-CORE-0001"
     ],
     "process": [
       "GOV-PROC-CORE-0001"
@@ -272,7 +276,8 @@
       "PROJ-PAC-BIO-0001"
     ],
     "query": [
-      "IMPL-JCSE-SPEC-0001"
+      "IMPL-JCSE-SPEC-0001",
+      "IMPL-JQL-CORE-0001"
     ],
     "review": [
       "AUD-FULL-REVW-0001",

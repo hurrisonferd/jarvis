@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 72,
+  "count": 73,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -764,6 +764,18 @@
       "tags": [
         "implementation",
         "jip"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JQL \u2014 JD Query Language",
+      "jnl": "IMPL-JQL-CORE-0001",
+      "location": "Implementation/Active/JIP-0608-E",
+      "tags": [
+        "pipeline",
+        "jql",
+        "query"
       ],
       "anchors": [],
       "state": "active"

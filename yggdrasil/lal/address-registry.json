@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 72,
+  "count": 73,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -1021,6 +1021,22 @@
       "tags": [
         "implementation",
         "jip"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-09",
+      "updated": "2026-06-09"
+    },
+    {
+      "jnl": "IMPL-JQL-CORE-0001",
+      "name": "JQL \u2014 JD Query Language",
+      "type": "IMPL",
+      "location": "Implementation/Active/JIP-0608-E",
+      "tags": [
+        "pipeline",
+        "jql",
+        "query"
       ],
       "anchors": [],
       "status": "ACTIVE",

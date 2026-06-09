@@ -198,6 +198,9 @@ KNOWLEDGE = [
     ("IMPL-JCSG-SPEC-0001", "JCS-G External Interface Binding", "IMPL", "Implementation/Active/JIP-0608-G",
      "JCS layer G: external interface binding.",
      "Bind the runtime to external interfaces.", ["jcs", "layer", "interface"]),
+    ("IMPL-JQL-CORE-0001", "JQL — JD Query Language", "IMPL", "Implementation/Active/JIP-0608-E",
+     "Query language over JD truth — interactive runtime queries with traversal semantics.",
+     "Let agents query and traverse the dex at runtime (executed by JCS-E).", ["pipeline", "jql", "query"]),
 ]
 
 # Status-managed objects under JSS-managed roots (location = the status-sorted path).
