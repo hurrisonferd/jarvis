@@ -222,6 +222,10 @@ KNOWLEDGE = [
      "JARVIS MCP-to-Supabase connector.", "Bridge MCP to Supabase.", ["connector", "mcp", "supabase"]),
     ("CONN-OTH-LOG-0001", "Other Connectors", "CONN", "JarvisMain/Connectors/OtherConnectors/OCLog-0001",
      "Log of other/auxiliary connectors.", "Track additional connectors.", ["connector"]),
+    ("CONN-DEX-SPEC-0001", "Jarvis Dex Action", "CONN", "JarvisMain/Connectors/JarvisDexAction",
+     "OpenAPI Action schema + setup for external agents (custom GPT) to use jarvis-dex.",
+     "Let any agent propose to the dex in perfect JFS hygiene via the connector.",
+     ["connector", "dex", "gpt", "action"]),
     # Audit reviews
     ("AUD-SYS-REVW-0001", "Jarvis System Review", "AUD", "JarvisMain/Audit/JarvisSystemReview-0001-060826",
      "System review (2026-06-08).", "Recorded architecture review.", ["audit", "review"]),
@@ -301,6 +305,7 @@ PARENT = {
     "IMPL-JCSF-SPEC-0001": "IMPL-JCS-CORE-0001",
     "IMPL-JCSG-SPEC-0001": "IMPL-JCS-CORE-0001",
     "IMPL-JQL-CORE-0001": "IMPL-JCSE-SPEC-0001",
+    "CONN-DEX-SPEC-0001": "IMPL-DEX-SPEC-0001",
 }
 # The 27 God Systems all hang from the pantheon index.
 GS_PARENT = "ARCH-GS-IDX-0001"
@@ -384,6 +389,7 @@ RELATED = {
     "IMPL-HYG-SPEC-0001": ["IMPL-FMT-SPEC-0001"],
     # Connectors / audits / projects / ideas
     "CONN-OTH-LOG-0001": ["CONN-MSB-CORE-0001"],
+    "CONN-DEX-SPEC-0001": ["IMPL-DEX-SPEC-0001"],
     "AUD-SYS-REVW-0001": ["GOV-CAN-CORE-0001"],
     "AUD-OPUS-REVW-0001": ["GOV-CAN-CORE-0001"],
     "AUD-FULL-REVW-0001": ["GOV-CAN-CORE-0001"],

@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 85,
-    "edges": 151,
-    "main": 72,
+    "nodes": 86,
+    "edges": 153,
+    "main": 73,
     "side": 13
   },
   "nodes": [
@@ -240,6 +240,15 @@
       "tier": "MAIN",
       "status": "ACTIVE",
       "owner": "Audit"
+    },
+    {
+      "id": "CONN-DEX-SPEC-0001",
+      "name": "Jarvis Dex Action",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
     },
     {
       "id": "CONN-MSB-CORE-0001",
@@ -1028,6 +1037,16 @@
       "source": "AUD-SYS-REVW-0001",
       "target": "GOV-CAN-CORE-0001",
       "type": "related"
+    },
+    {
+      "source": "CONN-DEX-SPEC-0001",
+      "target": "IMPL-DEX-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "CONN-DEX-SPEC-0001",
+      "target": "IMPL-DEX-SPEC-0001",
+      "type": "parent"
     },
     {
       "source": "CONN-OTH-LOG-0001",
