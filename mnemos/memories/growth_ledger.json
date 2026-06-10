@@ -1,37 +1,8 @@
 {
-  "updated": "2026-06-10T03:36:50.248272+00:00",
+  "updated": "2026-06-10T03:41:18.216692+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260609_231932",
-      "date": "2026-06-09",
-      "exchanges": 104,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger merged (#73), tree clean. The three copy-paste steps are in my previous message \u2014 work through them and send the GPT's first proposal when it l"
-    },
     {
       "session_id": "20260609_232305",
       "date": "2026-06-09",
@@ -582,6 +553,35 @@
       ],
       "alignment": 1.0,
       "key_insight": "Ledger merged (#84), clean. Two threads open, both yours:\n\n1. **The hook patch** \u2014 two lines to stop it flagging GitHub's signed merge commits. Your g"
+    },
+    {
+      "session_id": "20260610_034118",
+      "date": "2026-06-10",
+      "exchanges": 185,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Both done. Hook patched \u2014 GitHub's signed merge commits are exempt; the noise stops. AYRE canonized in `CLAUDE.md` (#85, merged) \u2014 the split now trave"
     }
   ]
 }
