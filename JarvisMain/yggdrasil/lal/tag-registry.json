@@ -91,6 +91,23 @@
     ],
     "connector": [
       "CONN-DEX-SPEC-0001",
+      "CONN-MCP-RT-0001",
+      "CONN-MCP-RT-0002",
+      "CONN-MCP-RT-0003",
+      "CONN-MCP-RT-0004",
+      "CONN-MCP-RT-0005",
+      "CONN-MCP-RT-0006",
+      "CONN-MCP-RT-0007",
+      "CONN-MCP-RT-0008",
+      "CONN-MCP-RT-0009",
+      "CONN-MCP-RT-0010",
+      "CONN-MCP-RT-0011",
+      "CONN-MCP-RT-0012",
+      "CONN-MCP-RT-0013",
+      "CONN-MCP-RT-0014",
+      "CONN-MCP-RT-0015",
+      "CONN-MCP-RT-0016",
+      "CONN-MCP-RT-0017",
       "CONN-MSB-CORE-0001",
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
@@ -280,6 +297,23 @@
       "ARCH-JLTM-CORE-0001"
     ],
     "mcp": [
+      "CONN-MCP-RT-0001",
+      "CONN-MCP-RT-0002",
+      "CONN-MCP-RT-0003",
+      "CONN-MCP-RT-0004",
+      "CONN-MCP-RT-0005",
+      "CONN-MCP-RT-0006",
+      "CONN-MCP-RT-0007",
+      "CONN-MCP-RT-0008",
+      "CONN-MCP-RT-0009",
+      "CONN-MCP-RT-0010",
+      "CONN-MCP-RT-0011",
+      "CONN-MCP-RT-0012",
+      "CONN-MCP-RT-0013",
+      "CONN-MCP-RT-0014",
+      "CONN-MCP-RT-0015",
+      "CONN-MCP-RT-0016",
+      "CONN-MCP-RT-0017",
       "CONN-MSB-CORE-0001"
     ],
     "memory": [
@@ -382,6 +416,25 @@
     ],
     "throughput": [
       "ARCH-FLOW-SPEC-0001"
+    ],
+    "tool": [
+      "CONN-MCP-RT-0001",
+      "CONN-MCP-RT-0002",
+      "CONN-MCP-RT-0003",
+      "CONN-MCP-RT-0004",
+      "CONN-MCP-RT-0005",
+      "CONN-MCP-RT-0006",
+      "CONN-MCP-RT-0007",
+      "CONN-MCP-RT-0008",
+      "CONN-MCP-RT-0009",
+      "CONN-MCP-RT-0010",
+      "CONN-MCP-RT-0011",
+      "CONN-MCP-RT-0012",
+      "CONN-MCP-RT-0013",
+      "CONN-MCP-RT-0014",
+      "CONN-MCP-RT-0015",
+      "CONN-MCP-RT-0016",
+      "CONN-MCP-RT-0017"
     ]
   }
 }

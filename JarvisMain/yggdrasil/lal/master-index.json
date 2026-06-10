@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 86,
+  "count": 103,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -315,6 +315,210 @@
         "dex",
         "gpt",
         "action"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS \u2014 Suit Up",
+      "jnl": "CONN-MCP-RT-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_suit_up.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Status",
+      "jnl": "CONN-MCP-RT-0002",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_status.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MNEMOS Recall",
+      "jnl": "CONN-MCP-RT-0003",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_recall.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Council \u2014 registry",
+      "jnl": "CONN-MCP-RT-0004",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_council.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Query \u2014 governed reasoning",
+      "jnl": "CONN-MCP-RT-0005",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_query.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Format \u2014 same-turn close (optional)",
+      "jnl": "CONN-MCP-RT-0006",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_format.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MNEMOS Store",
+      "jnl": "CONN-MCP-RT-0007",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_remember.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "AEGIS Event",
+      "jnl": "CONN-MCP-RT-0008",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_event.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Dex \u2014 list governed objects",
+      "jnl": "CONN-MCP-RT-0009",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_list.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Dex \u2014 search",
+      "jnl": "CONN-MCP-RT-0010",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_search.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Dex \u2014 propose entry (JGPP/JIP/JD/BIO)",
+      "jnl": "CONN-MCP-RT-0011",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_propose.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Grid \u2014 Node Card",
+      "jnl": "CONN-MCP-RT-0012",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_card.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Grid \u2014 Export Identity Disc",
+      "jnl": "CONN-MCP-RT-0013",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_export.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Grid \u2014 Inbox",
+      "jnl": "CONN-MCP-RT-0014",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_inbox.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Grid \u2014 Send to Node",
+      "jnl": "CONN-MCP-RT-0015",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_send.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Grid \u2014 Register Signing Key",
+      "jnl": "CONN-MCP-RT-0016",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_register_key.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "HALO \u2014 Throughput Posture",
+      "jnl": "CONN-MCP-RT-0017",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_halo.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
       ],
       "anchors": [],
       "state": "active"

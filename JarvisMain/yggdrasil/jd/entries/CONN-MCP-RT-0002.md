@@ -1,0 +1,22 @@
+---
+name: JARVIS Status
+type: CONN
+class: MODULE
+tier: MAIN
+authority: CANON
+owner: Connectors
+parent: CONN-MSB-CORE-0001
+jnl: CONN-MCP-RT-0002
+status: ACTIVE
+created: 2026-06-10
+updated: 2026-06-10
+source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_status.md
+related: []
+references: []
+tags: [connector, mcp, tool]
+ref: [PRI, IDX]
+---
+
+**Definition:** Read a quick cloud-first JARVIS status snapshot.
+
+**Purpose:** Governed mirror of the jarvis-mcp tool surface — addressable, auditable.

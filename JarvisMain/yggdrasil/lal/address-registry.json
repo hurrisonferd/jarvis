@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 86,
+  "count": 103,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -534,6 +534,346 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-09"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0001",
+      "name": "JARVIS \u2014 Suit Up",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_suit_up.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0002",
+      "name": "JARVIS Status",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_status.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0003",
+      "name": "MNEMOS Recall",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_recall.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0004",
+      "name": "JARVIS Council \u2014 registry",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_council.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0005",
+      "name": "JARVIS Query \u2014 governed reasoning",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_query.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0006",
+      "name": "JARVIS Format \u2014 same-turn close (optional)",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_format.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0007",
+      "name": "MNEMOS Store",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_remember.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0008",
+      "name": "AEGIS Event",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_event.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0009",
+      "name": "Dex \u2014 list governed objects",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_list.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0010",
+      "name": "Dex \u2014 search",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_search.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0011",
+      "name": "Dex \u2014 propose entry (JGPP/JIP/JD/BIO)",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_propose.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0012",
+      "name": "Grid \u2014 Node Card",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_card.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0013",
+      "name": "Grid \u2014 Export Identity Disc",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_export.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0014",
+      "name": "Grid \u2014 Inbox",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_inbox.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0015",
+      "name": "Grid \u2014 Send to Node",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_send.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0016",
+      "name": "Grid \u2014 Register Signing Key",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_register_key.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0017",
+      "name": "HALO \u2014 Throughput Posture",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_halo.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
     },
     {
       "jnl": "CONN-MSB-CORE-0001",
