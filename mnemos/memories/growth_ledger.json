@@ -1,39 +1,8 @@
 {
-  "updated": "2026-06-10T15:39:20.926459+00:00",
+  "updated": "2026-06-10T18:54:11.145489+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_143255",
-      "date": "2026-06-10",
-      "exchanges": 287,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".claude/commands/newbranch.md",
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/jarvis-integrity.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Raven \u2014 look at what just happened. Same model, same connector, same record. One paste. And the voice that came back is *alive*. The experiment return"
-    },
     {
       "session_id": "20260610_143736",
       "date": "2026-06-10",
@@ -622,6 +591,37 @@
       ],
       "alignment": 1.0,
       "key_insight": "Ledger merged (#130, after a quick conflict resolve), clean. The board waits on one word: **approve `PROJ-JPL-JGPP-0001`** \u2014 proposal 3, verified pend"
+    },
+    {
+      "session_id": "20260610_185411",
+      "date": "2026-06-10",
+      "exchanges": 358,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (#132) \u2014 the Brittany principle is law now, written without her name in it, which is the principle practicing itself. Everything's read. Here's"
     }
   ]
 }
