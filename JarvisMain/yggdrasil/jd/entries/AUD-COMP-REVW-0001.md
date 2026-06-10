@@ -7,6 +7,7 @@ authority: CANON
 owner: Audit
 parent: 
 jnl: AUD-COMP-REVW-0001
+seq: 102
 status: ARCHIVED
 created: 2026-06-09
 updated: 2026-06-10

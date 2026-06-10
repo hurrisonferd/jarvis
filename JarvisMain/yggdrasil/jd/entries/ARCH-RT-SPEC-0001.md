@@ -7,6 +7,7 @@ authority: CANON
 owner: JFS
 parent: GS-SKD-CORE-0001
 jnl: ARCH-RT-SPEC-0001
+seq: 45
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

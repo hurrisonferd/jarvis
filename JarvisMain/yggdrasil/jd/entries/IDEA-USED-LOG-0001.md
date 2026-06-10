@@ -7,6 +7,7 @@ authority: CANON
 owner: Used Ideas Log
 parent: 
 jnl: IDEA-USED-LOG-0001
+seq: 99
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

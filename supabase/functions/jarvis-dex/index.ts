@@ -149,9 +149,13 @@ Deno.serve(async (req) => {
       }
       // ---------- READ ----------
       case "jd_lookup": {
-        const term = String(args.term ?? "");
-        const { data } = await db.from("jd_entries").select("*")
-          .or(`jnl.eq.${term},name.ilike.%${term}%,tags.cs.{${term}},aliases.cs.{${term}}`).limit(25);
+        const term = String(args.term ?? "").trim();
+        // '#104' resolves the creation serial — birth-order handle, never an address.
+        const serial = /^#(\d+)$/.exec(term);
+        const { data } = serial
+          ? await db.from("jd_entries").select("*").eq("seq", Number(serial[1])).limit(25)
+          : await db.from("jd_entries").select("*")
+            .or(`jnl.eq.${term},name.ilike.%${term}%,tags.cs.{${term}},aliases.cs.{${term}}`).limit(25);
         return json({ ok: true, count: data?.length ?? 0, entries: data ?? [] });
       }
       case "jnl_resolve": {

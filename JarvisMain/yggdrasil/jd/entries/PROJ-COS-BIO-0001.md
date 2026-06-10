@@ -7,6 +7,7 @@ authority: CANON
 owner: CodeOS
 parent: 
 jnl: PROJ-COS-BIO-0001
+seq: 60
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

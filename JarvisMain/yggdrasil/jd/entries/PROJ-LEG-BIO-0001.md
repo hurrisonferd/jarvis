@@ -7,6 +7,7 @@ authority: CANON
 owner: Legion
 parent: 
 jnl: PROJ-LEG-BIO-0001
+seq: 64
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

@@ -7,6 +7,7 @@ authority: CANON
 owner: JCS Pipeline
 parent: 
 jnl: IMPL-HYG-SPEC-0001
+seq: 101
 status: ARCHIVED
 created: 2026-06-09
 updated: 2026-06-10

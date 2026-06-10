@@ -22,6 +22,21 @@ JD_DIR = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
 LAL_DIR = ROOT / "JarvisMain" / "yggdrasil" / "lal"
 TODAY = date.today().isoformat()
 
+# Creation serials (Raven-approved 2026-06-10): seq is the mint-order birth
+# certificate — assigned once, immutable, never reused, NEVER a reference key
+# (references stay JNL-only; the validator enforces it). #1 is the first thing
+# the record ever held. Persisted in lal/seq-registry.json so reseeds cannot
+# renumber history.
+SEQ_FILE = LAL_DIR / "seq-registry.json"
+_SEQ = json.loads(SEQ_FILE.read_text()) if SEQ_FILE.exists() else {"next": 1, "map": {}}
+
+
+def seq_of(jnl: str) -> int:
+    if jnl not in _SEQ["map"]:
+        _SEQ["map"][jnl] = _SEQ["next"]
+        _SEQ["next"] += 1
+    return _SEQ["map"][jnl]
+
 _CREATED_RE = re.compile(r"^created:\s*(\S+)", re.MULTILINE)
 
 # Frontmatter intake roots: any .md under these that declares `jnl:` in its frontmatter
@@ -604,6 +619,7 @@ def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, r
         f"owner: {own}",
         f"parent: {parent}",
         f"jnl: {jnl}",
+        f"seq: {seq_of(jnl)}",
         f"status: {status}",
         f"created: {existing_created(jnl)}",
         f"updated: {TODAY}",
@@ -797,6 +813,7 @@ def main() -> None:
             manifest["generated"] = prev["generated"]
     ver_file.write_text(json.dumps(manifest, indent=2) + "\n")
 
+    SEQ_FILE.write_text(json.dumps(_SEQ, indent=2) + "\n")
     print(f"seeded {len(SUBSTRATE)} substrate + {len(GOD_SYSTEMS)} god-system + {len(KNOWLEDGE)} knowledge"
           f" + {scanned} frontmatter-intake JD entries")
     print(f"LAL: {len(address_registry)} addresses, {len(tag_index)} tags")

@@ -7,6 +7,7 @@ authority: CANON
 owner: Naruto
 parent: 
 jnl: PROJ-NAR-BIO-0001
+seq: 65
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

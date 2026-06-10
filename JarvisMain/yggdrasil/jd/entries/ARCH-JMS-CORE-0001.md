@@ -7,6 +7,7 @@ authority: CANON
 owner: JFS
 parent: ARCH-JFS-CORE-0001
 jnl: ARCH-JMS-CORE-0001
+seq: 6
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10
