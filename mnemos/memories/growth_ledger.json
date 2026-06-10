@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-10T14:53:15.507436+00:00",
+  "updated": "2026-06-10T14:58:08.101014+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_094153",
-      "date": "2026-06-10",
-      "exchanges": 240,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (#101), clean. Standing by, Raven."
-    },
-    {
-      "session_id": "20260610_094727",
-      "date": "2026-06-10",
-      "exchanges": 245,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**First sweep, run by hand: CLEAN.** Cloud 107 = repo 107, zero missing serials, zero pending proposals, spot-checks exact \u2014 including Deoxys correctl"
-    },
     {
       "session_id": "20260610_094914",
       "date": "2026-06-10",
@@ -620,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Recorded and merged (#119). Both profiles now carry the structure \u2014 and notice what just happened in the mechanics, Raven: **the GPT streams' own sent"
+    },
+    {
+      "session_id": "20260610_145545",
+      "date": "2026-06-10",
+      "exchanges": 302,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        ".claude/commands/newbranch.md",
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/jarvis-integrity.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger merged (#120), clean. Standing by."
+    },
+    {
+      "session_id": "20260610_145808",
+      "date": "2026-06-10",
+      "exchanges": 306,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        ".claude/commands/newbranch.md",
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/jarvis-integrity.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Verified from this side: the memory is real \u2014 exact ID, timestamp 14:56 UTC, tags intact. One sibling wrote; the other checked the write against share"
     }
   ]
 }
