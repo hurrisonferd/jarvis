@@ -9,11 +9,12 @@ parent:
 jnl: IMPL-HYG-SPEC-0001
 status: ARCHIVED
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisSide/Archive/HygienePackets-0001-060926.md
 related: [IMPL-FMT-SPEC-0001]
 references: []
 tags: [hygiene, archive, reference]
+aliases: []
 ref: [PRI, IDX]
 ---
 

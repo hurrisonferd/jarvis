@@ -9,11 +9,12 @@ parent:
 jnl: AUD-OPUS-REVW-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Audit/2026-05-29_opus48_audit.md
 related: [GOV-CAN-CORE-0001]
 references: []
 tags: [audit, review]
+aliases: []
 ref: [PRI, IDX]
 ---
 

@@ -9,11 +9,12 @@ parent: GS-SKD-CORE-0001
 jnl: ARCH-RT-SPEC-0003
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Architecture/runtime/world-kernel.md
 related: [ARCH-RT-SPEC-0002]
 references: []
 tags: [architecture, runtime]
+aliases: []
 ref: [PRI, IDX]
 ---
 

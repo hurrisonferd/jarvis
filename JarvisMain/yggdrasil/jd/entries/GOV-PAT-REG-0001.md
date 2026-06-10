@@ -9,11 +9,12 @@ parent: GOV-CAN-CORE-0001
 jnl: GOV-PAT-REG-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Patches
 related: [GS-KRN-CORE-0001]
 references: []
 tags: [governance, patches, archive]
+aliases: []
 ref: [PRI, IDX]
 ---
 

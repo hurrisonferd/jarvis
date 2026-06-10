@@ -9,11 +9,12 @@ parent: ARCH-GS-IDX-0001
 jnl: GS-KRN-CORE-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/god_systems/T2_KRONOS/contract.json
 related: [GS-SKD-CORE-0001]
 references: []
 tags: [core, god-system, canon]
+aliases: []
 ref: [PRI, IDX]
 ---
 

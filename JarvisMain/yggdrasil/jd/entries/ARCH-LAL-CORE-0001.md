@@ -9,11 +9,12 @@ parent: ARCH-YGG-CORE-0001
 jnl: ARCH-LAL-CORE-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JNL-CORE-0001]
 references: []
 tags: [discovery, index, core, architecture]
+aliases: []
 ref: [PRI, SPEC, IDX]
 ---
 

@@ -58,6 +58,7 @@ def jd_rows() -> list[dict]:
             "definition": e["definition"], "purpose": e["purpose"], "source": e.get("source", ""),
             "related": e.get("related", []), "cross_refs": e.get("references", []),
             "tags": e.get("tags", []), "ref": e.get("ref", []),
+            "aliases": e.get("aliases", []) if isinstance(e.get("aliases"), list) else [],
             "status": e.get("status", "ACTIVE"), "created": e["created"], "updated": e["updated"],
         })
     return rows
@@ -86,7 +87,7 @@ def emit_sql() -> None:
         f"({q(e['jnl'])},{q(e['name'])},{q(e['type'])},{q(e['class'])},{q(e['tier'])},"
         f"{q(e['owner'])},{q(e['parent'])},{q(e['authority'])},{q(e['definition'])},{q(e['purpose'])},"
         f"{q(e['source'])},{arr(e['related'])},{arr(e['cross_refs'])},"
-        f"{arr(e['tags'])},{arr(e['ref'])},"
+        f"{arr(e['tags'])},{arr(e['ref'])},{arr(e['aliases'])},"
         f"{q(e['status'])},{q(e['created'])},{q(e['updated'])})"
         for e in jd_rows()
     ]
@@ -98,12 +99,12 @@ def emit_sql() -> None:
           "anchors=excluded.anchors,state=excluded.state,status=excluded.status,"
           "created=excluded.created,updated=excluded.updated,synced_at=now();\n")
 
-    print("insert into public.jd_entries (jnl,name,type,class,tier,owner,parent,authority,definition,purpose,source,related,cross_refs,tags,ref,status,created,updated) values")
+    print("insert into public.jd_entries (jnl,name,type,class,tier,owner,parent,authority,definition,purpose,source,related,cross_refs,tags,ref,aliases,status,created,updated) values")
     print(",\n".join(jd_vals))
     print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,class=excluded.class,"
           "tier=excluded.tier,owner=excluded.owner,parent=excluded.parent,authority=excluded.authority,definition=excluded.definition,"
           "purpose=excluded.purpose,source=excluded.source,related=excluded.related,cross_refs=excluded.cross_refs,"
-          "tags=excluded.tags,ref=excluded.ref,status=excluded.status,"
+          "tags=excluded.tags,ref=excluded.ref,aliases=excluded.aliases,status=excluded.status,"
           "created=excluded.created,updated=excluded.updated,synced_at=now();")
 
 

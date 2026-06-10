@@ -9,11 +9,12 @@ parent: IMPL-JIP-SPEC-0608
 jnl: IMPL-DEX-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Implementation/Active/JIP-DEX-0001-AccessTiers-060926.md
 related: [IMPL-FMT-SPEC-0001, ARCH-JD-CORE-0001]
 references: []
 tags: [dex, connector, governance, spec]
+aliases: [jarvis-dex]
 ref: [PRI, IDX]
 ---
 

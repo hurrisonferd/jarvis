@@ -9,11 +9,12 @@ parent: ARCH-GS-IDX-0001
 jnl: GS-MER-CORE-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/god_systems/T6_MERIDIAN/contract.json
 related: [GS-NEM-CORE-0001]
 references: []
 tags: [governance, god-system, canon]
+aliases: []
 ref: [PRI, IDX]
 ---
 

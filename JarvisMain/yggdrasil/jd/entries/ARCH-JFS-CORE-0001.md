@@ -9,11 +9,12 @@ parent: ARCH-YGG-CORE-0001
 jnl: ARCH-JFS-CORE-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JNS-CORE-0001, ARCH-JNL-CORE-0001, ARCH-JSL-CORE-0001, ARCH-JMS-CORE-0001]
 references: []
 tags: [filesystem, core, architecture]
+aliases: [jfs]
 ref: [PRI, SPEC, IDX]
 ---
 

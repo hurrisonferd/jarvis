@@ -9,11 +9,12 @@ parent:
 jnl: PROJ-NAR-BIO-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisSide/Projects/Naruto/BIO/NarutoBio
 related: [PROJ-ALL-LOG-0001]
 references: []
 tags: [project, naruto]
+aliases: []
 ref: [PRI, IDX]
 ---
 
