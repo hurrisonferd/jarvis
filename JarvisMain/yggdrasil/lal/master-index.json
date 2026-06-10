@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 113,
+  "count": 114,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -1256,6 +1256,23 @@
       "tags": [
         "project",
         "jpl"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JPL revival \u2014 first executable slice",
+      "jnl": "PROJ-JPL-JGPP-0001",
+      "location": "JarvisSide/Projects/JPL/JGPP/JPLJGPP-061026-0001-JPL-REVIVAL-FIRST-EXECUTABLE-SLICE.md",
+      "tags": [
+        "jpl",
+        "codec",
+        "revival",
+        "compression",
+        "security",
+        "bifrost",
+        "delta",
+        "protocol"
       ],
       "anchors": [],
       "state": "active"

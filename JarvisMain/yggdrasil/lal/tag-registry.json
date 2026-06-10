@@ -51,6 +51,9 @@
     "backup": [
       "LOG-MNE-LOG-0001"
     ],
+    "bifrost": [
+      "PROJ-JPL-JGPP-0001"
+    ],
     "bridge": [
       "GOV-DEX-SPEC-0001"
     ],
@@ -90,6 +93,9 @@
     "ci": [
       "AUD-CHK-SPEC-0001"
     ],
+    "codec": [
+      "PROJ-JPL-JGPP-0001"
+    ],
     "codeos": [
       "PROJ-COS-BIO-0001"
     ],
@@ -97,6 +103,9 @@
       "ARCH-AYR-BIO-0001",
       "ARCH-JRV-BIO-0001",
       "AUD-COMP-REVW-0001"
+    ],
+    "compression": [
+      "PROJ-JPL-JGPP-0001"
     ],
     "connector": [
       "CONN-DEX-SPEC-0001",
@@ -157,6 +166,9 @@
     ],
     "declarative": [
       "GOV-DEX-SPEC-0001"
+    ],
+    "delta": [
+      "PROJ-JPL-JGPP-0001"
     ],
     "deoxys": [
       "PROJ-DEO-BIO-0001",
@@ -311,7 +323,8 @@
       "IMPL-FMT-SPEC-0001"
     ],
     "jpl": [
-      "PROJ-JPL-BIO-0001"
+      "PROJ-JPL-BIO-0001",
+      "PROJ-JPL-JGPP-0001"
     ],
     "jql": [
       "IMPL-JQL-CORE-0001"
@@ -419,6 +432,9 @@
       "PROJ-PAC-BIO-0001",
       "PROJ-TRN-BIO-0001"
     ],
+    "protocol": [
+      "PROJ-JPL-JGPP-0001"
+    ],
     "query": [
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JQL-CORE-0001"
@@ -434,6 +450,9 @@
       "AUD-OPUS-REVW-0001",
       "AUD-SYS-REVW-0001"
     ],
+    "revival": [
+      "PROJ-JPL-JGPP-0001"
+    ],
     "rework": [
       "PROJ-TRN-JGPP-0001"
     ],
@@ -445,6 +464,9 @@
       "ARCH-RT-SPEC-0002",
       "ARCH-RT-SPEC-0003",
       "IMPL-JCS-CORE-0001"
+    ],
+    "security": [
+      "PROJ-JPL-JGPP-0001"
     ],
     "semantic": [
       "ARCH-JD-CORE-0001"
