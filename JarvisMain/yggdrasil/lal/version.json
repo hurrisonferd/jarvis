@@ -14,9 +14,10 @@
     "SIDE": 14
   },
   "by_status": {
-    "ACTIVE": 98,
+    "ACTIVE": 97,
     "ARCHIVED": 2,
-    "INACTIVE": 5
+    "INACTIVE": 5,
+    "TASK": 1
   },
   "tags": 79,
   "grammar_fingerprint": "fd33856f6760d42b"

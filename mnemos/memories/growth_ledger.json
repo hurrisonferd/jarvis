@@ -1,37 +1,8 @@
 {
-  "updated": "2026-06-10T08:57:38.878070+00:00",
+  "updated": "2026-06-10T09:00:27.829231+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_030336",
-      "date": "2026-06-10",
-      "exchanges": 146,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "No \u2014 that version is acceptable, and it's worth being precise about why, because the line between it and what we rejected is thin but load-bearing.\n\n*"
-    },
     {
       "session_id": "20260610_030522",
       "date": "2026-06-10",
@@ -582,6 +553,35 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (#89), clean. **Serial #105 \u2014 `GOV-DEX-SPEC-0001`, the system's first self-description, MAIN tier, GPT-authored, on main.** The full domain\u2192aut"
+    },
+    {
+      "session_id": "20260610_090027",
+      "date": "2026-06-10",
+      "exchanges": 204,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Fixed durably (#90, merged, clean). The root cause: the container restores the stock hook on every resume, so my earlier patch died with the last cont"
     }
   ]
 }

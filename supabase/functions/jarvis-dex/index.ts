@@ -228,20 +228,23 @@ Deno.serve(async (req) => {
           .eq("jnl", jnl).eq("decision", "pending").maybeSingle();
         if (!p) return fail(`no pending proposal for '${jnl}'`, 404);
         const today = new Date().toISOString().slice(0, 10);
+        // Type-aware landing status (JSS): a JGPP is exploration — approval makes it
+        // governed canon-in-progress (TASK), not operational truth (ACTIVE).
+        const landed = p.type === "JGPP" ? "TASK" : "ACTIVE";
         await db.from("jnl_registry").upsert({
           jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier,
-          owner: p.owner, location: p.source, tags: p.tags, status: "ACTIVE", created: today, updated: today,
+          owner: p.owner, location: p.source, tags: p.tags, status: landed, created: today, updated: today,
         });
         await db.from("jd_entries").upsert({
           jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier, owner: p.owner,
           authority: "CANON", definition: p.definition, purpose: p.purpose, source: p.source,
-          related: p.related, tags: p.tags, aliases: p.aliases ?? [], status: "ACTIVE", created: today, updated: today,
+          related: p.related, tags: p.tags, aliases: p.aliases ?? [], status: landed, created: today, updated: today,
         });
         await db.from("jd_proposals").update({
           decision: "approved", decided_by: "raven", decided_at: new Date().toISOString(),
         }).eq("id", p.id);
-        await logEvent("jd_approve", tier, jnl, "raven", { promoted: true });
-        return json({ ok: true, jnl, status: "ACTIVE", note: "reconcile to files via Action" });
+        await logEvent("jd_approve", tier, jnl, "raven", { promoted: true, landed });
+        return json({ ok: true, jnl, status: landed, note: "reconcile to files via Action" });
       }
       case "jd_reject": {
         const jnl = String(args.jnl ?? "");
