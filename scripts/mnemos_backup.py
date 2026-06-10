@@ -20,8 +20,13 @@ ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "JarvisMain" / "Backups" / "cloud"
 
 CANONICAL_URL = "https://oexghfsvhnggddllgvrt.supabase.co"
-# Irreplaceable: memory spine, governance events, proposal history, Grid identity + mail.
-TABLES = ["mnemos_memories", "dex_events", "jd_proposals", "node_keys", "node_messages"]
+# Irreplaceable: governance events, proposal history, Grid identity keys.
+# mnemos_memories and node_messages are EXCLUDED (Raven-directed 2026-06-10):
+# the spine carries conversation, and conversation can carry people — names,
+# grief, family. People outrank history; nothing personal rides into a public
+# repo. The spine's backup resumes the day the PRIVATE destination exists,
+# and lands there. Until then: no propagation is the backup.
+TABLES = ["dex_events", "jd_proposals", "node_keys"]
 PAGE = 1000
 
 
