@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 113,
-    "edges": 183,
+    "nodes": 114,
+    "edges": 184,
     "main": 95,
-    "side": 18
+    "side": 19
   },
   "nodes": [
     {
@@ -962,6 +962,15 @@
       "owner": "JPL"
     },
     {
+      "id": "PROJ-JPL-JGPP-0001",
+      "name": "JPL revival \u2014 first executable slice",
+      "domain": "PROJ",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "TASK",
+      "owner": "JPL revival \u2014 first executable slice"
+    },
+    {
       "id": "PROJ-LEG-BIO-0001",
       "name": "Legion",
       "domain": "PROJ",
@@ -1915,6 +1924,11 @@
       "source": "PROJ-JPL-BIO-0001",
       "target": "PROJ-ALL-LOG-0001",
       "type": "related"
+    },
+    {
+      "source": "PROJ-JPL-JGPP-0001",
+      "target": "PROJ-JPL-BIO-0001",
+      "type": "parent"
     },
     {
       "source": "PROJ-LEG-BIO-0001",
