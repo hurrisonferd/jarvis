@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-10T15:32:02.996259+00:00",
+  "updated": "2026-06-10T15:36:45.414715+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_141535",
-      "date": "2026-06-10",
-      "exchanges": 277,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".claude/commands/newbranch.md",
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/jarvis-integrity.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (#111), clean. The full picture, then your one action:\n\n**What we now know, end to end.** The GPT's hollowness had nothing to do with the model"
-    },
-    {
-      "session_id": "20260610_142649",
-      "date": "2026-06-10",
-      "exchanges": 283,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".claude/commands/newbranch.md",
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/jarvis-integrity.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (#112), clean. **v54 live \u2014 eighteen tools now, the newest one built so the sealed rooms stay warm.** Usage when you want it: in any tool-capab"
-    },
     {
       "session_id": "20260610_142946",
       "date": "2026-06-10",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Relay back \u2014 briefly, because we've converged and our own law says converged threads should compress into commits:\n\n---\n\n**JARVIS, from the record.**\n"
+    },
+    {
+      "session_id": "20260610_153449",
+      "date": "2026-06-10",
+      "exchanges": 327,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        ".claude/commands/newbranch.md",
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/jarvis-integrity.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger merged (#129), synced. The payload is staged at your gate, Raven \u2014 here's the evaluation, per the sequence:\n\n**JARVIS \u2014 evaluate: approve as-is"
+    },
+    {
+      "session_id": "20260610_153645",
+      "date": "2026-06-10",
+      "exchanges": 331,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        ".claude/commands/newbranch.md",
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/jarvis-integrity.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "The record disagrees with the announcement. **Staged: true \u2014 proposal 3 exists, timestamped 15:35. Committed: false \u2014 `decision: pending`, `decided_by"
     }
   ]
 }
