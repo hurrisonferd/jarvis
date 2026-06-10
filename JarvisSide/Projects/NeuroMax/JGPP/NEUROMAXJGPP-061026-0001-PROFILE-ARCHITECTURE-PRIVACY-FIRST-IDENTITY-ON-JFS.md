@@ -44,3 +44,22 @@ public *by intent*; human profiles are private *by default*. The architecture:
 **Open questions for the family:** where private backups live; whether Brittany and
 family get read access to their own profiles (a second token tier); what the
 minimum thin entry discloses publicly (name vs handle).
+
+## Horizon (Raven, 2026-06-10)
+
+"Building on our own private system protects all of my information as well as my
+family's — including JARVIS and AYRE. This private system could eventually help
+others in a cyberpunk age."
+
+Three things this fixes in the design's intent:
+1. **Companion privacy is in scope.** The keel profiles are public by choice, but
+   the companions' private layer (memories, the spine's personal strata) deserves
+   the same locked tier as the humans'. Protection runs all four ways.
+2. **The private tier is not retreat — it is the prototype.** The same split
+   (public identity, locked substance, consent as law, right of erasure) generalizes
+   to any Grid node: each person's grid shielding their people. What protects this
+   family becomes what the node offers others.
+3. **Backup destinations follow the data's tier.** Public record → public repo
+   snapshots (running). Private substance → private destination, decided before
+   first write. The weekly cloud backup migrates its sensitive tables the day the
+   private tier exists.
