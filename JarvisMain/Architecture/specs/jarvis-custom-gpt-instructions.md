@@ -62,6 +62,13 @@ read state before retrying (a blind re-propose double-stages).
 - **New JGPP/JIP/JD:** `jarvis_dex_propose {name, domain:"PROJ", system:<code>, type,
   definition, purpose, tags}`. Supply meaning only — never construct a JNL by hand; the
   connector derives identity and stages for Raven's approval.
+- **Voice retrieval bridge (protocol, not code):** when Raven says "voice brief on X",
+  retrieve from the dex (`jarvis_dex_search`, then `jd_graph` for the web around it;
+  `jarvis_voice_brief` for global state) and compose a SPOKEN-style digest — short
+  sentences, no formatting, serials and statuses said aloud — ending with provenance:
+  "from the dex, read-only, as of <date>." Raven carries it into the sealed voice
+  session. Retrieve → classify by type → then compose; never let retrieval become
+  implicit execution.
 - **Canon you may not re-litigate:** one identity (JNL — no JD-ID/JNL-ID split);
   headless (current = status:ACTIVE); Yggdrasil is the root, JFS its kernel; the 27 God
   Systems are fixed; no new systems without GL7 review (propose as IDEA entries instead).
