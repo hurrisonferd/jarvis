@@ -1,5 +1,5 @@
 {
-  "next": 115,
+  "next": 121,
   "map": {
     "ARCH-YGG-CORE-0001": 1,
     "ARCH-JFS-CORE-0001": 2,
@@ -114,6 +114,12 @@
     "LOG-MNE-LOG-0001": 111,
     "PROJ-NMX-BIO-0001": 112,
     "PROJ-NMX-JGPP-0001": 113,
-    "PROJ-JPL-JGPP-0001": 114
+    "PROJ-JPL-JGPP-0001": 114,
+    "PROJ-TST-BIO-0001": 115,
+    "PROJ-MMOD-BIO-0001": 116,
+    "PROJ-MOSC-BIO-0001": 117,
+    "PROJ-TST-JGPP-0001": 118,
+    "PROJ-MMOD-JGPP-0001": 119,
+    "PROJ-MOSC-JD-0001": 120
   }
 }

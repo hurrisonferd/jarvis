@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 114,
+  "count": 120,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -1289,6 +1289,58 @@
       "state": "active"
     },
     {
+      "object": "Multimodal",
+      "jnl": "PROJ-MMOD-BIO-0001",
+      "location": "JarvisSide/Projects/Multimodal/BIO/MULTIMODALBIO-061026-0001-MULTIMODAL.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Multimodal Perception Layer",
+      "jnl": "PROJ-MMOD-JGPP-0001",
+      "location": "JarvisSide/Projects/Multimodal/JGPP/MULTIMODALJGPP-061026-0001-JARVIS-MULTIMODAL-PERCEPTION-LAYER.md",
+      "tags": [
+        "multimodal",
+        "perception",
+        "event-ledger",
+        "tst",
+        "jpl",
+        "streams"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MusicOS",
+      "jnl": "PROJ-MOSC-BIO-0001",
+      "location": "JarvisSide/Projects/MusicOS/BIO/MUSICOSBIO-061026-0001-MUSICOS.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MusicOS \u2014 Procedural Musical Identity System",
+      "jnl": "PROJ-MOSC-JD-0001",
+      "location": "JarvisSide/Projects/MusicOS/JD/MUSICOSJD-061026-0001-MUSICOS-PROCEDURAL-MUSICAL-IDENTITY-SYSTEM.md",
+      "tags": [
+        "music",
+        "procedural",
+        "motif",
+        "gold-laws",
+        "suno",
+        "composition",
+        "identity",
+        "generative"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Naruto",
       "jnl": "PROJ-NAR-BIO-0001",
       "location": "JarvisSide/Projects/Naruto/BIO/NarutoBio",
@@ -1353,6 +1405,33 @@
         "rework",
         "control-surface",
         "free-tier"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JarvisTST",
+      "jnl": "PROJ-TST-BIO-0001",
+      "location": "JarvisSide/Projects/JarvisTST/BIO/JARVISTSTBIO-061026-0001-JARVISTST.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JarvisTST \u2014 Temporal Task System",
+      "jnl": "PROJ-TST-JGPP-0001",
+      "location": "JarvisSide/Projects/JarvisTST/JGPP/JARVISTSTJGPP-061026-0001-JARVISTST-TEMPORAL-TASK-SYSTEM.md",
+      "tags": [
+        "tst",
+        "event-ledger",
+        "temporal-system",
+        "state-management",
+        "jip",
+        "jd",
+        "jgpp",
+        "continuity"
       ],
       "anchors": [],
       "state": "active"

@@ -25,6 +25,14 @@
       "name": "Legion",
       "folder": "JarvisSide/Projects/Legion"
     },
+    "MMOD": {
+      "name": "Multimodal",
+      "folder": "JarvisSide/Projects/Multimodal"
+    },
+    "MOSC": {
+      "name": "MusicOS",
+      "folder": "JarvisSide/Projects/MusicOS"
+    },
     "NAR": {
       "name": "Naruto",
       "folder": "JarvisSide/Projects/Naruto"
@@ -40,6 +48,10 @@
     "TRN": {
       "name": "TronUI",
       "folder": "JarvisSide/Projects/TronUI"
+    },
+    "TST": {
+      "name": "JarvisTST",
+      "folder": "JarvisSide/Projects/JarvisTST"
     }
   }
 }

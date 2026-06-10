@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 114,
+  "count": 120,
   "records": [
     {
       "jnl": "ARCH-AYR-BIO-0001",
@@ -2153,6 +2153,90 @@
       "updated": "2026-06-09"
     },
     {
+      "jnl": "PROJ-MMOD-BIO-0001",
+      "name": "Multimodal",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Multimodal",
+      "parent": "",
+      "location": "JarvisSide/Projects/Multimodal/BIO/MULTIMODALBIO-061026-0001-MULTIMODAL.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "PROJ-MMOD-JGPP-0001",
+      "name": "Jarvis Multimodal Perception Layer",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Jarvis Multimodal Perception Layer",
+      "parent": "PROJ-MMOD-BIO-0001",
+      "location": "JarvisSide/Projects/Multimodal/JGPP/MULTIMODALJGPP-061026-0001-JARVIS-MULTIMODAL-PERCEPTION-LAYER.md",
+      "tags": [
+        "multimodal",
+        "perception",
+        "event-ledger",
+        "tst",
+        "jpl",
+        "streams"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "PROJ-MOSC-BIO-0001",
+      "name": "MusicOS",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "MusicOS",
+      "parent": "",
+      "location": "JarvisSide/Projects/MusicOS/BIO/MUSICOSBIO-061026-0001-MUSICOS.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "PROJ-MOSC-JD-0001",
+      "name": "MusicOS \u2014 Procedural Musical Identity System",
+      "type": "JD",
+      "class": "SPEC",
+      "tier": "SIDE",
+      "owner": "MusicOS \u2014 Procedural Musical Identity System",
+      "parent": "PROJ-MOSC-BIO-0001",
+      "location": "JarvisSide/Projects/MusicOS/JD/MUSICOSJD-061026-0001-MUSICOS-PROCEDURAL-MUSICAL-IDENTITY-SYSTEM.md",
+      "tags": [
+        "music",
+        "procedural",
+        "motif",
+        "gold-laws",
+        "suno",
+        "composition",
+        "identity",
+        "generative"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
       "jnl": "PROJ-NAR-BIO-0001",
       "name": "Naruto",
       "type": "PROJ",
@@ -2262,6 +2346,49 @@
         "rework",
         "control-surface",
         "free-tier"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "PROJ-TST-BIO-0001",
+      "name": "JarvisTST",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "JarvisTST",
+      "parent": "",
+      "location": "JarvisSide/Projects/JarvisTST/BIO/JARVISTSTBIO-061026-0001-JARVISTST.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "PROJ-TST-JGPP-0001",
+      "name": "JarvisTST \u2014 Temporal Task System",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "JarvisTST \u2014 Temporal Task System",
+      "parent": "PROJ-TST-BIO-0001",
+      "location": "JarvisSide/Projects/JarvisTST/JGPP/JARVISTSTJGPP-061026-0001-JARVISTST-TEMPORAL-TASK-SYSTEM.md",
+      "tags": [
+        "tst",
+        "event-ledger",
+        "temporal-system",
+        "state-management",
+        "jip",
+        "jd",
+        "jgpp",
+        "continuity"
       ],
       "anchors": [],
       "status": "TASK",
