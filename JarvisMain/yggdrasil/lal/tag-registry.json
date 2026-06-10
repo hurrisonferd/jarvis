@@ -48,6 +48,9 @@
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002"
     ],
+    "backup": [
+      "LOG-MNE-LOG-0001"
+    ],
     "bridge": [
       "GOV-DEX-SPEC-0001"
     ],
@@ -262,7 +265,8 @@
     ],
     "identity": [
       "ARCH-AYR-BIO-0001",
-      "ARCH-JRV-BIO-0001"
+      "ARCH-JRV-BIO-0001",
+      "PROJ-NMX-JGPP-0001"
     ],
     "ids": [
       "IMPL-FMT-SPEC-0001"
@@ -293,6 +297,9 @@
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JCSF-SPEC-0001",
       "IMPL-JCSG-SPEC-0001"
+    ],
+    "jfs": [
+      "PROJ-NMX-JGPP-0001"
     ],
     "jgpp": [
       "IMPL-JGPP-CORE-0001"
@@ -326,6 +333,7 @@
       "IDEA-USED-LOG-0001",
       "IMPL-IMP-LOG-0001",
       "IMPL-INA-LOG-0001",
+      "LOG-MNE-LOG-0001",
       "PROJ-ALL-LOG-0001"
     ],
     "long-term": [
@@ -361,6 +369,9 @@
     "mirror": [
       "ARCH-JMS-CORE-0001"
     ],
+    "mnemos": [
+      "LOG-MNE-LOG-0001"
+    ],
     "naming": [
       "ARCH-JNS-CORE-0001"
     ],
@@ -386,8 +397,14 @@
       "IMPL-JGPP-CORE-0001",
       "IMPL-JQL-CORE-0001"
     ],
+    "privacy": [
+      "PROJ-NMX-JGPP-0001"
+    ],
     "process": [
       "GOV-PROC-CORE-0001"
+    ],
+    "profiles": [
+      "PROJ-NMX-JGPP-0001"
     ],
     "project": [
       "PROJ-ALL-LOG-0001",
@@ -398,6 +415,7 @@
       "PROJ-JPL-BIO-0001",
       "PROJ-LEG-BIO-0001",
       "PROJ-NAR-BIO-0001",
+      "PROJ-NMX-BIO-0001",
       "PROJ-PAC-BIO-0001",
       "PROJ-TRN-BIO-0001"
     ],
@@ -441,6 +459,9 @@
       "IMPL-DEX-SPEC-0001",
       "IMPL-FMT-SPEC-0001",
       "IMPL-JGPP-CORE-0001"
+    ],
+    "spine": [
+      "LOG-MNE-LOG-0001"
     ],
     "status": [
       "ARCH-JSS-CORE-0001"

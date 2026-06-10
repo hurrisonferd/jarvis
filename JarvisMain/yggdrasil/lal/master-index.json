@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 110,
+  "count": 113,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -1169,6 +1169,19 @@
       "state": "active"
     },
     {
+      "object": "MNEMOS Cloud Backup",
+      "jnl": "LOG-MNE-LOG-0001",
+      "location": "JarvisMain/Backups",
+      "tags": [
+        "backup",
+        "mnemos",
+        "spine",
+        "log"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Project Log Summary",
       "jnl": "PROJ-ALL-LOG-0001",
       "location": "JarvisSide/Projects/ProjectLogSummary-0001",
@@ -1265,6 +1278,29 @@
       "tags": [
         "project",
         "naruto"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "NeuroMax",
+      "jnl": "PROJ-NMX-BIO-0001",
+      "location": "JarvisSide/Projects/NeuroMax/BIO/NEUROMAXBIO-061026-0001-NEUROMAX.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Profile architecture \u2014 privacy-first identity on JFS",
+      "jnl": "PROJ-NMX-JGPP-0001",
+      "location": "JarvisSide/Projects/NeuroMax/JGPP/NEUROMAXJGPP-061026-0001-PROFILE-ARCHITECTURE-PRIVACY-FIRST-IDENTITY-ON-JFS.md",
+      "tags": [
+        "identity",
+        "privacy",
+        "profiles",
+        "jfs"
       ],
       "anchors": [],
       "state": "active"

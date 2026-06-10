@@ -29,6 +29,10 @@
       "name": "Naruto",
       "folder": "JarvisSide/Projects/Naruto"
     },
+    "NMX": {
+      "name": "NeuroMax",
+      "folder": "JarvisSide/Projects/NeuroMax"
+    },
     "PAC": {
       "name": "Pachinko Bounce",
       "folder": "JarvisSide/Projects/PachinkoBounce"

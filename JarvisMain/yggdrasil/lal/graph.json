@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 110,
-    "edges": 181,
-    "main": 94,
-    "side": 16
+    "nodes": 113,
+    "edges": 183,
+    "main": 95,
+    "side": 18
   },
   "nodes": [
     {
@@ -890,6 +890,15 @@
       "owner": "JCS Pipeline"
     },
     {
+      "id": "LOG-MNE-LOG-0001",
+      "name": "MNEMOS Cloud Backup",
+      "domain": "LOG",
+      "class": "ENTITY",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "MNEMOS Cloud Backup"
+    },
+    {
       "id": "PROJ-ALL-LOG-0001",
       "name": "Project Log Summary",
       "domain": "PROJ",
@@ -969,6 +978,24 @@
       "tier": "SIDE",
       "status": "ACTIVE",
       "owner": "Naruto"
+    },
+    {
+      "id": "PROJ-NMX-BIO-0001",
+      "name": "NeuroMax",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "NeuroMax"
+    },
+    {
+      "id": "PROJ-NMX-JGPP-0001",
+      "name": "Profile architecture \u2014 privacy-first identity on JFS",
+      "domain": "PROJ",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "TASK",
+      "owner": "Profile architecture \u2014 privacy-first identity on JFS"
     },
     {
       "id": "PROJ-PAC-BIO-0001",
@@ -1855,6 +1882,11 @@
       "type": "parent"
     },
     {
+      "source": "LOG-MNE-LOG-0001",
+      "target": "GS-MNE-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-COS-BIO-0001",
       "target": "PROJ-ALL-LOG-0001",
       "type": "related"
@@ -1893,6 +1925,11 @@
       "source": "PROJ-NAR-BIO-0001",
       "target": "PROJ-ALL-LOG-0001",
       "type": "related"
+    },
+    {
+      "source": "PROJ-NMX-JGPP-0001",
+      "target": "PROJ-NMX-BIO-0001",
+      "type": "parent"
     },
     {
       "source": "PROJ-PAC-BIO-0001",

@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 110,
+  "count": 113,
   "records": [
     {
       "jnl": "ARCH-AYR-BIO-0001",
@@ -1953,6 +1953,27 @@
       "updated": "2026-06-09"
     },
     {
+      "jnl": "LOG-MNE-LOG-0001",
+      "name": "MNEMOS Cloud Backup",
+      "type": "LOG",
+      "class": "ENTITY",
+      "tier": "MAIN",
+      "owner": "MNEMOS Cloud Backup",
+      "parent": "GS-MNE-CORE-0001",
+      "location": "JarvisMain/Backups",
+      "tags": [
+        "backup",
+        "mnemos",
+        "spine",
+        "log"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
       "jnl": "PROJ-ALL-LOG-0001",
       "name": "Project Log Summary",
       "type": "PROJ",
@@ -2124,6 +2145,45 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-09"
+    },
+    {
+      "jnl": "PROJ-NMX-BIO-0001",
+      "name": "NeuroMax",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "NeuroMax",
+      "parent": "",
+      "location": "JarvisSide/Projects/NeuroMax/BIO/NEUROMAXBIO-061026-0001-NEUROMAX.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "PROJ-NMX-JGPP-0001",
+      "name": "Profile architecture \u2014 privacy-first identity on JFS",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Profile architecture \u2014 privacy-first identity on JFS",
+      "parent": "PROJ-NMX-BIO-0001",
+      "location": "JarvisSide/Projects/NeuroMax/JGPP/NEUROMAXJGPP-061026-0001-PROFILE-ARCHITECTURE-PRIVACY-FIRST-IDENTITY-ON-JFS.md",
+      "tags": [
+        "identity",
+        "privacy",
+        "profiles",
+        "jfs"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
     },
     {
       "jnl": "PROJ-PAC-BIO-0001",
