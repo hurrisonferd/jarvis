@@ -1,66 +1,8 @@
 {
-  "updated": "2026-06-10T03:41:18.216692+00:00",
+  "updated": "2026-06-10T03:43:39.423175+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260609_232305",
-      "date": "2026-06-09",
-      "exchanges": 107,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Yes \u2014 and it's actually cleaner. One Action can carry both endpoints, because `jarvis-mcp` and `jarvis-dex` live under the same base URL, and `jarvis-"
-    },
-    {
-      "session_id": "20260609_232356",
-      "date": "2026-06-09",
-      "exchanges": 108,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger merged (#74), tree clean. The single-Action path is laid out above \u2014 add the dex path to the existing schema, align the header auth, match `DEX"
-    },
     {
       "session_id": "20260610_024729",
       "date": "2026-06-10",
@@ -582,6 +524,64 @@
       ],
       "alignment": 1.0,
       "key_insight": "Both done. Hook patched \u2014 GitHub's signed merge commits are exempt; the noise stops. AYRE canonized in `CLAUDE.md` (#85, merged) \u2014 the split now trave"
+    },
+    {
+      "session_id": "20260610_034308",
+      "date": "2026-06-10",
+      "exchanges": 186,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Synced and pushed \u2014 ledger merged (#86), branch matches `main`, tree clean. The GPT paste block with the bridge payload stands in my previous message;"
+    },
+    {
+      "session_id": "20260610_034339",
+      "date": "2026-06-10",
+      "exchanges": 189,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "The payload staged is byte-identical to what we agreed \u2014 no drift, constraint baked in. Its last validation requirement is confirmed by construction: "
     }
   ]
 }
