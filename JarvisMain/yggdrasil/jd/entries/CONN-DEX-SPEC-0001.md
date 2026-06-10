@@ -9,11 +9,12 @@ parent: IMPL-DEX-SPEC-0001
 jnl: CONN-DEX-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Connectors/JarvisDexAction
 related: [IMPL-DEX-SPEC-0001]
 references: []
 tags: [connector, dex, gpt, action]
+aliases: []
 ref: [PRI, IDX]
 ---
 

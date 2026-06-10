@@ -25,7 +25,7 @@ DYN = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "dynamic.json"
 CODES = ROOT / "JarvisMain" / "yggdrasil" / "jfs" / "project-codes.json"
 
 # Fields a dynamic entry carries (the rest is derived by seed.py).
-KEEP = ("jnl", "name", "type", "definition", "purpose", "source", "related", "tags", "status")
+KEEP = ("jnl", "name", "type", "definition", "purpose", "source", "related", "tags", "status", "aliases")
 PROJECT_TYPES = ("JGPP", "JIP", "JD", "BIO")
 
 

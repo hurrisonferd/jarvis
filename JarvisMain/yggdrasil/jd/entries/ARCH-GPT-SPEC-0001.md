@@ -9,11 +9,12 @@ parent: CONN-MSB-CORE-0001
 jnl: ARCH-GPT-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md
 related: [CONN-MSB-CORE-0001]
 references: []
 tags: [architecture, gpt]
+aliases: []
 ref: [PRI, IDX]
 ---
 

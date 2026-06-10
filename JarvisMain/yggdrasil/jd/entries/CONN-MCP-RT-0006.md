@@ -14,6 +14,7 @@ source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_format.md
 related: []
 references: []
 tags: [connector, mcp, tool]
+aliases: []
 ref: [PRI, IDX]
 ---
 

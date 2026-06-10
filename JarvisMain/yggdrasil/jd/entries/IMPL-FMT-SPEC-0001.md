@@ -9,11 +9,12 @@ parent: IMPL-JIP-SPEC-0608
 jnl: IMPL-FMT-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md
 related: [ARCH-JNS-CORE-0001, ARCH-JNL-CORE-0001, ARCH-JSS-CORE-0001]
 references: []
 tags: [format, ids, jnl, governance, spec]
+aliases: []
 ref: [PRI, IDX]
 ---
 

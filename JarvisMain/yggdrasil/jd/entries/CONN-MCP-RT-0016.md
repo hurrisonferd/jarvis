@@ -14,6 +14,7 @@ source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_register_key.m
 related: []
 references: []
 tags: [connector, mcp, tool]
+aliases: []
 ref: [PRI, IDX]
 ---
 

@@ -9,11 +9,12 @@ parent: ARCH-JMMS-CORE-0001
 jnl: ARCH-JATM-CORE-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
 references: []
 tags: [memory, ancestral, immutable, architecture]
+aliases: []
 ref: [PRI, SPEC, IDX]
 ---
 

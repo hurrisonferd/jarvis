@@ -9,11 +9,12 @@ parent: GS-SKD-CORE-0001
 jnl: ARCH-FLOW-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Architecture/specs/throughput-posture.md
 related: [GS-SKD-CORE-0001]
 references: []
 tags: [architecture, throughput]
+aliases: []
 ref: [PRI, IDX]
 ---
 

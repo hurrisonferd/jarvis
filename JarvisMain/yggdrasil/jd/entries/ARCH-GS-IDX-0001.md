@@ -9,11 +9,12 @@ parent:
 jnl: ARCH-GS-IDX-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/god_systems
 related: [GS-ODN-CORE-0001]
 references: []
 tags: [god-system, index]
+aliases: []
 ref: [PRI, IDX]
 ---
 

@@ -77,12 +77,13 @@ async function deriveCandidate(a: Record<string, unknown>, status: string) {
   const owner = ownerOf(domain, name);
   const today = new Date().toISOString().slice(0, 10);
   const tags = Array.isArray(a.tags) ? a.tags.map(String) : [];
+  const aliases = Array.isArray(a.aliases) ? a.aliases.map(String) : [];
   const entry = {
     jnl, name, type, class: cls, tier, owner,
     definition: String(a.definition ?? ""), purpose: String(a.purpose ?? ""),
     source: String(a.source ?? ""),
     related: Array.isArray(a.related) ? a.related.map(String) : [],
-    tags, status, created: today, updated: today,
+    tags, aliases, status, created: today, updated: today,
   };
   const errs = gl12Errors({ jnl, cls, tier, status, tags });
   if (errs.length) throw new Error("GL12: " + errs.join("; "));
@@ -150,7 +151,7 @@ Deno.serve(async (req) => {
       case "jd_lookup": {
         const term = String(args.term ?? "");
         const { data } = await db.from("jd_entries").select("*")
-          .or(`jnl.eq.${term},name.ilike.%${term}%,tags.cs.{${term}}`).limit(25);
+          .or(`jnl.eq.${term},name.ilike.%${term}%,tags.cs.{${term}},aliases.cs.{${term}}`).limit(25);
         return json({ ok: true, count: data?.length ?? 0, entries: data ?? [] });
       }
       case "jnl_resolve": {
@@ -191,7 +192,7 @@ Deno.serve(async (req) => {
           jnl: cand.jnl, name: cand.name, type: cand.type, class: cand.class,
           tier: cand.tier, owner: cand.owner, definition: cand.definition,
           purpose: cand.purpose, source: cand.source, related: cand.related,
-          tags: cand.tags, status: "TASK", proposer: actor,
+          tags: cand.tags, aliases: cand.aliases, status: "TASK", proposer: actor,
         }).select().single();
         if (error) return fail(error.message, 500);
         await logEvent("jd_propose", tier, cand.jnl, actor, cand);
@@ -210,7 +211,7 @@ Deno.serve(async (req) => {
         await db.from("jd_entries").upsert({
           jnl: c.jnl, name: c.name, type: c.type, class: c.class, tier: c.tier, owner: c.owner,
           authority: "DRAFT", definition: c.definition, purpose: c.purpose, source: c.source,
-          related: c.related, tags: c.tags, status, created: c.created, updated: c.updated,
+          related: c.related, tags: c.tags, aliases: c.aliases, status, created: c.created, updated: c.updated,
         });
         await logEvent("jd_draft", tier, c.jnl, actor, c);
         return json({ ok: true, jnl: c.jnl, status, drafted: true });
@@ -230,7 +231,7 @@ Deno.serve(async (req) => {
         await db.from("jd_entries").upsert({
           jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier, owner: p.owner,
           authority: "CANON", definition: p.definition, purpose: p.purpose, source: p.source,
-          related: p.related, tags: p.tags, status: "ACTIVE", created: today, updated: today,
+          related: p.related, tags: p.tags, aliases: p.aliases ?? [], status: "ACTIVE", created: today, updated: today,
         });
         await db.from("jd_proposals").update({
           decision: "approved", decided_by: "raven", decided_at: new Date().toISOString(),

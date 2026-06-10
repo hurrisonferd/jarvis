@@ -9,11 +9,12 @@ parent: ARCH-GS-IDX-0001
 jnl: GS-CHA-CORE-0001
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/god_systems/T0_CHAOS/contract.json
 related: [GS-AYR-CORE-0001]
 references: []
 tags: [core, god-system, canon]
+aliases: []
 ref: [PRI, IDX]
 ---
 

@@ -9,11 +9,12 @@ parent: GOV-CAN-CORE-0001
 jnl: GOV-BRF-CORE-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Architecture/JarvisBrief.md
 related: [GOV-CAN-CORE-0001]
 references: []
 tags: [governance, brief]
+aliases: []
 ref: [PRI, IDX]
 ---
 

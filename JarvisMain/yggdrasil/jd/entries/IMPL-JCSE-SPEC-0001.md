@@ -9,11 +9,12 @@ parent: IMPL-JCS-CORE-0001
 jnl: IMPL-JCSE-SPEC-0001
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-09
+updated: 2026-06-10
 source: JarvisMain/Implementation/Active/JIP-0608-E
 related: [IMPL-JCS-CORE-0001]
 references: []
 tags: [jcs, layer, query]
+aliases: []
 ref: [PRI, IDX]
 ---
 

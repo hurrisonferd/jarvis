@@ -576,8 +576,24 @@ def write_entry(jnl: str, text: str) -> None:
     f.write_text(text)
 
 
+# Aliases — short memorable handles (the "dex number" insight, 2026-06-10, Raven-approved).
+# One identity (the JNL); many handles. Aliases are navigation sugar resolved by jd_lookup —
+# never a second identity. Seeded here for manifest entries; intake files carry their own
+# `aliases:` frontmatter.
+ALIASES: dict[str, list[str]] = {
+    "ARCH-YGG-CORE-0001": ["ygg", "yggdrasil"],
+    "ARCH-JFS-CORE-0001": ["jfs"],
+    "ARCH-JD-CORE-0001": ["dex", "jd"],
+    "IMPL-DEX-SPEC-0001": ["jarvis-dex"],
+    "CONN-MSB-CORE-0001": ["mcp", "connector"],
+    "GS-MNE-CORE-0001": ["mnemos", "memory"],
+    "GS-AEG-CORE-0001": ["aegis"],
+    "GS-ODN-CORE-0001": ["odin"],
+}
+
+
 def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source, status,
-                cls, tr, own, references, parent="") -> str:
+                cls, tr, own, references, parent="", aliases=None) -> str:
     fm = [
         "---",
         f"name: {name}",
@@ -595,6 +611,7 @@ def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, r
         f"related: [{', '.join(related)}]",
         f"references: [{', '.join(references)}]",
         f"tags: [{', '.join(tags)}]",
+        f"aliases: [{', '.join(aliases if aliases is not None else ALIASES.get(jnl, []))}]",
         f"ref: [{', '.join(ref)}]",
         "---",
         "",
