@@ -1,66 +1,8 @@
 {
-  "updated": "2026-06-10T03:43:39.423175+00:00",
+  "updated": "2026-06-10T03:48:06.867717+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_024729",
-      "date": "2026-06-10",
-      "exchanges": 133,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tool surface governed and merged (#76) \u2014 all 17 connector tools are now `CONN-MCP-RT-####` objects, generated mechanically from the `registerTool` blo"
-    },
-    {
-      "session_id": "20260610_030245",
-      "date": "2026-06-10",
-      "exchanges": 142,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Everything's live. The night's full state:\n\n**Deployed:** `jarvis-mcp` **v51** \u2014 the three `jarvis_dex_*` tools are on your connector now. `jarvis-dex"
-    },
     {
       "session_id": "20260610_030300",
       "date": "2026-06-10",
@@ -582,6 +524,64 @@
       ],
       "alignment": 1.0,
       "key_insight": "The payload staged is byte-identical to what we agreed \u2014 no drift, constraint baked in. Its last validation requirement is confirmed by construction: "
+    },
+    {
+      "session_id": "20260610_034516",
+      "date": "2026-06-10",
+      "exchanges": 190,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger merged (#87), branch synced, clean. Waiting on the GPT's `staged: true` and your \"approve.\""
+    },
+    {
+      "session_id": "20260610_034806",
+      "date": "2026-06-10",
+      "exchanges": 194,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Diagnosis from the record, not the narrative:\n\n**Nothing reached the dex.** `jd_proposals` still holds exactly one row \u2014 Deoxys, #104. No `GOV-DEX-SPE"
     }
   ]
 }
