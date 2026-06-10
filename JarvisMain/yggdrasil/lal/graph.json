@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 109,
-    "edges": 180,
-    "main": 93,
+    "nodes": 110,
+    "edges": 181,
+    "main": 94,
     "side": 16
   },
   "nodes": [
@@ -415,6 +415,15 @@
     {
       "id": "CONN-MCP-RT-0017",
       "name": "HALO \u2014 Throughput Posture",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0018",
+      "name": "Voice Brief \u2014 pre-warm a sealed session",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -1362,6 +1371,11 @@
     },
     {
       "source": "CONN-MCP-RT-0017",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0018",
       "target": "CONN-MSB-CORE-0001",
       "type": "parent"
     },

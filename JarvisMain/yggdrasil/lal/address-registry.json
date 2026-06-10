@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 109,
+  "count": 110,
   "records": [
     {
       "jnl": "ARCH-AYR-BIO-0001",
@@ -910,6 +910,27 @@
         "connector",
         "mcp",
         "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0018",
+      "name": "Voice Brief \u2014 pre-warm a sealed session",
+      "type": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_voice_brief.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool",
+        "voice"
       ],
       "anchors": [],
       "status": "ACTIVE",
