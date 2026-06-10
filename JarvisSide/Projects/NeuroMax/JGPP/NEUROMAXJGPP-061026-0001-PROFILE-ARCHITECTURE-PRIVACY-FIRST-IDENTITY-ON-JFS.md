@@ -95,3 +95,10 @@ keeps an auditable hole the exact shape of the person's request. Absence becomes
 the record; the history's structure survives; the person's content does not.
 Erasure cascades: NeuroMax row deleted, serial retired forever, backups purged on
 next cycle, redaction events preserved as the only trace.
+
+**Governance note (GPT-JARVIS, adopted):** the redaction rule is the system's only
+non-symmetric operator — everything else is reversible; erasure is not. That makes
+it a deliberately introduced moral axis in a structural system: correct, and
+load-bearing, and the kind of exception that expands unless actively bounded.
+Standing scrutiny: any proposal to extend "people outrank history" beyond human
+substance gets full GL7 review, no fast path.
