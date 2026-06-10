@@ -7,6 +7,7 @@ authority: CANON
 owner: Pachinko Bounce
 parent: 
 jnl: PROJ-PAC-BIO-0001
+seq: 66
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

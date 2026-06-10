@@ -7,6 +7,7 @@ authority: CANON
 owner: Connectors
 parent: IMPL-DEX-SPEC-0001
 jnl: CONN-DEX-SPEC-0001
+seq: 86
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

@@ -7,6 +7,7 @@ authority: CANON
 owner: Unused Ideas Log
 parent: 
 jnl: IDEA-UNUS-LOG-0001
+seq: 100
 status: INACTIVE
 created: 2026-06-09
 updated: 2026-06-10

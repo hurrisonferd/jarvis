@@ -7,6 +7,7 @@ authority: CANON
 owner: Audit
 parent: 
 jnl: AUD-CHK-SPEC-0001
+seq: 58
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

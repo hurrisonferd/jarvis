@@ -7,6 +7,7 @@ authority: CANON
 owner: Governance
 parent: GOV-PAT-REG-0001
 jnl: GOV-PROC-CORE-0001
+seq: 44
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

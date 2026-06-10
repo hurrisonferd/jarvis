@@ -7,6 +7,7 @@ authority: CANON
 owner: Connectors
 parent: CONN-MSB-CORE-0001
 jnl: CONN-MCP-RT-0017
+seq: 85
 status: ACTIVE
 created: 2026-06-10
 updated: 2026-06-10

@@ -7,6 +7,7 @@ authority: CANON
 owner: Connectors
 parent: 
 jnl: CONN-OTH-LOG-0001
+seq: 68
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

@@ -7,6 +7,7 @@ authority: CANON
 owner: God Systems
 parent: ARCH-GS-IDX-0001
 jnl: GS-HAL-CORE-0001
+seq: 23
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

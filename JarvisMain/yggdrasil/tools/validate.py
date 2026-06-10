@@ -188,6 +188,31 @@ def main() -> int:
                 drift = sorted((tsv - py) | (py - tsv))
                 errors.append(f"grammar drift {name}: jnl.py and jfs.ts disagree on {drift}")
 
+    # Creation serials (seq): present, integer, unique, and immutable against the
+    # committed seq-registry. The serial is a birth certificate, never an address —
+    # renumbering history is corruption (GL5).
+    seq_file = ROOT / "JarvisMain" / "yggdrasil" / "lal" / "seq-registry.json"
+    if not seq_file.exists():
+        errors.append("lal/seq-registry.json missing — run tools/seed.py")
+    else:
+        seq_reg = json.loads(seq_file.read_text())
+        seen_seq: dict[int, str] = {}
+        for f in sorted(JD_DIR.glob("*.md")):
+            fm = parse_front_matter(f.read_text())
+            raw = fm.get("seq")
+            if raw is None or not str(raw).isdigit():
+                errors.append(f"{f.name}: missing/invalid seq (creation serial)")
+                continue
+            n = int(str(raw))
+            if n in seen_seq:
+                errors.append(f"{f.name}: seq {n} duplicates {seen_seq[n]} (serials are never reused)")
+            seen_seq[n] = f.name
+            reg_n = seq_reg.get("map", {}).get(f.stem)
+            if reg_n != n:
+                errors.append(f"{f.name}: seq {n} != seq-registry {reg_n} (serials are immutable)")
+        if seen_seq and seq_reg.get("next", 0) <= max(seen_seq):
+            errors.append(f"seq-registry: next={seq_reg.get('next')} not above max minted {max(seen_seq)}")
+
     total = len(entry_jnls)
     if errors:
         print(f"VALIDATION FAILED — {len(errors)} error(s) across {total} addresses:")

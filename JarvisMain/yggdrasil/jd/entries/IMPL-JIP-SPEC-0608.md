@@ -7,6 +7,7 @@ authority: CANON
 owner: JCS Pipeline
 parent: 
 jnl: IMPL-JIP-SPEC-0608
+seq: 52
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

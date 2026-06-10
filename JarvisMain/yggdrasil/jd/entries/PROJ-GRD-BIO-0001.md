@@ -7,6 +7,7 @@ authority: CANON
 owner: The Grid
 parent: 
 jnl: PROJ-GRD-BIO-0001
+seq: 103
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

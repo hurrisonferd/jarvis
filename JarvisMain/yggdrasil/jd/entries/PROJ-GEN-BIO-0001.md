@@ -7,6 +7,7 @@ authority: CANON
 owner: Genesis
 parent: 
 jnl: PROJ-GEN-BIO-0001
+seq: 62
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10

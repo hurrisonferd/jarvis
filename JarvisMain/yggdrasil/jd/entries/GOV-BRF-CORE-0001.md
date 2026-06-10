@@ -7,6 +7,7 @@ authority: CANON
 owner: Governance
 parent: GOV-CAN-CORE-0001
 jnl: GOV-BRF-CORE-0001
+seq: 43
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-10
