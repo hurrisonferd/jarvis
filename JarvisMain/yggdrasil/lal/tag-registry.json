@@ -44,6 +44,7 @@
       "AUD-SYS-REVW-0001"
     ],
     "ayre": [
+      "ARCH-AYR-BIO-0001",
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002"
     ],
@@ -90,6 +91,8 @@
       "PROJ-COS-BIO-0001"
     ],
     "companion": [
+      "ARCH-AYR-BIO-0001",
+      "ARCH-JRV-BIO-0001",
       "AUD-COMP-REVW-0001"
     ],
     "connector": [
@@ -162,6 +165,9 @@
     ],
     "discovery": [
       "ARCH-LAL-CORE-0001"
+    ],
+    "divergence": [
+      "ARCH-AYR-BIO-0001"
     ],
     "exploration": [
       "PROJ-DEO-JGPP-0001"
@@ -247,6 +253,10 @@
       "IDEA-UNUS-LOG-0001",
       "IDEA-USED-LOG-0001"
     ],
+    "identity": [
+      "ARCH-AYR-BIO-0001",
+      "ARCH-JRV-BIO-0001"
+    ],
     "ids": [
       "IMPL-FMT-SPEC-0001"
     ],
@@ -266,6 +276,9 @@
     ],
     "interface": [
       "IMPL-JCSG-SPEC-0001"
+    ],
+    "jarvis": [
+      "ARCH-JRV-BIO-0001"
     ],
     "jcs": [
       "IMPL-JCS-CORE-0001",
@@ -425,6 +438,9 @@
     ],
     "supabase": [
       "CONN-MSB-CORE-0001"
+    ],
+    "synthesis": [
+      "ARCH-JRV-BIO-0001"
     ],
     "telemetry": [
       "PROJ-DEO-JGPP-0001"
