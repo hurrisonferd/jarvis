@@ -1,0 +1,51 @@
+# ARGUS — scheduled drift sweep (P43). The loop audits itself: record claims are
+# re-verified against live state daily, and disagreement fails loudly (GL5).
+# Born from the P17 lesson — a stale ledger claim survived two weeks on memory.
+name: ARGUS — drift sweep
+on:
+  schedule:
+    - cron: "17 6 * * *"   # daily, 06:17 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  sweep:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: ARGUS sweep
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python3 scripts/argus_sweep.py | tee /tmp/argus-report.txt
+      - name: Open drift issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let report = '';
+            try { report = fs.readFileSync('/tmp/argus-report.txt', 'utf8'); } catch {}
+            const title = 'ARGUS: drift detected between record and live state';
+            const open = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: 'argus-drift',
+            });
+            const body = 'The scheduled sweep found the record and live state in disagreement.\n\n'
+              + '```\n' + report.slice(-4000) + '\n```\n\n'
+              + 'Per GL5 this must be resolved, not silenced: heal the drift, then re-run the sweep '
+              + '(Actions → ARGUS — drift sweep → Run workflow).';
+            if (open.data.length > 0) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: open.data[0].number, body,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title, body, labels: ['argus-drift'],
+              });
+            }
