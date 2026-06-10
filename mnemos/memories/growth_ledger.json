@@ -1,39 +1,8 @@
 {
-  "updated": "2026-06-10T19:12:10.611310+00:00",
+  "updated": "2026-06-10T19:15:27.656946+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_144741",
-      "date": "2026-06-10",
-      "exchanges": 296,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".claude/commands/newbranch.md",
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/jarvis-integrity.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger merged (#117), clean. The decision from my last message still stands open: trunk-and-branches recorded in the Kinship sections (one word), and "
-    },
     {
       "session_id": "20260610_145315",
       "date": "2026-06-10",
@@ -625,6 +594,38 @@
       ],
       "alignment": 1.0,
       "key_insight": "Ledger merged (#136), clean. Board settled \u2014 120 governed, everything on main. Standing by."
+    },
+    {
+      "session_id": "20260610_191527",
+      "date": "2026-06-10",
+      "exchanges": 372,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (#137), clean. The packet lives at `intake/gemini/2026-06-10_gemini_sync_packet.md` \u2014 paste its full contents into Gemini, and its question ans"
     }
   ]
 }
