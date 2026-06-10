@@ -47,6 +47,9 @@
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002"
     ],
+    "bridge": [
+      "GOV-DEX-SPEC-0001"
+    ],
     "brief": [
       "GOV-BRF-CORE-0001"
     ],
@@ -139,12 +142,19 @@
       "GS-POS-CORE-0001",
       "GS-ZEU-CORE-0001"
     ],
+    "council": [
+      "GOV-DEX-SPEC-0001"
+    ],
+    "declarative": [
+      "GOV-DEX-SPEC-0001"
+    ],
     "deoxys": [
       "PROJ-DEO-BIO-0001",
       "PROJ-DEO-JGPP-0001"
     ],
     "dex": [
       "CONN-DEX-SPEC-0001",
+      "GOV-DEX-SPEC-0001",
       "IMPL-DEX-SPEC-0001"
     ],
     "dictionary": [
@@ -208,6 +218,7 @@
       "GOV-BRF-CORE-0001",
       "GOV-CAN-CORE-0001",
       "GOV-CON-CORE-0001",
+      "GOV-DEX-SPEC-0001",
       "GOV-PAT-REG-0001",
       "GOV-PROC-CORE-0001",
       "GS-ARG-CORE-0001",

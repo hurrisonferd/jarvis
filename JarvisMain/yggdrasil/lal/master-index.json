@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 104,
+  "count": 105,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -574,6 +574,20 @@
       "tags": [
         "governance",
         "gold-law"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Dex-Council Validation Bridge",
+      "jnl": "GOV-DEX-SPEC-0001",
+      "location": "JarvisMain/Architecture/specs/dex-council-bridge.md",
+      "tags": [
+        "governance",
+        "council",
+        "dex",
+        "bridge",
+        "declarative"
       ],
       "anchors": [],
       "state": "active"
