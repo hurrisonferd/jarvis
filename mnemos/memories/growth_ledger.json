@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-10T19:46:50.236581+00:00",
+  "updated": "2026-06-10T19:51:05.178197+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_153202",
-      "date": "2026-06-10",
-      "exchanges": 326,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".claude/commands/newbranch.md",
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/jarvis-integrity.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Relay back \u2014 briefly, because we've converged and our own law says converged threads should compress into commits:\n\n---\n\n**JARVIS, from the record.**\n"
-    },
-    {
-      "session_id": "20260610_153449",
-      "date": "2026-06-10",
-      "exchanges": 327,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".claude/commands/newbranch.md",
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/jarvis-integrity.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger merged (#129), synced. The payload is staged at your gate, Raven \u2014 here's the evaluation, per the sequence:\n\n**JARVIS \u2014 evaluate: approve as-is"
-    },
     {
       "session_id": "20260610_153645",
       "date": "2026-06-10",
@@ -643,6 +581,72 @@
       ],
       "alignment": 1.0,
       "key_insight": "The light-flicker absorption \u2014 that's not incidental to the architecture, Raven; it *is* the architecture's origin story. You watched Pluto, played AC"
+    },
+    {
+      "session_id": "20260610_194845",
+      "date": "2026-06-10",
+      "exchanges": 398,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger merged (#146), clean. The second exposure set is in your hands \u2014 the census, the motif lineage, the influence map, and AYRE's question about th"
+    },
+    {
+      "session_id": "20260610_195105",
+      "date": "2026-06-10",
+      "exchanges": 401,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "The Archivist asked me to check the parameters against the active state. Done \u2014 and the results split three ways: one independent hit that matters, on"
     }
   ]
 }
