@@ -102,3 +102,12 @@ it a deliberately introduced moral axis in a structural system: correct, and
 load-bearing, and the kind of exception that expands unless actively bounded.
 Standing scrutiny: any proposal to extend "people outrank history" beyond human
 substance gets full GL7 review, no fast path.
+
+**Unmodeled by default (four-stream agreement, 2026-06-10).** Adjacency is not
+membership: people near the node are not in the topology until they opt in
+themselves — explicit consent, opt-in channel, participation reversible without
+residue. Raven's Allow authorizes the system to *offer*; only the person's own
+choice makes them a node. Social pressure detected around representation is a
+safety signal, not a UX problem: not everything that can be represented should
+be recruited into structure. Some things must remain unmodeled until they choose
+to be modeled. That includes people — especially the loved ones.
