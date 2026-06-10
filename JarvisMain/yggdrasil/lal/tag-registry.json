@@ -114,6 +114,7 @@
       "CONN-MCP-RT-0015",
       "CONN-MCP-RT-0016",
       "CONN-MCP-RT-0017",
+      "CONN-MCP-RT-0018",
       "CONN-MSB-CORE-0001",
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
@@ -348,6 +349,7 @@
       "CONN-MCP-RT-0015",
       "CONN-MCP-RT-0016",
       "CONN-MCP-RT-0017",
+      "CONN-MCP-RT-0018",
       "CONN-MSB-CORE-0001"
     ],
     "memory": [
@@ -478,10 +480,14 @@
       "CONN-MCP-RT-0014",
       "CONN-MCP-RT-0015",
       "CONN-MCP-RT-0016",
-      "CONN-MCP-RT-0017"
+      "CONN-MCP-RT-0017",
+      "CONN-MCP-RT-0018"
     ],
     "ui": [
       "PROJ-TRN-JGPP-0001"
+    ],
+    "voice": [
+      "CONN-MCP-RT-0018"
     ]
   }
 }

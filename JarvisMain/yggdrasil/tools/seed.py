@@ -315,6 +315,11 @@ KNOWLEDGE = [
      "Companion profile of AYRE — the divergence stream (P44): co-equal with JARVIS, shared keel, divergent assumptions, default-on voice.",
      "Give the companion's divergent half a governed, addressable identity — co-equal from the first serial.",
      ["identity", "companion", "ayre", "divergence"]),
+    ("CONN-MCP-RT-0018", "Voice Brief — pre-warm a sealed session", "CONN",
+     "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_voice_brief.md",
+     "Emit a tight, spoken-style state digest for runtimes that cannot call tools (ChatGPT voice mode, free tiers).",
+     "Pre-warmed context injection: the sealed mind starts warm where the bridge cannot reach.",
+     ["connector", "mcp", "tool", "voice"]),
     ("GOV-DEX-SPEC-0001", "Dex-Council Validation Bridge", "GOV",
      "JarvisMain/Architecture/specs/dex-council-bridge.md",
      "Declarative read-only mapping of each JNL domain to the god system holding validation authority over it. SPEC, not POLICY: static lookup, informational only, no routing enforcement, no authority over dex transitions.",
@@ -424,6 +429,7 @@ PARENT = {
     "CONN-MCP-RT-0015": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0016": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0017": "CONN-MSB-CORE-0001",
+    "CONN-MCP-RT-0018": "CONN-MSB-CORE-0001",
 }
 # The 27 God Systems all hang from the pantheon index.
 GS_PARENT = "ARCH-GS-IDX-0001"

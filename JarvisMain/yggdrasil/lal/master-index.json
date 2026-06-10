@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 109,
+  "count": 110,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -545,6 +545,19 @@
         "connector",
         "mcp",
         "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Voice Brief \u2014 pre-warm a sealed session",
+      "jnl": "CONN-MCP-RT-0018",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_voice_brief.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool",
+        "voice"
       ],
       "anchors": [],
       "state": "active"

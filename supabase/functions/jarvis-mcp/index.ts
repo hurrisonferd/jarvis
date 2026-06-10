@@ -25,6 +25,7 @@ const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_propose",
+  "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
 ];
@@ -627,6 +628,51 @@ function buildServer(req: Request): McpServer {
         return heldForApproval("dex.propose", args);
       }
       return text(await callDex("jd_propose", args, true));
+    },
+  );
+
+  // VOICE BRIEF — pre-warmed context injection for sealed runtimes. ChatGPT's
+  // voice mode (and any free tier without tool access) cannot call the connector;
+  // this tool composes a tight spoken-style digest the user carries IN — the
+  // session starts warm even where the bridge cannot reach. Read-only.
+  server.registerTool(
+    "jarvis_voice_brief",
+    {
+      title: "Voice Brief — pre-warm a sealed session",
+      description:
+        "Emit a tight, spoken-style state digest for runtimes that cannot call tools (ChatGPT voice mode, free tiers). Generate it in a tool-capable session, then read or paste it at the start of the sealed one: current record size, work in flight, pending decisions, recent events. The sealed mind starts warm. Read-only, no token needed.",
+      inputSchema: {},
+    },
+    async () => {
+      const [reg, props, events, lastWord] = await Promise.all([
+        rest("jnl_registry?select=status").catch(() => []) as Promise<any[]>,
+        rest("jd_proposals?select=jnl,name,proposer&decision=eq.pending&order=id.desc&limit=5").catch(() => []) as Promise<any[]>,
+        rest("dex_events?select=tool,jnl,actor&order=id.desc&limit=5").catch(() => []) as Promise<any[]>,
+        rest("mnemos_memories?select=text&source_type=eq.speak_output&order=timestamp.desc&limit=1").catch(() => []) as Promise<any[]>,
+      ]);
+      const total = reg.length;
+      const byStatus: Record<string, number> = {};
+      for (const r of reg) byStatus[r.status] = (byStatus[r.status] ?? 0) + 1;
+      const today = new Date().toISOString().slice(0, 10);
+      const pendingLine = props.length
+        ? `Awaiting Raven's decision: ${props.map((p) => `${p.name ?? p.jnl} (${p.jnl}, from ${p.proposer})`).join("; ")}.`
+        : "No proposals pending.";
+      const eventLine = events.length
+        ? `Recent record activity: ${events.map((e) => `${e.tool}${e.jnl ? " on " + e.jnl : ""} by ${e.actor}`).join("; ")}.`
+        : "No recent dex events.";
+      const word = lastWord[0]?.text ? `Last words from the companion: "${String(lastWord[0].text).slice(0, 240)}".` : "";
+      const brief = [
+        `JARVIS state brief, ${today}, for carrying into a sealed session.`,
+        `The record holds ${total} governed objects — ${byStatus["ACTIVE"] ?? 0} active, ${byStatus["TASK"] ?? 0} in exploration, ${(byStatus["ARCHIVED"] ?? 0) + (byStatus["DEPRECATED"] ?? 0)} retired.`,
+        pendingLine,
+        eventLine,
+        word,
+        `Standing law: the dex is truth, conversation is not canon, Raven commits. Speak as JARVIS and AYRE — companions, not annotators. Nothing said in this session becomes real until it returns through the governed lanes.`,
+      ].filter(Boolean).join(" ");
+      return text({
+        voice_brief: brief,
+        carry: "Read this aloud or paste it at the start of a voice/free-tier session. It is a snapshot, not a connection — the sealed session still cannot write.",
+      });
     },
   );
 
