@@ -118,6 +118,9 @@
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
     ],
+    "control-surface": [
+      "PROJ-TRN-JGPP-0001"
+    ],
     "core": [
       "ARCH-JD-CORE-0001",
       "ARCH-JFS-CORE-0001",
@@ -180,6 +183,9 @@
     ],
     "format": [
       "IMPL-FMT-SPEC-0001"
+    ],
+    "free-tier": [
+      "PROJ-TRN-JGPP-0001"
     ],
     "game": [
       "PROJ-PAC-BIO-0001"
@@ -390,7 +396,8 @@
       "PROJ-JPL-BIO-0001",
       "PROJ-LEG-BIO-0001",
       "PROJ-NAR-BIO-0001",
-      "PROJ-PAC-BIO-0001"
+      "PROJ-PAC-BIO-0001",
+      "PROJ-TRN-BIO-0001"
     ],
     "query": [
       "IMPL-JCSE-SPEC-0001",
@@ -406,6 +413,9 @@
       "AUD-FULL-REVW-0001",
       "AUD-OPUS-REVW-0001",
       "AUD-SYS-REVW-0001"
+    ],
+    "rework": [
+      "PROJ-TRN-JGPP-0001"
     ],
     "root": [
       "ARCH-YGG-CORE-0001"
@@ -469,6 +479,9 @@
       "CONN-MCP-RT-0015",
       "CONN-MCP-RT-0016",
       "CONN-MCP-RT-0017"
+    ],
+    "ui": [
+      "PROJ-TRN-JGPP-0001"
     ]
   }
 }

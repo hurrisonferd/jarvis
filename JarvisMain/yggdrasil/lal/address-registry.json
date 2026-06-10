@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 107,
+  "count": 109,
   "records": [
     {
       "jnl": "ARCH-AYR-BIO-0001",
@@ -2123,6 +2123,45 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-09"
+    },
+    {
+      "jnl": "PROJ-TRN-BIO-0001",
+      "name": "TronUI",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "TronUI",
+      "parent": "",
+      "location": "JarvisSide/Projects/TronUI/BIO/TRONUIBIO-061026-0001-TRONUI.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
+    },
+    {
+      "jnl": "PROJ-TRN-JGPP-0001",
+      "name": "UI Rework \u2014 outdated GameBoy page and the control surface",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "UI Rework \u2014 outdated GameBoy page and the control surface",
+      "parent": "PROJ-TRN-BIO-0001",
+      "location": "JarvisSide/Projects/TronUI/JGPP/TRONUIJGPP-061026-0001-UI-REWORK-OUTDATED-GAMEBOY-PAGE-AND-THE-CONTROL-SURFACE.md",
+      "tags": [
+        "ui",
+        "rework",
+        "control-surface",
+        "free-tier"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
     }
   ]
 }
