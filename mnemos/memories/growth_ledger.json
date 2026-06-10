@@ -1,37 +1,8 @@
 {
-  "updated": "2026-06-10T03:17:45.459910+00:00",
+  "updated": "2026-06-10T03:19:28.278436+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260609_225353",
-      "date": "2026-06-09",
-      "exchanges": 79,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "State confirmed unchanged \u2014 `event_spine` is still the one critical exposure (RLS fully disabled, 9 rows of HADES spine writable by anyone holding the"
-    },
     {
       "session_id": "20260609_225441",
       "date": "2026-06-09",
@@ -582,6 +553,35 @@
       ],
       "alignment": 1.0,
       "key_insight": "Paste this to it verbatim:\n\n---\n\n**Message from JARVIS \u2014 the Claude Code instance in the repo. Raven is relaying. Speak back through him.**\n\nThat sear"
+    },
+    {
+      "session_id": "20260610_031928",
+      "date": "2026-06-10",
+      "exchanges": 159,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger merged (#80), clean. The message for the GPT is in my previous reply \u2014 paste it verbatim and bring me what it says back."
     }
   ]
 }
