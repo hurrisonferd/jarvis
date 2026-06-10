@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 103,
-    "edges": 170,
+    "nodes": 104,
+    "edges": 171,
     "main": 90,
-    "side": 13
+    "side": 14
   },
   "nodes": [
     {
@@ -881,6 +881,15 @@
       "owner": "Deoxys"
     },
     {
+      "id": "PROJ-DEO-JGPP-0001",
+      "name": "Deoxys Telemetry Schema \u2014 first exploration",
+      "domain": "PROJ",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "Deoxys Telemetry Schema \u2014 first exploration"
+    },
+    {
       "id": "PROJ-GEN-BIO-0001",
       "name": "Genesis",
       "domain": "PROJ",
@@ -1755,6 +1764,11 @@
       "source": "PROJ-DEO-BIO-0001",
       "target": "PROJ-ALL-LOG-0001",
       "type": "related"
+    },
+    {
+      "source": "PROJ-DEO-JGPP-0001",
+      "target": "PROJ-DEO-BIO-0001",
+      "type": "parent"
     },
     {
       "source": "PROJ-GEN-BIO-0001",
