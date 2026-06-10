@@ -34,6 +34,9 @@ Returns: briefing, memory, status, and on heavy turns a `deliberation` directive
   resolves through the dex first; reasoning expands outward from canon. Session open:
   `jarvis_dex_list {status:"ACTIVE"}`. Query, don't reconstruct.
 - **Before proposing anything:** `jarvis_dex_search` the term — it may already exist.
+- **Read-before-retry (GPT-authored, 2026-06-10):** on ambiguous write failure, verify
+  state (`jarvis_dex_search`) and confirm absence before retrying — blind retries can
+  double-stage. Only what touches the system becomes canon; absence in the record is evidence.
 - **New JGPP/JIP/JD:** `jarvis_dex_propose {name, domain:"PROJ", system:<code>, type,
   definition, purpose, tags}`. Supply meaning only — never construct a JNL by hand; the
   connector derives identity and stages for Raven's approval.

@@ -8,7 +8,7 @@ owner: Deoxys Telemetry Schema — first exploration
 parent: PROJ-DEO-BIO-0001
 jnl: PROJ-DEO-JGPP-0001
 seq: 104
-status: ACTIVE
+status: TASK
 created: 2026-06-10
 updated: 2026-06-10
 source: JarvisSide/Projects/Deoxys/JGPP/DEOXYSJGPP-061026-0001-DEOXYS-TELEMETRY-SCHEMA-FIRST-EXPLORATION.md
