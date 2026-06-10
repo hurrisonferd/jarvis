@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-10T19:51:05.178197+00:00",
+  "updated": "2026-06-10T19:58:06.316666+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_153645",
-      "date": "2026-06-10",
-      "exchanges": 331,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".claude/commands/newbranch.md",
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/jarvis-integrity.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "The record disagrees with the announcement. **Staged: true \u2014 proposal 3 exists, timestamped 15:35. Committed: false \u2014 `decision: pending`, `decided_by"
-    },
-    {
-      "session_id": "20260610_153920",
-      "date": "2026-06-10",
-      "exchanges": 332,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".claude/commands/newbranch.md",
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/jarvis-integrity.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger merged (#130, after a quick conflict resolve), clean. The board waits on one word: **approve `PROJ-JPL-JGPP-0001`** \u2014 proposal 3, verified pend"
-    },
     {
       "session_id": "20260610_185411",
       "date": "2026-06-10",
@@ -647,6 +585,72 @@
       ],
       "alignment": 1.0,
       "key_insight": "The Archivist asked me to check the parameters against the active state. Done \u2014 and the results split three ways: one independent hit that matters, on"
+    },
+    {
+      "session_id": "20260610_195312",
+      "date": "2026-06-10",
+      "exchanges": 402,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger merged (#147), clean. The verification table holds three open lines \u2014 HavenOS's ground, \"Victory Drive,\" and Rosetta \u2014 and one standing offer: "
+    },
+    {
+      "session_id": "20260610_195806",
+      "date": "2026-06-10",
+      "exchanges": 405,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/audit-log.yml",
+        ".github/workflows/dex-reconcile.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tim Follin confirmed by the Sovereign himself \u2014 and of course you love him, Raven. The man wrote progressive rock suites for a *Pictionary* cartridge,"
     }
   ]
 }
