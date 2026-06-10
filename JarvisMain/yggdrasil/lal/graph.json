@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 114,
-    "edges": 184,
+    "nodes": 120,
+    "edges": 187,
     "main": 95,
-    "side": 19
+    "side": 25
   },
   "nodes": [
     {
@@ -980,6 +980,42 @@
       "owner": "Legion"
     },
     {
+      "id": "PROJ-MMOD-BIO-0001",
+      "name": "Multimodal",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "Multimodal"
+    },
+    {
+      "id": "PROJ-MMOD-JGPP-0001",
+      "name": "Jarvis Multimodal Perception Layer",
+      "domain": "PROJ",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "TASK",
+      "owner": "Jarvis Multimodal Perception Layer"
+    },
+    {
+      "id": "PROJ-MOSC-BIO-0001",
+      "name": "MusicOS",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "MusicOS"
+    },
+    {
+      "id": "PROJ-MOSC-JD-0001",
+      "name": "MusicOS \u2014 Procedural Musical Identity System",
+      "domain": "PROJ",
+      "class": "SPEC",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "MusicOS \u2014 Procedural Musical Identity System"
+    },
+    {
       "id": "PROJ-NAR-BIO-0001",
       "name": "Naruto",
       "domain": "PROJ",
@@ -1032,6 +1068,24 @@
       "tier": "SIDE",
       "status": "TASK",
       "owner": "UI Rework \u2014 outdated GameBoy page and the control surface"
+    },
+    {
+      "id": "PROJ-TST-BIO-0001",
+      "name": "JarvisTST",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "JarvisTST"
+    },
+    {
+      "id": "PROJ-TST-JGPP-0001",
+      "name": "JarvisTST \u2014 Temporal Task System",
+      "domain": "PROJ",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "TASK",
+      "owner": "JarvisTST \u2014 Temporal Task System"
     }
   ],
   "edges": [
@@ -1936,6 +1990,16 @@
       "type": "related"
     },
     {
+      "source": "PROJ-MMOD-JGPP-0001",
+      "target": "PROJ-MMOD-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-MOSC-JD-0001",
+      "target": "PROJ-MOSC-BIO-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-NAR-BIO-0001",
       "target": "PROJ-ALL-LOG-0001",
       "type": "related"
@@ -1953,6 +2017,11 @@
     {
       "source": "PROJ-TRN-JGPP-0001",
       "target": "PROJ-TRN-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-TST-JGPP-0001",
+      "target": "PROJ-TST-BIO-0001",
       "type": "parent"
     }
   ]
