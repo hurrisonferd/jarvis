@@ -140,7 +140,8 @@
       "GS-ZEU-CORE-0001"
     ],
     "deoxys": [
-      "PROJ-DEO-BIO-0001"
+      "PROJ-DEO-BIO-0001",
+      "PROJ-DEO-JGPP-0001"
     ],
     "dex": [
       "CONN-DEX-SPEC-0001",
@@ -151,6 +152,9 @@
     ],
     "discovery": [
       "ARCH-LAL-CORE-0001"
+    ],
+    "exploration": [
+      "PROJ-DEO-JGPP-0001"
     ],
     "federation": [
       "PROJ-GRD-BIO-0001"
@@ -410,6 +414,9 @@
     ],
     "supabase": [
       "CONN-MSB-CORE-0001"
+    ],
+    "telemetry": [
+      "PROJ-DEO-JGPP-0001"
     ],
     "temporal": [
       "IMPL-JCSD-SPEC-0001"

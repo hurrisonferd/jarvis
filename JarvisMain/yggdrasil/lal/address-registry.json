@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 103,
+  "count": 104,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -1923,6 +1923,26 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-09"
+    },
+    {
+      "jnl": "PROJ-DEO-JGPP-0001",
+      "name": "Deoxys Telemetry Schema \u2014 first exploration",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Deoxys Telemetry Schema \u2014 first exploration",
+      "parent": "PROJ-DEO-BIO-0001",
+      "location": "JarvisSide/Projects/Deoxys/JGPP/DEOXYSJGPP-061026-0001-DEOXYS-TELEMETRY-SCHEMA-FIRST-EXPLORATION.md",
+      "tags": [
+        "deoxys",
+        "telemetry",
+        "exploration"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
     },
     {
       "jnl": "PROJ-GEN-BIO-0001",

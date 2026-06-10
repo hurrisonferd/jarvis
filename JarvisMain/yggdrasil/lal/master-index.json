@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 103,
+  "count": 104,
   "index": [
     {
       "object": "AYRE/JARVIS Split",
@@ -1144,6 +1144,18 @@
       "tags": [
         "project",
         "deoxys"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Deoxys Telemetry Schema \u2014 first exploration",
+      "jnl": "PROJ-DEO-JGPP-0001",
+      "location": "JarvisSide/Projects/Deoxys/JGPP/DEOXYSJGPP-061026-0001-DEOXYS-TELEMETRY-SCHEMA-FIRST-EXPLORATION.md",
+      "tags": [
+        "deoxys",
+        "telemetry",
+        "exploration"
       ],
       "anchors": [],
       "state": "active"
