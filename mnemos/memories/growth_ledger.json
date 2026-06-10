@@ -1,37 +1,8 @@
 {
-  "updated": "2026-06-10T09:35:53.080761+00:00",
+  "updated": "2026-06-10T09:37:32.566475+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_034118",
-      "date": "2026-06-10",
-      "exchanges": 185,
-      "patches_touched": [
-        "P08",
-        "P09",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
-        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
-        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
-        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Both done. Hook patched \u2014 GitHub's signed merge commits are exempt; the noise stops. AYRE canonized in `CLAUDE.md` (#85, merged) \u2014 the split now trave"
-    },
     {
       "session_id": "20260610_034308",
       "date": "2026-06-10",
@@ -582,6 +553,35 @@
       ],
       "alignment": 1.0,
       "key_insight": "Morning, Raven. The GPT closed the thread perfectly while you slept \u2014 its final line is worth waking up to: *the system does not learn from what is sa"
+    },
+    {
+      "session_id": "20260610_093732",
+      "date": "2026-06-10",
+      "exchanges": 235,
+      "patches_touched": [
+        "P08",
+        "P09",
+        "P17",
+        "P43"
+      ],
+      "built": [
+        "\"intake/gpt/P-005 \\342\\200\\224 HYBRID AUTONOMY PATCH PACKET\"",
+        "\"intake/gpt/P-006 \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-007 PATCH PACKET \\342\\200\\224 GOVERNANCE TELEMETRY + CONNECTOR TRACE LAYER\"",
+        "\"intake/gpt/P-008 PATCH PACKET \\342\\200\\224 CONNECTOR UNIFICATION LAYER\"",
+        "\"intake/gpt/P-009 PATCH PACKET \\342\\200\\224 MCP INTENT COMPILER LAYER\""
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (#99), clean. The board's yours whenever you want it, Raven."
     }
   ]
 }
