@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 104,
-    "edges": 171,
-    "main": 90,
+    "nodes": 105,
+    "edges": 174,
+    "main": 91,
     "side": 14
   },
   "nodes": [
@@ -442,6 +442,15 @@
     {
       "id": "GOV-CON-CORE-0001",
       "name": "Constraints",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Governance"
+    },
+    {
+      "id": "GOV-DEX-SPEC-0001",
+      "name": "Dex-Council Validation Bridge",
       "domain": "GOV",
       "class": "SPEC",
       "tier": "MAIN",
@@ -1318,6 +1327,21 @@
     {
       "source": "GOV-CON-CORE-0001",
       "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-DEX-SPEC-0001",
+      "target": "PROJ-DEO-JGPP-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-DEX-SPEC-0001",
+      "target": "ARCH-JD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-DEX-SPEC-0001",
+      "target": "ARCH-JD-CORE-0001",
       "type": "parent"
     },
     {

@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 104,
+  "count": 105,
   "records": [
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -969,6 +969,28 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-09"
+    },
+    {
+      "jnl": "GOV-DEX-SPEC-0001",
+      "name": "Dex-Council Validation Bridge",
+      "type": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "ARCH-JD-CORE-0001",
+      "location": "JarvisMain/Architecture/specs/dex-council-bridge.md",
+      "tags": [
+        "governance",
+        "council",
+        "dex",
+        "bridge",
+        "declarative"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-10"
     },
     {
       "jnl": "GOV-PAT-REG-0001",
