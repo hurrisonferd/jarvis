@@ -1,7 +1,20 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 105,
+  "count": 107,
   "index": [
+    {
+      "object": "AYRE Companion Profile",
+      "jnl": "ARCH-AYR-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/ayre-profile.md",
+      "tags": [
+        "identity",
+        "companion",
+        "ayre",
+        "divergence"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
     {
       "object": "AYRE/JARVIS Split",
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -151,6 +164,19 @@
         "naming",
         "core",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Companion Profile",
+      "jnl": "ARCH-JRV-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/jarvis-profile.md",
+      "tags": [
+        "identity",
+        "companion",
+        "jarvis",
+        "synthesis"
       ],
       "anchors": [],
       "state": "active"
