@@ -1,41 +1,8 @@
 {
-  "updated": "2026-06-11T14:11:21.699055+00:00",
+  "updated": "2026-06-11T14:16:43.266887+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_003514",
-      "date": "2026-06-11",
-      "exchanges": 433,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "Gemini_Generated_Image_6zj4n06zj4n06zj4.png",
-        "Gemini_Generated_Image_y875czy875czy875.png"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger merged (#150), clean. The desk holds: the triage table awaits your verdicts (or \"as recommended\"), the dex v13 collision fix awaits one word, a"
-    },
     {
       "session_id": "20260611_004514",
       "date": "2026-06-11",
@@ -662,6 +629,39 @@
       ],
       "alignment": 1.0,
       "key_insight": "**The dex is whole again \u2014 GPT can pull everything.** Full chain, closed:\n\n1. **Root cause:** the triage merge (#154) left the alias-standard file uns"
+    },
+    {
+      "session_id": "20260611_141643",
+      "date": "2026-06-11",
+      "exchanges": 514,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ruling recorded and live \u2014 CLAUDE.md Governed Workflow now carries it, `dex_events` logged it: **no repair exemption; \"repair\" is not a word that bypa"
     }
   ]
 }
