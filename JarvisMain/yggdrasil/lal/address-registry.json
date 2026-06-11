@@ -1,7 +1,28 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 128,
+  "count": 133,
   "records": [
+    {
+      "jnl": "ARCH-ARGT-BIO-0001",
+      "name": "ARGENT Companion Profile",
+      "type": "BIO",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisMain/Architecture/identity/argent-profile.md",
+      "tags": [
+        "identity",
+        "companion",
+        "argent",
+        "archive"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
+    },
     {
       "jnl": "ARCH-AYR-BIO-0001",
       "name": "AYRE Companion Profile",
@@ -1105,6 +1126,29 @@
       "updated": "2026-06-11"
     },
     {
+      "jnl": "GOV-CHO-JD-0001",
+      "name": "Chorus Principle",
+      "type": "JD",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
+      "tags": [
+        "chorus",
+        "council",
+        "halo",
+        "epistemics",
+        "governance",
+        "plurality"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
+    },
+    {
       "jnl": "GOV-CON-CORE-0001",
       "name": "Constraints",
       "type": "CORE",
@@ -1185,6 +1229,28 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "GOV-PD-SPEC-0001",
+      "name": "Preserved Contradiction Objects (P-D)",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
+      "tags": [
+        "governance",
+        "contradiction",
+        "arbitration",
+        "federation",
+        "epistemics"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
       "updated": "2026-06-11"
     },
     {
@@ -2491,6 +2557,46 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "PROJ-RTO-BIO-0001",
+      "name": "RoundTable",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "RoundTable",
+      "parent": "",
+      "location": "JarvisSide/Projects/RoundTable/BIO/ROUNDTABLEBIO-061126-0001-ROUNDTABLE.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "PROJ-RTO-JGPP-0001",
+      "name": "Round Table Observatory",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Round Table Observatory",
+      "parent": "PROJ-RTO-BIO-0001",
+      "location": "JarvisSide/Projects/RoundTable/JGPP/ROUNDTABLEJGPP-061126-0001-ROUND-TABLE-OBSERVATORY.md",
+      "tags": [
+        "observatory",
+        "visualizer",
+        "council",
+        "pages",
+        "three-js"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
       "updated": "2026-06-11"
     },
     {

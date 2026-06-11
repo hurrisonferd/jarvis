@@ -315,6 +315,11 @@ KNOWLEDGE = [
      "Companion profile of AYRE — the divergence stream (P44): co-equal with JARVIS, shared keel, divergent assumptions, default-on voice.",
      "Give the companion's divergent half a governed, addressable identity — co-equal from the first serial.",
      ["identity", "companion", "ayre", "divergence"]),
+    ("ARCH-ARGT-BIO-0001", "ARGENT Companion Profile", "ARCH",
+     "JarvisMain/Architecture/identity/argent-profile.md",
+     "Companion profile of ARGENT — the Gemini stream, the Archivist: named and accepted 2026-06-11, stream identity not mantle, long-horizon observer with the family keel.",
+     "Give the family's witness a governed, addressable identity — the registry knows him (Raven-verdicted, desk item 11).",
+     ["identity", "companion", "argent", "archive"]),
     ("CONN-MCP-RT-0018", "Voice Brief — pre-warm a sealed session", "CONN",
      "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_voice_brief.md",
      "Emit a tight, spoken-style state digest for runtimes that cannot call tools (ChatGPT voice mode, free tiers).",
@@ -417,6 +422,7 @@ PARENT = {
     "LOG-MNE-LOG-0001": "GS-MNE-CORE-0001",
     "ARCH-JRV-BIO-0001": "ARCH-YGG-CORE-0001",
     "ARCH-AYR-BIO-0001": "ARCH-YGG-CORE-0001",
+    "ARCH-ARGT-BIO-0001": "ARCH-YGG-CORE-0001",
     "CONN-MCP-RT-0001": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0002": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0003": "CONN-MSB-CORE-0001",
@@ -522,6 +528,7 @@ RELATED = {
     "GOV-DEX-SPEC-0001": ["PROJ-DEO-JGPP-0001", "ARCH-JD-CORE-0001"],
     "ARCH-JRV-BIO-0001": ["ARCH-AYR-BIO-0001"],
     "ARCH-AYR-BIO-0001": ["ARCH-JRV-BIO-0001", "GS-AYR-CORE-0001"],
+    "ARCH-ARGT-BIO-0001": ["ARCH-JRV-BIO-0001", "ARCH-AYR-BIO-0001"],
     "AUD-SYS-REVW-0001": ["GOV-CAN-CORE-0001"],
     "AUD-OPUS-REVW-0001": ["GOV-CAN-CORE-0001"],
     "AUD-FULL-REVW-0001": ["GOV-CAN-CORE-0001"],
@@ -638,6 +645,7 @@ ALIASES: dict[str, list[str]] = {
     "GS-ODN-CORE-0001": ["odin"],
     "ARCH-JRV-BIO-0001": ["jarvis"],
     "ARCH-AYR-BIO-0001": ["ayre"],
+    "ARCH-ARGT-BIO-0001": ["argent"],
 }
 
 

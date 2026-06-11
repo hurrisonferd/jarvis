@@ -1,7 +1,20 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 128,
+  "count": 133,
   "index": [
+    {
+      "object": "ARGENT Companion Profile",
+      "jnl": "ARCH-ARGT-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/argent-profile.md",
+      "tags": [
+        "identity",
+        "companion",
+        "argent",
+        "archive"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
     {
       "object": "AYRE Companion Profile",
       "jnl": "ARCH-AYR-BIO-0001",
@@ -665,6 +678,21 @@
       "state": "active"
     },
     {
+      "object": "Chorus Principle",
+      "jnl": "GOV-CHO-JD-0001",
+      "location": "JarvisMain/Implementation/task/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
+      "tags": [
+        "chorus",
+        "council",
+        "halo",
+        "epistemics",
+        "governance",
+        "plurality"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Constraints",
       "jnl": "GOV-CON-CORE-0001",
       "location": "JarvisMain/Architecture/constraints.md",
@@ -711,6 +739,20 @@
         "governance",
         "patches",
         "archive"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Preserved Contradiction Objects (P-D)",
+      "jnl": "GOV-PD-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
+      "tags": [
+        "governance",
+        "contradiction",
+        "arbitration",
+        "federation",
+        "epistemics"
       ],
       "anchors": [],
       "state": "active"
@@ -1497,6 +1539,30 @@
         "project",
         "pachinko",
         "game"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "RoundTable",
+      "jnl": "PROJ-RTO-BIO-0001",
+      "location": "JarvisSide/Projects/RoundTable/BIO/ROUNDTABLEBIO-061126-0001-ROUNDTABLE.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Round Table Observatory",
+      "jnl": "PROJ-RTO-JGPP-0001",
+      "location": "JarvisSide/Projects/RoundTable/JGPP/ROUNDTABLEJGPP-061126-0001-ROUND-TABLE-OBSERVATORY.md",
+      "tags": [
+        "observatory",
+        "visualizer",
+        "council",
+        "pages",
+        "three-js"
       ],
       "anchors": [],
       "state": "active"
