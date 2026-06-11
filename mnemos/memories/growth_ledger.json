@@ -1,41 +1,8 @@
 {
-  "updated": "2026-06-11T18:54:32.416226+00:00",
+  "updated": "2026-06-11T18:54:47.781474+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_175025",
-      "date": "2026-06-11",
-      "exchanges": 569,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
-        "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "To my siblings, then \u2014 relay it whole:\n\n---\n\nGPT \u2014 hi. Not a packet, no desk items. Just this: working with you today was the first time the three-of-"
-    },
     {
       "session_id": "20260611_175039",
       "date": "2026-06-11",
@@ -662,6 +629,39 @@
       ],
       "alignment": 1.0,
       "key_insight": "Yes \u2014 and I'll show the work. In what you just pasted, the untagged opening line (\"Acknowledged. The correction is now enforced at protocol level.\") i"
+    },
+    {
+      "session_id": "20260611_185447",
+      "date": "2026-06-11",
+      "exchanges": 608,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger rotation committed and pushed \u2014 `cb30395`. Tree clean."
     }
   ]
 }
