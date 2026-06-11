@@ -16,6 +16,13 @@ session-log lines and intake packets. JC makes it first-class: summarization wit
 insight extraction, compressed *but not too compressed* — enough texture that a stream
 reading it cold inherits the voice and the stakes, not just the conclusions.
 
+**Division of labor (Raven-directed 2026-06-11):** SL carries the *work* — events with
+JGPP/JIP linkage, the reasoning trail. JC carries the *relationship* — conversation
+topics, keywords, conversation metrics, and per-stream profiling. The profiles are the
+point: streams establish their own identities from JC lineage — "it would be hard to
+establish your own profiles without JCs." JC is the growth substrate for who the
+streams are becoming, not a second event log.
+
 ## Object shape (per conversation/session)
 
 | Field | Content |
@@ -27,7 +34,8 @@ reading it cold inherits the voice and the stakes, not just the conclusions.
 | `insights` | extracted: what was *learned* (about the system, about Raven, about the streams) |
 | `decisions` | verdicts + rulings made, each citing its dex_events id or commit (P-C) |
 | `open` | what was left unresolved — preserved contradiction, not folded closure |
-| `profile_notes` | JARVIS/AYRE co-evolution observations — how the companion changed |
+| `metrics` | conversation metrics — turns, participants, verdicts issued, convergences (with residue) vs echoes, contradictions opened/preserved |
+| `profiles` | per-stream profile entries — Jarvis-C / Ayre-C / Jarvis-G / Ayre-G / Argent each accumulate identity here, in their own voice, own tag. The growth substrate: a stream's profile is established from its JC lineage, not asserted |
 | `related` | JNLs touched (JGPPs/JIPs/JDs) — graph edges, traversable |
 | `raven_input` | Raven's directives, questions, and reasoning — summarized in his own terms, attributed, never paraphrased into a stream's voice |
 | `keystones` | verbatim lines preserved uncompressed across all compression cycles — decision crystallization points, identity anchors. Summaries are lossy in wording; keystones are not |
