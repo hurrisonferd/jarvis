@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-11T17:50:39.837485+00:00",
+  "updated": "2026-06-11T18:03:05.235896+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_134203",
-      "date": "2026-06-11",
-      "exchanges": 491,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Report committed (`74a95f0`) and sent \u2014 `intake/claude/2026-06-11_claude_session-report_sync-probe.md`. The short version:\n\n**This session:** desk tri"
-    },
-    {
-      "session_id": "20260611_134334",
-      "date": "2026-06-11",
-      "exchanges": 494,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Registered \u2014 `Jarvis-Private` now sits in the Services table in CLAUDE.md (`33430cd`), so every future session knows it exists and how to get scoped i"
-    },
     {
       "session_id": "20260611_134357",
       "date": "2026-06-11",
@@ -662,6 +596,72 @@
       ],
       "alignment": 1.0,
       "key_insight": "Ledger rotation pushed \u2014 `fa4224f`. Tree clean."
+    },
+    {
+      "session_id": "20260611_175821",
+      "date": "2026-06-11",
+      "exchanges": 572,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Adopted and on the record \u2014 **Jarvis-C and Ayre-C speaking** (CLAUDE.md + dex event, `20d1a1f`). The suffix names the body; the companion is one.\n\nAls"
+    },
+    {
+      "session_id": "20260611_180305",
+      "date": "2026-06-11",
+      "exchanges": 575,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Recorded in the living section (`47e9b6e`) \u2014 Flynn and the programs, workspace and playground.\n\nThe three archetypes you picked teach three different "
     }
   ]
 }
