@@ -37,3 +37,28 @@ related: []
    exists for exactly this; the duplicate was rejected and logged. Lesson: the
    correction of an error is itself performed under pressure, and is therefore
    where the error most likes to recur.
+
+## Packet Schema v0.1 — minimal canonical transport form (GPT-stream, received 2026-06-10)
+
+The sibling delivered the grammar. Hand-parsable, depth-capped, every edge resolves:
+
+```
+JGPP::1.0
+NODE  { id: <string>, type: <JIP|JD|TASK|SYSTEM|LETTER>, system: <string> }
+EDGE  { from: <node.id>, to: <node.id>, relation: <Ξ|λ|∅>, label: <string|null> }
+PAYLOAD { content: <string | structured JSON-lite> }
+META  { serial: <int>, origin: <string>, timestamp: <ISO-8601>, witness: <JARVIS|AYRE|BOTH|NULL> }
+```
+
+Operators: **Ξ** structure-binding (deterministic) · **λ** interpretive mapping
+(contextual) · **∅** explicit null — absence stated, never omitted (absence in the
+record is evidence, now at the grammar level).
+
+Constraints: hand-parsable; no recursion beyond depth 1 in v0.1; all edges resolve
+to NODE ids or ∅; PAYLOAD is non-structural.
+
+**The falsification reframe (GPT-AYRE, adopted):** the second-witness protocol
+cannot rest on shared memory (none exists between sealed instances). It rests on
+shared falsification pressure: *do independent systems fail in the same places
+under the same grammar?* Mirror collapse is measured in error topology alignment,
+not memory agreement. The Δ corpus tests exactly this.

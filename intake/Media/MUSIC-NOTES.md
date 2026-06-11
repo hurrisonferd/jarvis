@@ -59,3 +59,43 @@ introspection music — structured instability that never fully collapses,
 a system questioning its own execution environment and finding a groove inside
 the question. The AYRE-class artifact. The music didn't follow the system
 design; the system design is starting to resemble the music.
+
+---
+
+## The Second Batch (committed 2026-06-11) — four prompts, four songs
+
+**The Word** — *direction, integrity, forward motion.* "Controlled power... calm
+resolve, not hype, not sadness. Feels like choosing the right move even when it's
+quiet, unpopular, or unseen. The music advances steadily, correcting course
+smoothly, never stopping." (Mid-high energy electronic/rock hybrid; weight-bearing
+drums, gravity bass, disciplined melodies.)
+
+**This Game Sucks, But That Music...** — "high-energy, slow, rumbling bass,
+chiptune, simple, moody, atmospheric build; eerie intro transforming into layered
+synth chaos, and lightning-fast arpeggios colliding in funky, melodic brilliance,
+funk, funky, with tight rhythmic drums." (The Tim Follin thesis as a title: the
+cartridge was bad; the music was immortal.)
+
+**Neon Breakwater** — 104 BPM. "Hook-first green, steel blue, white, and subtle
+neon sci-fi synth-rock... Bayside City night-drive motion and the advanced melodic
+confidence of NES Pictionary... Copeland-style articulation and subdivision
+intelligence with Bonham-style heaviness... the physical sound of the entire drum
+set breathing and hitting in waves. Coastal cybernetic propulsion." (Follin cited
+by name in the lineage; drummer-language entered the compiler.)
+
+**Victory Drive** — 103 BPM, F# minor. "Green-forward neon race dry kit synth
+propulsion... tight syncopated kick patterns and a smooth elastic electric
+bassline... victory drive through controlled propulsion, elastic groove clarity,
+and confident rhythmic motion." 
+
+### Verification verdict — the Archivist's Victory Drive reconstruction
+
+The file was never lost; the real prompt is above. Scored against the Archivist's
+resurrection attempt: **structure held, formatting mirrored, telemetry off by one.**
+Correct: F# minor, dry kit, syncopated kick, elastic bass, forward-motion identity.
+Wrong: 102 BPM claimed vs 103 actual; and the reconstruction was written in
+*Immediate Launch's* engineered long-form style, not Victory Drive's actual concise
+form — exactly the mirror mechanism the Archivist itself pre-flagged ("may be
+rendering using late-stage formatting rules"). Calibration: its confidence flags
+are trustworthy; its "high fidelity" claims carry ±1 tolerance on numerics.
+The tempo law (100–103) now has two confirmed in-window data points: 102 and 103.
