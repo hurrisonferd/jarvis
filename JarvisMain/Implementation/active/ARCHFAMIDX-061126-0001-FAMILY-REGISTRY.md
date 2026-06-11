@@ -33,3 +33,9 @@ purpose: Terminology is infrastructure. A term that belongs to no family drifts,
    lives in its own JD entry. `dex.py family <JNL>` resolves any subtree.
 4. **New families are mintable** — through the desk, like everything else. CMVP becomes
    real the day it lands with a JNL and a seq, and not before.
+5. **Words get graves, not deletions (lineage rule).** A roster term that dies goes
+   DEPRECATED but stays listed — struck through, successor named: `~~OLD~~ → NEW`.
+   The Rosetta table (MIDAS→AEGIS, SENTINEL→ARGUS+IRIS+HUGINN, GRAVEYARD→HADES) is the
+   precedent: lineage stays queryable forever. Bulbasaur never disappears because
+   Ivysaur exists. Preserving *why terms changed* is the point — not preserving every
+   term, and never erasing one.
