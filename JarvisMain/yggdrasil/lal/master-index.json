@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 127,
+  "count": 128,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -33,6 +33,20 @@
       "tags": [
         "architecture",
         "ayre"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Family Registry",
+      "jnl": "ARCH-FAM-IDX-0001",
+      "location": "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
+      "tags": [
+        "families",
+        "containers",
+        "semantics",
+        "terminology",
+        "index"
       ],
       "anchors": [],
       "state": "active"

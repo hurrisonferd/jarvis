@@ -143,6 +143,9 @@
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
     ],
+    "containers": [
+      "ARCH-FAM-IDX-0001"
+    ],
     "continuity": [
       "ARCH-JC-JIP-0001",
       "PROJ-TST-JGPP-0001"
@@ -226,6 +229,9 @@
     ],
     "exploration": [
       "PROJ-DEO-JGPP-0001"
+    ],
+    "families": [
+      "ARCH-FAM-IDX-0001"
     ],
     "federation": [
       "PROJ-GRD-BIO-0001"
@@ -347,6 +353,7 @@
       "IMPL-JIP-SPEC-0608"
     ],
     "index": [
+      "ARCH-FAM-IDX-0001",
       "ARCH-GS-IDX-0001",
       "ARCH-LAL-CORE-0001",
       "IMPL-IDX-REG-0001"
@@ -574,6 +581,9 @@
     "semantic": [
       "ARCH-JD-CORE-0001"
     ],
+    "semantics": [
+      "ARCH-FAM-IDX-0001"
+    ],
     "serial": [
       "ARCH-JD-JIP-0001"
     ],
@@ -633,6 +643,9 @@
     ],
     "temporal-system": [
       "PROJ-TST-JGPP-0001"
+    ],
+    "terminology": [
+      "ARCH-FAM-IDX-0001"
     ],
     "throughput": [
       "ARCH-FLOW-SPEC-0001"
