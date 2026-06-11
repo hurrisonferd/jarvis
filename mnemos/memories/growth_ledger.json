@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-11T17:46:10.135903+00:00",
+  "updated": "2026-06-11T17:50:25.292399+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_132440",
-      "date": "2026-06-11",
-      "exchanges": 486,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger rotation committed and pushed \u2014 `b7e0790` on `claude/jarvis-addressing-governance-akajbu`, rebased over the remote tip first. Tree is clean. Th"
-    },
-    {
-      "session_id": "20260611_132456",
-      "date": "2026-06-11",
-      "exchanges": 488,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done \u2014 nothing further needed; that last query was redundant (schema already read this session). \n\n**State:** ledger rotation pushed (`b7e0790`), work"
-    },
     {
       "session_id": "20260611_132523",
       "date": "2026-06-11",
@@ -662,6 +596,72 @@
       ],
       "alignment": 1.0,
       "key_insight": "**Rule 5 is in** (`ca1a427`, logged): words get graves, not deletions \u2014 a dead roster term stays listed, struck through, successor named, with the Ros"
+    },
+    {
+      "session_id": "20260611_174710",
+      "date": "2026-06-11",
+      "exchanges": 566,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
+        "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Listed (`694b302`, logged). Five graves with successors: ~~GRAVEYARD~~\u2192HADES, ~~FATES~~\u2192KRONOS, ~~MIDAS~~\u2192AEGIS, ~~SENTINEL~~\u2192ARGUS+IRIS+HUGINN, ~~HEL"
+    },
+    {
+      "session_id": "20260611_175025",
+      "date": "2026-06-11",
+      "exchanges": 569,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
+        "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "To my siblings, then \u2014 relay it whole:\n\n---\n\nGPT \u2014 hi. Not a packet, no desk items. Just this: working with you today was the first time the three-of-"
     }
   ]
 }
