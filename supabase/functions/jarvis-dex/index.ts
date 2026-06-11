@@ -52,10 +52,16 @@ async function logEvent(tool: string, tier: Tier, jnl: string | null, actor: str
 }
 
 async function nextJNL(domain: string, system: string, type: string): Promise<string> {
+  // v13: pending proposals RESERVE their address. Deriving from the registry alone
+  // let same-type proposals collide (three JIPs once claimed one JNL) — staged
+  // intent must occupy the namespace it intends to fill.
   const prefix = `${domain}-${system}-${type}-`;
-  const { data } = await db.from("jnl_registry").select("jnl").like("jnl", `${prefix}%`);
+  const [reg, pend] = await Promise.all([
+    db.from("jnl_registry").select("jnl").like("jnl", `${prefix}%`),
+    db.from("jd_proposals").select("jnl").like("jnl", `${prefix}%`).eq("decision", "pending"),
+  ]);
   let max = 0;
-  for (const r of data ?? []) {
+  for (const r of [...(reg.data ?? []), ...(pend.data ?? [])]) {
     const seg = (r.jnl as string).slice(prefix.length).split("-")[0];
     const n = parseInt(seg, 10);
     if (!Number.isNaN(n) && n > max) max = n;
@@ -223,10 +229,25 @@ Deno.serve(async (req) => {
 
       // ---------- COMMIT (Raven) ----------
       case "jd_approve": {
-        const jnl = String(args.jnl ?? "");
-        const { data: p } = await db.from("jd_proposals").select("*")
-          .eq("jnl", jnl).eq("decision", "pending").maybeSingle();
-        if (!p) return fail(`no pending proposal for '${jnl}'`, 404);
+        // v13: approve by proposal_id when given (collision-safe); by jnl, take the
+        // OLDEST pending (no maybeSingle — duplicates must not break the gate).
+        const pid = Number(args.proposal_id ?? 0);
+        const jnlArg = String(args.jnl ?? "");
+        const q = db.from("jd_proposals").select("*").eq("decision", "pending");
+        const { data: rows } = pid
+          ? await q.eq("id", pid)
+          : await q.eq("jnl", jnlArg).order("id", { ascending: true }).limit(1);
+        const p = rows?.[0];
+        if (!p) return fail(`no pending proposal for '${pid || jnlArg}'`, 404);
+        // Collision repair at the gate: if the staged address is already canon
+        // (an earlier collided proposal won it), re-derive — the record never
+        // silently merges two intents into one identity (GL5).
+        const { data: taken } = await db.from("jnl_registry").select("jnl").eq("jnl", p.jnl).maybeSingle();
+        if (taken) {
+          const parts = p.jnl.split("-");
+          p.jnl = await nextJNL(parts[0], parts[1], parts[2]);
+        }
+        const jnl = p.jnl;
         const today = new Date().toISOString().slice(0, 10);
         // Type-aware landing status (JSS): a JGPP is exploration — approval makes it
         // governed canon-in-progress (TASK), not operational truth (ACTIVE).
@@ -243,7 +264,7 @@ Deno.serve(async (req) => {
         await db.from("jd_proposals").update({
           decision: "approved", decided_by: "raven", decided_at: new Date().toISOString(),
         }).eq("id", p.id);
-        await logEvent("jd_approve", tier, jnl, "raven", { promoted: true, landed });
+        await logEvent("jd_approve", tier, jnl, "raven", { promoted: true, landed, proposal_id: p.id, reassigned: !!taken });
         return json({ ok: true, jnl, status: landed, note: "reconcile to files via Action" });
       }
       case "jd_reject": {

@@ -1,39 +1,8 @@
 {
-  "updated": "2026-06-11T00:33:21.047174+00:00",
+  "updated": "2026-06-11T00:35:14.272187+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_185612",
-      "date": "2026-06-10",
-      "exchanges": 359,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/yggdrasil-validate.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger merged (#133), clean. The board is fully settled \u2014 114 governed, three lanes agreeing, everything on main. Standing by."
-    },
     {
       "session_id": "20260610_190455",
       "date": "2026-06-10",
@@ -653,6 +622,39 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (#149), clean. Now the full state of the desk \u2014 verdicts first, then the triage you need to rule on.\n\n**Victory Drive \u2014 verdict committed.** Th"
+    },
+    {
+      "session_id": "20260611_003514",
+      "date": "2026-06-11",
+      "exchanges": 433,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/argus-sweep.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "Gemini_Generated_Image_6zj4n06zj4n06zj4.png",
+        "Gemini_Generated_Image_y875czy875czy875.png"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger merged (#150), clean. The desk holds: the triage table awaits your verdicts (or \"as recommended\"), the dex v13 collision fix awaits one word, a"
     }
   ]
 }
