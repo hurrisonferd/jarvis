@@ -643,6 +643,9 @@ ALIASES: dict[str, list[str]] = {
 
 def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source, status,
                 cls, tr, own, references, parent="", aliases=None) -> str:
+    # type IS the JNL type token (Raven-approved 2026-06-11). Caller-passed values had
+    # drifted into three conventions (domain / token / mixed); the address is the ontology.
+    typ = jnl.split("-")[2]
     fm = [
         "---",
         f"name: {name}",
@@ -683,6 +686,7 @@ def main() -> None:
 
     def register(jnl, location, tags, name, typ, status="ACTIVE", state="active", parent=""):
         dom = jnl.split("-")[0]
+        typ = jnl.split("-")[2]  # type IS the JNL token (Raven-approved 2026-06-11)
         rec = {
             "jnl": jnl, "name": name, "type": typ,
             "class": ontology_class(dom, typ, jnl), "tier": tier(dom, status),

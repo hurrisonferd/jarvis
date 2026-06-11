@@ -1,6 +1,6 @@
 ---
 name: JARVIS Query — governed reasoning
-type: CONN
+type: RT
 class: MODULE
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: CONN-MCP-RT-0005
 seq: 73
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_query.md
 related: []
 references: []

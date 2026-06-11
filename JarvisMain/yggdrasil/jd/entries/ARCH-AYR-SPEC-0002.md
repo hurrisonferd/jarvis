@@ -1,6 +1,6 @@
 ---
 name: AYRE Loop
-type: ARCH
+type: SPEC
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: ARCH-AYR-SPEC-0002
 seq: 49
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Architecture/specs/ayre-loop-v1.md
 related: [GS-AYR-CORE-0001]
 references: []

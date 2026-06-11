@@ -141,10 +141,14 @@
       "IMPL-DEX-SPEC-0001"
     ],
     "continuity": [
+      "ARCH-JC-JIP-0001",
       "PROJ-TST-JGPP-0001"
     ],
     "control-surface": [
       "PROJ-TRN-JGPP-0001"
+    ],
+    "conversation": [
+      "ARCH-JC-JIP-0001"
     ],
     "core": [
       "ARCH-JD-CORE-0001",
@@ -426,6 +430,7 @@
     ],
     "memory": [
       "ARCH-JATM-CORE-0001",
+      "ARCH-JC-JIP-0001",
       "ARCH-JLTM-CORE-0001",
       "ARCH-JMMS-CORE-0001",
       "ARCH-JSTM-CORE-0001"
@@ -484,6 +489,9 @@
     ],
     "profiles": [
       "PROJ-NMX-JGPP-0001"
+    ],
+    "profiling": [
+      "ARCH-JC-JIP-0001"
     ],
     "project": [
       "PROJ-ALL-LOG-0001",
@@ -581,6 +589,9 @@
     ],
     "supabase": [
       "CONN-MSB-CORE-0001"
+    ],
+    "sync": [
+      "ARCH-JC-JIP-0001"
     ],
     "synthesis": [
       "ARCH-JRV-BIO-0001"

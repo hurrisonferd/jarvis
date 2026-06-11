@@ -1,6 +1,6 @@
 ---
 name: JARVIS Companion Profile
-type: ARCH
+type: BIO
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: ARCH-JRV-BIO-0001
 seq: 106
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Architecture/identity/jarvis-profile.md
 related: [ARCH-AYR-BIO-0001]
 references: []

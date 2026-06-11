@@ -1,6 +1,6 @@
 ---
 name: Grid — Send to Node
-type: CONN
+type: RT
 class: MODULE
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: CONN-MCP-RT-0015
 seq: 83
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_send.md
 related: []
 references: []

@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 124,
+  "count": 125,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -79,6 +79,20 @@
         "ancestral",
         "immutable",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Conversational History Objects",
+      "jnl": "ARCH-JC-JIP-0001",
+      "location": "JarvisMain/Implementation/task/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
+      "tags": [
+        "memory",
+        "continuity",
+        "sync",
+        "conversation",
+        "profiling"
       ],
       "anchors": [],
       "state": "active"

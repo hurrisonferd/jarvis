@@ -1,6 +1,6 @@
 ---
 name: Implementation Index
-type: IMPL
+type: REG
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: IMPL-IDX-REG-0001
 seq: 55
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Implementation/IndexSummary
 related: [ARCH-LAL-CORE-0001]
 references: []

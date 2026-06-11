@@ -1,6 +1,6 @@
 ---
 name: HALO
-type: GS
+type: CORE
 class: SYSTEM
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: GS-HAL-CORE-0001
 seq: 23
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/god_systems/T3_HALO/contract.json
 related: [GS-ODN-CORE-0001]
 references: []

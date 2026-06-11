@@ -1,6 +1,6 @@
 ---
 name: AYRE/JARVIS Split
-type: ARCH
+type: SPEC
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: ARCH-AYR-SPEC-0001
 seq: 48
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Architecture/specs/ayre-jarvis-split-v1.md
 related: [GS-AYR-CORE-0001]
 references: []

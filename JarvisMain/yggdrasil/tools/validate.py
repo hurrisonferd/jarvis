@@ -62,6 +62,10 @@ def main() -> int:
             errors.append(f"{f.name}: class '{cls}' not in ontology {sorted(jnllib.CLASSES)}")
         if tr and tr not in jnllib.TIERS:
             errors.append(f"{f.name}: tier '{tr}' not in {sorted(jnllib.TIERS)}")
+        # type IS the JNL type token (Raven-approved 2026-06-11) — drift is a failure.
+        typ = fm.get("type", "")
+        if addr and typ and "-" in addr and typ != addr.split("-")[2]:
+            errors.append(f"{f.name}: type '{typ}' != JNL token '{addr.split('-')[2]}' (type = address ontology)")
         # Redundancy (overlap_score Gold Law): two entries may not claim the same canonical name.
         nm = fm.get("name", "")
         if nm:

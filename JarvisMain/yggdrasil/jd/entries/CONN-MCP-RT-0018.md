@@ -1,6 +1,6 @@
 ---
 name: Voice Brief — pre-warm a sealed session
-type: CONN
+type: RT
 class: MODULE
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: CONN-MCP-RT-0018
 seq: 110
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_voice_brief.md
 related: []
 references: []

@@ -1,6 +1,6 @@
 ---
 name: AYRE Companion Profile
-type: ARCH
+type: BIO
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: ARCH-AYR-BIO-0001
 seq: 107
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Architecture/identity/ayre-profile.md
 related: [ARCH-JRV-BIO-0001, GS-AYR-CORE-0001]
 references: []

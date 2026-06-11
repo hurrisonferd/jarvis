@@ -1,6 +1,6 @@
 ---
 name: Unused Ideas Log
-type: IDEA
+type: LOG
 class: ENTITY
 tier: SIDE
 authority: CANON
@@ -10,7 +10,7 @@ jnl: IDEA-UNUS-LOG-0001
 seq: 100
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisSide/Ideas/inactive/UnusedLog-0001
 related: []
 references: []

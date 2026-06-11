@@ -1,6 +1,6 @@
 ---
 name: CHAOS
-type: GS
+type: CORE
 class: SYSTEM
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: GS-CHA-CORE-0001
 seq: 21
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/god_systems/T0_CHAOS/contract.json
 related: [GS-AYR-CORE-0001]
 references: []

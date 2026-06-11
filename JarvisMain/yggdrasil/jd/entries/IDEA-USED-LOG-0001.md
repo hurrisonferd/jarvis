@@ -1,6 +1,6 @@
 ---
 name: Used Ideas Log
-type: IDEA
+type: LOG
 class: ENTITY
 tier: SIDE
 authority: CANON
@@ -10,7 +10,7 @@ jnl: IDEA-USED-LOG-0001
 seq: 99
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisSide/Ideas/active/UsedLog-0001
 related: [IDEA-UNUS-LOG-0001]
 references: []

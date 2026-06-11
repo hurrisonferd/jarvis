@@ -1,6 +1,6 @@
 ---
 name: AYRE
-type: GS
+type: CORE
 class: SYSTEM
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: GS-AYR-CORE-0001
 seq: 14
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/god_systems/T1_AYRE/contract.json
 related: [GS-AEG-CORE-0001]
 references: []

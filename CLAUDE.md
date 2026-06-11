@@ -251,6 +251,14 @@ See `requirements.txt`.
 with a recommendation first — Raven verdicts before execution. Live-tier writes included.
 "Repair" is not a word that bypasses the gate.
 
+**Event discipline (P-B, Raven-approved 2026-06-11):** one `dex_events` event per fact,
+written when the fact lands — never batched with implementation events. The spine records
+authority time, not narration time.
+
+**Closure by proof (P-C, Raven-approved 2026-06-11):** a claim is *closed* only when it
+cites a `dex_events` id or commit hash; otherwise it is *open*. Streams verify via the
+`events_list` READ tool — no stream takes another's word for system state.
+
 All changes follow this loop:
 
 ```
