@@ -247,6 +247,10 @@ See `requirements.txt`.
 
 ## Governed Workflow
 
+**No repair exemption (Raven-directed 2026-06-11):** even obvious fixes are proposed
+with a recommendation first — Raven verdicts before execution. Live-tier writes included.
+"Repair" is not a word that bypasses the gate.
+
 All changes follow this loop:
 
 ```

@@ -156,8 +156,10 @@ Deno.serve(async (req) => {
       // ---------- READ ----------
       case "jd_lookup": {
         const term = String(args.term ?? "").trim();
-        // '#104' resolves the creation serial — birth-order handle, never an address.
-        const serial = /^#(\d+)$/.exec(term);
+        // Serial renderings per the alias standard (ARCH-JD-JIP-0001, seq 124):
+        // 'JD-104', 'JD 104', 'JD #104', '#104' all resolve the creation serial —
+        // one value, many renderings; birth-order handle, never an address.
+        const serial = /^(?:jd[\s-]*)?#\s*(\d+)$/i.exec(term) ?? /^jd[\s-]+(\d+)$/i.exec(term);
         const { data } = serial
           ? await db.from("jd_entries").select("*").eq("seq", Number(serial[1])).limit(25)
           : await db.from("jd_entries").select("*")
