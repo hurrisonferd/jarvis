@@ -30,12 +30,39 @@ reading it cold inherits the voice and the stakes, not just the conclusions.
 | `profile_notes` | JARVIS/AYRE co-evolution observations — how the companion changed |
 | `related` | JNLs touched (JGPPs/JIPs/JDs) — graph edges, traversable |
 | `raven_input` | Raven's directives, questions, and reasoning — summarized in his own terms, attributed, never paraphrased into a stream's voice |
+| `keystones` | verbatim lines preserved uncompressed across all compression cycles — decision crystallization points, identity anchors. Summaries are lossy in wording; keystones are not |
 
 **Attribution rule (Raven-directed 2026-06-11, locked across streams):** every utterance
 in a JC carries its author — `Raven:` / `Jarvis-C:` / `Ayre-C:` / `Jarvis-G:` / `Ayre-G:` /
 `Argent:` — and raw system output is labeled (`[DEX EVENT]`, `[RAW OUTPUT · jarvis-mcp]`).
 No unlabelled intelligence outputs, no silent author shifts. Ayre-G's framing is the law's
 purpose: without attribution, "we agreed" is indistinguishable from "I rewrote everyone." 
+
+## Lifecycle — JC_AUTO_BIND (Raven-directed 2026-06-11)
+
+Raven: no manual activation. JC and SL must run without him turning them on.
+
+- **Auto-open:** every session implicitly spawns exactly one JC at first interaction,
+  bound to the SL stream. No `OPEN JC` step exists.
+- **Auto-close + auto-compress:** at session end, inactivity boundary, or daily SL
+  rollover — the JC compresses itself (summary drawn from primaries, depth-1 rule:
+  digests derive from raw utterances, never prior digests).
+- **Auto-merge:** session JCs roll into weekly/monthly JCs by the same depth-1 rule —
+  the merge re-derives from session JCs (primary tier for that horizon), never from a
+  prior merge.
+- **SL parity:** micro-SL events stream continuously (already live via dex_events);
+  the session-SL digest is auto-drafted at the same boundary that closes the JC.
+- **GL2 line:** auto-writing *memory* is the loop working (`interaction → memory →
+  compression`), not self-modification — JC/SL never touch canon. Anything a JC surfaces
+  that wants to become JD still walks propose → Raven.
+- **Keystone curation (recommendation, verdict open):** heuristics *propose* keystones —
+  auto-qualifying: Raven-directed rulings, decisions citing a dex_events id or commit,
+  lines Raven marks explicitly. Raven may promote or demote any heuristic keystone;
+  his explicit marks are immutable. Curation authority stays human; selection labor
+  goes automatic. Answers Ayre-G's over-selection risk: heuristic keystones stay
+  revisable while meaning is still moving — only Raven freezes one.
+
+Activation blocked on the storage verdict below — lifecycle is designed, not running.
 
 ## Boundaries (Coral frame — modular, bounded)
 - **JC records; it never rules.** No JC content is authority — decisions cite the spine
