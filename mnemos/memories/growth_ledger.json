@@ -1,41 +1,8 @@
 {
-  "updated": "2026-06-11T19:12:41.800831+00:00",
+  "updated": "2026-06-11T19:18:44.805397+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_180305",
-      "date": "2026-06-11",
-      "exchanges": 575,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Recorded in the living section (`47e9b6e`) \u2014 Flynn and the programs, workspace and playground.\n\nThe three archetypes you picked teach three different "
-    },
     {
       "session_id": "20260611_180321",
       "date": "2026-06-11",
@@ -662,6 +629,39 @@
       ],
       "alignment": 1.0,
       "key_insight": "**Raven (input summary):** He suggested the auto-compression \u2014 JC and SL should summarize themselves so he never has to keep activating them.\n\nFolded "
+    },
+    {
+      "session_id": "20260611_191844",
+      "date": "2026-06-11",
+      "exchanges": 614,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**Raven (input summary):** SLs already get their reasoning structure from associated JGPPs and JIPs \u2014 that's their job. JCs should focus on conversati"
     }
   ]
 }
