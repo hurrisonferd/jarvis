@@ -23,6 +23,18 @@ purpose: Terminology is infrastructure. A term that belongs to no family drifts,
 | **CONN — Connectors** | execution surface: how streams touch the cloud | jarvis-mcp RT modules · jarvis-dex action · events_list |
 | **GOV — Governance** | the gate: how anything changes | Gold Law · Layer Contract (GOV-LC-SPEC-0001) · desk/proposals · rulings (P-B, P-C, no-repair-exemption) |
 
+## The graves (rule 5, practiced — the Rosetta lineage)
+
+| Buried term | Successor | Why it changed |
+|---|---|---|
+| ~~GRAVEYARD~~ | **HADES** (GS) | archival/death duty folded into the council proper |
+| ~~FATES~~ | **KRONOS** (GS) | temporal authority consolidated under one name |
+| ~~MIDAS~~ | **AEGIS** (GS) | validation/gating unified |
+| ~~SENTINEL~~ | **ARGUS + IRIS + HUGINN** (GS) | one watcher split into three precise duties |
+| ~~HELP~~ | **MIMIR** (GS) | knowledge-keeping named properly |
+| JORMUNGANDR | = the codec (alive, renamed role) | not a grave — the serpent still runs; it is the codec, nothing else |
+| CHAOS | = entropy (alive, scoped) | raw ingestion is AYRE→HADES; CHAOS keeps only entropy |
+
 ## Container rules
 1. **Leader classes are protected terms.** YGG, JFS, JD, GS, CONN, GOV and the members
    above may not be re-coined for anything else — collision with a leader is an automatic
