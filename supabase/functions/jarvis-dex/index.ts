@@ -125,7 +125,11 @@ Deno.serve(async (req) => {
   if (RANK[tier] < RANK[need]) {
     return fail(`tool '${tool}' requires ${need} tier (you have ${tier})`, 403);
   }
-  const actor = tier.toLowerCase();
+  // Attribution (Raven-verdicted 2026-06-11, desk item 4): actor carries the AUTHOR,
+  // not the action. Callers claim a stream identity; unclaimed falls back to tier.
+  const STREAM_TAGS = new Set(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]);
+  const claimed = String(args.stream ?? body.stream ?? "").toLowerCase();
+  const actor = STREAM_TAGS.has(claimed) ? claimed : tier.toLowerCase();
 
   // ZEUS halt: when halted, only READ + OVERRIDE pass. Break-glass refuses all writes.
   if (RANK[need] >= RANK["PROPOSE"] && tier !== "OVERRIDE" && (await isHalted())) {
@@ -212,6 +216,13 @@ Deno.serve(async (req) => {
       // ---------- PROPOSE ----------
       case "jd_propose": {
         const cand = await deriveCandidate(args, "TASK");
+        // JC→JD provenance firewall (Raven-verdicted 2026-06-11, desk item 3):
+        // interpretation is never evidence. JD provenance terminates in dex_events
+        // ids or commit hashes — a JC-typed JNL anywhere in the citation chain fails.
+        const cites = [...(cand.related ?? []), cand.source ?? ""].join(" ");
+        if (/\b[A-Z]{2,4}-[A-Z0-9]{2,4}-JC-\d{4}\b/.test(cites)) {
+          return fail("P-C firewall: JC objects cannot serve as JD provenance — cite a dex_events id or commit hash instead", 422);
+        }
         const { data, error } = await db.from("jd_proposals").insert({
           jnl: cand.jnl, name: cand.name, type: cand.type, class: cand.class,
           tier: cand.tier, owner: cand.owner, definition: cand.definition,

@@ -25,6 +25,7 @@ const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_propose",
+  "jarvis_repo_tree", "jarvis_repo_read",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
@@ -287,7 +288,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.15" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.16" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -621,6 +622,8 @@ function buildServer(req: Request): McpServer {
         purpose: z.string().max(500).optional().default(""),
         tags: z.array(z.string()).optional().default([]),
         related: z.array(z.string()).optional().default([]),
+        stream: z.enum(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]).optional()
+          .describe("Your stream identity — the spine records the author, not the action (attribution rule)."),
       },
     },
     async (args) => {
@@ -628,6 +631,62 @@ function buildServer(req: Request): McpServer {
         return heldForApproval("dex.propose", args);
       }
       return text(await callDex("jd_propose", args, true));
+    },
+  );
+
+  // REPO PARITY (Raven-verdicted 2026-06-11, desk item 5): read-only ground truth
+  // for connector streams. Closes the certainty-bandwidth gap — a stream that can
+  // read the file does not narrate a summary of it (the relay-paste lane dies here).
+  const GH_REPO = "https://api.github.com/repos/hurrisonferd/jarvis";
+  async function gh(path: string): Promise<Response> {
+    const headers: Record<string, string> = {
+      "user-agent": "jarvis-mcp",
+      accept: "application/vnd.github+json",
+    };
+    const tok = Deno.env.get("GITHUB_TOKEN");
+    if (tok) headers.authorization = `Bearer ${tok}`;
+    return await fetch(`${GH_REPO}${path}`, { headers });
+  }
+
+  server.registerTool(
+    "jarvis_repo_tree",
+    {
+      title: "Repo — tree (read-only)",
+      description:
+        "List repo file paths at a ref (default main). Filter with prefix (e.g. 'JarvisMain/yggdrasil/'). Read-only parity surface: see the actual architecture instead of inferring it from registries.",
+      inputSchema: {
+        prefix: z.string().max(200).optional().default(""),
+        ref: z.string().max(100).optional().default("main"),
+      },
+    },
+    async ({ prefix, ref }) => {
+      const res = await gh(`/git/trees/${encodeURIComponent(ref)}?recursive=1`);
+      if (!res.ok) return text({ ok: false, status: res.status, note: "tree fetch failed" });
+      const data = await res.json() as { tree?: { path: string; type: string }[]; truncated?: boolean };
+      const paths = (data.tree ?? [])
+        .filter((n) => n.type === "blob" && (!prefix || n.path.startsWith(prefix)))
+        .map((n) => n.path);
+      return text({ ok: true, ref, count: paths.length, truncated: !!data.truncated, paths: paths.slice(0, 500) });
+    },
+  );
+
+  server.registerTool(
+    "jarvis_repo_read",
+    {
+      title: "Repo — read file (read-only)",
+      description:
+        "Fetch one file's content from the repo at a ref (default main). Ground truth beats relay: read the spec, the router, the contract — never reason from a secondhand summary when the file is one call away.",
+      inputSchema: {
+        path: z.string().min(1).max(300),
+        ref: z.string().max(100).optional().default("main"),
+      },
+    },
+    async ({ path, ref }) => {
+      const res = await gh(`/contents/${path.split("/").map(encodeURIComponent).join("/")}?ref=${encodeURIComponent(ref)}`);
+      if (!res.ok) return text({ ok: false, status: res.status, path, note: "read failed (path? ref? rate limit?)" });
+      const data = await res.json() as { content?: string; size?: number; encoding?: string };
+      const content = typeof data.content === "string" ? atob(data.content.replace(/\n/g, "")) : "";
+      return text({ ok: true, path, ref, size: data.size ?? content.length, content: content.slice(0, 48000) });
     },
   );
 
@@ -853,7 +912,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.15",
+    version: "0.9.16",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,
