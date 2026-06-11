@@ -24,7 +24,8 @@ const BASE_URL = `${SUPABASE_URL}/functions/v1/jarvis-mcp`;
 const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
-  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_propose",
+  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
+  "jarvis_jc_recall",
   "jarvis_repo_tree", "jarvis_repo_read",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
@@ -288,7 +289,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.16" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.17" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -608,6 +609,58 @@ function buildServer(req: Request): McpServer {
   );
 
   server.registerTool(
+    "jarvis_dex_graph",
+    {
+      title: "Dex — graph (node + full neighborhood)",
+      description:
+        "Pull EVERYTHING on one governed object: the full entry plus every related/cross-referenced neighbor. Use after dex_search resolves a serial or name to a JNL — 'JD-1' resolves to ARCH-YGG-CORE-0001 (Yggdrasil), then graph it for the whole web.",
+      inputSchema: { jnl: z.string().min(5).max(40) },
+    },
+    async ({ jnl }) => text(await callDex("jd_graph", { jnl })),
+  );
+
+  server.registerTool(
+    "jarvis_dex_events",
+    {
+      title: "Dex — events (the spine, readable)",
+      description:
+        "P-C verification: read the arbitration spine (dex_events). Filter by tool/actor/jnl/since. Closure by proof — verify any claimed ruling, deploy, or correction from the source of record instead of taking another stream's word for it.",
+      inputSchema: {
+        tool: z.string().optional(),
+        actor: z.string().optional(),
+        jnl: z.string().optional(),
+        since: z.string().optional(),
+        limit: z.number().int().min(1).max(200).optional(),
+      },
+    },
+    async (args) => text(await callDex("events_list", args)),
+  );
+
+  server.registerTool(
+    "jarvis_jc_recall",
+    {
+      title: "Memory lane — JC/SL objects",
+      description:
+        "Read conversation containers (JC) and star-log digests (SL) — the relationship memory every stream shares (ARCH-JC-JIP-0001). No term: recent sessions. Term: alias (JC-061126-1), JNL, or subject fragment. Read-only; JC records, it never rules — decisions cite the spine.",
+      inputSchema: {
+        term: z.string().max(120).optional(),
+        limit: z.number().int().min(1).max(20).optional().default(5),
+      },
+    },
+    async ({ term, limit }) => {
+      const cols = "jnl,alias,session_date,subject,participants,tags,summary,raven_input,keystones,decisions,open,profiles,metrics,status";
+      const q = term
+        ? `jc_objects?select=${cols}&or=(alias.eq.${term},jnl.eq.${term},subject.ilike.*${term}*)&limit=${limit}`
+        : `jc_objects?select=${cols}&order=session_date.desc&limit=${limit}`;
+      const [jcs, sls] = await Promise.all([
+        rest(q).catch(() => []),
+        rest(`sl_objects?select=jnl,alias,session_date,digest,events,status&order=session_date.desc&limit=${limit}`).catch(() => []),
+      ]);
+      return text({ ok: true, jc: jcs, sl: sls, law: "JC records; it never rules — decisions cite the spine (P-C)." });
+    },
+  );
+
+  server.registerTool(
     "jarvis_dex_propose",
     {
       title: "Dex — propose entry (JGPP/JIP/JD/BIO)",
@@ -912,7 +965,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.16",
+    version: "0.9.17",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,
