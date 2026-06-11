@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 125,
+  "count": 126,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -289,6 +289,21 @@
       "tags": [
         "architecture",
         "runtime"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Star Logs",
+      "jnl": "ARCH-SL-JIP-0001",
+      "location": "JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md",
+      "tags": [
+        "sl",
+        "star-log",
+        "events",
+        "provenance",
+        "sync",
+        "logging"
       ],
       "anchors": [],
       "state": "active"

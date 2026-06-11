@@ -215,6 +215,9 @@
       "PROJ-MMOD-JGPP-0001",
       "PROJ-TST-JGPP-0001"
     ],
+    "events": [
+      "ARCH-SL-JIP-0001"
+    ],
     "exploration": [
       "PROJ-DEO-JGPP-0001"
     ],
@@ -404,6 +407,9 @@
       "LOG-MNE-LOG-0001",
       "PROJ-ALL-LOG-0001"
     ],
+    "logging": [
+      "ARCH-SL-JIP-0001"
+    ],
     "long-term": [
       "ARCH-JLTM-CORE-0001"
     ],
@@ -513,6 +519,9 @@
     "protocol": [
       "PROJ-JPL-JGPP-0001"
     ],
+    "provenance": [
+      "ARCH-SL-JIP-0001"
+    ],
     "query": [
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JQL-CORE-0001"
@@ -561,6 +570,9 @@
     "simulation": [
       "IMPL-JCSF-SPEC-0001"
     ],
+    "sl": [
+      "ARCH-SL-JIP-0001"
+    ],
     "spec": [
       "IMPL-DEX-SPEC-0001",
       "IMPL-FMT-SPEC-0001",
@@ -571,6 +583,9 @@
     ],
     "standard": [
       "ARCH-JD-JIP-0001"
+    ],
+    "star-log": [
+      "ARCH-SL-JIP-0001"
     ],
     "state-management": [
       "PROJ-TST-JGPP-0001"
@@ -591,7 +606,8 @@
       "CONN-MSB-CORE-0001"
     ],
     "sync": [
-      "ARCH-JC-JIP-0001"
+      "ARCH-JC-JIP-0001",
+      "ARCH-SL-JIP-0001"
     ],
     "synthesis": [
       "ARCH-JRV-BIO-0001"

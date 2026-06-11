@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 125,
+  "count": 126,
   "records": [
     {
       "jnl": "ARCH-AYR-BIO-0001",
@@ -483,6 +483,29 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-SL-JIP-0001",
+      "name": "Star Logs",
+      "type": "JIP",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md",
+      "tags": [
+        "sl",
+        "star-log",
+        "events",
+        "provenance",
+        "sync",
+        "logging"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
       "updated": "2026-06-11"
     },
     {
