@@ -9,6 +9,10 @@
       "name": "Deoxys",
       "folder": "JarvisSide/Projects/Deoxys"
     },
+    "GDS": {
+      "name": "GDS",
+      "folder": "JarvisSide/Projects/GDS"
+    },
     "GEN": {
       "name": "Genesis",
       "folder": "JarvisSide/Projects/Genesis"
