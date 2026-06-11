@@ -230,6 +230,7 @@ pushes the registries to Supabase on every merge to main (JMS — READ tier neve
 |---------|---------|-------|
 | Supabase | `oexghfsvhnggddllgvrt` | Project; credentials in `.env`. Edge functions + dex tables. |
 | `jarvis-mcp` | edge function | The cloud MCP connector |
+| Jarvis-Private | `github.com/hurrisonferd/Jarvis-Private` | Raven's private repo (registered 2026-06-11). Not in default session scope — grant via environment repo list when a session needs it. |
 
 > **Cloud-first only.** The legacy local rig (FastAPI MCP server, Neo4j, Ollama) was removed
 > 2026-06-09 — it was not the canonical path. Everything runs on Supabase + GitHub + the edge
