@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-11T18:22:28.135652+00:00",
+  "updated": "2026-06-11T18:27:12.247396+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_141121",
-      "date": "2026-06-11",
-      "exchanges": 509,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**The dex is whole again \u2014 GPT can pull everything.** Full chain, closed:\n\n1. **Root cause:** the triage merge (#154) left the alias-standard file uns"
-    },
-    {
-      "session_id": "20260611_141643",
-      "date": "2026-06-11",
-      "exchanges": 514,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ruling recorded and live \u2014 CLAUDE.md Governed Workflow now carries it, `dex_events` logged it: **no repair exemption; \"repair\" is not a word that bypa"
-    },
     {
       "session_id": "20260611_141802",
       "date": "2026-06-11",
@@ -662,6 +596,72 @@
       ],
       "alignment": 1.0,
       "key_insight": "The roster closure is on the spine \u2014 with one honest flag: that insert duplicated the `identity_ratified` event I'd already logged for the same fact. "
+    },
+    {
+      "session_id": "20260611_182242",
+      "date": "2026-06-11",
+      "exchanges": 586,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed \u2014 `44a4eb9`. Clean."
+    },
+    {
+      "session_id": "20260611_182712",
+      "date": "2026-06-11",
+      "exchanges": 589,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Answers to the five forks, in order \u2014 most are already answered in canon; I'll cite where.\n\n**1. Stream, role, or mantle \u2014 Argent is a stream. \"The Ar"
     }
   ]
 }
