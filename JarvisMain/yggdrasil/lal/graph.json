@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 120,
-    "edges": 187,
-    "main": 95,
-    "side": 25
+    "nodes": 124,
+    "edges": 190,
+    "main": 96,
+    "side": 28
   },
   "nodes": [
     {
@@ -75,6 +75,15 @@
       "name": "Jarvis Dictionary",
       "domain": "ARCH",
       "class": "SYSTEM",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-JD-JIP-0001",
+      "name": "JD Serial Format Alias Standard",
+      "domain": "ARCH",
+      "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "owner": "JFS"
@@ -933,6 +942,33 @@
       "tier": "SIDE",
       "status": "TASK",
       "owner": "Deoxys Telemetry Schema \u2014 first exploration"
+    },
+    {
+      "id": "PROJ-GDS-BIO-0001",
+      "name": "GDS",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "GDS"
+    },
+    {
+      "id": "PROJ-GDS-JGPP-0001",
+      "name": "God System Execution Spec v1",
+      "domain": "PROJ",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "TASK",
+      "owner": "God System Execution Spec v1"
+    },
+    {
+      "id": "PROJ-GDS-JGPP-0002",
+      "name": "GDS Bootstrap Activation Protocol",
+      "domain": "PROJ",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "TASK",
+      "owner": "GDS Bootstrap Activation Protocol"
     },
     {
       "id": "PROJ-GEN-BIO-0001",
@@ -1962,6 +1998,21 @@
     {
       "source": "PROJ-DEO-JGPP-0001",
       "target": "PROJ-DEO-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-GDS-JGPP-0001",
+      "target": "PROJ-GDS-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-GDS-JGPP-0002",
+      "target": "PROJ-GDS-JGPP-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-GDS-JGPP-0002",
+      "target": "PROJ-GDS-BIO-0001",
       "type": "parent"
     },
     {

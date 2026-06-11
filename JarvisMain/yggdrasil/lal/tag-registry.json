@@ -4,6 +4,9 @@
     "action": [
       "CONN-DEX-SPEC-0001"
     ],
+    "activation": [
+      "PROJ-GDS-JGPP-0002"
+    ],
     "addressing": [
       "ARCH-JNL-CORE-0001"
     ],
@@ -53,6 +56,9 @@
     ],
     "bifrost": [
       "PROJ-JPL-JGPP-0001"
+    ],
+    "bootstrap": [
+      "PROJ-GDS-JGPP-0002"
     ],
     "bridge": [
       "GOV-DEX-SPEC-0001"
@@ -168,12 +174,15 @@
       "GS-ZEU-CORE-0001"
     ],
     "council": [
-      "GOV-DEX-SPEC-0001"
+      "GOV-DEX-SPEC-0001",
+      "PROJ-GDS-JGPP-0001"
     ],
     "declarative": [
       "GOV-DEX-SPEC-0001"
     ],
     "delta": [
+      "PROJ-GDS-JGPP-0001",
+      "PROJ-GDS-JGPP-0002",
       "PROJ-JPL-JGPP-0001"
     ],
     "deoxys": [
@@ -181,6 +190,7 @@
       "PROJ-DEO-JGPP-0001"
     ],
     "dex": [
+      "ARCH-JD-JIP-0001",
       "CONN-DEX-SPEC-0001",
       "GOV-DEX-SPEC-0001",
       "IMPL-DEX-SPEC-0001"
@@ -193,6 +203,9 @@
     ],
     "divergence": [
       "ARCH-AYR-BIO-0001"
+    ],
+    "epistemic": [
+      "PROJ-GDS-JGPP-0001"
     ],
     "event-ledger": [
       "PROJ-MMOD-JGPP-0001",
@@ -208,6 +221,7 @@
       "ARCH-JFS-CORE-0001"
     ],
     "format": [
+      "ARCH-JD-JIP-0001",
       "IMPL-FMT-SPEC-0001"
     ],
     "free-tier": [
@@ -215,6 +229,9 @@
     ],
     "game": [
       "PROJ-PAC-BIO-0001"
+    ],
+    "gds": [
+      "PROJ-GDS-JGPP-0002"
     ],
     "generative": [
       "PROJ-MOSC-JD-0001"
@@ -252,6 +269,9 @@
       "GS-SKD-CORE-0001",
       "GS-ZEU-CORE-0001"
     ],
+    "god-systems": [
+      "PROJ-GDS-JGPP-0001"
+    ],
     "gold-law": [
       "GOV-CON-CORE-0001"
     ],
@@ -275,7 +295,9 @@
       "GS-MER-CORE-0001",
       "GS-PRO-CORE-0001",
       "IMPL-DEX-SPEC-0001",
-      "IMPL-FMT-SPEC-0001"
+      "IMPL-FMT-SPEC-0001",
+      "PROJ-GDS-JGPP-0001",
+      "PROJ-GDS-JGPP-0002"
     ],
     "gpt": [
       "ARCH-GPT-SPEC-0001",
@@ -293,6 +315,7 @@
     ],
     "identity": [
       "ARCH-AYR-BIO-0001",
+      "ARCH-JD-JIP-0001",
       "ARCH-JRV-BIO-0001",
       "PROJ-MOSC-JD-0001",
       "PROJ-NMX-JGPP-0001"
@@ -328,6 +351,9 @@
       "IMPL-JCSG-SPEC-0001"
     ],
     "jd": [
+      "ARCH-JD-JIP-0001",
+      "PROJ-GDS-JGPP-0001",
+      "PROJ-GDS-JGPP-0002",
       "PROJ-TST-JGPP-0001"
     ],
     "jfs": [
@@ -335,6 +361,8 @@
     ],
     "jgpp": [
       "IMPL-JGPP-CORE-0001",
+      "PROJ-GDS-JGPP-0001",
+      "PROJ-GDS-JGPP-0002",
       "PROJ-TST-JGPP-0001"
     ],
     "jip": [
@@ -461,6 +489,7 @@
       "PROJ-ALL-LOG-0001",
       "PROJ-COS-BIO-0001",
       "PROJ-DEO-BIO-0001",
+      "PROJ-GDS-BIO-0001",
       "PROJ-GEN-BIO-0001",
       "PROJ-GRD-BIO-0001",
       "PROJ-JPL-BIO-0001",
@@ -506,11 +535,17 @@
       "ARCH-RT-SPEC-0003",
       "IMPL-JCS-CORE-0001"
     ],
+    "safety": [
+      "PROJ-GDS-JGPP-0002"
+    ],
     "security": [
       "PROJ-JPL-JGPP-0001"
     ],
     "semantic": [
       "ARCH-JD-CORE-0001"
+    ],
+    "serial": [
+      "ARCH-JD-JIP-0001"
     ],
     "short-term": [
       "ARCH-JSTM-CORE-0001"
@@ -525,6 +560,9 @@
     ],
     "spine": [
       "LOG-MNE-LOG-0001"
+    ],
+    "standard": [
+      "ARCH-JD-JIP-0001"
     ],
     "state-management": [
       "PROJ-TST-JGPP-0001"

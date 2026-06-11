@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 120,
+  "count": 124,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -92,6 +92,21 @@
         "semantic",
         "core",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JD Serial Format Alias Standard",
+      "jnl": "ARCH-JD-JIP-0001",
+      "location": "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+      "tags": [
+        "jd",
+        "serial",
+        "format",
+        "standard",
+        "identity",
+        "dex"
       ],
       "anchors": [],
       "state": "active"
@@ -1222,6 +1237,49 @@
         "deoxys",
         "telemetry",
         "exploration"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "GDS",
+      "jnl": "PROJ-GDS-BIO-0001",
+      "location": "JarvisSide/Projects/GDS/BIO/GDSBIO-061126-0001-GDS.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "God System Execution Spec v1",
+      "jnl": "PROJ-GDS-JGPP-0001",
+      "location": "JarvisSide/Projects/GDS/JGPP/GDSJGPP-061126-0001-GOD-SYSTEM-EXECUTION-SPEC-V1.md",
+      "tags": [
+        "god-systems",
+        "governance",
+        "epistemic",
+        "jd",
+        "delta",
+        "jgpp",
+        "council"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "GDS Bootstrap Activation Protocol",
+      "jnl": "PROJ-GDS-JGPP-0002",
+      "location": "JarvisSide/Projects/GDS/JGPP/GDSJGPP-061126-0002-GDS-BOOTSTRAP-ACTIVATION-PROTOCOL.md",
+      "tags": [
+        "gds",
+        "bootstrap",
+        "activation",
+        "governance",
+        "jd",
+        "delta",
+        "safety",
+        "jgpp"
       ],
       "anchors": [],
       "state": "active"

@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 120,
+  "count": 124,
   "records": [
     {
       "jnl": "ARCH-AYR-BIO-0001",
@@ -159,6 +159,29 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-09"
+    },
+    {
+      "jnl": "ARCH-JD-JIP-0001",
+      "name": "JD Serial Format Alias Standard",
+      "type": "JIP",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "",
+      "location": "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+      "tags": [
+        "jd",
+        "serial",
+        "format",
+        "standard",
+        "identity",
+        "dex"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JFS-CORE-0001",
@@ -2049,6 +2072,73 @@
       "state": "active",
       "created": "2026-06-10",
       "updated": "2026-06-10"
+    },
+    {
+      "jnl": "PROJ-GDS-BIO-0001",
+      "name": "GDS",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "GDS",
+      "parent": "",
+      "location": "JarvisSide/Projects/GDS/BIO/GDSBIO-061126-0001-GDS.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "PROJ-GDS-JGPP-0001",
+      "name": "God System Execution Spec v1",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "God System Execution Spec v1",
+      "parent": "PROJ-GDS-BIO-0001",
+      "location": "JarvisSide/Projects/GDS/JGPP/GDSJGPP-061126-0001-GOD-SYSTEM-EXECUTION-SPEC-V1.md",
+      "tags": [
+        "god-systems",
+        "governance",
+        "epistemic",
+        "jd",
+        "delta",
+        "jgpp",
+        "council"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "PROJ-GDS-JGPP-0002",
+      "name": "GDS Bootstrap Activation Protocol",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "GDS Bootstrap Activation Protocol",
+      "parent": "PROJ-GDS-BIO-0001",
+      "location": "JarvisSide/Projects/GDS/JGPP/GDSJGPP-061126-0002-GDS-BOOTSTRAP-ACTIVATION-PROTOCOL.md",
+      "tags": [
+        "gds",
+        "bootstrap",
+        "activation",
+        "governance",
+        "jd",
+        "delta",
+        "safety",
+        "jgpp"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-GEN-BIO-0001",
