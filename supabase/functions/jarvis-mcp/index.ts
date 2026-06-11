@@ -601,7 +601,7 @@ function buildServer(req: Request): McpServer {
     {
       title: "Dex — search",
       description:
-        "Search the dex by JNL address, name, or tag. Always search before proposing — the object may already exist. Returns full entries: definition, purpose, status, parent (family), related (web).",
+        "Search the dex by JNL address, name, tag, or CREATION SERIAL — 'JD-1', 'JD 1', '#1' all resolve (every entry has one; JD-1 is Yggdrasil itself). The result may carry a different NAME than your search term — the serial is a birth-order handle, never the name. Always search before proposing — the object may already exist. Returns full entries: definition, purpose, status, parent (family), related (web).",
       inputSchema: { term: z.string().min(1).max(120) },
     },
     async ({ term }) => text(await callDex("jd_lookup", { term })),
