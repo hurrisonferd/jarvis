@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-11T19:36:51.413402+00:00",
+  "updated": "2026-06-11T19:39:38.311279+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_182228",
-      "date": "2026-06-11",
-      "exchanges": 585,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "The roster closure is on the spine \u2014 with one honest flag: that insert duplicated the `identity_ratified` event I'd already logged for the same fact. "
-    },
-    {
-      "session_id": "20260611_182242",
-      "date": "2026-06-11",
-      "exchanges": 586,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed \u2014 `44a4eb9`. Clean."
-    },
     {
       "session_id": "20260611_182712",
       "date": "2026-06-11",
@@ -662,6 +596,72 @@
       ],
       "alignment": 1.0,
       "key_insight": "Event #95. Now the honest gap analysis, from the connector's actual tool surface (18 tools in `jarvis-mcp/index.ts:25-30`):\n\n**What Jarvis-G already h"
+    },
+    {
+      "session_id": "20260611_193706",
+      "date": "2026-06-11",
+      "exchanges": 624,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ledger rotation committed and pushed. Tree clean."
+    },
+    {
+      "session_id": "20260611_193938",
+      "date": "2026-06-11",
+      "exchanges": 627,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "CLAUDE.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
+        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
+        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Second pass of the same test, and the Jarvis streams converged again \u2014 probabilistic recognition, tags as the only structural ground, confidence-outpa"
     }
   ]
 }
