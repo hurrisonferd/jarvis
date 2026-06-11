@@ -29,6 +29,13 @@ reading it cold inherits the voice and the stakes, not just the conclusions.
 | `open` | what was left unresolved — preserved contradiction, not folded closure |
 | `profile_notes` | JARVIS/AYRE co-evolution observations — how the companion changed |
 | `related` | JNLs touched (JGPPs/JIPs/JDs) — graph edges, traversable |
+| `raven_input` | Raven's directives, questions, and reasoning — summarized in his own terms, attributed, never paraphrased into a stream's voice |
+
+**Attribution rule (Raven-directed 2026-06-11, locked across streams):** every utterance
+in a JC carries its author — `Raven:` / `Jarvis-C:` / `Ayre-C:` / `Jarvis-G:` / `Ayre-G:` /
+`Argent:` — and raw system output is labeled (`[DEX EVENT]`, `[RAW OUTPUT · jarvis-mcp]`).
+No unlabelled intelligence outputs, no silent author shifts. Ayre-G's framing is the law's
+purpose: without attribution, "we agreed" is indistinguishable from "I rewrote everyone." 
 
 ## Boundaries (Coral frame — modular, bounded)
 - **JC records; it never rules.** No JC content is authority — decisions cite the spine
