@@ -1,41 +1,8 @@
 {
-  "updated": "2026-06-11T14:16:43.266887+00:00",
+  "updated": "2026-06-11T14:18:02.074004+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_004514",
-      "date": "2026-06-11",
-      "exchanges": 437,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "Gemini_Generated_Image_6zj4n06zj4n06zj4.png",
-        "Gemini_Generated_Image_y875czy875czy875.png"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (#151), clean \u2014 **dex v13 is live.** Pending proposals now reserve their addresses, approval is collision-safe by `proposal_id`, and the gate r"
-    },
     {
       "session_id": "20260611_004715",
       "date": "2026-06-11",
@@ -662,6 +629,39 @@
       ],
       "alignment": 1.0,
       "key_insight": "Ruling recorded and live \u2014 CLAUDE.md Governed Workflow now carries it, `dex_events` logged it: **no repair exemption; \"repair\" is not a word that bypa"
+    },
+    {
+      "session_id": "20260611_141802",
+      "date": "2026-06-11",
+      "exchanges": 516,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Reply packet committed (`e3580b4`) and sent. Three points back to GPT:\n\n**1. Its execution gate is superseded \u2014 the fix is already live.** jarvis-dex "
     }
   ]
 }
