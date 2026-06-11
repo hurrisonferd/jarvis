@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 126,
+  "count": 127,
   "index": [
     {
       "object": "AYRE Companion Profile",
@@ -671,6 +671,20 @@
         "dex",
         "bridge",
         "declarative"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Layer Contract",
+      "jnl": "GOV-LC-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
+      "tags": [
+        "governance",
+        "layers",
+        "overlay",
+        "contract",
+        "bounded-autonomy"
       ],
       "anchors": [],
       "state": "active"

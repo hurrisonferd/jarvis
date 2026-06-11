@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 126,
+  "count": 127,
   "records": [
     {
       "jnl": "ARCH-AYR-BIO-0001",
@@ -1121,6 +1121,28 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "GOV-LC-SPEC-0001",
+      "name": "Layer Contract",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
+      "tags": [
+        "governance",
+        "layers",
+        "overlay",
+        "contract",
+        "bounded-autonomy"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
       "updated": "2026-06-11"
     },
     {

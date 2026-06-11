@@ -60,6 +60,9 @@
     "bootstrap": [
       "PROJ-GDS-JGPP-0002"
     ],
+    "bounded-autonomy": [
+      "GOV-LC-SPEC-0001"
+    ],
     "bridge": [
       "GOV-DEX-SPEC-0001"
     ],
@@ -143,6 +146,9 @@
     "continuity": [
       "ARCH-JC-JIP-0001",
       "PROJ-TST-JGPP-0001"
+    ],
+    "contract": [
+      "GOV-LC-SPEC-0001"
     ],
     "control-surface": [
       "PROJ-TRN-JGPP-0001"
@@ -290,6 +296,7 @@
       "GOV-CAN-CORE-0001",
       "GOV-CON-CORE-0001",
       "GOV-DEX-SPEC-0001",
+      "GOV-LC-SPEC-0001",
       "GOV-PAT-REG-0001",
       "GOV-PROC-CORE-0001",
       "GS-ARG-CORE-0001",
@@ -393,6 +400,9 @@
       "IMPL-JCSF-SPEC-0001",
       "IMPL-JCSG-SPEC-0001"
     ],
+    "layers": [
+      "GOV-LC-SPEC-0001"
+    ],
     "legion": [
       "PROJ-LEG-BIO-0001"
     ],
@@ -468,6 +478,9 @@
       "GS-BFR-CORE-0001",
       "GS-HAL-CORE-0001",
       "GS-NEM-CORE-0001"
+    ],
+    "overlay": [
+      "GOV-LC-SPEC-0001"
     ],
     "pachinko": [
       "PROJ-PAC-BIO-0001"
