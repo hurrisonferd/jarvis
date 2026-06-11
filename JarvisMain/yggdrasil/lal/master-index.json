@@ -99,7 +99,7 @@
     {
       "object": "JD Serial Format Alias Standard",
       "jnl": "ARCH-JD-JIP-0001",
-      "location": "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+      "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
         "jd",
         "serial",
