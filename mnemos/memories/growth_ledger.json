@@ -1,40 +1,8 @@
 {
-  "updated": "2026-06-11T00:51:17.638669+00:00",
+  "updated": "2026-06-11T12:31:43.766517+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260610_191527",
-      "date": "2026-06-10",
-      "exchanges": 372,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43"
-      ],
-      "built": [
-        ".github/workflows/argus-sweep.yml",
-        ".github/workflows/audit-log.yml",
-        ".github/workflows/dex-reconcile.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/yggdrasil-validate.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (#137), clean. The packet lives at `intake/gemini/2026-06-10_gemini_sync_packet.md` \u2014 paste its full contents into Gemini, and its question ans"
-    },
     {
       "session_id": "20260610_191720",
       "date": "2026-06-10",
@@ -658,6 +626,39 @@
       ],
       "alignment": 1.0,
       "key_insight": "The desk session, then \u2014 Gate 2 first since I just read it, and it changed my recommendation:\n\n**Gate 2 \u2014 GDS pair (11, 12): recommendation upgraded f"
+    },
+    {
+      "session_id": "20260611_123143",
+      "date": "2026-06-11",
+      "exchanges": 474,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (#154), clean. **The desk is executed \u2014 every verdict, both layers:**\n\n| Verdict | Result |\n|---|---|\n| 8 approved | `ARCH-JD-JIP-0001` Serial "
     }
   ]
 }
