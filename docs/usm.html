@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS · USM LIVE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════════════════
+   RESET & BASE
+   ═══════════════════════════════════════════════════════════ */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --bg-deep: #0a0a0f;
+  --bg-panel: rgba(15, 15, 25, 0.8);
+  --bg-panel-solid: #0f0f19;
+  --border: rgba(0, 212, 255, 0.15);
+  --border-hover: rgba(0, 212, 255, 0.35);
+  --cyan: #00d4ff;
+  --amber: #ffaa00;
+  --red: #ff4444;
+  --green: #00ff88;
+  --pink: #ff66cc;
+  --purple: #8866ff;
+  --text: #e0e0e0;
+  --text-dim: #888;
+  --text-bright: #ffffff;
+  --mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --sans: 'Inter', -apple-system, sans-serif;
+  --radius: 12px;
+  --blur: blur(12px);
+  --transition: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html { font-size: 14px; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg-deep);
+  color: var(--text);
+  min-height: 100vh;
+  overflow-x: hidden;
+  line-height: 1.5;
+}
+
+/* ambient background grid */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 800px 600px at 20% 30%, rgba(0,212,255,0.03), transparent),
+    radial-gradient(ellipse 600px 400px at 80% 70%, rgba(136,102,255,0.03), transparent),
+    linear-gradient(rgba(0,212,255,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.02) 1px, transparent 1px);
+  background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SCROLLBAR
+   ═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.2); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(0,212,255,0.4); }
+
+/* ═══════════════════════════════════════════════════════════
+   GRID LAYOUT
+   ═══════════════════════════════════════════════════════════ */
+.dashboard {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr 1fr auto;
+  gap: 12px;
+  padding: 12px;
+  min-height: 100vh;
+  max-width: 1800px;
+  margin: 0 auto;
+}
+
+.header   { grid-column: 1 / -1; }
+.graph    { grid-column: 1; grid-row: 2; }
+.timeline { grid-column: 2; grid-row: 2; }
+.memory   { grid-column: 1; grid-row: 3; }
+.github   { grid-column: 2; grid-row: 3; }
+.inspector{ grid-column: 1 / -1; grid-row: 4; }
+
+@media (max-width: 900px) {
+  .dashboard {
+    grid-template-columns: 1fr;
+    grid-template-rows: auto;
+  }
+  .header, .graph, .timeline, .memory, .github, .inspector {
+    grid-column: 1;
+    grid-row: auto;
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   PANEL BASE
+   ═══════════════════════════════════════════════════════════ */
+.panel {
+  background: var(--bg-panel);
+  backdrop-filter: var(--blur);
+  -webkit-backdrop-filter: var(--blur);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color var(--transition);
+}
+.panel:hover { border-color: var(--border-hover); }
+
+.panel-head {
+  padding: 14px 18px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  flex-shrink: 0;
+}
+.panel-head::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 18px; right: 18px;
+  height: 1px;
+  background: linear-gradient(90deg, var(--cyan) 0%, transparent 60%);
+  opacity: 0.3;
+}
+.panel-head h2 {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text-bright);
+}
+.panel-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 14px 18px;
+  position: relative;
+  min-height: 0;
+}
+.graph .panel-body, .timeline .panel-body, .memory .panel-body, .github .panel-body {
+  min-height: 280px;
+  max-height: 45vh;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   HEADER
+   ═══════════════════════════════════════════════════════════ */
+.header {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.header-title {
+  font-size: 1.3rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: var(--text-bright);
+  text-shadow: 0 0 20px rgba(0,212,255,0.3), 0 0 40px rgba(0,212,255,0.1);
+}
+.header-title span { color: var(--cyan); }
+
+/* pulse orb */
+.pulse-orb {
+  width: 12px; height: 12px;
+  border-radius: 50%;
+  background: var(--red);
+  position: relative;
+  flex-shrink: 0;
+}
+.pulse-orb.online { background: var(--green); }
+.pulse-orb.reconnecting { background: var(--amber); }
+.pulse-orb::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0;
+  animation: none;
+}
+.pulse-orb.online::after {
+  animation: pulseRing 2s ease-out infinite;
+}
+@keyframes pulseRing {
+  0%   { transform: scale(1);   opacity: 0.5; }
+  100% { transform: scale(2.5); opacity: 0;   }
+}
+
+/* header flash on new data */
+.header.flash {
+  animation: headerFlash 0.6s ease;
+}
+@keyframes headerFlash {
+  0%   { border-color: var(--cyan); box-shadow: inset 0 0 30px rgba(0,212,255,0.08); }
+  100% { border-color: var(--border); box-shadow: none; }
+}
+
+.status-label {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--red);
+}
+.status-label.online { color: var(--green); }
+.status-label.reconnecting { color: var(--amber); }
+
+.header-stats {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+.stat {
+  text-align: center;
+}
+.stat-value {
+  font-family: var(--mono);
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: var(--cyan);
+  line-height: 1;
+}
+.stat-label {
+  font-size: 0.6rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+.uptime {
+  font-family: var(--mono);
+  font-size: 0.75rem;
+  color: var(--text-dim);
+  letter-spacing: 0.08em;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   JD GRAPH (SVG)
+   ═══════════════════════════════════════════════════════════ */
+.graph .panel-body { padding: 0; }
+.graph svg { width: 100%; height: 100%; display: block; cursor: grab; }
+.graph svg:active { cursor: grabbing; }
+
+.graph-node { cursor: pointer; transition: opacity 0.2s; }
+.graph-node:hover { opacity: 0.85; }
+.graph-node text {
+  font-family: var(--mono);
+  font-size: 9px;
+  fill: var(--text);
+  pointer-events: none;
+  text-anchor: middle;
+  dominant-baseline: central;
+}
+.graph-edge { stroke: rgba(0,212,255,0.12); stroke-width: 1; }
+
+/* new-node pulse */
+@keyframes nodePulse {
+  0%   { r: 20; opacity: 0.6; }
+  100% { r: 40; opacity: 0;   }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TIMELINE
+   ═══════════════════════════════════════════════════════════ */
+.tl-event {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: background var(--transition);
+  border-radius: 4px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.tl-event:hover { background: rgba(255,255,255,0.03); }
+
+.tl-time {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  min-width: 60px;
+  padding-top: 2px;
+}
+.tl-badge {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+  height: fit-content;
+}
+.tl-badge.event_spine      { background: rgba(0,212,255,0.15); color: var(--cyan); }
+.tl-badge.execution_trace  { background: rgba(255,170,0,0.15); color: var(--amber); }
+.tl-badge.dex_events       { background: rgba(255,102,204,0.15); color: var(--pink); }
+
+.tl-content {
+  flex: 1;
+  min-width: 0;
+}
+.tl-type {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tl-detail {
+  font-size: 0.68rem;
+  color: var(--text-dim);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-top: 1px;
+}
+
+/* new event animation */
+.tl-event.new {
+  animation: eventSlideIn 0.4s ease;
+}
+@keyframes eventSlideIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MEMORY CARDS
+   ═══════════════════════════════════════════════════════════ */
+.mem-card {
+  padding: 10px 12px;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 8px;
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.mem-card:hover {
+  border-color: rgba(0,212,255,0.25);
+  background: rgba(0,212,255,0.03);
+}
+.mem-card.new {
+  animation: cardPop 0.5s ease;
+}
+@keyframes cardPop {
+  0%   { opacity: 0; transform: scale(0.95); }
+  60%  { transform: scale(1.02); }
+  100% { opacity: 1; transform: scale(1); }
+}
+.mem-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.mem-type {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  font-weight: 600;
+  padding: 2px 7px;
+  border-radius: 4px;
+  background: rgba(136,102,255,0.15);
+  color: var(--purple);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.mem-date {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  margin-left: auto;
+}
+.mem-content {
+  font-size: 0.75rem;
+  color: var(--text);
+  line-height: 1.5;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.mem-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.mem-tag {
+  font-family: var(--mono);
+  font-size: 0.55rem;
+  padding: 1px 6px;
+  border-radius: 3px;
+  background: rgba(0,255,136,0.1);
+  color: var(--green);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GITHUB COMMITS
+   ═══════════════════════════════════════════════════════════ */
+.gh-commit {
+  display: flex;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  cursor: pointer;
+  transition: background var(--transition);
+  border-radius: 4px;
+  padding-left: 6px;
+  padding-right: 6px;
+}
+.gh-commit:hover { background: rgba(255,255,255,0.03); }
+.gh-sha {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--cyan);
+  flex-shrink: 0;
+}
+.gh-info { flex: 1; min-width: 0; }
+.gh-msg {
+  font-size: 0.75rem;
+  color: var(--text-bright);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.gh-meta {
+  font-size: 0.6rem;
+  color: var(--text-dim);
+  margin-top: 2px;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   INSPECTOR
+   ═══════════════════════════════════════════════════════════ */
+.inspector .panel-body {
+  max-height: 300px;
+  padding: 0;
+}
+.inspector-toolbar {
+  display: flex;
+  gap: 8px;
+  padding: 8px 18px;
+  border-bottom: 1px solid rgba(255,255,255,0.04);
+  align-items: center;
+  flex-shrink: 0;
+}
+.inspector-toolbar .label {
+  font-family: var(--mono);
+  font-size: 0.65rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  flex: 1;
+}
+.inspector-btn {
+  font-family: var(--mono);
+  font-size: 0.6rem;
+  padding: 4px 12px;
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  background: transparent;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: all var(--transition);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+.inspector-btn:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(0,212,255,0.05);
+}
+.inspector-json {
+  padding: 14px 18px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-all;
+  overflow-y: auto;
+  max-height: 250px;
+  min-height: 60px;
+  color: var(--text-dim);
+}
+/* JSON syntax colors */
+.json-key    { color: var(--cyan); }
+.json-string { color: var(--green); }
+.json-number { color: var(--amber); }
+.json-bool   { color: var(--pink); }
+.json-null   { color: var(--red); }
+.json-brace  { color: var(--text-dim); }
+
+/* toggle arrow */
+.toggle-arrow {
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  cursor: pointer;
+  transition: transform 0.2s;
+  user-select: none;
+}
+.toggle-arrow.collapsed { transform: rotate(-90deg); }
+
+.inspector.collapsed .panel-body { display: none; }
+.inspector.collapsed .inspector-toolbar { display: none; }
+
+/* ═══════════════════════════════════════════════════════════
+   PANEL ERROR / EMPTY STATES
+   ═══════════════════════════════════════════════════════════ */
+.panel-empty, .panel-error {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  color: var(--text-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.panel-error { color: var(--red); }
+
+/* loading shimmer */
+.loading-bar {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+}
+@keyframes shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   UTILITY
+   ═══════════════════════════════════════════════════════════ */
+.hidden { display: none !important; }
+
+/* Copied toast */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  padding: 8px 16px;
+  background: var(--bg-panel-solid);
+  border: 1px solid var(--cyan);
+  border-radius: 6px;
+  color: var(--cyan);
+  z-index: 1000;
+  opacity: 0;
+  transform: translateY(10px);
+  transition: all 0.3s ease;
+  pointer-events: none;
+}
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- DASHBOARD GRID                                        -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<div class="dashboard">
+
+  <!-- ── HEADER ────────────────────────────────────── -->
+  <div class="header panel" id="header">
+    <div class="header-brand">
+      <div class="pulse-orb" id="statusOrb"></div>
+      <div>
+        <div class="header-title">JARVIS · <span>USM LIVE</span></div>
+        <div class="status-label" id="statusLabel">INITIALIZING…</div>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="stat"><div class="stat-value" id="statJD">—</div><div class="stat-label">JD Entries</div></div>
+      <div class="stat"><div class="stat-value" id="statMem">—</div><div class="stat-label">Memories</div></div>
+      <div class="stat"><div class="stat-value" id="statEvt">—</div><div class="stat-label">Events</div></div>
+    </div>
+    <div class="uptime" id="uptime">00:00:00</div>
+  </div>
+
+  <!-- ── JD GRAPH ──────────────────────────────────── -->
+  <div class="panel graph" id="graphPanel">
+    <div class="panel-head"><h2>◈ JD Graph</h2></div>
+    <div class="panel-body" id="graphBody">
+      <div class="loading-bar" id="graphLoader"></div>
+      <svg id="graphSvg"></svg>
+    </div>
+  </div>
+
+  <!-- ── TIMELINE ──────────────────────────────────── -->
+  <div class="panel timeline" id="timelinePanel">
+    <div class="panel-head"><h2>◉ Timeline</h2></div>
+    <div class="panel-body" id="timelineBody">
+      <div class="loading-bar" id="timelineLoader"></div>
+    </div>
+  </div>
+
+  <!-- ── MEMORY ────────────────────────────────────── -->
+  <div class="panel memory" id="memoryPanel">
+    <div class="panel-head"><h2>◎ Mnemos Memory</h2></div>
+    <div class="panel-body" id="memoryBody">
+      <div class="loading-bar" id="memoryLoader"></div>
+    </div>
+  </div>
+
+  <!-- ── GITHUB ────────────────────────────────────── -->
+  <div class="panel github" id="githubPanel">
+    <div class="panel-head"><h2>⟁ GitHub Commits</h2></div>
+    <div class="panel-body" id="githubBody">
+      <div class="loading-bar" id="githubLoader"></div>
+    </div>
+  </div>
+
+  <!-- ── INSPECTOR ─────────────────────────────────── -->
+  <div class="panel inspector" id="inspectorPanel">
+    <div class="panel-head">
+      <span class="toggle-arrow" id="inspectorToggle">▼</span>
+      <h2>⟐ Inspector</h2>
+    </div>
+    <div class="inspector-toolbar">
+      <span class="label" id="inspectorLabel">Select an item to inspect</span>
+      <button class="inspector-btn" id="btnCopy" onclick="copyInspector()">Copy</button>
+      <button class="inspector-btn" id="btnClear" onclick="clearInspector()">Clear</button>
+    </div>
+    <div class="panel-body">
+      <div class="inspector-json" id="inspectorJson">{ }</div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast">Copied to clipboard</div>
+
+<!-- ═══════════════════════════════════════════════════════ -->
+<!-- SUPABASE SDK                                          -->
+<!-- ═══════════════════════════════════════════════════════ -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   CONFIG
+   ═══════════════════════════════════════════════════════════ */
+const SUPABASE_URL  = 'https://oexghfsvhnggddllgvrt.supabase.co';
+const SUPABASE_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDcxMTk4NDEsImV4cCI6MjA2MjY5NTg0MX0.6FfPOlNjVK3JrMocqJNnw00lFUcIGFUBLqfM6s0UKSc';
+const GITHUB_API    = 'https://api.github.com/repos/hurrisonferd/jarvis/commits?per_page=15';
+const CLASS_COLORS  = {
+  SYSTEM:   '#00d4ff',
+  SPEC:     '#ffaa00',
+  MODULE:   '#00ff88',
+  ENTITY:   '#ff66cc',
+  EVENT:    '#ff4444',
+  REGISTRY: '#8866ff',
+};
+const DEFAULT_NODE_COLOR = '#00d4ff';
+
+/* ═══════════════════════════════════════════════════════════
+   STATE
+   ═══════════════════════════════════════════════════════════ */
+let sb;                        // supabase client
+let jdEntries     = [];        // all JD rows
+let timelineItems = [];        // unified events (max 50)
+let memories      = [];        // latest 20 memories
+let commits       = [];        // latest 15 commits
+let inspectorData = null;      // current inspector JSON
+let bootTime      = Date.now();
+let counts        = { jd: 0, mem: 0, evt: 0 };
+let graphNodes    = [];        // { id, x, y, vx, vy, r, color, label, data, links[] }
+let graphEdges    = [];        // { source, target }
+let simRunning    = false;
+let selectedNode  = null;
+let dragNode      = null;
+
+/* ═══════════════════════════════════════════════════════════
+   DOM REFS
+   ═══════════════════════════════════════════════════════════ */
+const $ = id => document.getElementById(id);
+const statusOrb   = $('statusOrb');
+const statusLabel = $('statusLabel');
+const statJD      = $('statJD');
+const statMem     = $('statMem');
+const statEvt     = $('statEvt');
+const uptimeEl    = $('uptime');
+const headerEl    = $('header');
+const graphSvg    = $('graphSvg');
+const graphBody   = $('graphBody');
+const timelineBody= $('timelineBody');
+const memoryBody  = $('memoryBody');
+const githubBody  = $('githubBody');
+const inspectorJson = $('inspectorJson');
+const inspectorLabel= $('inspectorLabel');
+const toast       = $('toast');
+
+/* ═══════════════════════════════════════════════════════════
+   UTILITIES
+   ═══════════════════════════════════════════════════════════ */
+function fmtTime(iso) {
+  if (!iso) return '--:--';
+  const d = new Date(iso);
+  return d.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', second:'2-digit' });
+}
+
+function fmtRelative(iso) {
+  if (!iso) return '';
+  const s = Math.floor((Date.now() - new Date(iso).getTime()) / 1000);
+  if (s < 60) return s + 's ago';
+  if (s < 3600) return Math.floor(s/60) + 'm ago';
+  if (s < 86400) return Math.floor(s/3600) + 'h ago';
+  return Math.floor(s/86400) + 'd ago';
+}
+
+function truncate(s, n) {
+  if (!s) return '';
+  return s.length > n ? s.slice(0, n) + '…' : s;
+}
+
+function escapeHtml(s) {
+  const div = document.createElement('div');
+  div.textContent = s;
+  return div.innerHTML;
+}
+
+/* Syntax-highlighted JSON */
+function highlightJson(obj) {
+  const raw = JSON.stringify(obj, null, 2);
+  if (!raw) return '';
+  return raw.replace(/("(?:\\.|[^"\\])*")\s*:/g, '<span class="json-key">$1</span>:')
+            .replace(/:\s*("(?:\\.|[^"\\])*")/g, ': <span class="json-string">$1</span>')
+            .replace(/:\s*(\d+\.?\d*)/g, ': <span class="json-number">$1</span>')
+            .replace(/:\s*(true|false)/g, ': <span class="json-bool">$1</span>')
+            .replace(/:\s*(null)/g, ': <span class="json-null">$1</span>')
+            .replace(/([{}\[\]])/g, '<span class="json-brace">$1</span>');
+}
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), 1800);
+}
+
+function flashHeader() {
+  headerEl.classList.remove('flash');
+  void headerEl.offsetWidth; // reflow
+  headerEl.classList.add('flash');
+}
+
+function updateStats() {
+  statJD.textContent  = counts.jd;
+  statMem.textContent = counts.mem;
+  statEvt.textContent = counts.evt;
+}
+
+/* Uptime */
+function tickUptime() {
+  const s = Math.floor((Date.now() - bootTime) / 1000);
+  const hh = String(Math.floor(s/3600)).padStart(2,'0');
+  const mm = String(Math.floor((s%3600)/60)).padStart(2,'0');
+  const ss = String(s%60).padStart(2,'0');
+  uptimeEl.textContent = `${hh}:${mm}:${ss}`;
+}
+setInterval(tickUptime, 1000);
+
+/* Status */
+function setStatus(state) {
+  // state: 'init' | 'online' | 'reconnecting' | 'offline'
+  statusOrb.className = 'pulse-orb';
+  statusLabel.className = 'status-label';
+  if (state === 'online') {
+    statusOrb.classList.add('online');
+    statusLabel.classList.add('online');
+    statusLabel.textContent = 'ONLINE';
+  } else if (state === 'reconnecting') {
+    statusOrb.classList.add('reconnecting');
+    statusLabel.classList.add('reconnecting');
+    statusLabel.textContent = 'RECONNECTING…';
+  } else if (state === 'offline') {
+    statusLabel.textContent = 'OFFLINE';
+  } else {
+    statusLabel.textContent = 'INITIALIZING…';
+  }
+}
+
+/* Inspector */
+function inspect(label, data) {
+  inspectorData = data;
+  inspectorLabel.textContent = label;
+  inspectorJson.innerHTML = highlightJson(data);
+  // un-collapse
+  $('inspectorPanel').classList.remove('collapsed');
+  $('inspectorToggle').classList.remove('collapsed');
+}
+function clearInspector() {
+  inspectorData = null;
+  inspectorLabel.textContent = 'Select an item to inspect';
+  inspectorJson.innerHTML = '<span class="json-brace">{ }</span>';
+}
+function copyInspector() {
+  if (!inspectorData) return;
+  navigator.clipboard.writeText(JSON.stringify(inspectorData, null, 2))
+    .then(() => showToast('Copied to clipboard'));
+}
+$('inspectorToggle').addEventListener('click', () => {
+  $('inspectorPanel').classList.toggle('collapsed');
+  $('inspectorToggle').classList.toggle('collapsed');
+});
+
+/* ═══════════════════════════════════════════════════════════
+   HIDE LOADERS
+   ═══════════════════════════════════════════════════════════ */
+function hideLoader(id) {
+  const el = $(id);
+  if (el) el.classList.add('hidden');
+}
+
+/* ═══════════════════════════════════════════════════════════
+   JD GRAPH — FORCE-DIRECTED SVG
+   ═══════════════════════════════════════════════════════════ */
+function buildGraph(entries) {
+  const idMap = {};
+  graphNodes = [];
+  graphEdges = [];
+
+  entries.forEach(e => {
+    const links = [];
+    if (Array.isArray(e.related)) links.push(...e.related);
+    if (Array.isArray(e.cross_refs)) links.push(...e.cross_refs);
+    const connCount = links.length;
+    const r = Math.max(6, Math.min(22, 6 + connCount * 3));
+    const cls = (e.class || '').toUpperCase();
+    const node = {
+      id: e.id,
+      x: Math.random() * 500 + 50,
+      y: Math.random() * 350 + 50,
+      vx: 0, vy: 0,
+      r, color: CLASS_COLORS[cls] || DEFAULT_NODE_COLOR,
+      label: e.name || e.jnl || e.id,
+      data: e,
+      linkIds: links,
+    };
+    graphNodes.push(node);
+    idMap[e.id] = node;
+    if (e.jnl) idMap[e.jnl] = node;
+  });
+
+  // resolve edges
+  graphNodes.forEach(n => {
+    (n.linkIds || []).forEach(lid => {
+      const target = idMap[lid];
+      if (target && target.id !== n.id) {
+        // avoid duplicates
+        const exists = graphEdges.some(e =>
+          (e.source === n.id && e.target === target.id) ||
+          (e.source === target.id && e.target === n.id)
+        );
+        if (!exists) graphEdges.push({ source: n.id, target: target.id });
+      }
+    });
+  });
+
+  renderGraph();
+  if (!simRunning) startSim();
+}
+
+function renderGraph() {
+  const ns = 'http://www.w3.org/2000/svg';
+  while (graphSvg.firstChild) graphSvg.removeChild(graphSvg.firstChild);
+
+  // defs for glow
+  const defs = document.createElementNS(ns, 'defs');
+  const filter = document.createElementNS(ns, 'filter');
+  filter.setAttribute('id', 'glow');
+  filter.setAttribute('x', '-50%'); filter.setAttribute('y', '-50%');
+  filter.setAttribute('width', '200%'); filter.setAttribute('height', '200%');
+  const blur = document.createElementNS(ns, 'feGaussianBlur');
+  blur.setAttribute('stdDeviation', '3');
+  blur.setAttribute('result', 'blur');
+  const merge = document.createElementNS(ns, 'feMerge');
+  const m1 = document.createElementNS(ns, 'feMergeNode'); m1.setAttribute('in', 'blur');
+  const m2 = document.createElementNS(ns, 'feMergeNode'); m2.setAttribute('in', 'SourceGraphic');
+  merge.appendChild(m1); merge.appendChild(m2);
+  filter.appendChild(blur); filter.appendChild(merge);
+  defs.appendChild(filter);
+  graphSvg.appendChild(defs);
+
+  // edges group
+  const edgeG = document.createElementNS(ns, 'g');
+  edgeG.setAttribute('id', 'edgesGroup');
+  graphEdges.forEach(e => {
+    const line = document.createElementNS(ns, 'line');
+    line.classList.add('graph-edge');
+    line.dataset.source = e.source;
+    line.dataset.target = e.target;
+    edgeG.appendChild(line);
+  });
+  graphSvg.appendChild(edgeG);
+
+  // nodes group
+  const nodeG = document.createElementNS(ns, 'g');
+  nodeG.setAttribute('id', 'nodesGroup');
+  graphNodes.forEach(n => {
+    const g = document.createElementNS(ns, 'g');
+    g.classList.add('graph-node');
+    g.dataset.id = n.id;
+
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('r', n.r);
+    circle.setAttribute('fill', n.color);
+    circle.setAttribute('fill-opacity', '0.25');
+    circle.setAttribute('stroke', n.color);
+    circle.setAttribute('stroke-width', '1.5');
+    circle.setAttribute('filter', 'url(#glow)');
+
+    const text = document.createElementNS(ns, 'text');
+    text.setAttribute('dy', n.r + 14);
+    text.textContent = truncate(n.label, 12);
+
+    g.appendChild(circle);
+    g.appendChild(text);
+    g.addEventListener('click', () => inspect('JD: ' + n.label, n.data));
+    g.addEventListener('mousedown', (ev) => startDrag(ev, n));
+    nodeG.appendChild(g);
+  });
+  graphSvg.appendChild(nodeG);
+}
+
+/* force simulation */
+function startSim() {
+  simRunning = true;
+  const W = () => graphBody.clientWidth || 600;
+  const H = () => graphBody.clientHeight || 400;
+
+  function tick() {
+    if (!simRunning) return;
+    const w = W(), h = H();
+    const cx = w / 2, cy = h / 2;
+    const nodeMap = {};
+    graphNodes.forEach(n => nodeMap[n.id] = n);
+
+    // Repulsion (node-node)
+    for (let i = 0; i < graphNodes.length; i++) {
+      for (let j = i+1; j < graphNodes.length; j++) {
+        const a = graphNodes[i], b = graphNodes[j];
+        let dx = a.x - b.x, dy = a.y - b.y;
+        let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+        const force = 1200 / (dist * dist);
+        const fx = (dx / dist) * force;
+        const fy = (dy / dist) * force;
+        a.vx += fx; a.vy += fy;
+        b.vx -= fx; b.vy -= fy;
+      }
+    }
+
+    // Attraction (edges)
+    graphEdges.forEach(e => {
+      const a = nodeMap[e.source], b = nodeMap[e.target];
+      if (!a || !b) return;
+      let dx = b.x - a.x, dy = b.y - a.y;
+      let dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const force = (dist - 100) * 0.005;
+      const fx = (dx / dist) * force;
+      const fy = (dy / dist) * force;
+      a.vx += fx; a.vy += fy;
+      b.vx -= fx; b.vy -= fy;
+    });
+
+    // Center gravity
+    graphNodes.forEach(n => {
+      n.vx += (cx - n.x) * 0.001;
+      n.vy += (cy - n.y) * 0.001;
+    });
+
+    // Integrate
+    graphNodes.forEach(n => {
+      if (n === dragNode) return;
+      n.vx *= 0.85;
+      n.vy *= 0.85;
+      n.x += n.vx;
+      n.y += n.vy;
+      n.x = Math.max(n.r + 5, Math.min(w - n.r - 5, n.x));
+      n.y = Math.max(n.r + 5, Math.min(h - n.r - 5, n.y));
+    });
+
+    // Update SVG positions
+    const nodesGroup = graphSvg.querySelector('#nodesGroup');
+    const edgesGroup = graphSvg.querySelector('#edgesGroup');
+    if (nodesGroup) {
+      const gs = nodesGroup.querySelectorAll('.graph-node');
+      gs.forEach(g => {
+        const n = nodeMap[g.dataset.id];
+        if (n) g.setAttribute('transform', `translate(${n.x},${n.y})`);
+      });
+    }
+    if (edgesGroup) {
+      const lines = edgesGroup.querySelectorAll('line');
+      lines.forEach(l => {
+        const s = nodeMap[l.dataset.source], t = nodeMap[l.dataset.target];
+        if (s && t) {
+          l.setAttribute('x1', s.x); l.setAttribute('y1', s.y);
+          l.setAttribute('x2', t.x); l.setAttribute('y2', t.y);
+        }
+      });
+    }
+
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+}
+
+/* drag */
+function startDrag(ev, node) {
+  ev.preventDefault();
+  dragNode = node;
+  const onMove = (e) => {
+    const rect = graphSvg.getBoundingClientRect();
+    const cX = (e.clientX || e.touches?.[0]?.clientX || 0) - rect.left;
+    const cY = (e.clientY || e.touches?.[0]?.clientY || 0) - rect.top;
+    dragNode.x = cX;
+    dragNode.y = cY;
+    dragNode.vx = 0;
+    dragNode.vy = 0;
+  };
+  const onUp = () => {
+    dragNode = null;
+    window.removeEventListener('mousemove', onMove);
+    window.removeEventListener('mouseup', onUp);
+    window.removeEventListener('touchmove', onMove);
+    window.removeEventListener('touchend', onUp);
+  };
+  window.addEventListener('mousemove', onMove);
+  window.addEventListener('mouseup', onUp);
+  window.addEventListener('touchmove', onMove);
+  window.addEventListener('touchend', onUp);
+}
+
+/* Pulse animation on new node */
+function pulseNode(id) {
+  const ns = 'http://www.w3.org/2000/svg';
+  const nodesGroup = graphSvg.querySelector('#nodesGroup');
+  if (!nodesGroup) return;
+  const g = nodesGroup.querySelector(`[data-id="${id}"]`);
+  if (!g) return;
+  const circle = g.querySelector('circle');
+  if (!circle) return;
+  const pulse = document.createElementNS(ns, 'circle');
+  pulse.setAttribute('r', circle.getAttribute('r'));
+  pulse.setAttribute('fill', 'none');
+  pulse.setAttribute('stroke', circle.getAttribute('stroke'));
+  pulse.setAttribute('stroke-width', '2');
+  const anim = document.createElementNS(ns, 'animate');
+  anim.setAttribute('attributeName', 'r');
+  anim.setAttribute('from', circle.getAttribute('r'));
+  anim.setAttribute('to', '40');
+  anim.setAttribute('dur', '0.8s');
+  anim.setAttribute('fill', 'freeze');
+  const animO = document.createElementNS(ns, 'animate');
+  animO.setAttribute('attributeName', 'opacity');
+  animO.setAttribute('from', '0.6');
+  animO.setAttribute('to', '0');
+  animO.setAttribute('dur', '0.8s');
+  animO.setAttribute('fill', 'freeze');
+  pulse.appendChild(anim);
+  pulse.appendChild(animO);
+  g.insertBefore(pulse, circle);
+  setTimeout(() => pulse.remove(), 1000);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   TIMELINE RENDERING
+   ═══════════════════════════════════════════════════════════ */
+function renderTimeline() {
+  // Sort newest first
+  timelineItems.sort((a,b) => new Date(b._ts) - new Date(a._ts));
+  // keep 50
+  if (timelineItems.length > 50) timelineItems.length = 50;
+
+  timelineBody.innerHTML = '';
+  if (timelineItems.length === 0) {
+    timelineBody.innerHTML = '<div class="panel-empty">No events yet</div>';
+    return;
+  }
+  timelineItems.forEach((item, i) => {
+    const div = document.createElement('div');
+    div.className = 'tl-event' + (item._new ? ' new' : '');
+    item._new = false;
+    const typeStr = item.type || item.tool || item.stage || '—';
+    const detail  = item.intent || item.detail || (item.source ? 'from ' + item.source : '') || '';
+    div.innerHTML = `
+      <span class="tl-time">${fmtTime(item._ts)}</span>
+      <span class="tl-badge ${item._source}">${item._source.replace('_',' ')}</span>
+      <div class="tl-content">
+        <div class="tl-type">${escapeHtml(truncate(typeStr, 40))}</div>
+        <div class="tl-detail">${escapeHtml(truncate(detail, 60))}</div>
+      </div>`;
+    div.addEventListener('click', () => inspect('Event: ' + typeStr, item));
+    timelineBody.appendChild(div);
+  });
+}
+
+function addTimelineEvent(item) {
+  item._new = true;
+  timelineItems.unshift(item);
+  if (timelineItems.length > 50) timelineItems.pop();
+  renderTimeline();
+  counts.evt++;
+  updateStats();
+  flashHeader();
+}
+
+/* ═══════════════════════════════════════════════════════════
+   MEMORY RENDERING
+   ═══════════════════════════════════════════════════════════ */
+function renderMemories() {
+  memoryBody.innerHTML = '';
+  if (memories.length === 0) {
+    memoryBody.innerHTML = '<div class="panel-empty">No memories yet</div>';
+    return;
+  }
+  memories.forEach((m, i) => {
+    const div = document.createElement('div');
+    div.className = 'mem-card' + (m._new ? ' new' : '');
+    m._new = false;
+    const contentPreview = typeof m.content === 'string' ? m.content : JSON.stringify(m.content || '');
+    const tags = Array.isArray(m.tags) ? m.tags : [];
+    div.innerHTML = `
+      <div class="mem-header">
+        <span class="mem-type">${escapeHtml(m.type || 'memory')}</span>
+        <span class="mem-date">${fmtRelative(m.created_at)}</span>
+      </div>
+      <div class="mem-content">${escapeHtml(truncate(contentPreview, 200))}</div>
+      ${tags.length ? '<div class="mem-tags">' + tags.map(t => `<span class="mem-tag">${escapeHtml(t)}</span>`).join('') + '</div>' : ''}`;
+    div.addEventListener('click', () => inspect('Memory: ' + (m.type || m.id), m));
+    memoryBody.appendChild(div);
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   GITHUB RENDERING
+   ═══════════════════════════════════════════════════════════ */
+function renderCommits() {
+  githubBody.innerHTML = '';
+  if (commits.length === 0) {
+    githubBody.innerHTML = '<div class="panel-empty">No commits loaded</div>';
+    return;
+  }
+  commits.forEach(c => {
+    const sha = (c.sha || '').slice(0, 7);
+    const msg = c.commit?.message?.split('\n')[0] || '';
+    const author = c.commit?.author?.name || c.author?.login || 'unknown';
+    const date = c.commit?.author?.date || '';
+    const div = document.createElement('div');
+    div.className = 'gh-commit';
+    div.innerHTML = `
+      <span class="gh-sha">${sha}</span>
+      <div class="gh-info">
+        <div class="gh-msg">${escapeHtml(truncate(msg, 60))}</div>
+        <div class="gh-meta">${escapeHtml(author)} · ${fmtRelative(date)}</div>
+      </div>`;
+    div.addEventListener('click', () => inspect('Commit: ' + sha, c));
+    githubBody.appendChild(div);
+  });
+}
+
+async function fetchCommits() {
+  try {
+    const res = await fetch(GITHUB_API);
+    if (!res.ok) throw new Error('GitHub API ' + res.status);
+    commits = await res.json();
+    renderCommits();
+    hideLoader('githubLoader');
+  } catch (err) {
+    console.error('GitHub fetch error:', err);
+    githubBody.innerHTML = `<div class="panel-error">GitHub: ${escapeHtml(err.message)}</div>`;
+    hideLoader('githubLoader');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   SUPABASE DATA FETCHING
+   ═══════════════════════════════════════════════════════════ */
+async function fetchJD() {
+  try {
+    const { data, error } = await sb.from('jd_entries').select('*');
+    if (error) throw error;
+    jdEntries = data || [];
+    counts.jd = jdEntries.length;
+    updateStats();
+    buildGraph(jdEntries);
+    hideLoader('graphLoader');
+  } catch (err) {
+    console.error('JD fetch error:', err);
+    graphBody.innerHTML = `<div class="panel-error">JD: ${err.message || err}</div>`;
+    hideLoader('graphLoader');
+  }
+}
+
+async function fetchTimeline() {
+  try {
+    const [spineRes, traceRes, dexRes] = await Promise.all([
+      sb.from('event_spine').select('*').order('created_at', { ascending: false }).limit(50),
+      sb.from('execution_trace').select('*').order('created_at', { ascending: false }).limit(50),
+      sb.from('dex_events').select('*').order('created_at', { ascending: false }).limit(50),
+    ]);
+
+    const items = [];
+    (spineRes.data || []).forEach(e => items.push({ ...e, _source: 'event_spine', _ts: e.timestamp || e.created_at }));
+    (traceRes.data || []).forEach(e => items.push({ ...e, _source: 'execution_trace', _ts: e.created_at }));
+    (dexRes.data || []).forEach(e => items.push({ ...e, _source: 'dex_events', _ts: e.created_at }));
+
+    items.sort((a,b) => new Date(b._ts) - new Date(a._ts));
+    timelineItems = items.slice(0, 50);
+    counts.evt = timelineItems.length;
+    updateStats();
+    renderTimeline();
+    hideLoader('timelineLoader');
+  } catch (err) {
+    console.error('Timeline fetch error:', err);
+    timelineBody.innerHTML = `<div class="panel-error">Timeline: ${err.message || err}</div>`;
+    hideLoader('timelineLoader');
+  }
+}
+
+async function fetchMemories() {
+  try {
+    const { data, error } = await sb
+      .from('mnemos_memories')
+      .select('id, type, content, tags, source, created_at')
+      .order('created_at', { ascending: false })
+      .limit(20);
+    if (error) throw error;
+    memories = data || [];
+    counts.mem = memories.length;
+    updateStats();
+    renderMemories();
+    hideLoader('memoryLoader');
+  } catch (err) {
+    console.error('Memory fetch error:', err);
+    memoryBody.innerHTML = `<div class="panel-error">Mnemos: ${err.message || err}</div>`;
+    hideLoader('memoryLoader');
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   REALTIME SUBSCRIPTIONS
+   ═══════════════════════════════════════════════════════════ */
+function subscribeRealtime() {
+  const channel = sb.channel('usm-live');
+
+  // JD Entries — INSERT & UPDATE
+  channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'jd_entries' }, payload => {
+    const row = payload.new;
+    jdEntries.push(row);
+    counts.jd = jdEntries.length;
+    updateStats();
+    buildGraph(jdEntries);
+    setTimeout(() => pulseNode(row.id), 100);
+    flashHeader();
+  });
+  channel.on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'jd_entries' }, payload => {
+    const row = payload.new;
+    const idx = jdEntries.findIndex(e => e.id === row.id);
+    if (idx >= 0) jdEntries[idx] = row; else jdEntries.push(row);
+    counts.jd = jdEntries.length;
+    updateStats();
+    buildGraph(jdEntries);
+    setTimeout(() => pulseNode(row.id), 100);
+    flashHeader();
+  });
+
+  // Event Spine
+  channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'event_spine' }, payload => {
+    const row = payload.new;
+    addTimelineEvent({ ...row, _source: 'event_spine', _ts: row.timestamp || row.created_at });
+  });
+
+  // Execution Trace
+  channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'execution_trace' }, payload => {
+    const row = payload.new;
+    addTimelineEvent({ ...row, _source: 'execution_trace', _ts: row.created_at });
+  });
+
+  // DEX Events
+  channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'dex_events' }, payload => {
+    const row = payload.new;
+    addTimelineEvent({ ...row, _source: 'dex_events', _ts: row.created_at });
+  });
+
+  // Mnemos Memories
+  channel.on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'mnemos_memories' }, payload => {
+    const row = payload.new;
+    row._new = true;
+    memories.unshift(row);
+    if (memories.length > 20) memories.pop();
+    counts.mem = memories.length;
+    updateStats();
+    renderMemories();
+    flashHeader();
+  });
+
+  channel.subscribe((status) => {
+    console.log('Realtime status:', status);
+    if (status === 'SUBSCRIBED') {
+      setStatus('online');
+    } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+      setStatus('reconnecting');
+    } else if (status === 'CLOSED') {
+      setStatus('offline');
+    }
+  });
+}
+
+/* ═══════════════════════════════════════════════════════════
+   BOOT SEQUENCE
+   ═══════════════════════════════════════════════════════════ */
+async function boot() {
+  setStatus('init');
+
+  try {
+    sb = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  } catch (err) {
+    console.error('Supabase init error:', err);
+    setStatus('offline');
+    retryBoot();
+    return;
+  }
+
+  // Parallel data fetch
+  const results = await Promise.allSettled([
+    fetchJD(),
+    fetchTimeline(),
+    fetchMemories(),
+    fetchCommits(),
+  ]);
+
+  // Log any failures but don't crash
+  results.forEach((r, i) => {
+    if (r.status === 'rejected') {
+      console.error(`Boot fetch ${i} failed:`, r.reason);
+    }
+  });
+
+  // Subscribe realtime
+  subscribeRealtime();
+
+  // GitHub refresh every 60s
+  setInterval(fetchCommits, 60000);
+
+  // If we got here, we're good
+  setStatus('online');
+}
+
+function retryBoot() {
+  setTimeout(() => {
+    console.log('Retrying boot...');
+    boot();
+  }, 5000);
+}
+
+// GO
+boot();
+</script>
+</body>
+</html>

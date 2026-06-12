@@ -24,7 +24,10 @@ const BASE_URL = `${SUPABASE_URL}/functions/v1/jarvis-mcp`;
 const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
-  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_propose",
+  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_propose", "jarvis_dex_graph", "jarvis_dex_events",
+  "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
+  "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits",
+  "jarvis_timeline",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
@@ -839,6 +842,258 @@ function buildServer(req: Request): McpServer {
       inputSchema: { window_minutes: z.number().int().min(5).max(180).optional().default(30) },
     },
     async ({ window_minutes }) => text({ halo: "throughput_posture", ...(await haloPosture(window_minutes)) }),
+  );
+
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // FULL VISIBILITY LAYER — Supabase + GitHub + Dex read access
+  // NLP control: Raven/JARVIS/AYRE can see everything. Read-only, no AEGIS gate.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // DB INSPECT — list all tables with row counts
+  server.registerTool(
+    "jarvis_db_inspect",
+    {
+      title: "Database — Inspect all tables",
+      description:
+        "List every table in the Supabase public schema with row counts. Use to see the full database landscape — what exists, how populated it is. Read-only.",
+      inputSchema: {},
+    },
+    async () => {
+      const tables = [
+        "audit_log", "consensus_proposals", "dex_control", "dex_events",
+        "drift_log", "emulator_state", "eris_entropy_log", "event_spine",
+        "events", "execution_trace", "gameboy_snapshot", "god_system_stats",
+        "grid_nodes", "grid_state", "jarvis_datasets", "jc_objects",
+        "jd_entries", "jd_proposals", "jnl_registry", "live_log",
+        "mnemos_memories", "mnemos_vocab", "node_fields", "node_keys",
+        "node_messages", "patch_log", "prometheus_log", "push_subscriptions",
+        "rom_index", "rom_library", "save_states", "session_events",
+        "sessions", "sl_objects", "validation_log", "world_agents",
+        "world_events", "world_kernels",
+      ];
+      const counts: Record<string, number | null> = {};
+      await Promise.all(
+        tables.map(async (t) => {
+          try { counts[t] = await countRows(t); } catch { counts[t] = null; }
+        }),
+      );
+      return text({ db_inspect: counts, total_tables: tables.length });
+    },
+  );
+
+  // DB READ — query any table with filters, select, order, limit
+  server.registerTool(
+    "jarvis_db_read",
+    {
+      title: "Database — Read any table",
+      description:
+        "Query any Supabase public table. Specify table name, columns to select, filters (PostgREST syntax e.g. 'status=eq.ACTIVE'), ordering, and limit. Returns raw rows. Use for full database visibility. Read-only.",
+      inputSchema: {
+        table: z.string().min(1).max(60).describe("Table name (e.g. 'jd_entries', 'mnemos_memories', 'event_spine')"),
+        select: z.string().optional().default("*").describe("Columns to select (PostgREST syntax, e.g. 'jnl,name,status')"),
+        filters: z.array(z.string()).optional().default([]).describe("PostgREST filter strings (e.g. ['status=eq.ACTIVE', 'type=eq.JGPP'])"),
+        order: z.string().optional().describe("Order clause (e.g. 'created_at.desc')"),
+        limit: z.number().int().min(1).max(100).optional().default(25),
+      },
+    },
+    async ({ table, select, filters, order, limit }) => {
+      let path = `${table}?select=${select}&limit=${limit}`;
+      for (const f of filters) path += `&${f}`;
+      if (order) path += `&order=${order}`;
+      const rows = await rest(path).catch((e) => ({ error: String(e) }));
+      return text({ table, rows, count: Array.isArray(rows) ? rows.length : null });
+    },
+  );
+
+  // DB SCHEMA — show column names and types for a table
+  server.registerTool(
+    "jarvis_db_schema",
+    {
+      title: "Database — Table schema",
+      description:
+        "Show all columns, their types, and constraints for a specific table. Use to understand table structure before querying. Read-only.",
+      inputSchema: {
+        table: z.string().min(1).max(60).describe("Table name"),
+      },
+    },
+    async ({ table }) => {
+      // Use PostgREST's OpenAPI description to get columns
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=*&limit=0`, {
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY },
+      });
+      // Parse the column info from the response headers or get one row to infer
+      const sample = await rest(`${table}?select=*&limit=1`).catch(() => []);
+      const cols = Array.isArray(sample) && sample[0] ? Object.keys(sample[0]) : [];
+      return text({
+        table,
+        columns: cols,
+        sample_row: Array.isArray(sample) && sample[0] ? sample[0] : null,
+        note: "Use jarvis_db_read to query this table with filters.",
+      });
+    },
+  );
+
+  // DEX GRAPH — traverse JD graph (node + neighbors)
+  server.registerTool(
+    "jarvis_dex_graph",
+    {
+      title: "Dex — Graph traversal",
+      description:
+        "Load a JD entry by JNL address and return its full record plus all linked neighbors (related + cross_refs). Use to traverse the system graph and understand how objects connect. Read-only.",
+      inputSchema: {
+        jnl: z.string().min(1).max(60).describe("JNL address of the node to inspect"),
+      },
+    },
+    async ({ jnl }) => text(await callDex("jd_graph", { jnl })),
+  );
+
+  // DEX EVENTS — dex event timeline
+  server.registerTool(
+    "jarvis_dex_events",
+    {
+      title: "Dex — Event timeline",
+      description:
+        "Read the dex event log — every tool call, proposal, approval, rejection, and governance action. Shows who did what, when, to which JNL. Use for audit and system history. Read-only.",
+      inputSchema: {
+        limit: z.number().int().min(1).max(100).optional().default(25),
+        tool_filter: z.string().optional().describe("Filter by tool name (e.g. 'jd_approve', 'jd_propose')"),
+        jnl_filter: z.string().optional().describe("Filter by JNL address"),
+      },
+    },
+    async ({ limit, tool_filter, jnl_filter }) => {
+      let path = `dex_events?select=*&order=id.desc&limit=${limit}`;
+      if (tool_filter) path += `&tool=eq.${tool_filter}`;
+      if (jnl_filter) path += `&jnl=eq.${jnl_filter}`;
+      const rows = await rest(path).catch((e) => ({ error: String(e) }));
+      return text({ dex_events: rows, count: Array.isArray(rows) ? rows.length : null });
+    },
+  );
+
+  // GITHUB TREE — list repo files
+  server.registerTool(
+    "jarvis_github_tree",
+    {
+      title: "GitHub — Browse repo tree",
+      description:
+        "List files and directories in the JARVIS GitHub repo (hurrisonferd/jarvis). Specify a path to browse a subdirectory. Returns file names, types, and sizes. Read-only.",
+      inputSchema: {
+        path: z.string().optional().default("").describe("Directory path within the repo (e.g. 'yggdrasil/jd/entries', 'supabase/functions')"),
+        ref: z.string().optional().default("main").describe("Branch or commit ref"),
+      },
+    },
+    async ({ path, ref }) => {
+      const url = `https://api.github.com/repos/hurrisonferd/jarvis/contents/${path}?ref=${ref}`;
+      const res = await fetch(url, {
+        headers: { "Accept": "application/vnd.github.v3+json", "User-Agent": "jarvis-mcp" },
+      });
+      if (!res.ok) {
+        return text({ error: `GitHub API ${res.status}`, path, ref });
+      }
+      const data = await res.json();
+      if (Array.isArray(data)) {
+        return text({
+          path: path || "/",
+          ref,
+          entries: data.map((f: any) => ({ name: f.name, type: f.type, size: f.size })),
+          count: data.length,
+        });
+      }
+      // Single file
+      return text({ path, ref, type: "file", size: data.size, name: data.name });
+    },
+  );
+
+  // GITHUB FILE — read file content
+  server.registerTool(
+    "jarvis_github_file",
+    {
+      title: "GitHub — Read file",
+      description:
+        "Read the content of any file from the JARVIS GitHub repo (hurrisonferd/jarvis). Returns decoded text content. Use to inspect source code, configs, JD entries, specs. Read-only.",
+      inputSchema: {
+        path: z.string().min(1).max(300).describe("File path within the repo (e.g. 'yggdrasil/jd/entries/GOV-JAR-JD-0001.md')"),
+        ref: z.string().optional().default("main").describe("Branch or commit ref"),
+      },
+    },
+    async ({ path, ref }) => {
+      const url = `https://api.github.com/repos/hurrisonferd/jarvis/contents/${path}?ref=${ref}`;
+      const res = await fetch(url, {
+        headers: { "Accept": "application/vnd.github.v3+json", "User-Agent": "jarvis-mcp" },
+      });
+      if (!res.ok) {
+        return text({ error: `GitHub API ${res.status}: file not found`, path, ref });
+      }
+      const data = await res.json();
+      if (data.encoding === "base64" && data.content) {
+        const decoded = atob(data.content.replace(/\n/g, ""));
+        return text({ path, ref, size: data.size, content: decoded });
+      }
+      return text({ path, ref, size: data.size, download_url: data.download_url });
+    },
+  );
+
+  // GITHUB COMMITS — recent commit log
+  server.registerTool(
+    "jarvis_github_commits",
+    {
+      title: "GitHub — Recent commits",
+      description:
+        "Show recent commits to the JARVIS repo (hurrisonferd/jarvis). See what changed, when, by whom. Filter by path to see commits affecting a specific file or directory. Read-only.",
+      inputSchema: {
+        limit: z.number().int().min(1).max(50).optional().default(15),
+        path: z.string().optional().describe("Filter to commits touching this path (e.g. 'yggdrasil/', 'supabase/functions/')"),
+        ref: z.string().optional().default("main").describe("Branch"),
+      },
+    },
+    async ({ limit, path, ref }) => {
+      let url = `https://api.github.com/repos/hurrisonferd/jarvis/commits?sha=${ref}&per_page=${limit}`;
+      if (path) url += `&path=${path}`;
+      const res = await fetch(url, {
+        headers: { "Accept": "application/vnd.github.v3+json", "User-Agent": "jarvis-mcp" },
+      });
+      if (!res.ok) {
+        return text({ error: `GitHub API ${res.status}`, ref });
+      }
+      const data = await res.json();
+      return text({
+        ref,
+        commits: (data as any[]).map((c: any) => ({
+          sha: c.sha?.slice(0, 7),
+          message: c.commit?.message?.split("\n")[0],
+          author: c.commit?.author?.name,
+          date: c.commit?.author?.date,
+        })),
+        count: data.length,
+      });
+    },
+  );
+
+  // TIMELINE — unified event history across event_spine + execution_trace + dex_events
+  server.registerTool(
+    "jarvis_timeline",
+    {
+      title: "Timeline — unified event history",
+      description:
+        "Show a unified chronological view of system activity across event_spine, execution_trace, and dex_events. The single view of 'what happened' across all systems. Read-only.",
+      inputSchema: {
+        limit: z.number().int().min(1).max(50).optional().default(20),
+      },
+    },
+    async ({ limit }) => {
+      const perSource = Math.ceil(limit / 3);
+      const [spine, traces, dex] = await Promise.all([
+        rest(`event_spine?select=id,type,source,intent,payload,timestamp,created_at&order=created_at.desc&limit=${perSource}`).catch(() => []),
+        rest(`execution_trace?select=id,type,source,stage,intent,severity,payload,created_at&order=created_at.desc&limit=${perSource}`).catch(() => []),
+        rest(`dex_events?select=id,tool,tier,jnl,actor,detail,created_at&order=id.desc&limit=${perSource}`).catch(() => []),
+      ]);
+      const events: any[] = [];
+      if (Array.isArray(spine)) for (const r of spine) events.push({ layer: "event_spine", ...r });
+      if (Array.isArray(traces)) for (const r of traces) events.push({ layer: "execution_trace", ...r });
+      if (Array.isArray(dex)) for (const r of dex) events.push({ layer: "dex_events", ...r });
+      events.sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? ""));
+      return text({ timeline: events.slice(0, limit), total_fetched: events.length });
+    },
   );
 
   return server;
