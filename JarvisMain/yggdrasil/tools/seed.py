@@ -872,6 +872,14 @@ def main() -> None:
           f" + {scanned} frontmatter-intake JD entries")
     print(f"LAL: {len(address_registry)} addresses, {len(tag_index)} tags")
 
+    # Global Mirror (ARCH-JMS-SPEC-0001): regenerate the freshness-stamped omnivision
+    # snapshot whenever the registries change, so the one-read map never goes silently stale.
+    try:
+        import mirror as _mirror
+        _mirror.main()
+    except Exception as e:  # never block the seed on the mirror
+        print(f"(global-mirror skipped: {e})")
+
 
 if __name__ == "__main__":
     main()
