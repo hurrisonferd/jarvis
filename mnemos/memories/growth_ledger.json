@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-13T18:05:43.439269+00:00",
+  "updated": "2026-06-13T18:18:19.256979+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_231959",
-      "date": "2026-06-11",
-      "exchanges": 703,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Server-side receipts first, because they settle the diagnosis: **every request in the log is a 200.** No errors, no rejections, no failed routes \u2014 and"
-    },
-    {
-      "session_id": "20260611_232026",
-      "date": "2026-06-11",
-      "exchanges": 704,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger committed and pushed. Tree clean \u2014 connector refresh and a fresh GPT session are the next moves on your side, Raven."
-    },
     {
       "session_id": "20260611_232325",
       "date": "2026-06-11",
@@ -625,6 +559,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Charter \u00a78 committed \u2014 GREEN, 134 objects. Here are the custom instructions to paste, clean \u2014 copy everything in the block into **ChatGPT \u2192 Settings \u2192"
+    },
+    {
+      "session_id": "20260613_180830",
+      "date": "2026-06-13",
+      "exchanges": 791,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Saved, three places, `9374783` (GREEN):\n- **Jarvis profile** \u2014 a hard-learned discipline: *\"Graves, not deletions.\"*\n- **Ayre profile** \u2014 its own sect"
+    },
+    {
+      "session_id": "20260613_181819",
+      "date": "2026-06-13",
+      "exchanges": 797,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ground truth on the numbers, pulled from the seq-registry:\n\n- **JARVIS** = `ARCH-JRV-BIO-0001` = **JD-106**\n- **AYRE** = `ARCH-AYR-BIO-0001` = **JD-10"
     }
   ]
 }
