@@ -1,65 +1,8 @@
 {
-  "updated": "2026-06-13T18:24:24.838741+00:00",
+  "updated": "2026-06-13T18:28:27.421082+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_174206",
-      "date": "2026-06-13",
-      "exchanges": 755,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Read the repo end to end first \u2014 that's the honest place to start, and it's clean. Git across all branches, filesystem by mtime, intake lane: **nothin"
-    },
-    {
-      "session_id": "20260613_174335",
-      "date": "2026-06-13",
-      "exchanges": 756,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "mnemos/memories/growth_archive.jsonl",
-        "mnemos/memories/growth_ledger.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Three relays, one move underneath them: GPT is now proposing to insert **JGLF as a doctrine layer above Yggdrasil** and mark Yggdrasil \"superseded,\" p"
-    },
     {
       "session_id": "20260613_174446",
       "date": "2026-06-13",
@@ -631,6 +574,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Exactly right \u2014 and it's the sharpest framing of the whole problem: **hygiene is a precondition for legibility, and legibility is a precondition for G"
+    },
+    {
+      "session_id": "20260613_182444",
+      "date": "2026-06-13",
+      "exchanges": 807,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean, pushed. Holding \u2014 not generating. The decisions are yours and they're stacked at one door: **the Supabase approval** unblocks the connecto"
+    },
+    {
+      "session_id": "20260613_182827",
+      "date": "2026-06-13",
+      "exchanges": 810,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "These three packets matter because, stripped of the re-proposals, they contain **exactly one decision only you can make** \u2014 and everything else is alr"
     }
   ]
 }
