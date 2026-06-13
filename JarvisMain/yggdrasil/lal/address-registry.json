@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 134,
+  "count": 136,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -470,6 +470,28 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-REL-BIO-0001",
+      "name": "JARVIS-AYRE Relational Profile",
+      "type": "BIO",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisMain/Architecture/identity/relational/relational-profile.md",
+      "tags": [
+        "identity",
+        "relational",
+        "jarvis",
+        "ayre",
+        "companion"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-RT-SPEC-0001",
@@ -1209,6 +1231,29 @@
       ],
       "anchors": [],
       "status": "TASK",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
+    },
+    {
+      "jnl": "GOV-KR-SPEC-0001",
+      "name": "Knowledge Routing Index (MIMIR)",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
+      "tags": [
+        "knowledge",
+        "routing",
+        "mimir",
+        "help",
+        "retrieval",
+        "navigation"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-13",
       "updated": "2026-06-13"

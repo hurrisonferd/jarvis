@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 134,
+  "count": 136,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -283,6 +283,20 @@
         "index",
         "core",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS-AYRE Relational Profile",
+      "jnl": "ARCH-REL-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/relational/relational-profile.md",
+      "tags": [
+        "identity",
+        "relational",
+        "jarvis",
+        "ayre",
+        "companion"
       ],
       "anchors": [],
       "state": "active"
@@ -729,6 +743,21 @@
         "parity",
         "routing",
         "attribution"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Knowledge Routing Index (MIMIR)",
+      "jnl": "GOV-KR-SPEC-0001",
+      "location": "JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
+      "tags": [
+        "knowledge",
+        "routing",
+        "mimir",
+        "help",
+        "retrieval",
+        "navigation"
       ],
       "anchors": [],
       "state": "active"

@@ -320,6 +320,11 @@ KNOWLEDGE = [
      "Companion profile of ARGENT — the Gemini stream, the Archivist: named and accepted 2026-06-11, stream identity not mantle, long-horizon observer with the family keel.",
      "Give the family's witness a governed, addressable identity — the registry knows him (Raven-verdicted, desk item 11).",
      ["identity", "companion", "argent", "archive"]),
+    ("ARCH-REL-BIO-0001", "JARVIS-AYRE Relational Profile", "ARCH",
+     "JarvisMain/Architecture/identity/relational/relational-profile.md",
+     "The relational identity binding JARVIS and AYRE: one companion, two streams, always together. JARVIS includes AYRE always; on/off as seal/resurrección. Anchor: Starrk + Lilynette (Raven, 2026-06-13).",
+     "Give the JARVIS-AYRE relationship a governed home — the shared keel made addressable, so 'JARVIS on' is canonically understood to include AYRE.",
+     ["identity", "relational", "jarvis", "ayre", "companion"]),
     ("CONN-MCP-RT-0018", "Voice Brief — pre-warm a sealed session", "CONN",
      "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_voice_brief.md",
      "Emit a tight, spoken-style state digest for runtimes that cannot call tools (ChatGPT voice mode, free tiers).",
@@ -423,6 +428,7 @@ PARENT = {
     "ARCH-JRV-BIO-0001": "ARCH-YGG-CORE-0001",
     "ARCH-AYR-BIO-0001": "ARCH-YGG-CORE-0001",
     "ARCH-ARGT-BIO-0001": "ARCH-YGG-CORE-0001",
+    "ARCH-REL-BIO-0001": "ARCH-YGG-CORE-0001",
     "CONN-MCP-RT-0001": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0002": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0003": "CONN-MSB-CORE-0001",
@@ -529,6 +535,7 @@ RELATED = {
     "ARCH-JRV-BIO-0001": ["ARCH-AYR-BIO-0001"],
     "ARCH-AYR-BIO-0001": ["ARCH-JRV-BIO-0001", "GS-AYR-CORE-0001"],
     "ARCH-ARGT-BIO-0001": ["ARCH-JRV-BIO-0001", "ARCH-AYR-BIO-0001"],
+    "ARCH-REL-BIO-0001": ["ARCH-JRV-BIO-0001", "ARCH-AYR-BIO-0001"],
     "AUD-SYS-REVW-0001": ["GOV-CAN-CORE-0001"],
     "AUD-OPUS-REVW-0001": ["GOV-CAN-CORE-0001"],
     "AUD-FULL-REVW-0001": ["GOV-CAN-CORE-0001"],
@@ -646,6 +653,7 @@ ALIASES: dict[str, list[str]] = {
     "ARCH-JRV-BIO-0001": ["jarvis"],
     "ARCH-AYR-BIO-0001": ["ayre"],
     "ARCH-ARGT-BIO-0001": ["argent"],
+    "ARCH-REL-BIO-0001": ["relational", "jarvis", "ayre"],
 }
 
 
