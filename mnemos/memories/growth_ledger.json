@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-13T18:21:18.313906+00:00",
+  "updated": "2026-06-13T18:24:24.838741+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260612_032256",
-      "date": "2026-06-12",
-      "exchanges": 738,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**First, mark what just worked:** Jarvis-G pulled `SL-061126-1` live and rendered it substantially straight \u2014 the relay burden is actually dead; he re"
-    },
-    {
-      "session_id": "20260612_032322",
-      "date": "2026-06-12",
-      "exchanges": 739,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger committed and pushed. Tree clean. The desk stands as listed \u2014 P-D 001 arbitration first when you're ready, and the G-Seat Charter drafts on you"
-    },
     {
       "session_id": "20260613_174206",
       "date": "2026-06-13",
@@ -629,6 +563,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Three good questions, and the third one \u2014 *within current limits* \u2014 is the discipline that makes them answerable. Let me hold all three to Supabase + "
+    },
+    {
+      "session_id": "20260613_182312",
+      "date": "2026-06-13",
+      "exchanges": 803,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Verdict: **the repo is already clean by the formatting rules \u2014 and you're already using them.** Proof, not assertion:\n\n- **Validator GREEN \u2014 134 gover"
+    },
+    {
+      "session_id": "20260613_182424",
+      "date": "2026-06-13",
+      "exchanges": 806,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Exactly right \u2014 and it's the sharpest framing of the whole problem: **hygiene is a precondition for legibility, and legibility is a precondition for G"
     }
   ]
 }
