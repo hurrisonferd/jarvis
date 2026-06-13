@@ -1,42 +1,8 @@
 {
-  "updated": "2026-06-13T22:43:58.864414+00:00",
+  "updated": "2026-06-13T22:46:37.619113+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_182424",
-      "date": "2026-06-13",
-      "exchanges": 806,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Exactly right \u2014 and it's the sharpest framing of the whole problem: **hygiene is a precondition for legibility, and legibility is a precondition for G"
-    },
     {
       "session_id": "20260613_182444",
       "date": "2026-06-13",
@@ -682,6 +648,40 @@
       ],
       "alignment": 1.0,
       "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 139 governed \u00b7 18:42 EDT`\n\nDone \u2014 and notice what the last four commits were: **not specs. Behavior.** The JID resolver, the i"
+    },
+    {
+      "session_id": "20260613_224637",
+      "date": "2026-06-13",
+      "exchanges": 932,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Committed (`0d3d81d`) \u2014 the profiles grew, for real, twice today:\n- **Jarvis-C** learned *\"behavior over specs\"* \u2014 and that the drift-alarm is anyone'"
     }
   ]
 }
