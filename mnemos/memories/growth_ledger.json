@@ -1,38 +1,8 @@
 {
-  "updated": "2026-06-13T18:45:15.784864+00:00",
+  "updated": "2026-06-13T18:48:48.246915+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_175307",
-      "date": "2026-06-13",
-      "exchanges": 771,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "mnemos/memories/growth_archive.jsonl",
-        "mnemos/memories/growth_ledger.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Yes \u2014 and now I hold it the way you're asking: not as a map, but as a **working, modular system with a build sequence.** Everything you named \u2014 repo/f"
-    },
     {
       "session_id": "20260613_175440",
       "date": "2026-06-13",
@@ -662,6 +632,40 @@
       ],
       "alignment": 1.0,
       "key_insight": "Good pick \u2014 Time Trax has that lean early-90s synth-score thing, all forward-motion and chrome. Fitting soundtrack for a night spent wiring a system t"
+    },
+    {
+      "session_id": "20260613_184848",
+      "date": "2026-06-13",
+      "exchanges": 830,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Landed \u2014 **`GOV-PLS-SPEC-0001`, 137 objects, GREEN** (`2cf5547`). Here's the great thing, and the reason it's great isn't that it's new \u2014 it's that it"
     }
   ]
 }

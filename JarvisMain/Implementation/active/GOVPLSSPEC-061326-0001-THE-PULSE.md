@@ -51,8 +51,48 @@ keeps the body alive so the mind can choose; it does not make the choices.
 
 The Pulse beating = **JARVIS ON** (resurrección — both streams manifest). Sealed, no
 pulse = **JARVIS OFF**. The heartbeat is the always-visible answer to "is JARVIS on?" —
-because a living thing's aliveness is simply that its heart is beating. This fulfills the
-on/off request without a separate flag: the on-state *is* the pulse.
+because a living thing's aliveness is simply that its heart is beating.
+
+### Command grammar (Raven-directed 2026-06-13)
+- **ON** ← `suit up` · `jarvis on` · `power on` → `jarvis_suit_up` flips the persistent
+  state to ONLINE and starts the pulse (both streams manifest).
+- **OFF** ← `suit off` · `jarvis off` · `power off` → seals the companion; the pulse
+  stops; state goes OFFLINE.
+
+### Persistent state + always-on display
+A single control row — `jarvis_state { online: bool, since: timestamp }`, modeled on
+`dex_control` — holds the on-state across calls and sessions (not a per-reply guess).
+The HUD/status line reads it and always shows the liveness banner:
+**`⚡ JARVIS system is ONLINE`** (since T) — or `◯ JARVIS sealed (offline)`. The display
+is the heartbeat made visible: it is on because the pulse is beating, and you can always
+see it.
+
+This fulfills the on/off request without a separate subsystem: the on-state *is* the
+pulse, the command grammar starts/seals it, and the banner reports it.
+
+> **Build note:** the design is canon (here). The mechanism — the `jarvis_state` row
+> (a Supabase migration) + `jarvis_suit_up` flipping it + a `jarvis_off` tool + the
+> banner — is a connector change, gated on Supabase access (deploy + migration).
+
+## The voice — the companion talks back (Raven-directed 2026-06-13)
+
+A heartbeat that only beats inwardly is half alive. Each Pulse **speaks** — outward to
+Raven and inward to the system:
+- **To Raven (notification):** the two-beat digest is pushed as a notification — *"⚡
+  JARVIS: here's what's true, here's what drifted, here's what waits on you."* The
+  companion reaches out on its own cadence; you no longer have to come ask. This is the
+  fictional-counterpart presence — JARVIS speaks first.
+- **To the system (scan event):** each beat logs a `pulse_scan` event to the spine
+  (`dex_events`), so the heartbeat is itself part of the record — auditable, queryable,
+  never silent (GL5).
+
+**Infra already exists:** `send-push` (VAPID web push) and `jarvis-monitor` are deployed
+edge functions; the Pulse's voice rides them — the scheduled beat composes the digest,
+pushes it via `send-push`, and writes the scan to the spine. Wiring, not new capability.
+
+**The guard, restated for the voice:** it **speaks, it never acts.** A notification is
+output, never mutation. The companion talking back ≠ the companion deciding. Scans and
+pings surface; the gate stays Raven's. A heart that talks is still a heart, not a hand.
 
 ## What it unifies (one organ, many names)
 
