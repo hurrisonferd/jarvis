@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 136,
+  "count": 137,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -1321,6 +1321,33 @@
       "state": "active",
       "created": "2026-06-11",
       "updated": "2026-06-11"
+    },
+    {
+      "jnl": "GOV-PLS-SPEC-0001",
+      "name": "The Pulse \u2014 Companion Heartbeat",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md",
+      "tags": [
+        "pulse",
+        "heartbeat",
+        "kronos",
+        "reflection",
+        "ayre",
+        "jarvis",
+        "p43",
+        "liveness",
+        "governance",
+        "gear5"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
     },
     {
       "jnl": "GOV-PROC-CORE-0001",

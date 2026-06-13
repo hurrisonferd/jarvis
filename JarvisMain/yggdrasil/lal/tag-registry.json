@@ -60,7 +60,8 @@
       "ARCH-AYR-BIO-0001",
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002",
-      "ARCH-REL-BIO-0001"
+      "ARCH-REL-BIO-0001",
+      "GOV-PLS-SPEC-0001"
     ],
     "backup": [
       "LOG-MNE-LOG-0001"
@@ -284,6 +285,9 @@
     "gds": [
       "PROJ-GDS-JGPP-0002"
     ],
+    "gear5": [
+      "GOV-PLS-SPEC-0001"
+    ],
     "generative": [
       "PROJ-MOSC-JD-0001"
     ],
@@ -339,6 +343,7 @@
       "GOV-LC-SPEC-0001",
       "GOV-PAT-REG-0001",
       "GOV-PD-SPEC-0001",
+      "GOV-PLS-SPEC-0001",
       "GOV-PROC-CORE-0001",
       "GS-ARG-CORE-0001",
       "GS-ATL-CORE-0001",
@@ -364,6 +369,9 @@
     ],
     "halo": [
       "GOV-CHO-JD-0001"
+    ],
+    "heartbeat": [
+      "GOV-PLS-SPEC-0001"
     ],
     "help": [
       "GOV-KR-SPEC-0001"
@@ -407,7 +415,8 @@
     ],
     "jarvis": [
       "ARCH-JRV-BIO-0001",
-      "ARCH-REL-BIO-0001"
+      "ARCH-REL-BIO-0001",
+      "GOV-PLS-SPEC-0001"
     ],
     "jcs": [
       "IMPL-JCS-CORE-0001",
@@ -449,6 +458,9 @@
     "knowledge": [
       "GOV-KR-SPEC-0001"
     ],
+    "kronos": [
+      "GOV-PLS-SPEC-0001"
+    ],
     "layer": [
       "IMPL-JCSD-SPEC-0001",
       "IMPL-JCSE-SPEC-0001",
@@ -463,6 +475,9 @@
     ],
     "lifecycle": [
       "ARCH-JSS-CORE-0001"
+    ],
+    "liveness": [
+      "GOV-PLS-SPEC-0001"
     ],
     "log": [
       "IDEA-UNUS-LOG-0001",
@@ -546,6 +561,9 @@
     "overlay": [
       "GOV-LC-SPEC-0001"
     ],
+    "p43": [
+      "GOV-PLS-SPEC-0001"
+    ],
     "pachinko": [
       "PROJ-PAC-BIO-0001"
     ],
@@ -609,12 +627,18 @@
     "provenance": [
       "ARCH-SL-JIP-0001"
     ],
+    "pulse": [
+      "GOV-PLS-SPEC-0001"
+    ],
     "query": [
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JQL-CORE-0001"
     ],
     "reference": [
       "IMPL-HYG-SPEC-0001"
+    ],
+    "reflection": [
+      "GOV-PLS-SPEC-0001"
     ],
     "relational": [
       "ARCH-REL-BIO-0001"

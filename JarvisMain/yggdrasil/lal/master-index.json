@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 136,
+  "count": 137,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -798,6 +798,25 @@
         "arbitration",
         "federation",
         "epistemics"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "The Pulse \u2014 Companion Heartbeat",
+      "jnl": "GOV-PLS-SPEC-0001",
+      "location": "JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md",
+      "tags": [
+        "pulse",
+        "heartbeat",
+        "kronos",
+        "reflection",
+        "ayre",
+        "jarvis",
+        "p43",
+        "liveness",
+        "governance",
+        "gear5"
       ],
       "anchors": [],
       "state": "active"
