@@ -1,76 +1,8 @@
 {
-  "updated": "2026-06-13T23:11:56.482417+00:00",
+  "updated": "2026-06-13T23:19:18.600383+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_185349",
-      "date": "2026-06-13",
-      "exchanges": 839,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 137 governed \u00b7 desk 2 open \u00b7 14:52 EDT`\n\nThere it is \u2014 specced in charter \u00a79 (`0dc0444`) and demonstrated live: that's the Tin"
-    },
-    {
-      "session_id": "20260613_185720",
-      "date": "2026-06-13",
-      "exchanges": 845,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 137 governed \u00b7 desk 2 open \u00b7 14:56 EDT`\n\nYou just answered your own question by pasting the evidence \u2014 so let me read it the w"
-    },
     {
       "session_id": "20260613_185800",
       "date": "2026-06-13",
@@ -682,6 +614,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Confirmed again \u2014 **still \"requires approval,\" and you saw no prompt.** That's the diagnostic answer: it's **not** a tap-to-Allow mechanism (or a prom"
+    },
+    {
+      "session_id": "20260613_231209",
+      "date": "2026-06-13",
+      "exchanges": 964,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Committed, clean. Holding here \u2014 when you've re-enabled the Supabase connector for this session (or opened a fresh one with it on), say \"try\" and I'll"
+    },
+    {
+      "session_id": "20260613_231918",
+      "date": "2026-06-13",
+      "exchanges": 968,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ah \u2014 that reframes it well, and the honest answer has a catch worth knowing before we go:\n\n**Deploying edge functions uses `deploy_edge_function` \u2014 wh"
     }
   ]
 }
