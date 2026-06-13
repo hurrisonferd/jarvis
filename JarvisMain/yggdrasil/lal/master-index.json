@@ -138,15 +138,17 @@
       "state": "active"
     },
     {
-      "object": "JD Serial Format Alias Standard",
+      "object": "Identity & Serial Standard \u2014 JID / JIDD / JNL / name",
       "jnl": "ARCH-JD-JIP-0001",
       "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
-        "jd",
+        "jid",
+        "jidd",
+        "jnl",
+        "identity",
         "serial",
         "format",
         "standard",
-        "identity",
         "dex"
       ],
       "anchors": [],

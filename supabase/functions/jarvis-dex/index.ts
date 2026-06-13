@@ -160,14 +160,17 @@ Deno.serve(async (req) => {
       // ---------- READ ----------
       case "jd_lookup": {
         const term = String(args.term ?? "").trim();
-        // Serial renderings per the alias standard (ARCH-JD-JIP-0001, seq 124):
-        // 'JD-104', 'JD 104', 'JD #104', '#104' all resolve the creation serial —
-        // one value, many renderings; birth-order handle, never an address.
-        const serial = /^(?:jd[\s-]*)?#\s*(\d+)$/i.exec(term) ?? /^jd[\s-]*(\d+)$/i.exec(term);
+        // Identity standard (ARCH-JD-JIP-0001, Raven-directed 2026-06-13): JID is the
+        // mint serial — 'jid 1', 'jid-1', 'jid #1' all resolve the creation seq. 'jd'+num
+        // and '#num' are kept as deprecated back-compat aliases (the record stays readable).
+        // A leading jid/jd word-prefix before a NAME ('jid yggdrasil', 'jd yggdrasil') is
+        // stripped so name lookup still works. JID is never inside a JNL — no collision.
+        const serial = /^(?:ji?d[\s-]*)?#?\s*(\d+)$/i.exec(term);
+        const nameTerm = term.replace(/^(?:jid|jd)[\s-]+(?=\D)/i, "").trim();
         const { data } = serial
           ? await db.from("jd_entries").select("*").eq("seq", Number(serial[1])).limit(25)
           : await db.from("jd_entries").select("*")
-            .or(`jnl.eq.${term},name.ilike.%${term}%,tags.cs.{${term}},aliases.cs.{${term}}`).limit(25);
+            .or(`jnl.eq.${nameTerm},name.ilike.%${nameTerm}%,tags.cs.{${nameTerm}},aliases.cs.{${nameTerm}}`).limit(25);
         return json({ ok: true, count: data?.length ?? 0, entries: data ?? [] });
       }
       case "jnl_resolve": {

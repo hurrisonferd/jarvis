@@ -432,7 +432,6 @@
       "IMPL-JCSG-SPEC-0001"
     ],
     "jd": [
-      "ARCH-JD-JIP-0001",
       "PROJ-GDS-JGPP-0001",
       "PROJ-GDS-JGPP-0002",
       "PROJ-TST-JGPP-0001"
@@ -446,6 +445,12 @@
       "PROJ-GDS-JGPP-0002",
       "PROJ-TST-JGPP-0001"
     ],
+    "jid": [
+      "ARCH-JD-JIP-0001"
+    ],
+    "jidd": [
+      "ARCH-JD-JIP-0001"
+    ],
     "jip": [
       "IMPL-JIP-SPEC-0608",
       "PROJ-TST-JGPP-0001"
@@ -454,6 +459,7 @@
       "ARCH-JMS-SPEC-0001"
     ],
     "jnl": [
+      "ARCH-JD-JIP-0001",
       "IMPL-FMT-SPEC-0001"
     ],
     "jpl": [

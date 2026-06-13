@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-13T19:08:35Z",
-    "generated_at_eastern": "2026-06-13 15:08 EDT",
-    "source_commit": "09065ca",
+    "generated_at_utc": "2026-06-13T22:37:57Z",
+    "generated_at_eastern": "2026-06-13 18:37 EDT",
+    "source_commit": "167193d",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -201,7 +201,7 @@
     },
     {
       "jnl": "ARCH-JD-JIP-0001",
-      "name": "JD Serial Format Alias Standard",
+      "name": "Identity & Serial Standard — JID / JIDD / JNL / name",
       "type": "JIP",
       "class": "SPEC",
       "tier": "MAIN",
@@ -209,11 +209,13 @@
       "parent": "",
       "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
-        "jd",
+        "jid",
+        "jidd",
+        "jnl",
+        "identity",
         "serial",
         "format",
         "standard",
-        "identity",
         "dex"
       ]
     },

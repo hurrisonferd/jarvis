@@ -227,7 +227,7 @@
     },
     {
       "jnl": "ARCH-JD-JIP-0001",
-      "name": "JD Serial Format Alias Standard",
+      "name": "Identity & Serial Standard \u2014 JID / JIDD / JNL / name",
       "type": "JIP",
       "class": "SPEC",
       "tier": "MAIN",
@@ -235,18 +235,20 @@
       "parent": "",
       "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
-        "jd",
+        "jid",
+        "jidd",
+        "jnl",
+        "identity",
         "serial",
         "format",
         "standard",
-        "identity",
         "dex"
       ],
       "anchors": [],
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-11"
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-JFS-CORE-0001",
