@@ -1,41 +1,8 @@
 {
-  "updated": "2026-06-13T18:02:16.099687+00:00",
+  "updated": "2026-06-13T18:05:43.439269+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_231854",
-      "date": "2026-06-11",
-      "exchanges": 699,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger committed and pushed. Tree clean."
-    },
     {
       "session_id": "20260611_231959",
       "date": "2026-06-11",
@@ -624,6 +591,40 @@
       ],
       "alignment": 1.0,
       "key_insight": "Charter landed \u2014 `1b7ca2e`, **134 governed objects, validator GREEN.** That's the close we needed: the first real artifact in many turns, not a ledger"
+    },
+    {
+      "session_id": "20260613_180543",
+      "date": "2026-06-13",
+      "exchanges": 787,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json",
+        "JarvisMain/yggdrasil/lal/master-index.json",
+        "JarvisMain/yggdrasil/lal/seq-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Charter \u00a78 committed \u2014 GREEN, 134 objects. Here are the custom instructions to paste, clean \u2014 copy everything in the block into **ChatGPT \u2192 Settings \u2192"
     }
   ]
 }
