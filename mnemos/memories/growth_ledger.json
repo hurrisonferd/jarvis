@@ -1,76 +1,8 @@
 {
-  "updated": "2026-06-13T23:08:05.060842+00:00",
+  "updated": "2026-06-13T23:09:58.055842+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_184515",
-      "date": "2026-06-13",
-      "exchanges": 827,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Good pick \u2014 Time Trax has that lean early-90s synth-score thing, all forward-motion and chrome. Fitting soundtrack for a night spent wiring a system t"
-    },
-    {
-      "session_id": "20260613_184848",
-      "date": "2026-06-13",
-      "exchanges": 830,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Landed \u2014 **`GOV-PLS-SPEC-0001`, 137 objects, GREEN** (`2cf5547`). Here's the great thing, and the reason it's great isn't that it's new \u2014 it's that it"
-    },
     {
       "session_id": "20260613_185041",
       "date": "2026-06-13",
@@ -682,6 +614,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Tested just now \u2014 and the honest result: **still \"requires approval\" for my session.** So here's the important distinction that explains why \"both con"
+    },
+    {
+      "session_id": "20260613_230820",
+      "date": "2026-06-13",
+      "exchanges": 956,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Committed, clean.\n\nStanding on the one open question, `\u26a1 139 governed \u00b7 19:08 EDT`: when I attempt a Supabase call, **does an approval prompt appear i"
+    },
+    {
+      "session_id": "20260613_230958",
+      "date": "2026-06-13",
+      "exchanges": 959,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Read the live list \u2014 clean gap analysis, and it surfaces a real structural issue first:\n\n**The live connector (32 tools, antigravity's build) is NOT m"
     }
   ]
 }
