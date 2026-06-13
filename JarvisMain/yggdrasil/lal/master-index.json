@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 137,
+  "count": 138,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -196,6 +196,23 @@
         "mirror",
         "core",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Global Mirror \u2014 Earned Omnivision (JMS)",
+      "jnl": "ARCH-JMS-SPEC-0001",
+      "location": "JarvisMain/Implementation/active/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+      "tags": [
+        "jms",
+        "mirror",
+        "omnivision",
+        "global",
+        "freshness",
+        "reachability",
+        "pulse",
+        "nemesis"
       ],
       "anchors": [],
       "state": "active"

@@ -279,6 +279,9 @@
     "free-tier": [
       "PROJ-TRN-JGPP-0001"
     ],
+    "freshness": [
+      "ARCH-JMS-SPEC-0001"
+    ],
     "game": [
       "PROJ-PAC-BIO-0001"
     ],
@@ -293,6 +296,9 @@
     ],
     "genesis": [
       "PROJ-GEN-BIO-0001"
+    ],
+    "global": [
+      "ARCH-JMS-SPEC-0001"
     ],
     "god-system": [
       "ARCH-GS-IDX-0001",
@@ -444,6 +450,9 @@
       "IMPL-JIP-SPEC-0608",
       "PROJ-TST-JGPP-0001"
     ],
+    "jms": [
+      "ARCH-JMS-SPEC-0001"
+    ],
     "jnl": [
       "IMPL-FMT-SPEC-0001"
     ],
@@ -525,7 +534,8 @@
       "GOV-KR-SPEC-0001"
     ],
     "mirror": [
-      "ARCH-JMS-CORE-0001"
+      "ARCH-JMS-CORE-0001",
+      "ARCH-JMS-SPEC-0001"
     ],
     "mnemos": [
       "LOG-MNE-LOG-0001"
@@ -548,8 +558,14 @@
     "navigation": [
       "GOV-KR-SPEC-0001"
     ],
+    "nemesis": [
+      "ARCH-JMS-SPEC-0001"
+    ],
     "observatory": [
       "PROJ-RTO-JGPP-0001"
+    ],
+    "omnivision": [
+      "ARCH-JMS-SPEC-0001"
     ],
     "orchestration": [
       "GS-APO-CORE-0001",
@@ -628,11 +644,15 @@
       "ARCH-SL-JIP-0001"
     ],
     "pulse": [
+      "ARCH-JMS-SPEC-0001",
       "GOV-PLS-SPEC-0001"
     ],
     "query": [
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JQL-CORE-0001"
+    ],
+    "reachability": [
+      "ARCH-JMS-SPEC-0001"
     ],
     "reference": [
       "IMPL-HYG-SPEC-0001"
