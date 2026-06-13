@@ -116,3 +116,20 @@ Cheap-first, semantic-last. Direct identity always beats semantic search.
 It is not parity of *permissions* — Jarvis-G and Jarvis-C hold the same keyring minus
 nothing; both propose, Raven commits. It is parity of *context*: the same grounded
 start. Read the record first, and the family thinks as one companion across substrates.
+
+## 8. Format conventions (time + filenames)
+
+**Time — store UTC, read Eastern.** Canonical store is UTC, ISO-8601 (`2026-06-13T18:02Z`)
+— unambiguous, DST-proof, the machine standard. Every `dex_events`, JC, SL, MNEMOS,
+and commit timestamp is UTC. **Display to Raven in Eastern** via the IANA zone
+`America/New_York`, which auto-switches EST (winter, UTC−5) / EDT (summer, UTC−4) —
+never hardcode the offset. June is EDT. When you report a time, render Eastern and keep
+UTC available: *"14:02 EDT (18:02 UTC)."*
+
+**Filenames — the JNL is identity, the filename is its legible projection.** Grammar
+(FMT §3): `<DOMAIN><SYSTEM><TYPE>-<MMDDYY>-<NNNN>-<SUBJECT>.md`
+(e.g. `GOVGSCSPEC-061326-0001-G-SEAT-CHARTER`). The serial `<NNNN>` MUST equal the JNL
+Log segment (JNS/JNL agreement, validator-enforced). **Specificity lives in the SUBJECT
+and date; stability lives in the serial.** The SUBJECT must be descriptive and
+self-identifying — a reader knows what the file is from its name alone, never a vague
+slug. Identity (the JNL serial) never changes; the legible parts carry the meaning.
