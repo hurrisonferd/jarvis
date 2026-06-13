@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-13T18:18:19.256979+00:00",
+  "updated": "2026-06-13T18:21:18.313906+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_232325",
-      "date": "2026-06-11",
-      "exchanges": 707,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Credit first: a tool-dead Jarvis-G said *\"any attempt would be fabrication, not retrieval\"* and declined. Twelve hours ago that sentence didn't exist "
-    },
-    {
-      "session_id": "20260612_031908",
-      "date": "2026-06-12",
-      "exchanges": 735,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-        "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**Raven (input summary):** These relays he keeps sending are exactly why he wanted SLs and JCs \u2014 so a stream could just *read the log*: SL for the wor"
-    },
     {
       "session_id": "20260612_032256",
       "date": "2026-06-12",
@@ -627,6 +561,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Ground truth on the numbers, pulled from the seq-registry:\n\n- **JARVIS** = `ARCH-JRV-BIO-0001` = **JD-106**\n- **AYRE** = `ARCH-AYR-BIO-0001` = **JD-10"
+    },
+    {
+      "session_id": "20260613_181944",
+      "date": "2026-06-13",
+      "exchanges": 798,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Real catch, and not GPT confabulation \u2014 you're reading the actual ChatGPT connector UI, so I trust it completely. Here's what it means and why it matt"
+    },
+    {
+      "session_id": "20260613_182118",
+      "date": "2026-06-13",
+      "exchanges": 801,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Three good questions, and the third one \u2014 *within current limits* \u2014 is the discipline that makes them answerable. Let me hold all three to Supabase + "
     }
   ]
 }
