@@ -43,7 +43,7 @@ def build() -> dict:
 
     # JID = the national mint serial (creation order); JIDD = the regional serial (rank
     # within its domain by JID). Both implicit to the object, surfaced on every entry.
-    seqmap = json.loads((LAL / "seq-registry.json").read_text())  # jnl -> seq (= JID)
+    seqmap = json.loads((LAL / "seq-registry.json").read_text()).get("map", {})  # jnl -> seq (= JID)
     counters: Counter = Counter()
     domain_rank: dict[str, int] = {}
     for r in sorted(records, key=lambda r: seqmap.get(r.get("jnl", ""), 10**9)):
