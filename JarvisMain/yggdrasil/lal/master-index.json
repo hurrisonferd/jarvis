@@ -5,7 +5,7 @@
     {
       "object": "ARGENT Companion Profile",
       "jnl": "ARCH-ARGT-BIO-0001",
-      "location": "JarvisMain/Architecture/identity/argent-profile.md",
+      "location": "JarvisMain/Architecture/identity/argent/argent-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -18,7 +18,7 @@
     {
       "object": "AYRE Companion Profile",
       "jnl": "ARCH-AYR-BIO-0001",
-      "location": "JarvisMain/Architecture/identity/ayre-profile.md",
+      "location": "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -227,7 +227,7 @@
     {
       "object": "JARVIS Companion Profile",
       "jnl": "ARCH-JRV-BIO-0001",
-      "location": "JarvisMain/Architecture/identity/jarvis-profile.md",
+      "location": "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
       "tags": [
         "identity",
         "companion",

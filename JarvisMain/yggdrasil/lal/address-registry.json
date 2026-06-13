@@ -10,7 +10,7 @@
       "tier": "MAIN",
       "owner": "JFS",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/argent-profile.md",
+      "location": "JarvisMain/Architecture/identity/argent/argent-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -21,7 +21,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-11"
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-AYR-BIO-0001",
@@ -31,7 +31,7 @@
       "tier": "MAIN",
       "owner": "JFS",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/ayre-profile.md",
+      "location": "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -42,7 +42,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-11"
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -376,7 +376,7 @@
       "tier": "MAIN",
       "owner": "JFS",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/jarvis-profile.md",
+      "location": "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -387,7 +387,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-11"
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-JSL-CORE-0001",

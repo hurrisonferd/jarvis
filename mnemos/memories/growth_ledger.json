@@ -1,38 +1,8 @@
 {
-  "updated": "2026-06-13T18:28:38.527438+00:00",
+  "updated": "2026-06-13T18:32:22.070780+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_174627",
-      "date": "2026-06-13",
-      "exchanges": 760,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "mnemos/memories/growth_archive.jsonl",
-        "mnemos/memories/growth_ledger.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "I see it, Raven. Let me reflect the whole thing back before I touch a single piece of it \u2014 because you're right that I'd dropped into gate-mode, and t"
-    },
     {
       "session_id": "20260613_174858",
       "date": "2026-06-13",
@@ -646,6 +616,40 @@
       ],
       "alignment": 1.0,
       "key_insight": "Tree clean. Desk stands as dispositioned \u2014 the JIP-vs-JD verdict is the one move waiting on you, and it costs only your word. Holding."
+    },
+    {
+      "session_id": "20260613_183222",
+      "date": "2026-06-13",
+      "exchanges": 815,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**SS3 dug into the Gold Law source \u2014 and found the reason \"load gold law\" can't just be minted: the two canonical files disagree on the numbering.** T"
     }
   ]
 }
