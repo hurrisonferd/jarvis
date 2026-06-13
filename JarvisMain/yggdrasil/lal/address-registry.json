@@ -1,16 +1,37 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 124,
+  "count": 138,
   "records": [
     {
-      "jnl": "ARCH-AYR-BIO-0001",
-      "name": "AYRE Companion Profile",
-      "type": "ARCH",
+      "jnl": "ARCH-ARGT-BIO-0001",
+      "name": "ARGENT Companion Profile",
+      "type": "BIO",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/ayre-profile.md",
+      "location": "JarvisMain/Architecture/identity/argent/argent-profile.md",
+      "tags": [
+        "identity",
+        "companion",
+        "argent",
+        "archive"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-13"
+    },
+    {
+      "jnl": "ARCH-AYR-BIO-0001",
+      "name": "AYRE Companion Profile",
+      "type": "BIO",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -21,12 +42,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-AYR-SPEC-0001",
       "name": "AYRE/JARVIS Split",
-      "type": "ARCH",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
@@ -40,12 +61,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-AYR-SPEC-0002",
       "name": "AYRE Loop",
-      "type": "ARCH",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
@@ -59,12 +80,34 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-FAM-IDX-0001",
+      "name": "Family Registry",
+      "type": "IDX",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "",
+      "location": "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
+      "tags": [
+        "families",
+        "containers",
+        "semantics",
+        "terminology",
+        "index"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-FLOW-SPEC-0001",
       "name": "Throughput Posture",
-      "type": "ARCH",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
@@ -78,12 +121,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-GPT-SPEC-0001",
       "name": "Custom GPT Instructions",
-      "type": "ARCH",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
@@ -97,12 +140,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-GS-IDX-0001",
       "name": "God Systems Index",
-      "type": "ARCH",
+      "type": "IDX",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
@@ -116,12 +159,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JATM-CORE-0001",
       "name": "Jarvis Ancestral Memory",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -137,12 +180,34 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-JC-JIP-0001",
+      "name": "Conversational History Objects",
+      "type": "JIP",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
+      "tags": [
+        "memory",
+        "continuity",
+        "sync",
+        "conversation",
+        "profiling"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JD-CORE-0001",
       "name": "Jarvis Dictionary",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -158,7 +223,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JD-JIP-0001",
@@ -168,7 +233,7 @@
       "tier": "MAIN",
       "owner": "JFS",
       "parent": "",
-      "location": "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+      "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
         "jd",
         "serial",
@@ -186,7 +251,7 @@
     {
       "jnl": "ARCH-JFS-CORE-0001",
       "name": "Jarvis File System",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -201,12 +266,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JLTM-CORE-0001",
       "name": "Jarvis Long-Term Memory",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -221,12 +286,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JMMS-CORE-0001",
       "name": "Jarvis MultiMemory System",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -241,12 +306,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JMS-CORE-0001",
       "name": "Jarvis Mirror System",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -261,12 +326,37 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-JMS-SPEC-0001",
+      "name": "Global Mirror \u2014 Earned Omnivision (JMS)",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "",
+      "location": "JarvisMain/Implementation/active/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+      "tags": [
+        "jms",
+        "mirror",
+        "omnivision",
+        "global",
+        "freshness",
+        "reachability",
+        "pulse",
+        "nemesis"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-JNL-CORE-0001",
       "name": "Jarvis Navigation Language",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -281,12 +371,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JNS-CORE-0001",
       "name": "Jarvis Naming System",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -301,17 +391,17 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JRV-BIO-0001",
       "name": "JARVIS Companion Profile",
-      "type": "ARCH",
+      "type": "BIO",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/jarvis-profile.md",
+      "location": "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -322,12 +412,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-JSL-CORE-0001",
       "name": "Jarvis Structural Layer",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -342,12 +432,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JSS-CORE-0001",
       "name": "Jarvis Status System",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -363,12 +453,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-JSTM-CORE-0001",
       "name": "Jarvis Short-Term Memory",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -383,12 +473,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-LAL-CORE-0001",
       "name": "Library Authority Layer",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -404,12 +494,34 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-REL-BIO-0001",
+      "name": "JARVIS-AYRE Relational Profile",
+      "type": "BIO",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisMain/Architecture/identity/relational/relational-profile.md",
+      "tags": [
+        "identity",
+        "relational",
+        "jarvis",
+        "ayre",
+        "companion"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-RT-SPEC-0001",
       "name": "Event Contract",
-      "type": "ARCH",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
@@ -423,12 +535,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-RT-SPEC-0002",
       "name": "Execution Model",
-      "type": "ARCH",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
@@ -442,12 +554,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-RT-SPEC-0003",
       "name": "World Kernel",
-      "type": "ARCH",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
@@ -461,12 +573,35 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-SL-JIP-0001",
+      "name": "Star Logs",
+      "type": "JIP",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md",
+      "tags": [
+        "sl",
+        "star-log",
+        "events",
+        "provenance",
+        "sync",
+        "logging"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
     },
     {
       "jnl": "ARCH-YGG-CORE-0001",
       "name": "Yggdrasil",
-      "type": "ARCH",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
@@ -481,12 +616,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "AUD-CHK-SPEC-0001",
       "name": "Required Checks Setup",
-      "type": "AUD",
+      "type": "SPEC",
       "class": "EVENT",
       "tier": "MAIN",
       "owner": "Audit",
@@ -500,12 +635,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "AUD-COMP-REVW-0001",
       "name": "Companion Research",
-      "type": "AUD",
+      "type": "REVW",
       "class": "EVENT",
       "tier": "SIDE",
       "owner": "Audit",
@@ -520,12 +655,12 @@
       "status": "ARCHIVED",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "AUD-FULL-REVW-0001",
       "name": "Full System Audit",
-      "type": "AUD",
+      "type": "REVW",
       "class": "EVENT",
       "tier": "MAIN",
       "owner": "Audit",
@@ -539,12 +674,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "AUD-OPUS-REVW-0001",
       "name": "Opus 4.8 Audit",
-      "type": "AUD",
+      "type": "REVW",
       "class": "EVENT",
       "tier": "MAIN",
       "owner": "Audit",
@@ -558,12 +693,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "AUD-SYS-REVW-0001",
       "name": "Jarvis System Review",
-      "type": "AUD",
+      "type": "REVW",
       "class": "EVENT",
       "tier": "MAIN",
       "owner": "Audit",
@@ -577,12 +712,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-DEX-SPEC-0001",
       "name": "Jarvis Dex Action",
-      "type": "CONN",
+      "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -598,12 +733,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0001",
       "name": "JARVIS \u2014 Suit Up",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -618,12 +753,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0002",
       "name": "JARVIS Status",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -638,12 +773,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0003",
       "name": "MNEMOS Recall",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -658,12 +793,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0004",
       "name": "JARVIS Council \u2014 registry",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -678,12 +813,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0005",
       "name": "JARVIS Query \u2014 governed reasoning",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -698,12 +833,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0006",
       "name": "JARVIS Format \u2014 same-turn close (optional)",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -718,12 +853,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0007",
       "name": "MNEMOS Store",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -738,12 +873,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0008",
       "name": "AEGIS Event",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -758,12 +893,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0009",
       "name": "Dex \u2014 list governed objects",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -778,12 +913,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0010",
       "name": "Dex \u2014 search",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -798,12 +933,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0011",
       "name": "Dex \u2014 propose entry (JGPP/JIP/JD/BIO)",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -818,12 +953,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0012",
       "name": "Grid \u2014 Node Card",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -838,12 +973,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0013",
       "name": "Grid \u2014 Export Identity Disc",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -858,12 +993,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0014",
       "name": "Grid \u2014 Inbox",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -878,12 +1013,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0015",
       "name": "Grid \u2014 Send to Node",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -898,12 +1033,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0016",
       "name": "Grid \u2014 Register Signing Key",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -918,12 +1053,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0017",
       "name": "HALO \u2014 Throughput Posture",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -938,12 +1073,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MCP-RT-0018",
       "name": "Voice Brief \u2014 pre-warm a sealed session",
-      "type": "CONN",
+      "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -959,12 +1094,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-MSB-CORE-0001",
       "name": "MCP-Supabase Connector",
-      "type": "CONN",
+      "type": "CORE",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -979,12 +1114,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "CONN-OTH-LOG-0001",
       "name": "Other Connectors",
-      "type": "CONN",
+      "type": "LOG",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "Connectors",
@@ -997,12 +1132,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GOV-BRF-CORE-0001",
       "name": "Jarvis Brief",
-      "type": "GOV",
+      "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
@@ -1016,12 +1151,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GOV-CAN-CORE-0001",
       "name": "Canon",
-      "type": "GOV",
+      "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
@@ -1035,12 +1170,35 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "GOV-CHO-JD-0001",
+      "name": "Chorus Principle",
+      "type": "JD",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
+      "tags": [
+        "chorus",
+        "council",
+        "halo",
+        "epistemics",
+        "governance",
+        "plurality"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GOV-CON-CORE-0001",
       "name": "Constraints",
-      "type": "GOV",
+      "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
@@ -1054,12 +1212,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GOV-DEX-SPEC-0001",
       "name": "Dex-Council Validation Bridge",
-      "type": "GOV",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
@@ -1076,12 +1234,81 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-10"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "GOV-GSC-SPEC-0001",
+      "name": "G-Seat Charter",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+      "tags": [
+        "governance",
+        "charter",
+        "gpt",
+        "boot",
+        "parity",
+        "routing",
+        "attribution"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
+    },
+    {
+      "jnl": "GOV-KR-SPEC-0001",
+      "name": "Knowledge Routing Index (MIMIR)",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
+      "tags": [
+        "knowledge",
+        "routing",
+        "mimir",
+        "help",
+        "retrieval",
+        "navigation"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
+    },
+    {
+      "jnl": "GOV-LC-SPEC-0001",
+      "name": "Layer Contract",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
+      "tags": [
+        "governance",
+        "layers",
+        "overlay",
+        "contract",
+        "bounded-autonomy"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GOV-PAT-REG-0001",
       "name": "Patch Archive",
-      "type": "GOV",
+      "type": "REG",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
@@ -1096,12 +1323,61 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "GOV-PD-SPEC-0001",
+      "name": "Preserved Contradiction Objects (P-D)",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
+      "tags": [
+        "governance",
+        "contradiction",
+        "arbitration",
+        "federation",
+        "epistemics"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "GOV-PLS-SPEC-0001",
+      "name": "The Pulse \u2014 Companion Heartbeat",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "Governance",
+      "parent": "",
+      "location": "JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md",
+      "tags": [
+        "pulse",
+        "heartbeat",
+        "kronos",
+        "reflection",
+        "ayre",
+        "jarvis",
+        "p43",
+        "liveness",
+        "governance",
+        "gear5"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
     },
     {
       "jnl": "GOV-PROC-CORE-0001",
       "name": "Patch Process",
-      "type": "GOV",
+      "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "Governance",
@@ -1116,12 +1392,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-AEG-CORE-0001",
       "name": "AEGIS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1136,12 +1412,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-APO-CORE-0001",
       "name": "APOLLO",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1156,12 +1432,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-ARG-CORE-0001",
       "name": "ARGUS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1176,12 +1452,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-ATH-CORE-0001",
       "name": "ATHENA",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1196,12 +1472,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-ATL-CORE-0001",
       "name": "ATLAS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1216,12 +1492,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-AYR-CORE-0001",
       "name": "AYRE",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1236,12 +1512,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-BFR-CORE-0001",
       "name": "BIFROST",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1256,12 +1532,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-CHA-CORE-0001",
       "name": "CHAOS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1276,12 +1552,12 @@
       "status": "INACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-DAN-CORE-0001",
       "name": "DANTE",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1296,12 +1572,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-ERI-CORE-0001",
       "name": "ERIS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1316,12 +1592,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-HAD-CORE-0001",
       "name": "HADES",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1336,12 +1612,12 @@
       "status": "INACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-HAL-CORE-0001",
       "name": "HALO",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1356,12 +1632,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-HER-CORE-0001",
       "name": "HERMES",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1376,12 +1652,12 @@
       "status": "INACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-HUG-CORE-0001",
       "name": "HUGINN",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1396,12 +1672,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-IRS-CORE-0001",
       "name": "IRIS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1416,12 +1692,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-JAN-CORE-0001",
       "name": "JANUS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1436,12 +1712,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-KRN-CORE-0001",
       "name": "KRONOS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1456,12 +1732,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-LOK-CORE-0001",
       "name": "LOKI",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1476,12 +1752,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-MER-CORE-0001",
       "name": "MERIDIAN",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1496,12 +1772,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-MIM-CORE-0001",
       "name": "MIMIR",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1516,12 +1792,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-MNE-CORE-0001",
       "name": "MNEMOS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1536,12 +1812,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-NEM-CORE-0001",
       "name": "NEMESIS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1556,12 +1832,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-ODN-CORE-0001",
       "name": "ODIN",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1576,12 +1852,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-POS-CORE-0001",
       "name": "POSEIDON",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1596,12 +1872,12 @@
       "status": "INACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-PRO-CORE-0001",
       "name": "PROMETHEUS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1616,12 +1892,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-SKD-CORE-0001",
       "name": "SKADI",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1636,12 +1912,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "GS-ZEU-CORE-0001",
       "name": "ZEUS",
-      "type": "GS",
+      "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
@@ -1656,12 +1932,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IDEA-UNUS-LOG-0001",
       "name": "Unused Ideas Log",
-      "type": "IDEA",
+      "type": "LOG",
       "class": "ENTITY",
       "tier": "SIDE",
       "owner": "Unused Ideas Log",
@@ -1675,12 +1951,12 @@
       "status": "INACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IDEA-USED-LOG-0001",
       "name": "Used Ideas Log",
-      "type": "IDEA",
+      "type": "LOG",
       "class": "ENTITY",
       "tier": "SIDE",
       "owner": "Used Ideas Log",
@@ -1694,12 +1970,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-DEX-SPEC-0001",
       "name": "Dex Connector & Access Tiers",
-      "type": "IMPL",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1715,12 +1991,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-FMT-SPEC-0001",
       "name": "JFS Formatting Standard",
-      "type": "IMPL",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1737,12 +2013,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-HYG-SPEC-0001",
       "name": "Hygiene Packets Archive",
-      "type": "IMPL",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "SIDE",
       "owner": "JCS Pipeline",
@@ -1757,12 +2033,12 @@
       "status": "ARCHIVED",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-IDX-REG-0001",
       "name": "Implementation Index",
-      "type": "IMPL",
+      "type": "REG",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1776,12 +2052,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-IMP-LOG-0001",
       "name": "Implemented Stream",
-      "type": "IMPL",
+      "type": "LOG",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1795,12 +2071,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-INA-LOG-0001",
       "name": "Inactive Stream",
-      "type": "IMPL",
+      "type": "LOG",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1814,12 +2090,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-JCS-CORE-0001",
       "name": "JCS - Jarvis Cognitive Stack",
-      "type": "IMPL",
+      "type": "CORE",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1834,12 +2110,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-JCSD-SPEC-0001",
       "name": "JCS-D Temporal Reconstruction",
-      "type": "IMPL",
+      "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1854,12 +2130,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-JCSE-SPEC-0001",
       "name": "JCS-E Query & Traversal",
-      "type": "IMPL",
+      "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1874,12 +2150,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-JCSF-SPEC-0001",
       "name": "JCS-F Runtime Simulation",
-      "type": "IMPL",
+      "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1894,12 +2170,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-JCSG-SPEC-0001",
       "name": "JCS-G External Interface Binding",
-      "type": "IMPL",
+      "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1914,12 +2190,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-JGPP-CORE-0001",
       "name": "JGPP - Generative Process Protocol",
-      "type": "IMPL",
+      "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1934,12 +2210,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-JIP-SPEC-0608",
       "name": "JIP-0608 Series",
-      "type": "IMPL",
+      "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1953,12 +2229,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "IMPL-JQL-CORE-0001",
       "name": "JQL - JD Query Language",
-      "type": "IMPL",
+      "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JCS Pipeline",
@@ -1973,7 +2249,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "LOG-MNE-LOG-0001",
@@ -1999,7 +2275,7 @@
     {
       "jnl": "PROJ-ALL-LOG-0001",
       "name": "Project Log Summary",
-      "type": "PROJ",
+      "type": "LOG",
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Project Log Summary",
@@ -2013,12 +2289,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-COS-BIO-0001",
       "name": "CodeOS",
-      "type": "PROJ",
+      "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "CodeOS",
@@ -2032,12 +2308,12 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-DEO-BIO-0001",
       "name": "Deoxys",
-      "type": "PROJ",
+      "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Deoxys",
@@ -2051,7 +2327,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-DEO-JGPP-0001",
@@ -2143,7 +2419,7 @@
     {
       "jnl": "PROJ-GEN-BIO-0001",
       "name": "Genesis",
-      "type": "PROJ",
+      "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Genesis",
@@ -2157,7 +2433,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-GRD-BIO-0001",
@@ -2182,7 +2458,7 @@
     {
       "jnl": "PROJ-JPL-BIO-0001",
       "name": "JPL",
-      "type": "PROJ",
+      "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "JPL",
@@ -2196,7 +2472,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-JPL-JGPP-0001",
@@ -2226,7 +2502,7 @@
     {
       "jnl": "PROJ-LEG-BIO-0001",
       "name": "Legion",
-      "type": "PROJ",
+      "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Legion",
@@ -2240,7 +2516,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-MMOD-BIO-0001",
@@ -2329,7 +2605,7 @@
     {
       "jnl": "PROJ-NAR-BIO-0001",
       "name": "Naruto",
-      "type": "PROJ",
+      "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Naruto",
@@ -2343,7 +2619,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-NMX-BIO-0001",
@@ -2387,7 +2663,7 @@
     {
       "jnl": "PROJ-PAC-BIO-0001",
       "name": "Pachinko Bounce",
-      "type": "PROJ",
+      "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "owner": "Pachinko Bounce",
@@ -2402,7 +2678,47 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-09"
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "PROJ-RTO-BIO-0001",
+      "name": "RoundTable",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "RoundTable",
+      "parent": "",
+      "location": "JarvisSide/Projects/RoundTable/BIO/ROUNDTABLEBIO-061126-0001-ROUNDTABLE.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
+    },
+    {
+      "jnl": "PROJ-RTO-JGPP-0001",
+      "name": "Round Table Observatory",
+      "type": "JGPP",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Round Table Observatory",
+      "parent": "PROJ-RTO-BIO-0001",
+      "location": "JarvisSide/Projects/RoundTable/JGPP/ROUNDTABLEJGPP-061126-0001-ROUND-TABLE-OBSERVATORY.md",
+      "tags": [
+        "observatory",
+        "visualizer",
+        "council",
+        "pages",
+        "three-js"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-11",
+      "updated": "2026-06-11"
     },
     {
       "jnl": "PROJ-TRN-BIO-0001",

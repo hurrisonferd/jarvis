@@ -1,6 +1,6 @@
 ---
 name: JCS-F Runtime Simulation
-type: IMPL
+type: SPEC
 class: MODULE
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: IMPL-JCSF-SPEC-0001
 seq: 94
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Implementation/Active/JIP-0608-F
 related: [IMPL-JCS-CORE-0001]
 references: []

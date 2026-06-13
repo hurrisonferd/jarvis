@@ -1,6 +1,6 @@
 ---
 name: Implemented Stream
-type: IMPL
+type: LOG
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: IMPL-IMP-LOG-0001
 seq: 53
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Implementation/Implemented
 related: [ARCH-JSS-CORE-0001]
 references: []

@@ -1,6 +1,6 @@
 ---
 name: JQL - JD Query Language
-type: IMPL
+type: CORE
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: IMPL-JQL-CORE-0001
 seq: 96
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Implementation/Active/JIP-0608-E
 related: [IMPL-JCSE-SPEC-0001, ARCH-JD-CORE-0001]
 references: []

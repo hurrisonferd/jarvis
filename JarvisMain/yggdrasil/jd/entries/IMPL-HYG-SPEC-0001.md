@@ -1,6 +1,6 @@
 ---
 name: Hygiene Packets Archive
-type: IMPL
+type: SPEC
 class: SPEC
 tier: SIDE
 authority: CANON
@@ -10,7 +10,7 @@ jnl: IMPL-HYG-SPEC-0001
 seq: 101
 status: ARCHIVED
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisSide/Archive/HygienePackets-0001-060926.md
 related: [IMPL-FMT-SPEC-0001]
 references: []

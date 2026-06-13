@@ -1,6 +1,6 @@
 ---
 name: JANUS
-type: GS
+type: CORE
 class: SYSTEM
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: GS-JAN-CORE-0001
 seq: 35
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/god_systems/T4_JANUS/contract.json
 related: [GS-HUG-CORE-0001]
 references: []

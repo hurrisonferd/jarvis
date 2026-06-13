@@ -1,6 +1,6 @@
 ---
 name: AYRE Companion Profile
-type: ARCH
+type: BIO
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,8 +10,8 @@ jnl: ARCH-AYR-BIO-0001
 seq: 107
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
-source: JarvisMain/Architecture/identity/ayre-profile.md
+updated: 2026-06-13
+source: JarvisMain/Architecture/identity/ayre/ayre-profile.md
 related: [ARCH-JRV-BIO-0001, GS-AYR-CORE-0001]
 references: []
 tags: [identity, companion, ayre, divergence]

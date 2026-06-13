@@ -1,6 +1,6 @@
 ---
 name: Companion Research
-type: AUD
+type: REVW
 class: EVENT
 tier: SIDE
 authority: CANON
@@ -10,7 +10,7 @@ jnl: AUD-COMP-REVW-0001
 seq: 102
 status: ARCHIVED
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisSide/Archive/CompanionResearch-0001-053026.md
 related: [GOV-BRF-CORE-0001]
 references: []

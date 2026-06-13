@@ -1,6 +1,6 @@
 ---
 name: Pachinko Bounce
-type: PROJ
+type: BIO
 class: SYSTEM
 tier: SIDE
 authority: CANON
@@ -10,7 +10,7 @@ jnl: PROJ-PAC-BIO-0001
 seq: 66
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: pachinko-bounce
 related: [PROJ-ALL-LOG-0001]
 references: []

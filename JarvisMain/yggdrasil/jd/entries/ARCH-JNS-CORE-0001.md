@@ -1,6 +1,6 @@
 ---
 name: Jarvis Naming System
-type: ARCH
+type: CORE
 class: SYSTEM
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: ARCH-JNS-CORE-0001
 seq: 3
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JFS-CORE-0001]
 references: []

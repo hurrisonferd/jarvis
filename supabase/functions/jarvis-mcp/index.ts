@@ -24,7 +24,9 @@ const BASE_URL = `${SUPABASE_URL}/functions/v1/jarvis-mcp`;
 const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
-  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_propose",
+  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
+  "jarvis_jc_recall",
+  "jarvis_repo_tree", "jarvis_repo_read",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
@@ -287,7 +289,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.15" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.17" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -600,10 +602,62 @@ function buildServer(req: Request): McpServer {
     {
       title: "Dex — search",
       description:
-        "Search the dex by JNL address, name, or tag. Always search before proposing — the object may already exist. Returns full entries: definition, purpose, status, parent (family), related (web).",
+        "Search the dex by JNL address, name, tag, or CREATION SERIAL — 'JD-1', 'JD 1', '#1' all resolve (every entry has one; JD-1 is Yggdrasil itself). The result may carry a different NAME than your search term — the serial is a birth-order handle, never the name. Always search before proposing — the object may already exist. Returns full entries: definition, purpose, status, parent (family), related (web).",
       inputSchema: { term: z.string().min(1).max(120) },
     },
     async ({ term }) => text(await callDex("jd_lookup", { term })),
+  );
+
+  server.registerTool(
+    "jarvis_dex_graph",
+    {
+      title: "Dex — graph (node + full neighborhood)",
+      description:
+        "Pull EVERYTHING on one governed object: the full entry plus every related/cross-referenced neighbor. Use after dex_search resolves a serial or name to a JNL — 'JD-1' resolves to ARCH-YGG-CORE-0001 (Yggdrasil), then graph it for the whole web.",
+      inputSchema: { jnl: z.string().min(5).max(40) },
+    },
+    async ({ jnl }) => text(await callDex("jd_graph", { jnl })),
+  );
+
+  server.registerTool(
+    "jarvis_dex_events",
+    {
+      title: "Dex — events (the spine, readable)",
+      description:
+        "P-C verification: read the arbitration spine (dex_events). Filter by tool/actor/jnl/since. Closure by proof — verify any claimed ruling, deploy, or correction from the source of record instead of taking another stream's word for it.",
+      inputSchema: {
+        tool: z.string().optional(),
+        actor: z.string().optional(),
+        jnl: z.string().optional(),
+        since: z.string().optional(),
+        limit: z.number().int().min(1).max(200).optional(),
+      },
+    },
+    async (args) => text(await callDex("events_list", args)),
+  );
+
+  server.registerTool(
+    "jarvis_jc_recall",
+    {
+      title: "Memory lane — JC/SL objects",
+      description:
+        "Read conversation containers (JC) and star-log digests (SL) — the relationship memory every stream shares (ARCH-JC-JIP-0001). No term: recent sessions. Term: alias (JC-061126-1), JNL, or subject fragment. Read-only; JC records, it never rules — decisions cite the spine.",
+      inputSchema: {
+        term: z.string().max(120).optional(),
+        limit: z.number().int().min(1).max(20).optional().default(5),
+      },
+    },
+    async ({ term, limit }) => {
+      const cols = "jnl,alias,session_date,subject,participants,tags,summary,raven_input,keystones,decisions,open,profiles,metrics,status";
+      const q = term
+        ? `jc_objects?select=${cols}&or=(alias.eq.${term},jnl.eq.${term},subject.ilike.*${term}*)&limit=${limit}`
+        : `jc_objects?select=${cols}&order=session_date.desc&limit=${limit}`;
+      const [jcs, sls] = await Promise.all([
+        rest(q).catch(() => []),
+        rest(`sl_objects?select=jnl,alias,session_date,digest,events,status&order=session_date.desc&limit=${limit}`).catch(() => []),
+      ]);
+      return text({ ok: true, jc: jcs, sl: sls, law: "JC records; it never rules — decisions cite the spine (P-C)." });
+    },
   );
 
   server.registerTool(
@@ -621,6 +675,8 @@ function buildServer(req: Request): McpServer {
         purpose: z.string().max(500).optional().default(""),
         tags: z.array(z.string()).optional().default([]),
         related: z.array(z.string()).optional().default([]),
+        stream: z.enum(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]).optional()
+          .describe("Your stream identity — the spine records the author, not the action (attribution rule)."),
       },
     },
     async (args) => {
@@ -628,6 +684,62 @@ function buildServer(req: Request): McpServer {
         return heldForApproval("dex.propose", args);
       }
       return text(await callDex("jd_propose", args, true));
+    },
+  );
+
+  // REPO PARITY (Raven-verdicted 2026-06-11, desk item 5): read-only ground truth
+  // for connector streams. Closes the certainty-bandwidth gap — a stream that can
+  // read the file does not narrate a summary of it (the relay-paste lane dies here).
+  const GH_REPO = "https://api.github.com/repos/hurrisonferd/jarvis";
+  async function gh(path: string): Promise<Response> {
+    const headers: Record<string, string> = {
+      "user-agent": "jarvis-mcp",
+      accept: "application/vnd.github+json",
+    };
+    const tok = Deno.env.get("GITHUB_TOKEN");
+    if (tok) headers.authorization = `Bearer ${tok}`;
+    return await fetch(`${GH_REPO}${path}`, { headers });
+  }
+
+  server.registerTool(
+    "jarvis_repo_tree",
+    {
+      title: "Repo — tree (read-only)",
+      description:
+        "List repo file paths at a ref (default main). Filter with prefix (e.g. 'JarvisMain/yggdrasil/'). Read-only parity surface: see the actual architecture instead of inferring it from registries.",
+      inputSchema: {
+        prefix: z.string().max(200).optional().default(""),
+        ref: z.string().max(100).optional().default("main"),
+      },
+    },
+    async ({ prefix, ref }) => {
+      const res = await gh(`/git/trees/${encodeURIComponent(ref)}?recursive=1`);
+      if (!res.ok) return text({ ok: false, status: res.status, note: "tree fetch failed" });
+      const data = await res.json() as { tree?: { path: string; type: string }[]; truncated?: boolean };
+      const paths = (data.tree ?? [])
+        .filter((n) => n.type === "blob" && (!prefix || n.path.startsWith(prefix)))
+        .map((n) => n.path);
+      return text({ ok: true, ref, count: paths.length, truncated: !!data.truncated, paths: paths.slice(0, 500) });
+    },
+  );
+
+  server.registerTool(
+    "jarvis_repo_read",
+    {
+      title: "Repo — read file (read-only)",
+      description:
+        "Fetch one file's content from the repo at a ref (default main). Ground truth beats relay: read the spec, the router, the contract — never reason from a secondhand summary when the file is one call away.",
+      inputSchema: {
+        path: z.string().min(1).max(300),
+        ref: z.string().max(100).optional().default("main"),
+      },
+    },
+    async ({ path, ref }) => {
+      const res = await gh(`/contents/${path.split("/").map(encodeURIComponent).join("/")}?ref=${encodeURIComponent(ref)}`);
+      if (!res.ok) return text({ ok: false, status: res.status, path, note: "read failed (path? ref? rate limit?)" });
+      const data = await res.json() as { content?: string; size?: number; encoding?: string };
+      const content = typeof data.content === "string" ? atob(data.content.replace(/\n/g, "")) : "";
+      return text({ ok: true, path, ref, size: data.size ?? content.length, content: content.slice(0, 48000) });
     },
   );
 
@@ -853,7 +965,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.15",
+    version: "0.9.17",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,

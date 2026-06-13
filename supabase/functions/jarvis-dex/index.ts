@@ -98,7 +98,7 @@ async function deriveCandidate(a: Record<string, unknown>, status: string) {
 
 const TOOL_TIER: Record<string, Tier> = {
   jd_lookup: "READ", jnl_resolve: "READ", jd_list: "READ", jd_graph: "READ", jd_diff: "READ",
-  dex_status: "READ",
+  dex_status: "READ", events_list: "READ",
   jd_propose: "PROPOSE", jd_draft: "DRAFT",
   jd_approve: "COMMIT", jd_reject: "COMMIT", jd_archive: "COMMIT", jd_deprecate: "COMMIT",
   dex_halt: "OVERRIDE", dex_resume: "OVERRIDE",
@@ -125,7 +125,11 @@ Deno.serve(async (req) => {
   if (RANK[tier] < RANK[need]) {
     return fail(`tool '${tool}' requires ${need} tier (you have ${tier})`, 403);
   }
-  const actor = tier.toLowerCase();
+  // Attribution (Raven-verdicted 2026-06-11, desk item 4): actor carries the AUTHOR,
+  // not the action. Callers claim a stream identity; unclaimed falls back to tier.
+  const STREAM_TAGS = new Set(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]);
+  const claimed = String(args.stream ?? body.stream ?? "").toLowerCase();
+  const actor = STREAM_TAGS.has(claimed) ? claimed : tier.toLowerCase();
 
   // ZEUS halt: when halted, only READ + OVERRIDE pass. Break-glass refuses all writes.
   if (RANK[need] >= RANK["PROPOSE"] && tier !== "OVERRIDE" && (await isHalted())) {
@@ -156,8 +160,10 @@ Deno.serve(async (req) => {
       // ---------- READ ----------
       case "jd_lookup": {
         const term = String(args.term ?? "").trim();
-        // '#104' resolves the creation serial — birth-order handle, never an address.
-        const serial = /^#(\d+)$/.exec(term);
+        // Serial renderings per the alias standard (ARCH-JD-JIP-0001, seq 124):
+        // 'JD-104', 'JD 104', 'JD #104', '#104' all resolve the creation serial —
+        // one value, many renderings; birth-order handle, never an address.
+        const serial = /^(?:jd[\s-]*)?#\s*(\d+)$/i.exec(term) ?? /^jd[\s-]*(\d+)$/i.exec(term);
         const { data } = serial
           ? await db.from("jd_entries").select("*").eq("seq", Number(serial[1])).limit(25)
           : await db.from("jd_entries").select("*")
@@ -194,10 +200,29 @@ Deno.serve(async (req) => {
         const { data: existing } = await db.from("jd_entries").select("*").eq("jnl", cand.jnl).maybeSingle();
         return json({ ok: true, candidate: cand, exists: !!existing, current: existing ?? null });
       }
+      case "events_list": {
+        // P-A (Raven-approved 2026-06-11): the arbitration spine, readable. Any stream
+        // verifies any claimed ruling/deploy/repair from the source of record.
+        let q = db.from("dex_events").select("id,tool,tier,jnl,actor,detail,created_at");
+        for (const k of ["tool", "actor", "jnl"]) {
+          if (args[k]) q = q.eq(k, String(args[k]));
+        }
+        if (args.since) q = q.gte("created_at", String(args.since));
+        const limit = Math.min(Number(args.limit ?? 50), 200);
+        const { data } = await q.order("created_at", { ascending: false }).limit(limit);
+        return json({ ok: true, count: data?.length ?? 0, events: data ?? [] });
+      }
 
       // ---------- PROPOSE ----------
       case "jd_propose": {
         const cand = await deriveCandidate(args, "TASK");
+        // JC→JD provenance firewall (Raven-verdicted 2026-06-11, desk item 3):
+        // interpretation is never evidence. JD provenance terminates in dex_events
+        // ids or commit hashes — a JC-typed JNL anywhere in the citation chain fails.
+        const cites = [...(cand.related ?? []), cand.source ?? ""].join(" ");
+        if (/\b[A-Z]{2,4}-[A-Z0-9]{2,4}-JC-\d{4}\b/.test(cites)) {
+          return fail("P-C firewall: JC objects cannot serve as JD provenance — cite a dex_events id or commit hash instead", 422);
+        }
         const { data, error } = await db.from("jd_proposals").insert({
           jnl: cand.jnl, name: cand.name, type: cand.type, class: cand.class,
           tier: cand.tier, owner: cand.owner, definition: cand.definition,
@@ -252,6 +277,12 @@ Deno.serve(async (req) => {
         // Type-aware landing status (JSS): a JGPP is exploration — approval makes it
         // governed canon-in-progress (TASK), not operational truth (ACTIVE).
         const landed = p.type === "JGPP" ? "TASK" : "ACTIVE";
+        // Mint the creation serial at the gate (Raven-approved 2026-06-11): approval IS
+        // the mint moment — without this, connector-approved rows carried NULL seq and
+        // serial lookups ('JD-124') resolved in the repo but not live.
+        const { data: mx } = await db.from("jd_entries")
+          .select("seq").not("seq", "is", null).order("seq", { ascending: false }).limit(1);
+        const seq = (mx?.[0]?.seq ?? 0) + 1;
         await db.from("jnl_registry").upsert({
           jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier,
           owner: p.owner, location: p.source, tags: p.tags, status: landed, created: today, updated: today,
@@ -259,12 +290,12 @@ Deno.serve(async (req) => {
         await db.from("jd_entries").upsert({
           jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier, owner: p.owner,
           authority: "CANON", definition: p.definition, purpose: p.purpose, source: p.source,
-          related: p.related, tags: p.tags, aliases: p.aliases ?? [], status: landed, created: today, updated: today,
+          related: p.related, tags: p.tags, aliases: p.aliases ?? [], status: landed, seq, created: today, updated: today,
         });
         await db.from("jd_proposals").update({
           decision: "approved", decided_by: "raven", decided_at: new Date().toISOString(),
         }).eq("id", p.id);
-        await logEvent("jd_approve", tier, jnl, "raven", { promoted: true, landed, proposal_id: p.id, reassigned: !!taken });
+        await logEvent("jd_approve", tier, jnl, "raven", { promoted: true, landed, seq, proposal_id: p.id, reassigned: !!taken });
         return json({ ok: true, jnl, status: landed, note: "reconcile to files via Action" });
       }
       case "jd_reject": {

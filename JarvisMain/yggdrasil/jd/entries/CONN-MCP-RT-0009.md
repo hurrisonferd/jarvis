@@ -1,6 +1,6 @@
 ---
 name: Dex — list governed objects
-type: CONN
+type: RT
 class: MODULE
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: CONN-MCP-RT-0009
 seq: 77
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_list.md
 related: []
 references: []

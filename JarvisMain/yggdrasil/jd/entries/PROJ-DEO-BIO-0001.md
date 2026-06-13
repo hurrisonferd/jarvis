@@ -1,6 +1,6 @@
 ---
 name: Deoxys
-type: PROJ
+type: BIO
 class: SYSTEM
 tier: SIDE
 authority: CANON
@@ -10,7 +10,7 @@ jnl: PROJ-DEO-BIO-0001
 seq: 63
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisSide/Projects/Deoxys/BIO/ProjectBio
 related: [PROJ-ALL-LOG-0001]
 references: []

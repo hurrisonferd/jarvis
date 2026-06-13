@@ -1,6 +1,6 @@
 ---
 name: Jarvis System Review
-type: AUD
+type: REVW
 class: EVENT
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: AUD-SYS-REVW-0001
 seq: 87
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Audit/JarvisSystemReview-0001-060826
 related: [GOV-CAN-CORE-0001]
 references: []

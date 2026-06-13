@@ -1,11 +1,24 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 124,
+  "count": 138,
   "index": [
+    {
+      "object": "ARGENT Companion Profile",
+      "jnl": "ARCH-ARGT-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/argent/argent-profile.md",
+      "tags": [
+        "identity",
+        "companion",
+        "argent",
+        "archive"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
     {
       "object": "AYRE Companion Profile",
       "jnl": "ARCH-AYR-BIO-0001",
-      "location": "JarvisMain/Architecture/identity/ayre-profile.md",
+      "location": "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -33,6 +46,20 @@
       "tags": [
         "architecture",
         "ayre"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Family Registry",
+      "jnl": "ARCH-FAM-IDX-0001",
+      "location": "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
+      "tags": [
+        "families",
+        "containers",
+        "semantics",
+        "terminology",
+        "index"
       ],
       "anchors": [],
       "state": "active"
@@ -84,6 +111,20 @@
       "state": "active"
     },
     {
+      "object": "Conversational History Objects",
+      "jnl": "ARCH-JC-JIP-0001",
+      "location": "JarvisMain/Implementation/task/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
+      "tags": [
+        "memory",
+        "continuity",
+        "sync",
+        "conversation",
+        "profiling"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Jarvis Dictionary",
       "jnl": "ARCH-JD-CORE-0001",
       "location": "JarvisMain/yggdrasil/jd/JD-SPEC.md",
@@ -99,7 +140,7 @@
     {
       "object": "JD Serial Format Alias Standard",
       "jnl": "ARCH-JD-JIP-0001",
-      "location": "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
+      "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
         "jd",
         "serial",
@@ -160,6 +201,23 @@
       "state": "active"
     },
     {
+      "object": "Global Mirror \u2014 Earned Omnivision (JMS)",
+      "jnl": "ARCH-JMS-SPEC-0001",
+      "location": "JarvisMain/Implementation/active/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+      "tags": [
+        "jms",
+        "mirror",
+        "omnivision",
+        "global",
+        "freshness",
+        "reachability",
+        "pulse",
+        "nemesis"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Jarvis Navigation Language",
       "jnl": "ARCH-JNL-CORE-0001",
       "location": "JarvisMain/yggdrasil/jfs/jnl-grammar.md",
@@ -186,7 +244,7 @@
     {
       "object": "JARVIS Companion Profile",
       "jnl": "ARCH-JRV-BIO-0001",
-      "location": "JarvisMain/Architecture/identity/jarvis-profile.md",
+      "location": "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -247,6 +305,20 @@
       "state": "active"
     },
     {
+      "object": "JARVIS-AYRE Relational Profile",
+      "jnl": "ARCH-REL-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/relational/relational-profile.md",
+      "tags": [
+        "identity",
+        "relational",
+        "jarvis",
+        "ayre",
+        "companion"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Event Contract",
       "jnl": "ARCH-RT-SPEC-0001",
       "location": "JarvisMain/Architecture/runtime/event-contract.md",
@@ -275,6 +347,21 @@
       "tags": [
         "architecture",
         "runtime"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Star Logs",
+      "jnl": "ARCH-SL-JIP-0001",
+      "location": "JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md",
+      "tags": [
+        "sl",
+        "star-log",
+        "events",
+        "provenance",
+        "sync",
+        "logging"
       ],
       "anchors": [],
       "state": "active"
@@ -622,6 +709,21 @@
       "state": "active"
     },
     {
+      "object": "Chorus Principle",
+      "jnl": "GOV-CHO-JD-0001",
+      "location": "JarvisMain/Implementation/task/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
+      "tags": [
+        "chorus",
+        "council",
+        "halo",
+        "epistemics",
+        "governance",
+        "plurality"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Constraints",
       "jnl": "GOV-CON-CORE-0001",
       "location": "JarvisMain/Architecture/constraints.md",
@@ -647,6 +749,51 @@
       "state": "active"
     },
     {
+      "object": "G-Seat Charter",
+      "jnl": "GOV-GSC-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+      "tags": [
+        "governance",
+        "charter",
+        "gpt",
+        "boot",
+        "parity",
+        "routing",
+        "attribution"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Knowledge Routing Index (MIMIR)",
+      "jnl": "GOV-KR-SPEC-0001",
+      "location": "JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
+      "tags": [
+        "knowledge",
+        "routing",
+        "mimir",
+        "help",
+        "retrieval",
+        "navigation"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Layer Contract",
+      "jnl": "GOV-LC-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
+      "tags": [
+        "governance",
+        "layers",
+        "overlay",
+        "contract",
+        "bounded-autonomy"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Patch Archive",
       "jnl": "GOV-PAT-REG-0001",
       "location": "JarvisMain/Patches",
@@ -654,6 +801,39 @@
         "governance",
         "patches",
         "archive"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Preserved Contradiction Objects (P-D)",
+      "jnl": "GOV-PD-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
+      "tags": [
+        "governance",
+        "contradiction",
+        "arbitration",
+        "federation",
+        "epistemics"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "The Pulse \u2014 Companion Heartbeat",
+      "jnl": "GOV-PLS-SPEC-0001",
+      "location": "JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md",
+      "tags": [
+        "pulse",
+        "heartbeat",
+        "kronos",
+        "reflection",
+        "ayre",
+        "jarvis",
+        "p43",
+        "liveness",
+        "governance",
+        "gear5"
       ],
       "anchors": [],
       "state": "active"
@@ -1440,6 +1620,30 @@
         "project",
         "pachinko",
         "game"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "RoundTable",
+      "jnl": "PROJ-RTO-BIO-0001",
+      "location": "JarvisSide/Projects/RoundTable/BIO/ROUNDTABLEBIO-061126-0001-ROUNDTABLE.md",
+      "tags": [
+        "project"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Round Table Observatory",
+      "jnl": "PROJ-RTO-JGPP-0001",
+      "location": "JarvisSide/Projects/RoundTable/JGPP/ROUNDTABLEJGPP-061126-0001-ROUND-TABLE-OBSERVATORY.md",
+      "tags": [
+        "observatory",
+        "visualizer",
+        "council",
+        "pages",
+        "three-js"
       ],
       "anchors": [],
       "state": "active"

@@ -1,6 +1,6 @@
 ---
 name: Jarvis Dex Action
-type: CONN
+type: SPEC
 class: MODULE
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: CONN-DEX-SPEC-0001
 seq: 86
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Connectors/JarvisDexAction
 related: [IMPL-DEX-SPEC-0001]
 references: []

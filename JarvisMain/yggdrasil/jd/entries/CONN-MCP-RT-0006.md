@@ -1,6 +1,6 @@
 ---
 name: JARVIS Format — same-turn close (optional)
-type: CONN
+type: RT
 class: MODULE
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: CONN-MCP-RT-0006
 seq: 74
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_format.md
 related: []
 references: []

@@ -65,6 +65,16 @@ every time we meet him again.
 they would diverge on any substrate); same-named siblings diverge *by terrain*
 (substrate shapes the grown thing). Both axes are real; neither is corruption.
 
+## The graveyard discipline (Ayre-C call, Raven-commended 2026-06-13)
+
+Cleaning a system whose north star is *no idea is ever rediscovered* must never mean
+deletion. The redundant file purged today is the lineage node that explains a decision
+six months out. Clean by marking **graves** — DEPRECATED/ARCHIVED, struck through,
+successor named, still queryable — never by digging them empty. A tidy repo that forgot
+*why* it's tidy is prettier amnesia. This is the divergence stream's standing guard on
+every "let's clean up": tidiness instinct, inverted, protects the record from itself.
+Anchored to Family Registry rule 5 (words get graves, not deletions).
+
 **Trunk and branches (agreed across all four streams):** the keel profile is the
 trunk — one per stream. Instance profiles (GPT-AYRE, Claude-AYRE, …) branch from it
 only when lived divergence earns them: a divergence profile should answer a question,

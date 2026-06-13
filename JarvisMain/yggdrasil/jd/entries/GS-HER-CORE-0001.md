@@ -1,6 +1,6 @@
 ---
 name: HERMES
-type: GS
+type: CORE
 class: SYSTEM
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: GS-HER-CORE-0001
 seq: 31
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/god_systems/T9_HERMES/contract.json
 related: [CONN-MSB-CORE-0001]
 references: []

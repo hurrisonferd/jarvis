@@ -1,6 +1,6 @@
 ---
 name: Event Contract
-type: ARCH
+type: SPEC
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: ARCH-RT-SPEC-0001
 seq: 45
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Architecture/runtime/event-contract.md
 related: [GS-SKD-CORE-0001]
 references: []

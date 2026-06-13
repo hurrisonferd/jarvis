@@ -1,6 +1,6 @@
 ---
 name: Dex-Council Validation Bridge
-type: GOV
+type: SPEC
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: GOV-DEX-SPEC-0001
 seq: 105
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Architecture/specs/dex-council-bridge.md
 related: [PROJ-DEO-JGPP-0001, ARCH-JD-CORE-0001]
 references: []

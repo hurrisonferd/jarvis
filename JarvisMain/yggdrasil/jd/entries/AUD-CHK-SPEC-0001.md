@@ -1,6 +1,6 @@
 ---
 name: Required Checks Setup
-type: AUD
+type: SPEC
 class: EVENT
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: AUD-CHK-SPEC-0001
 seq: 58
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Audit/required-checks-setup.md
 related: [GS-AEG-CORE-0001]
 references: []

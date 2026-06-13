@@ -1,6 +1,6 @@
 ---
 name: Patch Archive
-type: GOV
+type: REG
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: GOV-PAT-REG-0001
 seq: 56
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Patches
 related: [GS-KRN-CORE-0001]
 references: []

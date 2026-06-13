@@ -1,6 +1,6 @@
 ---
 name: JCS-D Temporal Reconstruction
-type: IMPL
+type: SPEC
 class: MODULE
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: IMPL-JCSD-SPEC-0001
 seq: 92
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Implementation/Active/JIP-0608-D
 related: [IMPL-JCS-CORE-0001]
 references: []

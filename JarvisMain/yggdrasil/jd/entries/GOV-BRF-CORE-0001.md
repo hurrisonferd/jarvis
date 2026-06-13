@@ -1,6 +1,6 @@
 ---
 name: Jarvis Brief
-type: GOV
+type: CORE
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: GOV-BRF-CORE-0001
 seq: 43
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Architecture/JarvisBrief.md
 related: [GOV-CAN-CORE-0001]
 references: []

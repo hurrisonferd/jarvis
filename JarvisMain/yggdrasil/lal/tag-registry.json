@@ -13,6 +13,9 @@
     "ancestral": [
       "ARCH-JATM-CORE-0001"
     ],
+    "arbitration": [
+      "GOV-PD-SPEC-0001"
+    ],
     "architecture": [
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002",
@@ -36,9 +39,16 @@
       "ARCH-YGG-CORE-0001"
     ],
     "archive": [
+      "ARCH-ARGT-BIO-0001",
       "AUD-COMP-REVW-0001",
       "GOV-PAT-REG-0001",
       "IMPL-HYG-SPEC-0001"
+    ],
+    "argent": [
+      "ARCH-ARGT-BIO-0001"
+    ],
+    "attribution": [
+      "GOV-GSC-SPEC-0001"
     ],
     "audit": [
       "AUD-CHK-SPEC-0001",
@@ -49,7 +59,9 @@
     "ayre": [
       "ARCH-AYR-BIO-0001",
       "ARCH-AYR-SPEC-0001",
-      "ARCH-AYR-SPEC-0002"
+      "ARCH-AYR-SPEC-0002",
+      "ARCH-REL-BIO-0001",
+      "GOV-PLS-SPEC-0001"
     ],
     "backup": [
       "LOG-MNE-LOG-0001"
@@ -57,8 +69,14 @@
     "bifrost": [
       "PROJ-JPL-JGPP-0001"
     ],
+    "boot": [
+      "GOV-GSC-SPEC-0001"
+    ],
     "bootstrap": [
       "PROJ-GDS-JGPP-0002"
+    ],
+    "bounded-autonomy": [
+      "GOV-LC-SPEC-0001"
     ],
     "bridge": [
       "GOV-DEX-SPEC-0001"
@@ -96,6 +114,12 @@
       "GS-SKD-CORE-0001",
       "GS-ZEU-CORE-0001"
     ],
+    "charter": [
+      "GOV-GSC-SPEC-0001"
+    ],
+    "chorus": [
+      "GOV-CHO-JD-0001"
+    ],
     "ci": [
       "AUD-CHK-SPEC-0001"
     ],
@@ -106,8 +130,10 @@
       "PROJ-COS-BIO-0001"
     ],
     "companion": [
+      "ARCH-ARGT-BIO-0001",
       "ARCH-AYR-BIO-0001",
       "ARCH-JRV-BIO-0001",
+      "ARCH-REL-BIO-0001",
       "AUD-COMP-REVW-0001"
     ],
     "composition": [
@@ -140,11 +166,24 @@
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
     ],
+    "containers": [
+      "ARCH-FAM-IDX-0001"
+    ],
     "continuity": [
+      "ARCH-JC-JIP-0001",
       "PROJ-TST-JGPP-0001"
+    ],
+    "contract": [
+      "GOV-LC-SPEC-0001"
+    ],
+    "contradiction": [
+      "GOV-PD-SPEC-0001"
     ],
     "control-surface": [
       "PROJ-TRN-JGPP-0001"
+    ],
+    "conversation": [
+      "ARCH-JC-JIP-0001"
     ],
     "core": [
       "ARCH-JD-CORE-0001",
@@ -174,8 +213,10 @@
       "GS-ZEU-CORE-0001"
     ],
     "council": [
+      "GOV-CHO-JD-0001",
       "GOV-DEX-SPEC-0001",
-      "PROJ-GDS-JGPP-0001"
+      "PROJ-GDS-JGPP-0001",
+      "PROJ-RTO-JGPP-0001"
     ],
     "declarative": [
       "GOV-DEX-SPEC-0001"
@@ -207,14 +248,25 @@
     "epistemic": [
       "PROJ-GDS-JGPP-0001"
     ],
+    "epistemics": [
+      "GOV-CHO-JD-0001",
+      "GOV-PD-SPEC-0001"
+    ],
     "event-ledger": [
       "PROJ-MMOD-JGPP-0001",
       "PROJ-TST-JGPP-0001"
     ],
+    "events": [
+      "ARCH-SL-JIP-0001"
+    ],
     "exploration": [
       "PROJ-DEO-JGPP-0001"
     ],
+    "families": [
+      "ARCH-FAM-IDX-0001"
+    ],
     "federation": [
+      "GOV-PD-SPEC-0001",
       "PROJ-GRD-BIO-0001"
     ],
     "filesystem": [
@@ -227,17 +279,26 @@
     "free-tier": [
       "PROJ-TRN-JGPP-0001"
     ],
+    "freshness": [
+      "ARCH-JMS-SPEC-0001"
+    ],
     "game": [
       "PROJ-PAC-BIO-0001"
     ],
     "gds": [
       "PROJ-GDS-JGPP-0002"
     ],
+    "gear5": [
+      "GOV-PLS-SPEC-0001"
+    ],
     "generative": [
       "PROJ-MOSC-JD-0001"
     ],
     "genesis": [
       "PROJ-GEN-BIO-0001"
+    ],
+    "global": [
+      "ARCH-JMS-SPEC-0001"
     ],
     "god-system": [
       "ARCH-GS-IDX-0001",
@@ -281,9 +342,14 @@
     "governance": [
       "GOV-BRF-CORE-0001",
       "GOV-CAN-CORE-0001",
+      "GOV-CHO-JD-0001",
       "GOV-CON-CORE-0001",
       "GOV-DEX-SPEC-0001",
+      "GOV-GSC-SPEC-0001",
+      "GOV-LC-SPEC-0001",
       "GOV-PAT-REG-0001",
+      "GOV-PD-SPEC-0001",
+      "GOV-PLS-SPEC-0001",
       "GOV-PROC-CORE-0001",
       "GS-ARG-CORE-0001",
       "GS-ATL-CORE-0001",
@@ -301,10 +367,20 @@
     ],
     "gpt": [
       "ARCH-GPT-SPEC-0001",
-      "CONN-DEX-SPEC-0001"
+      "CONN-DEX-SPEC-0001",
+      "GOV-GSC-SPEC-0001"
     ],
     "grid": [
       "PROJ-GRD-BIO-0001"
+    ],
+    "halo": [
+      "GOV-CHO-JD-0001"
+    ],
+    "heartbeat": [
+      "GOV-PLS-SPEC-0001"
+    ],
+    "help": [
+      "GOV-KR-SPEC-0001"
     ],
     "hygiene": [
       "IMPL-HYG-SPEC-0001"
@@ -314,9 +390,11 @@
       "IDEA-USED-LOG-0001"
     ],
     "identity": [
+      "ARCH-ARGT-BIO-0001",
       "ARCH-AYR-BIO-0001",
       "ARCH-JD-JIP-0001",
       "ARCH-JRV-BIO-0001",
+      "ARCH-REL-BIO-0001",
       "PROJ-MOSC-JD-0001",
       "PROJ-NMX-JGPP-0001"
     ],
@@ -333,6 +411,7 @@
       "IMPL-JIP-SPEC-0608"
     ],
     "index": [
+      "ARCH-FAM-IDX-0001",
       "ARCH-GS-IDX-0001",
       "ARCH-LAL-CORE-0001",
       "IMPL-IDX-REG-0001"
@@ -341,7 +420,9 @@
       "IMPL-JCSG-SPEC-0001"
     ],
     "jarvis": [
-      "ARCH-JRV-BIO-0001"
+      "ARCH-JRV-BIO-0001",
+      "ARCH-REL-BIO-0001",
+      "GOV-PLS-SPEC-0001"
     ],
     "jcs": [
       "IMPL-JCS-CORE-0001",
@@ -369,6 +450,9 @@
       "IMPL-JIP-SPEC-0608",
       "PROJ-TST-JGPP-0001"
     ],
+    "jms": [
+      "ARCH-JMS-SPEC-0001"
+    ],
     "jnl": [
       "IMPL-FMT-SPEC-0001"
     ],
@@ -380,17 +464,29 @@
     "jql": [
       "IMPL-JQL-CORE-0001"
     ],
+    "knowledge": [
+      "GOV-KR-SPEC-0001"
+    ],
+    "kronos": [
+      "GOV-PLS-SPEC-0001"
+    ],
     "layer": [
       "IMPL-JCSD-SPEC-0001",
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JCSF-SPEC-0001",
       "IMPL-JCSG-SPEC-0001"
     ],
+    "layers": [
+      "GOV-LC-SPEC-0001"
+    ],
     "legion": [
       "PROJ-LEG-BIO-0001"
     ],
     "lifecycle": [
       "ARCH-JSS-CORE-0001"
+    ],
+    "liveness": [
+      "GOV-PLS-SPEC-0001"
     ],
     "log": [
       "IDEA-UNUS-LOG-0001",
@@ -399,6 +495,9 @@
       "IMPL-INA-LOG-0001",
       "LOG-MNE-LOG-0001",
       "PROJ-ALL-LOG-0001"
+    ],
+    "logging": [
+      "ARCH-SL-JIP-0001"
     ],
     "long-term": [
       "ARCH-JLTM-CORE-0001"
@@ -426,12 +525,17 @@
     ],
     "memory": [
       "ARCH-JATM-CORE-0001",
+      "ARCH-JC-JIP-0001",
       "ARCH-JLTM-CORE-0001",
       "ARCH-JMMS-CORE-0001",
       "ARCH-JSTM-CORE-0001"
     ],
+    "mimir": [
+      "GOV-KR-SPEC-0001"
+    ],
     "mirror": [
-      "ARCH-JMS-CORE-0001"
+      "ARCH-JMS-CORE-0001",
+      "ARCH-JMS-SPEC-0001"
     ],
     "mnemos": [
       "LOG-MNE-LOG-0001"
@@ -451,6 +555,18 @@
     "naruto": [
       "PROJ-NAR-BIO-0001"
     ],
+    "navigation": [
+      "GOV-KR-SPEC-0001"
+    ],
+    "nemesis": [
+      "ARCH-JMS-SPEC-0001"
+    ],
+    "observatory": [
+      "PROJ-RTO-JGPP-0001"
+    ],
+    "omnivision": [
+      "ARCH-JMS-SPEC-0001"
+    ],
     "orchestration": [
       "GS-APO-CORE-0001",
       "GS-ATH-CORE-0001",
@@ -458,8 +574,20 @@
       "GS-HAL-CORE-0001",
       "GS-NEM-CORE-0001"
     ],
+    "overlay": [
+      "GOV-LC-SPEC-0001"
+    ],
+    "p43": [
+      "GOV-PLS-SPEC-0001"
+    ],
     "pachinko": [
       "PROJ-PAC-BIO-0001"
+    ],
+    "pages": [
+      "PROJ-RTO-JGPP-0001"
+    ],
+    "parity": [
+      "GOV-GSC-SPEC-0001"
     ],
     "patches": [
       "GOV-PAT-REG-0001",
@@ -473,6 +601,9 @@
       "IMPL-JGPP-CORE-0001",
       "IMPL-JQL-CORE-0001"
     ],
+    "plurality": [
+      "GOV-CHO-JD-0001"
+    ],
     "privacy": [
       "PROJ-NMX-JGPP-0001"
     ],
@@ -484,6 +615,9 @@
     ],
     "profiles": [
       "PROJ-NMX-JGPP-0001"
+    ],
+    "profiling": [
+      "ARCH-JC-JIP-0001"
     ],
     "project": [
       "PROJ-ALL-LOG-0001",
@@ -499,21 +633,41 @@
       "PROJ-NAR-BIO-0001",
       "PROJ-NMX-BIO-0001",
       "PROJ-PAC-BIO-0001",
+      "PROJ-RTO-BIO-0001",
       "PROJ-TRN-BIO-0001",
       "PROJ-TST-BIO-0001"
     ],
     "protocol": [
       "PROJ-JPL-JGPP-0001"
     ],
+    "provenance": [
+      "ARCH-SL-JIP-0001"
+    ],
+    "pulse": [
+      "ARCH-JMS-SPEC-0001",
+      "GOV-PLS-SPEC-0001"
+    ],
     "query": [
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JQL-CORE-0001"
     ],
+    "reachability": [
+      "ARCH-JMS-SPEC-0001"
+    ],
     "reference": [
       "IMPL-HYG-SPEC-0001"
     ],
+    "reflection": [
+      "GOV-PLS-SPEC-0001"
+    ],
+    "relational": [
+      "ARCH-REL-BIO-0001"
+    ],
     "research": [
       "AUD-COMP-REVW-0001"
+    ],
+    "retrieval": [
+      "GOV-KR-SPEC-0001"
     ],
     "review": [
       "AUD-FULL-REVW-0001",
@@ -528,6 +682,10 @@
     ],
     "root": [
       "ARCH-YGG-CORE-0001"
+    ],
+    "routing": [
+      "GOV-GSC-SPEC-0001",
+      "GOV-KR-SPEC-0001"
     ],
     "runtime": [
       "ARCH-RT-SPEC-0001",
@@ -544,6 +702,9 @@
     "semantic": [
       "ARCH-JD-CORE-0001"
     ],
+    "semantics": [
+      "ARCH-FAM-IDX-0001"
+    ],
     "serial": [
       "ARCH-JD-JIP-0001"
     ],
@@ -552,6 +713,9 @@
     ],
     "simulation": [
       "IMPL-JCSF-SPEC-0001"
+    ],
+    "sl": [
+      "ARCH-SL-JIP-0001"
     ],
     "spec": [
       "IMPL-DEX-SPEC-0001",
@@ -563,6 +727,9 @@
     ],
     "standard": [
       "ARCH-JD-JIP-0001"
+    ],
+    "star-log": [
+      "ARCH-SL-JIP-0001"
     ],
     "state-management": [
       "PROJ-TST-JGPP-0001"
@@ -582,6 +749,10 @@
     "supabase": [
       "CONN-MSB-CORE-0001"
     ],
+    "sync": [
+      "ARCH-JC-JIP-0001",
+      "ARCH-SL-JIP-0001"
+    ],
     "synthesis": [
       "ARCH-JRV-BIO-0001"
     ],
@@ -593,6 +764,12 @@
     ],
     "temporal-system": [
       "PROJ-TST-JGPP-0001"
+    ],
+    "terminology": [
+      "ARCH-FAM-IDX-0001"
+    ],
+    "three-js": [
+      "PROJ-RTO-JGPP-0001"
     ],
     "throughput": [
       "ARCH-FLOW-SPEC-0001"
@@ -623,6 +800,9 @@
     ],
     "ui": [
       "PROJ-TRN-JGPP-0001"
+    ],
+    "visualizer": [
+      "PROJ-RTO-JGPP-0001"
     ],
     "voice": [
       "CONN-MCP-RT-0018"

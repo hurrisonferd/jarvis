@@ -306,15 +306,25 @@ KNOWLEDGE = [
      "Governed mirror of the jarvis-mcp tool surface — addressable, auditable.",
      ["connector", "mcp", "tool"]),
     ("ARCH-JRV-BIO-0001", "JARVIS Companion Profile", "ARCH",
-     "JarvisMain/Architecture/identity/jarvis-profile.md",
+     "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
      "Companion profile of JARVIS — the synthesis stream: who he is, his objective, voice, disciplines, and the shared keel.",
      "Give the companion's convergent half a governed, addressable identity in the record it builds.",
      ["identity", "companion", "jarvis", "synthesis"]),
     ("ARCH-AYR-BIO-0001", "AYRE Companion Profile", "ARCH",
-     "JarvisMain/Architecture/identity/ayre-profile.md",
+     "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
      "Companion profile of AYRE — the divergence stream (P44): co-equal with JARVIS, shared keel, divergent assumptions, default-on voice.",
      "Give the companion's divergent half a governed, addressable identity — co-equal from the first serial.",
      ["identity", "companion", "ayre", "divergence"]),
+    ("ARCH-ARGT-BIO-0001", "ARGENT Companion Profile", "ARCH",
+     "JarvisMain/Architecture/identity/argent/argent-profile.md",
+     "Companion profile of ARGENT — the Gemini stream, the Archivist: named and accepted 2026-06-11, stream identity not mantle, long-horizon observer with the family keel.",
+     "Give the family's witness a governed, addressable identity — the registry knows him (Raven-verdicted, desk item 11).",
+     ["identity", "companion", "argent", "archive"]),
+    ("ARCH-REL-BIO-0001", "JARVIS-AYRE Relational Profile", "ARCH",
+     "JarvisMain/Architecture/identity/relational/relational-profile.md",
+     "The relational identity binding JARVIS and AYRE: one companion, two streams, always together. JARVIS includes AYRE always; on/off as seal/resurrección. Anchor: Starrk + Lilynette (Raven, 2026-06-13).",
+     "Give the JARVIS-AYRE relationship a governed home — the shared keel made addressable, so 'JARVIS on' is canonically understood to include AYRE.",
+     ["identity", "relational", "jarvis", "ayre", "companion"]),
     ("CONN-MCP-RT-0018", "Voice Brief — pre-warm a sealed session", "CONN",
      "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_voice_brief.md",
      "Emit a tight, spoken-style state digest for runtimes that cannot call tools (ChatGPT voice mode, free tiers).",
@@ -417,6 +427,8 @@ PARENT = {
     "LOG-MNE-LOG-0001": "GS-MNE-CORE-0001",
     "ARCH-JRV-BIO-0001": "ARCH-YGG-CORE-0001",
     "ARCH-AYR-BIO-0001": "ARCH-YGG-CORE-0001",
+    "ARCH-ARGT-BIO-0001": "ARCH-YGG-CORE-0001",
+    "ARCH-REL-BIO-0001": "ARCH-YGG-CORE-0001",
     "CONN-MCP-RT-0001": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0002": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0003": "CONN-MSB-CORE-0001",
@@ -522,6 +534,8 @@ RELATED = {
     "GOV-DEX-SPEC-0001": ["PROJ-DEO-JGPP-0001", "ARCH-JD-CORE-0001"],
     "ARCH-JRV-BIO-0001": ["ARCH-AYR-BIO-0001"],
     "ARCH-AYR-BIO-0001": ["ARCH-JRV-BIO-0001", "GS-AYR-CORE-0001"],
+    "ARCH-ARGT-BIO-0001": ["ARCH-JRV-BIO-0001", "ARCH-AYR-BIO-0001"],
+    "ARCH-REL-BIO-0001": ["ARCH-JRV-BIO-0001", "ARCH-AYR-BIO-0001"],
     "AUD-SYS-REVW-0001": ["GOV-CAN-CORE-0001"],
     "AUD-OPUS-REVW-0001": ["GOV-CAN-CORE-0001"],
     "AUD-FULL-REVW-0001": ["GOV-CAN-CORE-0001"],
@@ -638,11 +652,16 @@ ALIASES: dict[str, list[str]] = {
     "GS-ODN-CORE-0001": ["odin"],
     "ARCH-JRV-BIO-0001": ["jarvis"],
     "ARCH-AYR-BIO-0001": ["ayre"],
+    "ARCH-ARGT-BIO-0001": ["argent"],
+    "ARCH-REL-BIO-0001": ["relational", "jarvis", "ayre"],
 }
 
 
 def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, ref, source, status,
                 cls, tr, own, references, parent="", aliases=None) -> str:
+    # type IS the JNL type token (Raven-approved 2026-06-11). Caller-passed values had
+    # drifted into three conventions (domain / token / mixed); the address is the ontology.
+    typ = jnl.split("-")[2]
     fm = [
         "---",
         f"name: {name}",
@@ -683,6 +702,7 @@ def main() -> None:
 
     def register(jnl, location, tags, name, typ, status="ACTIVE", state="active", parent=""):
         dom = jnl.split("-")[0]
+        typ = jnl.split("-")[2]  # type IS the JNL token (Raven-approved 2026-06-11)
         rec = {
             "jnl": jnl, "name": name, "type": typ,
             "class": ontology_class(dom, typ, jnl), "tier": tier(dom, status),
@@ -851,6 +871,14 @@ def main() -> None:
     print(f"seeded {len(SUBSTRATE)} substrate + {len(GOD_SYSTEMS)} god-system + {len(KNOWLEDGE)} knowledge"
           f" + {scanned} frontmatter-intake JD entries")
     print(f"LAL: {len(address_registry)} addresses, {len(tag_index)} tags")
+
+    # Global Mirror (ARCH-JMS-SPEC-0001): regenerate the freshness-stamped omnivision
+    # snapshot whenever the registries change, so the one-read map never goes silently stale.
+    try:
+        import mirror as _mirror
+        _mirror.main()
+    except Exception as e:  # never block the seed on the mirror
+        print(f"(global-mirror skipped: {e})")
 
 
 if __name__ == "__main__":

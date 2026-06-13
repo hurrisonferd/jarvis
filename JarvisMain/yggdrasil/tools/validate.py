@@ -5,6 +5,7 @@ Exit 0 = green; exit 1 = violations found.
 """
 from __future__ import annotations
 import json
+import subprocess
 import re
 import sys
 from pathlib import Path
@@ -62,6 +63,10 @@ def main() -> int:
             errors.append(f"{f.name}: class '{cls}' not in ontology {sorted(jnllib.CLASSES)}")
         if tr and tr not in jnllib.TIERS:
             errors.append(f"{f.name}: tier '{tr}' not in {sorted(jnllib.TIERS)}")
+        # type IS the JNL type token (Raven-approved 2026-06-11) — drift is a failure.
+        typ = fm.get("type", "")
+        if addr and typ and "-" in addr and typ != addr.split("-")[2]:
+            errors.append(f"{f.name}: type '{typ}' != JNL token '{addr.split('-')[2]}' (type = address ontology)")
         # Redundancy (overlap_score Gold Law): two entries may not claim the same canonical name.
         nm = fm.get("name", "")
         if nm:
@@ -113,6 +118,22 @@ def main() -> int:
         missing = entry_jnls - reg_jnls
         for a in sorted(missing):
             errors.append(f"{a}: JD entry not indexed in LAL (GL12 IndexSummary ref)")
+
+    # Class immutability (Raven-verdicted 2026-06-11): an existing JNL's class never
+    # changes in place — identity evolves by mint-successor + deprecate, never overwrite.
+    try:
+        head = subprocess.run(
+            ["git", "show", "HEAD:JarvisMain/yggdrasil/lal/address-registry.json"],
+            capture_output=True, text=True, cwd=ROOT, check=True).stdout
+        head_class = {r.get("jnl"): r.get("class") for r in json.loads(head).get("records", [])}
+        for rec in records:
+            a, c = rec.get("jnl"), rec.get("class")
+            if a in head_class and head_class[a] and c != head_class[a]:
+                errors.append(
+                    f"{a}: class '{c}' != committed class '{head_class[a]}' "
+                    "(class immutability — mint a successor + deprecate, never reclassify)")
+    except Exception:
+        pass  # no committed snapshot to compare (fresh repo)
 
     # Family tree (parent): every parent resolves to a real entry; no cycles.
     parents: dict[str, str] = {}

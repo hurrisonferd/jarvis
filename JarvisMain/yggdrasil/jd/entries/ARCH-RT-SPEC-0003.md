@@ -1,6 +1,6 @@
 ---
 name: World Kernel
-type: ARCH
+type: SPEC
 class: SPEC
 tier: MAIN
 authority: CANON
@@ -10,7 +10,7 @@ jnl: ARCH-RT-SPEC-0003
 seq: 47
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-10
+updated: 2026-06-11
 source: JarvisMain/Architecture/runtime/world-kernel.md
 related: [ARCH-RT-SPEC-0002]
 references: []

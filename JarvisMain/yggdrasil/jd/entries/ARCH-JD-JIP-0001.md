@@ -11,7 +11,7 @@ seq: 124
 status: ACTIVE
 created: 2026-06-11
 updated: 2026-06-11
-source: JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md
+source: JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md
 related: []
 references: []
 tags: [jd, serial, format, standard, identity, dex]
