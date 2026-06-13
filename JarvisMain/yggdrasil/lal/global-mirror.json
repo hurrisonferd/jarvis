@@ -1,18 +1,18 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-13T22:37:57Z",
-    "generated_at_eastern": "2026-06-13 18:37 EDT",
-    "source_commit": "167193d",
+    "generated_at_utc": "2026-06-13T22:41:11Z",
+    "generated_at_eastern": "2026-06-13 18:41 EDT",
+    "source_commit": "5acd1f8",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 138,
+    "object_count": 139,
     "by_status": {
       "ACTIVE": 115,
       "ARCHIVED": 2,
       "INACTIVE": 5,
-      "TASK": 16
+      "TASK": 17
     },
     "by_domain": {
       "ARCH": 30,
@@ -21,12 +21,12 @@
       "GOV": 12,
       "GS": 27,
       "IDEA": 2,
-      "IMPL": 14,
+      "IMPL": 15,
       "LOG": 1,
       "PROJ": 26
     },
     "by_tier": {
-      "MAIN": 108,
+      "MAIN": 109,
       "SIDE": 30
     }
   },
@@ -1725,6 +1725,29 @@
         "pipeline",
         "jql",
         "query"
+      ]
+    },
+    {
+      "jnl": "IMPL-TLR-SPEC-0001",
+      "name": "MCP Tool Roadmap & Auto-Tracking Pipeline",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "TASK",
+      "parent": "",
+      "location": "JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
+      "tags": [
+        "mcp",
+        "tools",
+        "roadmap",
+        "pipeline",
+        "starlog",
+        "dex",
+        "jip",
+        "jd",
+        "auto-tracking",
+        "council",
+        "index"
       ]
     },
     {

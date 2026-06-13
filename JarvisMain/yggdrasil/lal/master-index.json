@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 138,
+  "count": 139,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1361,6 +1361,26 @@
         "pipeline",
         "jql",
         "query"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MCP Tool Roadmap & Auto-Tracking Pipeline",
+      "jnl": "IMPL-TLR-SPEC-0001",
+      "location": "JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
+      "tags": [
+        "mcp",
+        "tools",
+        "roadmap",
+        "pipeline",
+        "starlog",
+        "dex",
+        "jip",
+        "jd",
+        "auto-tracking",
+        "council",
+        "index"
       ],
       "anchors": [],
       "state": "active"

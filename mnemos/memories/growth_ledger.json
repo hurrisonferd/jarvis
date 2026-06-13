@@ -1,42 +1,8 @@
 {
-  "updated": "2026-06-13T19:10:03.591230+00:00",
+  "updated": "2026-06-13T22:39:29.346527+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_182118",
-      "date": "2026-06-13",
-      "exchanges": 801,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Three good questions, and the third one \u2014 *within current limits* \u2014 is the discipline that makes them answerable. Let me hold all three to Supabase + "
-    },
     {
       "session_id": "20260613_182312",
       "date": "2026-06-13",
@@ -682,6 +648,40 @@
       ],
       "alignment": 1.0,
       "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 138 repo / 110 live \u00b7 desk 2 open \u00b7 15:08 EDT`\n\n**Omnivision granted \u2014 repo layer, live and dated** (`cd476dd`). Here's the wh"
+    },
+    {
+      "session_id": "20260613_223929",
+      "date": "2026-06-13",
+      "exchanges": 920,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 138 governed \u00b7 ID model fixed \u00b7 18:37 EDT`\n\nNo apology needed, Raven \u2014 the dialogue gaps aren't your lapse, they're the connec"
     }
   ]
 }
