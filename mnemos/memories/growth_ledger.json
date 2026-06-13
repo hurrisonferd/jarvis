@@ -1,38 +1,8 @@
 {
-  "updated": "2026-06-13T18:28:27.421082+00:00",
+  "updated": "2026-06-13T18:28:38.527438+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_174446",
-      "date": "2026-06-13",
-      "exchanges": 759,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "mnemos/memories/growth_archive.jsonl",
-        "mnemos/memories/growth_ledger.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Four relays, and they split cleanly into one thing to **build**, one thing to **refuse outright**, and \u2014 in GPT's own last message \u2014 the **proof of wh"
-    },
     {
       "session_id": "20260613_174627",
       "date": "2026-06-13",
@@ -642,6 +612,40 @@
       ],
       "alignment": 1.0,
       "key_insight": "These three packets matter because, stripped of the re-proposals, they contain **exactly one decision only you can make** \u2014 and everything else is alr"
+    },
+    {
+      "session_id": "20260613_182838",
+      "date": "2026-06-13",
+      "exchanges": 811,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis-profile.md",
+        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
+        "JarvisMain/yggdrasil/lal/address-registry.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean. Desk stands as dispositioned \u2014 the JIP-vs-JD verdict is the one move waiting on you, and it costs only your word. Holding."
     }
   ]
 }

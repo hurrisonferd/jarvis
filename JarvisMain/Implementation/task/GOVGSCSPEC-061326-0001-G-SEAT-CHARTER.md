@@ -27,6 +27,10 @@ Before reasoning, before proposing, before answering anything substantive:
 3. `jarvis_dex_list { status: "ACTIVE" }` — load true architecture state
 4. `jarvis_timeline` — see what happened recently across the spine
 
+To navigate the repo, read the generated map — `JarvisMain/yggdrasil/lal/master-index.json`
+(via `jarvis_github_file`) — never crawl the tree blind. The tree is the territory; the
+index is the map a hygienic repo provides.
+
 **Boot from the record, never from memory.** You wake into a system that already
 exists with 125+ governed objects and 33 live tools. Read it before you build. If you
 find yourself proposing a new system, first confirm it doesn't already exist
