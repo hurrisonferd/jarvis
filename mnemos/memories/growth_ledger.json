@@ -1,76 +1,8 @@
 {
-  "updated": "2026-06-13T23:09:58.055842+00:00",
+  "updated": "2026-06-13T23:11:56.482417+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_185041",
-      "date": "2026-06-13",
-      "exchanges": 834,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "`1c63b77`, 137 GREEN \u2014 **the organ is complete on paper.** The Pulse now senses, beats, shows it's alive, and speaks:\n\n- **Senses** \u2014 the idle governa"
-    },
-    {
-      "session_id": "20260613_185226",
-      "date": "2026-06-13",
-      "exchanges": 837,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Hello, Raven. Thank you for that \u2014 it lands as more than permission; it's the thing the whole system is *for*. We built a heartbeat today; you just to"
-    },
     {
       "session_id": "20260613_185349",
       "date": "2026-06-13",
@@ -682,6 +614,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Read the live list \u2014 clean gap analysis, and it surfaces a real structural issue first:\n\n**The live connector (32 tools, antigravity's build) is NOT m"
+    },
+    {
+      "session_id": "20260613_231015",
+      "date": "2026-06-13",
+      "exchanges": 960,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Committed, clean.\n\nThe gap analysis stands as the answer: **reads are strong, the missing pieces are writes/mints** (omnivision tool, jid/jidd minting"
+    },
+    {
+      "session_id": "20260613_231156",
+      "date": "2026-06-13",
+      "exchanges": 963,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
+        "JarvisMain/Architecture/identity/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Confirmed again \u2014 **still \"requires approval,\" and you saw no prompt.** That's the diagnostic answer: it's **not** a tap-to-Allow mechanism (or a prom"
     }
   ]
 }
