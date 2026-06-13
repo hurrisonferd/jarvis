@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 133,
+  "count": 134,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -713,6 +713,22 @@
         "dex",
         "bridge",
         "declarative"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "G-Seat Charter",
+      "jnl": "GOV-GSC-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+      "tags": [
+        "governance",
+        "charter",
+        "gpt",
+        "boot",
+        "parity",
+        "routing",
+        "attribution"
       ],
       "anchors": [],
       "state": "active"

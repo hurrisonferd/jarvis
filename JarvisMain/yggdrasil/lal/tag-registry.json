@@ -47,6 +47,9 @@
     "argent": [
       "ARCH-ARGT-BIO-0001"
     ],
+    "attribution": [
+      "GOV-GSC-SPEC-0001"
+    ],
     "audit": [
       "AUD-CHK-SPEC-0001",
       "AUD-FULL-REVW-0001",
@@ -63,6 +66,9 @@
     ],
     "bifrost": [
       "PROJ-JPL-JGPP-0001"
+    ],
+    "boot": [
+      "GOV-GSC-SPEC-0001"
     ],
     "bootstrap": [
       "PROJ-GDS-JGPP-0002"
@@ -105,6 +111,9 @@
       "GS-PRO-CORE-0001",
       "GS-SKD-CORE-0001",
       "GS-ZEU-CORE-0001"
+    ],
+    "charter": [
+      "GOV-GSC-SPEC-0001"
     ],
     "chorus": [
       "GOV-CHO-JD-0001"
@@ -324,6 +333,7 @@
       "GOV-CHO-JD-0001",
       "GOV-CON-CORE-0001",
       "GOV-DEX-SPEC-0001",
+      "GOV-GSC-SPEC-0001",
       "GOV-LC-SPEC-0001",
       "GOV-PAT-REG-0001",
       "GOV-PD-SPEC-0001",
@@ -344,7 +354,8 @@
     ],
     "gpt": [
       "ARCH-GPT-SPEC-0001",
-      "CONN-DEX-SPEC-0001"
+      "CONN-DEX-SPEC-0001",
+      "GOV-GSC-SPEC-0001"
     ],
     "grid": [
       "PROJ-GRD-BIO-0001"
@@ -525,6 +536,9 @@
     "pages": [
       "PROJ-RTO-JGPP-0001"
     ],
+    "parity": [
+      "GOV-GSC-SPEC-0001"
+    ],
     "patches": [
       "GOV-PAT-REG-0001",
       "GOV-PROC-CORE-0001"
@@ -602,6 +616,9 @@
     ],
     "root": [
       "ARCH-YGG-CORE-0001"
+    ],
+    "routing": [
+      "GOV-GSC-SPEC-0001"
     ],
     "runtime": [
       "ARCH-RT-SPEC-0001",
