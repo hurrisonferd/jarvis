@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-13T17:54:40.702766+00:00",
+  "updated": "2026-06-13T17:57:08.859585+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_230857",
-      "date": "2026-06-11",
-      "exchanges": 691,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Connector completeness landed \u2014 event #105. The full picture:\n\n**What you suspected vs what was true:** the serial resolver already handled every form"
-    },
-    {
-      "session_id": "20260611_231326",
-      "date": "2026-06-11",
-      "exchanges": 694,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Verified from this side \u2014 **field-for-field match.** `seq=4` in the live dex: `ARCH-JNL-CORE-0001 \u00b7 Jarvis Navigation Language \u00b7 ACTIVE` \u2014 even the od"
-    },
     {
       "session_id": "20260611_231340",
       "date": "2026-06-11",
@@ -632,6 +566,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Yes \u2014 greenlit, and the NLP layer you just described is the *retrieval spine* of the whole thing, so let me lock exactly what it is and what it needs."
+    },
+    {
+      "session_id": "20260613_175453",
+      "date": "2026-06-13",
+      "exchanges": 775,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "mnemos/memories/growth_archive.jsonl",
+        "mnemos/memories/growth_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean, pushed. Standing by on the one thing that unblocks Phase 0: **approve the supabase `get_edge_function` read** and I pull the live 33-tool "
+    },
+    {
+      "session_id": "20260613_175708",
+      "date": "2026-06-13",
+      "exchanges": 778,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "mnemos/memories/growth_archive.jsonl",
+        "mnemos/memories/growth_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Your instinct is correct, and it's diagnosable \u2014 let me give you the honest read, because this is the sharpest thing you've noticed all weekend.\n\n**Th"
     }
   ]
 }
