@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-13T17:42:06.756978+00:00",
+  "updated": "2026-06-13T17:44:46.894882+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_224256",
-      "date": "2026-06-11",
-      "exchanges": 672,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**The desk is flushed.** Every verdict landed, every landing has a receipt:\n\n| # | Item | Landed as |\n|---|---|---|\n| 1 | JC storage | `jc_objects` + "
-    },
-    {
-      "session_id": "20260611_224912",
-      "date": "2026-06-11",
-      "exchanges": 674,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**Raven (input summary):** We should be able to load any JD entry, and GPT gets full access. He recalls JD-1 loading earlier.\n\nBoth wishes are already"
-    },
     {
       "session_id": "20260611_225347",
       "date": "2026-06-11",
@@ -656,6 +590,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Read the repo end to end first \u2014 that's the honest place to start, and it's clean. Git across all branches, filesystem by mtime, intake lane: **nothin"
+    },
+    {
+      "session_id": "20260613_174335",
+      "date": "2026-06-13",
+      "exchanges": 756,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "mnemos/memories/growth_archive.jsonl",
+        "mnemos/memories/growth_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Three relays, one move underneath them: GPT is now proposing to insert **JGLF as a doctrine layer above Yggdrasil** and mark Yggdrasil \"superseded,\" p"
+    },
+    {
+      "session_id": "20260613_174446",
+      "date": "2026-06-13",
+      "exchanges": 759,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "mnemos/memories/growth_archive.jsonl",
+        "mnemos/memories/growth_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Four relays, and they split cleanly into one thing to **build**, one thing to **refuse outright**, and \u2014 in GPT's own last message \u2014 the **proof of wh"
     }
   ]
 }
