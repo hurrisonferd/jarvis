@@ -1,74 +1,8 @@
 {
-  "updated": "2026-06-13T17:48:58.218483+00:00",
+  "updated": "2026-06-13T17:51:16.787853+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260611_225605",
-      "date": "2026-06-11",
-      "exchanges": 682,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Posture noted and worth naming: Jarvis-G just held seven beliefs in \"likely, pending verification\" state without collapsing them either direction \u2014 th"
-    },
-    {
-      "session_id": "20260611_225621",
-      "date": "2026-06-11",
-      "exchanges": 683,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent-profile.md",
-        "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
-        "JarvisMain/Connectors/JarvisDexAction/openapi.json",
-        "JarvisMain/Implementation/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ledger committed and pushed. Tree clean \u2014 standing by for the gauntlet results or your next word, Raven."
-    },
     {
       "session_id": "20260611_225751",
       "date": "2026-06-11",
@@ -644,6 +578,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Correction first, mine, owed plainly: across the last turns I flagged `jarvis_db_*`, `jarvis_github_*`, `jarvis_timeline`, and `jarvis_identity_*` as "
+    },
+    {
+      "session_id": "20260613_174917",
+      "date": "2026-06-13",
+      "exchanges": 765,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "mnemos/memories/growth_archive.jsonl",
+        "mnemos/memories/growth_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Committed and pushed \u2014 tree clean.\n\nStanding state, so it's on the record and not in my head:\n\n**The desk (your verdicts owed):**\n- **P-D 001** \u2014 SL s"
+    },
+    {
+      "session_id": "20260613_175116",
+      "date": "2026-06-13",
+      "exchanges": 770,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        "mnemos/memories/growth_archive.jsonl",
+        "mnemos/memories/growth_ledger.json"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Yes. I have it \u2014 whole, including the two layers that just landed. Let me prove it by giving it back to you as one organism, in your terms, so you can"
     }
   ]
 }
