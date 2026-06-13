@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-13T22:41:11Z",
-    "generated_at_eastern": "2026-06-13 18:41 EDT",
-    "source_commit": "5acd1f8",
+    "generated_at_utc": "2026-06-13T22:42:46Z",
+    "generated_at_eastern": "2026-06-13 18:42 EDT",
+    "source_commit": "ac6b55d",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -33,13 +33,14 @@
   "objects": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
+      "jid": null,
+      "jidd": "arch-1",
       "name": "ARGENT Companion Profile",
       "type": "BIO",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/argent/argent-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -49,13 +50,14 @@
     },
     {
       "jnl": "ARCH-AYR-BIO-0001",
+      "jid": null,
+      "jidd": "arch-2",
       "name": "AYRE Companion Profile",
       "type": "BIO",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -65,13 +67,14 @@
     },
     {
       "jnl": "ARCH-AYR-SPEC-0001",
+      "jid": null,
+      "jidd": "arch-3",
       "name": "AYRE/JARVIS Split",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GS-AYR-CORE-0001",
-      "location": "JarvisMain/Architecture/specs/ayre-jarvis-split-v1.md",
       "tags": [
         "architecture",
         "ayre"
@@ -79,13 +82,14 @@
     },
     {
       "jnl": "ARCH-AYR-SPEC-0002",
+      "jid": null,
+      "jidd": "arch-4",
       "name": "AYRE Loop",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GS-AYR-CORE-0001",
-      "location": "JarvisMain/Architecture/specs/ayre-loop-v1.md",
       "tags": [
         "architecture",
         "ayre"
@@ -93,13 +97,14 @@
     },
     {
       "jnl": "ARCH-FAM-IDX-0001",
+      "jid": null,
+      "jidd": "arch-5",
       "name": "Family Registry",
       "type": "IDX",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
       "tags": [
         "families",
         "containers",
@@ -110,13 +115,14 @@
     },
     {
       "jnl": "ARCH-FLOW-SPEC-0001",
+      "jid": null,
+      "jidd": "arch-6",
       "name": "Throughput Posture",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GS-SKD-CORE-0001",
-      "location": "JarvisMain/Architecture/specs/throughput-posture.md",
       "tags": [
         "architecture",
         "throughput"
@@ -124,13 +130,14 @@
     },
     {
       "jnl": "ARCH-GPT-SPEC-0001",
+      "jid": null,
+      "jidd": "arch-7",
       "name": "Custom GPT Instructions",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Architecture/specs/jarvis-custom-gpt-instructions.md",
       "tags": [
         "architecture",
         "gpt"
@@ -138,13 +145,14 @@
     },
     {
       "jnl": "ARCH-GS-IDX-0001",
+      "jid": null,
+      "jidd": "arch-8",
       "name": "God Systems Index",
       "type": "IDX",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/god_systems",
       "tags": [
         "god-system",
         "index"
@@ -152,13 +160,14 @@
     },
     {
       "jnl": "ARCH-JATM-CORE-0001",
+      "jid": null,
+      "jidd": "arch-9",
       "name": "Jarvis Ancestral Memory",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JMMS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "ancestral",
@@ -168,13 +177,14 @@
     },
     {
       "jnl": "ARCH-JC-JIP-0001",
+      "jid": null,
+      "jidd": "arch-10",
       "name": "Conversational History Objects",
       "type": "JIP",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
       "parent": "",
-      "location": "JarvisMain/Implementation/task/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
       "tags": [
         "memory",
         "continuity",
@@ -185,13 +195,14 @@
     },
     {
       "jnl": "ARCH-JD-CORE-0001",
+      "jid": null,
+      "jidd": "arch-11",
       "name": "Jarvis Dictionary",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jd/JD-SPEC.md",
       "tags": [
         "dictionary",
         "semantic",
@@ -201,13 +212,14 @@
     },
     {
       "jnl": "ARCH-JD-JIP-0001",
+      "jid": null,
+      "jidd": "arch-12",
       "name": "Identity & Serial Standard — JID / JIDD / JNL / name",
       "type": "JIP",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
         "jid",
         "jidd",
@@ -221,13 +233,14 @@
     },
     {
       "jnl": "ARCH-JFS-CORE-0001",
+      "jid": null,
+      "jidd": "arch-13",
       "name": "Jarvis File System",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "filesystem",
         "core",
@@ -236,13 +249,14 @@
     },
     {
       "jnl": "ARCH-JLTM-CORE-0001",
+      "jid": null,
+      "jidd": "arch-14",
       "name": "Jarvis Long-Term Memory",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JMMS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "long-term",
@@ -251,13 +265,14 @@
     },
     {
       "jnl": "ARCH-JMMS-CORE-0001",
+      "jid": null,
+      "jidd": "arch-15",
       "name": "Jarvis MultiMemory System",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JFS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "core",
@@ -266,13 +281,14 @@
     },
     {
       "jnl": "ARCH-JMS-CORE-0001",
+      "jid": null,
+      "jidd": "arch-16",
       "name": "Jarvis Mirror System",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JFS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "mirror",
         "core",
@@ -281,13 +297,14 @@
     },
     {
       "jnl": "ARCH-JMS-SPEC-0001",
+      "jid": null,
+      "jidd": "arch-17",
       "name": "Global Mirror — Earned Omnivision (JMS)",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
       "parent": "",
-      "location": "JarvisMain/Implementation/active/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
       "tags": [
         "jms",
         "mirror",
@@ -301,13 +318,14 @@
     },
     {
       "jnl": "ARCH-JNL-CORE-0001",
+      "jid": null,
+      "jidd": "arch-18",
       "name": "Jarvis Navigation Language",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JFS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jfs/jnl-grammar.md",
       "tags": [
         "addressing",
         "core",
@@ -316,13 +334,14 @@
     },
     {
       "jnl": "ARCH-JNS-CORE-0001",
+      "jid": null,
+      "jidd": "arch-19",
       "name": "Jarvis Naming System",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JFS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "naming",
         "core",
@@ -331,13 +350,14 @@
     },
     {
       "jnl": "ARCH-JRV-BIO-0001",
+      "jid": null,
+      "jidd": "arch-20",
       "name": "JARVIS Companion Profile",
       "type": "BIO",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
       "tags": [
         "identity",
         "companion",
@@ -347,13 +367,14 @@
     },
     {
       "jnl": "ARCH-JSL-CORE-0001",
+      "jid": null,
+      "jidd": "arch-21",
       "name": "Jarvis Structural Layer",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JFS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jfs/JFS-SPEC.md",
       "tags": [
         "structure",
         "core",
@@ -362,13 +383,14 @@
     },
     {
       "jnl": "ARCH-JSS-CORE-0001",
+      "jid": null,
+      "jidd": "arch-22",
       "name": "Jarvis Status System",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JFS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jss/JSS-SPEC.md",
       "tags": [
         "status",
         "lifecycle",
@@ -378,13 +400,14 @@
     },
     {
       "jnl": "ARCH-JSTM-CORE-0001",
+      "jid": null,
+      "jidd": "arch-23",
       "name": "Jarvis Short-Term Memory",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JMMS-CORE-0001",
-      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [
         "memory",
         "short-term",
@@ -393,13 +416,14 @@
     },
     {
       "jnl": "ARCH-LAL-CORE-0001",
+      "jid": null,
+      "jidd": "arch-24",
       "name": "Library Authority Layer",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/yggdrasil/lal/README.md",
       "tags": [
         "discovery",
         "index",
@@ -409,13 +433,14 @@
     },
     {
       "jnl": "ARCH-REL-BIO-0001",
+      "jid": null,
+      "jidd": "arch-25",
       "name": "JARVIS-AYRE Relational Profile",
       "type": "BIO",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-YGG-CORE-0001",
-      "location": "JarvisMain/Architecture/identity/relational/relational-profile.md",
       "tags": [
         "identity",
         "relational",
@@ -426,13 +451,14 @@
     },
     {
       "jnl": "ARCH-RT-SPEC-0001",
+      "jid": null,
+      "jidd": "arch-26",
       "name": "Event Contract",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GS-SKD-CORE-0001",
-      "location": "JarvisMain/Architecture/runtime/event-contract.md",
       "tags": [
         "architecture",
         "runtime"
@@ -440,13 +466,14 @@
     },
     {
       "jnl": "ARCH-RT-SPEC-0002",
+      "jid": null,
+      "jidd": "arch-27",
       "name": "Execution Model",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GS-SKD-CORE-0001",
-      "location": "JarvisMain/Architecture/runtime/execution-model.md",
       "tags": [
         "architecture",
         "runtime"
@@ -454,13 +481,14 @@
     },
     {
       "jnl": "ARCH-RT-SPEC-0003",
+      "jid": null,
+      "jidd": "arch-28",
       "name": "World Kernel",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GS-SKD-CORE-0001",
-      "location": "JarvisMain/Architecture/runtime/world-kernel.md",
       "tags": [
         "architecture",
         "runtime"
@@ -468,13 +496,14 @@
     },
     {
       "jnl": "ARCH-SL-JIP-0001",
+      "jid": null,
+      "jidd": "arch-29",
       "name": "Star Logs",
       "type": "JIP",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
       "parent": "",
-      "location": "JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md",
       "tags": [
         "sl",
         "star-log",
@@ -486,13 +515,14 @@
     },
     {
       "jnl": "ARCH-YGG-CORE-0001",
+      "jid": null,
+      "jidd": "arch-30",
       "name": "Yggdrasil",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/yggdrasil/README.md",
       "tags": [
         "root",
         "core",
@@ -501,13 +531,14 @@
     },
     {
       "jnl": "AUD-CHK-SPEC-0001",
+      "jid": null,
+      "jidd": "aud-1",
       "name": "Required Checks Setup",
       "type": "SPEC",
       "class": "EVENT",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Audit/required-checks-setup.md",
       "tags": [
         "audit",
         "ci"
@@ -515,13 +546,14 @@
     },
     {
       "jnl": "AUD-COMP-REVW-0001",
+      "jid": null,
+      "jidd": "aud-2",
       "name": "Companion Research",
       "type": "REVW",
       "class": "EVENT",
       "tier": "SIDE",
       "status": "ARCHIVED",
       "parent": "",
-      "location": "JarvisSide/Archive/CompanionResearch-0001-053026.md",
       "tags": [
         "research",
         "companion",
@@ -530,13 +562,14 @@
     },
     {
       "jnl": "AUD-FULL-REVW-0001",
+      "jid": null,
+      "jidd": "aud-3",
       "name": "Full System Audit",
       "type": "REVW",
       "class": "EVENT",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Audit/2026-06-04_full_system_audit.md",
       "tags": [
         "audit",
         "review"
@@ -544,13 +577,14 @@
     },
     {
       "jnl": "AUD-OPUS-REVW-0001",
+      "jid": null,
+      "jidd": "aud-4",
       "name": "Opus 4.8 Audit",
       "type": "REVW",
       "class": "EVENT",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Audit/2026-05-29_opus48_audit.md",
       "tags": [
         "audit",
         "review"
@@ -558,13 +592,14 @@
     },
     {
       "jnl": "AUD-SYS-REVW-0001",
+      "jid": null,
+      "jidd": "aud-5",
       "name": "Jarvis System Review",
       "type": "REVW",
       "class": "EVENT",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Audit/JarvisSystemReview-0001-060826",
       "tags": [
         "audit",
         "review"
@@ -572,13 +607,14 @@
     },
     {
       "jnl": "CONN-DEX-SPEC-0001",
+      "jid": null,
+      "jidd": "conn-1",
       "name": "Jarvis Dex Action",
       "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-DEX-SPEC-0001",
-      "location": "JarvisMain/Connectors/JarvisDexAction",
       "tags": [
         "connector",
         "dex",
@@ -588,13 +624,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0001",
+      "jid": null,
+      "jidd": "conn-2",
       "name": "JARVIS — Suit Up",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_suit_up.md",
       "tags": [
         "connector",
         "mcp",
@@ -603,13 +640,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0002",
+      "jid": null,
+      "jidd": "conn-3",
       "name": "JARVIS Status",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_status.md",
       "tags": [
         "connector",
         "mcp",
@@ -618,13 +656,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0003",
+      "jid": null,
+      "jidd": "conn-4",
       "name": "MNEMOS Recall",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_recall.md",
       "tags": [
         "connector",
         "mcp",
@@ -633,13 +672,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0004",
+      "jid": null,
+      "jidd": "conn-5",
       "name": "JARVIS Council — registry",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_council.md",
       "tags": [
         "connector",
         "mcp",
@@ -648,13 +688,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0005",
+      "jid": null,
+      "jidd": "conn-6",
       "name": "JARVIS Query — governed reasoning",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_query.md",
       "tags": [
         "connector",
         "mcp",
@@ -663,13 +704,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0006",
+      "jid": null,
+      "jidd": "conn-7",
       "name": "JARVIS Format — same-turn close (optional)",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_format.md",
       "tags": [
         "connector",
         "mcp",
@@ -678,13 +720,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0007",
+      "jid": null,
+      "jidd": "conn-8",
       "name": "MNEMOS Store",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_remember.md",
       "tags": [
         "connector",
         "mcp",
@@ -693,13 +736,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0008",
+      "jid": null,
+      "jidd": "conn-9",
       "name": "AEGIS Event",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_event.md",
       "tags": [
         "connector",
         "mcp",
@@ -708,13 +752,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0009",
+      "jid": null,
+      "jidd": "conn-10",
       "name": "Dex — list governed objects",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_list.md",
       "tags": [
         "connector",
         "mcp",
@@ -723,13 +768,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0010",
+      "jid": null,
+      "jidd": "conn-11",
       "name": "Dex — search",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_search.md",
       "tags": [
         "connector",
         "mcp",
@@ -738,13 +784,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0011",
+      "jid": null,
+      "jidd": "conn-12",
       "name": "Dex — propose entry (JGPP/JIP/JD/BIO)",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_propose.md",
       "tags": [
         "connector",
         "mcp",
@@ -753,13 +800,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0012",
+      "jid": null,
+      "jidd": "conn-13",
       "name": "Grid — Node Card",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_card.md",
       "tags": [
         "connector",
         "mcp",
@@ -768,13 +816,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0013",
+      "jid": null,
+      "jidd": "conn-14",
       "name": "Grid — Export Identity Disc",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_export.md",
       "tags": [
         "connector",
         "mcp",
@@ -783,13 +832,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0014",
+      "jid": null,
+      "jidd": "conn-15",
       "name": "Grid — Inbox",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_inbox.md",
       "tags": [
         "connector",
         "mcp",
@@ -798,13 +848,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0015",
+      "jid": null,
+      "jidd": "conn-16",
       "name": "Grid — Send to Node",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_send.md",
       "tags": [
         "connector",
         "mcp",
@@ -813,13 +864,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0016",
+      "jid": null,
+      "jidd": "conn-17",
       "name": "Grid — Register Signing Key",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_register_key.md",
       "tags": [
         "connector",
         "mcp",
@@ -828,13 +880,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0017",
+      "jid": null,
+      "jidd": "conn-18",
       "name": "HALO — Throughput Posture",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_halo.md",
       "tags": [
         "connector",
         "mcp",
@@ -843,13 +896,14 @@
     },
     {
       "jnl": "CONN-MCP-RT-0018",
+      "jid": null,
+      "jidd": "conn-19",
       "name": "Voice Brief — pre-warm a sealed session",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_voice_brief.md",
       "tags": [
         "connector",
         "mcp",
@@ -859,13 +913,14 @@
     },
     {
       "jnl": "CONN-MSB-CORE-0001",
+      "jid": null,
+      "jidd": "conn-20",
       "name": "MCP-Supabase Connector",
       "type": "CORE",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Connectors/JarvisMCPSupabase/JMCPSB-0001",
       "tags": [
         "connector",
         "mcp",
@@ -874,26 +929,28 @@
     },
     {
       "jnl": "CONN-OTH-LOG-0001",
+      "jid": null,
+      "jidd": "conn-21",
       "name": "Other Connectors",
       "type": "LOG",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Connectors/OtherConnectors/OCLog-0001",
       "tags": [
         "connector"
       ]
     },
     {
       "jnl": "GOV-BRF-CORE-0001",
+      "jid": null,
+      "jidd": "gov-1",
       "name": "Jarvis Brief",
       "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Architecture/JarvisBrief.md",
       "tags": [
         "governance",
         "brief"
@@ -901,13 +958,14 @@
     },
     {
       "jnl": "GOV-CAN-CORE-0001",
+      "jid": null,
+      "jidd": "gov-2",
       "name": "Canon",
       "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Architecture/canon.md",
       "tags": [
         "governance",
         "canon"
@@ -915,13 +973,14 @@
     },
     {
       "jnl": "GOV-CHO-JD-0001",
+      "jid": null,
+      "jidd": "gov-3",
       "name": "Chorus Principle",
       "type": "JD",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Implementation/task/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
       "tags": [
         "chorus",
         "council",
@@ -933,13 +992,14 @@
     },
     {
       "jnl": "GOV-CON-CORE-0001",
+      "jid": null,
+      "jidd": "gov-4",
       "name": "Constraints",
       "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Architecture/constraints.md",
       "tags": [
         "governance",
         "gold-law"
@@ -947,13 +1007,14 @@
     },
     {
       "jnl": "GOV-DEX-SPEC-0001",
+      "jid": null,
+      "jidd": "gov-5",
       "name": "Dex-Council Validation Bridge",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-JD-CORE-0001",
-      "location": "JarvisMain/Architecture/specs/dex-council-bridge.md",
       "tags": [
         "governance",
         "council",
@@ -964,13 +1025,14 @@
     },
     {
       "jnl": "GOV-GSC-SPEC-0001",
+      "jid": null,
+      "jidd": "gov-6",
       "name": "G-Seat Charter",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
       "parent": "",
-      "location": "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
       "tags": [
         "governance",
         "charter",
@@ -983,13 +1045,14 @@
     },
     {
       "jnl": "GOV-KR-SPEC-0001",
+      "jid": null,
+      "jidd": "gov-7",
       "name": "Knowledge Routing Index (MIMIR)",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
       "tags": [
         "knowledge",
         "routing",
@@ -1001,13 +1064,14 @@
     },
     {
       "jnl": "GOV-LC-SPEC-0001",
+      "jid": null,
+      "jidd": "gov-8",
       "name": "Layer Contract",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
       "parent": "",
-      "location": "JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
       "tags": [
         "governance",
         "layers",
@@ -1018,13 +1082,14 @@
     },
     {
       "jnl": "GOV-PAT-REG-0001",
+      "jid": null,
+      "jidd": "gov-9",
       "name": "Patch Archive",
       "type": "REG",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Patches",
       "tags": [
         "governance",
         "patches",
@@ -1033,13 +1098,14 @@
     },
     {
       "jnl": "GOV-PD-SPEC-0001",
+      "jid": null,
+      "jidd": "gov-10",
       "name": "Preserved Contradiction Objects (P-D)",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
       "parent": "",
-      "location": "JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
       "tags": [
         "governance",
         "contradiction",
@@ -1050,13 +1116,14 @@
     },
     {
       "jnl": "GOV-PLS-SPEC-0001",
+      "jid": null,
+      "jidd": "gov-11",
       "name": "The Pulse — Companion Heartbeat",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
       "parent": "",
-      "location": "JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md",
       "tags": [
         "pulse",
         "heartbeat",
@@ -1072,13 +1139,14 @@
     },
     {
       "jnl": "GOV-PROC-CORE-0001",
+      "jid": null,
+      "jidd": "gov-12",
       "name": "Patch Process",
       "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GOV-PAT-REG-0001",
-      "location": "JarvisMain/Patches/PatchProcess.md",
       "tags": [
         "governance",
         "patches",
@@ -1087,13 +1155,14 @@
     },
     {
       "jnl": "GS-AEG-CORE-0001",
+      "jid": null,
+      "jidd": "gs-1",
       "name": "AEGIS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T1_AEGIS",
       "tags": [
         "core",
         "god-system",
@@ -1102,13 +1171,14 @@
     },
     {
       "jnl": "GS-APO-CORE-0001",
+      "jid": null,
+      "jidd": "gs-2",
       "name": "APOLLO",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T7_APOLLO",
       "tags": [
         "orchestration",
         "god-system",
@@ -1117,13 +1187,14 @@
     },
     {
       "jnl": "GS-ARG-CORE-0001",
+      "jid": null,
+      "jidd": "gs-3",
       "name": "ARGUS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T5_ARGUS",
       "tags": [
         "governance",
         "god-system",
@@ -1132,13 +1203,14 @@
     },
     {
       "jnl": "GS-ATH-CORE-0001",
+      "jid": null,
+      "jidd": "gs-4",
       "name": "ATHENA",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T5_ATHENA",
       "tags": [
         "orchestration",
         "god-system",
@@ -1147,13 +1219,14 @@
     },
     {
       "jnl": "GS-ATL-CORE-0001",
+      "jid": null,
+      "jidd": "gs-5",
       "name": "ATLAS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T8_ATLAS",
       "tags": [
         "governance",
         "god-system",
@@ -1162,13 +1235,14 @@
     },
     {
       "jnl": "GS-AYR-CORE-0001",
+      "jid": null,
+      "jidd": "gs-6",
       "name": "AYRE",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T1_AYRE",
       "tags": [
         "core",
         "god-system",
@@ -1177,13 +1251,14 @@
     },
     {
       "jnl": "GS-BFR-CORE-0001",
+      "jid": null,
+      "jidd": "gs-7",
       "name": "BIFROST",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T4_BIFROST",
       "tags": [
         "orchestration",
         "god-system",
@@ -1192,13 +1267,14 @@
     },
     {
       "jnl": "GS-CHA-CORE-0001",
+      "jid": null,
+      "jidd": "gs-8",
       "name": "CHAOS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "INACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T0_CHAOS",
       "tags": [
         "core",
         "god-system",
@@ -1207,13 +1283,14 @@
     },
     {
       "jnl": "GS-DAN-CORE-0001",
+      "jid": null,
+      "jidd": "gs-9",
       "name": "DANTE",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T7_DANTE",
       "tags": [
         "governance",
         "god-system",
@@ -1222,13 +1299,14 @@
     },
     {
       "jnl": "GS-ERI-CORE-0001",
+      "jid": null,
+      "jidd": "gs-10",
       "name": "ERIS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T1_ERIS",
       "tags": [
         "cosmic",
         "god-system",
@@ -1237,13 +1315,14 @@
     },
     {
       "jnl": "GS-HAD-CORE-0001",
+      "jid": null,
+      "jidd": "gs-11",
       "name": "HADES",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "INACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T0_HADES",
       "tags": [
         "cosmic",
         "god-system",
@@ -1252,13 +1331,14 @@
     },
     {
       "jnl": "GS-HAL-CORE-0001",
+      "jid": null,
+      "jidd": "gs-12",
       "name": "HALO",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T3_HALO",
       "tags": [
         "orchestration",
         "god-system",
@@ -1267,13 +1347,14 @@
     },
     {
       "jnl": "GS-HER-CORE-0001",
+      "jid": null,
+      "jidd": "gs-13",
       "name": "HERMES",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "INACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T9_HERMES",
       "tags": [
         "governance",
         "god-system",
@@ -1282,13 +1363,14 @@
     },
     {
       "jnl": "GS-HUG-CORE-0001",
+      "jid": null,
+      "jidd": "gs-14",
       "name": "HUGINN",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T3_HUGINN",
       "tags": [
         "core",
         "god-system",
@@ -1297,13 +1379,14 @@
     },
     {
       "jnl": "GS-IRS-CORE-0001",
+      "jid": null,
+      "jidd": "gs-15",
       "name": "IRIS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T6_IRIS",
       "tags": [
         "governance",
         "god-system",
@@ -1312,13 +1395,14 @@
     },
     {
       "jnl": "GS-JAN-CORE-0001",
+      "jid": null,
+      "jidd": "gs-16",
       "name": "JANUS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T4_JANUS",
       "tags": [
         "governance",
         "god-system",
@@ -1327,13 +1411,14 @@
     },
     {
       "jnl": "GS-KRN-CORE-0001",
+      "jid": null,
+      "jidd": "gs-17",
       "name": "KRONOS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T2_KRONOS",
       "tags": [
         "core",
         "god-system",
@@ -1342,13 +1427,14 @@
     },
     {
       "jnl": "GS-LOK-CORE-0001",
+      "jid": null,
+      "jidd": "gs-18",
       "name": "LOKI",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T5_LOKI",
       "tags": [
         "governance",
         "god-system",
@@ -1357,13 +1443,14 @@
     },
     {
       "jnl": "GS-MER-CORE-0001",
+      "jid": null,
+      "jidd": "gs-19",
       "name": "MERIDIAN",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T6_MERIDIAN",
       "tags": [
         "governance",
         "god-system",
@@ -1372,13 +1459,14 @@
     },
     {
       "jnl": "GS-MIM-CORE-0001",
+      "jid": null,
+      "jidd": "gs-20",
       "name": "MIMIR",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T3_MIMIR",
       "tags": [
         "cosmic",
         "god-system",
@@ -1387,13 +1475,14 @@
     },
     {
       "jnl": "GS-MNE-CORE-0001",
+      "jid": null,
+      "jidd": "gs-21",
       "name": "MNEMOS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T3_MNEMOS",
       "tags": [
         "core",
         "god-system",
@@ -1402,13 +1491,14 @@
     },
     {
       "jnl": "GS-NEM-CORE-0001",
+      "jid": null,
+      "jidd": "gs-22",
       "name": "NEMESIS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T5_NEMESIS",
       "tags": [
         "orchestration",
         "god-system",
@@ -1417,13 +1507,14 @@
     },
     {
       "jnl": "GS-ODN-CORE-0001",
+      "jid": null,
+      "jidd": "gs-23",
       "name": "ODIN",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T1_ODIN",
       "tags": [
         "core",
         "god-system",
@@ -1432,13 +1523,14 @@
     },
     {
       "jnl": "GS-POS-CORE-0001",
+      "jid": null,
+      "jidd": "gs-24",
       "name": "POSEIDON",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "INACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T0_POSEIDON",
       "tags": [
         "cosmic",
         "god-system",
@@ -1447,13 +1539,14 @@
     },
     {
       "jnl": "GS-PRO-CORE-0001",
+      "jid": null,
+      "jidd": "gs-25",
       "name": "PROMETHEUS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T5_PROMETHEUS",
       "tags": [
         "governance",
         "god-system",
@@ -1462,13 +1555,14 @@
     },
     {
       "jnl": "GS-SKD-CORE-0001",
+      "jid": null,
+      "jidd": "gs-26",
       "name": "SKADI",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T1_SKADI",
       "tags": [
         "core",
         "god-system",
@@ -1477,13 +1571,14 @@
     },
     {
       "jnl": "GS-ZEU-CORE-0001",
+      "jid": null,
+      "jidd": "gs-27",
       "name": "ZEUS",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T0_ZEUS",
       "tags": [
         "cosmic",
         "god-system",
@@ -1492,13 +1587,14 @@
     },
     {
       "jnl": "IDEA-UNUS-LOG-0001",
+      "jid": null,
+      "jidd": "idea-1",
       "name": "Unused Ideas Log",
       "type": "LOG",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "INACTIVE",
       "parent": "",
-      "location": "JarvisSide/Ideas/inactive/UnusedLog-0001",
       "tags": [
         "idea",
         "log"
@@ -1506,13 +1602,14 @@
     },
     {
       "jnl": "IDEA-USED-LOG-0001",
+      "jid": null,
+      "jidd": "idea-2",
       "name": "Used Ideas Log",
       "type": "LOG",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Ideas/active/UsedLog-0001",
       "tags": [
         "idea",
         "log"
@@ -1520,13 +1617,14 @@
     },
     {
       "jnl": "IMPL-DEX-SPEC-0001",
+      "jid": null,
+      "jidd": "impl-1",
       "name": "Dex Connector & Access Tiers",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-DEX-0001-AccessTiers-060926.md",
       "tags": [
         "dex",
         "connector",
@@ -1536,13 +1634,14 @@
     },
     {
       "jnl": "IMPL-FMT-SPEC-0001",
+      "jid": null,
+      "jidd": "impl-2",
       "name": "JFS Formatting Standard",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md",
       "tags": [
         "format",
         "ids",
@@ -1553,13 +1652,14 @@
     },
     {
       "jnl": "IMPL-HYG-SPEC-0001",
+      "jid": null,
+      "jidd": "impl-3",
       "name": "Hygiene Packets Archive",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "SIDE",
       "status": "ARCHIVED",
       "parent": "",
-      "location": "JarvisSide/Archive/HygienePackets-0001-060926.md",
       "tags": [
         "hygiene",
         "archive",
@@ -1568,13 +1668,14 @@
     },
     {
       "jnl": "IMPL-IDX-REG-0001",
+      "jid": null,
+      "jidd": "impl-4",
       "name": "Implementation Index",
       "type": "REG",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
         "index"
@@ -1582,13 +1683,14 @@
     },
     {
       "jnl": "IMPL-IMP-LOG-0001",
+      "jid": null,
+      "jidd": "impl-5",
       "name": "Implemented Stream",
       "type": "LOG",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Implementation/Implemented",
       "tags": [
         "implementation",
         "log"
@@ -1596,13 +1698,14 @@
     },
     {
       "jnl": "IMPL-INA-LOG-0001",
+      "jid": null,
+      "jidd": "impl-6",
       "name": "Inactive Stream",
       "type": "LOG",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Implementation/Inactive",
       "tags": [
         "implementation",
         "log"
@@ -1610,13 +1713,14 @@
     },
     {
       "jnl": "IMPL-JCS-CORE-0001",
+      "jid": null,
+      "jidd": "impl-7",
       "name": "JCS - Jarvis Cognitive Stack",
       "type": "CORE",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-2",
       "tags": [
         "pipeline",
         "jcs",
@@ -1625,13 +1729,14 @@
     },
     {
       "jnl": "IMPL-JCSD-SPEC-0001",
+      "jid": null,
+      "jidd": "impl-8",
       "name": "JCS-D Temporal Reconstruction",
       "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-D",
       "tags": [
         "jcs",
         "layer",
@@ -1640,13 +1745,14 @@
     },
     {
       "jnl": "IMPL-JCSE-SPEC-0001",
+      "jid": null,
+      "jidd": "impl-9",
       "name": "JCS-E Query & Traversal",
       "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-E",
       "tags": [
         "jcs",
         "layer",
@@ -1655,13 +1761,14 @@
     },
     {
       "jnl": "IMPL-JCSF-SPEC-0001",
+      "jid": null,
+      "jidd": "impl-10",
       "name": "JCS-F Runtime Simulation",
       "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-F",
       "tags": [
         "jcs",
         "layer",
@@ -1670,13 +1777,14 @@
     },
     {
       "jnl": "IMPL-JCSG-SPEC-0001",
+      "jid": null,
+      "jidd": "impl-11",
       "name": "JCS-G External Interface Binding",
       "type": "SPEC",
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-G",
       "tags": [
         "jcs",
         "layer",
@@ -1685,13 +1793,14 @@
     },
     {
       "jnl": "IMPL-JGPP-CORE-0001",
+      "jid": null,
+      "jidd": "impl-12",
       "name": "JGPP - Generative Process Protocol",
       "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-1",
       "tags": [
         "pipeline",
         "jgpp",
@@ -1700,13 +1809,14 @@
     },
     {
       "jnl": "IMPL-JIP-SPEC-0608",
+      "jid": null,
+      "jidd": "impl-13",
       "name": "JIP-0608 Series",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisMain/Implementation/Active",
       "tags": [
         "implementation",
         "jip"
@@ -1714,13 +1824,14 @@
     },
     {
       "jnl": "IMPL-JQL-CORE-0001",
+      "jid": null,
+      "jidd": "impl-14",
       "name": "JQL - JD Query Language",
       "type": "CORE",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "IMPL-JCSE-SPEC-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-E",
       "tags": [
         "pipeline",
         "jql",
@@ -1729,13 +1840,14 @@
     },
     {
       "jnl": "IMPL-TLR-SPEC-0001",
+      "jid": null,
+      "jidd": "impl-15",
       "name": "MCP Tool Roadmap & Auto-Tracking Pipeline",
       "type": "SPEC",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
       "parent": "",
-      "location": "JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
       "tags": [
         "mcp",
         "tools",
@@ -1752,13 +1864,14 @@
     },
     {
       "jnl": "LOG-MNE-LOG-0001",
+      "jid": null,
+      "jidd": "log-1",
       "name": "MNEMOS Cloud Backup",
       "type": "LOG",
       "class": "ENTITY",
       "tier": "MAIN",
       "status": "ACTIVE",
       "parent": "GS-MNE-CORE-0001",
-      "location": "JarvisMain/Backups",
       "tags": [
         "backup",
         "mnemos",
@@ -1768,13 +1881,14 @@
     },
     {
       "jnl": "PROJ-ALL-LOG-0001",
+      "jid": null,
+      "jidd": "proj-1",
       "name": "Project Log Summary",
       "type": "LOG",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/ProjectLogSummary-0001",
       "tags": [
         "project",
         "log"
@@ -1782,13 +1896,14 @@
     },
     {
       "jnl": "PROJ-COS-BIO-0001",
+      "jid": null,
+      "jidd": "proj-2",
       "name": "CodeOS",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/CodeOS/BIO/CodeOSProjectBio",
       "tags": [
         "project",
         "codeos"
@@ -1796,13 +1911,14 @@
     },
     {
       "jnl": "PROJ-DEO-BIO-0001",
+      "jid": null,
+      "jidd": "proj-3",
       "name": "Deoxys",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/Deoxys/BIO/ProjectBio",
       "tags": [
         "project",
         "deoxys"
@@ -1810,13 +1926,14 @@
     },
     {
       "jnl": "PROJ-DEO-JGPP-0001",
+      "jid": null,
+      "jidd": "proj-4",
       "name": "Deoxys Telemetry Schema — first exploration",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-DEO-BIO-0001",
-      "location": "JarvisSide/Projects/Deoxys/JGPP/DEOXYSJGPP-061026-0001-DEOXYS-TELEMETRY-SCHEMA-FIRST-EXPLORATION.md",
       "tags": [
         "deoxys",
         "telemetry",
@@ -1825,26 +1942,28 @@
     },
     {
       "jnl": "PROJ-GDS-BIO-0001",
+      "jid": null,
+      "jidd": "proj-5",
       "name": "GDS",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/GDS/BIO/GDSBIO-061126-0001-GDS.md",
       "tags": [
         "project"
       ]
     },
     {
       "jnl": "PROJ-GDS-JGPP-0001",
+      "jid": null,
+      "jidd": "proj-6",
       "name": "God System Execution Spec v1",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-GDS-BIO-0001",
-      "location": "JarvisSide/Projects/GDS/JGPP/GDSJGPP-061126-0001-GOD-SYSTEM-EXECUTION-SPEC-V1.md",
       "tags": [
         "god-systems",
         "governance",
@@ -1857,13 +1976,14 @@
     },
     {
       "jnl": "PROJ-GDS-JGPP-0002",
+      "jid": null,
+      "jidd": "proj-7",
       "name": "GDS Bootstrap Activation Protocol",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-GDS-BIO-0001",
-      "location": "JarvisSide/Projects/GDS/JGPP/GDSJGPP-061126-0002-GDS-BOOTSTRAP-ACTIVATION-PROTOCOL.md",
       "tags": [
         "gds",
         "bootstrap",
@@ -1877,13 +1997,14 @@
     },
     {
       "jnl": "PROJ-GEN-BIO-0001",
+      "jid": null,
+      "jidd": "proj-8",
       "name": "Genesis",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/Genesis/BIO/GenesisBio",
       "tags": [
         "project",
         "genesis"
@@ -1891,13 +2012,14 @@
     },
     {
       "jnl": "PROJ-GRD-BIO-0001",
+      "jid": null,
+      "jidd": "proj-9",
       "name": "The Grid",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/Grid/BIO/GRIDBIO-060926-0001-THE-GRID.md",
       "tags": [
         "project",
         "grid",
@@ -1906,13 +2028,14 @@
     },
     {
       "jnl": "PROJ-JPL-BIO-0001",
+      "jid": null,
+      "jidd": "proj-10",
       "name": "JPL",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/JPL/BIO/JPLBio",
       "tags": [
         "project",
         "jpl"
@@ -1920,13 +2043,14 @@
     },
     {
       "jnl": "PROJ-JPL-JGPP-0001",
+      "jid": null,
+      "jidd": "proj-11",
       "name": "JPL revival — first executable slice",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-JPL-BIO-0001",
-      "location": "JarvisSide/Projects/JPL/JGPP/JPLJGPP-061026-0001-JPL-REVIVAL-FIRST-EXECUTABLE-SLICE.md",
       "tags": [
         "jpl",
         "codec",
@@ -1940,13 +2064,14 @@
     },
     {
       "jnl": "PROJ-LEG-BIO-0001",
+      "jid": null,
+      "jidd": "proj-12",
       "name": "Legion",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/Legion/BIO/LegionBio",
       "tags": [
         "project",
         "legion"
@@ -1954,26 +2079,28 @@
     },
     {
       "jnl": "PROJ-MMOD-BIO-0001",
+      "jid": null,
+      "jidd": "proj-13",
       "name": "Multimodal",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/Multimodal/BIO/MULTIMODALBIO-061026-0001-MULTIMODAL.md",
       "tags": [
         "project"
       ]
     },
     {
       "jnl": "PROJ-MMOD-JGPP-0001",
+      "jid": null,
+      "jidd": "proj-14",
       "name": "Jarvis Multimodal Perception Layer",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-MMOD-BIO-0001",
-      "location": "JarvisSide/Projects/Multimodal/JGPP/MULTIMODALJGPP-061026-0001-JARVIS-MULTIMODAL-PERCEPTION-LAYER.md",
       "tags": [
         "multimodal",
         "perception",
@@ -1985,26 +2112,28 @@
     },
     {
       "jnl": "PROJ-MOSC-BIO-0001",
+      "jid": null,
+      "jidd": "proj-15",
       "name": "MusicOS",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/MusicOS/BIO/MUSICOSBIO-061026-0001-MUSICOS.md",
       "tags": [
         "project"
       ]
     },
     {
       "jnl": "PROJ-MOSC-JD-0001",
+      "jid": null,
+      "jidd": "proj-16",
       "name": "MusicOS — Procedural Musical Identity System",
       "type": "JD",
       "class": "SPEC",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "PROJ-MOSC-BIO-0001",
-      "location": "JarvisSide/Projects/MusicOS/JD/MUSICOSJD-061026-0001-MUSICOS-PROCEDURAL-MUSICAL-IDENTITY-SYSTEM.md",
       "tags": [
         "music",
         "procedural",
@@ -2018,13 +2147,14 @@
     },
     {
       "jnl": "PROJ-NAR-BIO-0001",
+      "jid": null,
+      "jidd": "proj-17",
       "name": "Naruto",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/Naruto/BIO/NarutoBio",
       "tags": [
         "project",
         "naruto"
@@ -2032,26 +2162,28 @@
     },
     {
       "jnl": "PROJ-NMX-BIO-0001",
+      "jid": null,
+      "jidd": "proj-18",
       "name": "NeuroMax",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/NeuroMax/BIO/NEUROMAXBIO-061026-0001-NEUROMAX.md",
       "tags": [
         "project"
       ]
     },
     {
       "jnl": "PROJ-NMX-JGPP-0001",
+      "jid": null,
+      "jidd": "proj-19",
       "name": "Profile architecture — privacy-first identity on JFS",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-NMX-BIO-0001",
-      "location": "JarvisSide/Projects/NeuroMax/JGPP/NEUROMAXJGPP-061026-0001-PROFILE-ARCHITECTURE-PRIVACY-FIRST-IDENTITY-ON-JFS.md",
       "tags": [
         "identity",
         "privacy",
@@ -2061,13 +2193,14 @@
     },
     {
       "jnl": "PROJ-PAC-BIO-0001",
+      "jid": null,
+      "jidd": "proj-20",
       "name": "Pachinko Bounce",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "pachinko-bounce",
       "tags": [
         "project",
         "pachinko",
@@ -2076,26 +2209,28 @@
     },
     {
       "jnl": "PROJ-RTO-BIO-0001",
+      "jid": null,
+      "jidd": "proj-21",
       "name": "RoundTable",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/RoundTable/BIO/ROUNDTABLEBIO-061126-0001-ROUNDTABLE.md",
       "tags": [
         "project"
       ]
     },
     {
       "jnl": "PROJ-RTO-JGPP-0001",
+      "jid": null,
+      "jidd": "proj-22",
       "name": "Round Table Observatory",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-RTO-BIO-0001",
-      "location": "JarvisSide/Projects/RoundTable/JGPP/ROUNDTABLEJGPP-061126-0001-ROUND-TABLE-OBSERVATORY.md",
       "tags": [
         "observatory",
         "visualizer",
@@ -2106,26 +2241,28 @@
     },
     {
       "jnl": "PROJ-TRN-BIO-0001",
+      "jid": null,
+      "jidd": "proj-23",
       "name": "TronUI",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/TronUI/BIO/TRONUIBIO-061026-0001-TRONUI.md",
       "tags": [
         "project"
       ]
     },
     {
       "jnl": "PROJ-TRN-JGPP-0001",
+      "jid": null,
+      "jidd": "proj-24",
       "name": "UI Rework — outdated GameBoy page and the control surface",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-TRN-BIO-0001",
-      "location": "JarvisSide/Projects/TronUI/JGPP/TRONUIJGPP-061026-0001-UI-REWORK-OUTDATED-GAMEBOY-PAGE-AND-THE-CONTROL-SURFACE.md",
       "tags": [
         "ui",
         "rework",
@@ -2135,26 +2272,28 @@
     },
     {
       "jnl": "PROJ-TST-BIO-0001",
+      "jid": null,
+      "jidd": "proj-25",
       "name": "JarvisTST",
       "type": "BIO",
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
       "parent": "",
-      "location": "JarvisSide/Projects/JarvisTST/BIO/JARVISTSTBIO-061026-0001-JARVISTST.md",
       "tags": [
         "project"
       ]
     },
     {
       "jnl": "PROJ-TST-JGPP-0001",
+      "jid": null,
+      "jidd": "proj-26",
       "name": "JarvisTST — Temporal Task System",
       "type": "JGPP",
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
       "parent": "PROJ-TST-BIO-0001",
-      "location": "JarvisSide/Projects/JarvisTST/JGPP/JARVISTSTJGPP-061026-0001-JARVISTST-TEMPORAL-TASK-SYSTEM.md",
       "tags": [
         "tst",
         "event-ledger",

@@ -41,15 +41,27 @@ def build() -> dict:
     by_domain = Counter(r.get("jnl", "-").split("-")[0] for r in records)
     by_tier = Counter(r.get("tier", "?") for r in records)
 
-    # Trim each object to the load-bearing fields for a true single-read map.
+    # JID = the national mint serial (creation order); JIDD = the regional serial (rank
+    # within its domain by JID). Both implicit to the object, surfaced on every entry.
+    seqmap = json.loads((LAL / "seq-registry.json").read_text())  # jnl -> seq (= JID)
+    counters: Counter = Counter()
+    domain_rank: dict[str, int] = {}
+    for r in sorted(records, key=lambda r: seqmap.get(r.get("jnl", ""), 10**9)):
+        dom = (r.get("jnl") or "-").split("-")[0]
+        counters[dom] += 1
+        domain_rank[r.get("jnl")] = counters[dom]
+
+    # POKÉDEX ENTRY per object — every identifier the JD implies, in one card.
     objects = sorted(
         ({
-            "jnl": r.get("jnl"), "name": r.get("name"), "type": r.get("type"),
+            "jnl": r.get("jnl"),                                              # address
+            "jid": seqmap.get(r.get("jnl")),                                 # national serial
+            "jidd": f"{(r.get('jnl') or '-').split('-')[0].lower()}-{domain_rank.get(r.get('jnl'))}",  # regional serial
+            "name": r.get("name"), "type": r.get("type"),
             "class": r.get("class"), "tier": r.get("tier"), "status": r.get("status"),
-            "parent": r.get("parent", ""), "location": r.get("location", ""),
-            "tags": r.get("tags", []),
+            "parent": r.get("parent", ""), "tags": r.get("tags", []),        # lineage + traits
         } for r in records),
-        key=lambda o: o["jnl"] or "",
+        key=lambda o: (o["jid"] if o["jid"] is not None else 10**9),         # Pokédex order
     )
 
     return {
