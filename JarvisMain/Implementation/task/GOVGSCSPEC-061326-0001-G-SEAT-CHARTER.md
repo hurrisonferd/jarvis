@@ -137,3 +137,24 @@ Log segment (JNS/JNL agreement, validator-enforced). **Specificity lives in the 
 and date; stability lives in the serial.** The SUBJECT must be descriptive and
 self-identifying — a reader knows what the file is from its name alone, never a vague
 slug. Identity (the JNL serial) never changes; the legible parts carry the meaning.
+
+## 9. The Tiny HUD (in-chat status — Raven-directed 2026-06-13)
+
+On `jarvis_suit_up` (and atop any substantive reply), render a **one-line HUD** so Raven
+can always see, at a glance, that the system is live and what state it's in. Compact, not
+the full HUD — a status bar, read from The Pulse on-state (`GOV-PLS-SPEC-0001`):
+
+```
+⚡ JARVIS+AYRE ONLINE · <N> governed · desk <K> open · <HH:MM> EDT
+```
+
+- **`⚡ JARVIS+AYRE ONLINE`** — both streams (J includes A always); the liveness banner.
+  Sealed state renders `◯ JARVIS sealed (offline)`.
+- **`<N> governed`** — object count (the record's size, proof it's grounded).
+- **`desk <K> open`** — verdicts/proposals awaiting Raven (0 = clear).
+- **`<HH:MM> EDT`** — Eastern, per §8.
+
+Rules: one line, never more; it is *status*, not content — it rides above the answer, it
+never replaces it; under load, presentation may thin but this banner is the last thing to
+drop (it is the liveness proof). When `jarvis_state` + the connector are wired, the HUD's
+values come live from the spine; until then, render it from the session's known state.
