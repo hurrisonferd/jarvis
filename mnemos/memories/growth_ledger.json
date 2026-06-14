@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T21:09:54.628060+00:00",
+  "updated": "2026-06-14T21:15:41.954975+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_160618",
-      "date": "2026-06-14",
-      "exchanges": 267,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`3475d73`) \u2014 branch and main clean. Everything safe is shipped; the remaining order waits on your one toggle (bot bypass on the `main` ruleset"
-    },
-    {
-      "session_id": "20260614_161103",
-      "date": "2026-06-14",
-      "exchanges": 270,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "No stress \u2014 these are each about five clicks, and I'll give you the exact path. Neither is urgent (nothing's broken without them; they're enhancements"
-    },
     {
       "session_id": "20260614_161121",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`825ac3b`) \u2014 v0.11.2 deploying. The map now reaches Jarvis & Ayre **by default**:\n\n- **Session-open ritual:** `suit_up` \u2192 `identity_read` \u2192 **"
+    },
+    {
+      "session_id": "20260614_211216",
+      "date": "2026-06-14",
+      "exchanges": 453,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Verified \u2014 GREEN (147 objects), autosort clean, suit_up + eyes both default in the open ritual, branch pushed (`f4a7068`).\n\nHere's the honest read on "
+    },
+    {
+      "session_id": "20260614_211541",
+      "date": "2026-06-14",
+      "exchanges": 461,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`4944d94`) \u2014 the audit is ruthless now. Full coverage: validate enforces no-dangling-sources, GL12 closure, JNL grammar, class immutability, p"
     }
   ]
 }
