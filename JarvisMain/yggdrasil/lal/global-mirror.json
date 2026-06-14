@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T16:01:13Z",
-    "generated_at_eastern": "2026-06-14 12:01 EDT",
-    "source_commit": "c9f4e6c",
+    "generated_at_utc": "2026-06-14T16:04:40Z",
+    "generated_at_eastern": "2026-06-14 12:04 EDT",
+    "source_commit": "94cbc94",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -2010,7 +2010,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "ARCH-JD-CORE-0001",
       "tags": [
         "jid",
         "jidd",
@@ -2031,7 +2031,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "ARCH-JMMS-CORE-0001",
       "tags": [
         "memory",
         "continuity",
@@ -2049,7 +2049,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "ARCH-JMMS-CORE-0001",
       "tags": [
         "sl",
         "star-log",

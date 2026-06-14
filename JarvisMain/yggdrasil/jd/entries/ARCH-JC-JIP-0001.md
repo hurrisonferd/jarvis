@@ -6,7 +6,7 @@ tier: MAIN
 authority: CANON
 owner: JFS
 steward: 
-parent: 
+parent: ARCH-JMMS-CORE-0001
 jnl: ARCH-JC-JIP-0001
 seq: 125
 status: TASK
