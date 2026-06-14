@@ -5,12 +5,13 @@ class: ENTITY
 tier: SIDE
 authority: CANON
 owner: Profile architecture — privacy-first identity on JFS
+steward: 
 parent: PROJ-NMX-BIO-0001
 jnl: PROJ-NMX-JGPP-0001
 seq: 113
 status: TASK
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-14
 source: JarvisSide/Projects/NeuroMax/JGPP/NEUROMAXJGPP-061026-0001-PROFILE-ARCHITECTURE-PRIVACY-FIRST-IDENTITY-ON-JFS.md
 related: []
 references: []

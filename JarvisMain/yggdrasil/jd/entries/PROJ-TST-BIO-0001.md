@@ -5,12 +5,13 @@ class: SYSTEM
 tier: SIDE
 authority: CANON
 owner: JarvisTST
+steward: 
 parent: 
 jnl: PROJ-TST-BIO-0001
 seq: 115
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-14
 source: JarvisSide/Projects/JarvisTST/BIO/JARVISTSTBIO-061026-0001-JARVISTST.md
 related: []
 references: []

@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JCS Pipeline
+steward: 
 parent: 
 jnl: IMPL-TLR-SPEC-0001
 seq: 139
 status: TASK
 created: 2026-06-13
-updated: 2026-06-13
+updated: 2026-06-14
 source: JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md
 related: []
 references: []

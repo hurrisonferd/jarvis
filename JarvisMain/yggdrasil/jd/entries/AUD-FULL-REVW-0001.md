@@ -5,12 +5,13 @@ class: EVENT
 tier: MAIN
 authority: CANON
 owner: Audit
+steward: 
 parent: 
 jnl: AUD-FULL-REVW-0001
 seq: 89
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Audit/2026-06-04_full_system_audit.md
 related: [GOV-CAN-CORE-0001]
 references: []

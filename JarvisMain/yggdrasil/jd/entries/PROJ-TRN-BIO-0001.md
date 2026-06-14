@@ -5,12 +5,13 @@ class: SYSTEM
 tier: SIDE
 authority: CANON
 owner: TronUI
+steward: 
 parent: 
 jnl: PROJ-TRN-BIO-0001
 seq: 108
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-14
 source: JarvisSide/Projects/TronUI/BIO/TRONUIBIO-061026-0001-TRONUI.md
 related: []
 references: []

@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
+steward: 
 parent: 
 jnl: ARCH-JMS-SPEC-0001
 seq: 138
 status: TASK
 created: 2026-06-13
-updated: 2026-06-13
+updated: 2026-06-14
 source: JarvisMain/Implementation/active/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md
 related: []
 references: []

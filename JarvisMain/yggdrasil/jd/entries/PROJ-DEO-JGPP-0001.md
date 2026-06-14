@@ -5,12 +5,13 @@ class: ENTITY
 tier: SIDE
 authority: CANON
 owner: Deoxys Telemetry Schema — first exploration
+steward: 
 parent: PROJ-DEO-BIO-0001
 jnl: PROJ-DEO-JGPP-0001
 seq: 104
 status: TASK
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-14
 source: JarvisSide/Projects/Deoxys/JGPP/DEOXYSJGPP-061026-0001-DEOXYS-TELEMETRY-SCHEMA-FIRST-EXPLORATION.md
 related: []
 references: []

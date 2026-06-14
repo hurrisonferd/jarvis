@@ -605,6 +605,26 @@ def gs_location(name: str) -> str:
 # Dormant God Systems (per CLAUDE.md P24): canonical but not routed → JSS status INACTIVE.
 DORMANT_GS = {"CHAOS", "POSEIDON", "HADES", "HERMES"}
 
+# PANTHEON STEWARDSHIP (IDEA-PAN-INS-0001, Raven-greenlit 2026-06-14): each Jarvis
+# subsystem gets a god-system steward — the god that tends that domain. Additive
+# metadata only; the 27 stay fixed, the substrate is untouched. A god may tend several
+# subsystems (a domain, not a 1:1). Ratifiable — Raven can re-seat any of these.
+STEWARD = {
+    "ARCH-JFS-CORE-0001": "AEGIS",     # file-system root ← the constraint/Gold-Law gate
+    "ARCH-JNL-CORE-0001": "ODIN",      # addressing/identity ← routing
+    "ARCH-JNS-CORE-0001": "ODIN",      # naming ← routing
+    "ARCH-LAL-CORE-0001": "ODIN",      # discovery/locate ← routing (the addressing family)
+    "ARCH-JSL-CORE-0001": "ATHENA",    # structure/format ← strategic planning
+    "ARCH-JMS-CORE-0001": "HUGINN",    # mirror/sync ← reconciliation (Raven floated JANUS; reconciliation is the closer fit)
+    "ARCH-JD-CORE-0001": "MIMIR",      # dictionary ← contextual knowledge
+    "ARCH-JSS-CORE-0001": "KRONOS",    # status lifecycle ← timing
+    "ARCH-JMMS-CORE-0001": "MNEMOS",   # memory tiers ← memory store
+    "ARCH-JSTM-CORE-0001": "MNEMOS",
+    "ARCH-JLTM-CORE-0001": "MNEMOS",
+    "ARCH-JATM-CORE-0001": "MNEMOS",
+    "ARCH-JPL-CORE-0001": "HERMES",    # language ← translation
+}
+
 
 def ontology_class(domain: str, typ: str, jnl: str) -> str:
     """Packet-1 ontology class: SYSTEM/SPEC/MODULE/ENTITY/EVENT/REGISTRY.
@@ -692,6 +712,7 @@ def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, r
         f"tier: {tr}",
         f"authority: {authority}",
         f"owner: {own}",
+        f"steward: {STEWARD.get(jnl, '')}",
         f"parent: {parent}",
         f"jnl: {jnl}",
         f"seq: {seq_of(jnl)}",
@@ -728,7 +749,8 @@ def main() -> None:
         rec = {
             "jnl": jnl, "name": name, "type": typ,
             "class": ontology_class(dom, typ, jnl), "tier": tier(dom, status),
-            "owner": owner(dom, name), "parent": derive_parent(jnl, parent),
+            "owner": owner(dom, name), "steward": STEWARD.get(jnl) or None,
+            "parent": derive_parent(jnl, parent),
             "location": location, "tags": tags, "anchors": [],
             "status": status, "state": state,
             "created": existing_created(jnl), "updated": TODAY,

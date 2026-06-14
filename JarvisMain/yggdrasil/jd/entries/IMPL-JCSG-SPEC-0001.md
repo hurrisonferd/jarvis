@@ -5,12 +5,13 @@ class: MODULE
 tier: MAIN
 authority: CANON
 owner: JCS Pipeline
+steward: 
 parent: IMPL-JCS-CORE-0001
 jnl: IMPL-JCSG-SPEC-0001
 seq: 95
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Implementation/Active/JIP-0608-G
 related: [IMPL-JCS-CORE-0001]
 references: []

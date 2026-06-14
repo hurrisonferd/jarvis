@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: Governance
+steward: 
 parent: GOV-CAN-CORE-0001
 jnl: GOV-CON-CORE-0001
 seq: 42
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Architecture/constraints.md
 related: [GOV-CAN-CORE-0001]
 references: []

@@ -5,12 +5,13 @@ class: MODULE
 tier: MAIN
 authority: CANON
 owner: Connectors
+steward: 
 parent: 
 jnl: CONN-MSB-CORE-0001
 seq: 67
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Connectors/JarvisMCPSupabase/JMCPSB-0001
 related: []
 references: []

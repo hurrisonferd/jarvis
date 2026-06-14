@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: Governance
+steward: 
 parent: ARCH-JD-CORE-0001
 jnl: GOV-DEX-SPEC-0001
 seq: 105
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Architecture/specs/dex-council-bridge.md
 related: [PROJ-DEO-JGPP-0001, ARCH-JD-CORE-0001]
 references: []

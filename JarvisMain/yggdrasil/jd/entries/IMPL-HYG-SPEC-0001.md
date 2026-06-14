@@ -5,12 +5,13 @@ class: SPEC
 tier: SIDE
 authority: CANON
 owner: JCS Pipeline
+steward: 
 parent: 
 jnl: IMPL-HYG-SPEC-0001
 seq: 101
 status: ARCHIVED
 created: 2026-06-09
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisSide/Archive/HygienePackets-0001-060926.md
 related: [IMPL-FMT-SPEC-0001]
 references: []

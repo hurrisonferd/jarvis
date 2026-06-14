@@ -5,12 +5,13 @@ class: SYSTEM
 tier: SIDE
 authority: CANON
 owner: NeuroMax
+steward: 
 parent: 
 jnl: PROJ-NMX-BIO-0001
 seq: 112
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-14
 source: JarvisSide/Projects/NeuroMax/BIO/NEUROMAXBIO-061026-0001-NEUROMAX.md
 related: []
 references: []

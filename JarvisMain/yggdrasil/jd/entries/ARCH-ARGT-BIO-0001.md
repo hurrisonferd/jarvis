@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
+steward: 
 parent: ARCH-YGG-CORE-0001
 jnl: ARCH-ARGT-BIO-0001
 seq: 129
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-13
+updated: 2026-06-14
 source: JarvisMain/Architecture/identity/argent/argent-profile.md
 related: [ARCH-JRV-BIO-0001, ARCH-AYR-BIO-0001]
 references: []

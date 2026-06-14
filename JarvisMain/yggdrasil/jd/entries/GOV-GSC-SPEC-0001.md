@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: Governance
+steward: 
 parent: 
 jnl: GOV-GSC-SPEC-0001
 seq: 134
 status: TASK
 created: 2026-06-13
-updated: 2026-06-13
+updated: 2026-06-14
 source: JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md
 related: []
 references: []
