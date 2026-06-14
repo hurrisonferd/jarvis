@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T21:32:42.850941+00:00",
+  "updated": "2026-06-14T21:36:06.545534+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_204625",
-      "date": "2026-06-14",
-      "exchanges": 423,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`a5c9cf3`) \u2014 v0.11.0 deploying with **`jarvis_github_write`**, built exactly to your conditions: it opens a PR (the request shows up in GPT as"
-    },
-    {
-      "session_id": "20260614_204643",
-      "date": "2026-06-14",
-      "exchanges": 424,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`3c60846`) \u2014 branch clean, everything from this session is on main except the trimmed charter and `github_write` which are already merged (177"
-    },
     {
       "session_id": "20260614_204828",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`71376c1`). All three addressed:\n\n**1. `jarvis_prs` (and `eyes`/`now`/`continuity`/`github_write`) ARE live** \u2014 the v0.11.1 deploy succeeded. "
+    },
+    {
+      "session_id": "20260614_213526",
+      "date": "2026-06-14",
+      "exchanges": 494,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`20a6d2d`) \u2014 v0.11.3 deploying. The 401 is fixed connector-side: `gh()` reads now fall back to unauthenticated public access, so `jarvis_prs`,"
+    },
+    {
+      "session_id": "20260614_213606",
+      "date": "2026-06-14",
+      "exchanges": 497,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Good \u2014 with the refresh + the v0.11.3 read fix, `jarvis_prs` should resolve now (it falls back to unauthenticated public reads). Try it again.\n\n**On t"
     }
   ]
 }
