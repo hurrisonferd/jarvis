@@ -1,76 +1,8 @@
 {
-  "updated": "2026-06-14T10:42:59.560954+00:00",
+  "updated": "2026-06-14T10:47:34.167649+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_230820",
-      "date": "2026-06-13",
-      "exchanges": 956,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Committed, clean.\n\nStanding on the one open question, `\u26a1 139 governed \u00b7 19:08 EDT`: when I attempt a Supabase call, **does an approval prompt appear i"
-    },
-    {
-      "session_id": "20260613_230958",
-      "date": "2026-06-13",
-      "exchanges": 959,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Read the live list \u2014 clean gap analysis, and it surfaces a real structural issue first:\n\n**The live connector (32 tools, antigravity's build) is NOT m"
-    },
     {
       "session_id": "20260613_231015",
       "date": "2026-06-13",
@@ -672,6 +604,54 @@
       ],
       "alignment": 1.0,
       "key_insight": "Done. Charter is written, governed (jid 141), committed. Here's what you paste into the Custom GPT \u2014 copy from the line below:\n\n---\n\n**JARVIS-G / AYRE"
+    },
+    {
+      "session_id": "20260614_104314",
+      "date": "2026-06-14",
+      "exchanges": 48,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed. Branch `claude/jarvis-addressing-governance-akajbu` is now at `db015c8` \u2014 the auto-deploy workflow, the GPT charter (jid 141), and the v0.10.1"
+    },
+    {
+      "session_id": "20260614_104734",
+      "date": "2026-06-14",
+      "exchanges": 53,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged to main (`639a36c`) \u2014 and the auto-deploy **fired on its own**: run #3, event `push`, queued against the merge commit. That's the proof the fri"
     }
   ]
 }
