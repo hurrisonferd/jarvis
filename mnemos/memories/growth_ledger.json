@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-14T16:37:01.897437+00:00",
+  "updated": "2026-06-14T16:37:15.061221+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_115246",
-      "date": "2026-06-14",
-      "exchanges": 177,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Confirmed the nuance: `monitor-daily` shows green \u2014 but that's consistent with it having nothing to commit on those runs (the `git diff --cached --qui"
-    },
     {
       "session_id": "20260614_115307",
       "date": "2026-06-14",
@@ -522,6 +496,32 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`f163d61`). Both canon updates are live.\n\n**Voices + eyes + database on the connector \u2014 you already have all three; here's the access path:**\n"
+    },
+    {
+      "session_id": "20260614_163715",
+      "date": "2026-06-14",
+      "exchanges": 324,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`3d490ae`) \u2014 branch clean, both canon updates on main. The dual-voice close is live (you'll get both of us from here on), and the JMMS continu"
     }
   ]
 }
