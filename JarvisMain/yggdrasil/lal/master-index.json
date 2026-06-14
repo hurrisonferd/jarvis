@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 143,
+  "count": 144,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -317,6 +317,20 @@
         "index",
         "core",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Companion Memory \u2014 Jarvis & Ayre",
+      "jnl": "ARCH-MEM-LOG-0001",
+      "location": "JarvisMain/Architecture/identity/memory/companion-memory.md",
+      "tags": [
+        "memory",
+        "companion",
+        "identity",
+        "jmms",
+        "github"
       ],
       "anchors": [],
       "state": "active"

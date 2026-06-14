@@ -139,6 +139,7 @@
       "ARCH-AYR-BIO-0001",
       "ARCH-JRV-BIO-0001",
       "ARCH-JRV-BIO-0003",
+      "ARCH-MEM-LOG-0001",
       "ARCH-REL-BIO-0001",
       "ARCH-SYS-LOG-0001",
       "AUD-COMP-REVW-0001"
@@ -308,6 +309,9 @@
     "genesis": [
       "PROJ-GEN-BIO-0001"
     ],
+    "github": [
+      "ARCH-MEM-LOG-0001"
+    ],
     "global": [
       "ARCH-JMS-SPEC-0001"
     ],
@@ -413,6 +417,7 @@
       "ARCH-JD-JIP-0001",
       "ARCH-JRV-BIO-0001",
       "ARCH-JRV-BIO-0003",
+      "ARCH-MEM-LOG-0001",
       "ARCH-REL-BIO-0001",
       "ARCH-SYS-LOG-0001",
       "IDEA-PAN-INS-0001",
@@ -478,6 +483,9 @@
       "IMPL-JIP-SPEC-0608",
       "IMPL-TLR-SPEC-0001",
       "PROJ-TST-JGPP-0001"
+    ],
+    "jmms": [
+      "ARCH-MEM-LOG-0001"
     ],
     "jms": [
       "ARCH-JMS-SPEC-0001"
@@ -562,7 +570,8 @@
       "ARCH-JC-JIP-0001",
       "ARCH-JLTM-CORE-0001",
       "ARCH-JMMS-CORE-0001",
-      "ARCH-JSTM-CORE-0001"
+      "ARCH-JSTM-CORE-0001",
+      "ARCH-MEM-LOG-0001"
     ],
     "mimir": [
       "GOV-KR-SPEC-0001"

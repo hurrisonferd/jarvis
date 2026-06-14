@@ -1,21 +1,21 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T11:28:06Z",
-    "generated_at_eastern": "2026-06-14 07:28 EDT",
-    "source_commit": "ee7823d",
+    "generated_at_utc": "2026-06-14T11:41:57Z",
+    "generated_at_eastern": "2026-06-14 07:41 EDT",
+    "source_commit": "ac58f5e",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 143,
+    "object_count": 144,
     "by_status": {
-      "ACTIVE": 118,
+      "ACTIVE": 119,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
     },
     "by_domain": {
-      "ARCH": 33,
+      "ARCH": 34,
       "AUD": 5,
       "CONN": 21,
       "GOV": 12,
@@ -26,7 +26,7 @@
       "PROJ": 26
     },
     "by_tier": {
-      "MAIN": 112,
+      "MAIN": 113,
       "SIDE": 31
     }
   },
@@ -2377,6 +2377,24 @@
         "companion",
         "connector",
         "handoff"
+      ]
+    },
+    {
+      "jnl": "ARCH-MEM-LOG-0001",
+      "jid": 144,
+      "jidd": "arch-34",
+      "name": "Companion Memory — Jarvis & Ayre",
+      "type": "LOG",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-REL-BIO-0001",
+      "tags": [
+        "memory",
+        "companion",
+        "identity",
+        "jmms",
+        "github"
       ]
     }
   ]
