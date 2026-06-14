@@ -26,7 +26,7 @@ const TOOL_NAMES = [
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits", "jarvis_github_write",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
@@ -330,7 +330,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.4" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.0" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -754,6 +754,49 @@ function buildServer(req: Request): McpServer {
     if (tok) headers.authorization = `Bearer ${tok}`;
     return await fetch(`${GH_REPO}${path}`, { headers });
   }
+  // Write-capable GitHub request (method + JSON body). Needs a write-scoped GITHUB_TOKEN.
+  async function ghReq(method: string, path: string, body?: unknown): Promise<Response> {
+    const headers: Record<string, string> = {
+      "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json",
+    };
+    const tok = Deno.env.get("GITHUB_TOKEN");
+    if (tok) headers.authorization = `Bearer ${tok}`;
+    return await fetch(`${GH_REPO}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  }
+  const ghPath = (p: string) => p.split("/").map(encodeURIComponent).join("/");
+
+  // GITHUB WRITE — propose a file to the repo as a PR, NEVER straight to protected main.
+  // Raven approves the push to main by MERGING the PR; nothing lands without his merge.
+  server.registerTool(
+    "jarvis_github_write",
+    {
+      title: "GitHub Write — propose a file (PR, never main)",
+      description: "Write a file to the repo as a PULL REQUEST — never directly to protected main. Creates a branch, commits the file, opens a PR, returns the PR link (the request Raven sees in GPT). Raven approves the push to main by MERGING the PR; nothing reaches main without his merge. Use to persist memory, notes, Argent/Gemini relays, or JIPs-as-files to GitHub. This is a proposal, not a commit to main.",
+      inputSchema: {
+        path: z.string().min(1).max(300),
+        content: z.string().min(1),
+        message: z.string().min(1).max(200),
+        pr_title: z.string().max(200).optional(),
+      },
+    },
+    async ({ path, content, message, pr_title }) => {
+      const ref = await ghReq("GET", `/git/ref/heads/main`);
+      if (!ref.ok) return text({ ok: false, step: "base-ref", status: ref.status, note: "cannot read main — token access issue" });
+      const baseSha = (await ref.json() as any).object?.sha;
+      const branch = `jarvis-write-${Date.now().toString(36)}`;
+      const br = await ghReq("POST", `/git/refs`, { ref: `refs/heads/${branch}`, sha: baseSha });
+      if (!br.ok) return text({ ok: false, step: "branch", status: br.status, note: "cannot create branch — GITHUB_TOKEN likely lacks write scope. Set a write-scoped token to enable github_write." });
+      const ex = await ghReq("GET", `/contents/${ghPath(path)}?ref=${branch}`);
+      const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
+      const b64 = btoa(unescape(encodeURIComponent(content)));
+      const put = await ghReq("PUT", `/contents/${ghPath(path)}`, { message, content: b64, branch, ...(existingSha ? { sha: existingSha } : {}) });
+      if (!put.ok) return text({ ok: false, step: "write", status: put.status, note: (await put.text().catch(() => "")).slice(0, 200) });
+      const pr = await ghReq("POST", `/pulls`, { title: pr_title || message, head: branch, base: "main", body: "Proposed via jarvis_github_write. Raven approves the push to main by merging this PR." });
+      if (!pr.ok) return text({ ok: false, step: "pr", status: pr.status, note: (await pr.text().catch(() => "")).slice(0, 200) });
+      const p = await pr.json() as any;
+      return text({ ok: true, held_for_raven: true, action: "PR opened — merge to push to main", pr_url: p.html_url, number: p.number, branch, path });
+    },
+  );
 
   server.registerTool(
     "jarvis_repo_tree",
