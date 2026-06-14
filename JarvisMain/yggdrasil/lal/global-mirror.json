@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T16:04:40Z",
-    "generated_at_eastern": "2026-06-14 12:04 EDT",
-    "source_commit": "94cbc94",
+    "generated_at_utc": "2026-06-14T16:29:22Z",
+    "generated_at_eastern": "2026-06-14 12:29 EDT",
+    "source_commit": "b4fb974",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
