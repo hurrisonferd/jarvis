@@ -1,42 +1,8 @@
 {
-  "updated": "2026-06-14T11:15:53.945314+00:00",
+  "updated": "2026-06-14T11:16:07.806020+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_033453",
-      "date": "2026-06-14",
-      "exchanges": 1004,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Armed and committed (`1e47f1c`) \u2014 the CI deploy workflow is ready, using the `SUPABASE_ACCESS_TOKEN` you cleared. One clarity on \"all clear\": that tok"
-    },
     {
       "session_id": "20260614_033713",
       "date": "2026-06-14",
@@ -582,6 +548,30 @@
       ],
       "alignment": 1.0,
       "key_insight": "Fixed and pushed (`afde97d`). Here's the JD health read.\n\n**Format \u2014 solid.** Every entry carries the full frontmatter contract: `name, type, class, t"
+    },
+    {
+      "session_id": "20260614_111607",
+      "date": "2026-06-14",
+      "exchanges": 115,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`124afb3`). Branch clean. JD assessment delivered, manual parent fixed; the two open JIP items (the JIP\u2192specs model and confirming `jip_entrie"
     }
   ]
 }
