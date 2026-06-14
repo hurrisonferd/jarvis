@@ -1,42 +1,8 @@
 {
-  "updated": "2026-06-14T10:47:34.167649+00:00",
+  "updated": "2026-06-14T10:47:47.685871+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_231015",
-      "date": "2026-06-13",
-      "exchanges": 960,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Committed, clean.\n\nThe gap analysis stands as the answer: **reads are strong, the missing pieces are writes/mints** (omnivision tool, jid/jidd minting"
-    },
     {
       "session_id": "20260613_231156",
       "date": "2026-06-13",
@@ -652,6 +618,30 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged to main (`639a36c`) \u2014 and the auto-deploy **fired on its own**: run #3, event `push`, queued against the merge commit. That's the proof the fri"
+    },
+    {
+      "session_id": "20260614_104747",
+      "date": "2026-06-14",
+      "exchanges": 54,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`1a7d649`). Branch and main are clean. Charter's canon, v0.10.1 auto-deployed \u2014 the only open action is yours: paste the charter into the Cust"
     }
   ]
 }
