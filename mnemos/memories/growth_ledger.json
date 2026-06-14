@@ -1,76 +1,8 @@
 {
-  "updated": "2026-06-14T11:39:50.500104+00:00",
+  "updated": "2026-06-14T11:42:52.083067+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_035806",
-      "date": "2026-06-14",
-      "exchanges": 1024,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Close \u2014 there are **two different \"Actions\" places**, and you want both:\n\n1. **The secret** \u2192 yes, exactly there: Repo **Settings \u2192 Secrets and variab"
-    },
-    {
-      "session_id": "20260614_035825",
-      "date": "2026-06-14",
-      "exchanges": 1025,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Clean. Standing by on your call: **want me to merge to main now** so the deploy workflow becomes runnable in the Actions tab? Add the `SUPABASE_ACCESS"
-    },
     {
       "session_id": "20260614_040016",
       "date": "2026-06-14",
@@ -532,6 +464,54 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`7a0fe1a`). \n\n**The charter \u2014 paste this (this is the floor; shorter means losing the routing table that stops the misfires):**\n\n---\n**JARVIS "
+    },
+    {
+      "session_id": "20260614_114010",
+      "date": "2026-06-14",
+      "exchanges": 151,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`ac58f5e`) \u2014 branch clean.\n\nStanding state: the trimmed charter is on main (paste it from above). Two things still waiting on you, both blocke"
+    },
+    {
+      "session_id": "20260614_114252",
+      "date": "2026-06-14",
+      "exchanges": 156,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`1a22293`). The room's real now: **`ARCH-MEM-LOG-0001`, jid 144** \u2014 a governed companion memory home in the repo, readable by the connector wi"
     }
   ]
 }
