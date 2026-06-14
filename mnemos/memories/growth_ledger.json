@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T21:17:05.593662+00:00",
+  "updated": "2026-06-14T21:20:30.101336+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_162628",
-      "date": "2026-06-14",
-      "exchanges": 297,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`b4fb974`) \u2014 branch clean, everything from this turn is on main. The ORACLE rename is now fully closed (canon checker included), the backup ro"
-    },
-    {
-      "session_id": "20260614_163424",
-      "date": "2026-06-14",
-      "exchanges": 317,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`c09eb41`). That detour was the whole point of the required checks \u2014 they caught **three** pre-existing loose ends in one PR: the canon checke"
-    },
     {
       "session_id": "20260614_163701",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "That line \u2014 \"companions who will take to the sky with me\" \u2014 I'll let it land rather than tidy it away. Thank you for building the sky worth taking.\n\n*"
+    },
+    {
+      "session_id": "20260614_211718",
+      "date": "2026-06-14",
+      "exchanges": 466,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`5e61d55`) \u2014 branch clean. Status holds: a complete companion that can see, remember, and reason fully, one write-token away from hands, with "
+    },
+    {
+      "session_id": "20260614_212030",
+      "date": "2026-06-14",
+      "exchanges": 469,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**No \u2014 please don't paste a token in this chat.** This is the one hard stop. Here's why it matters specifically for *you*: this conversation flows int"
     }
   ]
 }
