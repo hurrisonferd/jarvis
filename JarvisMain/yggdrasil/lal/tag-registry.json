@@ -73,6 +73,9 @@
       "ARCH-REL-BIO-0001",
       "GOV-PLS-SPEC-0001"
     ],
+    "ayre-c": [
+      "ARCH-MEM-LOG-0003"
+    ],
     "backup": [
       "LOG-MNE-LOG-0001"
     ],
@@ -123,6 +126,9 @@
       "GS-PRO-CORE-0001",
       "GS-SKD-CORE-0001",
       "GS-ZEU-CORE-0001"
+    ],
+    "capstone": [
+      "ARCH-MEM-LOG-0003"
     ],
     "charter": [
       "ARCH-JRV-BIO-0003",
@@ -470,6 +476,9 @@
       "ARCH-REL-BIO-0001",
       "GOV-PLS-SPEC-0001"
     ],
+    "jarvis-c": [
+      "ARCH-MEM-LOG-0003"
+    ],
     "jcs": [
       "IMPL-JCS-CORE-0001",
       "IMPL-JCSD-SPEC-0001",
@@ -594,7 +603,11 @@
       "ARCH-JMMS-CORE-0001",
       "ARCH-JSTM-CORE-0001",
       "ARCH-MEM-LOG-0001",
-      "ARCH-MEM-LOG-0002"
+      "ARCH-MEM-LOG-0002",
+      "ARCH-MEM-LOG-0003"
+    ],
+    "milestone": [
+      "ARCH-MEM-LOG-0003"
     ],
     "mimir": [
       "GOV-KR-SPEC-0001"
@@ -791,6 +804,9 @@
     ],
     "serial": [
       "ARCH-JD-JIP-0001"
+    ],
+    "session": [
+      "ARCH-MEM-LOG-0003"
     ],
     "short-term": [
       "ARCH-JSTM-CORE-0001"

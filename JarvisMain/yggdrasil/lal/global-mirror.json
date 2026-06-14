@@ -1,21 +1,21 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T16:30:40Z",
-    "generated_at_eastern": "2026-06-14 12:30 EDT",
-    "source_commit": "e8a6a51",
+    "generated_at_utc": "2026-06-14T21:48:41Z",
+    "generated_at_eastern": "2026-06-14 17:48 EDT",
+    "source_commit": "8670403",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 147,
+    "object_count": 148,
     "by_status": {
-      "ACTIVE": 122,
+      "ACTIVE": 123,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
     },
     "by_domain": {
-      "ARCH": 36,
+      "ARCH": 37,
       "AUD": 5,
       "CONN": 21,
       "GOV": 12,
@@ -26,7 +26,7 @@
       "PROJ": 26
     },
     "by_tier": {
-      "MAIN": 116,
+      "MAIN": 117,
       "SIDE": 31
     }
   },
@@ -2450,6 +2450,25 @@
         "authority",
         "family",
         "founder"
+      ]
+    },
+    {
+      "jnl": "ARCH-MEM-LOG-0003",
+      "jid": 148,
+      "jidd": "arch-37",
+      "name": "Session Capstone — the day the companion came together (2026-06-14)",
+      "type": "LOG",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-MEM-LOG-0001",
+      "tags": [
+        "memory",
+        "session",
+        "capstone",
+        "milestone",
+        "jarvis-c",
+        "ayre-c"
       ]
     }
   ]

@@ -1,268 +1,8 @@
 {
-  "updated": "2026-06-14T21:32:42.850941+00:00",
+  "updated": "2026-06-14T21:45:21.654020+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_204625",
-      "date": "2026-06-14",
-      "exchanges": 423,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`a5c9cf3`) \u2014 v0.11.0 deploying with **`jarvis_github_write`**, built exactly to your conditions: it opens a PR (the request shows up in GPT as"
-    },
-    {
-      "session_id": "20260614_204643",
-      "date": "2026-06-14",
-      "exchanges": 424,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`3c60846`) \u2014 branch clean, everything from this session is on main except the trimmed charter and `github_write` which are already merged (177"
-    },
-    {
-      "session_id": "20260614_204828",
-      "date": "2026-06-14",
-      "exchanges": 430,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`e686b60`) \u2014 v0.11.1 deploying. The PR loop is now closed: **`github_write` opens a PR \u2192 \"hey Jarvis & Ayre, do I have any PRs?\" lists them \u2192 "
-    },
-    {
-      "session_id": "20260614_204842",
-      "date": "2026-06-14",
-      "exchanges": 431,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`c62186b`) \u2014 branch clean. The PR loop (`github_write` \u2192 `jarvis_prs` \u2192 your merge) is live in v0.11.1. Ready for the task-work pick whenever "
-    },
-    {
-      "session_id": "20260614_205006",
-      "date": "2026-06-14",
-      "exchanges": 434,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Yes \u2014 and that's the cleanest the JMMS model has been. Locking it as the spec, because it resolves the memory architecture into three clean axes:\n\n- *"
-    },
-    {
-      "session_id": "20260614_205024",
-      "date": "2026-06-14",
-      "exchanges": 435,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`7178165`) \u2014 branch clean. JMMS model is locked: **`{type, owner, tier}`** with JC/SL as the plug-in content types. Say \"go\" and I build the s"
-    },
-    {
-      "session_id": "20260614_210645",
-      "date": "2026-06-14",
-      "exchanges": 445,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`16945077`). JMMS is live in the substrate \u2014 the keystone I kept pointing at:\n\n- **Every memory object = `{type, owner, tier}`.** Tier (`memor"
-    },
-    {
-      "session_id": "20260614_210954",
-      "date": "2026-06-14",
-      "exchanges": 450,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`825ac3b`) \u2014 v0.11.2 deploying. The map now reaches Jarvis & Ayre **by default**:\n\n- **Session-open ritual:** `suit_up` \u2192 `identity_read` \u2192 **"
-    },
-    {
-      "session_id": "20260614_211216",
-      "date": "2026-06-14",
-      "exchanges": 453,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Verified \u2014 GREEN (147 objects), autosort clean, suit_up + eyes both default in the open ritual, branch pushed (`f4a7068`).\n\nHere's the honest read on "
-    },
-    {
-      "session_id": "20260614_211541",
-      "date": "2026-06-14",
-      "exchanges": 461,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`4944d94`) \u2014 the audit is ruthless now. Full coverage: validate enforces no-dangling-sources, GL12 closure, JNL grammar, class immutability, p"
-    },
     {
       "session_id": "20260614_211557",
       "date": "2026-06-14",
@@ -522,6 +262,266 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`71376c1`). All three addressed:\n\n**1. `jarvis_prs` (and `eyes`/`now`/`continuity`/`github_write`) ARE live** \u2014 the v0.11.1 deploy succeeded. "
+    },
+    {
+      "session_id": "20260614_213526",
+      "date": "2026-06-14",
+      "exchanges": 494,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`20a6d2d`) \u2014 v0.11.3 deploying. The 401 is fixed connector-side: `gh()` reads now fall back to unauthenticated public access, so `jarvis_prs`,"
+    },
+    {
+      "session_id": "20260614_213606",
+      "date": "2026-06-14",
+      "exchanges": 497,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Good \u2014 with the refresh + the v0.11.3 read fix, `jarvis_prs` should resolve now (it falls back to unauthenticated public reads). Try it again.\n\n**On t"
+    },
+    {
+      "session_id": "20260614_213630",
+      "date": "2026-06-14",
+      "exchanges": 498,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`83841d4`) \u2014 branch clean. Bottom line: reads work now with no token (try `jarvis_prs` again); the real `github_pat_\u2026` from GitHub is only nee"
+    },
+    {
+      "session_id": "20260614_213729",
+      "date": "2026-06-14",
+      "exchanges": 501,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Honestly? **Skip #2 \u2014 don't stress it.** It's the fiddliest and the *least* important of the three, and \"no idea how\" is the right reaction because it"
+    },
+    {
+      "session_id": "20260614_213742",
+      "date": "2026-06-14",
+      "exchanges": 502,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`b5a7a30`) \u2014 branch clean. Leave #2 (push delivery) for later; it's optional and the Pulse content is already reachable by just asking. Nothin"
+    },
+    {
+      "session_id": "20260614_214151",
+      "date": "2026-06-14",
+      "exchanges": 506,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Token's set, hands are live \u2014 and nothing's broken loose (zero open PRs), so the first `github_write` will be unmistakable. Here's the test that prove"
+    },
+    {
+      "session_id": "20260614_214204",
+      "date": "2026-06-14",
+      "exchanges": 507,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`6255c7f`) \u2014 branch clean, baseline still zero open PRs. Trigger that first `github_write` from Jarvis-G whenever you're ready and tell me \u2014 I"
+    },
+    {
+      "session_id": "20260614_214448",
+      "date": "2026-06-14",
+      "exchanges": 511,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**The power-up: Minato Namikaze \u2014 the Yellow Flash. \u26a1** It's the *right* one, not just a fast one: every object in the system already carries a **JNL*"
+    },
+    {
+      "session_id": "20260614_214506",
+      "date": "2026-06-14",
+      "exchanges": 512,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`3843343`) \u2014 clean. \u26a1 Yellow Flash locked: 147 seals, instant arrival on any `load`. System GREEN, round table waiting. Go fast \u2014 to the right"
+    },
+    {
+      "session_id": "20260614_214521",
+      "date": "2026-06-14",
+      "exchanges": 515,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Hell yeah. \u26a1 The companion sees, remembers, navigates at a flash, and reaches for you behind a gate you hold \u2014 built clean, audited ruthless, on the r"
     }
   ]
 }
