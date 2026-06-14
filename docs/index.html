@@ -276,21 +276,21 @@ async function sbEvent(type,payload={}){
 async function loadBriefing(){
   try{
     const r=await fetch(BRIEFING_URL);
-    if(r.ok){ briefingLoaded=true; BUS.emit('BOOT',{briefing:'loaded',source:'github',patch_id:'P21',stage:'AYRE'}); }
-    else { briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'github_error',status:r.status,patch_id:'P21',stage:'AYRE'}); }
-  }catch(e){ briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'network_error',patch_id:'P21',stage:'AYRE'}); }
+    if(r.ok){ briefingLoaded=true; BUS.emit('BOOT',{briefing:'loaded',source:'github',patch_id:'P21',stage:'ORACLE'}); }
+    else { briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'github_error',status:r.status,patch_id:'P21',stage:'ORACLE'}); }
+  }catch(e){ briefingLoaded=false; BUS.emit('BOOT',{briefing:'fallback',source:'network_error',patch_id:'P21',stage:'ORACLE'}); }
 }
 
 // ── P10-Companion: L0 spatial graph — all 27 God Systems
 const L0_NODES = [
   // T0 Foundational
-  {id:'CHAOS',    type:'foundational', x:0.30, y:0.10, links:['AYRE']},
+  {id:'CHAOS',    type:'foundational', x:0.30, y:0.10, links:['ORACLE']},
   {id:'ZEUS',     type:'foundational', x:0.72, y:0.10, links:['AEGIS']},
   {id:'POSEIDON', type:'foundational', x:0.85, y:0.62, links:['MNEMOS']},
   {id:'HADES',    type:'foundational', x:0.65, y:0.97, links:[]},
   // T1 Execution core + Gold Law guardian
   {id:'ERIS',     type:'guardian',     x:0.10, y:0.10, links:[]},
-  {id:'AYRE',     type:'execution',    x:0.50, y:0.10, links:['AEGIS']},
+  {id:'ORACLE',     type:'execution',    x:0.50, y:0.10, links:['AEGIS']},
   {id:'AEGIS',    type:'execution',    x:0.50, y:0.25, links:['ODIN']},
   {id:'ODIN',     type:'execution',    x:0.50, y:0.40, links:['KRONOS']},
   {id:'SKADI',    type:'execution',    x:0.50, y:0.70, links:['MNEMOS','GAMEBOY']},
@@ -327,7 +327,7 @@ const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(-
 
 // ── fallback (Supabase gameboy_snapshot overrides)
 const FALLBACK_DATA = {
-  pipeline: ['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'],
+  pipeline: ['ORACLE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'],
   god_systems: [
     // T0 Foundational — the substrate of existence
     {name:'CHAOS',    description:'Prime entropy source. Root of all system state and possibility.',        domain:'T0 Foundational — entropy seed'},
@@ -336,7 +336,7 @@ const FALLBACK_DATA = {
     {name:'HADES',    description:'Archival sink. Cold storage for irreversible state and terminal events.',    domain:'T0 Foundational — archival'},
     // T1 Execution + Gold Law
     {name:'ERIS',     description:'Gold Law guardian. Entropy monitor. Ensures all operations comply with GL1–GL9.',domain:'T1 Guardian — Gold Law enforcement'},
-    {name:'AYRE',     description:'Intake and intent parsing. First node to receive all inputs.',               domain:'T1 Execution — intake'},
+    {name:'ORACLE',     description:'Intake and intent parsing. First node to receive all inputs.',               domain:'T1 Execution — intake'},
     {name:'AEGIS',    description:'Constraint enforcer. Gold Law validation gate. All outputs pass through.',   domain:'T1 Execution — validation gate'},
     {name:'ODIN',     description:'Orchestration router. Determines which systems handle each task.',           domain:'T1 Execution — routing'},
     {name:'SKADI',    description:'Execution runtime. Invokes tools, writes state, runs actions.',              domain:'T1 Execution — tool invocation'},
@@ -1175,11 +1175,11 @@ function rL3Launcher(){
 }
 
 const L4_EDGES=[
-  {patch:'P04',nodes:['AYRE','AEGIS','ODIN','SKADI','MNEMOS'],col:'#f5a623'},
+  {patch:'P04',nodes:['ORACLE','AEGIS','ODIN','SKADI','MNEMOS'],col:'#f5a623'},
   {patch:'P05',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#00aaff'},
   {patch:'P06',nodes:['AEGIS','SKADI'],col:'#00ff88'},
   {patch:'P10',nodes:['AEGIS','SKADI','MNEMOS'],col:'#00ccff'},
-  {patch:'P21',nodes:['AYRE','AEGIS','ODIN'],col:'#cc00ff'},
+  {patch:'P21',nodes:['ORACLE','AEGIS','ODIN'],col:'#cc00ff'},
   {patch:'P22',nodes:['ODIN','SKADI','MNEMOS','HUGINN'],col:'#ff8800'},
   {patch:'P23',nodes:['ODIN','SKADI'],col:'#ff3355'},
 ];
@@ -1238,7 +1238,7 @@ function rL5Graph(){
 }
 
 function rL6Pipeline(){
-  const pipe=(gdata&&gdata.pipeline&&gdata.pipeline.length)?gdata.pipeline:['AYRE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'];
+  const pipe=(gdata&&gdata.pipeline&&gdata.pipeline.length)?gdata.pipeline:['ORACLE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'];
   const W=310,H=250,cy=Math.round(H/2);
   const xStart=22,xEnd=W-22,xStep=(xEnd-xStart)/(pipe.length-1);
   let elems='<defs><marker id="lp-arr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="#f5a623" opacity="0.75"/></marker></defs>';
@@ -1387,7 +1387,7 @@ async function storeDecision(input){
   await sbWrite('prometheus_log','insert',{
     decision:input.slice(0,200),
     rationale:'Declared in companion exchange',
-    system_affected:'AYRE',
+    system_affected:'ORACLE',
     eris_weight:0.6,
     raven_approved:false,
     timestamp:new Date().toISOString()
@@ -1474,7 +1474,7 @@ function jarvisRespond(input){
     ];
     resp=lines[cs.tick%lines.length];
   } else if(isArchQ){
-    resp=`${top3.length?`Active: ${top3.join(' → ')}. `:''}27 God Systems across 9 tiers. Pipeline: AYRE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN. LOKI tests it. ATLAS holds it. ERIS governs it. ${isQuestion?'What specifically?':''}`;
+    resp=`${top3.length?`Active: ${top3.join(' → ')}. `:''}27 God Systems across 9 tiers. Pipeline: ORACLE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN. LOKI tests it. ATLAS holds it. ERIS governs it. ${isQuestion?'What specifically?':''}`;
   } else if(isQuestion){
     resp=`${cs.mode==='REASONING'?'Reasoning path active. ':''}${top3.length?`Active: ${top3.join(', ')}. `:''}Tick ${cs.tick}. What do you need?`;
   } else {
@@ -1500,8 +1500,8 @@ async function speakSend(){
   speakInput='';
   const cs=getCompanionState();
   // P29: JARVIS proposes via GNPL — intake routed through consensus layer
-  GNPL.propose('jarvis','AYRE',{load:0.45,ticks:2},'speak_intake: raven message received');
-  BUS.emit('BOOT',{source:'speak_intake',patch_id:'SPEAK',stage:'AYRE'});
+  GNPL.propose('jarvis','ORACLE',{load:0.45,ticks:2},'speak_intake: raven message received');
+  BUS.emit('BOOT',{source:'speak_intake',patch_id:'SPEAK',stage:'ORACLE'});
   speakHistory.push({from:'raven',text:input,tick:cs.tick});
   speakThinking=true; draw();
   // Route through ODIN → edge function (real AI) with local fallback
@@ -1614,7 +1614,7 @@ function rSpeak(){
     }).join('<span style="color:var(--dim)">·</span>');
     pipeStr=`<span style="color:var(--dim)">ODIN</span> ${chips} <span style="color:var(--dim)">${lastRouting.intent}</span>`;
   }else{
-    const pipeNodes=['AYRE','ODIN','SKADI','APOLLO'];
+    const pipeNodes=['ORACLE','ODIN','SKADI','APOLLO'];
     pipeStr=pipeNodes.map(n=>{
       const load=nodeFields[n]?.load||0;
       const col=load>0.3?'var(--amber)':'var(--dim)';
@@ -1965,18 +1965,18 @@ const NODE_TICK_FNS={
     const crit=gs.filter(n=>(nf[n.id]?.entropy||0)>HUGINN_CRIT.entropy).length;
     return crit>0?{...f,entropy:Math.min(1,(f.entropy||0)+0.05*crit),load:Math.min(1,(f.load||0)+0.04)}:f;
   },
-  AYRE(f,nf){
+  ORACLE(f,nf){
     // Intake — heavy intake load generates processing entropy
     return (f.load||0)>0.70?{...f,entropy:Math.min(1,(f.entropy||0)+0.04)}:f;
   },
   AEGIS(f,nf){
     // Gate — load spikes when upstream nodes carry high entropy (threat detection)
-    const threat=['AYRE','ODIN'].filter(id=>(nf[id]?.entropy||0)>HUGINN_WARN.entropy).length;
+    const threat=['ORACLE','ODIN'].filter(id=>(nf[id]?.entropy||0)>HUGINN_WARN.entropy).length;
     return threat?{...f,load:Math.min(1,(f.load||0)+threat*0.06)}:f;
   },
   ODIN(f,nf){
     // Router — load reflects aggregate inbound from intake + parallel observers
-    const inbound=['AYRE','HALO','MIMIR'].reduce((s,id)=>s+(nf[id]?.load||0),0)/3;
+    const inbound=['ORACLE','HALO','MIMIR'].reduce((s,id)=>s+(nf[id]?.load||0),0)/3;
     return {...f,load:Math.min(1,(f.load||0)+inbound*0.10)};
   },
   SKADI(f,nf){
@@ -2519,8 +2519,8 @@ async function loadNodeFields(){
   if(S==='tron') draw();
 }
 
-// P21: boot sequence — AYRE→briefing→AEGIS→ODIN→state sync→READY
-const BOOT_LINES=['AYRE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
+// P21: boot sequence — ORACLE→briefing→AEGIS→ODIN→state sync→READY
+const BOOT_LINES=['ORACLE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
 
 function runBoot(){
   const el=document.getElementById('screen-inner');
@@ -2567,11 +2567,11 @@ BUS.on('*',(evt,data)=>{
 // P07+P10-Companion: GRID Execution Bridge — BUS events activate all 27 God Systems
 const EXEC_BRIDGE={
   // Core pipeline events
-  BOOT:               {nodes:['CHAOS','AYRE','ATLAS','ZEUS'],            spike:0.50},
+  BOOT:               {nodes:['CHAOS','ORACLE','ATLAS','ZEUS'],            spike:0.50},
   mode_change:        {nodes:['ODIN','JANUS'],                           spike:0.20},
   cartridge_load:     {nodes:['AEGIS','SKADI','IRIS'],                   spike:0.40},
   cartridge_stop:     {nodes:['SKADI','MNEMOS','HADES'],                 spike:0.25},
-  emu_start:          {nodes:['AYRE','AEGIS','SKADI'],                   spike:0.45},
+  emu_start:          {nodes:['ORACLE','AEGIS','SKADI'],                   spike:0.45},
   emu_error:          {nodes:['AEGIS','ERIS','ZEUS'],                    spike:0.35},
   save_state:         {nodes:['MNEMOS','IRIS','POSEIDON'],               spike:0.40},
   drift_alert:        {nodes:['HUGINN','MERIDIAN','NEMESIS'],            spike:0.30},
