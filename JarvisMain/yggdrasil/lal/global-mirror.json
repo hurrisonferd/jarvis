@@ -1,18 +1,18 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T03:36:37Z",
-    "generated_at_eastern": "2026-06-13 23:36 EDT",
-    "source_commit": "1e47f1c",
+    "generated_at_utc": "2026-06-14T03:59:58Z",
+    "generated_at_eastern": "2026-06-13 23:59 EDT",
+    "source_commit": "7bd4140",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 139,
+    "object_count": 140,
     "by_status": {
       "ACTIVE": 115,
       "ARCHIVED": 2,
       "INACTIVE": 5,
-      "TASK": 17
+      "TASK": 18
     },
     "by_domain": {
       "ARCH": 30,
@@ -20,14 +20,14 @@
       "CONN": 21,
       "GOV": 12,
       "GS": 27,
-      "IDEA": 2,
+      "IDEA": 3,
       "IMPL": 15,
       "LOG": 1,
       "PROJ": 26
     },
     "by_tier": {
       "MAIN": 109,
-      "SIDE": 30
+      "SIDE": 31
     }
   },
   "objects": [
@@ -2303,6 +2303,25 @@
         "auto-tracking",
         "council",
         "index"
+      ]
+    },
+    {
+      "jnl": "IDEA-PAN-INS-0001",
+      "jid": 140,
+      "jidd": "idea-3",
+      "name": "Pantheon — god-system identity & subsystem stewardship",
+      "type": "INS",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "TASK",
+      "parent": "",
+      "tags": [
+        "pantheon",
+        "god-systems",
+        "identity",
+        "stewardship",
+        "subsystems",
+        "idea"
       ]
     }
   ]

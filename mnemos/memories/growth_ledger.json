@@ -1,42 +1,8 @@
 {
-  "updated": "2026-06-14T03:58:06.423499+00:00",
+  "updated": "2026-06-14T03:58:25.989831+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_225629",
-      "date": "2026-06-13",
-      "exchanges": 941,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Found the key fact, and it changes the answer: **your repo already allowlists the four Supabase tools** (`execute_sql`, `list_tables`, `get_edge_funct"
-    },
     {
       "session_id": "20260613_225651",
       "date": "2026-06-13",
@@ -682,6 +648,40 @@
       ],
       "alignment": 1.0,
       "key_insight": "Close \u2014 there are **two different \"Actions\" places**, and you want both:\n\n1. **The secret** \u2192 yes, exactly there: Repo **Settings \u2192 Secrets and variab"
+    },
+    {
+      "session_id": "20260614_035825",
+      "date": "2026-06-14",
+      "exchanges": 1025,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean. Standing by on your call: **want me to merge to main now** so the deploy workflow becomes runnable in the Actions tab? Add the `SUPABASE_ACCESS"
     }
   ]
 }

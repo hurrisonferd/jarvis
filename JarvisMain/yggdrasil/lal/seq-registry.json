@@ -1,5 +1,5 @@
 {
-  "next": 140,
+  "next": 141,
   "map": {
     "ARCH-YGG-CORE-0001": 1,
     "ARCH-JFS-CORE-0001": 2,
@@ -139,6 +139,7 @@
     "ARCH-REL-BIO-0001": 136,
     "GOV-PLS-SPEC-0001": 137,
     "ARCH-JMS-SPEC-0001": 138,
-    "IMPL-TLR-SPEC-0001": 139
+    "IMPL-TLR-SPEC-0001": 139,
+    "IDEA-PAN-INS-0001": 140
   }
 }
