@@ -36,7 +36,7 @@ CANONICAL_URL = "https://oexghfsvhnggddllgvrt.supabase.co"
 # publish: the legal matter, the attorney, anyone referenced) even though Raven
 # exposes himself freely. mnemos_memories + node_messages now back up, redacted.
 TABLES = ["dex_events", "jd_proposals", "node_keys", "mnemos_memories", "node_messages"]
-REDACT_TABLES = {"mnemos_memories", "node_messages"}  # carry conversation → run the scrub
+PRIVATE_ONLY = {"mnemos_memories", "node_messages"}  # carry conversation → Jarvis-Private only, never public
 PAGE = 1000
 
 # Scrub patterns. The term list (names, case ids, anything Raven flags) is supplied
@@ -105,29 +105,27 @@ def main() -> int:
             print(f"backup: {table} FAILED ({e}) — continuing")
             manifest["tables"][table] = {"error": str(e)[:160]}
             continue
-        # FULL unredacted copy → Jarvis-Private (private repo holds the complete spine).
+        # FULL copy → Jarvis-Private (the private repo holds the complete spine, unredacted).
         if PRIVATE_DIR:
             pdir = Path(PRIVATE_DIR) / "cloud"
             pdir.mkdir(parents=True, exist_ok=True)
             (pdir / f"{table}.jsonl").write_text(
                 "".join(json.dumps(r, sort_keys=True, ensure_ascii=False) + "\n" for r in rows))
             print(f"backup: {table} -> {len(rows)} rows (FULL → Jarvis-Private)")
-        # Public (main) copy below — redacted for conversation tables.
-        redacted = table in REDACT_TABLES
-        if redacted and not REDACTION_TERMS:
-            # Fail-safe: never publish conversation to MAIN with an empty scrub list —
-            # that would leak third-party names. No terms set = skip the public copy
-            # (the full copy already went to Jarvis-Private above).
-            print(f"backup: {table} SKIPPED on main — REDACTION_TERMS unset (won't publish unfiltered conversation)")
-            manifest["tables"][table] = {"public": "skipped (no redaction terms)", "private": bool(PRIVATE_DIR)}
+        # PRIVATE-ONLY (conversation): NEVER public. It names third parties, and Raven's policy
+        # — "scrub everyone who isn't John Barber; keep Jarvis/Ayre/God Systems/fictional" —
+        # needs judgment a regex can't do. Raw conversation lives only in Jarvis-Private; the
+        # PUBLIC conversation record is the CURATED memory Jarvis/Ayre author (policy by mind).
+        if table in PRIVATE_ONLY:
+            manifest["tables"][table] = {"public": "never (private-only)", "private": bool(PRIVATE_DIR)}
+            print(f"backup: {table} -> private-only (not published to main)")
             continue
-        if redacted:
-            rows = [redact(r) for r in rows]
+        # Public tables (non-personal): light regex scrub (emails/phones + any set terms) as defense.
+        rows = [redact(r) for r in rows]
         path = OUT / f"{table}.jsonl"
         path.write_text("".join(json.dumps(r, sort_keys=True, ensure_ascii=False) + "\n" for r in rows))
-        manifest["tables"][table] = {"rows": len(rows), "redacted": redacted,
-                                     "terms": len(REDACTION_TERMS) if redacted else 0}
-        print(f"backup: {table} -> {len(rows)} rows{' (redacted)' if redacted else ''}")
+        manifest["tables"][table] = {"rows": len(rows), "public": True}
+        print(f"backup: {table} -> {len(rows)} rows (public)")
     (OUT / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
     print("backup: complete — JarvisMain/Backups/cloud/ holds the latest spine snapshot.")
     return 0

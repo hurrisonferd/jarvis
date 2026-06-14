@@ -157,6 +157,11 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
   a JNL to a real location. Pointers only (JMS law: move references, never truth).
 - **GL12 — Canonical Addressability:** every persistent object must have a JNL address,
   location, tags, anchors, and index reference, or it is **non-governed** (invisible to the loop).
+- **"Yggdrasil-compliant"** is the precise term for "follows the rules" (supersedes the looser
+  "Jarvis-compliant"): an object obeys the JFS-family subsystem rules — **JNS** filename grammar,
+  **JNL** address grammar, **JSL** structure, **JSS** status, **JMMS** memory tier, and **GL12**
+  closure. It is exactly what `validate.py` (JVE) checks. Yggdrasil defines the rules; the rest
+  comply. Use "Yggdrasil-compliant" and apply all applicable subsystem rules.
 - **JSS (status) + JMMS (memory):** every object carries a JSS `status`; for status-managed
   roots (`Ideas/ Implementation/ Breakthroughs/`) the status decides the subfolder. JMMS tiers
   memory by time horizon (JSTM/JLTM/JATM) beside MNEMOS. Specs: `JarvisMain/yggdrasil/jss/`, `JarvisMain/yggdrasil/jmms/`.
