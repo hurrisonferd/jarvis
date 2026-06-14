@@ -1,66 +1,8 @@
 {
-  "updated": "2026-06-14T11:47:46.948413+00:00",
+  "updated": "2026-06-14T11:52:46.292859+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_041901",
-      "date": "2026-06-14",
-      "exchanges": 1047,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done \u2014 **v0.10.1 committed** (`9336eac`), 38 tools, balanced, GREEN. Two things landed, both exactly what you asked:\n\n**1. Richer card metadata** \u2014 `l"
-    },
-    {
-      "session_id": "20260614_104259",
-      "date": "2026-06-14",
-      "exchanges": 46,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done. Charter is written, governed (jid 141), committed. Here's what you paste into the Custom GPT \u2014 copy from the line below:\n\n---\n\n**JARVIS-G / AYRE"
-    },
     {
       "session_id": "20260614_104314",
       "date": "2026-06-14",
@@ -494,6 +436,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`616b430`). Both halves of your \"or\" are done:\n\n**Dex audit \u2014 clean.** 145 objects, nothing old or irrelevant: no stragglers from the ORACLE r"
+    },
+    {
+      "session_id": "20260614_114800",
+      "date": "2026-06-14",
+      "exchanges": 167,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`5c0c79b`) \u2014 branch clean, all on main.\n\nWhere we stand: dex is clean (145 objects), the writable/modular dex lane is live and proven, the mem"
+    },
+    {
+      "session_id": "20260614_115246",
+      "date": "2026-06-14",
+      "exchanges": 177,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Confirmed the nuance: `monitor-daily` shows green \u2014 but that's consistent with it having nothing to commit on those runs (the `git diff --cached --qui"
     }
   ]
 }
