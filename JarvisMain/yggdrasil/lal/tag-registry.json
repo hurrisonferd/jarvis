@@ -140,6 +140,7 @@
       "ARCH-JRV-BIO-0001",
       "ARCH-JRV-BIO-0003",
       "ARCH-REL-BIO-0001",
+      "ARCH-SYS-LOG-0001",
       "AUD-COMP-REVW-0001"
     ],
     "composition": [
@@ -149,6 +150,7 @@
       "PROJ-JPL-JGPP-0001"
     ],
     "connector": [
+      "ARCH-SYS-LOG-0001",
       "CONN-DEX-SPEC-0001",
       "CONN-MCP-RT-0001",
       "CONN-MCP-RT-0002",
@@ -177,6 +179,7 @@
     ],
     "continuity": [
       "ARCH-JC-JIP-0001",
+      "ARCH-SYS-LOG-0001",
       "PROJ-TST-JGPP-0001"
     ],
     "contract": [
@@ -387,6 +390,9 @@
     "halo": [
       "GOV-CHO-JD-0001"
     ],
+    "handoff": [
+      "ARCH-SYS-LOG-0001"
+    ],
     "heartbeat": [
       "GOV-PLS-SPEC-0001"
     ],
@@ -408,6 +414,7 @@
       "ARCH-JRV-BIO-0001",
       "ARCH-JRV-BIO-0003",
       "ARCH-REL-BIO-0001",
+      "ARCH-SYS-LOG-0001",
       "IDEA-PAN-INS-0001",
       "PROJ-MOSC-JD-0001",
       "PROJ-NMX-JGPP-0001"

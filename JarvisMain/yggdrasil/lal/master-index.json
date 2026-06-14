@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 142,
+  "count": 143,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -379,6 +379,20 @@
         "provenance",
         "sync",
         "logging"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Continuity Through the Connector",
+      "jnl": "ARCH-SYS-LOG-0001",
+      "location": "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+      "tags": [
+        "continuity",
+        "identity",
+        "companion",
+        "connector",
+        "handoff"
       ],
       "anchors": [],
       "state": "active"
