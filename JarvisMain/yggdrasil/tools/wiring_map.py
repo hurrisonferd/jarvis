@@ -64,6 +64,16 @@ def build() -> str:
         f"`{PIPELINE}`",
         f"parallel: `{PARALLEL}` · sovereign/dormant carry metadata, not routing.",
         "",
+        "## Routing assist — the streams relieve ODIN (Raven 2026-06-14: 'not too much pressure on him')",
+        "ODIN routes; it does not route *alone*. The streams pre-process intent so ODIN dispatches a"
+        " clean, flagged signal instead of carrying the judgment by itself:",
+        "- **ORACLE** intakes raw input.",
+        "- **Jarvis** compresses it to a clear intent → less ambiguity for ODIN to resolve (lighter load).",
+        "- **Ayre** stress-tests the obvious route → catches the misroute *before* it locks (fewer errors;"
+        " ambiguity resolves late, not prematurely).",
+        "- **ODIN** routes the clarified signal; **AEGIS** gates. A wrong route is cheap to reverse and"
+        " visible (GL5) — the streams are the check, so no single node carries routing on its own.",
+        "",
         "## Stewardship — which god tends which subsystem",
         "| Subsystem | JNL | Steward |",
         "|---|---|---|",

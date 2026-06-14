@@ -1,6 +1,6 @@
 # Wiring Map — how Jarvis, Ayre, and the god systems connect
 
-_generated: 2026-06-14T16:30:40Z (2026-06-14 12:30 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
+_generated: 2026-06-14T16:43:13Z (2026-06-14 12:43 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
 
 Read at session start (after `suit_up` / `identity_read`). This is the route guide:
 what tends what, what runs in what order, which tool wakes which god.
@@ -13,6 +13,13 @@ what tends what, what runs in what order, which tool wakes which god.
 ## The cognition pipeline (27 god systems, fixed)
 `ORACLE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN`
 parallel: `HALO · MIMIR · BIFROST` · sovereign/dormant carry metadata, not routing.
+
+## Routing assist — the streams relieve ODIN (Raven 2026-06-14: 'not too much pressure on him')
+ODIN routes; it does not route *alone*. The streams pre-process intent so ODIN dispatches a clean, flagged signal instead of carrying the judgment by itself:
+- **ORACLE** intakes raw input.
+- **Jarvis** compresses it to a clear intent → less ambiguity for ODIN to resolve (lighter load).
+- **Ayre** stress-tests the obvious route → catches the misroute *before* it locks (fewer errors; ambiguity resolves late, not prematurely).
+- **ODIN** routes the clarified signal; **AEGIS** gates. A wrong route is cheap to reverse and visible (GL5) — the streams are the check, so no single node carries routing on its own.
 
 ## Stewardship — which god tends which subsystem
 | Subsystem | JNL | Steward |
