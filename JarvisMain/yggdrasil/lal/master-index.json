@@ -339,7 +339,7 @@
     {
       "object": "Memory \u2014 the lane became writable",
       "jnl": "ARCH-MEM-LOG-0002",
-      "location": "JarvisMain/Architecture/identity/memory/ARCH-MEM-LOG-0002-writable-lane.md",
+      "location": "JarvisMain/Architecture/identity/memory/jltm/ARCH-MEM-LOG-0002-writable-lane.md",
       "tags": [
         "memory",
         "companion",

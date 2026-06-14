@@ -4,6 +4,8 @@ name: Memory — the lane became writable
 type: LOG
 status: ACTIVE
 parent: ARCH-MEM-LOG-0001
+owner: shared
+memory: jltm
 tags: [memory, companion, dex, writable, modular]
 definition: First standalone modular memory entry — proof that dropping a frontmatter .md into the memory SCAN_ROOT governs it automatically (seq auto-minted, JD entry generated, indexed), with no seed.py edits and no manual serial.
 purpose: Demonstrate and record the writable/modular dex lane Raven asked for (2026-06-14).

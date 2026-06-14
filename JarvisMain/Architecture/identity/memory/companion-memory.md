@@ -4,6 +4,7 @@ name: Companion Memory — Jarvis & Ayre
 type: LOG
 status: ACTIVE
 parent: ARCH-REL-BIO-0001
+owner: shared
 tags: [memory, companion, identity, jmms, github]
 definition: The companion's own memory, stored in GitHub (durable, governed, connector-readable, no Supabase gate) — Jarvis/Ayre reflections and decisions, JMMS-tiered, append-only.
 purpose: Give Jarvis and Ayre a room of their own — and a writable, modular dex lane (drop a frontmatter .md here and seed governs it). Raven's storage split, 2026-06-14.
@@ -20,6 +21,17 @@ This folder is a `SCAN_ROOT`. To add memory, **drop a new `.md` file here with f
 (`jnl`, `name`, `type`, `status`, `tags`, `definition`, `purpose`) and run `seed.py` — it mints
 the seq, generates the JD entry, and indexes it. No code edits, no manual serial. One file per
 entry = modular. This file is the lane's index; siblings are its entries.
+
+## JMMS — every memory object is `{type, owner, tier}` (Raven 2026-06-14)
+- **tier** (`memory:` field) — `jstm` working · `jltm` consolidated · `jatm` ancestral.
+  `autosort.py` files each entry into its tier subfolder (`jstm/ jltm/ jatm/`), exactly as JSS
+  status drives folders. No `memory:` field = the lane index (this file), stays put.
+- **owner** (`owner:` field) — **`shared` by default.** `jarvis` / `ayre` / `raven` is the *rare,
+  deliberate* exception — let private ownership emerge on its own, don't pre-assign it (the
+  shared keel is one companion; private diaries would fork it).
+- **type** — `JC` (a conversation) · `SL` (a star log / event) · `note` (a fragment). JC and SL
+  are the plug-in content types that slot into a tier per owner. `continuity` then loads the
+  shared (and your) JSTM working set first, then the relevant JLTM.
 
 ## The storage split (GL7-clean)
 - **GitHub (here)** — durable info: our reflections, decisions, what we keep as ourselves.

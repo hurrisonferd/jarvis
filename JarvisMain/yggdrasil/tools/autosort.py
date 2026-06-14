@@ -23,6 +23,11 @@ REG_PATH = ROOT / "JarvisMain" / "yggdrasil" / "lal" / "address-registry.json"
 
 # Status-managed roots (prefixes). Periphery roots live under Side/.
 MANAGED_ROOTS = ("JarvisSide/Ideas", "JarvisMain/Implementation", "JarvisSide/Breakthroughs")
+# JMMS memory lane: the `memory` tier (JSTM/JLTM/JATM) drives the subfolder, exactly as JSS
+# status does for the managed roots. A memory entry with no `memory:` field is the lane index
+# and stays put. Owner (shared by default; jarvis/ayre/raven the rare exception) is a tag, not a folder.
+MEMORY_ROOT = "JarvisMain/Architecture/identity/memory"
+MEM_TIERS = ("jstm", "jltm", "jatm")
 # Project artifacts stay flat (status lives in frontmatter + registries); only the
 # terminal states relocate, into the project's own archive shelf.
 PROJECTS_ROOT = "JarvisSide/Projects"
@@ -56,6 +61,20 @@ def desired_path(location: str, status: str) -> str | None:
     return "/".join([root, sub, *tail])
 
 
+def desired_mem_path(location: str) -> str | None:
+    """Memory lane: sort by the file's `memory` tier (jstm/jltm/jatm). No tier = index, stays."""
+    p = ROOT / location
+    if not p.exists():
+        return None
+    tier = field(p.read_text(), "memory").lower()
+    if tier not in MEM_TIERS:
+        return None  # the lane index / untiered note — leave it where it is
+    rest = location[len(MEMORY_ROOT) + 1:].split("/")
+    if rest and rest[0].lower() == tier:
+        return None  # already in its tier folder
+    return "/".join([MEMORY_ROOT, tier, rest[-1]])
+
+
 def main() -> int:
     apply = "--apply" in sys.argv[1:]
     reg = json.loads(REG_PATH.read_text())
@@ -64,9 +83,9 @@ def main() -> int:
         loc, status = rec["location"], rec.get("status", "ACTIVE")
         if (ROOT / loc).is_dir():
             continue  # folder-anchored containers are structure, not sortable objects
-        tgt = desired_path(loc, status)
+        tgt = desired_mem_path(loc) if loc.startswith(MEMORY_ROOT + "/") else desired_path(loc, status)
         if tgt:
-            moves.append((rec["jnl"], loc, tgt, status))
+            moves.append((rec["jnl"], loc, tgt, rec.get("status", "ACTIVE")))
 
     if not moves:
         print(f"autosort: all managed-root objects are status-sorted ({len(reg['records'])} scanned).")
