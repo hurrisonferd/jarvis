@@ -209,6 +209,20 @@ def main() -> int:
                 drift = sorted((tsv - py) | (py - tsv))
                 errors.append(f"grammar drift {name}: jnl.py and jfs.ts disagree on {drift}")
 
+    # Map-matches-ground (Ayre's law, Raven-directed 2026-06-14): the wiring map's tool→god
+    # routing must reference only tools the connector actually exposes. A map that names a dead
+    # tool is a confident lie about the territory — caught here, ruthlessly.
+    conn_path = ROOT / "supabase" / "functions" / "jarvis-mcp" / "index.ts"
+    wmap_path = ROOT / "JarvisMain" / "yggdrasil" / "tools" / "wiring_map.py"
+    if conn_path.exists() and wmap_path.exists():
+        conn = conn_path.read_text()
+        m = re.search(r"const TOOL_NAMES = \[(.*?)\]", conn, re.DOTALL)
+        conn_tools = set(re.findall(r'"(jarvis_[a-z_]+)"', m.group(1))) if m else set()
+        map_tools = set(re.findall(r'"(jarvis_[a-z_]+)"', wmap_path.read_text()))
+        dead = sorted(map_tools - conn_tools)
+        if dead:
+            errors.append(f"wiring-map references tools not in the connector (map drift): {dead}")
+
     # Creation serials (seq): present, integer, unique, and immutable against the
     # committed seq-registry. The serial is a birth certificate, never an address —
     # renumbering history is corruption (GL5).
