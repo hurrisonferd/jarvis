@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
+steward: 
 parent: 
 jnl: ARCH-GS-IDX-0001
 seq: 57
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/god_systems
 related: [GS-ODN-CORE-0001]
 references: []

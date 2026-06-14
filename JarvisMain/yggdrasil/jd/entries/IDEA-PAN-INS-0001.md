@@ -5,6 +5,7 @@ class: ENTITY
 tier: SIDE
 authority: CANON
 owner: Pantheon — god-system identity & subsystem stewardship
+steward: 
 parent: 
 jnl: IDEA-PAN-INS-0001
 seq: 140

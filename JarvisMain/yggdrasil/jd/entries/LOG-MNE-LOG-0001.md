@@ -5,12 +5,13 @@ class: ENTITY
 tier: MAIN
 authority: CANON
 owner: MNEMOS Cloud Backup
+steward: 
 parent: GS-MNE-CORE-0001
 jnl: LOG-MNE-LOG-0001
 seq: 111
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-14
 source: JarvisMain/Backups
 related: []
 references: []

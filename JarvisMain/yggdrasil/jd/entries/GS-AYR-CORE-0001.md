@@ -5,6 +5,7 @@ class: SYSTEM
 tier: MAIN
 authority: CANON
 owner: God Systems
+steward: 
 parent: ARCH-GS-IDX-0001
 jnl: GS-AYR-CORE-0001
 seq: 14

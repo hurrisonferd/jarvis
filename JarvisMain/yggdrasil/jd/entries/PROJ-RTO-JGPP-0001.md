@@ -5,12 +5,13 @@ class: ENTITY
 tier: SIDE
 authority: CANON
 owner: Round Table Observatory
+steward: 
 parent: PROJ-RTO-BIO-0001
 jnl: PROJ-RTO-JGPP-0001
 seq: 133
 status: TASK
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisSide/Projects/RoundTable/JGPP/ROUNDTABLEJGPP-061126-0001-ROUND-TABLE-OBSERVATORY.md
 related: []
 references: []

@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: Governance
+steward: 
 parent: 
 jnl: GOV-LC-SPEC-0001
 seq: 127
 status: TASK
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md
 related: []
 references: []

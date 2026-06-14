@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JCS Pipeline
+steward: 
 parent: IMPL-JCSE-SPEC-0001
 jnl: IMPL-JQL-CORE-0001
 seq: 96
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Implementation/Active/JIP-0608-E
 related: [IMPL-JCSE-SPEC-0001, ARCH-JD-CORE-0001]
 references: []

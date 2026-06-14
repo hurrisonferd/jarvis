@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: Governance
+steward: 
 parent: 
 jnl: GOV-PLS-SPEC-0001
 seq: 137
 status: TASK
 created: 2026-06-13
-updated: 2026-06-13
+updated: 2026-06-14
 source: JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md
 related: []
 references: []

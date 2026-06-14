@@ -5,12 +5,13 @@ class: ENTITY
 tier: SIDE
 authority: CANON
 owner: GDS Bootstrap Activation Protocol
+steward: 
 parent: PROJ-GDS-BIO-0001
 jnl: PROJ-GDS-JGPP-0002
 seq: 123
 status: TASK
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisSide/Projects/GDS/JGPP/GDSJGPP-061126-0002-GDS-BOOTSTRAP-ACTIVATION-PROTOCOL.md
 related: [PROJ-GDS-JGPP-0001]
 references: []

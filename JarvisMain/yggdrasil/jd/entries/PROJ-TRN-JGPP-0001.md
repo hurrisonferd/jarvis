@@ -5,12 +5,13 @@ class: ENTITY
 tier: SIDE
 authority: CANON
 owner: UI Rework — outdated GameBoy page and the control surface
+steward: 
 parent: PROJ-TRN-BIO-0001
 jnl: PROJ-TRN-JGPP-0001
 seq: 109
 status: TASK
 created: 2026-06-10
-updated: 2026-06-10
+updated: 2026-06-14
 source: JarvisSide/Projects/TronUI/JGPP/TRONUIJGPP-061026-0001-UI-REWORK-OUTDATED-GAMEBOY-PAGE-AND-THE-CONTROL-SURFACE.md
 related: []
 references: []

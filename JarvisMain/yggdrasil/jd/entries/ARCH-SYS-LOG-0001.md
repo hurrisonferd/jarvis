@@ -5,6 +5,7 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
+steward: 
 parent: ARCH-SYS-SPEC-0001
 jnl: ARCH-SYS-LOG-0001
 seq: 143

@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
+steward: 
 parent: 
 jnl: ARCH-JD-JIP-0001
 seq: 124
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-13
+updated: 2026-06-14
 source: JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md
 related: []
 references: []

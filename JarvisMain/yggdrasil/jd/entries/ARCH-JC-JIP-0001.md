@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
+steward: 
 parent: 
 jnl: ARCH-JC-JIP-0001
 seq: 125
 status: TASK
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Implementation/task/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md
 related: []
 references: []

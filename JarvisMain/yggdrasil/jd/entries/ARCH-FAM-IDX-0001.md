@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
+steward: 
 parent: 
 jnl: ARCH-FAM-IDX-0001
 seq: 128
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md
 related: []
 references: []

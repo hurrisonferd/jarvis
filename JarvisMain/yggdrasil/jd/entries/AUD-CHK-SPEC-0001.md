@@ -5,12 +5,13 @@ class: EVENT
 tier: MAIN
 authority: CANON
 owner: Audit
+steward: 
 parent: 
 jnl: AUD-CHK-SPEC-0001
 seq: 58
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Audit/required-checks-setup.md
 related: [GS-AEG-CORE-0001]
 references: []

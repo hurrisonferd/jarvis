@@ -5,12 +5,13 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: Governance
+steward: 
 parent: 
 jnl: GOV-CHO-JD-0001
 seq: 131
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-11
+updated: 2026-06-14
 source: JarvisMain/Implementation/task/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md
 related: []
 references: []
