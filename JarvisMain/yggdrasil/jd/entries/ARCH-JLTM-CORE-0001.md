@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
 references: []
 tags: [memory, long-term, architecture]
-aliases: []
+aliases: [jltm, long-term memory]
 ref: [PRI, SPEC, IDX]
 ---
 

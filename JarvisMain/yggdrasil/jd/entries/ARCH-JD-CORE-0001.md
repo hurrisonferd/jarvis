@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JNL-CORE-0001, ARCH-LAL-CORE-0001]
 references: []
 tags: [dictionary, semantic, core, architecture, dex]
-aliases: [dex, jd]
+aliases: [dex, jd, jarvis dictionary]
 ref: [PRI, SPEC, IDX]
 ---
 

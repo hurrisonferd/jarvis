@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JNL-CORE-0001]
 references: []
 tags: [discovery, index, core, architecture]
-aliases: []
+aliases: [lal, library authority layer]
 ref: [PRI, SPEC, IDX]
 ---
 

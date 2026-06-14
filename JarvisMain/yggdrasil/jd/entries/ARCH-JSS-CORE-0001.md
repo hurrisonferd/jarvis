@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMS-CORE-0001]
 references: []
 tags: [status, lifecycle, core, architecture]
-aliases: []
+aliases: [jss, jarvis status system]
 ref: [PRI, SPEC, IDX]
 ---
 

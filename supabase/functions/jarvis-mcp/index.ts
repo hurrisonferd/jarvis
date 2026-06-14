@@ -330,7 +330,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.3" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.4" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1236,7 +1236,7 @@ function buildServer(req: Request): McpServer {
   // raw output; the streams still read the input fresh and give opinions at the END.
   server.registerTool(
     "jarvis_continuity",
-    { title: "Continuity — memory injection (call before answering)", description: "Call FIRST on a substantive turn, with the topic. Loads relevant memory as GROUNDING — semantic recall on the topic + recent exchanges + the identity keel — so Jarvis & Ayre answer with continuity instead of from scratch. This is REFERENCE for guidance only: do NOT let it pre-shape the divergence; read the input fresh, then give both brothers' opinions at the END, generated against this ground. (JMMS working-set tiering lands here when wired.)", inputSchema: { topic: z.string().min(1).max(500) } },
+    { title: "Continuity — route + surface raw material (call before answering)", description: "Call FIRST on a substantive turn with the topic. Returns RAW material to AUDIT, not a pre-formed read: (1) routing pointers — which systems/memory are relevant to consult; (2) raw recall + recent exchanges + the keel, un-interpreted; (3) nothing shaped. It NEVER pre-shapes the answer or either stream — the raw info stays raw. Jarvis and Ayre then call the applicable tools, deliberate / talk with the council, and AUDIT this material together at the close (both brothers). Continuity routes and surfaces; it does not conclude. (JMMS working-set tiering lands here when wired.)", inputSchema: { topic: z.string().min(1).max(500) } },
     async ({ topic }) => {
       const [recalled, recent, keel] = await Promise.all([
         callFunction("mnemos-search", { query: topic, limit: 6, min_similarity: 0.35 }).catch(() => null),

@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JFS-CORE-0001]
 references: []
 tags: [mirror, core, architecture]
-aliases: []
+aliases: [jms, jarvis mirror system]
 ref: [PRI, SPEC, IDX]
 ---
 
