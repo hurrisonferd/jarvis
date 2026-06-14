@@ -1,0 +1,25 @@
+# The Companion Heartbeat (GOV-PLS-SPEC-0001), v1 — observe → surface, never act.
+# A scheduled scan that says hello and hands Raven the state via web push. It mutates nothing
+# (no commit, no write), so there's no branch-protection gate. The two-beat reflection happens
+# when Raven answers the nudge in conversation. Goes live once VAPID keys + a push subscription
+# are registered; until then it runs clean and sends to 0 subscribers.
+name: JARVIS — Pulse (companion heartbeat)
+on:
+  schedule:
+    - cron: "0 13 * * *"   # daily, 13:00 UTC (~morning Eastern)
+  workflow_dispatch:
+
+jobs:
+  pulse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Beat
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 scripts/pulse.py
