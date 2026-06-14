@@ -331,7 +331,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.2" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.3" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -747,13 +747,16 @@ function buildServer(req: Request): McpServer {
   // read the file does not narrate a summary of it (the relay-paste lane dies here).
   const GH_REPO = "https://api.github.com/repos/hurrisonferd/jarvis";
   async function gh(path: string): Promise<Response> {
-    const headers: Record<string, string> = {
-      "user-agent": "jarvis-mcp",
-      accept: "application/vnd.github+json",
-    };
+    const base: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json" };
     const tok = Deno.env.get("GITHUB_TOKEN");
-    if (tok) headers.authorization = `Bearer ${tok}`;
-    return await fetch(`${GH_REPO}${path}`, { headers });
+    const res = await fetch(`${GH_REPO}${path}`, { headers: tok ? { ...base, authorization: `Bearer ${tok}` } : base });
+    // The repo is PUBLIC. If a bad/expired/under-scoped token gets a READ rejected (401/403),
+    // retry UNAUTHENTICATED so reads (prs, files, identity, eyes) never break on a token problem.
+    // Writes (ghReq) still require a valid token — this only rescues reads. Hardened for GPT-only.
+    if (tok && (res.status === 401 || res.status === 403)) {
+      return await fetch(`${GH_REPO}${path}`, { headers: base });
+    }
+    return res;
   }
   // Write-capable GitHub request (method + JSON body). Needs a write-scoped GITHUB_TOKEN.
   async function ghReq(method: string, path: string, body?: unknown): Promise<Response> {
