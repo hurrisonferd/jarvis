@@ -51,6 +51,9 @@
     "attribution": [
       "GOV-GSC-SPEC-0001"
     ],
+    "audio": [
+      "LOG-MED-LOG-0001"
+    ],
     "audit": [
       "AUD-CHK-SPEC-0001",
       "AUD-FULL-REVW-0001",
@@ -243,6 +246,7 @@
       "PROJ-DEO-JGPP-0001"
     ],
     "dex": [
+      "ARCH-JD-CORE-0001",
       "ARCH-JD-JIP-0001",
       "ARCH-MEM-LOG-0002",
       "CONN-DEX-SPEC-0001",
@@ -429,6 +433,9 @@
     "ids": [
       "IMPL-FMT-SPEC-0001"
     ],
+    "images": [
+      "LOG-MED-LOG-0001"
+    ],
     "immutable": [
       "ARCH-JATM-CORE-0001"
     ],
@@ -566,6 +573,9 @@
       "CONN-MCP-RT-0018",
       "CONN-MSB-CORE-0001",
       "IMPL-TLR-SPEC-0001"
+    ],
+    "media": [
+      "LOG-MED-LOG-0001"
     ],
     "memory": [
       "ARCH-JATM-CORE-0001",
@@ -712,7 +722,8 @@
     ],
     "reference": [
       "ARCH-SYS-SPEC-0001",
-      "IMPL-HYG-SPEC-0001"
+      "IMPL-HYG-SPEC-0001",
+      "LOG-MED-LOG-0001"
     ],
     "reflection": [
       "GOV-PLS-SPEC-0001"
@@ -770,6 +781,9 @@
     ],
     "short-term": [
       "ARCH-JSTM-CORE-0001"
+    ],
+    "side": [
+      "LOG-MED-LOG-0001"
     ],
     "simulation": [
       "IMPL-JCSF-SPEC-0001"

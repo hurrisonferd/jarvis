@@ -15,11 +15,11 @@ updated: 2026-06-14
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JNL-CORE-0001, ARCH-LAL-CORE-0001]
 references: []
-tags: [dictionary, semantic, core, architecture]
+tags: [dictionary, semantic, core, architecture, dex]
 aliases: [dex, jd]
 ref: [PRI, SPEC, IDX]
 ---
 
-**Definition:** Semantic authority — a semantic DNS storing definition, identity, authority, routing hints.
+**Definition:** THE one registry of every governed object (definition + JNL + tags + relationships) — a semantic DNS. Canonical name: JD (Jarvis Dictionary); 'the Dex' is its sanctioned nickname (the Pokedex-facing view). Same thing under every face: truth = JarvisMain/yggdrasil/jd/entries; discovery = LAL; query surface = the jarvis-dex function + jarvis_dex_*/jarvis_jd_resolve tools; live mirror = Supabase jnl_registry/jd_entries. One dictionary, one home, many faces — never a second registry.
 
-**Purpose:** Explain what every object is and why it exists, delegating retrieval to JNL/LAL.
+**Purpose:** Be the single source of truth for what every object IS — centralized under Yggdrasil, mirrored (never duplicated) everywhere it is read.

@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T15:34:14Z",
-    "generated_at_eastern": "2026-06-14 11:34 EDT",
-    "source_commit": "2deed95",
+    "generated_at_utc": "2026-06-14T15:47:12Z",
+    "generated_at_eastern": "2026-06-14 11:47 EDT",
+    "source_commit": "0fa50bd",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 145,
+    "object_count": 146,
     "by_status": {
-      "ACTIVE": 120,
+      "ACTIVE": 121,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
@@ -22,11 +22,11 @@
       "GS": 27,
       "IDEA": 3,
       "IMPL": 15,
-      "LOG": 1,
+      "LOG": 2,
       "PROJ": 26
     },
     "by_tier": {
-      "MAIN": 114,
+      "MAIN": 115,
       "SIDE": 31
     }
   },
@@ -141,7 +141,8 @@
         "dictionary",
         "semantic",
         "core",
-        "architecture"
+        "architecture",
+        "dex"
       ]
     },
     {
@@ -2413,6 +2414,24 @@
         "dex",
         "writable",
         "modular"
+      ]
+    },
+    {
+      "jnl": "LOG-MED-LOG-0001",
+      "jid": 146,
+      "jidd": "log-2",
+      "name": "Media Library",
+      "type": "LOG",
+      "class": "ENTITY",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "",
+      "tags": [
+        "media",
+        "audio",
+        "images",
+        "reference",
+        "side"
       ]
     }
   ]
