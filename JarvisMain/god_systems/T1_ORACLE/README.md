@@ -1,4 +1,8 @@
-# AYRE — T1 Execution
+# ORACLE — T1 Execution
+
+> Renamed from AYRE → ORACLE (Raven-sanctioned 2026-06-14) to end the name collision
+> with the AYRE companion stream. Address held stable at `GS-AYR-CORE-0001` (JMS law).
+
 
 **Tier:** 1 — Execution  
 **Pipeline position:** 1st (entry point)  
@@ -10,4 +14,4 @@
 - Tag inputs with session context
 
 ## Pipeline
-`AYRE → AEGIS`
+`ORACLE → AEGIS`

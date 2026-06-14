@@ -27,7 +27,7 @@ export type RoutingDecision = {
 
 // Canonical function note per system — used as the "reason" when a rule fires.
 const FN: Record<string, string> = {
-  AYRE: "intake + intent parse",
+  ORACLE: "intake + intent parse / routing",
   AEGIS: "Gold Law / authority gate",
   ODIN: "orchestration routing",
   SKADI: "execution runtime",
@@ -143,9 +143,9 @@ const RULES: Rule[] = [
   },
 ];
 
-// AYRE always parses intake; ERIS is always-active guardian. Every turn gets
+// ORACLE always parses intake; ERIS is always-active guardian. Every turn gets
 // MNEMOS at the tail (the exchange is consolidated to memory downstream).
-const SPINE_HEAD = ["AYRE"];
+const SPINE_HEAD = ["ORACLE"];
 const SPINE_GUARDIAN = "ERIS";
 
 // Forbidden edges (P26): never present these as a direct hop in one decision.
@@ -178,7 +178,7 @@ export function route(input: string): RoutingDecision {
   const text = input ?? "";
   const matched = RULES.filter((r) => r.test.test(text));
 
-  // Default: pure conversation → AYRE intake, ambient HALO, MNEMOS tail.
+  // Default: pure conversation → ORACLE intake, ambient HALO, MNEMOS tail.
   if (matched.length === 0) {
     return {
       intent: "converse",

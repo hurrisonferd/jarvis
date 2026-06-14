@@ -130,7 +130,7 @@ SUBSTRATE = [
 
 # --- The 27 God Systems (GS). (code, name, tier_group, definition) ---
 GOD_SYSTEMS = [
-    ("AYR", "AYRE", "core", "Intake / reflection stream; normalizes inbound payloads into events."),
+    ("AYR", "ORACLE", "core", "Intake / intent-routing god system; first contact with all inputs — normalizes, classifies, routes to AEGIS (renamed from AYRE 2026-06-14; address GS-AYR-CORE-0001 held stable per JMS)."),
     ("AEG", "AEGIS", "core", "Permission + safety gating; validates before execution (GL6)."),
     ("ODN", "ODIN", "core", "Intent routing + classification; single routing plane."),
     ("KRN", "KRONOS", "core", "Temporal sequencing + patch governance; deterministic ordering."),

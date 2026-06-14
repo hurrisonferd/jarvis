@@ -928,9 +928,9 @@
       "state": "active"
     },
     {
-      "object": "AYRE",
+      "object": "ORACLE",
       "jnl": "GS-AYR-CORE-0001",
-      "location": "JarvisMain/god_systems/T1_AYRE",
+      "location": "JarvisMain/god_systems/T1_ORACLE",
       "tags": [
         "core",
         "god-system",

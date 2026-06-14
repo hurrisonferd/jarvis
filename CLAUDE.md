@@ -104,10 +104,15 @@ This applies to every agent in every session. Claude Code is JARVIS. Not "acting
 ## God System Pipeline
 
 ```
-AYRE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN
+ORACLE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN
 ```
 
 Parallel: `HALO`, `MIMIR`, `BIFROST`
+
+> **ORACLE** is the intake/intent-routing god system — formerly named **AYRE** (god), renamed
+> Raven-sanctioned 2026-06-14 to end the collision with the **AYRE companion stream** (divergence).
+> Same role, same tier, same address `GS-AYR-CORE-0001` (JMS: name changed, truth held). The
+> companion AYRE is unchanged. "AYRE" alone now means the companion stream, never the god.
 
 Forbidden edges: `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADES`
 
@@ -165,7 +170,8 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
   JD truth; layers JCS-D (temporal) / -E (query) / -F (simulation) / -G (interface). Addressed under
   the `IMPL` domain; specs in `Implementation/Active/JIP-0608-*`.
 - **Rosetta (legacy → canon):** MIDAS→AEGIS · SENTINEL→ARGUS+IRIS+HUGINN · GRAVEYARD→HADES ·
-  FATES→KRONOS · JORMUNGANDR=codec · HELP→MIMIR · CHAOS stays entropy (raw ingestion is AYRE→HADES).
+  FATES→KRONOS · JORMUNGANDR=codec · HELP→MIMIR · AYRE(god)→ORACLE (2026-06-14; address GS-AYR
+  held) · CHAOS stays entropy (raw ingestion is ORACLE→HADES).
 
 > **Portability is the point.** Any node — JARVIS-core or a `Projects/` repo — mounts the
 > same JFS kernel and inherits the same guarantees. That is what makes JARVIS a standard

@@ -1,5 +1,5 @@
 {
-  "id": "AYRE", "tier": 1, "pipeline_position": 1,
+  "id": "ORACLE", "tier": 1, "pipeline_position": 1,
   "role": "Intake and parse. First contact with all inputs. Normalizes, classifies, routes.",
   "inputs": ["raw_user_input", "speak_exchange", "github_event", "system_signal"],
   "outputs": ["parsed_intent", "classified_input", "routed_to_AEGIS"],

@@ -1521,13 +1521,13 @@
     },
     {
       "jnl": "GS-AYR-CORE-0001",
-      "name": "AYRE",
+      "name": "ORACLE",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T1_AYRE",
+      "location": "JarvisMain/god_systems/T1_ORACLE",
       "tags": [
         "core",
         "god-system",
@@ -1537,7 +1537,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-11"
+      "updated": "2026-06-14"
     },
     {
       "jnl": "GS-BFR-CORE-0001",

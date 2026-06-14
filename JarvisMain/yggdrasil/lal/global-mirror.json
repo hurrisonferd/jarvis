@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T10:42:09Z",
-    "generated_at_eastern": "2026-06-14 06:42 EDT",
-    "source_commit": "9e2aebb",
+    "generated_at_utc": "2026-06-14T10:59:47Z",
+    "generated_at_eastern": "2026-06-14 06:59 EDT",
+    "source_commit": "1a7d649",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -247,7 +247,7 @@
       "jnl": "GS-AYR-CORE-0001",
       "jid": 14,
       "jidd": "gs-1",
-      "name": "AYRE",
+      "name": "ORACLE",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",

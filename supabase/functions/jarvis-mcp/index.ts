@@ -181,7 +181,7 @@ async function countRows(table: string): Promise<number | null> {
 // The 27 God Systems — canon, fixed. Surfaced so suit-up shows the whole rig.
 const GOD_SYSTEMS = {
   count: 27,
-  pipeline: "AYRE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN",
+  pipeline: "ORACLE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN",
   parallel: ["HALO", "MIMIR", "BIFROST"],
   tiers: TIERS, // single source of truth (council.ts) — no drift between HUD + council
 };
