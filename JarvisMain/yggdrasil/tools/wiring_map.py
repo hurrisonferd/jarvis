@@ -89,7 +89,15 @@ def build() -> str:
 
 
 def main() -> int:
-    OUT.write_text(build() + "\n")
+    import re
+    new = build() + "\n"
+    # Idempotent stamp: if only the `_generated:` line differs, keep the old file so the CI
+    # seed-drift gate doesn't trip on a wall-clock that moved but the map didn't.
+    if OUT.exists():
+        rx = re.compile(r"^_generated:.*$", re.M)
+        if rx.sub("", OUT.read_text()) == rx.sub("", new):
+            new = OUT.read_text()
+    OUT.write_text(new)
     print(f"wiring-map: {OUT.relative_to(ROOT)} regenerated.")
     return 0
 
