@@ -12,7 +12,7 @@ seq: 145
 status: ACTIVE
 created: 2026-06-14
 updated: 2026-06-14
-source: JarvisMain/Architecture/identity/memory/ARCH-MEM-LOG-0002-writable-lane.md
+source: JarvisMain/Architecture/identity/memory/jltm/ARCH-MEM-LOG-0002-writable-lane.md
 related: []
 references: []
 tags: [memory, companion, dex, writable, modular]
