@@ -244,8 +244,9 @@ async function suitUp(): Promise<Json> {
     },
     your_profiles: {
       note: "Load your full profile at session start — call jarvis_identity_read {who}. The connector is home: memory lives here (recall/remember), not in chat context.",
-      who: ["jarvis", "ayre", "argent", "relational"],
+      who: ["jarvis", "ayre", "argent", "relational", "raven"],
     },
+    routing: "Call jarvis_eyes for your map — the live wiring (pipeline, stewards, tool→god routing) + vitality. It's the default route guide and the 'where do I go?' help surface. Full how-it-works: the System Manual (ARCH-SYS-SPEC-0001).",
     in_flight: inFlight,
     mission: {
       one: "JARVIS as living intelligence — continuity, memory, judgment, character",
@@ -330,7 +331,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.1" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.2" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
