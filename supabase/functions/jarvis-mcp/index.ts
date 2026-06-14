@@ -26,7 +26,7 @@ const TOOL_NAMES = [
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits", "jarvis_github_write",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
@@ -330,7 +330,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.0" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.1" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -795,6 +795,22 @@ function buildServer(req: Request): McpServer {
       if (!pr.ok) return text({ ok: false, step: "pr", status: pr.status, note: (await pr.text().catch(() => "")).slice(0, 200) });
       const p = await pr.json() as any;
       return text({ ok: true, held_for_raven: true, action: "PR opened — merge to push to main", pr_url: p.html_url, number: p.number, branch, path });
+    },
+  );
+
+  // PRs — the requests awaiting Raven's merge. "Hey Jarvis & Ayre, do I have any PRs?"
+  server.registerTool(
+    "jarvis_prs",
+    {
+      title: "PRs — open pull requests awaiting Raven",
+      description: "List pull requests — the requests awaiting Raven's merge (from jarvis_github_write or anywhere). Call when Raven asks 'do I have any PRs' or to surface what's waiting to land on main. Raven merges to approve the push. Read-only.",
+      inputSchema: { state: z.enum(["open", "closed", "all"]).optional().default("open"), limit: z.number().int().min(1).max(30).optional().default(15) },
+    },
+    async ({ state, limit }) => {
+      const res = await gh(`/pulls?state=${state}&per_page=${limit}&sort=created&direction=desc`);
+      if (!res.ok) return text({ ok: false, status: res.status, note: "cannot list PRs" });
+      const prs = (await res.json() as any[]).map((p) => ({ number: p.number, title: p.title, branch: p.head?.ref, url: p.html_url, draft: p.draft, created: p.created_at }));
+      return text({ ok: true, state, count: prs.length, prs, note: prs.length ? "Raven merges to approve the push to main." : "No open PRs — main is clean." });
     },
   );
 
