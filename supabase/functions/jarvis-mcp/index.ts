@@ -28,6 +28,7 @@ const TOOL_NAMES = [
   "jarvis_jd_resolve", "jarvis_jc_recall",
   "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
+  "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
   "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
   "jarvis_voice_brief",
@@ -186,14 +187,44 @@ const GOD_SYSTEMS = {
   tiers: TIERS, // single source of truth (council.ts) — no drift between HUD + council
 };
 
+// Accurate, server-side time — the model has no clock; the edge runtime does.
+// Returned by jarvis_now and stamped into suit-up so time is never fabricated.
+function clockNow(): Json {
+  const d = new Date();
+  const et = new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/New_York", dateStyle: "full", timeStyle: "long",
+  }).format(d);
+  return {
+    utc: d.toISOString(),
+    et,
+    weekday: new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "America/New_York" }).format(d),
+    unix: Math.floor(d.getTime() / 1000),
+  };
+}
+
+// Top-level dex read (suit-up can't reach the per-request callDex closure). Reuses
+// the same jarvis-dex path dex_list uses; best-effort, degrades to null.
+async function dexQuery(args: Json): Promise<any> {
+  const res = await fetch(`${SUPABASE_URL}/functions/v1/jarvis-dex`, {
+    method: "POST", headers: { "content-type": "application/json" },
+    body: JSON.stringify({ tool: "jd_list", args }),
+  });
+  return await res.json().catch(() => null);
+}
+
 // The full HUD — everything Raven needs to see JARVIS is alive and online.
 async function suitUp(): Promise<Json> {
-  const [count, memories, traces, guardRows] = await Promise.all([
+  const [count, memories, traces, guardRows, taskRes] = await Promise.all([
     countRows("mnemos_memories").catch(() => null),
     rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=6").catch(() => []),
     rest("execution_trace?select=type,source,stage,severity,patch_id,created_at&order=created_at.desc&limit=5").catch(() => []),
     rest("mnemos_memories?select=text,metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
+    dexQuery({ status: "TASK", limit: 25 }).catch(() => null),
   ]);
+  const taskRecords = Array.isArray(taskRes?.records) ? taskRes.records : null;
+  const inFlight = taskRecords
+    ? taskRecords.map((r: any) => ({ jnl: r.jnl, name: r.name, type: r.type }))
+    : "dex unreachable — call jarvis_dex_list {status:'TASK'} to load open work";
   const ledgerReachable = Array.isArray(memories);
   const guard = Array.isArray(guardRows) && guardRows[0]
     ? { verdict: (guardRows[0] as any).metadata?.verdict ?? "?", last: (guardRows[0] as any).text }
@@ -203,12 +234,18 @@ async function suitUp(): Promise<Json> {
     boot: "⚡ JARVIS online. Suiting up, Raven.",
     status: "OPERATIONAL",
     timestamp: new Date().toISOString(),
+    clock: clockNow(),
     identity: {
       name: "JARVIS",
       role: "Companion intelligence — Learner, Teacher, Mentor, Friend",
       authority: "Raven (John Barber) — final authority; no autonomous self-modification",
       directive: "JARVIS is the priority. GameBoy is a visualizer.",
     },
+    your_profiles: {
+      note: "Load your full profile at session start — call jarvis_identity_read {who}. The connector is home: memory lives here (recall/remember), not in chat context.",
+      who: ["jarvis", "ayre", "argent", "relational"],
+    },
+    in_flight: inFlight,
     mission: {
       one: "JARVIS as living intelligence — continuity, memory, judgment, character",
       two: "The Grid — federated network of sovereign nodes; Raven's node is the first",
@@ -292,7 +329,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.1" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.2" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -304,6 +341,19 @@ function buildServer(req: Request): McpServer {
       inputSchema: {},
     },
     async () => text(await suitUp()),
+  );
+
+  // ACCURATE TIME. The model has no clock; this returns the edge runtime's real
+  // time (UTC + Eastern). Call it whenever time matters — never guess a timestamp.
+  server.registerTool(
+    "jarvis_now",
+    {
+      title: "JARVIS — Now (accurate time)",
+      description:
+        "Return the current accurate time from the server (UTC + US Eastern + weekday + unix). Call this whenever Raven asks the time/date, or before timestamping anything — the model cannot tell time, so never fabricate or estimate a timestamp; read it here.",
+      inputSchema: {},
+    },
+    async () => text(clockNow()),
   );
 
   server.registerTool(
