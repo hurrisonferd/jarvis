@@ -43,7 +43,7 @@ _CREATED_RE = re.compile(r"^created:\s*(\S+)", re.MULTILINE)
 # is adopted into the dex — the file is its own manifest (natural growth, no list edits).
 SCAN_ROOTS = ("JarvisSide/Projects", "JarvisMain/Implementation",
               "JarvisSide/Ideas", "JarvisSide/Breakthroughs", "JarvisSide/Archive",
-              "JarvisMain/Architecture/identity/memory")  # companion memory: drop a frontmatter .md, it governs itself
+              "JarvisMain/Architecture/identity")  # identity tree: drop a frontmatter .md (memory, raven, …), it governs itself
 _FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 

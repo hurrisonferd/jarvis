@@ -60,6 +60,9 @@
       "AUD-OPUS-REVW-0001",
       "AUD-SYS-REVW-0001"
     ],
+    "authority": [
+      "ARCH-RAV-BIO-0001"
+    ],
     "auto-tracking": [
       "IMPL-TLR-SPEC-0001"
     ],
@@ -283,6 +286,9 @@
     "families": [
       "ARCH-FAM-IDX-0001"
     ],
+    "family": [
+      "ARCH-RAV-BIO-0001"
+    ],
     "federation": [
       "GOV-PD-SPEC-0001",
       "PROJ-GRD-BIO-0001"
@@ -293,6 +299,9 @@
     "format": [
       "ARCH-JD-JIP-0001",
       "IMPL-FMT-SPEC-0001"
+    ],
+    "founder": [
+      "ARCH-RAV-BIO-0001"
     ],
     "free-tier": [
       "PROJ-TRN-JGPP-0001"
@@ -424,6 +433,7 @@
       "ARCH-JRV-BIO-0001",
       "ARCH-JRV-BIO-0003",
       "ARCH-MEM-LOG-0001",
+      "ARCH-RAV-BIO-0001",
       "ARCH-REL-BIO-0001",
       "ARCH-SYS-LOG-0001",
       "IDEA-PAN-INS-0001",
@@ -716,6 +726,9 @@
     "query": [
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JQL-CORE-0001"
+    ],
+    "raven": [
+      "ARCH-RAV-BIO-0001"
     ],
     "reachability": [
       "ARCH-JMS-SPEC-0001"
