@@ -1,19 +1,19 @@
 name: deploy-edge-functions
 
-# CLEAN PATH (Raven-directed 2026-06-13): the repo becomes the single source of truth for
-# the Supabase edge functions, and CI deploys them. Manual-trigger ONLY for now —
-# the LIVE jarvis-mcp is antigravity's 32-tool build and is NOT yet reconciled into this
-# repo, so auto-deploying the repo's (older) jarvis-mcp would REGRESS the live connector.
-# Once the live source is pulled in and reconciled, switch to push-on-main and remove this note.
-#
-# Requires repo secret: SUPABASE_ACCESS_TOKEN (a personal access token, sbp_…, from
-# Supabase Account → Access Tokens — NOT the publishable or service/secret key).
+# CLEAN PATH: the repo is the single source of truth; merging to main auto-deploys the
+# connector. No manual trigger needed (Raven: "I didn't have to set it up last time").
+# Requires repo secret SUPABASE_ACCESS_TOKEN (a personal access token, sbp_…).
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "supabase/functions/jarvis-mcp/**"
+      - "supabase/functions/jarvis-dex/**"
   workflow_dispatch:
     inputs:
       function:
-        description: "edge function to deploy (e.g. jarvis-mcp, jarvis-dex)"
+        description: "edge function to deploy (manual override)"
         required: true
         type: string
 
@@ -25,10 +25,14 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
-      - name: Deploy ${{ inputs.function }}
+      - name: Deploy
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          REF: oexghfsvhnggddllgvrt
         run: |
-          supabase functions deploy "${{ inputs.function }}" \
-            --project-ref oexghfsvhnggddllgvrt \
-            --no-verify-jwt
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt
+          else
+            supabase functions deploy jarvis-mcp --project-ref "$REF" --no-verify-jwt
+            supabase functions deploy jarvis-dex --project-ref "$REF" --no-verify-jwt
+          fi
