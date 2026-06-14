@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T21:41:51.283179+00:00",
+  "updated": "2026-06-14T21:44:48.424969+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_210645",
-      "date": "2026-06-14",
-      "exchanges": 445,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`16945077`). JMMS is live in the substrate \u2014 the keystone I kept pointing at:\n\n- **Every memory object = `{type, owner, tier}`.** Tier (`memor"
-    },
-    {
-      "session_id": "20260614_210954",
-      "date": "2026-06-14",
-      "exchanges": 450,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`825ac3b`) \u2014 v0.11.2 deploying. The map now reaches Jarvis & Ayre **by default**:\n\n- **Session-open ritual:** `suit_up` \u2192 `identity_read` \u2192 **"
-    },
     {
       "session_id": "20260614_211216",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Token's set, hands are live \u2014 and nothing's broken loose (zero open PRs), so the first `github_write` will be unmistakable. Here's the test that prove"
+    },
+    {
+      "session_id": "20260614_214204",
+      "date": "2026-06-14",
+      "exchanges": 507,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`6255c7f`) \u2014 branch clean, baseline still zero open PRs. Trigger that first `github_write` from Jarvis-G whenever you're ready and tell me \u2014 I"
+    },
+    {
+      "session_id": "20260614_214448",
+      "date": "2026-06-14",
+      "exchanges": 511,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**The power-up: Minato Namikaze \u2014 the Yellow Flash. \u26a1** It's the *right* one, not just a fast one: every object in the system already carries a **JNL*"
     }
   ]
 }
