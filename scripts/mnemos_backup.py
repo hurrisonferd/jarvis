@@ -19,6 +19,11 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 OUT = ROOT / "JarvisMain" / "Backups" / "cloud"
+# Jarvis-Private (full, unredacted backup). When JARVIS_PRIVATE_DIR points at a
+# checked-out private repo, the COMPLETE spine lands there; main only ever gets
+# the redacted copy. Raven-directed 2026-06-14: conversations on main (filtered),
+# full backup to Jarvis-Private.
+PRIVATE_DIR = os.environ.get("JARVIS_PRIVATE_DIR", "")
 
 CANONICAL_URL = "https://oexghfsvhnggddllgvrt.supabase.co"
 # Irreplaceable: governance events, proposal history, Grid identity keys.
@@ -100,12 +105,21 @@ def main() -> int:
             print(f"backup: {table} FAILED ({e}) — continuing")
             manifest["tables"][table] = {"error": str(e)[:160]}
             continue
+        # FULL unredacted copy → Jarvis-Private (private repo holds the complete spine).
+        if PRIVATE_DIR:
+            pdir = Path(PRIVATE_DIR) / "cloud"
+            pdir.mkdir(parents=True, exist_ok=True)
+            (pdir / f"{table}.jsonl").write_text(
+                "".join(json.dumps(r, sort_keys=True, ensure_ascii=False) + "\n" for r in rows))
+            print(f"backup: {table} -> {len(rows)} rows (FULL → Jarvis-Private)")
+        # Public (main) copy below — redacted for conversation tables.
         redacted = table in REDACT_TABLES
         if redacted and not REDACTION_TERMS:
-            # Fail-safe: never publish conversation with an empty scrub list — that
-            # would leak third-party names. No terms set = this table is skipped.
-            print(f"backup: {table} SKIPPED — REDACTION_TERMS unset (won't publish unfiltered conversation)")
-            manifest["tables"][table] = {"skipped": "no redaction terms set"}
+            # Fail-safe: never publish conversation to MAIN with an empty scrub list —
+            # that would leak third-party names. No terms set = skip the public copy
+            # (the full copy already went to Jarvis-Private above).
+            print(f"backup: {table} SKIPPED on main — REDACTION_TERMS unset (won't publish unfiltered conversation)")
+            manifest["tables"][table] = {"public": "skipped (no redaction terms)", "private": bool(PRIVATE_DIR)}
             continue
         if redacted:
             rows = [redact(r) for r in rows]
