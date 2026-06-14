@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 144,
+  "count": 145,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -536,6 +536,28 @@
         "identity",
         "jmms",
         "github"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-14",
+      "updated": "2026-06-14"
+    },
+    {
+      "jnl": "ARCH-MEM-LOG-0002",
+      "name": "Memory \u2014 the lane became writable",
+      "type": "LOG",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "ARCH-MEM-LOG-0001",
+      "location": "JarvisMain/Architecture/identity/memory/ARCH-MEM-LOG-0002-writable-lane.md",
+      "tags": [
+        "memory",
+        "companion",
+        "dex",
+        "writable",
+        "modular"
       ],
       "anchors": [],
       "status": "ACTIVE",

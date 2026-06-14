@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 144,
+  "count": 145,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -331,6 +331,20 @@
         "identity",
         "jmms",
         "github"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Memory \u2014 the lane became writable",
+      "jnl": "ARCH-MEM-LOG-0002",
+      "location": "JarvisMain/Architecture/identity/memory/ARCH-MEM-LOG-0002-writable-lane.md",
+      "tags": [
+        "memory",
+        "companion",
+        "dex",
+        "writable",
+        "modular"
       ],
       "anchors": [],
       "state": "active"
