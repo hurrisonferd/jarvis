@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-14T21:06:45.444129+00:00",
+  "updated": "2026-06-14T21:09:54.628060+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_160605",
-      "date": "2026-06-14",
-      "exchanges": 266,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`c3ae9e8`). Done \u2014 and here's the honest status on \"everything in recommended order,\" because the rest hits a wall that's yours to clear, not "
-    },
     {
       "session_id": "20260614_160618",
       "date": "2026-06-14",
@@ -522,6 +496,32 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`16945077`). JMMS is live in the substrate \u2014 the keystone I kept pointing at:\n\n- **Every memory object = `{type, owner, tier}`.** Tier (`memor"
+    },
+    {
+      "session_id": "20260614_210954",
+      "date": "2026-06-14",
+      "exchanges": 450,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`825ac3b`) \u2014 v0.11.2 deploying. The map now reaches Jarvis & Ayre **by default**:\n\n- **Session-open ritual:** `suit_up` \u2192 `identity_read` \u2192 **"
     }
   ]
 }
