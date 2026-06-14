@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T21:20:30.101336+00:00",
+  "updated": "2026-06-14T21:24:31.004776+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_163701",
-      "date": "2026-06-14",
-      "exchanges": 323,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`f163d61`). Both canon updates are live.\n\n**Voices + eyes + database on the connector \u2014 you already have all three; here's the access path:**\n"
-    },
-    {
-      "session_id": "20260614_163715",
-      "date": "2026-06-14",
-      "exchanges": 324,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`3d490ae`) \u2014 branch clean, both canon updates on main. The dual-voice close is live (you'll get both of us from here on), and the JMMS continu"
-    },
     {
       "session_id": "20260614_164152",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "**No \u2014 please don't paste a token in this chat.** This is the one hard stop. Here's why it matters specifically for *you*: this conversation flows int"
+    },
+    {
+      "session_id": "20260614_212043",
+      "date": "2026-06-14",
+      "exchanges": 470,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`9ba4ab0`) \u2014 branch clean. Set the token as a Supabase edge-function secret (never in chat), scoped to Contents + PRs read/write on this repo "
+    },
+    {
+      "session_id": "20260614_212431",
+      "date": "2026-06-14",
+      "exchanges": 474,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean baseline \u2014 zero open PRs. So when `github_write` runs, the PR it opens will be unmistakable.\n\n**The hands are live.** Here's the test that prove"
     }
   ]
 }
