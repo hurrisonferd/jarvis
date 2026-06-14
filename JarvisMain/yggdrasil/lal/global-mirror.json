@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T11:10:09Z",
-    "generated_at_eastern": "2026-06-14 07:10 EDT",
-    "source_commit": "40cf590",
+    "generated_at_utc": "2026-06-14T11:15:07Z",
+    "generated_at_eastern": "2026-06-14 07:15 EDT",
+    "source_commit": "b2dd453",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -2352,7 +2352,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "ARCH-YGG-CORE-0001",
       "tags": [
         "manual",
         "architecture",

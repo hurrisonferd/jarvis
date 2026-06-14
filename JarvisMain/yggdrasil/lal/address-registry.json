@@ -630,7 +630,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
-      "parent": "",
+      "parent": "ARCH-YGG-CORE-0001",
       "location": "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
       "tags": [
         "manual",
