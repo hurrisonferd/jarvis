@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 141,
+  "count": 142,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -51,7 +51,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
-      "parent": "GS-AYR-CORE-0001",
+      "parent": "ARCH-AYR-BIO-0001",
       "location": "JarvisMain/Architecture/specs/ayre-jarvis-split-v1.md",
       "tags": [
         "architecture",
@@ -61,7 +61,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-11"
+      "updated": "2026-06-14"
     },
     {
       "jnl": "ARCH-AYR-SPEC-0002",
@@ -70,7 +70,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
-      "parent": "GS-AYR-CORE-0001",
+      "parent": "ARCH-AYR-BIO-0001",
       "location": "JarvisMain/Architecture/specs/ayre-loop-v1.md",
       "tags": [
         "architecture",
@@ -80,7 +80,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-11"
+      "updated": "2026-06-14"
     },
     {
       "jnl": "ARCH-FAM-IDX-0001",
@@ -622,6 +622,28 @@
       "state": "active",
       "created": "2026-06-11",
       "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-SYS-SPEC-0001",
+      "name": "JARVIS System Manual",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+      "tags": [
+        "manual",
+        "architecture",
+        "system",
+        "reference",
+        "onboarding"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-14",
+      "updated": "2026-06-14"
     },
     {
       "jnl": "ARCH-YGG-CORE-0001",
@@ -1521,13 +1543,13 @@
     },
     {
       "jnl": "GS-AYR-CORE-0001",
-      "name": "AYRE",
+      "name": "ORACLE",
       "type": "CORE",
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "God Systems",
       "parent": "ARCH-GS-IDX-0001",
-      "location": "JarvisMain/god_systems/T1_AYRE",
+      "location": "JarvisMain/god_systems/T1_ORACLE",
       "tags": [
         "core",
         "god-system",
@@ -1537,7 +1559,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-11"
+      "updated": "2026-06-14"
     },
     {
       "jnl": "GS-BFR-CORE-0001",

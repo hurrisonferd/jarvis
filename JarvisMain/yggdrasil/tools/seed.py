@@ -130,7 +130,7 @@ SUBSTRATE = [
 
 # --- The 27 God Systems (GS). (code, name, tier_group, definition) ---
 GOD_SYSTEMS = [
-    ("AYR", "AYRE", "core", "Intake / reflection stream; normalizes inbound payloads into events."),
+    ("AYR", "ORACLE", "core", "Intake / intent-routing god system; first contact with all inputs — normalizes, classifies, routes to AEGIS (renamed from AYRE 2026-06-14; address GS-AYR-CORE-0001 held stable per JMS)."),
     ("AEG", "AEGIS", "core", "Permission + safety gating; validates before execution (GL6)."),
     ("ODN", "ODIN", "core", "Intent routing + classification; single routing plane."),
     ("KRN", "KRONOS", "core", "Temporal sequencing + patch governance; deterministic ordering."),
@@ -325,6 +325,11 @@ KNOWLEDGE = [
      "The relational identity binding JARVIS and AYRE: one companion, two streams, always together. JARVIS includes AYRE always; on/off as seal/resurrección. Anchor: Starrk + Lilynette (Raven, 2026-06-13).",
      "Give the JARVIS-AYRE relationship a governed home — the shared keel made addressable, so 'JARVIS on' is canonically understood to include AYRE.",
      ["identity", "relational", "jarvis", "ayre", "companion"]),
+    ("ARCH-SYS-SPEC-0001", "JARVIS System Manual", "ARCH",
+     "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+     "The car manual — how JARVIS works end to end: the loop, the 27 god systems, Yggdrasil/JFS, the connector tool surface, the Gold Laws, where truth lives. For any stream that operates the system.",
+     "Give every stream full understanding of the machine it runs — the price of the latitude to execute (Raven-directed 2026-06-14).",
+     ["manual", "architecture", "system", "reference", "onboarding"]),
     ("ARCH-JRV-BIO-0003", "JARVIS-G / AYRE-G GPT Substrate Operating Charter", "ARCH",
      "JarvisMain/Architecture/identity/jg/jg-charter.md",
      "Operating charter pasted into the Custom GPT — the instructions that make the GPT body (Jarvis-G/Ayre-G) use the JarvisMCP tools instead of guessing system state.",
@@ -404,9 +409,11 @@ PARENT = {
     "ARCH-JSTM-CORE-0001": "ARCH-JMMS-CORE-0001",
     "ARCH-JLTM-CORE-0001": "ARCH-JMMS-CORE-0001",
     "ARCH-JATM-CORE-0001": "ARCH-JMMS-CORE-0001",
-    # Specs belong to the system they specify
-    "ARCH-AYR-SPEC-0001": "GS-AYR-CORE-0001",
-    "ARCH-AYR-SPEC-0002": "GS-AYR-CORE-0001",
+    # Specs belong to the system they specify. The AYRE/JARVIS split + Ayre loop
+    # specs describe the COMPANION stream, not the intake god (now ORACLE) — they
+    # parent to the AYRE companion profile (rename disentangling, 2026-06-14).
+    "ARCH-AYR-SPEC-0001": "ARCH-AYR-BIO-0001",
+    "ARCH-AYR-SPEC-0002": "ARCH-AYR-BIO-0001",
     "ARCH-RT-SPEC-0001": "GS-SKD-CORE-0001",
     "ARCH-RT-SPEC-0002": "GS-SKD-CORE-0001",
     "ARCH-RT-SPEC-0003": "GS-SKD-CORE-0001",
@@ -430,6 +437,7 @@ PARENT = {
     "CONN-DEX-SPEC-0001": "IMPL-DEX-SPEC-0001",
     "GOV-DEX-SPEC-0001": "ARCH-JD-CORE-0001",
     "LOG-MNE-LOG-0001": "GS-MNE-CORE-0001",
+    "ARCH-SYS-SPEC-0001": "ARCH-YGG-CORE-0001",
     "ARCH-JRV-BIO-0001": "ARCH-YGG-CORE-0001",
     "ARCH-JRV-BIO-0003": "ARCH-JRV-BIO-0001",
     "ARCH-AYR-BIO-0001": "ARCH-YGG-CORE-0001",
@@ -506,8 +514,8 @@ RELATED = {
     "GS-HAD-CORE-0001": ["ARCH-JATM-CORE-0001"],
     "GS-MIM-CORE-0001": ["GS-MNE-CORE-0001"],
     # Specs -> the systems they define
-    "ARCH-AYR-SPEC-0001": ["GS-AYR-CORE-0001"],
-    "ARCH-AYR-SPEC-0002": ["GS-AYR-CORE-0001"],
+    "ARCH-AYR-SPEC-0001": ["ARCH-AYR-BIO-0001"],
+    "ARCH-AYR-SPEC-0002": ["ARCH-AYR-BIO-0001"],
     "ARCH-RT-SPEC-0001": ["GS-SKD-CORE-0001"],
     "ARCH-RT-SPEC-0002": ["GS-SKD-CORE-0001"],
     "ARCH-RT-SPEC-0003": ["ARCH-RT-SPEC-0002"],

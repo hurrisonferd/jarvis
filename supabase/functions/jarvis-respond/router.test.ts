@@ -21,7 +21,7 @@ check("companion -> HALO primary", route("I'm tired and this is hard").primary =
 check("plain talk -> converse/HALO", route("hey jarvis").intent === "converse");
 
 // --- spine always anchored ---
-check("AYRE heads every spine", route("build something").spine[0] === "AYRE");
+check("ORACLE heads every spine", route("build something").spine[0] === "ORACLE");
 check("ERIS guardian always present", route("build something").spine.includes("ERIS"));
 check("MNEMOS tails every spine", route("anything").spine.at(-1) === "MNEMOS");
 
@@ -38,7 +38,7 @@ check("no forbidden adjacent hop across all intents", !anyForbidden);
 
 // --- forbidden detector itself works ---
 check("detector catches SKADI->AEGIS", hasForbiddenHop(["SKADI", "AEGIS"]) === true);
-check("detector passes clean seq", hasForbiddenHop(["AYRE", "AEGIS", "SKADI"]) === false);
+check("detector passes clean seq", hasForbiddenHop(["ORACLE", "AEGIS", "SKADI"]) === false);
 
 // --- summary renders ---
 check("summary mentions primary", routeSummary(route("build it")).includes("primary SKADI"));

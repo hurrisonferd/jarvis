@@ -5,7 +5,7 @@
 
 export const TIERS: Record<string, string[]> = {
   T0: ["CHAOS", "ZEUS", "POSEIDON", "HADES"],
-  T1: ["AYRE", "AEGIS", "ODIN", "SKADI", "ERIS"],
+  T1: ["ORACLE", "AEGIS", "ODIN", "SKADI", "ERIS"],
   T2: ["KRONOS"],
   T3: ["MNEMOS", "HUGINN", "HALO", "MIMIR"],
   T4: ["BIFROST", "JANUS"],
@@ -25,7 +25,7 @@ export const TIER_WEIGHT: Record<string, number> = {
 // Each member's fixed role (its domain in the council).
 export const ROLE: Record<string, string> = {
   CHAOS: "foundational substrate", ZEUS: "supreme authority arbitration", POSEIDON: "foundational", HADES: "archival sink",
-  AYRE: "intake + intent parse", AEGIS: "constraint / Gold Law gate", ODIN: "routing", SKADI: "execution runtime", ERIS: "entropy guardian",
+  ORACLE: "intake + intent parse / routing", AEGIS: "constraint / Gold Law gate", ODIN: "routing", SKADI: "execution runtime", ERIS: "entropy guardian",
   KRONOS: "timing / compression authority",
   MNEMOS: "memory store + recall", HUGINN: "synthesis / reconciliation", HALO: "ambient monitoring", MIMIR: "contextual knowledge",
   BIFROST: "external relay", JANUS: "mode transition",
