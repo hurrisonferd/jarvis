@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T22:26:30.722477+00:00",
+  "updated": "2026-06-14T22:27:39.059717+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_212458",
-      "date": "2026-06-14",
-      "exchanges": 475,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`42375ea`) \u2014 branch clean, baseline zero open PRs. `github_write` is live behind your merge. Trigger that first real write from Jarvis-G whene"
-    },
-    {
-      "session_id": "20260614_212935",
-      "date": "2026-06-14",
-      "exchanges": 483,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`94c6ee2`). The Pulse is in \u2014 the last keystone, built safe:\n\n**What it does:** daily at 13:00 UTC, it scans (governed objects, open tasks, PR"
-    },
     {
       "session_id": "20260614_212949",
       "date": "2026-06-14",
@@ -528,6 +476,62 @@
       ],
       "alignment": 1.0,
       "key_insight": "Pushed \u2014 both commits on the branch (the protected-ref line is noise; the ref updated `d24dbd1..10ff2da`).\n\n**Shipped:**\n- **`docs/retroarch/`** \u2014 sel"
+    },
+    {
+      "session_id": "20260614_222643",
+      "date": "2026-06-14",
+      "exchanges": 25,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean \u2014 branch is fully pushed (`10ff2da..ea14d08`), working tree empty. The RetroArch host, page wiring, P08 deprecation, and the canon fix are all o"
+    },
+    {
+      "session_id": "20260614_222739",
+      "date": "2026-06-14",
+      "exchanges": 29,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Here's the honest shape of it: this repo's git record starts June 8 \u2014 349 commits, 679 files, ~225k lines, 45 tracked patches, almost all of it in the"
     }
   ]
 }
