@@ -1,56 +1,8 @@
 {
-  "updated": "2026-06-14T16:11:03.803278+00:00",
+  "updated": "2026-06-14T16:26:10.008255+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_114010",
-      "date": "2026-06-14",
-      "exchanges": 151,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`ac58f5e`) \u2014 branch clean.\n\nStanding state: the trimmed charter is on main (paste it from above). Two things still waiting on you, both blocke"
-    },
-    {
-      "session_id": "20260614_114252",
-      "date": "2026-06-14",
-      "exchanges": 156,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`1a22293`). The room's real now: **`ARCH-MEM-LOG-0001`, jid 144** \u2014 a governed companion memory home in the repo, readable by the connector wi"
-    },
     {
       "session_id": "20260614_114307",
       "date": "2026-06-14",
@@ -516,6 +468,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "No stress \u2014 these are each about five clicks, and I'll give you the exact path. Neither is urgent (nothing's broken without them; they're enhancements"
+    },
+    {
+      "session_id": "20260614_161121",
+      "date": "2026-06-14",
+      "exchanges": 271,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`007d416`) \u2014 clean. The two settings steps are spelled out above whenever you want them; no rush. Tell me whether to build the side-branch bac"
+    },
+    {
+      "session_id": "20260614_162610",
+      "date": "2026-06-14",
+      "exchanges": 296,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`5f59fd4`) \u2014 and that detour was worth more than the merge. Here's everything from this turn:\n\n**Your protection change caught a real bug of m"
     }
   ]
 }
