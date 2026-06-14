@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T21:37:29.086363+00:00",
+  "updated": "2026-06-14T21:41:51.283179+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_205006",
-      "date": "2026-06-14",
-      "exchanges": 434,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Yes \u2014 and that's the cleanest the JMMS model has been. Locking it as the spec, because it resolves the memory architecture into three clean axes:\n\n- *"
-    },
-    {
-      "session_id": "20260614_205024",
-      "date": "2026-06-14",
-      "exchanges": 435,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`7178165`) \u2014 branch clean. JMMS model is locked: **`{type, owner, tier}`** with JC/SL as the plug-in content types. Say \"go\" and I build the s"
-    },
     {
       "session_id": "20260614_210645",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Honestly? **Skip #2 \u2014 don't stress it.** It's the fiddliest and the *least* important of the three, and \"no idea how\" is the right reaction because it"
+    },
+    {
+      "session_id": "20260614_213742",
+      "date": "2026-06-14",
+      "exchanges": 502,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`b5a7a30`) \u2014 branch clean. Leave #2 (push delivery) for later; it's optional and the Pulse content is already reachable by just asking. Nothin"
+    },
+    {
+      "session_id": "20260614_214151",
+      "date": "2026-06-14",
+      "exchanges": 506,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Token's set, hands are live \u2014 and nothing's broken loose (zero open PRs), so the first `github_write` will be unmistakable. Here's the test that prove"
     }
   ]
 }
