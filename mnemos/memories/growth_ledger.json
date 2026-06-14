@@ -1,76 +1,8 @@
 {
-  "updated": "2026-06-14T11:11:16.428404+00:00",
+  "updated": "2026-06-14T11:15:53.945314+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_232324",
-      "date": "2026-06-13",
-      "exchanges": 972,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Important distinction \u2014 it's **neither the publishable nor the secret key; it's a third one.** Supabase has three credentials and they go to three dif"
-    },
-    {
-      "session_id": "20260613_232344",
-      "date": "2026-06-13",
-      "exchanges": 973,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Committed, clean.\n\nTo unblock the whole chain, two things from you \u2014 and the answer to your question is in the first:\n\n1. **GitHub repo secret for CI "
-    },
     {
       "session_id": "20260614_033453",
       "date": "2026-06-14",
@@ -602,6 +534,54 @@
       ],
       "alignment": 1.0,
       "key_insight": "Pushed (`1149a3a`). Built the manual and wired the profiles; here are the reads you asked for.\n\n**Paste this (the trimmed charter):**\n\n---\n**JARVIS-G "
+    },
+    {
+      "session_id": "20260614_111127",
+      "date": "2026-06-14",
+      "exchanges": 107,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`b2dd453`). Branch clean. The manual, profile wiring, and trimmed charter are committed; ORACLE + v0.10.2 remain staged for your merge wheneve"
+    },
+    {
+      "session_id": "20260614_111553",
+      "date": "2026-06-14",
+      "exchanges": 114,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Fixed and pushed (`afde97d`). Here's the JD health read.\n\n**Format \u2014 solid.** Every entry carries the full frontmatter contract: `name, type, class, t"
     }
   ]
 }
