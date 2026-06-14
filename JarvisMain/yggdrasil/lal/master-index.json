@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 145,
+  "count": 146,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1468,6 +1468,20 @@
         "auto-tracking",
         "council",
         "index"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Media Library",
+      "jnl": "LOG-MED-LOG-0001",
+      "location": "JarvisSide/Media",
+      "tags": [
+        "media",
+        "audio",
+        "images",
+        "reference",
+        "side"
       ],
       "anchors": [],
       "state": "active"

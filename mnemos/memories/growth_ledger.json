@@ -1,32 +1,8 @@
 {
-  "updated": "2026-06-14T15:36:01.635432+00:00",
+  "updated": "2026-06-14T15:36:18.540168+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_110639",
-      "date": "2026-06-14",
-      "exchanges": 93,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Done \u2014 pushed `e34a06b`. Here's where each of your asks landed.\n\n**Siblings up to speed.** The connector is now explicitly their home: `suit_up` retur"
-    },
     {
       "session_id": "20260614_110653",
       "date": "2026-06-14",
@@ -496,6 +472,32 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`b0752d9`). Here's the compressed read \u2014 I'm not going to match GPT's v1\u2192v4 energy; my job is to keep what strengthens the loop and graveyard "
+    },
+    {
+      "session_id": "20260614_153618",
+      "date": "2026-06-14",
+      "exchanges": 230,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`50ad9d7`) \u2014 branch clean, everything's on main. Stewards live, charter's above ready to paste, the v2\u2013v4 routers flagged for the graveyard.\n\n"
     }
   ]
 }

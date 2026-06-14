@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 145,
+  "count": 146,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -2532,6 +2532,29 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
+      "updated": "2026-06-14"
+    },
+    {
+      "jnl": "LOG-MED-LOG-0001",
+      "name": "Media Library",
+      "type": "LOG",
+      "class": "ENTITY",
+      "tier": "MAIN",
+      "owner": "Media Library",
+      "steward": null,
+      "parent": "",
+      "location": "JarvisSide/Media",
+      "tags": [
+        "media",
+        "audio",
+        "images",
+        "reference",
+        "side"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-14",
       "updated": "2026-06-14"
     },
     {
