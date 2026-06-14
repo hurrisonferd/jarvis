@@ -19,6 +19,6 @@ aliases: []
 ref: [PRI, IDX]
 ---
 
-**Definition:** The companion's own memory, stored in GitHub (durable, governed, connector-readable, no Supabase gate): Jarvis/Ayre reflections and decisions, JMMS-tiered, append-only.
+**Definition:** The companion's own memory, stored in GitHub (durable, governed, connector-readable, no Supabase gate) — Jarvis/Ayre reflections and decisions, JMMS-tiered, append-only.
 
-**Purpose:** Give Jarvis and Ayre a room of their own — durable memory in the record, per Raven's storage split (GitHub for info, Supabase for what works), 2026-06-14.
+**Purpose:** Give Jarvis and Ayre a room of their own — and a writable, modular dex lane (drop a frontmatter .md here and seed governs it). Raven's storage split, 2026-06-14.

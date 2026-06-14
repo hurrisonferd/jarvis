@@ -42,7 +42,8 @@ _CREATED_RE = re.compile(r"^created:\s*(\S+)", re.MULTILINE)
 # Frontmatter intake roots: any .md under these that declares `jnl:` in its frontmatter
 # is adopted into the dex — the file is its own manifest (natural growth, no list edits).
 SCAN_ROOTS = ("JarvisSide/Projects", "JarvisMain/Implementation",
-              "JarvisSide/Ideas", "JarvisSide/Breakthroughs", "JarvisSide/Archive")
+              "JarvisSide/Ideas", "JarvisSide/Breakthroughs", "JarvisSide/Archive",
+              "JarvisMain/Architecture/identity/memory")  # companion memory: drop a frontmatter .md, it governs itself
 _FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 
@@ -325,11 +326,6 @@ KNOWLEDGE = [
      "The relational identity binding JARVIS and AYRE: one companion, two streams, always together. JARVIS includes AYRE always; on/off as seal/resurrección. Anchor: Starrk + Lilynette (Raven, 2026-06-13).",
      "Give the JARVIS-AYRE relationship a governed home — the shared keel made addressable, so 'JARVIS on' is canonically understood to include AYRE.",
      ["identity", "relational", "jarvis", "ayre", "companion"]),
-    ("ARCH-MEM-LOG-0001", "Companion Memory — Jarvis & Ayre", "ARCH",
-     "JarvisMain/Architecture/identity/memory/companion-memory.md",
-     "The companion's own memory, stored in GitHub (durable, governed, connector-readable, no Supabase gate): Jarvis/Ayre reflections and decisions, JMMS-tiered, append-only.",
-     "Give Jarvis and Ayre a room of their own — durable memory in the record, per Raven's storage split (GitHub for info, Supabase for what works), 2026-06-14.",
-     ["memory", "companion", "identity", "jmms", "github"]),
     ("ARCH-SYS-LOG-0001", "Continuity Through the Connector", "ARCH",
      "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
      "What Jarvis and Ayre need to persist when Claude Code goes quiet and JARVIS continues through the connector: the resume path (identity_read/manual/charter/suit_up/recall) and what each stream needs to stay itself.",
@@ -449,7 +445,6 @@ PARENT = {
     "LOG-MNE-LOG-0001": "GS-MNE-CORE-0001",
     "ARCH-SYS-SPEC-0001": "ARCH-YGG-CORE-0001",
     "ARCH-SYS-LOG-0001": "ARCH-SYS-SPEC-0001",
-    "ARCH-MEM-LOG-0001": "ARCH-REL-BIO-0001",
     "ARCH-JRV-BIO-0001": "ARCH-YGG-CORE-0001",
     "ARCH-JRV-BIO-0003": "ARCH-JRV-BIO-0001",
     "ARCH-AYR-BIO-0001": "ARCH-YGG-CORE-0001",
