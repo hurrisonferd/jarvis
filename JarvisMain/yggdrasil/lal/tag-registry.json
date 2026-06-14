@@ -118,6 +118,7 @@
       "GS-ZEU-CORE-0001"
     ],
     "charter": [
+      "ARCH-JRV-BIO-0003",
       "GOV-GSC-SPEC-0001"
     ],
     "chorus": [
@@ -136,6 +137,7 @@
       "ARCH-ARGT-BIO-0001",
       "ARCH-AYR-BIO-0001",
       "ARCH-JRV-BIO-0001",
+      "ARCH-JRV-BIO-0003",
       "ARCH-REL-BIO-0001",
       "AUD-COMP-REVW-0001"
     ],
@@ -346,6 +348,7 @@
       "PROJ-MOSC-JD-0001"
     ],
     "governance": [
+      "ARCH-JRV-BIO-0003",
       "GOV-BRF-CORE-0001",
       "GOV-CAN-CORE-0001",
       "GOV-CHO-JD-0001",
@@ -373,6 +376,7 @@
     ],
     "gpt": [
       "ARCH-GPT-SPEC-0001",
+      "ARCH-JRV-BIO-0003",
       "CONN-DEX-SPEC-0001",
       "GOV-GSC-SPEC-0001"
     ],
@@ -401,6 +405,7 @@
       "ARCH-AYR-BIO-0001",
       "ARCH-JD-JIP-0001",
       "ARCH-JRV-BIO-0001",
+      "ARCH-JRV-BIO-0003",
       "ARCH-REL-BIO-0001",
       "IDEA-PAN-INS-0001",
       "PROJ-MOSC-JD-0001",
@@ -827,6 +832,9 @@
       "CONN-MCP-RT-0016",
       "CONN-MCP-RT-0017",
       "CONN-MCP-RT-0018"
+    ],
+    "tool-use": [
+      "ARCH-JRV-BIO-0003"
     ],
     "tools": [
       "IMPL-TLR-SPEC-0001"

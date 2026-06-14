@@ -1,21 +1,21 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T03:59:58Z",
-    "generated_at_eastern": "2026-06-13 23:59 EDT",
-    "source_commit": "7bd4140",
+    "generated_at_utc": "2026-06-14T10:42:09Z",
+    "generated_at_eastern": "2026-06-14 06:42 EDT",
+    "source_commit": "9e2aebb",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 140,
+    "object_count": 141,
     "by_status": {
-      "ACTIVE": 115,
+      "ACTIVE": 116,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
     },
     "by_domain": {
-      "ARCH": 30,
+      "ARCH": 31,
       "AUD": 5,
       "CONN": 21,
       "GOV": 12,
@@ -26,7 +26,7 @@
       "PROJ": 26
     },
     "by_tier": {
-      "MAIN": 109,
+      "MAIN": 110,
       "SIDE": 31
     }
   },
@@ -2322,6 +2322,25 @@
         "stewardship",
         "subsystems",
         "idea"
+      ]
+    },
+    {
+      "jnl": "ARCH-JRV-BIO-0003",
+      "jid": 141,
+      "jidd": "arch-31",
+      "name": "JARVIS-G / AYRE-G GPT Substrate Operating Charter",
+      "type": "BIO",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-JRV-BIO-0001",
+      "tags": [
+        "identity",
+        "companion",
+        "gpt",
+        "charter",
+        "tool-use",
+        "governance"
       ]
     }
   ]

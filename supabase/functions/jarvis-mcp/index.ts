@@ -29,7 +29,7 @@ const TOOL_NAMES = [
   "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
-  "jarvis_jip_create", "jarvis_jip_list",
+  "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
@@ -292,7 +292,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.0" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.1" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1001,15 +1001,32 @@ function buildServer(req: Request): McpServer {
         return text({ ok: false, query: t, note: "no match — try a JID ('jid 1'), name ('yggdrasil'), or JNL ('ARCH-YGG-CORE-0001')." });
       }
       const o = rows[0];
+      const [children, jips] = await Promise.all([
+        rest(`jd_entries?parent=eq.${o.jnl}&select=jnl,name,seq&order=seq.asc&limit=50`).catch(() => []) as Promise<any[]>,
+        rest(`jip_entries?target_jd=eq.${o.jnl}&select=jip,version,status,note,created_at&order=created_at.desc&limit=10`).catch(() => []) as Promise<any[]>,
+      ]);
+      const activeJip = (jips as any[]).find((j) => j.status === "active") ?? null;
       return text({
         ok: true,
         card: {
+          // identity faces
           jid: o.seq, jidd: await jiddOf(o.jnl, o.seq), jnl: o.jnl, name: o.name,
+          // classification + ownership (steward = Pantheon)
           type: o.type, class: o.class, tier: o.tier, status: o.status, authority: o.authority,
+          owner: o.owner ?? null, steward: o.steward ?? null,
+          // content
           definition: o.definition, purpose: o.purpose, tags: o.tags,
-          parent: o.parent ?? null, related: o.related ?? [], aliases: o.aliases ?? [],
+          // lineage + graph
+          parent: o.parent ?? null,
+          children: (children as any[]).map((c) => ({ jid: c.seq, jnl: c.jnl, name: c.name })),
+          related: o.related ?? [], cross_refs: o.cross_refs ?? [], aliases: o.aliases ?? [],
+          // versioning (JIP history)
+          active_jip: activeJip ? { jip: activeJip.jip, version: activeJip.version, note: activeJip.note } : null,
+          jips: (jips as any[]).map((j) => ({ jip: j.jip, v: j.version, status: j.status })),
+          // provenance
+          source: o.source ?? null, created: o.created, updated: o.updated, seq: o.seq,
         },
-        render: "Render as a card — header 'JID N · jidd · JNL · Name', then Type/Class/Tier/Status, then Definition, Purpose, Tags, Metadata (parent/related). The four IDs are faces of one object.",
+        render: "Render as a card — header 'JID N · jidd · JNL · Name', then Type/Class/Tier/Status/Authority/Owner/Steward, Definition, Purpose, Tags, Lineage (parent/children/related), Versioning (active JIP + history), Provenance (source/created/updated). The four IDs are faces of one object.",
         ...(rows.length > 1 ? { other_matches: rows.slice(1).map((r: any) => ({ jid: r.seq, jnl: r.jnl, name: r.name })) } : {}),
       });
     },
@@ -1169,6 +1186,60 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // JIP APPLY — the JIP UPDATES the JD. Stores the JD's prior state in the JIP (rollback),
+  // supersedes the prior active JIP, marks this one active, emits a spine event. Gated.
+  async function patchTable(path: string, body: unknown): Promise<boolean> {
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
+      method: "PATCH",
+      headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify(body),
+    });
+    return r.ok;
+  }
+  const JD_PATCHABLE = ["definition", "purpose", "tags", "status", "owner", "steward", "related", "aliases"];
+  server.registerTool(
+    "jarvis_jip_apply",
+    { title: "JIP — apply (update the JD)", description: "Apply an approved JIP's delta to its target JD — the JIP UPDATES the JD entry (definition/purpose/tags/status/owner/steward/related/aliases). Stores the JD's prior state in the JIP so jip_revert can restore it, supersedes the prior active JIP, marks this one active. AEGIS-gated: show Raven, then call on Allow.", inputSchema: { jip_id: z.string().min(1).max(60) } },
+    async ({ jip_id }) => {
+      if (!writeAuthorized(req)) return heldForApproval("jip.apply", { jip_id });
+      try {
+        const jip = ((await rest(`jip_entries?or=(id.eq.${jip_id},jip.eq.${jip_id})&limit=1`)) as any[])[0];
+        if (!jip) return text({ ok: false, note: `no JIP '${jip_id}'` });
+        const target = ((await rest(`jd_entries?jnl=eq.${jip.target_jd}&limit=1`)) as any[])[0];
+        if (!target) return text({ ok: false, note: `target JD '${jip.target_jd}' not found` });
+        const delta = jip.delta ?? {};
+        const patch: Record<string, unknown> = {}; const prior: Record<string, unknown> = {};
+        for (const k of Object.keys(delta)) if (JD_PATCHABLE.includes(k)) { patch[k] = (delta as any)[k]; prior[k] = target[k]; }
+        if (!Object.keys(patch).length) return text({ ok: false, note: "JIP delta has no patchable JD fields", patchable: JD_PATCHABLE });
+        patch.updated = new Date().toISOString().slice(0, 10);
+        await patchTable(`jip_entries?target_jd=eq.${jip.target_jd}&status=eq.active`, { status: "superseded" });
+        if (!(await patchTable(`jd_entries?jnl=eq.${jip.target_jd}`, patch))) return text({ ok: false, note: "JD update failed" });
+        await patchTable(`jnl_registry?jnl=eq.${jip.target_jd}`, { updated: patch.updated, ...(patch.status ? { status: patch.status } : {}) });
+        await patchTable(`jip_entries?id=eq.${jip.id}`, { status: "active", metadata: { ...(jip.metadata ?? {}), prior } });
+        await callFunction("grid-event", { type: "commit", source: "jarvis", intent: "jip_apply", payload: { jip: jip.jip ?? jip.id, target_jd: jip.target_jd, applied: Object.keys(patch) } }).catch(() => {});
+        return text({ ok: true, target_jd: jip.target_jd, applied: patch, prior, note: "JD updated from JIP; prior state stored for rollback (jip_revert)." });
+      } catch (e) { return text({ ok: false, error: String(e).slice(0, 200) }); }
+    },
+  );
+  server.registerTool(
+    "jarvis_jip_revert",
+    { title: "JIP — revert (rollback the JD)", description: "Roll a JD back: restore the prior state stored when a JIP was applied, mark that JIP 'reverted'. AEGIS-gated.", inputSchema: { jip_id: z.string().min(1).max(60) } },
+    async ({ jip_id }) => {
+      if (!writeAuthorized(req)) return heldForApproval("jip.revert", { jip_id });
+      try {
+        const jip = ((await rest(`jip_entries?or=(id.eq.${jip_id},jip.eq.${jip_id})&limit=1`)) as any[])[0];
+        if (!jip) return text({ ok: false, note: `no JIP '${jip_id}'` });
+        const prior = jip.metadata?.prior;
+        if (!prior || !Object.keys(prior).length) return text({ ok: false, note: "this JIP has no stored prior state (was it applied?)" });
+        const restore = { ...prior, updated: new Date().toISOString().slice(0, 10) };
+        if (!(await patchTable(`jd_entries?jnl=eq.${jip.target_jd}`, restore))) return text({ ok: false, note: "JD restore failed" });
+        await patchTable(`jip_entries?id=eq.${jip.id}`, { status: "reverted" });
+        await callFunction("grid-event", { type: "commit", source: "jarvis", intent: "jip_revert", payload: { jip: jip.jip ?? jip.id, target_jd: jip.target_jd, restored: Object.keys(prior) } }).catch(() => {});
+        return text({ ok: true, target_jd: jip.target_jd, restored: prior, note: "JD rolled back to the JIP's prior state." });
+      } catch (e) { return text({ ok: false, error: String(e).slice(0, 200) }); }
+    },
+  );
+
   return server;
 }
 
@@ -1181,7 +1252,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.10.0",
+    version: "0.10.1",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,

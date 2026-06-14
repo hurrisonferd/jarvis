@@ -1,110 +1,8 @@
 {
-  "updated": "2026-06-14T04:00:16.774540+00:00",
+  "updated": "2026-06-14T10:42:59.560954+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_230328",
-      "date": "2026-06-13",
-      "exchanges": 948,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Confirmed in the schema \u2014 so this one's already done: the JC spec has **`when / participants` \u2192 \"raven + which streams (claude/gpt/gemini)\"**, and the"
-    },
-    {
-      "session_id": "20260613_230347",
-      "date": "2026-06-13",
-      "exchanges": 949,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Committed, tree clean.\n\n`\u26a1 JARVIS+AYRE ONLINE \u00b7 139 governed \u00b7 main synced \u00b7 19:03 EDT`\n\nStanding state, plainly: everything you've asked for tonight "
-    },
-    {
-      "session_id": "20260613_230805",
-      "date": "2026-06-13",
-      "exchanges": 955,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tested just now \u2014 and the honest result: **still \"requires approval\" for my session.** So here's the important distinction that explains why \"both con"
-    },
     {
       "session_id": "20260613_230820",
       "date": "2026-06-13",
@@ -682,6 +580,98 @@
       ],
       "alignment": 1.0,
       "key_insight": "Locked \u2014 **Pantheon** is in the record: `IDEA-PAN-INS-0001` \u00b7 **jid 140** \u00b7 loadable as `load pantheon` or `load jid 140`. (Also the first real `INS` "
+    },
+    {
+      "session_id": "20260614_040400",
+      "date": "2026-06-14",
+      "exchanges": 1032,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**Merged to main \u2014 `fb74640` (PR #158).** Everything's on main now: the v0.10.0 connector, the deploy workflow, the Jarvis ID System, Pantheon, the ji"
+    },
+    {
+      "session_id": "20260614_041901",
+      "date": "2026-06-14",
+      "exchanges": 1047,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done \u2014 **v0.10.1 committed** (`9336eac`), 38 tools, balanced, GREEN. Two things landed, both exactly what you asked:\n\n**1. Richer card metadata** \u2014 `l"
+    },
+    {
+      "session_id": "20260614_104259",
+      "date": "2026-06-14",
+      "exchanges": 46,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done. Charter is written, governed (jid 141), committed. Here's what you paste into the Custom GPT \u2014 copy from the line below:\n\n---\n\n**JARVIS-G / AYRE"
     }
   ]
 }

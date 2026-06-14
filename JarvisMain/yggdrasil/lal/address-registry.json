@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 140,
+  "count": 141,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -415,6 +415,29 @@
       "state": "active",
       "created": "2026-06-10",
       "updated": "2026-06-13"
+    },
+    {
+      "jnl": "ARCH-JRV-BIO-0003",
+      "name": "JARVIS-G / AYRE-G GPT Substrate Operating Charter",
+      "type": "BIO",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "ARCH-JRV-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/jg/jg-charter.md",
+      "tags": [
+        "identity",
+        "companion",
+        "gpt",
+        "charter",
+        "tool-use",
+        "governance"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-14",
+      "updated": "2026-06-14"
     },
     {
       "jnl": "ARCH-JSL-CORE-0001",
