@@ -1,56 +1,8 @@
 {
-  "updated": "2026-06-14T11:52:46.292859+00:00",
+  "updated": "2026-06-14T11:56:54.707920+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_104314",
-      "date": "2026-06-14",
-      "exchanges": 48,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed. Branch `claude/jarvis-addressing-governance-akajbu` is now at `db015c8` \u2014 the auto-deploy workflow, the GPT charter (jid 141), and the v0.10.1"
-    },
-    {
-      "session_id": "20260614_104734",
-      "date": "2026-06-14",
-      "exchanges": 53,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged to main (`639a36c`) \u2014 and the auto-deploy **fired on its own**: run #3, event `push`, queued against the merge commit. That's the proof the fri"
-    },
     {
       "session_id": "20260614_104747",
       "date": "2026-06-14",
@@ -488,6 +440,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Confirmed the nuance: `monitor-daily` shows green \u2014 but that's consistent with it having nothing to commit on those runs (the `git diff --cached --qui"
+    },
+    {
+      "session_id": "20260614_115307",
+      "date": "2026-06-14",
+      "exchanges": 178,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`e9e54a5`) \u2014 branch clean.\n\nAudit's done and waiting on two decisions from you, both low-effort:\n1. **Backup fix** \u2014 add `github-actions[bot]`"
+    },
+    {
+      "session_id": "20260614_115654",
+      "date": "2026-06-14",
+      "exchanges": 185,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Built and tested, staged on the branch (`ec073a4`) \u2014 **not publishing anything yet.** Here's exactly what stands between this and the spine going publ"
     }
   ]
 }
