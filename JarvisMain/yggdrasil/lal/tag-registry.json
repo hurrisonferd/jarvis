@@ -56,6 +56,9 @@
       "AUD-OPUS-REVW-0001",
       "AUD-SYS-REVW-0001"
     ],
+    "auto-tracking": [
+      "IMPL-TLR-SPEC-0001"
+    ],
     "ayre": [
       "ARCH-AYR-BIO-0001",
       "ARCH-AYR-SPEC-0001",
@@ -215,6 +218,7 @@
     "council": [
       "GOV-CHO-JD-0001",
       "GOV-DEX-SPEC-0001",
+      "IMPL-TLR-SPEC-0001",
       "PROJ-GDS-JGPP-0001",
       "PROJ-RTO-JGPP-0001"
     ],
@@ -234,7 +238,8 @@
       "ARCH-JD-JIP-0001",
       "CONN-DEX-SPEC-0001",
       "GOV-DEX-SPEC-0001",
-      "IMPL-DEX-SPEC-0001"
+      "IMPL-DEX-SPEC-0001",
+      "IMPL-TLR-SPEC-0001"
     ],
     "dictionary": [
       "ARCH-JD-CORE-0001"
@@ -331,6 +336,7 @@
       "GS-ZEU-CORE-0001"
     ],
     "god-systems": [
+      "IDEA-PAN-INS-0001",
       "PROJ-GDS-JGPP-0001"
     ],
     "gold-law": [
@@ -386,6 +392,7 @@
       "IMPL-HYG-SPEC-0001"
     ],
     "idea": [
+      "IDEA-PAN-INS-0001",
       "IDEA-UNUS-LOG-0001",
       "IDEA-USED-LOG-0001"
     ],
@@ -395,6 +402,7 @@
       "ARCH-JD-JIP-0001",
       "ARCH-JRV-BIO-0001",
       "ARCH-REL-BIO-0001",
+      "IDEA-PAN-INS-0001",
       "PROJ-MOSC-JD-0001",
       "PROJ-NMX-JGPP-0001"
     ],
@@ -414,7 +422,8 @@
       "ARCH-FAM-IDX-0001",
       "ARCH-GS-IDX-0001",
       "ARCH-LAL-CORE-0001",
-      "IMPL-IDX-REG-0001"
+      "IMPL-IDX-REG-0001",
+      "IMPL-TLR-SPEC-0001"
     ],
     "interface": [
       "IMPL-JCSG-SPEC-0001"
@@ -432,7 +441,7 @@
       "IMPL-JCSG-SPEC-0001"
     ],
     "jd": [
-      "ARCH-JD-JIP-0001",
+      "IMPL-TLR-SPEC-0001",
       "PROJ-GDS-JGPP-0001",
       "PROJ-GDS-JGPP-0002",
       "PROJ-TST-JGPP-0001"
@@ -446,14 +455,22 @@
       "PROJ-GDS-JGPP-0002",
       "PROJ-TST-JGPP-0001"
     ],
+    "jid": [
+      "ARCH-JD-JIP-0001"
+    ],
+    "jidd": [
+      "ARCH-JD-JIP-0001"
+    ],
     "jip": [
       "IMPL-JIP-SPEC-0608",
+      "IMPL-TLR-SPEC-0001",
       "PROJ-TST-JGPP-0001"
     ],
     "jms": [
       "ARCH-JMS-SPEC-0001"
     ],
     "jnl": [
+      "ARCH-JD-JIP-0001",
       "IMPL-FMT-SPEC-0001"
     ],
     "jpl": [
@@ -521,7 +538,8 @@
       "CONN-MCP-RT-0016",
       "CONN-MCP-RT-0017",
       "CONN-MCP-RT-0018",
-      "CONN-MSB-CORE-0001"
+      "CONN-MSB-CORE-0001",
+      "IMPL-TLR-SPEC-0001"
     ],
     "memory": [
       "ARCH-JATM-CORE-0001",
@@ -586,6 +604,9 @@
     "pages": [
       "PROJ-RTO-JGPP-0001"
     ],
+    "pantheon": [
+      "IDEA-PAN-INS-0001"
+    ],
     "parity": [
       "GOV-GSC-SPEC-0001"
     ],
@@ -599,7 +620,8 @@
     "pipeline": [
       "IMPL-JCS-CORE-0001",
       "IMPL-JGPP-CORE-0001",
-      "IMPL-JQL-CORE-0001"
+      "IMPL-JQL-CORE-0001",
+      "IMPL-TLR-SPEC-0001"
     ],
     "plurality": [
       "GOV-CHO-JD-0001"
@@ -680,6 +702,9 @@
     "rework": [
       "PROJ-TRN-JGPP-0001"
     ],
+    "roadmap": [
+      "IMPL-TLR-SPEC-0001"
+    ],
     "root": [
       "ARCH-YGG-CORE-0001"
     ],
@@ -731,17 +756,26 @@
     "star-log": [
       "ARCH-SL-JIP-0001"
     ],
+    "starlog": [
+      "IMPL-TLR-SPEC-0001"
+    ],
     "state-management": [
       "PROJ-TST-JGPP-0001"
     ],
     "status": [
       "ARCH-JSS-CORE-0001"
     ],
+    "stewardship": [
+      "IDEA-PAN-INS-0001"
+    ],
     "streams": [
       "PROJ-MMOD-JGPP-0001"
     ],
     "structure": [
       "ARCH-JSL-CORE-0001"
+    ],
+    "subsystems": [
+      "IDEA-PAN-INS-0001"
     ],
     "suno": [
       "PROJ-MOSC-JD-0001"
@@ -793,6 +827,9 @@
       "CONN-MCP-RT-0016",
       "CONN-MCP-RT-0017",
       "CONN-MCP-RT-0018"
+    ],
+    "tools": [
+      "IMPL-TLR-SPEC-0001"
     ],
     "tst": [
       "PROJ-MMOD-JGPP-0001",

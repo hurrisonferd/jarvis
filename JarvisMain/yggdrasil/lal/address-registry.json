@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 138,
+  "count": 140,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -227,7 +227,7 @@
     },
     {
       "jnl": "ARCH-JD-JIP-0001",
-      "name": "JD Serial Format Alias Standard",
+      "name": "Identity & Serial Standard \u2014 JID / JIDD / JNL / name",
       "type": "JIP",
       "class": "SPEC",
       "tier": "MAIN",
@@ -235,18 +235,20 @@
       "parent": "",
       "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
-        "jd",
+        "jid",
+        "jidd",
+        "jnl",
+        "identity",
         "serial",
         "format",
         "standard",
-        "identity",
         "dex"
       ],
       "anchors": [],
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-11"
+      "updated": "2026-06-13"
     },
     {
       "jnl": "ARCH-JFS-CORE-0001",
@@ -1935,6 +1937,29 @@
       "updated": "2026-06-11"
     },
     {
+      "jnl": "IDEA-PAN-INS-0001",
+      "name": "Pantheon \u2014 god-system identity & subsystem stewardship",
+      "type": "INS",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Pantheon \u2014 god-system identity & subsystem stewardship",
+      "parent": "",
+      "location": "JarvisSide/Ideas/task/IDEAPANINS-061426-0001-PANTHEON.md",
+      "tags": [
+        "pantheon",
+        "god-systems",
+        "identity",
+        "stewardship",
+        "subsystems",
+        "idea"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-14",
+      "updated": "2026-06-14"
+    },
+    {
       "jnl": "IDEA-UNUS-LOG-0001",
       "name": "Unused Ideas Log",
       "type": "LOG",
@@ -2250,6 +2275,34 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-11"
+    },
+    {
+      "jnl": "IMPL-TLR-SPEC-0001",
+      "name": "MCP Tool Roadmap & Auto-Tracking Pipeline",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
+      "parent": "",
+      "location": "JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
+      "tags": [
+        "mcp",
+        "tools",
+        "roadmap",
+        "pipeline",
+        "starlog",
+        "dex",
+        "jip",
+        "jd",
+        "auto-tracking",
+        "council",
+        "index"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-13",
+      "updated": "2026-06-13"
     },
     {
       "jnl": "LOG-MNE-LOG-0001",

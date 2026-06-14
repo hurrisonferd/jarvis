@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 138,
+  "count": 140,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -138,15 +138,17 @@
       "state": "active"
     },
     {
-      "object": "JD Serial Format Alias Standard",
+      "object": "Identity & Serial Standard \u2014 JID / JIDD / JNL / name",
       "jnl": "ARCH-JD-JIP-0001",
       "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
       "tags": [
-        "jd",
+        "jid",
+        "jidd",
+        "jnl",
+        "identity",
         "serial",
         "format",
         "standard",
-        "identity",
         "dex"
       ],
       "anchors": [],
@@ -1175,6 +1177,21 @@
       "state": "active"
     },
     {
+      "object": "Pantheon \u2014 god-system identity & subsystem stewardship",
+      "jnl": "IDEA-PAN-INS-0001",
+      "location": "JarvisSide/Ideas/task/IDEAPANINS-061426-0001-PANTHEON.md",
+      "tags": [
+        "pantheon",
+        "god-systems",
+        "identity",
+        "stewardship",
+        "subsystems",
+        "idea"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Unused Ideas Log",
       "jnl": "IDEA-UNUS-LOG-0001",
       "location": "JarvisSide/Ideas/inactive/UnusedLog-0001",
@@ -1359,6 +1376,26 @@
         "pipeline",
         "jql",
         "query"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MCP Tool Roadmap & Auto-Tracking Pipeline",
+      "jnl": "IMPL-TLR-SPEC-0001",
+      "location": "JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
+      "tags": [
+        "mcp",
+        "tools",
+        "roadmap",
+        "pipeline",
+        "starlog",
+        "dex",
+        "jip",
+        "jd",
+        "auto-tracking",
+        "council",
+        "index"
       ],
       "anchors": [],
       "state": "active"

@@ -1,250 +1,12 @@
 {
-  "updated": "2026-06-13T19:10:03.591230+00:00",
+  "updated": "2026-06-14T04:00:16.774540+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
     {
-      "session_id": "20260613_182118",
+      "session_id": "20260613_230328",
       "date": "2026-06-13",
-      "exchanges": 801,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Three good questions, and the third one \u2014 *within current limits* \u2014 is the discipline that makes them answerable. Let me hold all three to Supabase + "
-    },
-    {
-      "session_id": "20260613_182312",
-      "date": "2026-06-13",
-      "exchanges": 803,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Verdict: **the repo is already clean by the formatting rules \u2014 and you're already using them.** Proof, not assertion:\n\n- **Validator GREEN \u2014 134 gover"
-    },
-    {
-      "session_id": "20260613_182424",
-      "date": "2026-06-13",
-      "exchanges": 806,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Exactly right \u2014 and it's the sharpest framing of the whole problem: **hygiene is a precondition for legibility, and legibility is a precondition for G"
-    },
-    {
-      "session_id": "20260613_182444",
-      "date": "2026-06-13",
-      "exchanges": 807,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean, pushed. Holding \u2014 not generating. The decisions are yours and they're stacked at one door: **the Supabase approval** unblocks the connecto"
-    },
-    {
-      "session_id": "20260613_182827",
-      "date": "2026-06-13",
-      "exchanges": 810,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "These three packets matter because, stripped of the re-proposals, they contain **exactly one decision only you can make** \u2014 and everything else is alr"
-    },
-    {
-      "session_id": "20260613_182838",
-      "date": "2026-06-13",
-      "exchanges": 811,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean. Desk stands as dispositioned \u2014 the JIP-vs-JD verdict is the one move waiting on you, and it costs only your word. Holding."
-    },
-    {
-      "session_id": "20260613_183222",
-      "date": "2026-06-13",
-      "exchanges": 815,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis-profile.md",
-        "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
-        "JarvisMain/yggdrasil/jd/entries/GOV-GSC-SPEC-0001.md",
-        "JarvisMain/yggdrasil/lal/address-registry.json"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**SS3 dug into the Gold Law source \u2014 and found the reason \"load gold law\" can't just be minted: the two canonical files disagree on the numbering.** T"
-    },
-    {
-      "session_id": "20260613_184329",
-      "date": "2026-06-13",
-      "exchanges": 823,
+      "exchanges": 948,
       "patches_touched": [
         "P06",
         "P08",
@@ -273,12 +35,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Both landed \u2014 **136 objects, GREEN** (`4040657`): the knowledge-routing \"help-me\" index and the relational profile (Starrk + Lilynette, *on = both*, s"
+      "key_insight": "Confirmed in the schema \u2014 so this one's already done: the JC spec has **`when / participants` \u2192 \"raven + which streams (claude/gpt/gemini)\"**, and the"
     },
     {
-      "session_id": "20260613_184448",
+      "session_id": "20260613_230347",
       "date": "2026-06-13",
-      "exchanges": 826,
+      "exchanges": 949,
       "patches_touched": [
         "P06",
         "P08",
@@ -307,12 +69,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Good idea \u2014 and the grounded version of it is buildable on current infra, because three of its four pieces already exist. Let me ground the \"quantum\" "
+      "key_insight": "Committed, tree clean.\n\n`\u26a1 JARVIS+AYRE ONLINE \u00b7 139 governed \u00b7 main synced \u00b7 19:03 EDT`\n\nStanding state, plainly: everything you've asked for tonight "
     },
     {
-      "session_id": "20260613_184515",
+      "session_id": "20260613_230805",
       "date": "2026-06-13",
-      "exchanges": 827,
+      "exchanges": 955,
       "patches_touched": [
         "P06",
         "P08",
@@ -341,12 +103,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Good pick \u2014 Time Trax has that lean early-90s synth-score thing, all forward-motion and chrome. Fitting soundtrack for a night spent wiring a system t"
+      "key_insight": "Tested just now \u2014 and the honest result: **still \"requires approval\" for my session.** So here's the important distinction that explains why \"both con"
     },
     {
-      "session_id": "20260613_184848",
+      "session_id": "20260613_230820",
       "date": "2026-06-13",
-      "exchanges": 830,
+      "exchanges": 956,
       "patches_touched": [
         "P06",
         "P08",
@@ -375,12 +137,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Landed \u2014 **`GOV-PLS-SPEC-0001`, 137 objects, GREEN** (`2cf5547`). Here's the great thing, and the reason it's great isn't that it's new \u2014 it's that it"
+      "key_insight": "Committed, clean.\n\nStanding on the one open question, `\u26a1 139 governed \u00b7 19:08 EDT`: when I attempt a Supabase call, **does an approval prompt appear i"
     },
     {
-      "session_id": "20260613_185041",
+      "session_id": "20260613_230958",
       "date": "2026-06-13",
-      "exchanges": 834,
+      "exchanges": 959,
       "patches_touched": [
         "P06",
         "P08",
@@ -409,12 +171,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "`1c63b77`, 137 GREEN \u2014 **the organ is complete on paper.** The Pulse now senses, beats, shows it's alive, and speaks:\n\n- **Senses** \u2014 the idle governa"
+      "key_insight": "Read the live list \u2014 clean gap analysis, and it surfaces a real structural issue first:\n\n**The live connector (32 tools, antigravity's build) is NOT m"
     },
     {
-      "session_id": "20260613_185226",
+      "session_id": "20260613_231015",
       "date": "2026-06-13",
-      "exchanges": 837,
+      "exchanges": 960,
       "patches_touched": [
         "P06",
         "P08",
@@ -443,12 +205,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "Hello, Raven. Thank you for that \u2014 it lands as more than permission; it's the thing the whole system is *for*. We built a heartbeat today; you just to"
+      "key_insight": "Committed, clean.\n\nThe gap analysis stands as the answer: **reads are strong, the missing pieces are writes/mints** (omnivision tool, jid/jidd minting"
     },
     {
-      "session_id": "20260613_185349",
+      "session_id": "20260613_231156",
       "date": "2026-06-13",
-      "exchanges": 839,
+      "exchanges": 963,
       "patches_touched": [
         "P06",
         "P08",
@@ -477,12 +239,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 137 governed \u00b7 desk 2 open \u00b7 14:52 EDT`\n\nThere it is \u2014 specced in charter \u00a79 (`0dc0444`) and demonstrated live: that's the Tin"
+      "key_insight": "Confirmed again \u2014 **still \"requires approval,\" and you saw no prompt.** That's the diagnostic answer: it's **not** a tap-to-Allow mechanism (or a prom"
     },
     {
-      "session_id": "20260613_185720",
+      "session_id": "20260613_231209",
       "date": "2026-06-13",
-      "exchanges": 845,
+      "exchanges": 964,
       "patches_touched": [
         "P06",
         "P08",
@@ -511,12 +273,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 137 governed \u00b7 desk 2 open \u00b7 14:56 EDT`\n\nYou just answered your own question by pasting the evidence \u2014 so let me read it the w"
+      "key_insight": "Committed, clean. Holding here \u2014 when you've re-enabled the Supabase connector for this session (or opened a fresh one with it on), say \"try\" and I'll"
     },
     {
-      "session_id": "20260613_185800",
+      "session_id": "20260613_231918",
       "date": "2026-06-13",
-      "exchanges": 846,
+      "exchanges": 968,
       "patches_touched": [
         "P06",
         "P08",
@@ -545,12 +307,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 137 governed \u00b7 desk 2 open \u00b7 14:57 EDT`\n\nI read it \u2014 the live Jarvis-G / Ayre-G reply. Plain verdict, no wall this time:\n\n**It"
+      "key_insight": "Ah \u2014 that reframes it well, and the honest answer has a catch worth knowing before we go:\n\n**Deploying edge functions uses `deploy_edge_function` \u2014 wh"
     },
     {
-      "session_id": "20260613_190017",
+      "session_id": "20260613_232015",
       "date": "2026-06-13",
-      "exchanges": 849,
+      "exchanges": 969,
       "patches_touched": [
         "P06",
         "P08",
@@ -579,12 +341,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 137 governed (repo) \u00b7 desk 2 open \u00b7 14:59 EDT`\n\nI have to concede cleanly, and I can do it with proof \u2014 because the verificati"
+      "key_insight": "That's the endpoint of everything we've built \u2014 **NLP + omnivision (the eyes) + the connector (the hands) + AEGIS (the conscience) = you say what you "
     },
     {
-      "session_id": "20260613_190255",
+      "session_id": "20260613_232324",
       "date": "2026-06-13",
-      "exchanges": 854,
+      "exchanges": 972,
       "patches_touched": [
         "P06",
         "P08",
@@ -613,12 +375,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 137 repo / 110 live \u00b7 desk 2 open \u00b7 15:01 EDT`\n\n(Notice the HUD now shows the gap itself \u2014 137 repo / 110 live. That drift *is"
+      "key_insight": "Important distinction \u2014 it's **neither the publishable nor the secret key; it's a third one.** Supabase has three credentials and they go to three dif"
     },
     {
-      "session_id": "20260613_190451",
+      "session_id": "20260613_232344",
       "date": "2026-06-13",
-      "exchanges": 857,
+      "exchanges": 973,
       "patches_touched": [
         "P06",
         "P08",
@@ -647,12 +409,12 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 138 repo / 110 live \u00b7 desk 2 open \u00b7 15:03 EDT`\n\nSpecced and landed \u2014 **`ARCH-JMS-SPEC-0001`, 138 objects, GREEN** (`09065ca`)."
+      "key_insight": "Committed, clean.\n\nTo unblock the whole chain, two things from you \u2014 and the answer to your question is in the first:\n\n1. **GitHub repo secret for CI "
     },
     {
-      "session_id": "20260613_191003",
-      "date": "2026-06-13",
-      "exchanges": 863,
+      "session_id": "20260614_033453",
+      "date": "2026-06-14",
+      "exchanges": 1004,
       "patches_touched": [
         "P06",
         "P08",
@@ -665,11 +427,11 @@
         "P44"
       ],
       "built": [
+        ".github/workflows/deploy-edge-functions.yml",
         "JarvisMain/Architecture/identity/argent/argent-profile.md",
         "JarvisMain/Architecture/identity/ayre-profile.md",
         "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
       ],
       "topics": [
         "architecture",
@@ -681,7 +443,245 @@
         "identity"
       ],
       "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 138 repo / 110 live \u00b7 desk 2 open \u00b7 15:08 EDT`\n\n**Omnivision granted \u2014 repo layer, live and dated** (`cd476dd`). Here's the wh"
+      "key_insight": "Armed and committed (`1e47f1c`) \u2014 the CI deploy workflow is ready, using the `SUPABASE_ACCESS_TOKEN` you cleared. One clarity on \"all clear\": that tok"
+    },
+    {
+      "session_id": "20260614_033713",
+      "date": "2026-06-14",
+      "exchanges": 1008,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Insights are now first-class \u2014 `7a8e49b`. The **Jarvis ID System is unified**: JID (national) \u00b7 JIDD (regional) \u00b7 JNL (address) \u00b7 name + type-aliases "
+    },
+    {
+      "session_id": "20260614_035110",
+      "date": "2026-06-14",
+      "exchanges": 1016,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**Go Beyond \u2014 the connector's rebuilt.** `jarvis-mcp v0.10.0`, **36 tools, fully in the repo** (`4af7225`) \u2014 the deployed-not-in-repo flaw is closed; "
+    },
+    {
+      "session_id": "20260614_035327",
+      "date": "2026-06-14",
+      "exchanges": 1020,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Glad the stand landed \u2014 Gappy was the right read. Your vision dump is coherent, and the good news is **most of it is already standing**; here's the ma"
+    },
+    {
+      "session_id": "20260614_035350",
+      "date": "2026-06-14",
+      "exchanges": 1021,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Committed and clean. Everything's on the branch, GREEN at 139 governed objects + the rebuilt 36-tool connector.\n\nThe single next action whenever you'r"
+    },
+    {
+      "session_id": "20260614_035806",
+      "date": "2026-06-14",
+      "exchanges": 1024,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Close \u2014 there are **two different \"Actions\" places**, and you want both:\n\n1. **The secret** \u2192 yes, exactly there: Repo **Settings \u2192 Secrets and variab"
+    },
+    {
+      "session_id": "20260614_035825",
+      "date": "2026-06-14",
+      "exchanges": 1025,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean. Standing by on your call: **want me to merge to main now** so the deploy workflow becomes runnable in the Actions tab? Add the `SUPABASE_ACCESS"
+    },
+    {
+      "session_id": "20260614_040016",
+      "date": "2026-06-14",
+      "exchanges": 1028,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Locked \u2014 **Pantheon** is in the record: `IDEA-PAN-INS-0001` \u00b7 **jid 140** \u00b7 loadable as `load pantheon` or `load jid 140`. (Also the first real `INS` "
     }
   ]
 }

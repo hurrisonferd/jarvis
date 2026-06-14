@@ -25,8 +25,11 @@ const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
-  "jarvis_jc_recall",
-  "jarvis_repo_tree", "jarvis_repo_read",
+  "jarvis_jd_resolve", "jarvis_jc_recall",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits",
+  "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
+  "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
+  "jarvis_jip_create", "jarvis_jip_list",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
@@ -289,7 +292,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.9.17" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.0" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -953,6 +956,219 @@ function buildServer(req: Request): McpServer {
     async ({ window_minutes }) => text({ halo: "throughput_posture", ...(await haloPosture(window_minutes)) }),
   );
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // THE ARSENAL (rebuild 2026-06-14 — Soft & Wet, "Go Beyond": plunder what works,
+  // assemble the whole). The load command (JID/JIDD Pokédex card), repo + DB vision,
+  // unified timeline, identity, omnivision, JIP lifecycle. Reads open; writes gated.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // JIDD (domain-scoped serial) = rank among same-domain objects ordered by JID (seq).
+  async function jiddOf(jnl: string, seq: number): Promise<string> {
+    const dom = (jnl || "-").split("-")[0];
+    try {
+      const peers = await rest(`jd_entries?jnl=like.${dom}-*&select=seq&order=seq.asc`) as any[];
+      const rank = peers.filter((p) => (p.seq ?? 1e12) <= seq).length;
+      return `${dom.toLowerCase()}-${rank}`;
+    } catch { return `${dom.toLowerCase()}-?`; }
+  }
+
+  // THE LOAD COMMAND — the Pokédex card. jid 1 = Yggdrasil (mint serial = seq).
+  server.registerTool(
+    "jarvis_jd_resolve",
+    {
+      title: "Load — the NLP load command (JID / JIDD / name / JNL)",
+      description:
+        "Load any governed object — the 'load' command. Accepts JID ('jid 1' = Yggdrasil, the global mint serial), JIDD ('jidd gs-1' = the domain-scoped serial), name ('ayre', 'yggdrasil'), or JNL ('ARCH-YGG-CORE-0001'). Returns the full Pokédex card: JID, JIDD, JNL, name, type, class, tier, status, definition, purpose, tags, parent, related. jid N resolves to the Nth-minted object (seq); jid 1 is always Yggdrasil.",
+      inputSchema: { query: z.string().min(1).max(120) },
+    },
+    async ({ query }) => {
+      const t = String(query).trim();
+      let rows: any[] = [];
+      const serial = /^(?:ji?d[\s-]*)?#?\s*(\d+)$/i.exec(t);
+      const jidd = /^jidd[\s-]+([a-z]+)[\s-]*(\d+)$/i.exec(t);
+      if (serial) {
+        rows = await rest(`jd_entries?seq=eq.${Number(serial[1])}&limit=1`) as any[];
+      } else if (jidd) {
+        const dom = jidd[1].toUpperCase(), n = Number(jidd[2]);
+        const peers = await rest(`jd_entries?jnl=like.${dom}-*&select=jnl,seq&order=seq.asc`) as any[];
+        const hit = peers[n - 1];
+        if (hit) rows = await rest(`jd_entries?jnl=eq.${hit.jnl}&limit=1`) as any[];
+      } else {
+        const name = t.replace(/^(?:jidd|jid|jd)[\s-]+/i, "").trim();
+        rows = await rest(`jd_entries?or=(jnl.eq.${name},name.ilike.*${name}*)&limit=5`) as any[];
+      }
+      if (!rows || !rows.length) {
+        return text({ ok: false, query: t, note: "no match — try a JID ('jid 1'), name ('yggdrasil'), or JNL ('ARCH-YGG-CORE-0001')." });
+      }
+      const o = rows[0];
+      return text({
+        ok: true,
+        card: {
+          jid: o.seq, jidd: await jiddOf(o.jnl, o.seq), jnl: o.jnl, name: o.name,
+          type: o.type, class: o.class, tier: o.tier, status: o.status, authority: o.authority,
+          definition: o.definition, purpose: o.purpose, tags: o.tags,
+          parent: o.parent ?? null, related: o.related ?? [], aliases: o.aliases ?? [],
+        },
+        render: "Render as a card — header 'JID N · jidd · JNL · Name', then Type/Class/Tier/Status, then Definition, Purpose, Tags, Metadata (parent/related). The four IDs are faces of one object.",
+        ...(rows.length > 1 ? { other_matches: rows.slice(1).map((r: any) => ({ jid: r.seq, jnl: r.jnl, name: r.name })) } : {}),
+      });
+    },
+  );
+
+  // GITHUB VISION (github_* aliases of the repo_* readers + commits).
+  server.registerTool(
+    "jarvis_github_tree",
+    { title: "GitHub — tree", description: "List files/dirs in the JARVIS repo at a path. Read-only.", inputSchema: { prefix: z.string().max(200).optional().default(""), ref: z.string().max(100).optional().default("main") } },
+    async ({ prefix, ref }) => {
+      const res = await gh(`/git/trees/${encodeURIComponent(ref)}?recursive=1`);
+      if (!res.ok) return text({ ok: false, status: res.status });
+      const data = await res.json() as { tree?: { path: string; type: string }[] };
+      const paths = (data.tree ?? []).filter((n) => n.type === "blob" && (!prefix || n.path.startsWith(prefix))).map((n) => n.path);
+      return text({ ok: true, ref, count: paths.length, paths: paths.slice(0, 500) });
+    },
+  );
+  server.registerTool(
+    "jarvis_github_file",
+    { title: "GitHub — read file", description: "Read any file's content from the JARVIS repo. Read-only.", inputSchema: { path: z.string().min(1).max(300), ref: z.string().max(100).optional().default("main") } },
+    async ({ path, ref }) => {
+      const res = await gh(`/contents/${path.split("/").map(encodeURIComponent).join("/")}?ref=${encodeURIComponent(ref)}`);
+      if (!res.ok) return text({ ok: false, status: res.status, path });
+      const data = await res.json() as { content?: string; size?: number };
+      const content = typeof data.content === "string" ? atob(data.content.replace(/\n/g, "")) : "";
+      return text({ ok: true, path, ref, size: data.size ?? content.length, content: content.slice(0, 48000) });
+    },
+  );
+  server.registerTool(
+    "jarvis_github_commits",
+    { title: "GitHub — commits", description: "Recent commits to the JARVIS repo; filter by path. Read-only.", inputSchema: { path: z.string().max(300).optional(), limit: z.number().int().min(1).max(50).optional().default(15) } },
+    async ({ path, limit }) => {
+      const q = `/commits?per_page=${limit}${path ? `&path=${encodeURIComponent(path)}` : ""}`;
+      const res = await gh(q);
+      if (!res.ok) return text({ ok: false, status: res.status });
+      const data = await res.json() as any[];
+      return text({ ok: true, commits: (data ?? []).map((c) => ({ sha: c.sha?.slice(0, 7), msg: c.commit?.message?.split("\n")[0], when: c.commit?.author?.date, by: c.commit?.author?.name })) });
+    },
+  );
+
+  // DATABASE VISION (read-only).
+  const KNOWN_TABLES = ["jnl_registry", "jd_entries", "jd_proposals", "dex_events", "mnemos_memories", "jc_objects", "sl_objects", "jip_entries", "node_messages", "node_keys", "execution_trace", "dex_control"];
+  server.registerTool(
+    "jarvis_db_inspect",
+    { title: "DB — inspect", description: "List known Supabase tables with row counts — the database landscape. Read-only.", inputSchema: {} },
+    async () => {
+      const out: Record<string, number | string> = {};
+      for (const tbl of KNOWN_TABLES) {
+        try { out[tbl] = (await countRows(tbl)) ?? "?"; } catch { out[tbl] = "n/a"; }
+      }
+      return text({ ok: true, tables: out });
+    },
+  );
+  server.registerTool(
+    "jarvis_db_read",
+    { title: "DB — read", description: "Query any public table (PostgREST). e.g. table:'jnl_registry', query:'status=eq.ACTIVE&select=jnl,name&limit=20'. Read-only.", inputSchema: { table: z.string().min(1).max(60), query: z.string().max(300).optional().default("") } },
+    async ({ table, query }) => {
+      try { return text({ ok: true, table, rows: await rest(`${table}?${query}`) }); }
+      catch (e) { return text({ ok: false, table, error: String(e).slice(0, 200) }); }
+    },
+  );
+  server.registerTool(
+    "jarvis_db_schema",
+    { title: "DB — schema", description: "Show a table's columns (sampled from a row). Read-only.", inputSchema: { table: z.string().min(1).max(60) } },
+    async ({ table }) => {
+      try { const r = await rest(`${table}?select=*&limit=1`) as any[]; return text({ ok: true, table, columns: r[0] ? Object.keys(r[0]) : [], note: r[0] ? "from a sample row" : "table empty" }); }
+      catch (e) { return text({ ok: false, table, error: String(e).slice(0, 200) }); }
+    },
+  );
+
+  // UNIFIED TIMELINE.
+  server.registerTool(
+    "jarvis_timeline",
+    { title: "Timeline — what happened", description: "Unified chronological view across dex_events + execution_trace. The single 'what happened' across systems. Read-only.", inputSchema: { limit: z.number().int().min(1).max(100).optional().default(30) } },
+    async ({ limit }) => {
+      const [events, traces] = await Promise.all([
+        rest(`dex_events?select=id,tool,actor,jnl,created_at&order=created_at.desc&limit=${limit}`).catch(() => []) as Promise<any[]>,
+        rest(`execution_trace?select=type,source,stage,created_at&order=created_at.desc&limit=${limit}`).catch(() => []) as Promise<any[]>,
+      ]);
+      const merged = [
+        ...(events as any[]).map((e) => ({ at: e.created_at, kind: "dex_event", what: `${e.tool}${e.jnl ? " " + e.jnl : ""} by ${e.actor}` })),
+        ...(traces as any[]).map((tr) => ({ at: tr.created_at, kind: "trace", what: `${tr.type}/${tr.stage} (${tr.source})` })),
+      ].sort((a, b) => String(b.at).localeCompare(String(a.at))).slice(0, limit);
+      return text({ ok: true, timeline: merged });
+    },
+  );
+
+  // IDENTITY — read (profiles from GitHub) + grow (MNEMOS, gated).
+  server.registerTool(
+    "jarvis_identity_read",
+    { title: "Identity — read", description: "Load the identity profile for JARVIS, AYRE, ARGENT, RAVEN, or the relational — keel, voice, disciplines, growth. Read at session start for grounding.", inputSchema: { who: z.enum(["jarvis", "ayre", "argent", "raven", "relational"]).optional().default("jarvis") } },
+    async ({ who }) => {
+      const paths: Record<string, string> = {
+        jarvis: "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+        ayre: "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        argent: "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        relational: "JarvisMain/Architecture/identity/relational/relational-profile.md",
+        raven: "CLAUDE.md",
+      };
+      const res = await gh(`/contents/${paths[who].split("/").map(encodeURIComponent).join("/")}?ref=main`);
+      if (!res.ok) return text({ ok: false, who, status: res.status });
+      const data = await res.json() as { content?: string };
+      const profile = typeof data.content === "string" ? atob(data.content.replace(/\n/g, "")) : "";
+      const growth = await rest(`mnemos_memories?select=text,timestamp&source_type=eq.identity_growth_${who}&order=timestamp.desc&limit=20`).catch(() => []);
+      return text({ ok: true, who, profile: profile.slice(0, 20000), growth });
+    },
+  );
+  server.registerTool(
+    "jarvis_identity_grow",
+    { title: "Identity — grow", description: "Append an insight/value/skill/correction to a stream's growth layer (additive, never overwrite). AEGIS-gated: show Raven, then call on Allow.", inputSchema: { who: z.enum(["jarvis", "ayre", "argent"]), entry: z.string().min(1).max(2000) } },
+    async ({ who, entry }) => {
+      if (!writeAuthorized(req)) return heldForApproval("identity.grow", { who, entry });
+      return text(await callFunction("mnemos-store", { text: entry, source_type: `identity_growth_${who}`, tags: ["identity", "growth", who] }));
+    },
+  );
+
+  // OMNIVISION — one-read whole-system snapshot (the freshness-stamped global mirror).
+  server.registerTool(
+    "jarvis_omnivision",
+    { title: "Omnivision — the whole system in one read", description: "Read the global mirror (lal/global-mirror.json) — a freshness-stamped, single-read snapshot of every governed object as a Pokédex card (JID/JIDD/JNL/name/status), with by-status/domain/tier summary. NEVER authoritative (JMS: check the freshness stamp; fall back to source if stale). Read-only.", inputSchema: { summary_only: z.boolean().optional().default(false) } },
+    async ({ summary_only }) => {
+      const res = await gh(`/contents/${"JarvisMain/yggdrasil/lal/global-mirror.json".split("/").map(encodeURIComponent).join("/")}?ref=main`);
+      if (!res.ok) return text({ ok: false, status: res.status, note: "global mirror unreachable" });
+      const data = await res.json() as { content?: string };
+      const mirror = JSON.parse(typeof data.content === "string" ? atob(data.content.replace(/\n/g, "")) : "{}");
+      if (summary_only) return text({ ok: true, freshness: mirror.freshness, summary: mirror.summary });
+      return text({ ok: true, ...mirror });
+    },
+  );
+
+  // JIP LIFECYCLE — versioned metadata containers (audit trail + rollback). Writes gated.
+  server.registerTool(
+    "jarvis_jip_create",
+    { title: "JIP — create", description: "Create a JIP — a versioned metadata container for a JD (audit trail + reversible state). Supply target JD (jnl), the metadata delta, and a note. AEGIS-gated. Backed by the jip_entries table.", inputSchema: { target_jd: z.string().min(5).max(40), delta: z.record(z.string(), z.unknown()).optional().default({}), note: z.string().max(500).optional().default(""), stream: z.enum(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]).optional() } },
+    async ({ target_jd, delta, note, stream }) => {
+      if (!writeAuthorized(req)) return heldForApproval("jip.create", { target_jd, note });
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/jip_entries`, {
+          method: "POST",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=representation" },
+          body: JSON.stringify({ target_jd, delta, note, author: stream ?? "jarvis", status: "proposed" }),
+        });
+        if (!res.ok) return text({ ok: false, status: res.status, note: "jip_entries write failed — does the table exist? (run the migration)" });
+        return text({ ok: true, created: await res.json() });
+      } catch (e) { return text({ ok: false, error: String(e).slice(0, 200) }); }
+    },
+  );
+  server.registerTool(
+    "jarvis_jip_list",
+    { title: "JIP — list", description: "List JIPs (version history of metadata changes), optionally for one target JD. Read-only.", inputSchema: { target_jd: z.string().max(40).optional(), status: z.string().max(20).optional(), limit: z.number().int().min(1).max(50).optional().default(20) } },
+    async ({ target_jd, status, limit }) => {
+      let q = `jip_entries?select=*&order=created_at.desc&limit=${limit}`;
+      if (target_jd) q += `&target_jd=eq.${target_jd}`;
+      if (status) q += `&status=eq.${status}`;
+      try { return text({ ok: true, jips: await rest(q) }); }
+      catch (e) { return text({ ok: false, error: String(e).slice(0, 200), note: "jip_entries may not exist yet" }); }
+    },
+  );
+
   return server;
 }
 
@@ -965,7 +1181,7 @@ app.get("/", async (c) => {
   }
   return c.json({
     name: "jarvis-cloud",
-    version: "0.9.17",
+    version: "0.10.0",
     transport: "Streamable HTTP MCP",
     endpoint: "/functions/v1/jarvis-mcp",
     tools: TOOL_NAMES,

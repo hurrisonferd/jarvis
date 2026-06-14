@@ -7,7 +7,7 @@ export const DOMAINS = new Set([
 export const TYPES = new Set([
   "CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW",
   "JGPP", "JIP", "JD", // cognition-pipeline artifact types (exploration / commit / truth)
-  "JC", "SL", // memory-lane objects: conversation containers + star logs (2026-06-11)
+  "JC", "SL", "INS", // memory-lane objects: conversations + star logs + insights
 ]);
 export const STATUSES = new Set([
   "TASK", "EXPANSION", "ACTIVE", "INACTIVE", "ARCHIVED", "DEPRECATED",
@@ -60,7 +60,7 @@ export function ontologyClass(jnl: string): string {
   const parts = jnl.split("-");
   const domain = parts[0];
   const jtype = parts.length >= 3 ? parts[2] : "";
-  if (jtype === "JC" || jtype === "SL") return "EVENT"; // memory-lane records
+  if (jtype === "JC" || jtype === "SL" || jtype === "INS") return "EVENT"; // memory-lane records
   if (jtype === "JGPP") return "ENTITY";          // exploration
   if (jtype === "JIP" || jtype === "JD") return "SPEC"; // commit / truth
   if (domain === "GS") return "SYSTEM";
