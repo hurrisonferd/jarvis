@@ -169,6 +169,16 @@ html, body {
   <div class="speaker" id="spk"></div>
 </div>
 
+<!-- P06: whole-RetroArch overlay. Launches the self-hosted player (docs/retroarch/) over the
+     full window. ROMs load through RetroArch's own menu into IDBFS — local, never uploaded. -->
+<div id="ra-overlay" style="display:none;position:fixed;inset:0;z-index:1000;background:#05070a;flex-direction:column">
+  <div style="display:flex;align-items:center;justify-content:space-between;padding:8px 14px;border-bottom:1px solid #1b2b3a;font-family:'Courier New',monospace">
+    <span style="color:#00ff88;letter-spacing:4px;font-size:12px">RETROARCH</span>
+    <button onclick="closeRetroArch()" style="background:transparent;border:1px solid #ff4466;color:#ff4466;font-family:'Courier New',monospace;font-size:11px;letter-spacing:2px;padding:4px 12px;cursor:pointer;border-radius:4px">&#10005; CLOSE</button>
+  </div>
+  <iframe id="ra-frame" title="RetroArch" style="flex:1;border:0;width:100%;background:#000" allow="cross-origin-isolated; autoplay; gamepad; fullscreen"></iframe>
+</div>
+
 <script>
 // ── config (safe for client-side)
 const SUPABASE_URL     = 'https://oexghfsvhnggddllgvrt.supabase.co';
@@ -791,21 +801,19 @@ function rEmulator(){
       <div class="dl">TYPE</div><div class="dv" style="color:var(--amber)">${label}</div>
       <div class="dl">ENGINE</div><div class="dv" style="color:var(--amber)">PRESS A TO LAUNCH</div>`;
   } else {
-    // P08: show ROM catalog if populated
-    const catHtml=romIndex.slice(0,4).map(r=>`<div style="font-size:5px;line-height:1.8;overflow:hidden;text-overflow:ellipsis;white-space:nowrap"><span style="color:var(--amber)">${(r.system||'?').toUpperCase()}</span> <span style="color:var(--bright)">${(r.name||'').slice(0,22)}</span></div>`).join('');
-    body=romIndex.length
-      ?`<div style="color:var(--dim);font-size:5px;padding:2px 0 4px;letter-spacing:2px">LIBRARY (${romIndex.length})</div>${catHtml}<div style="color:var(--dim);font-size:5px;margin-top:6px">A:LOAD FILE</div>`
-      :`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">EMULATOR CORE IDLE</div>
-      <div style="color:var(--bright);font-size:6px;line-height:2">PRESS A TO LOAD ROM</div>
-      <div style="color:var(--dim);font-size:5px;margin-top:8px;line-height:2">ACCEPTS: .gb  .gba  .rom</div>
-      <div style="color:var(--dim);font-size:5px;line-height:2">DETECTS TYPE VIA HEADER</div>
-      <div style="color:var(--dim);font-size:5px;line-height:2">ARM RESET → GBA &nbsp; else → GB</div>`;
+    // P06: RetroArch is the engine. A launches the self-hosted player in a full-window overlay;
+    // it loads ROMs locally (IDBFS) and carries its own cores + save states.
+    body=`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">RETROARCH ENGINE</div>
+      <div style="color:var(--bright);font-size:6px;line-height:2">PRESS A TO LAUNCH</div>
+      <div style="color:var(--dim);font-size:5px;margin-top:8px;line-height:2">CORES: GB · GBC · GBA · &amp; MORE</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">ROMS LOAD LOCALLY (NEVER UPLOADED)</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">SAVE STATES PERSIST IN BROWSER</div>`;
   }
   const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='coi'?'var(--red)':'var(--amber)';
   let footer;
   if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; F5:SAVE &nbsp; F9:LOAD';
   else if(CartridgeCore.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
-  else footer='A:LOAD ROM &nbsp; B:BACK';
+  else footer='A:LAUNCH RETROARCH &nbsp; B:BACK';
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--green)">EMULATOR</span><span style="color:${stCol}">${emuState.toUpperCase()}</span></div>
     <div class="s-body scroll" style="padding-top:8px">${body}</div>
@@ -850,6 +858,21 @@ function handleROM(inp){
   };
   reader.readAsArrayBuffer(file);
   try{inp.value='';}catch(_){}
+}
+
+// P06: whole-RetroArch launch. Opens the self-hosted player in the overlay iframe (lazy src
+// so the COI service worker only spins up when actually used). RetroArch owns ROM loading +
+// save states; ROMs live in the browser's IDBFS, never the repo (Raven 2026-06-14).
+function openRetroArch(){
+  const o=document.getElementById('ra-overlay'), f=document.getElementById('ra-frame');
+  if(!o||!f) return;
+  if(!f.getAttribute('src')) f.setAttribute('src','./retroarch/index.html');
+  o.style.display='flex';
+  try{ BUS.emit('retroarch_open',{ts:Date.now(),patch_id:'P06',stage:'SKADI'}); }catch(_){}
+}
+function closeRetroArch(){
+  const o=document.getElementById('ra-overlay');
+  if(o) o.style.display='none';
 }
 
 function rL0Graph(){
@@ -2204,7 +2227,7 @@ function ok(){
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
-  if(S==='emu'){ const inp=document.getElementById('rom-input'); if(inp) inp.click(); return; }
+  if(S==='emu'){ openRetroArch(); return; }
 }
 
 function back(){

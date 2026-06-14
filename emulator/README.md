@@ -1,8 +1,17 @@
 # JARVIS — Emulator Infrastructure
 
-P06+P08+P09. GitHub = structure. Supabase = behavior. WASM = execution.
+> **Current engine: RetroArch (P06), self-hosted under `docs/retroarch/`.** Raven 2026-06-14
+> chose the whole-RetroArch embed. The GameBoy page launches it in a full-window overlay;
+> RetroArch carries its own cores + save states and loads ROMs **locally into IDBFS** (the
+> browser's storage) — ROMs are never uploaded or committed. Install + vendoring steps:
+> `docs/retroarch/MANIFEST.md`.
+>
+> **Deprecated:** the per-CDN cartridge path (WasmBoy + mGBA-wasm pulled from jsDelivr/esm.sh)
+> and **P08 (GitHub ROM Indexer)** — indexing ROMs in the repo is contradicted by the
+> hold-ROMs-locally decision. The folders below remain as catalog/governance metadata only;
+> no ROMs live in the repo.
 
-## Architecture
+## Architecture (legacy — superseded by RetroArch)
 ```
 User ROM → FileReader API
          → ROMLoader.detect() → 'gb' | 'gba'
