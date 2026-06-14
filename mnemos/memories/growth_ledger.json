@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T21:55:55.296690+00:00",
+  "updated": "2026-06-14T22:26:30.722477+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_212043",
-      "date": "2026-06-14",
-      "exchanges": 470,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`9ba4ab0`) \u2014 branch clean. Set the token as a Supabase edge-function secret (never in chat), scoped to Contents + PRs read/write on this repo "
-    },
-    {
-      "session_id": "20260614_212431",
-      "date": "2026-06-14",
-      "exchanges": 474,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Clean baseline \u2014 zero open PRs. So when `github_write` runs, the PR it opens will be unmistakable.\n\n**The hands are live.** Here's the test that prove"
-    },
     {
       "session_id": "20260614_212458",
       "date": "2026-06-14",
@@ -524,6 +472,62 @@
       ],
       "alignment": 1.0,
       "key_insight": "I've got the full picture now. Here's the read on the GameBoy IO page (`docs/`):\n\n**What it is:** a TRON-styled GameBoy console \u2014 a CSS device shell ("
+    },
+    {
+      "session_id": "20260614_215614",
+      "date": "2026-06-14",
+      "exchanges": 532,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`d24dbd1`) \u2014 clean. The GameBoy IO page is solid: 12-view TRON console + live node graph, WasmBoy (GB/GBC) + mGBA (GBA, COI-gated via the SW),"
+    },
+    {
+      "session_id": "20260614_222630",
+      "date": "2026-06-14",
+      "exchanges": 24,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed \u2014 both commits on the branch (the protected-ref line is noise; the ref updated `d24dbd1..10ff2da`).\n\n**Shipped:**\n- **`docs/retroarch/`** \u2014 sel"
     }
   ]
 }
