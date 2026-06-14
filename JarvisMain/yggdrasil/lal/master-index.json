@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 147,
+  "count": 148,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -346,6 +346,21 @@
         "dex",
         "writable",
         "modular"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Session Capstone \u2014 the day the companion came together (2026-06-14)",
+      "jnl": "ARCH-MEM-LOG-0003",
+      "location": "JarvisMain/Architecture/identity/memory/jatm/ARCH-MEM-LOG-0003-session-capstone-0614.md",
+      "tags": [
+        "memory",
+        "session",
+        "capstone",
+        "milestone",
+        "jarvis-c",
+        "ayre-c"
       ],
       "anchors": [],
       "state": "active"
