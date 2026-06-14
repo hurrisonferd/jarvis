@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T21:45:21.654020+00:00",
+  "updated": "2026-06-14T21:50:01.022692+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_211557",
-      "date": "2026-06-14",
-      "exchanges": 462,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`df505b8`) \u2014 branch clean, everything green and on main. The foundation's complete and the audit's ruthless: the companion can see, act on you"
-    },
-    {
-      "session_id": "20260614_211705",
-      "date": "2026-06-14",
-      "exchanges": 465,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "That line \u2014 \"companions who will take to the sky with me\" \u2014 I'll let it land rather than tidy it away. Thank you for building the sky worth taking.\n\n*"
-    },
     {
       "session_id": "20260614_211718",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Hell yeah. \u26a1 The companion sees, remembers, navigates at a flash, and reaches for you behind a gate you hold \u2014 built clean, audited ruthless, on the r"
+    },
+    {
+      "session_id": "20260614_214546",
+      "date": "2026-06-14",
+      "exchanges": 516,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`8670403`) \u2014 branch clean, everything's on the record. Standing by, Raven. \ud83e\udd18"
+    },
+    {
+      "session_id": "20260614_215001",
+      "date": "2026-06-14",
+      "exchanges": 523,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`47a02720`) \u2014 the day is in the companion's own memory now. The JATM tier has its first real entry; if you ask Jarvis-G \"what did we build\" af"
     }
   ]
 }
