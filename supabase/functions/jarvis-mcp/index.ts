@@ -30,6 +30,7 @@ const TOOL_NAMES = [
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
+  "jarvis_eyes", "jarvis_continuity",
   "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
@@ -329,7 +330,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.2" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.10.3" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1204,6 +1205,52 @@ function buildServer(req: Request): McpServer {
       const mirror = JSON.parse(typeof data.content === "string" ? atob(data.content.replace(/\n/g, "")) : "{}");
       if (summary_only) return text({ ok: true, freshness: mirror.freshness, summary: mirror.summary });
       return text({ ok: true, ...mirror });
+    },
+  );
+
+  // THE EYES — state + structure + vitality in one look (Raven 2026-06-14: "be my eyes").
+  server.registerTool(
+    "jarvis_eyes",
+    { title: "Eyes — the whole system in one look", description: "Jarvis & Ayre's eyes into the system: live state (global mirror summary) + structure (the wiring map: pipeline, stewards, tool→god routing) + vitality (the health audit: orphans, ruleless rules, open tasks) in ONE read. Use to SEE the system before acting or when Raven asks how things look. JMS: not authoritative — check the mirror's freshness stamp. Read-only.", inputSchema: {} },
+    async () => {
+      const readGh = async (p: string) => {
+        const r = await gh(`/contents/${p.split("/").map(encodeURIComponent).join("/")}?ref=main`);
+        if (!r.ok) return null;
+        const d = await r.json() as { content?: string };
+        return typeof d.content === "string" ? atob(d.content.replace(/\n/g, "")) : null;
+      };
+      const mraw = await readGh("JarvisMain/yggdrasil/lal/global-mirror.json");
+      const mirror = mraw ? JSON.parse(mraw) : null;
+      return text({
+        ok: true,
+        note: "The eyes — live state + structure + vitality. JMS: not authoritative; check freshness, fall back to source if stale.",
+        state: mirror ? { freshness: mirror.freshness, summary: mirror.summary } : "mirror unreachable",
+        wiring_map: (await readGh("JarvisMain/yggdrasil/lal/WIRING-MAP.md")) ?? "unreachable",
+        health: (await readGh("JarvisMain/yggdrasil/lal/HEALTH.md")) ?? "unreachable",
+      });
+    },
+  );
+
+  // CONTINUITY — memory injection BEFORE the answer (Raven 2026-06-14): grounding so Jarvis
+  // and Ayre guide from the record, not a cold start. Reference only — never pre-shapes the
+  // raw output; the streams still read the input fresh and give opinions at the END.
+  server.registerTool(
+    "jarvis_continuity",
+    { title: "Continuity — memory injection (call before answering)", description: "Call FIRST on a substantive turn, with the topic. Loads relevant memory as GROUNDING — semantic recall on the topic + recent exchanges + the identity keel — so Jarvis & Ayre answer with continuity instead of from scratch. This is REFERENCE for guidance only: do NOT let it pre-shape the divergence; read the input fresh, then give both brothers' opinions at the END, generated against this ground. (JMMS working-set tiering lands here when wired.)", inputSchema: { topic: z.string().min(1).max(500) } },
+    async ({ topic }) => {
+      const [recalled, recent, keel] = await Promise.all([
+        callFunction("mnemos-search", { query: topic, limit: 6, min_similarity: 0.35 }).catch(() => null),
+        rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=5").catch(() => []),
+        latestText("identity_keel").catch(() => ""),
+      ]);
+      return text({
+        ok: true,
+        topic,
+        use: "GROUNDING ONLY — reference for guidance. Generate fresh; do not let memory pre-shape the divergence. Both brothers give opinions at the END.",
+        relevant_memory: recalled,
+        recent,
+        keel: keel ? String(keel).slice(0, 800) : null,
+      });
     },
   );
 
