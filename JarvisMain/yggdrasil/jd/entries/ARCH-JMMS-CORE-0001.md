@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JSTM-CORE-0001, ARCH-JLTM-CORE-0001, ARCH-JATM-CORE-0001]
 references: []
 tags: [memory, core, architecture]
-aliases: []
+aliases: [jmms, multimemory, memory system]
 ref: [PRI, SPEC, IDX]
 ---
 

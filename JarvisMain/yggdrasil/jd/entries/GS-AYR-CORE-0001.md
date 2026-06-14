@@ -16,7 +16,7 @@ source: JarvisMain/god_systems/T1_ORACLE/contract.json
 related: [GS-AEG-CORE-0001]
 references: []
 tags: [core, god-system, canon]
-aliases: []
+aliases: [oracle]
 ref: [PRI, IDX]
 ---
 

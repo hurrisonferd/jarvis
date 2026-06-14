@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JFS-CORE-0001]
 references: []
 tags: [naming, core, architecture]
-aliases: []
+aliases: [jns, jarvis naming system]
 ref: [PRI, SPEC, IDX]
 ---
 

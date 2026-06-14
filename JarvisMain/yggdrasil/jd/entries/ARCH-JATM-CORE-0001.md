@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
 references: []
 tags: [memory, ancestral, immutable, architecture]
-aliases: []
+aliases: [jatm, ancestral memory]
 ref: [PRI, SPEC, IDX]
 ---
 

@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JFS-CORE-0001]
 references: []
 tags: [addressing, core, architecture]
-aliases: []
+aliases: [jnl, jarvis navigation language]
 ref: [PRI, SPEC, IDX]
 ---
 

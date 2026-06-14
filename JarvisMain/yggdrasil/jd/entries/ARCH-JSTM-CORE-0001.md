@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
 references: []
 tags: [memory, short-term, architecture]
-aliases: []
+aliases: [jstm, short-term memory]
 ref: [PRI, SPEC, IDX]
 ---
 

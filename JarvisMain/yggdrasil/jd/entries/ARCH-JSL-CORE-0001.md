@@ -16,7 +16,7 @@ source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JFS-CORE-0001]
 references: []
 tags: [structure, core, architecture]
-aliases: []
+aliases: [jsl, jarvis structural layer]
 ref: [PRI, SPEC, IDX]
 ---
 

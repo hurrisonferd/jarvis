@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-14T16:41:52.492926+00:00",
+  "updated": "2026-06-14T16:44:09.379015+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_115654",
-      "date": "2026-06-14",
-      "exchanges": 185,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Built and tested, staged on the branch (`ec073a4`) \u2014 **not publishing anything yet.** Here's exactly what stands between this and the spine going publ"
-    },
     {
       "session_id": "20260614_115710",
       "date": "2026-06-14",
@@ -522,6 +496,32 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`e3ad3ca`) \u2014 v0.10.3 deploying. Both tools are live:\n\n- **`jarvis_eyes`** \u2014 one call returns the eyes: live state (mirror summary) + structure"
+    },
+    {
+      "session_id": "20260614_164409",
+      "date": "2026-06-14",
+      "exchanges": 340,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`1a9a5c5`). ODIN gets help without a new layer \u2014 it's doctrine in the wiring map now: **ODIN routes, but never alone.** ORACLE intakes \u2192 **Jar"
     }
   ]
 }
