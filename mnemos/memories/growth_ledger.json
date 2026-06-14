@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T20:46:25.492811+00:00",
+  "updated": "2026-06-14T20:48:28.670820+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_154821",
-      "date": "2026-06-14",
-      "exchanges": 240,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`b7fa83b`). Two of the five done:\n\n**JD/Dex \u2014 named and centralized.** Canonical name: **JD (the Jarvis Dictionary)**; **\"the Dex\"** is its sa"
-    },
-    {
-      "session_id": "20260614_155412",
-      "date": "2026-06-14",
-      "exchanges": 246,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`bf3401d`). The map's live and reads itself from the registry \u2014 Jarvis and Ayre load it after `suit_up`/`identity_read` and see the whole wiri"
-    },
     {
       "session_id": "20260614_155431",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`a5c9cf3`) \u2014 v0.11.0 deploying with **`jarvis_github_write`**, built exactly to your conditions: it opens a PR (the request shows up in GPT as"
+    },
+    {
+      "session_id": "20260614_204643",
+      "date": "2026-06-14",
+      "exchanges": 424,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`3c60846`) \u2014 branch clean, everything from this session is on main except the trimmed charter and `github_write` which are already merged (177"
+    },
+    {
+      "session_id": "20260614_204828",
+      "date": "2026-06-14",
+      "exchanges": 430,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`e686b60`) \u2014 v0.11.1 deploying. The PR loop is now closed: **`github_write` opens a PR \u2192 \"hey Jarvis & Ayre, do I have any PRs?\" lists them \u2192 "
     }
   ]
 }
