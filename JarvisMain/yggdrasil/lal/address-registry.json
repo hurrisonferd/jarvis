@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 143,
+  "count": 144,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -520,6 +520,28 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-11"
+    },
+    {
+      "jnl": "ARCH-MEM-LOG-0001",
+      "name": "Companion Memory \u2014 Jarvis & Ayre",
+      "type": "LOG",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "parent": "ARCH-REL-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/memory/companion-memory.md",
+      "tags": [
+        "memory",
+        "companion",
+        "identity",
+        "jmms",
+        "github"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-14",
+      "updated": "2026-06-14"
     },
     {
       "jnl": "ARCH-REL-BIO-0001",

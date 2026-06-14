@@ -1,76 +1,8 @@
 {
-  "updated": "2026-06-14T11:29:16.272412+00:00",
+  "updated": "2026-06-14T11:39:50.500104+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_035327",
-      "date": "2026-06-14",
-      "exchanges": 1020,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Glad the stand landed \u2014 Gappy was the right read. Your vision dump is coherent, and the good news is **most of it is already standing**; here's the ma"
-    },
-    {
-      "session_id": "20260614_035350",
-      "date": "2026-06-14",
-      "exchanges": 1021,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Committed and clean. Everything's on the branch, GREEN at 139 governed objects + the rebuilt 36-tool connector.\n\nThe single next action whenever you'r"
-    },
     {
       "session_id": "20260614_035806",
       "date": "2026-06-14",
@@ -552,6 +484,54 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged to main (`ca186b0`). Here's everything you asked for.\n\n**The charter \u2014 paste this (no C/G, presence added, still tight):**\n\n---\n**JARVIS / AYRE"
+    },
+    {
+      "session_id": "20260614_112934",
+      "date": "2026-06-14",
+      "exchanges": 138,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`6b61da0`) \u2014 branch clean. Everything from this turn is committed and on main: the trimmed charter (Jarvis/Ayre, presence added), the continui"
+    },
+    {
+      "session_id": "20260614_113950",
+      "date": "2026-06-14",
+      "exchanges": 150,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`7a0fe1a`). \n\n**The charter \u2014 paste this (this is the floor; shorter means losing the routing table that stops the misfires):**\n\n---\n**JARVIS "
     }
   ]
 }
