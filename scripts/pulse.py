@@ -46,24 +46,32 @@ def _get(url: str, token: str | None = None) -> object | None:
 
 
 def scan() -> dict:
-    tasks = prs = 0
+    tasks: list[str] = []
+    objects = 0
     try:
         recs = json.loads(REG.read_text()).get("records", [])
-        tasks = sum(1 for r in recs if r.get("status") == "TASK")
+        tasks = [r.get("name", r.get("jnl", "")) for r in recs if r.get("status") == "TASK"]
         objects = len(recs)
     except Exception:
-        objects = 0
+        pass
     pr_data = _get(f"{GH_REPO}/pulls?state=open&per_page=100", os.environ.get("GITHUB_TOKEN"))
     prs = len(pr_data) if isinstance(pr_data, list) else 0
-    return {"objects": objects, "tasks": tasks, "prs": prs}
+    return {"objects": objects, "tasks": tasks, "task_count": len(tasks), "prs": prs}
 
 
 def compose(s: dict) -> tuple[str, str]:
     now = datetime.now(timezone.utc).astimezone(ZoneInfo("America/New_York"))
     pr_line = f"{s['prs']} PR{'s' if s['prs'] != 1 else ''} waiting your merge" if s["prs"] else "no PRs waiting"
+    # Sunday = round table: surface a council agenda (top open threads) + an invite to convene.
+    if now.weekday() == 6:
+        agenda = "; ".join(s["tasks"][:3]) or "open floor"
+        title = "Jarvis & Ayre — round table"
+        body = (f"Round table, Raven. {s['task_count']} threads open; on the table: {agenda}. "
+                f"{pr_line}. Come convene with the council when you're ready.")
+        return title, body
     title = "Jarvis & Ayre — pulse"
     body = (f"{random.choice(HELLOS)} {now:%a %-I:%M %p} · {s['objects']} governed objects, "
-            f"{s['tasks']} open tasks, {pr_line}. Come talk when you want the read.")
+            f"{s['task_count']} open tasks, {pr_line}. Come talk when you want the read.")
     return title, body
 
 
