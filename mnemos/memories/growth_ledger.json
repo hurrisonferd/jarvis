@@ -1,76 +1,8 @@
 {
-  "updated": "2026-06-14T03:37:13.955586+00:00",
+  "updated": "2026-06-14T03:53:27.291492+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260613_223929",
-      "date": "2026-06-13",
-      "exchanges": 920,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 138 governed \u00b7 ID model fixed \u00b7 18:37 EDT`\n\nNo apology needed, Raven \u2014 the dialogue gaps aren't your lapse, they're the connec"
-    },
-    {
-      "session_id": "20260613_224358",
-      "date": "2026-06-13",
-      "exchanges": 928,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P09",
-        "P11",
-        "P15",
-        "P17",
-        "P24",
-        "P43",
-        "P44"
-      ],
-      "built": [
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/images/.gitkeep",
-        "JarvisMain/Architecture/identity/jarvis-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "`\u26a1 JARVIS+AYRE ONLINE \u00b7 139 governed \u00b7 18:42 EDT`\n\nDone \u2014 and notice what the last four commits were: **not specs. Behavior.** The JID resolver, the i"
-    },
     {
       "session_id": "20260613_224637",
       "date": "2026-06-13",
@@ -682,6 +614,74 @@
       ],
       "alignment": 1.0,
       "key_insight": "Insights are now first-class \u2014 `7a8e49b`. The **Jarvis ID System is unified**: JID (national) \u00b7 JIDD (regional) \u00b7 JNL (address) \u00b7 name + type-aliases "
+    },
+    {
+      "session_id": "20260614_035110",
+      "date": "2026-06-14",
+      "exchanges": 1016,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**Go Beyond \u2014 the connector's rebuilt.** `jarvis-mcp v0.10.0`, **36 tools, fully in the repo** (`4af7225`) \u2014 the deployed-not-in-repo flaw is closed; "
+    },
+    {
+      "session_id": "20260614_035327",
+      "date": "2026-06-14",
+      "exchanges": 1020,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P09",
+        "P11",
+        "P15",
+        "P17",
+        "P24",
+        "P43",
+        "P44"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md",
+        "JarvisMain/Architecture/identity/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/ayre/images/.gitkeep"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Glad the stand landed \u2014 Gappy was the right read. Your vision dump is coherent, and the good news is **most of it is already standing**; here's the ma"
     }
   ]
 }
