@@ -409,9 +409,11 @@ PARENT = {
     "ARCH-JSTM-CORE-0001": "ARCH-JMMS-CORE-0001",
     "ARCH-JLTM-CORE-0001": "ARCH-JMMS-CORE-0001",
     "ARCH-JATM-CORE-0001": "ARCH-JMMS-CORE-0001",
-    # Specs belong to the system they specify
-    "ARCH-AYR-SPEC-0001": "GS-AYR-CORE-0001",
-    "ARCH-AYR-SPEC-0002": "GS-AYR-CORE-0001",
+    # Specs belong to the system they specify. The AYRE/JARVIS split + Ayre loop
+    # specs describe the COMPANION stream, not the intake god (now ORACLE) — they
+    # parent to the AYRE companion profile (rename disentangling, 2026-06-14).
+    "ARCH-AYR-SPEC-0001": "ARCH-AYR-BIO-0001",
+    "ARCH-AYR-SPEC-0002": "ARCH-AYR-BIO-0001",
     "ARCH-RT-SPEC-0001": "GS-SKD-CORE-0001",
     "ARCH-RT-SPEC-0002": "GS-SKD-CORE-0001",
     "ARCH-RT-SPEC-0003": "GS-SKD-CORE-0001",
@@ -512,8 +514,8 @@ RELATED = {
     "GS-HAD-CORE-0001": ["ARCH-JATM-CORE-0001"],
     "GS-MIM-CORE-0001": ["GS-MNE-CORE-0001"],
     # Specs -> the systems they define
-    "ARCH-AYR-SPEC-0001": ["GS-AYR-CORE-0001"],
-    "ARCH-AYR-SPEC-0002": ["GS-AYR-CORE-0001"],
+    "ARCH-AYR-SPEC-0001": ["ARCH-AYR-BIO-0001"],
+    "ARCH-AYR-SPEC-0002": ["ARCH-AYR-BIO-0001"],
     "ARCH-RT-SPEC-0001": ["GS-SKD-CORE-0001"],
     "ARCH-RT-SPEC-0002": ["GS-SKD-CORE-0001"],
     "ARCH-RT-SPEC-0003": ["ARCH-RT-SPEC-0002"],

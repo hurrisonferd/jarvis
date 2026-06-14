@@ -51,7 +51,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
-      "parent": "GS-AYR-CORE-0001",
+      "parent": "ARCH-AYR-BIO-0001",
       "location": "JarvisMain/Architecture/specs/ayre-jarvis-split-v1.md",
       "tags": [
         "architecture",
@@ -61,7 +61,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-11"
+      "updated": "2026-06-14"
     },
     {
       "jnl": "ARCH-AYR-SPEC-0002",
@@ -70,7 +70,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
-      "parent": "GS-AYR-CORE-0001",
+      "parent": "ARCH-AYR-BIO-0001",
       "location": "JarvisMain/Architecture/specs/ayre-loop-v1.md",
       "tags": [
         "architecture",
@@ -80,7 +80,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-11"
+      "updated": "2026-06-14"
     },
     {
       "jnl": "ARCH-FAM-IDX-0001",

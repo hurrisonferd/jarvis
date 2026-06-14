@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T11:15:07Z",
-    "generated_at_eastern": "2026-06-14 07:15 EDT",
-    "source_commit": "b2dd453",
+    "generated_at_utc": "2026-06-14T11:17:53Z",
+    "generated_at_eastern": "2026-06-14 07:17 EDT",
+    "source_commit": "124afb3",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -790,7 +790,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "GS-AYR-CORE-0001",
+      "parent": "ARCH-AYR-BIO-0001",
       "tags": [
         "architecture",
         "ayre"
@@ -805,7 +805,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "GS-AYR-CORE-0001",
+      "parent": "ARCH-AYR-BIO-0001",
       "tags": [
         "architecture",
         "ayre"
