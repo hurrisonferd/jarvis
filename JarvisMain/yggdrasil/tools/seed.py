@@ -928,6 +928,14 @@ def main() -> None:
     except Exception as e:  # never block the seed on the mirror
         print(f"(global-mirror skipped: {e})")
 
+    # Wiring map (Raven 2026-06-14): the self-updating route guide for Jarvis/Ayre + the
+    # god systems — regenerated from the live registry so it can never silently drift.
+    try:
+        import wiring_map as _wmap
+        _wmap.main()
+    except Exception as e:  # never block the seed on the map
+        print(f"(wiring-map skipped: {e})")
+
 
 if __name__ == "__main__":
     main()
