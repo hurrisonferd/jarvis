@@ -146,8 +146,13 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
 - **JNL address grammar:** `[Domain]-[System]-[Type]-[Log]-[Patch]-[Block]`
   (e.g. `ARCH-JFS-CORE-0001`, `GS-ODN-RT-0001-P005-B002`). Full tables in
   `JarvisMain/yggdrasil/jfs/jnl-grammar.md`.
-- **JD = semantic DNS.** Thin entries (definition + JNL + tags + timestamps), one file per
-  object in `JarvisMain/yggdrasil/jd/entries/`. JD explains and points; it never duplicates content.
+- **JD = semantic DNS, the one registry.** Canonical name: **JD (Jarvis Dictionary)**; **"the Dex"**
+  is its sanctioned nickname (the Pokédex-facing view) — *not a separate system*. Thin entries
+  (definition + JNL + tags + timestamps), one file per object in `JarvisMain/yggdrasil/jd/entries/`.
+  JD explains and points; it never duplicates content. One dictionary under many faces: truth =
+  `yggdrasil/jd/entries` · discovery = LAL · query surface = the `jarvis-dex` function +
+  `jarvis_dex_*`/`jarvis_jd_resolve` tools · live mirror = Supabase `jnl_registry`/`jd_entries`.
+  There is never a second registry — every "dex" is this JD.
 - **LAL = discovery.** Derived registries (`address` / `master-index` / `tag`) that resolve
   a JNL to a real location. Pointers only (JMS law: move references, never truth).
 - **GL12 — Canonical Addressability:** every persistent object must have a JNL address,

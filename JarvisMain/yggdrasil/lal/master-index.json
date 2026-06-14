@@ -132,7 +132,8 @@
         "dictionary",
         "semantic",
         "core",
-        "architecture"
+        "architecture",
+        "dex"
       ],
       "anchors": [],
       "state": "active"

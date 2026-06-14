@@ -243,6 +243,7 @@
       "PROJ-DEO-JGPP-0001"
     ],
     "dex": [
+      "ARCH-JD-CORE-0001",
       "ARCH-JD-JIP-0001",
       "ARCH-MEM-LOG-0002",
       "CONN-DEX-SPEC-0001",
