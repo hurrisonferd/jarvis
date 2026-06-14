@@ -1,5 +1,5 @@
 {
-  "next": 147,
+  "next": 148,
   "map": {
     "ARCH-YGG-CORE-0001": 1,
     "ARCH-JFS-CORE-0001": 2,
@@ -146,6 +146,7 @@
     "ARCH-SYS-LOG-0001": 143,
     "ARCH-MEM-LOG-0001": 144,
     "ARCH-MEM-LOG-0002": 145,
-    "LOG-MED-LOG-0001": 146
+    "LOG-MED-LOG-0001": 146,
+    "ARCH-RAV-BIO-0001": 147
   }
 }

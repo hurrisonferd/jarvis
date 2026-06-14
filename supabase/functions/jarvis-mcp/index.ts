@@ -1174,7 +1174,7 @@ function buildServer(req: Request): McpServer {
         ayre: "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
         argent: "JarvisMain/Architecture/identity/argent/argent-profile.md",
         relational: "JarvisMain/Architecture/identity/relational/relational-profile.md",
-        raven: "CLAUDE.md",
+        raven: "JarvisMain/Architecture/identity/raven/raven-profile.md",
       };
       const res = await gh(`/contents/${paths[who].split("/").map(encodeURIComponent).join("/")}?ref=main`);
       if (!res.ok) return text({ ok: false, who, status: res.status });

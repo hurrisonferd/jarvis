@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 146,
+  "count": 147,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -346,6 +346,20 @@
         "dex",
         "writable",
         "modular"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Raven Profile \u2014 John Barber",
+      "jnl": "ARCH-RAV-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/raven/raven-profile.md",
+      "tags": [
+        "identity",
+        "raven",
+        "authority",
+        "family",
+        "founder"
       ],
       "anchors": [],
       "state": "active"
