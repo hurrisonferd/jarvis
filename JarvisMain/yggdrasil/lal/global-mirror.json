@@ -1,21 +1,21 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T10:59:47Z",
-    "generated_at_eastern": "2026-06-14 06:59 EDT",
-    "source_commit": "1a7d649",
+    "generated_at_utc": "2026-06-14T11:10:09Z",
+    "generated_at_eastern": "2026-06-14 07:10 EDT",
+    "source_commit": "40cf590",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 141,
+    "object_count": 142,
     "by_status": {
-      "ACTIVE": 116,
+      "ACTIVE": 117,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
     },
     "by_domain": {
-      "ARCH": 31,
+      "ARCH": 32,
       "AUD": 5,
       "CONN": 21,
       "GOV": 12,
@@ -26,7 +26,7 @@
       "PROJ": 26
     },
     "by_tier": {
-      "MAIN": 110,
+      "MAIN": 111,
       "SIDE": 31
     }
   },
@@ -2341,6 +2341,24 @@
         "charter",
         "tool-use",
         "governance"
+      ]
+    },
+    {
+      "jnl": "ARCH-SYS-SPEC-0001",
+      "jid": 142,
+      "jidd": "arch-32",
+      "name": "JARVIS System Manual",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "",
+      "tags": [
+        "manual",
+        "architecture",
+        "system",
+        "reference",
+        "onboarding"
       ]
     }
   ]

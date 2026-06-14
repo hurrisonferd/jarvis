@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 141,
+  "count": 142,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -379,6 +379,20 @@
         "provenance",
         "sync",
         "logging"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS System Manual",
+      "jnl": "ARCH-SYS-SPEC-0001",
+      "location": "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+      "tags": [
+        "manual",
+        "architecture",
+        "system",
+        "reference",
+        "onboarding"
       ],
       "anchors": [],
       "state": "active"
