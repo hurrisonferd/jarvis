@@ -1,6 +1,6 @@
 # Wiring Map — how Jarvis, Ayre, and the god systems connect
 
-_generated: 2026-06-14T16:01:13Z (2026-06-14 12:01 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
+_generated: 2026-06-14T16:04:40Z (2026-06-14 12:04 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
 
 Read at session start (after `suit_up` / `identity_read`). This is the route guide:
 what tends what, what runs in what order, which tool wakes which god.

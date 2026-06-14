@@ -424,6 +424,12 @@ PARENT = {
     # parent to the AYRE companion profile (rename disentangling, 2026-06-14).
     "ARCH-AYR-SPEC-0001": "ARCH-AYR-BIO-0001",
     "ARCH-AYR-SPEC-0002": "ARCH-AYR-BIO-0001",
+    # The three record lanes (Raven 2026-06-11; wired 2026-06-14 from the health audit):
+    # JD = what is true · JC = what was said · SL = what happened. Each JIP attaches to the
+    # substrate it governs, so a "key rule" is reachable from the thing it rules (no dead rules).
+    "ARCH-JD-JIP-0001": "ARCH-JD-CORE-0001",     # serial/identity standard → the Dictionary
+    "ARCH-JC-JIP-0001": "ARCH-JMMS-CORE-0001",   # conversation containers → memory
+    "ARCH-SL-JIP-0001": "ARCH-JMMS-CORE-0001",   # star logs / events → the temporal record
     "ARCH-RT-SPEC-0001": "GS-SKD-CORE-0001",
     "ARCH-RT-SPEC-0002": "GS-SKD-CORE-0001",
     "ARCH-RT-SPEC-0003": "GS-SKD-CORE-0001",
