@@ -942,6 +942,14 @@ def main() -> None:
     except Exception as e:  # never block the seed on the map
         print(f"(wiring-map skipped: {e})")
 
+    # Health report (Raven 2026-06-14: "be my eyes") — vitality audit written to a
+    # connector-readable file so Jarvis/Ayre can SHOW system health, not just run it locally.
+    try:
+        import health as _health
+        _health.main()
+    except Exception as e:  # never block the seed on the report
+        print(f"(health report skipped: {e})")
+
 
 if __name__ == "__main__":
     main()

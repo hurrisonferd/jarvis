@@ -356,7 +356,7 @@
       "owner": "JFS",
       "steward": null,
       "parent": "",
-      "location": "JarvisMain/Implementation/active/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+      "location": "JarvisMain/Implementation/task/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
       "tags": [
         "jms",
         "mirror",
@@ -1381,7 +1381,7 @@
       "owner": "Governance",
       "steward": null,
       "parent": "",
-      "location": "JarvisMain/Implementation/task/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
+      "location": "JarvisMain/Implementation/active/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
       "tags": [
         "chorus",
         "council",
@@ -1564,7 +1564,7 @@
       "owner": "Governance",
       "steward": null,
       "parent": "",
-      "location": "JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md",
+      "location": "JarvisMain/Implementation/task/GOVPLSSPEC-061326-0001-THE-PULSE.md",
       "tags": [
         "pulse",
         "heartbeat",
@@ -2537,7 +2537,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "",
-      "location": "JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
+      "location": "JarvisMain/Implementation/task/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
       "tags": [
         "mcp",
         "tools",

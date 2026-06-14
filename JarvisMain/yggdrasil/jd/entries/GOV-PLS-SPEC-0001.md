@@ -12,7 +12,7 @@ seq: 137
 status: TASK
 created: 2026-06-13
 updated: 2026-06-14
-source: JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md
+source: JarvisMain/Implementation/task/GOVPLSSPEC-061326-0001-THE-PULSE.md
 related: []
 references: []
 tags: [pulse, heartbeat, kronos, reflection, ayre, jarvis, p43, liveness, governance, gear5]

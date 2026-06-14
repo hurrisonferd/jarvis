@@ -206,7 +206,7 @@
     {
       "object": "Global Mirror \u2014 Earned Omnivision (JMS)",
       "jnl": "ARCH-JMS-SPEC-0001",
-      "location": "JarvisMain/Implementation/active/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+      "location": "JarvisMain/Implementation/task/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
       "tags": [
         "jms",
         "mirror",
@@ -799,7 +799,7 @@
     {
       "object": "Chorus Principle",
       "jnl": "GOV-CHO-JD-0001",
-      "location": "JarvisMain/Implementation/task/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
+      "location": "JarvisMain/Implementation/active/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
       "tags": [
         "chorus",
         "council",
@@ -910,7 +910,7 @@
     {
       "object": "The Pulse \u2014 Companion Heartbeat",
       "jnl": "GOV-PLS-SPEC-0001",
-      "location": "JarvisMain/Implementation/active/GOVPLSSPEC-061326-0001-THE-PULSE.md",
+      "location": "JarvisMain/Implementation/task/GOVPLSSPEC-061326-0001-THE-PULSE.md",
       "tags": [
         "pulse",
         "heartbeat",
@@ -1469,7 +1469,7 @@
     {
       "object": "MCP Tool Roadmap & Auto-Tracking Pipeline",
       "jnl": "IMPL-TLR-SPEC-0001",
-      "location": "JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
+      "location": "JarvisMain/Implementation/task/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
       "tags": [
         "mcp",
         "tools",

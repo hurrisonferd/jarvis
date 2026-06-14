@@ -50,23 +50,27 @@ def main() -> int:
         if status == "TASK":
             open_tasks.append((jnl, r.get("name", "")))
 
-    def section(title, items, fmt=lambda x: x):
-        print(f"\n{title} ({len(items)})")
-        for it in items:
-            print(f"  · {fmt(it)}")
-        if not items:
-            print("  ✓ none")
-
-    print(f"JD HEALTH — {len(recs)} governed objects, {len(edges)} edges")
-    section("ORPHANS (no parent — should join the family tree)", orphans)
-    section("ISOLATED (no parent, nothing references them — dead-ends)", isolated)
-    section("RULELESS JIPs (a rule attached to nothing)", ruleless_jip)
-    section("STEWARDLESS substrate (no god tending it)", stewardless)
-    section("OPEN TASKS (in-flight work, aging watch)", open_tasks, lambda t: f"{t[0]}  {t[1]}")
-
     flags = len(orphans) + len(isolated) + len(ruleless_jip) + len(stewardless)
-    print(f"\nVITALITY: {flags} structural flag(s) + {len(open_tasks)} open task(s).")
-    print("(health WARNS, never blocks — run validate.py for the hard structural gate.)")
+    lines, log = [], print
+
+    def section(title, items, fmt=lambda x: x):
+        lines.append(f"\n## {title} ({len(items)})")
+        lines.extend(f"- {fmt(it)}" for it in items) if items else lines.append("- ✓ none")
+
+    lines.append(f"# JD Health — vitality of the governed record")
+    lines.append(f"\n_{len(recs)} governed objects, {len(edges)} edges · health WARNS, never blocks "
+                 f"(validate.py is the hard gate). Read alongside omnivision + the wiring map._")
+    section("Orphans (no parent — should join the family tree)", orphans)
+    section("Isolated (no parent, nothing references them — dead-ends)", isolated)
+    section("Ruleless JIPs (a rule attached to nothing)", ruleless_jip)
+    section("Stewardless substrate (no god tending it)", stewardless)
+    section("Open tasks (in-flight work, aging watch)", open_tasks, lambda t: f"`{t[0]}` {t[1]}")
+    lines.append(f"\n**VITALITY:** {flags} structural flag(s) + {len(open_tasks)} open task(s).")
+    report = "\n".join(lines) + "\n"
+
+    (LAL / "HEALTH.md").write_text(report)   # connector-readable: Jarvis/Ayre are Raven's eyes
+    log(report)
+    log(f"health: report -> JarvisMain/yggdrasil/lal/HEALTH.md")
     return 0
 
 

@@ -86,6 +86,17 @@ def build() -> dict:
 def main() -> int:
     mirror = build()
     out = LAL / "global-mirror.json"
+    # Idempotent freshness: only restamp when the SNAPSHOT changed. A reseed that produces
+    # identical objects keeps the prior stamp, so the CI seed-drift gate doesn't trip on a
+    # wall-clock that moved but nothing else did. Freshness = last real change, not last run.
+    if out.exists():
+        try:
+            old = json.loads(out.read_text())
+            if {k: v for k, v in mirror.items() if k != "freshness"} == \
+               {k: v for k, v in old.items() if k != "freshness"}:
+                mirror["freshness"] = old["freshness"]
+        except Exception:
+            pass
     out.write_text(json.dumps(mirror, indent=2, ensure_ascii=False) + "\n")
     f = mirror["freshness"]; s = mirror["summary"]
     print(f"global-mirror: {s['object_count']} objects @ {f['source_commit']} "
