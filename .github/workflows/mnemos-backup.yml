@@ -21,7 +21,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python3 scripts/mnemos_backup.py
-      - name: Commit snapshot if changed
+      - name: Publish snapshot to the backups branch (main is protected — no bypass needed)
         run: |
           git config user.name "JARVIS (MNEMOS backup)"
           git config user.email "noreply@anthropic.com"
@@ -29,6 +29,10 @@ jobs:
           if git diff --cached --quiet; then
             echo "backup: no change since last snapshot."
           else
-            git commit -m "chore(mnemos): weekly cloud spine snapshot (GL5: backup is an event)"
-            git push
+            git commit -m "chore(mnemos): cloud spine snapshot (GL5: backup is an event)"
+            # main is a protected branch; publish the snapshot to a dedicated, unprotected
+            # branch instead. Still public + versioned in GitHub, never touches main, and needs
+            # no ruleset bypass. The snapshot is non-personal only (dex_events/jd_proposals/
+            # node_keys); the full spine goes to Jarvis-Private out of band.
+            git push origin HEAD:refs/heads/mnemos-backups --force
           fi
