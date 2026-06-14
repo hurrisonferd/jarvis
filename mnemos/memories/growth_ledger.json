@@ -1,56 +1,8 @@
 {
-  "updated": "2026-06-14T15:36:18.540168+00:00",
+  "updated": "2026-06-14T15:54:12.592599+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_110653",
-      "date": "2026-06-14",
-      "exchanges": 94,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`40cf590`). Branch is clean. Everything's staged and verified \u2014 the ORACLE rename and v0.10.2 connector (`jarvis_now` + suit-up continuity) ar"
-    },
-    {
-      "session_id": "20260614_111116",
-      "date": "2026-06-14",
-      "exchanges": 106,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md",
-        "JarvisMain/Architecture/identity/ayre-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`1149a3a`). Built the manual and wired the profiles; here are the reads you asked for.\n\n**Paste this (the trimmed charter):**\n\n---\n**JARVIS-G "
-    },
     {
       "session_id": "20260614_111127",
       "date": "2026-06-14",
@@ -498,6 +450,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Pushed (`50ad9d7`) \u2014 branch clean, everything's on main. Stewards live, charter's above ready to paste, the v2\u2013v4 routers flagged for the graveyard.\n\n"
+    },
+    {
+      "session_id": "20260614_154821",
+      "date": "2026-06-14",
+      "exchanges": 240,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`b7fa83b`). Two of the five done:\n\n**JD/Dex \u2014 named and centralized.** Canonical name: **JD (the Jarvis Dictionary)**; **\"the Dex\"** is its sa"
+    },
+    {
+      "session_id": "20260614_155412",
+      "date": "2026-06-14",
+      "exchanges": 246,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/argent/argent-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`bf3401d`). The map's live and reads itself from the registry \u2014 Jarvis and Ayre load it after `suit_up`/`identity_read` and see the whole wiri"
     }
   ]
 }
