@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-14T20:48:28.670820+00:00",
+  "updated": "2026-06-14T20:50:06.378829+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_155431",
-      "date": "2026-06-14",
-      "exchanges": 247,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`6960efc`) \u2014 branch and main clean. Wiring map's live, JD centralized, media homed, stewards seated, full-GitHub ratified.\n\nYour pick for next"
-    },
-    {
-      "session_id": "20260614_155728",
-      "date": "2026-06-14",
-      "exchanges": 252,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`e05d4bd`). Here's the read on your three questions.\n\n**Other keystones?** Yes \u2014 a short, ranked list (not GPT's pile):\n- **Health audit** \u2705 d"
-    },
     {
       "session_id": "20260614_155743",
       "date": "2026-06-14",
@@ -522,6 +470,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`e686b60`) \u2014 v0.11.1 deploying. The PR loop is now closed: **`github_write` opens a PR \u2192 \"hey Jarvis & Ayre, do I have any PRs?\" lists them \u2192 "
+    },
+    {
+      "session_id": "20260614_204842",
+      "date": "2026-06-14",
+      "exchanges": 431,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`c62186b`) \u2014 branch clean. The PR loop (`github_write` \u2192 `jarvis_prs` \u2192 your merge) is live in v0.11.1. Ready for the task-work pick whenever "
+    },
+    {
+      "session_id": "20260614_205006",
+      "date": "2026-06-14",
+      "exchanges": 434,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Yes \u2014 and that's the cleanest the JMMS model has been. Locking it as the spec, because it resolves the memory architecture into three clean axes:\n\n- *"
     }
   ]
 }
