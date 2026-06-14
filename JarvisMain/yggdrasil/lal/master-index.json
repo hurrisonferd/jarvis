@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 140,
+  "count": 141,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -252,6 +252,21 @@
         "companion",
         "jarvis",
         "synthesis"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS-G / AYRE-G GPT Substrate Operating Charter",
+      "jnl": "ARCH-JRV-BIO-0003",
+      "location": "JarvisMain/Architecture/identity/jg/jg-charter.md",
+      "tags": [
+        "identity",
+        "companion",
+        "gpt",
+        "charter",
+        "tool-use",
+        "governance"
       ],
       "anchors": [],
       "state": "active"
