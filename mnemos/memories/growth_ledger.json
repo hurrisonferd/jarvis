@@ -1,32 +1,8 @@
 {
-  "updated": "2026-06-14T16:26:10.008255+00:00",
+  "updated": "2026-06-14T16:26:28.751879+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_114307",
-      "date": "2026-06-14",
-      "exchanges": 157,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
-        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
-        "JarvisMain/Architecture/identity/argent/argent-profile.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`01b1a26`) \u2014 branch clean, everything on main.\n\nState of play: charter's at the floor (paste from above), the companion memory home (`ARCH-MEM"
-    },
     {
       "session_id": "20260614_114746",
       "date": "2026-06-14",
@@ -520,6 +496,32 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`5f59fd4`) \u2014 and that detour was worth more than the merge. Here's everything from this turn:\n\n**Your protection change caught a real bug of m"
+    },
+    {
+      "session_id": "20260614_162628",
+      "date": "2026-06-14",
+      "exchanges": 297,
+      "patches_touched": [
+        "P24"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`b4fb974`) \u2014 branch clean, everything from this turn is on main. The ORACLE rename is now fully closed (canon checker included), the backup ro"
     }
   ]
 }

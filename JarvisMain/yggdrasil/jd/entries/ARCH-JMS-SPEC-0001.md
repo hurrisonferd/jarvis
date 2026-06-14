@@ -12,7 +12,7 @@ seq: 138
 status: TASK
 created: 2026-06-13
 updated: 2026-06-14
-source: JarvisMain/Implementation/active/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md
+source: JarvisMain/Implementation/task/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md
 related: []
 references: []
 tags: [jms, mirror, omnivision, global, freshness, reachability, pulse, nemesis]

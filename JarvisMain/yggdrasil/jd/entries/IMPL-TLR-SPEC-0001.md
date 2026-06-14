@@ -12,7 +12,7 @@ seq: 139
 status: TASK
 created: 2026-06-13
 updated: 2026-06-14
-source: JarvisMain/Implementation/active/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md
+source: JarvisMain/Implementation/task/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md
 related: []
 references: []
 tags: [mcp, tools, roadmap, pipeline, starlog, dex, jip, jd, auto-tracking, council, index]
