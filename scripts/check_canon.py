@@ -13,7 +13,7 @@ from pathlib import Path
 # The canonical 27, by tier (P26 Canon Spec v1.0). This list is the contract.
 CANON = {
     "T0_CHAOS", "T0_HADES", "T0_POSEIDON", "T0_ZEUS",
-    "T1_AEGIS", "T1_AYRE", "T1_ERIS", "T1_ODIN", "T1_SKADI",
+    "T1_AEGIS", "T1_ORACLE", "T1_ERIS", "T1_ODIN", "T1_SKADI",  # T1_AYRE renamed → T1_ORACLE (Raven-sanctioned 2026-06-14; address GS-AYR held)
     "T2_KRONOS",
     "T3_HALO", "T3_HUGINN", "T3_MIMIR", "T3_MNEMOS",
     "T4_BIFROST", "T4_JANUS",
