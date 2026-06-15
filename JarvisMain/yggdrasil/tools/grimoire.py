@@ -180,6 +180,28 @@ def build_book(entries: list[dict], graph: dict) -> str:
         f"**{len(entries)} governed objects** · {len(graph.get('edges', []))} edges · "
         f"{len(by_domain)} domains.",
         "",
+    ]
+    # Boot Menu — the AI-native front door (Raven 2026-06-15). Rendered from live vitals so a
+    # stream waking cold sees the system's state + what it can do. Summon: jarvis_grimoire page=boot.
+    tasks = [e for e in entries if e.get("status") == "TASK"]
+    orphans = [e for e in entries if not e.get("parent")]
+    L += [
+        "## Boot Menu — say a number, or speak it",
+        "",
+        f"_JARVIS online · {len(entries)} objects · {len(tasks)} open tasks · {len(orphans)} orphans · "
+        f"{len(graph.get('edges', []))} edges._",
+        "",
+        "1. **System health** → `jarvis_eyes` (state + wiring + vitality)",
+        "2. **Open tasks** → `jarvis_dex_list {status:'TASK'}`" + (f" — {len(tasks)} in flight" if tasks else ""),
+        "3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`)"
+        + (f" — {len(orphans)} unparented" if orphans else ""),
+        "4. **What happened** → `jarvis_timeline` (recent events + commits)",
+        "5. **Summon a card** → `jarvis_jd_resolve` ('jid 1', a name, or a JNL)",
+        "6. **The lenses** → `jarvis_grimoire {page:'lenses'}` (the fusion chapters)",
+        "7. **Propose a change** → `jarvis_github_write` (files→one PR) → `jarvis_pr_merge` (summary+approve)",
+        "",
+        "_Boot ritual: this menu, then act on what Raven says. Missing info is a tool call, not a guess._",
+        "",
         "## Lens pages (the omni/fusion chapters)",
         "The grimoire is the book; each lens is a chapter — a different filter over the same data.",
         "",

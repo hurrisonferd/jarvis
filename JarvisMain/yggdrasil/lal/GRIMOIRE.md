@@ -1,10 +1,24 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T01:53:22Z (2026-06-14 21:53 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T02:09:12Z (2026-06-14 22:09 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
 **149 governed objects** · 194 edges · 9 domains.
+
+## Boot Menu — say a number, or speak it
+
+_JARVIS online · 149 objects · 18 open tasks · 15 orphans · 194 edges._
+
+1. **System health** → `jarvis_eyes` (state + wiring + vitality)
+2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 18 in flight
+3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 15 unparented
+4. **What happened** → `jarvis_timeline` (recent events + commits)
+5. **Summon a card** → `jarvis_jd_resolve` ('jid 1', a name, or a JNL)
+6. **The lenses** → `jarvis_grimoire {page:'lenses'}` (the fusion chapters)
+7. **Propose a change** → `jarvis_github_write` (files→one PR) → `jarvis_pr_merge` (summary+approve)
+
+_Boot ritual: this menu, then act on what Raven says. Missing info is a tool call, not a guess._
 
 ## Lens pages (the omni/fusion chapters)
 The grimoire is the book; each lens is a chapter — a different filter over the same data.

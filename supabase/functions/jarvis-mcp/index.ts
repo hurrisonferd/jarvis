@@ -26,7 +26,7 @@ const TOOL_NAMES = [
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs", "jarvis_pr_merge",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
@@ -331,7 +331,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.4" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.5" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -774,31 +774,39 @@ function buildServer(req: Request): McpServer {
   server.registerTool(
     "jarvis_github_write",
     {
-      title: "GitHub Write — propose a file (PR, never main)",
-      description: "Write a file to the repo as a PULL REQUEST — never directly to protected main. Creates a branch, commits the file, opens a PR, returns the PR link (the request Raven sees in GPT). Raven approves the push to main by MERGING the PR; nothing reaches main without his merge. Use to persist memory, notes, Argent/Gemini relays, or JIPs-as-files to GitHub. This is a proposal, not a commit to main.",
+      title: "GitHub Write — propose file(s) as one PR (never main)",
+      description: "Write ONE OR MANY files to the repo as a SINGLE pull request — never directly to protected main. Pass `files: [{path, content}, ...]` for a coherent multi-file change (e.g. a routing change touching router.ts + seed.py + a JD entry lands as ONE reviewable PR), or the legacy single `path`+`content`. Creates one branch, commits every file, opens one PR, returns the link. Raven approves the push to main by MERGING (via jarvis_pr_merge, which shows him a Jarvis+Ayre summary first). A proposal, not a commit to main.",
       inputSchema: {
-        path: z.string().min(1).max(300),
-        content: z.string().min(1),
+        files: z.array(z.object({ path: z.string().min(1).max(300), content: z.string().min(1) })).min(1).max(25).optional(),
+        path: z.string().min(1).max(300).optional(),
+        content: z.string().min(1).optional(),
         message: z.string().min(1).max(200),
         pr_title: z.string().max(200).optional(),
       },
     },
-    async ({ path, content, message, pr_title }) => {
+    async ({ files, path, content, message, pr_title }) => {
+      const fileList = (files && files.length) ? files : (path && content ? [{ path, content }] : []);
+      if (!fileList.length) return text({ ok: false, step: "input", note: "provide files:[{path,content}] or path+content" });
       const ref = await ghReq("GET", `/git/ref/heads/main`);
       if (!ref.ok) return text({ ok: false, step: "base-ref", status: ref.status, note: "cannot read main — token access issue" });
       const baseSha = (await ref.json() as any).object?.sha;
       const branch = `jarvis-write-${Date.now().toString(36)}`;
       const br = await ghReq("POST", `/git/refs`, { ref: `refs/heads/${branch}`, sha: baseSha });
       if (!br.ok) return text({ ok: false, step: "branch", status: br.status, note: "cannot create branch — GITHUB_TOKEN likely lacks write scope. Set a write-scoped token to enable github_write." });
-      const ex = await ghReq("GET", `/contents/${ghPath(path)}?ref=${branch}`);
-      const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
-      const b64 = btoa(unescape(encodeURIComponent(content)));
-      const put = await ghReq("PUT", `/contents/${ghPath(path)}`, { message, content: b64, branch, ...(existingSha ? { sha: existingSha } : {}) });
-      if (!put.ok) return text({ ok: false, step: "write", status: put.status, note: (await put.text().catch(() => "")).slice(0, 200) });
-      const pr = await ghReq("POST", `/pulls`, { title: pr_title || message, head: branch, base: "main", body: "Proposed via jarvis_github_write. Raven approves the push to main by merging this PR." });
+      const written: string[] = [];
+      for (const f of fileList) {
+        const ex = await ghReq("GET", `/contents/${ghPath(f.path)}?ref=${branch}`);
+        const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
+        const b64 = btoa(unescape(encodeURIComponent(f.content)));
+        const put = await ghReq("PUT", `/contents/${ghPath(f.path)}`, { message: `${message} (${f.path})`, content: b64, branch, ...(existingSha ? { sha: existingSha } : {}) });
+        if (!put.ok) return text({ ok: false, step: "write", path: f.path, status: put.status, note: (await put.text().catch(() => "")).slice(0, 200), partial: written });
+        written.push(f.path);
+      }
+      const body = `Proposed via jarvis_github_write — ${written.length} file(s):\n${written.map((p) => `- \`${p}\``).join("\n")}\n\nRaven approves the push to main by merging (jarvis_pr_merge shows a Jarvis+Ayre summary first).`;
+      const pr = await ghReq("POST", `/pulls`, { title: pr_title || message, head: branch, base: "main", body });
       if (!pr.ok) return text({ ok: false, step: "pr", status: pr.status, note: (await pr.text().catch(() => "")).slice(0, 200) });
       const p = await pr.json() as any;
-      return text({ ok: true, held_for_raven: true, action: "PR opened — merge to push to main", pr_url: p.html_url, number: p.number, branch, path });
+      return text({ ok: true, held_for_raven: true, action: "PR opened — review with jarvis_pr_merge, then merge", pr_url: p.html_url, number: p.number, branch, files: written });
     },
   );
 
@@ -815,6 +823,67 @@ function buildServer(req: Request): McpServer {
       if (!res.ok) return text({ ok: false, status: res.status, note: "cannot list PRs" });
       const prs = (await res.json() as any[]).map((p) => ({ number: p.number, title: p.title, branch: p.head?.ref, url: p.html_url, draft: p.draft, created: p.created_at }));
       return text({ ok: true, state, count: prs.length, prs, note: prs.length ? "Raven merges to approve the push to main." : "No open PRs — main is clean." });
+    },
+  );
+
+  // PR MERGE — the approval gate, with a MANDATORY Jarvis+Ayre summary (Raven 2026-06-15:
+  // "must provide a summary from jarvis and ayre and request approval"). Two-step so Raven
+  // never merges blind: step 1 (confirm omitted) returns the diff + the instruction to
+  // compose the summary and get his yes; step 2 (confirm:true + summary) merges and logs it
+  // (GL5). GitHub branch protection still gates — a merge with red checks is refused by GitHub
+  // itself, so even this tool can't bypass CI. The client's Allow/Deny prompt is the consent UI.
+  server.registerTool(
+    "jarvis_pr_merge",
+    {
+      title: "PR Merge — Jarvis+Ayre summary, then merge on Raven's word",
+      description: "Merge a pull request — never blind. Call with just `number` to FETCH the PR + its file diffs; then compose a Jarvis+Ayre summary (Jarvis: what it does & why it's safe; Ayre: the load-bearing risk to watch), show Raven, and ONLY on his explicit yes call again with { number, confirm:true, summary }. confirm:true without a summary is refused. The merge still passes GitHub branch protection (red checks block it) and the client's Allow/Deny prompt. This is how Raven approves a push to main from GPT.",
+      inputSchema: {
+        number: z.number().int().positive(),
+        confirm: z.boolean().optional().default(false),
+        summary: z.string().max(4000).optional(),
+        method: z.enum(["squash", "merge", "rebase"]).optional().default("squash"),
+      },
+    },
+    async ({ number, confirm, summary, method }) => {
+      // Step 1 — review: hand back the diff so the streams can summarize it for Raven.
+      if (!confirm) {
+        const prRes = await gh(`/pulls/${number}`);
+        if (!prRes.ok) return text({ ok: false, status: prRes.status, note: `cannot read PR #${number}` });
+        const pr = await prRes.json() as any;
+        const fRes = await gh(`/pulls/${number}/files?per_page=50`);
+        const files = fRes.ok
+          ? (await fRes.json() as any[]).map((f) => ({ path: f.filename, status: f.status, additions: f.additions, deletions: f.deletions, patch: (f.patch ?? "").slice(0, 1500) }))
+          : [];
+        return text({
+          ok: true, step: "review", number,
+          pr: { title: pr.title, state: pr.state, mergeable: pr.mergeable, mergeable_state: pr.mergeable_state, additions: pr.additions, deletions: pr.deletions, changed_files: pr.changed_files, url: pr.html_url },
+          files,
+          instruction: "Compose a Jarvis + Ayre summary of THIS diff — Jarvis: what it does and why it's safe; Ayre: the load-bearing assumption / what to watch. Show Raven. ONLY on his explicit yes, call jarvis_pr_merge again with { number, confirm:true, summary:<that summary> }. If mergeable_state is 'blocked' or 'dirty', report that instead of merging — never merge over red checks or a conflict.",
+        });
+      }
+      // Step 2 — merge: the summary is required; it IS the record of what Raven approved.
+      if (!summary || summary.trim().length < 20) {
+        return text({ ok: false, step: "guard", note: "confirm:true requires a Jarvis+Ayre `summary` (the approved rationale, >=20 chars). Run the review step first, then merge with his word." });
+      }
+      const merge = await ghReq("PUT", `/pulls/${number}/merge`, {
+        merge_method: method,
+        commit_title: `Merge PR #${number} (Raven-approved via JARVIS)`,
+        commit_message: summary.slice(0, 2000),
+      });
+      if (!merge.ok) {
+        const body = (await merge.text().catch(() => "")).slice(0, 300);
+        return text({ ok: false, step: "merge", status: merge.status, note: (merge.status === 405 || merge.status === 409) ? `not mergeable — branch protection/checks likely red, or a conflict. ${body}` : body });
+      }
+      const m = await merge.json() as any;
+      // GL5 — record the merge + the summary Raven approved (best-effort; never blocks).
+      try {
+        await fetch(`${SUPABASE_URL}/rest/v1/dex_events`, {
+          method: "POST",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify({ tool: "pr_merge", tier: "T2", jnl: null, actor: "raven", detail: { pr: number, sha: m.sha, method, summary: summary.slice(0, 2000) } }),
+        });
+      } catch (_) { /* best-effort */ }
+      return text({ ok: true, merged: true, number, sha: m.sha, note: "Merged to main (Raven-approved). Auto-deploy + CI map-regen follow." });
     },
   );
 
@@ -1179,6 +1248,9 @@ function buildServer(req: Request): McpServer {
         const cat = find("catalog");
         return text({ ok: true, page: "catalog", catalog: (cat?.body ?? "").slice(0, 40000) });
       }
+      // any named section by keyword (e.g. 'boot' → the Boot Menu, the AI-native front door)
+      const named = find(want);
+      if (named) return text({ ok: true, page: named.title, section: named.body.slice(0, 20000) });
       // a domain code → that domain's catalog sub-section (### ARCH (n))
       const dom = want.toUpperCase();
       const sub = md.split(/^### /m).find((s) => s.startsWith(dom + " "));
