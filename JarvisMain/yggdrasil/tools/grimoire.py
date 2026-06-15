@@ -52,7 +52,7 @@ LENSES = [
     ("Sync",       "live",    "git vs Supabase divergence — the cross-store alarm (Love Train)", "SYNC-LENS.md"),
     ("Intent",     "planned", "intent vs execution mismatch (did we build what we meant)", "—"),
     ("Resilience", "planned", "failure map: single points of failure, fragile deps",     "—"),
-    ("Media",      "planned", "sensory layer: image/audio as addressable nodes",         "—"),
+    ("Media",      "live",    "media linked into the graph: track/image → project/world",  "MEDIA-LINKS.md"),
 ]
 
 

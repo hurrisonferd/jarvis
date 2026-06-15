@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T07:38:17Z (2026-06-15 03:38 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T10:22:27Z (2026-06-15 06:22 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -59,7 +59,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | **Sync** | live | git vs Supabase divergence — the cross-store alarm (Love Train) | `SYNC-LENS.md` |
 | **Intent** | planned | intent vs execution mismatch (did we build what we meant) | `—` |
 | **Resilience** | planned | failure map: single points of failure, fragile deps | `—` |
-| **Media** | planned | sensory layer: image/audio as addressable nodes | `—` |
+| **Media** | live | media linked into the graph: track/image → project/world | `MEDIA-LINKS.md` |
 
 ## Catalog (every object, summonable as a card)
 
