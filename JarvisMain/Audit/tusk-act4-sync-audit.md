@@ -36,6 +36,17 @@ PR instead of letting it corrupt git.
 | `jarvis_jip_revert` | jarvis-mcp 1650 | patch existing `jd_entries` | **NO** — same. |
 | `sync_supabase.py` | mirror | upsert, **no delete** | n/a — git-deleted object lingers in Supabase (stale ghost). Low risk (JMS rarely deletes). |
 
+## Remediation landed (2026-06-15)
+`jip_apply`/`jip_revert` are now **git-first** (connector v0.11.9). They no longer patch Supabase
+`jd_entries`/`jnl_registry`; instead they merge the field override into **`jd/patches.json`** and
+open a **PR**. `seed.py` applies `patches.json` at its write choke-points (`jd_entry_md` + `register`),
+so a patch lands for **any** object origin (hardcoded / scanned / dynamic) — MUTABLE fields only
+(definition/purpose/tags/status/related/aliases/owner); identity (jnl/type/class/tier) is never
+patchable. On merge, the mirror syncs Supabase. `jip_revert` drops the key (git restores the
+source-derived value). The seed round-trip is verified locally; the connector path ships on deploy.
+The `jd_approve` reconcile bridge already covered new objects, so **both connector-first holes are now
+closed** — every canon write reaches git, and the Sync lens flags any residual drift loudly.
+
 ## Severity (corrected)
 - **New objects: covered.** `jd_approve` → `dex_reconcile` PR → git. Git becomes the whole truth
   once the reconcile PR merges. The earlier "Supabase holds canon git lacks, permanently" was wrong.

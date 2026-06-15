@@ -294,8 +294,9 @@ its `jd_entries`/`jnl_registry` row, any change to definition/parent/status — 
 tables (`dex_events`, `mnemos_memories`, `jd_proposals` — events/memory/staging, which live
 only there). A connector "approve"/"apply" must *propose a git change*, never patch Supabase
 canon directly. Audit + remediation: `AUD-SYNC-REVW-0001`. (`jd_approve` new objects reconcile to
-git via `dex_reconcile.py` → PR. Remaining hole: `jip_apply`/`jip_revert` field edits are
-Supabase-only and reconcile doesn't diff existing files — treat them as *preview*, not *applied*, until fixed.)
+git via `dex_reconcile.py` → PR. `jip_apply`/`jip_revert` are now **git-first** — they propose a
+field override into `jd/patches.json` as a PR; `seed.py` applies it at its write choke-points on
+merge, then the mirror syncs Supabase. The Sync lens flags any residual git↔Supabase drift.)
 
 All changes follow this loop:
 
