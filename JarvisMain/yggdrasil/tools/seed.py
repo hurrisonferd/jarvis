@@ -1066,6 +1066,14 @@ def main() -> None:
     except Exception as e:  # never block the seed on the grimoire
         print(f"(grimoire skipped: {e})")
 
+    # Portable brief (Raven 2026-06-15): the cold-boot prompt for vanilla LLMs. Runs AFTER the
+    # grimoire — it distills the grimoire's boot/verbs + live counts into a pasteable block.
+    try:
+        import portable_brief as _brief
+        _brief.main()
+    except Exception as e:
+        print(f"(portable-brief skipped: {e})")
+
 
 if __name__ == "__main__":
     main()

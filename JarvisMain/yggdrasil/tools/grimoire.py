@@ -42,6 +42,7 @@ OUT = LAL / "GRIMOIRE.md"
 LENSES = [
     ("Wiring",     "live",    "how streams + god systems connect (route guide)",        "WIRING-MAP.md"),
     ("Changes",    "live",    "what got built lately + why — rehydration (delta view)",   "CHANGES.md"),
+    ("Brief",      "live",    "cold-boot prompt — paste to wake JARVIS in any LLM",       "PORTABLE-BRIEF.md"),
     ("Health",     "live",    "vitality: orphans, isolated, stewardless, open tasks",    "HEALTH.md"),
     ("Sovereign",  "planned", "full self-model: state + intent + history + structure",   "—"),
     ("Cause",      "planned", "event causality: A → task B → structural change C",       "—"),
