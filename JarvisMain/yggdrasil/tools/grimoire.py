@@ -46,7 +46,7 @@ LENSES = [
     ("Cause",      "planned", "event causality: A → task B → structural change C",       "—"),
     ("Architect",  "planned", "structure integrity: missing modules / under-linkage",    "—"),
     ("Pressure",   "planned", "load map: overloaded domains, stalled clusters",          "—"),
-    ("Topology",   "planned", "graph reality: hidden deps, accidental coupling",          "—"),
+    ("Topology",   "live",    "the system's shape: hubs, leaves, isolation, edge types",  "TOPOLOGY-LENS.md"),
     ("Drift",      "planned", "evolution over snapshots: acceleration / decay zones",    "—"),
     ("Orphan",     "live",    "the debt as a worklist: a disposition proposal per orphan", "ORPHAN-LENS.md"),
     ("Sync",       "live",    "git vs Supabase divergence — the cross-store alarm (Love Train)", "SYNC-LENS.md"),

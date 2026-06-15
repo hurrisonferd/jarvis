@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T03:24:02Z (2026-06-14 23:24 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T07:38:17Z (2026-06-15 03:38 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -53,7 +53,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | **Cause** | planned | event causality: A → task B → structural change C | `—` |
 | **Architect** | planned | structure integrity: missing modules / under-linkage | `—` |
 | **Pressure** | planned | load map: overloaded domains, stalled clusters | `—` |
-| **Topology** | planned | graph reality: hidden deps, accidental coupling | `—` |
+| **Topology** | live | the system's shape: hubs, leaves, isolation, edge types | `TOPOLOGY-LENS.md` |
 | **Drift** | planned | evolution over snapshots: acceleration / decay zones | `—` |
 | **Orphan** | live | the debt as a worklist: a disposition proposal per orphan | `ORPHAN-LENS.md` |
 | **Sync** | live | git vs Supabase divergence — the cross-store alarm (Love Train) | `SYNC-LENS.md` |
