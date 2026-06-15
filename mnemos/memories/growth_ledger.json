@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-14T22:28:08.298427+00:00",
+  "updated": "2026-06-14T22:28:19.502530+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_213526",
-      "date": "2026-06-14",
-      "exchanges": 494,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`20a6d2d`) \u2014 v0.11.3 deploying. The 401 is fixed connector-side: `gh()` reads now fall back to unauthenticated public access, so `jarvis_prs`,"
-    },
     {
       "session_id": "20260614_213606",
       "date": "2026-06-14",
@@ -536,6 +510,34 @@
       ],
       "alignment": 1.0,
       "key_insight": "One thing, really: **the RetroArch binaries.** Everything else is already built and on the branch \u2014 the launcher, the cross-origin-isolation service w"
+    },
+    {
+      "session_id": "20260614_222819",
+      "date": "2026-06-14",
+      "exchanges": 34,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`7864438..9a3860b`), tree clean. To recap the GameBoy answer: the only thing left is dropping the RetroArch web bundle into `docs/retroarch/pl"
     }
   ]
 }
