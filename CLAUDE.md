@@ -287,6 +287,15 @@ authority time, not narration time.
 cites a `dex_events` id or commit hash; otherwise it is *open*. Streams verify via the
 `events_list` READ tool — no stream takes another's word for system state.
 
+**Git-First Canon (Raven-verdicted 2026-06-15):** every *canonical* write — a JD object,
+its `jd_entries`/`jnl_registry` row, any change to definition/parent/status — lands in
+**git first** (file → `seed.py` → commit/PR → merge), then the mirror syncs git → Supabase.
+**Supabase never originates canon.** It is the READ/runtime mirror plus its own native live
+tables (`dex_events`, `mnemos_memories`, `jd_proposals` — events/memory/staging, which live
+only there). A connector "approve"/"apply" must *propose a git change*, never patch Supabase
+canon directly. Audit + remediation: `AUD-SYNC-REVW-0001`. (Open holes: `jd_approve`,
+`jip_apply`/`jip_revert` still patch Supabase-only — treat as *preview*, not *applied*, until fixed.)
+
 All changes follow this loop:
 
 ```

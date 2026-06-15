@@ -1,22 +1,22 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-15T01:53:13Z",
-    "generated_at_eastern": "2026-06-14 21:53 EDT",
-    "source_commit": "3b20043",
+    "generated_at_utc": "2026-06-15T03:17:30Z",
+    "generated_at_eastern": "2026-06-14 23:17 EDT",
+    "source_commit": "c83e3bf",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 149,
+    "object_count": 150,
     "by_status": {
-      "ACTIVE": 124,
+      "ACTIVE": 125,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
     },
     "by_domain": {
       "ARCH": 37,
-      "AUD": 5,
+      "AUD": 6,
       "CONN": 21,
       "GOV": 12,
       "GS": 27,
@@ -26,7 +26,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 117,
+      "MAIN": 118,
       "SIDE": 32
     }
   },
@@ -2485,6 +2485,23 @@
         "projects",
         "index",
         "root"
+      ]
+    },
+    {
+      "jnl": "AUD-SYNC-REVW-0001",
+      "jid": 151,
+      "jidd": "aud-6",
+      "name": "TUSK Act 4 — Git/Supabase Sync Audit",
+      "type": "REVW",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "GOV-CAN-CORE-0001",
+      "tags": [
+        "audit",
+        "sync",
+        "governance",
+        "git-first"
       ]
     }
   ]

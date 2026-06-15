@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 149,
+  "count": 150,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -522,6 +522,19 @@
       "tags": [
         "audit",
         "review"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "TUSK Act 4 \u2014 Git/Supabase Sync Audit",
+      "jnl": "AUD-SYNC-REVW-0001",
+      "location": "JarvisMain/Audit/tusk-act4-sync-audit.md",
+      "tags": [
+        "audit",
+        "sync",
+        "governance",
+        "git-first"
       ],
       "anchors": [],
       "state": "active"

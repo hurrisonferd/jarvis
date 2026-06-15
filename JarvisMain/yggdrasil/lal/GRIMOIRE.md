@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T02:47:32Z (2026-06-14 22:47 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T03:17:30Z (2026-06-14 23:17 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**149 governed objects** · 194 edges · 9 domains.
+**150 governed objects** · 194 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 149 objects · 18 open tasks · 15 orphans · 194 edges._
+_JARVIS online · 150 objects · 18 open tasks · 15 orphans · 194 edges._
 
 1. **System health** → `jarvis_eyes` (state + wiring + vitality)
 2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 18 in flight
@@ -104,7 +104,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `142` | `ARCH-SYS-SPEC-0001` | JARVIS System Manual | ACTIVE | — |
 | `1` | `ARCH-YGG-CORE-0001` | Yggdrasil | ACTIVE | — |
 
-### AUD (5)
+### AUD (6)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -112,6 +112,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `102` | `AUD-COMP-REVW-0001` | Companion Research | ARCHIVED | — |
 | `89` | `AUD-FULL-REVW-0001` | Full System Audit | ACTIVE | — |
 | `88` | `AUD-OPUS-REVW-0001` | Opus 4.8 Audit | ACTIVE | — |
+| `151` | `AUD-SYNC-REVW-0001` | TUSK Act 4 — Git/Supabase Sync Audit | ACTIVE | — |
 | `87` | `AUD-SYS-REVW-0001` | Jarvis System Review | ACTIVE | — |
 
 ### CONN (21)
