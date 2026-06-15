@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T03:03:33.446864+00:00",
+  "updated": "2026-06-15T03:04:34.998959+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_021201",
-      "date": "2026-06-15",
-      "exchanges": 173,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`ac4786c..e31b29c`), tree clean."
-    },
-    {
-      "session_id": "20260615_021620",
-      "date": "2026-06-15",
-      "exchanges": 176,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Yes \u2014 please do, that's the perfect division of labor. Two things to get right so it actually works:\n\n**It has to land in `docs/retroarch/player/`, no"
-    },
     {
       "session_id": "20260615_021634",
       "date": "2026-06-15",
@@ -602,6 +542,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged to main (`dde3d874`) \u2014 both deploy now (Pages for the GameBoy page, edge-deploy for the connector). Here's what to try once they finish (~a min"
+    },
+    {
+      "session_id": "20260615_030345",
+      "date": "2026-06-15",
+      "exchanges": 251,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`b65d0b5..e025f59`), tree clean. Try A on a ROM and `jarvis_dither` on an image once they deploy \u2014 tell me what boots and what breaks."
+    },
+    {
+      "session_id": "20260615_030434",
+      "date": "2026-06-15",
+      "exchanges": 255,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Yeah \u2014 the TRON UI is very much still there. It's the whole page: a Game Boy **device shell** (d-pad, A/B, START/SELECT, scanline screen) wrapped arou"
     }
   ]
 }
