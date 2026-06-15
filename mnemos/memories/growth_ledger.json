@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T13:14:59.212414+00:00",
+  "updated": "2026-06-15T13:33:47.826752+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_025341",
-      "date": "2026-06-15",
-      "exchanges": 238,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`f5bb07a..f73df8b`), tree clean. Ready to re-enable WasmBoy so the Game Boy plays again \u2014 just say go (and whether you want the orphan archive"
-    },
-    {
-      "session_id": "20260615_030333",
-      "date": "2026-06-15",
-      "exchanges": 250,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged to main (`dde3d874`) \u2014 both deploy now (Pages for the GameBoy page, edge-deploy for the connector). Here's what to try once they finish (~a min"
-    },
     {
       "session_id": "20260615_030345",
       "date": "2026-06-15",
@@ -602,6 +542,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "CI is genuinely lagging on this commit (I've triggered many workflows this session \u2014 there's a queue). The fix is locally verified, so the PR will go "
+    },
+    {
+      "session_id": "20260615_131609",
+      "date": "2026-06-15",
+      "exchanges": 392,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`74f6e35`). The GameBoy `config` fix is deploying to Pages, and the Changes lens is on main (its workflow will keep `CHANGES.md` fresh post-me"
+    },
+    {
+      "session_id": "20260615_133347",
+      "date": "2026-06-15",
+      "exchanges": 413,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Both merged (`4de48d8`). Done in order:\n\n**Sticky Fingers audit** (`AUD-GATE-REVW-0001`) \u2014 mapped every write path; found and **closed two ungated sea"
     }
   ]
 }
