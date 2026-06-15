@@ -48,7 +48,7 @@ LENSES = [
     ("Pressure",   "planned", "load map: overloaded domains, stalled clusters",          "—"),
     ("Topology",   "planned", "graph reality: hidden deps, accidental coupling",          "—"),
     ("Drift",      "planned", "evolution over snapshots: acceleration / decay zones",    "—"),
-    ("Orphan",     "planned", "decay scan: structure without activity & vice-versa",     "—"),
+    ("Orphan",     "live",    "the debt as a worklist: a disposition proposal per orphan", "ORPHAN-LENS.md"),
     ("Intent",     "planned", "intent vs execution mismatch (did we build what we meant)", "—"),
     ("Resilience", "planned", "failure map: single points of failure, fragile deps",     "—"),
     ("Media",      "planned", "sensory layer: image/audio as addressable nodes",         "—"),

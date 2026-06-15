@@ -961,6 +961,14 @@ def main() -> None:
     except Exception as e:  # never block the seed on the report
         print(f"(health report skipped: {e})")
 
+    # Orphan lens (Raven 2026-06-15): the conscience chapter — turns the orphan debt into a
+    # disposition worklist (proposals only, GL2). Runs before the grimoire so the book marks it live.
+    try:
+        import orphan_lens as _orph
+        _orph.main()
+    except Exception as e:  # never block the seed on the lens
+        print(f"(orphan-lens skipped: {e})")
+
     # Grimoire (Raven 2026-06-15: "a system that knows itself"): the book JARVIS reads
     # itself through — catalog + lens pages + summonable JID cards, projected from the JD
     # entries + graph so it can never claim a thing missing that exists, or vice-versa.
