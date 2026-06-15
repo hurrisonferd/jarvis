@@ -194,6 +194,11 @@ def build_book(entries: list[dict], graph: dict) -> str:
         f"_JARVIS online · {len(entries)} objects · {len(tasks)} open tasks · {len(orphans)} orphans · "
         f"{len(graph.get('edges', []))} edges._",
         "",
+        "**Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; "
+        "the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; "
+        "the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. "
+        "If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.",
+        "",
         "1. **System health** → `jarvis_eyes` (state + wiring + vitality)",
         "2. **Open tasks** → `jarvis_dex_list {status:'TASK'}`" + (f" — {len(tasks)} in flight" if tasks else ""),
         "3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`)"
