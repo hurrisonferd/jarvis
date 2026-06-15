@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-15T01:36:52.939444+00:00",
+  "updated": "2026-06-15T01:38:17.494175+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_213729",
-      "date": "2026-06-14",
-      "exchanges": 501,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Honestly? **Skip #2 \u2014 don't stress it.** It's the fiddliest and the *least* important of the three, and \"no idea how\" is the right reaction because it"
-    },
-    {
-      "session_id": "20260614_213742",
-      "date": "2026-06-14",
-      "exchanges": 502,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`b5a7a30`) \u2014 branch clean. Leave #2 (push delivery) for later; it's optional and the Pulse content is already reachable by just asking. Nothin"
-    },
     {
       "session_id": "20260614_214151",
       "date": "2026-06-14",
@@ -546,6 +494,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Got real numbers. Here's the bloat verdict \u2014 and the short version is: **your records are lean; your media is the only thing that's actually heavy.**\n"
+    },
+    {
+      "session_id": "20260615_013714",
+      "date": "2026-06-15",
+      "exchanges": 94,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed clean (`8b9a251..5dd4d81`) \u2014 just the auto-rotated memory ledger from the last exchange. Tree's empty, branch is current. Nothing else pending;"
+    },
+    {
+      "session_id": "20260615_013817",
+      "date": "2026-06-15",
+      "exchanges": 97,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "The reframe in your question is the right one: don't think of the grimoire as a *document*, think of it as a **projection surface over one dataset**. "
     }
   ]
 }
