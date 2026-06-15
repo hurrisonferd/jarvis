@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.9" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.11" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -821,6 +821,7 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ files, path, content, message, pr_title }) => {
+      if (!writeAuthorized(req)) return heldForApproval("github.write", { message });
       const fileList = (files && files.length) ? files : (path && content ? [{ path, content }] : []);
       if (!fileList.length) return text({ ok: false, step: "input", note: "provide files:[{path,content}] or path+content" });
       const ref = await ghReq("GET", `/git/ref/heads/main`);
@@ -881,6 +882,7 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ number, confirm, summary, method }) => {
+      if (confirm && !writeAuthorized(req)) return heldForApproval("pr.merge", { number });
       // Step 1 — review: hand back the diff so the streams can summarize it for Raven.
       if (!confirm) {
         const prRes = await gh(`/pulls/${number}`);
@@ -1446,8 +1448,12 @@ function buildServer(req: Request): McpServer {
       if (f.error) return text({ ok: false, track: hit, note: "analysis errored: " + f.error });
       return text({
         ok: true, track: hit,
-        features: { bpm: f.bpm, key: f.key, mood: f.mood, energy_rms: f.energy_rms, brightness_hz: f.brightness_hz, length_sec: f.duration_sec },
-        note: "The bones, not the soul. Discuss the music with Raven — what it MEANS is his to speak, not the BPM's.",
+        features: { bpm: f.bpm, key: f.key, mood: f.mood, energy_rms: f.energy_rms, brightness_hz: f.brightness_hz,
+          onset_density: f.onset_density, dynamic_range_db: f.dynamic_range_db, length_sec: f.duration_sec },
+        spectrogram: f.spectrogram ? `JarvisSide/Media/${f.spectrogram}` : null,
+        note: f.spectrogram
+          ? `The bones. To SEE the sound's shape, jarvis_media_view {path:'JarvisSide/Media/${f.spectrogram}'}. The soul is still Raven's to speak.`
+          : "The bones, not the soul. Discuss the music with Raven — what it MEANS is his to speak, not the BPM's.",
       });
     },
   );

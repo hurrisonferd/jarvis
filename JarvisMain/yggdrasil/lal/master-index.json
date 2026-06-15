@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 150,
+  "count": 151,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -511,6 +511,19 @@
       "tags": [
         "audit",
         "review"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Sticky Fingers \u2014 Governance-Coverage Audit",
+      "jnl": "AUD-GATE-REVW-0001",
+      "location": "JarvisMain/Audit/sticky-fingers-governance-audit.md",
+      "tags": [
+        "audit",
+        "governance",
+        "aegis",
+        "security"
       ],
       "anchors": [],
       "state": "active"
