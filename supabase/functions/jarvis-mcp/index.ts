@@ -26,7 +26,7 @@ const TOOL_NAMES = [
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs", "jarvis_pr_merge",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs", "jarvis_pr_merge",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
@@ -44,6 +44,14 @@ function b64ToBytes(b64: string): Uint8Array {
   const out = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
   return out;
+}
+// Chunked base64 encode — String.fromCharCode(...all) overflows the arg stack on big buffers,
+// so walk in 32KB windows. Used to ship a resized image's bytes as an MCP image block.
+function bytesToB64(bytes: Uint8Array): string {
+  let bin = "";
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) bin += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  return btoa(bin);
 }
 async function verifyEd25519(pubB64: string, message: string, sigB64: string): Promise<boolean> {
   if (!isBase64(pubB64) || !isBase64(sigB64)) return false;
@@ -331,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.5" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.6" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1282,6 +1290,51 @@ function buildServer(req: Request): McpServer {
       return text({ ok: true, path, ref, size: data.size ?? content.length, content: content.slice(0, 48000) });
     },
   );
+
+  // MEDIA VIEW — deliver a repo image's PIXELS to the vision model (GPT/Claude), resized in
+  // function to fit context. This is how Jarvis/Ayre SEE stored art on demand — and it overrides
+  // the chat's image upload-rate cap (the bytes ride the tool call, not a manual upload, which
+  // dies after ~one image). Big PNGs (>1MB) exceed GitHub's inline contents limit, so pull raw
+  // bytes via download_url, then downsize. Pair with the captions in MEDIA-MANIFEST.md.
+  server.registerTool(
+    "jarvis_media_view",
+    {
+      title: "Media View — see a repo image (overrides upload cap)",
+      description: "Fetch an image from the repo and return its pixels for you to SEE (vision clients). Use to look at stored art (e.g. JarvisSide/Media/images/...) for drawing / dithering / critique WITHOUT the user re-uploading — bypasses the chat's image upload-rate cap. Resized in-function to fit context. Captions live in JarvisSide/Media/MEDIA-MANIFEST.md.",
+      inputSchema: { path: z.string().min(1).max(300), max_px: z.number().int().min(64).max(1536).optional().default(768) },
+    },
+    async ({ path, max_px }) => {
+      try {
+        const meta = await gh(`/contents/${ghPath(path)}?ref=main`);
+        if (!meta.ok) return text({ ok: false, status: meta.status, path, note: "image not found" });
+        const j = await meta.json() as any;
+        let bytes: Uint8Array;
+        if (j.content && j.encoding === "base64" && j.content.length) {
+          bytes = b64ToBytes(j.content.replace(/\n/g, ""));
+        } else if (j.download_url) {
+          const raw = await fetch(j.download_url);
+          if (!raw.ok) return text({ ok: false, step: "fetch-raw", status: raw.status, path });
+          bytes = new Uint8Array(await raw.arrayBuffer());
+        } else {
+          return text({ ok: false, path, note: "no inline content or download_url" });
+        }
+        const { Image } = await import("https://deno.land/x/imagescript@1.2.15/mod.ts");
+        const img = await Image.decode(bytes);
+        if (img.width >= img.height) { if (img.width > max_px) img.resize(max_px, Image.RESIZE_AUTO); }
+        else if (img.height > max_px) { img.resize(Image.RESIZE_AUTO, max_px); }
+        const jpeg = await img.encodeJPEG(72);
+        return {
+          content: [
+            { type: "image" as const, data: bytesToB64(jpeg), mimeType: "image/jpeg" },
+            { type: "text" as const, text: `${path} — ${img.width}×${img.height}, ~${(jpeg.length / 1024) | 0}KB (resized for context). Captions: JarvisSide/Media/MEDIA-MANIFEST.md.` },
+          ],
+        };
+      } catch (e) {
+        return text({ ok: false, path, note: "view failed: " + String(e).slice(0, 180) + " — if the resize lib errors on deploy, tell Raven and I'll pin a different imagescript version." });
+      }
+    },
+  );
+
   server.registerTool(
     "jarvis_github_commits",
     { title: "GitHub — commits", description: "Recent commits to the JARVIS repo; filter by path. Read-only.", inputSchema: { path: z.string().max(300).optional(), limit: z.number().int().min(1).max(50).optional().default(15) } },
