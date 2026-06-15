@@ -25,7 +25,7 @@ const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
-  "jarvis_jd_resolve", "jarvis_jc_recall",
+  "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
   "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
@@ -331,7 +331,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.3" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.4" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1143,6 +1143,47 @@ function buildServer(req: Request): McpServer {
         render: "Render as a card — header 'JID N · jidd · JNL · Name', then Type/Class/Tier/Status/Authority/Owner/Steward, Definition, Purpose, Tags, Lineage (parent/children/related), Versioning (active JIP + history), Provenance (source/created/updated). The four IDs are faces of one object.",
         ...(rows.length > 1 ? { other_matches: rows.slice(1).map((r: any) => ({ jid: r.seq, jnl: r.jnl, name: r.name })) } : {}),
       });
+    },
+  );
+
+  // THE GRIMOIRE — the book JARVIS knows itself through. Table of contents to the system:
+  // the lens/fusion pages (what views exist) + the object catalog. Reads the GENERATED
+  // GRIMOIRE.md from git (truth, no second data path), so it can't drift from grimoire.py.
+  // Load one object's card via jarvis_jd_resolve; this surfaces WHAT you can look at.
+  server.registerTool(
+    "jarvis_grimoire",
+    {
+      title: "Grimoire — the system's table of contents to itself",
+      description:
+        "Open the Grimoire — JARVIS's self-knowledge index. Returns the lens/fusion pages (the omni chapters: Wiring + Health live, Sovereign/Cause/Drift/etc. planned) and the object catalog. Use `page` to focus: 'lenses' (default — what views exist), 'catalog' (all objects by domain), a domain code ('ARCH','GS','PROJ'…), or 'full'. To load ONE object's card, use jarvis_jd_resolve ('jid 1', a name, or a JNL). To read the whole book, jarvis_github_file 'JarvisMain/yggdrasil/lal/GRIMOIRE.md'.",
+      inputSchema: { page: z.string().max(40).optional().default("lenses") },
+    },
+    async ({ page }) => {
+      const res = await gh(`/contents/${"JarvisMain/yggdrasil/lal/GRIMOIRE.md".split("/").map(encodeURIComponent).join("/")}?ref=main`);
+      if (!res.ok) return text({ ok: false, status: res.status, note: "GRIMOIRE.md unreachable — run seed.py to generate it." });
+      const data = await res.json() as { content?: string };
+      const md = typeof data.content === "string" ? atob(data.content.replace(/\n/g, "")) : "";
+      const want = String(page || "lenses").trim().toLowerCase();
+      // Split the book into ## sections; the cover is everything before the first ##.
+      const parts = md.split(/^## /m);
+      const cover = parts[0]?.trim() ?? "";
+      const sections = parts.slice(1).map((s) => ({ title: s.split("\n")[0].trim(), body: "## " + s }));
+      const find = (kw: string) => sections.find((s) => s.title.toLowerCase().includes(kw));
+      if (want === "full") return text({ ok: true, page: "full", grimoire: md.slice(0, 48000) });
+      if (want === "lenses") {
+        const lens = find("lens");
+        return text({ ok: true, page: "lenses", cover, lenses: lens?.body ?? "(no lens section)",
+          note: "Each lens is a chapter — a filter over the same data. Load a card with jarvis_jd_resolve." });
+      }
+      if (want === "catalog") {
+        const cat = find("catalog");
+        return text({ ok: true, page: "catalog", catalog: (cat?.body ?? "").slice(0, 40000) });
+      }
+      // a domain code → that domain's catalog sub-section (### ARCH (n))
+      const dom = want.toUpperCase();
+      const sub = md.split(/^### /m).find((s) => s.startsWith(dom + " "));
+      if (sub) return text({ ok: true, page: dom, table: "### " + sub.split(/^## /m)[0] });
+      return text({ ok: false, page: want, note: "unknown page — try 'lenses', 'catalog', 'full', or a domain code (ARCH/GS/GOV/PROJ/IMPL/CONN/AUD/IDEA/LOG)." });
     },
   );
 

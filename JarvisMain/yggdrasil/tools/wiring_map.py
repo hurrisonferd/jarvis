@@ -32,6 +32,7 @@ TOOL_LANE = {
     "execute / commit": ("SKADI", ["jarvis_event", "jarvis_jip_create", "jarvis_jip_apply", "jarvis_node_send"]),
     "memory / recall": ("MNEMOS", ["jarvis_remember", "jarvis_recall", "jarvis_identity_read", "jarvis_identity_grow"]),
     "synthesis / mirror": ("HUGINN", ["jarvis_timeline", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_omnivision"]),
+    "self-knowledge": ("HUGINN", ["jarvis_grimoire", "jarvis_jd_resolve", "jarvis_eyes"]),
     "monitor / health": ("HALO", ["jarvis_halo", "jarvis_status", "jarvis_suit_up", "jarvis_now"]),
     "rollback": ("LOKI", ["jarvis_jip_revert"]),
     "relay / grid": ("BIFROST", ["jarvis_node_send", "jarvis_node_inbox", "jarvis_node_card"]),
