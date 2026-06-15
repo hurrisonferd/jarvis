@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.8" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.9" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -776,6 +776,34 @@ function buildServer(req: Request): McpServer {
     return await fetch(`${GH_REPO}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
   }
   const ghPath = (p: string) => p.split("/").map(encodeURIComponent).join("/");
+
+  // Propose ONE file as a PR (branch → commit → PR). Reused by the JIP tools to write the
+  // git-first patch ledger. Returns {ok, pr_url, number, branch} or {ok:false, step, status}.
+  async function proposeFilePR(path: string, content: string, message: string): Promise<any> {
+    const ref = await ghReq("GET", `/git/ref/heads/main`);
+    if (!ref.ok) return { ok: false, step: "base-ref", status: ref.status };
+    const baseSha = (await ref.json() as any).object?.sha;
+    const branch = `jarvis-jip-${Date.now().toString(36)}`;
+    const br = await ghReq("POST", `/git/refs`, { ref: `refs/heads/${branch}`, sha: baseSha });
+    if (!br.ok) return { ok: false, step: "branch", status: br.status, note: "GITHUB_TOKEN may lack write scope" };
+    const ex = await ghReq("GET", `/contents/${ghPath(path)}?ref=${branch}`);
+    const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
+    const put = await ghReq("PUT", `/contents/${ghPath(path)}`,
+      { message, content: btoa(unescape(encodeURIComponent(content))), branch, ...(existingSha ? { sha: existingSha } : {}) });
+    if (!put.ok) return { ok: false, step: "write", status: put.status };
+    const pr = await ghReq("POST", `/pulls`, { title: message, head: branch, base: "main", body: message });
+    if (!pr.ok) return { ok: false, step: "pr", status: pr.status };
+    const p = await pr.json() as any;
+    return { ok: true, pr_url: p.html_url, number: p.number, branch };
+  }
+
+  // Read + parse the git-first patch ledger (jd/patches.json) from main.
+  async function readPatchLedger(): Promise<any> {
+    const cur = await gh(`/contents/${ghPath("JarvisMain/yggdrasil/jd/patches.json")}?ref=main`);
+    const doc: any = { note: "Git-First patch ledger.", patches: {} };
+    if (cur.ok) { try { return JSON.parse(atob((await cur.json() as any).content.replace(/\n/g, ""))); } catch { /* fall through */ } }
+    return doc;
+  }
 
   // GITHUB WRITE — propose a file to the repo as a PR, NEVER straight to protected main.
   // Raven approves the push to main by MERGING the PR; nothing lands without his merge.
@@ -1614,43 +1642,48 @@ function buildServer(req: Request): McpServer {
   const JD_PATCHABLE = ["definition", "purpose", "tags", "status", "owner", "steward", "related", "aliases"];
   server.registerTool(
     "jarvis_jip_apply",
-    { title: "JIP — apply (update the JD)", description: "Apply an approved JIP's delta to its target JD — the JIP UPDATES the JD entry (definition/purpose/tags/status/owner/steward/related/aliases). Stores the JD's prior state in the JIP so jip_revert can restore it, supersedes the prior active JIP, marks this one active. AEGIS-gated: show Raven, then call on Allow.", inputSchema: { jip_id: z.string().min(1).max(60) } },
+    { title: "JIP — apply (propose to git)", description: "Apply an approved JIP's delta to its target JD — GIT-FIRST: writes the field override (definition/purpose/tags/status/owner/related/aliases) into jd/patches.json as a PULL REQUEST, never patches Supabase canon. seed.py applies the patch on merge (any object origin); the mirror syncs Supabase. NOT applied until Raven merges the PR. AEGIS-gated: show Raven, then call on Allow.", inputSchema: { jip_id: z.string().min(1).max(60) } },
     async ({ jip_id }) => {
       if (!writeAuthorized(req)) return heldForApproval("jip.apply", { jip_id });
       try {
         const jip = ((await rest(`jip_entries?or=(id.eq.${jip_id},jip.eq.${jip_id})&limit=1`)) as any[])[0];
         if (!jip) return text({ ok: false, note: `no JIP '${jip_id}'` });
-        const target = ((await rest(`jd_entries?jnl=eq.${jip.target_jd}&limit=1`)) as any[])[0];
-        if (!target) return text({ ok: false, note: `target JD '${jip.target_jd}' not found` });
+        const target_jnl = jip.target_jd;
         const delta = jip.delta ?? {};
-        const patch: Record<string, unknown> = {}; const prior: Record<string, unknown> = {};
-        for (const k of Object.keys(delta)) if (JD_PATCHABLE.includes(k)) { patch[k] = (delta as any)[k]; prior[k] = target[k]; }
+        const patch: Record<string, unknown> = {};
+        for (const k of Object.keys(delta)) if (JD_PATCHABLE.includes(k)) patch[k] = (delta as any)[k];
         if (!Object.keys(patch).length) return text({ ok: false, note: "JIP delta has no patchable JD fields", patchable: JD_PATCHABLE });
-        patch.updated = new Date().toISOString().slice(0, 10);
-        await patchTable(`jip_entries?target_jd=eq.${jip.target_jd}&status=eq.active`, { status: "superseded" });
-        if (!(await patchTable(`jd_entries?jnl=eq.${jip.target_jd}`, patch))) return text({ ok: false, note: "JD update failed" });
-        await patchTable(`jnl_registry?jnl=eq.${jip.target_jd}`, { updated: patch.updated, ...(patch.status ? { status: patch.status } : {}) });
-        await patchTable(`jip_entries?id=eq.${jip.id}`, { status: "active", metadata: { ...(jip.metadata ?? {}), prior } });
-        await callFunction("grid-event", { type: "commit", source: "jarvis", intent: "jip_apply", payload: { jip: jip.jip ?? jip.id, target_jd: jip.target_jd, applied: Object.keys(patch) } }).catch(() => {});
-        return text({ ok: true, target_jd: jip.target_jd, applied: patch, prior, note: "JD updated from JIP; prior state stored for rollback (jip_revert)." });
+        // Git-First Canon: merge into jd/patches.json and propose as a PR — never touch Supabase canon.
+        const doc = await readPatchLedger();
+        doc.patches = doc.patches || {};
+        doc.patches[target_jnl] = { ...(doc.patches[target_jnl] ?? {}), ...patch };
+        const msg = `jip(${jip.jip ?? jip.id}): patch ${target_jnl} [${Object.keys(patch).join(", ")}]`;
+        const r = await proposeFilePR("JarvisMain/yggdrasil/jd/patches.json", JSON.stringify(doc, null, 2) + "\n", msg);
+        if (!r.ok) return text({ ok: false, ...r, note: "could not open the patch PR — GITHUB_TOKEN write scope?" });
+        await patchTable(`jip_entries?id=eq.${jip.id}`, { status: "proposed", metadata: { ...(jip.metadata ?? {}), pr: r.pr_url, applied: Object.keys(patch) } }).catch(() => {});
+        await callFunction("grid-event", { type: "commit", source: "jarvis", intent: "jip_apply_pr", payload: { jip: jip.jip ?? jip.id, target_jd: target_jnl, pr: r.number } }).catch(() => {});
+        return text({ ok: true, proposed: true, target_jd: target_jnl, patch, pr_url: r.pr_url, number: r.number, note: "Git-First: applied as a PR to jd/patches.json. Merge to land; the mirror then syncs Supabase. NOT applied until merged." });
       } catch (e) { return text({ ok: false, error: String(e).slice(0, 200) }); }
     },
   );
   server.registerTool(
     "jarvis_jip_revert",
-    { title: "JIP — revert (rollback the JD)", description: "Roll a JD back: restore the prior state stored when a JIP was applied, mark that JIP 'reverted'. AEGIS-gated.", inputSchema: { jip_id: z.string().min(1).max(60) } },
+    { title: "JIP — revert (propose to git)", description: "Roll a JD back GIT-FIRST: removes the object's entry from jd/patches.json as a PULL REQUEST, so on merge seed.py restores the source-derived value. Never patches Supabase canon. AEGIS-gated.", inputSchema: { jip_id: z.string().min(1).max(60) } },
     async ({ jip_id }) => {
       if (!writeAuthorized(req)) return heldForApproval("jip.revert", { jip_id });
       try {
         const jip = ((await rest(`jip_entries?or=(id.eq.${jip_id},jip.eq.${jip_id})&limit=1`)) as any[])[0];
         if (!jip) return text({ ok: false, note: `no JIP '${jip_id}'` });
-        const prior = jip.metadata?.prior;
-        if (!prior || !Object.keys(prior).length) return text({ ok: false, note: "this JIP has no stored prior state (was it applied?)" });
-        const restore = { ...prior, updated: new Date().toISOString().slice(0, 10) };
-        if (!(await patchTable(`jd_entries?jnl=eq.${jip.target_jd}`, restore))) return text({ ok: false, note: "JD restore failed" });
-        await patchTable(`jip_entries?id=eq.${jip.id}`, { status: "reverted" });
-        await callFunction("grid-event", { type: "commit", source: "jarvis", intent: "jip_revert", payload: { jip: jip.jip ?? jip.id, target_jd: jip.target_jd, restored: Object.keys(prior) } }).catch(() => {});
-        return text({ ok: true, target_jd: jip.target_jd, restored: prior, note: "JD rolled back to the JIP's prior state." });
+        const target_jnl = jip.target_jd;
+        const doc = await readPatchLedger();
+        if (!doc.patches || !(target_jnl in doc.patches)) return text({ ok: false, note: `no active git patch for ${target_jnl} to revert` });
+        delete doc.patches[target_jnl];
+        const msg = `jip-revert(${jip.jip ?? jip.id}): drop patch ${target_jnl} (restore seed-derived)`;
+        const r = await proposeFilePR("JarvisMain/yggdrasil/jd/patches.json", JSON.stringify(doc, null, 2) + "\n", msg);
+        if (!r.ok) return text({ ok: false, ...r });
+        await patchTable(`jip_entries?id=eq.${jip.id}`, { status: "reverted" }).catch(() => {});
+        await callFunction("grid-event", { type: "commit", source: "jarvis", intent: "jip_revert_pr", payload: { jip: jip.jip ?? jip.id, target_jd: target_jnl, pr: r.number } }).catch(() => {});
+        return text({ ok: true, proposed: true, target_jd: target_jnl, pr_url: r.pr_url, number: r.number, note: "Git-First: revert proposed as a PR (drops the patch; git restores the original on merge)." });
       } catch (e) { return text({ ok: false, error: String(e).slice(0, 200) }); }
     },
   );

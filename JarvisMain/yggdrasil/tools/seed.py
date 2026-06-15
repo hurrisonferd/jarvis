@@ -22,6 +22,24 @@ JD_DIR = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "entries"
 LAL_DIR = ROOT / "JarvisMain" / "yggdrasil" / "lal"
 TODAY = date.today().isoformat()
 
+# Git-First Canon (Raven-verdicted 2026-06-15): jd/patches.json is the git channel through which
+# a connector JIP applies a field change. seed applies each patch at its write choke-points
+# (jd_entry_md + register), so it works for ANY object origin (hardcoded / scanned / dynamic).
+# MUTABLE fields only — identity (jnl/type/class/tier) is never patchable. jip_apply writes here
+# via a PR; Raven merges; the mirror syncs Supabase. Closes the jip_apply Supabase-only hole.
+JD_MUTABLE = {"definition", "purpose", "tags", "status", "related", "aliases", "owner"}
+def _load_patches() -> dict:
+    p = ROOT / "JarvisMain" / "yggdrasil" / "jd" / "patches.json"
+    if p.exists():
+        try:
+            return {k: {f: v for f, v in fields.items() if f in JD_MUTABLE}
+                    for k, fields in json.loads(p.read_text()).get("patches", {}).items()}
+        except Exception:
+            return {}
+    return {}
+PATCHES = _load_patches()
+
+
 # Creation serials (Raven-approved 2026-06-10): seq is the mint-order birth
 # certificate — assigned once, immutable, never reused, NEVER a reference key
 # (references stay JNL-only; the validator enforces it). #1 is the first thing
@@ -754,6 +772,16 @@ def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, r
     # type IS the JNL type token (Raven-approved 2026-06-11). Caller-passed values had
     # drifted into three conventions (domain / token / mixed); the address is the ontology.
     typ = jnl.split("-")[2]
+    # Git-First patch: a merged JIP override for this object's mutable fields (.md side).
+    _p = PATCHES.get(jnl)
+    if _p:
+        definition = _p.get("definition", definition)
+        purpose = _p.get("purpose", purpose)
+        status = _p.get("status", status)
+        if "tags" in _p: tags = _p["tags"]
+        if "related" in _p: related = _p["related"]
+        if "aliases" in _p: aliases = _p["aliases"]
+        if "owner" in _p: own = _p["owner"]
     fm = [
         "---",
         f"name: {name}",
@@ -796,6 +824,11 @@ def main() -> None:
     def register(jnl, location, tags, name, typ, status="ACTIVE", state="active", parent=""):
         dom = jnl.split("-")[0]
         typ = jnl.split("-")[2]  # type IS the JNL token (Raven-approved 2026-06-11)
+        # Git-First patch: apply the mutable overrides to the registry record (status/tags/owner).
+        _p = PATCHES.get(jnl)
+        if _p:
+            status = _p.get("status", status)
+            if "tags" in _p: tags = _p["tags"]
         rec = {
             "jnl": jnl, "name": name, "type": typ,
             "class": ontology_class(dom, typ, jnl), "tier": tier(dom, status),
@@ -805,6 +838,7 @@ def main() -> None:
             "status": status, "state": state,
             "created": existing_created(jnl), "updated": TODAY,
         }
+        if _p and "owner" in _p: rec["owner"] = _p["owner"]
         prev = prev_records.get(jnl)
         if prev and {k: v for k, v in rec.items() if k != "updated"} ==                 {k: v for k, v in prev.items() if k != "updated"}:
             rec["updated"] = prev["updated"]  # a reseed is not a change (JMS)
