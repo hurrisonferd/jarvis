@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-15T18:34:48.346347+00:00",
+  "updated": "2026-06-15T23:06:34.844809+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_175606",
-      "date": "2026-06-15",
-      "exchanges": 501,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "CI's backed up (validate's been queued a few minutes); PR #202 will merge once it clears. But the charter's pasteable from the branch right now, and t"
-    },
-    {
-      "session_id": "20260615_175848",
-      "date": "2026-06-15",
-      "exchanges": 510,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`58e7596`). Verdict on GPT's rewrite: **adopt it, with the close restored** \u2014 which is what I just merged. Here's the synthesized charter to p"
-    },
     {
       "session_id": "20260615_175902",
       "date": "2026-06-15",
@@ -622,6 +560,52 @@
       ],
       "alignment": 1.0,
       "key_insight": "Couldn't trigger it myself \u2014 my GitHub token lacks workflow-dispatch permission (403). So here's the clarification and your options.\n\n**Two different "
+    },
+    {
+      "session_id": "20260615_230215",
+      "date": "2026-06-15",
+      "exchanges": 20,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Standing by. Your move:\n\n1. Supabase \u2192 `jarvis-mcp` \u2192 Secrets: confirm `JARVIS_MCP_TOKEN` = `jmt_wgykFmqUTvJ-FRI-gD7FHfRAF8sP1h45` exactly.\n2. Redeplo"
+    },
+    {
+      "session_id": "20260615_230634",
+      "date": "2026-06-15",
+      "exchanges": 26,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "**Writes work.** The probe landed \u2014 MNEMOS id `518fd7a2-5526-452c-82b1-6b6d2af7ba72`, `ok: true`, tags persisted. That's closure by proof.\n\nThis resol"
     }
   ]
 }
