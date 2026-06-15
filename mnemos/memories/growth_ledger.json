@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-15T18:24:46.700022+00:00",
+  "updated": "2026-06-15T18:25:48.536394+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_135545",
-      "date": "2026-06-15",
-      "exchanges": 469,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`a6aee9b..8427891`), Requiem audit merged to main, validate GREEN at 152 objects.\n\nThe sweep healed the two things that actually mattered "
-    },
-    {
-      "session_id": "20260615_135912",
-      "date": "2026-06-15",
-      "exchanges": 473,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Both answered. First \u2014 the dormant gods, and this is a genuinely cool finding:\n\n**They're not empty \u2014 their *functions are already alive as tooling*. "
-    },
     {
       "session_id": "20260615_135928",
       "date": "2026-06-15",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Found it \u2014 and good news, it's not mysterious. Here's the verified picture:\n\n**The token is loaded; it's a *scope* problem, not a redeploy one.** `jar"
+    },
+    {
+      "session_id": "20260615_182504",
+      "date": "2026-06-15",
+      "exchanges": 563,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`c0cd030..600a781`).\n\nTo recap the action plan since it spans a few things: **(1)** re-run the failed `deploy-edge-functions` run (transie"
+    },
+    {
+      "session_id": "20260615_182548",
+      "date": "2026-06-15",
+      "exchanges": 566,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Not necessarily a *new* one \u2014 it depends on the token type, and you can't tell which from the 403, so here's the decision rule:\n\n- **If it's a fine-gr"
     }
   ]
 }
