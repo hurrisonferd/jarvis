@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T17:54:15Z (2026-06-15 13:54 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T18:03:51Z (2026-06-15 14:03 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -9,6 +9,8 @@ A page is a query over the one dataset, never a hand-written claim. A card canno
 ## Boot Menu — say a number, or speak it
 
 _JARVIS online · 152 objects · 18 open tasks · 15 orphans · 242 edges._
+
+**Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
 1. **System health** → `jarvis_eyes` (state + wiring + vitality)
 2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 18 in flight
