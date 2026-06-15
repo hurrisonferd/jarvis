@@ -517,6 +517,11 @@ let replayData=[], auditData=[];
 // MNEMOS continuity layer — what JARVIS remembers across sessions
 let mnemosData=null, mnemosLoading=false, mnemosScroll=0;
 let godStats={};
+// GRIMOIRE — the self-knowledge view. Fetches the GENERATED graph.json from GitHub main on
+// every open, so it mirrors exactly what CI regenerates + what the connector serves (one source,
+// every face). Never hardcoded — it can't drift from JARVIS/the connector/GitHub.
+let grimoireData=null, grimoireLoading=false, grimoireCard=null;
+const GRIMOIRE_URL='https://raw.githubusercontent.com/hurrisonferd/jarvis/main/JarvisMain/yggdrasil/lal/graph.json';
 // SPEAK — companion exchange layer
 let speakHistory=[], speakInput='', speakThinking=false, lastRouting=null, lastAegis=null;
 let voiceOn=false, voiceListening=false, _jarvisRecog=null;
@@ -526,6 +531,7 @@ let mnemosSearchMode=false, mnemosSearchInput='', mnemosSearchResults=null, mnem
 const MENU=[
   {label:'SPEAK',       state:'speak'},
   {label:'JARVIS',      state:'companion'},
+  {label:'GRIMOIRE',    state:'grimoire'},
   {label:'MEMORY',      state:'mnemos'},
   {label:'LEDGER',      state:'prometheus'},
   {label:'GOD SYSTEMS', state:'god'},
@@ -558,6 +564,7 @@ function draw(){
   else if(S==='github') el.innerHTML=rGithub();
   else if(S==='ghIssue') el.innerHTML=rGhIssue();
   else if(S==='emu')    el.innerHTML=rEmulator();
+  else if(S==='grimoire') el.innerHTML=rGrimoire();
 }
 
 function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+( sel?'&#9658;':' ')+'</span>'; }
@@ -1830,6 +1837,47 @@ function fmtAgo(iso){
   return Math.floor(hr/24)+'d ago';
 }
 
+async function loadGrimoire(){
+  grimoireLoading=true; grimoireData=null; grimoireCard=null; cur=0; draw();
+  try{
+    const r=await fetch(GRIMOIRE_URL,{cache:'no-store'});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    const g=await r.json();
+    grimoireData={nodes:(g.nodes||[]).slice().sort((a,b)=>(a.id||'').localeCompare(b.id||'')),edges:g.edges||[],counts:g.counts||{}};
+  }catch(e){ grimoireData={nodes:[],edges:[],counts:{},error:e.message}; }
+  grimoireLoading=false; draw();
+}
+function rGrimoire(){
+  if(grimoireLoading||!grimoireData) return `<div class="panel"><div class="s-header"><span style="color:var(--green)">GRIMOIRE</span><span style="color:var(--amber)">SYNC</span></div><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">SYNCING FROM GITHUB…</span></div></div>`;
+  const d=grimoireData;
+  if(d.error) return `<div class="panel"><div class="s-header"><span style="color:var(--green)">GRIMOIRE</span><span style="color:var(--red)">OFFLINE</span></div><div class="s-body scroll" style="padding:8px"><div style="color:var(--red);font-size:6px">SYNC FAILED</div><div style="color:var(--dim);font-size:5px;word-break:break-all">${d.error}</div></div><div class="s-footer">B:BACK</div></div>`;
+  const nodes=d.nodes;
+  // Card detail — one object's page, projected from the live graph (mirrors render_card).
+  if(grimoireCard){
+    const o=grimoireCard;
+    const outs=d.edges.filter(e=>e.source===o.id).map(e=>e.target);
+    const ins=d.edges.filter(e=>e.target===o.id).map(e=>e.source);
+    const row=(l,v)=>`<div class="dl">${l}</div><div class="dv">${v||'—'}</div>`;
+    return `<div class="panel"><div class="s-header"><span style="color:var(--green)">▣ ${(o.name||o.id).slice(0,20)}</span><span style="color:var(--amber)">${o.status||''}</span></div>
+      <div class="s-body scroll" style="padding-top:6px">
+        ${row('JNL',o.id)}${row('NAME',(o.name||'').slice(0,30))}${row('DOMAIN',o.domain)}${row('CLASS',o.class)}${row('TIER',o.tier)}${row('OWNER',o.owner)}
+        <div class="dl">OUT →</div><div class="dv" style="font-size:5px">${outs.slice(0,8).map(t=>t).join(' ')||'—'}</div>
+        <div class="dl">IN ←</div><div class="dv" style="font-size:5px">${ins.slice(0,8).map(t=>t).join(' ')||'—'}</div>
+      </div><div class="s-footer">B:BACK TO LIST</div></div>`;
+  }
+  // List — every governed object, scrollable; A opens its card.
+  const c=d.counts||{};
+  const win=12, start=Math.max(0,Math.min(cur-6,Math.max(0,nodes.length-win)));
+  const rows=nodes.slice(start,start+win).map((n,i)=>{
+    const idx=start+i, sel=idx===cur;
+    return `<div style="font-size:5px;line-height:1.9;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;color:${sel?'var(--amber)':'var(--bright)'}">${sel?'&#9658;':' '} <span style="color:var(--dim)">${(n.domain||'').padEnd(4)}</span> ${(n.name||n.id).slice(0,26)}</div>`;
+  }).join('');
+  return `<div class="panel"><div class="s-header"><span style="color:var(--green)">GRIMOIRE</span><span style="color:var(--blue)">${nodes.length}·LIVE</span></div>
+    <div class="s-body scroll" style="padding-top:4px">
+      <div style="color:var(--dim);font-size:5px;letter-spacing:1px;padding-bottom:3px">${nodes.length} OBJECTS · ${(d.edges||[]).length} EDGES · SYNCED FROM GITHUB</div>
+      ${rows}
+    </div><div class="s-footer">&#9650;&#9660;:SCROLL &nbsp; A:CARD &nbsp; B:BACK</div></div>`;
+}
 function rMnemos(){
   if(mnemosLoading) return rLoad();
   if(!mnemosData) return `<div class="panel"><div class="s-body" style="display:flex;align-items:center;justify-content:center;height:100%"><span style="color:var(--dim);font-size:6px">NO MEMORY LOADED</span></div></div>`;
@@ -2170,6 +2218,7 @@ function nav(d){
   let mx=0;
   if(S==='menu') mx=MENU.length;
   if(S==='god'&&gdata)  mx=gdata.god_systems.length;
+  if(S==='grimoire'&&grimoireData&&!grimoireCard) mx=grimoireData.nodes.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
   if(S==='tron'){
@@ -2213,7 +2262,7 @@ function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; draw(); return; }
-  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
+  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='grimoire') loadGrimoire(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
     // Increment session_touches for this God System
     const sid=detail?.name; if(sid) sbWrite('god_system_stats','update',{session_touches:(godStats[sid]?.session_touches||0)+1},{match:{system_id:sid}}).then(()=>{ if(godStats[sid]) godStats[sid].session_touches=(godStats[sid].session_touches||0)+1; });
@@ -2228,6 +2277,7 @@ function ok(){
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
   if(S==='emu'){ const inp=document.getElementById('rom-input'); if(inp) inp.click(); return; }
+  if(S==='grimoire'&&grimoireData&&!grimoireData.error){ if(!grimoireCard){ grimoireCard=grimoireData.nodes[cur]||null; draw(); } return; }
 }
 
 function back(){
@@ -2235,6 +2285,7 @@ function back(){
   if(emuState==='running'&&activeCore){ activeCore.setInput({B:true}); setTimeout(()=>activeCore.setInput({B:false}),80); return; }
   if(S==='godD')  { S='god';  draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
+  if(S==='grimoire'){ if(grimoireCard){ grimoireCard=null; draw(); return; } S='menu'; cur=0; draw(); return; }
   if(['speak','companion','mnemos','prometheus','god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
     if(S==='emu'){
       // P09: auto-save to slot 99 on exit if running
