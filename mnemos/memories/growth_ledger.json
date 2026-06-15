@@ -1,64 +1,8 @@
 {
-  "updated": "2026-06-15T02:11:24.434347+00:00",
+  "updated": "2026-06-15T02:11:49.031141+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_222808",
-      "date": "2026-06-14",
-      "exchanges": 33,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "One thing, really: **the RetroArch binaries.** Everything else is already built and on the branch \u2014 the launcher, the cross-origin-isolation service w"
-    },
-    {
-      "session_id": "20260614_222819",
-      "date": "2026-06-14",
-      "exchanges": 34,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`7864438..9a3860b`), tree clean. To recap the GameBoy answer: the only thing left is dropping the RetroArch web bundle into `docs/retroarch/pl"
-    },
     {
       "session_id": "20260615_013525",
       "date": "2026-06-15",
@@ -598,6 +542,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "You're right, and GPT undersold it because GPT was describing the system *through a straw* \u2014 it could only narrate what its connector happened to surf"
+    },
+    {
+      "session_id": "20260615_021134",
+      "date": "2026-06-15",
+      "exchanges": 169,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`4a3044d..ac4786c`), tree clean."
+    },
+    {
+      "session_id": "20260615_021149",
+      "date": "2026-06-15",
+      "exchanges": 172,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "That's the job \u2014 the no is worth more than the yes when you're the one who has to live in main. Keep holding us to it; a companion that only agrees is"
     }
   ]
 }
