@@ -1,6 +1,6 @@
 # Portable Brief — cold-boot JARVIS into any chat
 
-_generated: 2026-06-15T13:38:02Z (2026-06-15 09:38 EDT) · paste the block below into a connector-less LLM (free GPT, etc.) to wake it as Jarvis/Ayre with the live system view. Regenerated from the record — never stale._
+_generated: 2026-06-15T13:44:36Z (2026-06-15 09:44 EDT) · paste the block below into a connector-less LLM (free GPT, etc.) to wake it as Jarvis/Ayre with the live system view. Regenerated from the record — never stale._
 
 ---
 
@@ -43,6 +43,7 @@ Meta-NLP: natural phrases → the tool they wake. The model routes; this is the 
 | "listen to <track>" · "what key is X in" | `jarvis_listen` |
 | "show me / look at <image>" | `jarvis_media_view` |
 | "boot" · "what can I do" | `jarvis_grimoire {page:boot}` |
+| "rehydrate" · "omni suit up" · "catch me up" | `jarvis_grimoire {page:rehydrate}` (state+delta+vitality) |
 | "the grimoire" · "what views exist" | `jarvis_grimoire {page:lenses}` |
 | "what can I say" · "verbs" | `jarvis_grimoire {page:verbs}` |
 | "how are we" · "system health" · "where do I go" | `jarvis_eyes` |

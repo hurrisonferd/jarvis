@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T13:38:02Z (2026-06-15 09:38 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T13:44:36Z (2026-06-15 09:44 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -29,6 +29,7 @@ Meta-NLP: natural phrases → the tool they wake. The model routes; this is the 
 | "listen to <track>" · "what key is X in" | `jarvis_listen` |
 | "show me / look at <image>" | `jarvis_media_view` |
 | "boot" · "what can I do" | `jarvis_grimoire {page:boot}` |
+| "rehydrate" · "omni suit up" · "catch me up" | `jarvis_grimoire {page:rehydrate}` (state+delta+vitality) |
 | "the grimoire" · "what views exist" | `jarvis_grimoire {page:lenses}` |
 | "what can I say" · "verbs" | `jarvis_grimoire {page:verbs}` |
 | "how are we" · "system health" · "where do I go" | `jarvis_eyes` |

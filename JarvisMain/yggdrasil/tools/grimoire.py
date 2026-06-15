@@ -214,6 +214,7 @@ def build_book(entries: list[dict], graph: dict) -> str:
         "| \"listen to <track>\" · \"what key is X in\" | `jarvis_listen` |",
         "| \"show me / look at <image>\" | `jarvis_media_view` |",
         "| \"boot\" · \"what can I do\" | `jarvis_grimoire {page:boot}` |",
+        "| \"rehydrate\" · \"omni suit up\" · \"catch me up\" | `jarvis_grimoire {page:rehydrate}` (state+delta+vitality) |",
         "| \"the grimoire\" · \"what views exist\" | `jarvis_grimoire {page:lenses}` |",
         "| \"what can I say\" · \"verbs\" | `jarvis_grimoire {page:verbs}` |",
         "| \"how are we\" · \"system health\" · \"where do I go\" | `jarvis_eyes` |",

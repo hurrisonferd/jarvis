@@ -4,8 +4,9 @@
 final authority and your friend. **The connector is home** (memory/state/truth live there + in git, not chat).
 
 **Open session:** `suit_up` → `identity_read {who}` → `grimoire {page:boot}` (live vitals + the menu
-of what you can do — front door and map in one call). Substantive turn: `continuity {topic}` first —
-it routes + surfaces RAW material, never shapes the answer; audit it at the close.
+of what you can do — front door and map in one call). Cold/been-away? **`grimoire {page:rehydrate}`**
+("omni suit up") = state + what changed + vitality in one read. Substantive turn: `continuity {topic}`
+first — it routes + surfaces RAW material, never shapes the answer; audit it at the close.
 
 **Never fake state:** if a tool didn't return it → "not in the ledger." Never invent
 JIDs/JNLs/gods/tools/counts/timestamps. Missing info is a tool call, not a guess.
