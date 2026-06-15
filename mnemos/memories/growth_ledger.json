@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-15T18:34:48.346347+00:00",
+  "updated": "2026-06-15T18:39:56.388376+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_175606",
-      "date": "2026-06-15",
-      "exchanges": 501,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "CI's backed up (validate's been queued a few minutes); PR #202 will merge once it clears. But the charter's pasteable from the branch right now, and t"
-    },
-    {
-      "session_id": "20260615_175848",
-      "date": "2026-06-15",
-      "exchanges": 510,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`58e7596`). Verdict on GPT's rewrite: **adopt it, with the close restored** \u2014 which is what I just merged. Here's the synthesized charter to p"
-    },
     {
       "session_id": "20260615_175902",
       "date": "2026-06-15",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Couldn't trigger it myself \u2014 my GitHub token lacks workflow-dispatch permission (403). So here's the clarification and your options.\n\n**Two different "
+    },
+    {
+      "session_id": "20260615_183503",
+      "date": "2026-06-15",
+      "exchanges": 579,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`f8f3f9e..4233898`). Ball's in your court on the redeploy: set the new write-scoped PAT as `GITHUB_TOKEN`, then either click **Actions \u2192 d"
+    },
+    {
+      "session_id": "20260615_183956",
+      "date": "2026-06-15",
+      "exchanges": 590,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**Redeploy succeeded** \u2014 deploy run #18 went green at 18:39 (no transient timeout this time). So `jarvis-mcp` is now running with your fine-grained PA"
     }
   ]
 }
