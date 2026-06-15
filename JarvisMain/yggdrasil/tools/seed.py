@@ -1048,6 +1048,10 @@ def main() -> None:
     except Exception as e:
         print(f"(media-lens skipped: {e})")
 
+    # NB: the Changes lens is NOT run here — it's git-log-derived, so it can't contain its own
+    # commit and would always trip the seed-drift gate. It's refreshed post-merge by
+    # .github/workflows/changes-lens.yml instead.
+
     # Grimoire (Raven 2026-06-15: "a system that knows itself"): the book JARVIS reads
     # itself through — catalog + lens pages + summonable JID cards, projected from the JD
     # entries + graph so it can never claim a thing missing that exists, or vice-versa.

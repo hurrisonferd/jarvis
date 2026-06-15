@@ -41,6 +41,7 @@ OUT = LAL / "GRIMOIRE.md"
 # defined, generator pending. Listing them here is what makes them findable.
 LENSES = [
     ("Wiring",     "live",    "how streams + god systems connect (route guide)",        "WIRING-MAP.md"),
+    ("Changes",    "live",    "what got built lately + why — rehydration (delta view)",   "CHANGES.md"),
     ("Health",     "live",    "vitality: orphans, isolated, stewardless, open tasks",    "HEALTH.md"),
     ("Sovereign",  "planned", "full self-model: state + intent + history + structure",   "—"),
     ("Cause",      "planned", "event causality: A → task B → structural change C",       "—"),

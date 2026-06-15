@@ -697,7 +697,9 @@ const WasmBoyCore={
       this._ready=true;
     }
     if(!this._resolve()) throw new Error('WasmBoy global not found (CDN shape changed) — try RetroArch via START');
-    await this._wb.config(canvas,{headless:false,isAudioEnabled:true,gameboyFrameRate:60,useGbcWhenOptional:true});
+    // WasmBoy.config signature is (options, canvas) — passing (canvas, options) makes it call
+    // options.getContext ('CanvasElement.getContext is not a function'). Options first, canvas second.
+    await this._wb.config({headless:false,isAudioEnabled:true,gameboyFrameRate:60,useGbcWhenOptional:true},canvas);
   },
   async loadROM(buf){ await this._wb.loadROM(buf); },
   play(){ this._wb.play(); },

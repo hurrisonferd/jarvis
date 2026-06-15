@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T13:02:27Z (2026-06-15 09:02 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T13:09:37Z (2026-06-15 09:09 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -48,6 +48,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | page | status | renders | source |
 |---|---|---|---|
 | **Wiring** | live | how streams + god systems connect (route guide) | `WIRING-MAP.md` |
+| **Changes** | live | what got built lately + why — rehydration (delta view) | `CHANGES.md` |
 | **Health** | live | vitality: orphans, isolated, stewardless, open tasks | `HEALTH.md` |
 | **Sovereign** | planned | full self-model: state + intent + history + structure | `—` |
 | **Cause** | planned | event causality: A → task B → structural change C | `—` |
