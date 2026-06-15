@@ -1,0 +1,48 @@
+name: JARVIS — Sync Lens (git vs Supabase)
+
+# Love Train, fully deployed: the cross-store divergence alarm. Diffs the git registry against the
+# Supabase jd_entries mirror and goes RED on real divergence (Supabase-only rows or field
+# mismatches) — so silent overwrite becomes a loud flag. Runs daily, on canon changes, and on
+# demand. Commits the SYNC-LENS.md report, then fails the job if diverged (the alarm).
+on:
+  schedule:
+    - cron: "30 13 * * *"   # daily, after the morning mirror settles
+  push:
+    branches: [main]
+    paths: ['JarvisMain/yggdrasil/jd/entries/**', 'scripts/sync_lens.py']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync-lens:
+    name: JARVIS — diff the stores
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Diff git vs Supabase
+        id: diff
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
+        run: |
+          set +e
+          python3 scripts/sync_lens.py
+          echo "code=$?" >> "$GITHUB_OUTPUT"
+      - name: Commit the report
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add JarvisMain/yggdrasil/lal/SYNC-LENS.md
+          git diff --staged --quiet || git commit -m "chore(sync-lens): cross-store divergence report [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
+      - name: Sound the alarm on divergence
+        if: steps.diff.outputs.code == '2'
+        run: |
+          echo "::error::Sync Lens detected git↔Supabase divergence. See JarvisMain/yggdrasil/lal/SYNC-LENS.md"
+          exit 1
