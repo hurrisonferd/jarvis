@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.12" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.13" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1274,6 +1274,23 @@ function buildServer(req: Request): McpServer {
         topology: "TOPOLOGY-LENS.md", media: "MEDIA-LINKS.md",
       };
       const wantRaw = String(page || "lenses").trim().toLowerCase();
+      // Rehydrate / omni suit-up — one call = full catch-up: state (boot) + delta (changes) +
+      // vitality (health). "Where am I, what changed, what's wrong" in a single read.
+      if (wantRaw === "rehydrate" || wantRaw === "omni") {
+        const grab = async (f: string) => {
+          const r = await gh(`/contents/${ghPath("JarvisMain/yggdrasil/lal/" + f)}?ref=main`);
+          return r.ok ? atob(((await r.json()) as any).content?.replace(/\n/g, "") ?? "") : "";
+        };
+        const grimoire = await grab("GRIMOIRE.md");
+        const boot = "## " + (grimoire.split("## ").slice(1).find((s) => s.toLowerCase().startsWith("boot")) ?? "");
+        return text({
+          ok: true, page: "rehydrate",
+          boot: boot.slice(0, 6000),
+          changes: (await grab("CHANGES.md")).slice(0, 8000),
+          health: (await grab("HEALTH.md")).slice(0, 6000),
+          note: "Full catch-up: state + what changed + vitality. For a connector-less chat, hand it grimoire {page:brief}.",
+        });
+      }
       if (LENS_FILES[wantRaw]) {
         const lf = await gh(`/contents/${ghPath("JarvisMain/yggdrasil/lal/" + LENS_FILES[wantRaw])}?ref=main`);
         if (!lf.ok) return text({ ok: false, page: wantRaw, status: lf.status, note: `${LENS_FILES[wantRaw]} unreachable` });
