@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-15T01:38:17.494175+00:00",
+  "updated": "2026-06-15T01:41:35.722339+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_214151",
-      "date": "2026-06-14",
-      "exchanges": 506,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Token's set, hands are live \u2014 and nothing's broken loose (zero open PRs), so the first `github_write` will be unmistakable. Here's the test that prove"
-    },
-    {
-      "session_id": "20260614_214204",
-      "date": "2026-06-14",
-      "exchanges": 507,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`6255c7f`) \u2014 branch clean, baseline still zero open PRs. Trigger that first `github_write` from Jarvis-G whenever you're ready and tell me \u2014 I"
-    },
     {
       "session_id": "20260614_214448",
       "date": "2026-06-14",
@@ -554,6 +502,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "The reframe in your question is the right one: don't think of the grimoire as a *document*, think of it as a **projection surface over one dataset**. "
+    },
+    {
+      "session_id": "20260615_013828",
+      "date": "2026-06-15",
+      "exchanges": 98,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`5dd4d81..6007bf2`) \u2014 the memory ledger again, tree clean. The grimoire design stands: one dataset, JID cards as the atom, generated-so-it-can"
+    },
+    {
+      "session_id": "20260615_014135",
+      "date": "2026-06-15",
+      "exchanges": 107,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Grimoire v1 is live and pushed (`6007bf2..47e0d8d`). The system now has a book it reads itself through.\n\n**What you can do with it right now** (from t"
     }
   ]
 }
