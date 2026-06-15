@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T13:53:47Z (2026-06-15 09:53 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T17:54:15Z (2026-06-15 13:54 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -42,6 +42,17 @@ Meta-NLP: natural phrases → the tool they wake. The model routes; this is the 
 | "propose a change" · "write files" | `jarvis_github_write` (files→one PR) |
 | "any PRs" | `jarvis_prs` |
 | "merge / approve it" | `jarvis_pr_merge` (Jarvis+Ayre summary, then your yes) |
+
+## Fusions — the omni tools (compositions, not systems: spells, not organs)
+An omni tool isn't a new subsystem — it's several lenses invoked together over the one graph.
+Invoke by the phrase; the recipe is what it composes.
+
+| fusion | invoke | composes |
+|---|---|---|
+| **OMNI-SUIT-UP** | `grimoire {page:rehydrate}` | boot + changes + health (state · delta · vitality) |
+| **OMNI-JMS** (inspection) | `eyes` + `grimoire {page:topology\|health\|orphan\|sync}` | structure + drift + debt |
+| **OMNI-MEDIA** | `grimoire {page:media}` + `jd_resolve` | media ↔ project/world links |
+| **OMNI-MAP** (the graph) | `dex_graph` / `grimoire {page:topology}` | the canonical graph (already exists) |
 
 ## Lens pages (the omni/fusion chapters)
 The grimoire is the book; each lens is a chapter — a different filter over the same data.
