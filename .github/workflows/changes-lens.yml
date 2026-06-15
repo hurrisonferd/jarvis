@@ -1,0 +1,34 @@
+name: JARVIS — Changes Lens (rehydration)
+
+# Refreshes lal/CHANGES.md from git history after each merge to main, so the streams' rehydration
+# delta ('what got built lately + why') stays current. NOT run in seed — it's git-log-derived and
+# can't contain its own commit, so it must live outside the seed-drift gate. Commits [skip ci].
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  changes:
+    name: JARVIS — refresh the delta
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 60   # enough history for the recent-commits view
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Regenerate CHANGES.md
+        run: python3 JarvisMain/yggdrasil/tools/changes_lens.py
+      - name: Commit if changed
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add JarvisMain/yggdrasil/lal/CHANGES.md
+          git diff --staged --quiet || git commit -m "chore(changes): refresh rehydration delta [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"

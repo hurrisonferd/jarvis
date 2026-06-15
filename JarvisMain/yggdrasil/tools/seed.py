@@ -1048,13 +1048,9 @@ def main() -> None:
     except Exception as e:
         print(f"(media-lens skipped: {e})")
 
-    # Changes lens (Raven 2026-06-15): rehydration — the recent-commit delta so streams SEE
-    # what changed, not get told. Pairs with the grimoire's end-state view.
-    try:
-        import changes_lens as _chg
-        _chg.main()
-    except Exception as e:
-        print(f"(changes-lens skipped: {e})")
+    # NB: the Changes lens is NOT run here — it's git-log-derived, so it can't contain its own
+    # commit and would always trip the seed-drift gate. It's refreshed post-merge by
+    # .github/workflows/changes-lens.yml instead.
 
     # Grimoire (Raven 2026-06-15: "a system that knows itself"): the book JARVIS reads
     # itself through — catalog + lens pages + summonable JID cards, projected from the JD
