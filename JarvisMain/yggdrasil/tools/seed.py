@@ -961,6 +961,15 @@ def main() -> None:
     except Exception as e:  # never block the seed on the report
         print(f"(health report skipped: {e})")
 
+    # Grimoire (Raven 2026-06-15: "a system that knows itself"): the book JARVIS reads
+    # itself through — catalog + lens pages + summonable JID cards, projected from the JD
+    # entries + graph so it can never claim a thing missing that exists, or vice-versa.
+    try:
+        import grimoire as _grim
+        _grim.main()
+    except Exception as e:  # never block the seed on the grimoire
+        print(f"(grimoire skipped: {e})")
+
 
 if __name__ == "__main__":
     main()
