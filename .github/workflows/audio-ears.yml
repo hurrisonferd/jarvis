@@ -27,13 +27,13 @@ jobs:
       - name: Install ffmpeg + librosa
         run: |
           sudo apt-get update && sudo apt-get install -y ffmpeg
-          python3 -m pip install --quiet librosa numpy soundfile audioread
+          python3 -m pip install --quiet librosa numpy soundfile audioread matplotlib
       - name: Listen
         run: python3 scripts/audio_ears.py
       - name: Commit features
         run: |
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add JarvisSide/Media/AUDIO-FEATURES.json JarvisSide/Media/MEDIA-MANIFEST.md
-          git diff --staged --quiet || git commit -m "feat(ears): audio features from librosa [skip ci]"
+          git add JarvisSide/Media/AUDIO-FEATURES.json JarvisSide/Media/MEDIA-MANIFEST.md JarvisSide/Media/spectrograms/
+          git diff --staged --quiet || git commit -m "feat(ears): audio features + spectrograms from librosa [skip ci]"
           git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped (protected/conflict)"

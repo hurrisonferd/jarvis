@@ -58,6 +58,22 @@ def mood(bpm: float, energy: float, brightness: float) -> str:
     return f"{pace}, {en}, {tone}"
 
 
+def render_spectrogram(y, sr, out: Path) -> None:
+    """The vision bridge: a mel-spectrogram PNG. media_view shows it to the vision model, so
+    Jarvis/Ayre SEE the sound's shape (the build, the drop, the density) — perception, not hearing."""
+    import matplotlib
+    matplotlib.use("Agg")
+    import matplotlib.pyplot as plt
+    import librosa, librosa.display, numpy as np
+    S = librosa.power_to_db(librosa.feature.melspectrogram(y=y, sr=sr), ref=np.max)
+    plt.figure(figsize=(7, 3))
+    librosa.display.specshow(S, sr=sr, x_axis="time", y_axis="mel", cmap="magma")
+    plt.axis("off")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    plt.savefig(out, dpi=80, bbox_inches="tight", pad_inches=0)
+    plt.close()
+
+
 def analyze(path: Path) -> dict:
     import librosa  # CI-only import
     import numpy as np
@@ -66,16 +82,29 @@ def analyze(path: Path) -> dict:
     tempo = float(librosa.beat.beat_track(y=y, sr=sr)[0])
     chroma = librosa.feature.chroma_cqt(y=y, sr=sr)
     chroma_mean = [float(x) for x in np.mean(chroma, axis=1)]
-    rms = float(np.mean(librosa.feature.rms(y=y)))
+    rms_series = librosa.feature.rms(y=y)[0]
+    rms = float(np.mean(rms_series))
     centroid = float(np.mean(librosa.feature.spectral_centroid(y=y, sr=sr)))
     key = estimate_key(chroma_mean)
+    onsets = librosa.onset.onset_detect(y=y, sr=sr)
+    onset_density = round(len(onsets) / dur, 2) if dur else 0.0  # events/sec — busyness
+    dyn_range = round(float(20 * np.log10((np.max(rms_series) + 1e-6) / (np.percentile(rms_series, 10) + 1e-6))), 1)
+    spec_rel = f"spectrograms/{path.stem}.png"
+    try:
+        render_spectrogram(y, sr, MEDIA / spec_rel)
+    except Exception as e:
+        print(f"  (spectrogram failed for {path.name}: {e})")
+        spec_rel = ""
     return {
         "duration_sec": round(dur, 1),
         "bpm": round(tempo, 1),
         "key": key,
         "energy_rms": round(rms, 4),
         "brightness_hz": round(centroid, 0),
+        "onset_density": onset_density,
+        "dynamic_range_db": dyn_range,
         "mood": mood(tempo, rms, centroid),
+        "spectrogram": spec_rel,
     }
 
 
@@ -113,20 +142,22 @@ def main() -> int:
 
     # Rebuild only the '## Audio' section of the manifest; preserve the image captions above it.
     head = MANIFEST.read_text().split("## Audio")[0].rstrip() if MANIFEST.exists() else "# Media Manifest\n"
-    rows = ["## Audio — `JarvisSide/Media/audio/` (heard via librosa features)", "",
-            "| track | length | BPM | key | mood | energy · brightness |",
-            "|---|---|---|---|---|---|"]
+    rows = ["## Audio — `JarvisSide/Media/audio/` (librosa features + spectrogram → vision)", "",
+            "| track | length | BPM | key | mood | onset/s · dyn | spectrogram |",
+            "|---|---|---|---|---|---|---|"]
     for name, f in out.items():
         if "error" in f:
-            rows.append(f"| `{name}` | — | — | — | analysis error | {f['error'][:40]} |")
+            rows.append(f"| `{name}` | — | — | — | analysis error | {f['error'][:30]} | — |")
         else:
             length = f"{int(f['duration_sec'] // 60)}:{int(f['duration_sec'] % 60):02d}"
+            spec = f"`{f['spectrogram']}`" if f.get("spectrogram") else "—"
             rows.append(f"| `{name}` | {length} | {f['bpm']} | {f['key']} | {f['mood']} | "
-                        f"{f['energy_rms']} · {int(f['brightness_hz'])}Hz |")
+                        f"{f.get('onset_density','?')} · {f.get('dynamic_range_db','?')}dB | {spec} |")
     rows += ["",
-             "_Features are the song's bones (tempo/key/energy), not its soul. Raven stays the ears on "
-             "playback — what a track *means* lives with him, not in the BPM. Deeper vibe/captioning "
-             "needs an audio model (future)._", ""]
+             "_Features are the song's bones; the **spectrogram** is its shape — `jarvis_media_view "
+             "{path:'JarvisSide/Media/<spectrogram>'}` lets a vision stream SEE the build/drop/density. "
+             "Still not hearing the soul — Raven stays the ears on playback. Lyrics need Whisper; true "
+             "audio captioning needs an audio model (future)._", ""]
     MANIFEST.write_text(head + "\n\n" + "\n".join(rows))
     print(f"ears: wrote {len(out)} track(s) → AUDIO-FEATURES.json + MEDIA-MANIFEST.md")
     return 0

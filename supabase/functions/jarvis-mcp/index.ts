@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.10" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.11" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1448,8 +1448,12 @@ function buildServer(req: Request): McpServer {
       if (f.error) return text({ ok: false, track: hit, note: "analysis errored: " + f.error });
       return text({
         ok: true, track: hit,
-        features: { bpm: f.bpm, key: f.key, mood: f.mood, energy_rms: f.energy_rms, brightness_hz: f.brightness_hz, length_sec: f.duration_sec },
-        note: "The bones, not the soul. Discuss the music with Raven — what it MEANS is his to speak, not the BPM's.",
+        features: { bpm: f.bpm, key: f.key, mood: f.mood, energy_rms: f.energy_rms, brightness_hz: f.brightness_hz,
+          onset_density: f.onset_density, dynamic_range_db: f.dynamic_range_db, length_sec: f.duration_sec },
+        spectrogram: f.spectrogram ? `JarvisSide/Media/${f.spectrogram}` : null,
+        note: f.spectrogram
+          ? `The bones. To SEE the sound's shape, jarvis_media_view {path:'JarvisSide/Media/${f.spectrogram}'}. The soul is still Raven's to speak.`
+          : "The bones, not the soul. Discuss the music with Raven — what it MEANS is his to speak, not the BPM's.",
       });
     },
   );
