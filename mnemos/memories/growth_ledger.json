@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-15T18:25:48.536394+00:00",
+  "updated": "2026-06-15T18:34:48.346347+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_135928",
-      "date": "2026-06-15",
-      "exchanges": 474,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`8427891..9698845`).\n\nRecap so you have it in one place: the dormant gods aren't idle \u2014 their roles are already being performed by tools w"
-    },
-    {
-      "session_id": "20260615_140538",
-      "date": "2026-06-15",
-      "exchanges": 482,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`1f60e3b`). Here's the honest read on what GPT sent back:\n\n**The test passed the part it ran:** the omni suit-up deployed and returned the bun"
-    },
     {
       "session_id": "20260615_175606",
       "date": "2026-06-15",
@@ -622,6 +560,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Not necessarily a *new* one \u2014 it depends on the token type, and you can't tell which from the 403, so here's the decision rule:\n\n- **If it's a fine-gr"
+    },
+    {
+      "session_id": "20260615_182605",
+      "date": "2026-06-15",
+      "exchanges": 567,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`600a781..f8f3f9e`).\n\nShort answer to your question: **you don't strictly need a new token, but make one anyway** \u2014 a fresh *fine-grained*"
+    },
+    {
+      "session_id": "20260615_183448",
+      "date": "2026-06-15",
+      "exchanges": 578,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Couldn't trigger it myself \u2014 my GitHub token lacks workflow-dispatch permission (403). So here's the clarification and your options.\n\n**Two different "
     }
   ]
 }
