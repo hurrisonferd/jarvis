@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T17:58:48.075146+00:00",
+  "updated": "2026-06-15T18:00:45.137241+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_130700",
-      "date": "2026-06-15",
-      "exchanges": 370,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`bd3cfeb..86f5f75`). The TUSK hole is closed and merged to main \u2014 `jip_apply`/`revert` are git-first, both connector-first paths now route"
-    },
-    {
-      "session_id": "20260615_131459",
-      "date": "2026-06-15",
-      "exchanges": 388,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "CI is genuinely lagging on this commit (I've triggered many workflows this session \u2014 there's a queue). The fix is locally verified, so the PR will go "
-    },
     {
       "session_id": "20260615_131609",
       "date": "2026-06-15",
@@ -611,6 +551,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`58e7596`). Verdict on GPT's rewrite: **adopt it, with the close restored** \u2014 which is what I just merged. Here's the synthesized charter to p"
+    },
+    {
+      "session_id": "20260615_175902",
+      "date": "2026-06-15",
+      "exchanges": 511,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`baf14ee..f5e530a`). Everything from this stretch is on main: capped charter (GPT's NLP structure + Architecture Principle + the restored "
+    },
+    {
+      "session_id": "20260615_180045",
+      "date": "2026-06-15",
+      "exchanges": 515,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Ran the full scan GPT asked for. It settles every claim \u2014 and the verdict is that GPT manufactured the ambiguity:\n\n- **`JarvisSide/Grimoire` does not "
     }
   ]
 }
