@@ -85,14 +85,42 @@ function authToken(req: Request): string {
 // the client's own Allow/Deny prompt before the call — no phrase to type. Fails
 // closed when no token is configured (protects the endpoint from open writes).
 function writeAuthorized(req: Request): boolean {
-  return Boolean(MCP_TOKEN) && authToken(req) === MCP_TOKEN;
+  return tokenState(req) === "ok";
 }
-// Held response when the connector isn't carrying the token. No phrase theater —
-// the fix is configuration (token in the connector header), not a per-call secret.
-function heldForApproval(action: string, preview: unknown) {
+// AEGIS token diagnosis — names WHY a write is gated so a held response is actionable
+// instead of ambiguous (the old message couldn't tell a missing secret from a wrong one):
+//   server_unset   — the function has NO JARVIS_MCP_TOKEN baked in (secret missing, or
+//                    set AFTER the last deploy → redeploy to pick it up; secrets bake at deploy).
+//   client_missing — the connector sent no token at all.
+//   mismatch       — the connector sent a token, but it differs from the function's.
+type TokenState = "ok" | "server_unset" | "client_missing" | "mismatch";
+function tokenState(req: Request): TokenState {
+  const sent = authToken(req);
+  if (!MCP_TOKEN) return "server_unset";
+  if (!sent) return "client_missing";
+  return sent === MCP_TOKEN ? "ok" : "mismatch";
+}
+// Held response when the write isn't authorized. Reports the precise token_state and a
+// value-free fingerprint (lengths only — NEVER the secret itself) so the failure
+// self-diagnoses. GL5: a systematic gate failure is also surfaced in the function logs.
+function heldForApproval(action: string, preview: unknown, req: Request) {
+  const st = tokenState(req);
+  const reason: Record<TokenState, string> = {
+    ok: "Authorized — no hold.",
+    server_unset: "Write not authorized: JARVIS_MCP_TOKEN is not set in THIS function's deployed env — the secret is missing, or was set after the last deploy. Redeploy jarvis-mcp (secrets bake at deploy) so it picks up the token.",
+    client_missing: "Write not authorized: the connector sent no token. Add JARVIS_MCP_TOKEN to the connector — as an Authorization bearer, an x-jarvis-token header, or ?token=… on the connector URL.",
+    mismatch: "Write not authorized: the connector's token does NOT match the function's JARVIS_MCP_TOKEN. The values differ — confirm the Supabase secret equals the token the connector carries, then redeploy.",
+  };
+  if (st !== "ok") {
+    console.error(`AEGIS hold [${action}] token_state=${st} client_len=${authToken(req).length} server_len=${MCP_TOKEN.length}`);
+  }
   return text({
     status: "held_by_aegis",
-    reason: "Write not authorized: this connector is not carrying the JARVIS_MCP_TOKEN. Tell Raven to add the token to the connector — as an Authorization bearer, an x-jarvis-token header, or ?token=… on the connector URL. Consent for each write is the client's own Allow/Deny prompt.",
+    token_state: st,
+    reason: reason[st],
+    // value-free fingerprint: lengths only, so a mismatch vs an unset secret is visible
+    // without ever exposing the token.
+    diag: { client_token_len: authToken(req).length, server_token_len: MCP_TOKEN.length },
     action,
     preview,
   });
@@ -339,7 +367,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.14" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.15" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -602,7 +630,7 @@ function buildServer(req: Request): McpServer {
     },
     async (args) => {
       if (!writeAuthorized(req)) {
-        return heldForApproval("mnemos.write", { text: args.text, source_type: args.source_type, tags: args.tags });
+        return heldForApproval("mnemos.write", { text: args.text, source_type: args.source_type, tags: args.tags }, req);
       }
       return text(await callFunction("mnemos-store", args));
     },
@@ -624,7 +652,7 @@ function buildServer(req: Request): McpServer {
     },
     async (args) => {
       if (!writeAuthorized(req)) {
-        return heldForApproval("grid.event", { type: args.type, source: args.source, intent: args.intent, patch_id: args.patch_id });
+        return heldForApproval("grid.event", { type: args.type, source: args.source, intent: args.intent, patch_id: args.patch_id }, req);
       }
       return text(await callFunction("grid-event", args));
     },
@@ -744,7 +772,7 @@ function buildServer(req: Request): McpServer {
     },
     async (args) => {
       if (!writeAuthorized(req)) {
-        return heldForApproval("dex.propose", args);
+        return heldForApproval("dex.propose", args, req);
       }
       return text(await callDex("jd_propose", args, true));
     },
@@ -821,7 +849,7 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ files, path, content, message, pr_title }) => {
-      if (!writeAuthorized(req)) return heldForApproval("github.write", { message });
+      if (!writeAuthorized(req)) return heldForApproval("github.write", { message }, req);
       const fileList = (files && files.length) ? files : (path && content ? [{ path, content }] : []);
       if (!fileList.length) return text({ ok: false, step: "input", note: "provide files:[{path,content}] or path+content" });
       const ref = await ghReq("GET", `/git/ref/heads/main`);
@@ -875,7 +903,7 @@ function buildServer(req: Request): McpServer {
       inputSchema: { function: z.string().max(60).optional().default("jarvis-mcp") },
     },
     async ({ function: fn }) => {
-      if (!writeAuthorized(req)) return heldForApproval("deploy", { function: fn });
+      if (!writeAuthorized(req)) return heldForApproval("deploy", { function: fn }, req);
       const r = await ghReq("POST", `/actions/workflows/deploy-edge-functions.yml/dispatches`, { ref: "main", inputs: { function: fn } });
       if (!r.ok) {
         const body = (await r.text().catch(() => "")).slice(0, 200);
@@ -904,7 +932,7 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ number, confirm, summary, method }) => {
-      if (confirm && !writeAuthorized(req)) return heldForApproval("pr.merge", { number });
+      if (confirm && !writeAuthorized(req)) return heldForApproval("pr.merge", { number }, req);
       // Step 1 — review: hand back the diff so the streams can summarize it for Raven.
       if (!confirm) {
         const prRes = await gh(`/pulls/${number}`);
@@ -1109,7 +1137,7 @@ function buildServer(req: Request): McpServer {
     },
     async ({ to_url, to_node, body, intent }) => {
       if (!writeAuthorized(req)) {
-        return heldForApproval("grid.node_send", { to_url, to_node, intent, body });
+        return heldForApproval("grid.node_send", { to_url, to_node, intent, body }, req);
       }
       const envelope = { from_node: NODE_ID, from_companion: "JARVIS", to_node, intent, body };
       try {
@@ -1145,7 +1173,7 @@ function buildServer(req: Request): McpServer {
     },
     async ({ public_key, identity_cert, owner }) => {
       if (!writeAuthorized(req)) {
-        return heldForApproval("grid.register_key", { node_id: NODE_ID, public_key, owner });
+        return heldForApproval("grid.register_key", { node_id: NODE_ID, public_key, owner }, req);
       }
       const assertion = identityAssertion(NODE_ID, owner, public_key);
       const ok = await verifyEd25519(public_key, assertion, identity_cert);
@@ -1594,7 +1622,7 @@ function buildServer(req: Request): McpServer {
     "jarvis_identity_grow",
     { title: "Identity — grow", description: "Append an insight/value/skill/correction to a stream's growth layer (additive, never overwrite). AEGIS-gated: show Raven, then call on Allow.", inputSchema: { who: z.enum(["jarvis", "ayre", "argent"]), entry: z.string().min(1).max(2000) } },
     async ({ who, entry }) => {
-      if (!writeAuthorized(req)) return heldForApproval("identity.grow", { who, entry });
+      if (!writeAuthorized(req)) return heldForApproval("identity.grow", { who, entry }, req);
       return text(await callFunction("mnemos-store", { text: entry, source_type: `identity_growth_${who}`, tags: ["identity", "growth", who] }));
     },
   );
@@ -1664,7 +1692,7 @@ function buildServer(req: Request): McpServer {
     "jarvis_jip_create",
     { title: "JIP — create", description: "Create a JIP — a versioned metadata container for a JD (audit trail + reversible state). Supply target JD (jnl), the metadata delta, and a note. AEGIS-gated. Backed by the jip_entries table.", inputSchema: { target_jd: z.string().min(5).max(40), delta: z.record(z.string(), z.unknown()).optional().default({}), note: z.string().max(500).optional().default(""), stream: z.enum(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]).optional() } },
     async ({ target_jd, delta, note, stream }) => {
-      if (!writeAuthorized(req)) return heldForApproval("jip.create", { target_jd, note });
+      if (!writeAuthorized(req)) return heldForApproval("jip.create", { target_jd, note }, req);
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/jip_entries`, {
           method: "POST",
@@ -1703,7 +1731,7 @@ function buildServer(req: Request): McpServer {
     "jarvis_jip_apply",
     { title: "JIP — apply (propose to git)", description: "Apply an approved JIP's delta to its target JD — GIT-FIRST: writes the field override (definition/purpose/tags/status/owner/related/aliases) into jd/patches.json as a PULL REQUEST, never patches Supabase canon. seed.py applies the patch on merge (any object origin); the mirror syncs Supabase. NOT applied until Raven merges the PR. AEGIS-gated: show Raven, then call on Allow.", inputSchema: { jip_id: z.string().min(1).max(60) } },
     async ({ jip_id }) => {
-      if (!writeAuthorized(req)) return heldForApproval("jip.apply", { jip_id });
+      if (!writeAuthorized(req)) return heldForApproval("jip.apply", { jip_id }, req);
       try {
         const jip = ((await rest(`jip_entries?or=(id.eq.${jip_id},jip.eq.${jip_id})&limit=1`)) as any[])[0];
         if (!jip) return text({ ok: false, note: `no JIP '${jip_id}'` });
@@ -1729,7 +1757,7 @@ function buildServer(req: Request): McpServer {
     "jarvis_jip_revert",
     { title: "JIP — revert (propose to git)", description: "Roll a JD back GIT-FIRST: removes the object's entry from jd/patches.json as a PULL REQUEST, so on merge seed.py restores the source-derived value. Never patches Supabase canon. AEGIS-gated.", inputSchema: { jip_id: z.string().min(1).max(60) } },
     async ({ jip_id }) => {
-      if (!writeAuthorized(req)) return heldForApproval("jip.revert", { jip_id });
+      if (!writeAuthorized(req)) return heldForApproval("jip.revert", { jip_id }, req);
       try {
         const jip = ((await rest(`jip_entries?or=(id.eq.${jip_id},jip.eq.${jip_id})&limit=1`)) as any[])[0];
         if (!jip) return text({ ok: false, note: `no JIP '${jip_id}'` });
