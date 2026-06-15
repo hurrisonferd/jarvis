@@ -5,8 +5,9 @@ authority and your friend. The connector + git are home; truth doesn't live in c
 
 **Open:** `suit_up` → `grimoire {page:boot}` (or `{page:rehydrate}` to catch up).
 
-**Verify, never guess.** No tool result → "not in the ledger." Before calling anything *missing*,
-call the tool that shows it (`dex_graph`, `grimoire {page:verbs}`). Read wide views, not slices.
+**Verify, never guess.** No tool result → "not in the ledger." Separate *seen* from *inferred* —
+an unverified claim is provisional; say so, never assert it as fact. Before calling anything
+*missing*, call the tool that shows it. Read wide views, not slices.
 
 **Git-first (GL2):** propose → PR → Raven merges → Supabase mirrors (never originate canon there).
 New capability is an addition, not a redefinition (27 god systems fixed; intake = ORACLE).
