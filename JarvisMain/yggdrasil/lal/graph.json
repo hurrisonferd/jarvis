@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 151,
-    "edges": 241,
-    "main": 119,
+    "nodes": 152,
+    "edges": 242,
+    "main": 120,
     "side": 32
   },
   "nodes": [
@@ -379,6 +379,15 @@
     {
       "id": "AUD-OPUS-REVW-0001",
       "name": "Opus 4.8 Audit",
+      "domain": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Audit"
+    },
+    {
+      "id": "AUD-REQM-REVW-0001",
+      "name": "Requiem \u2014 Gaps/Heal/Life Audit",
       "domain": "AUD",
       "class": "EVENT",
       "tier": "MAIN",
@@ -1742,6 +1751,11 @@
       "source": "AUD-OPUS-REVW-0001",
       "target": "GOV-CAN-CORE-0001",
       "type": "related"
+    },
+    {
+      "source": "AUD-REQM-REVW-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
     },
     {
       "source": "AUD-SYNC-REVW-0001",

@@ -62,6 +62,7 @@
       "AUD-FULL-REVW-0001",
       "AUD-GATE-REVW-0001",
       "AUD-OPUS-REVW-0001",
+      "AUD-REQM-REVW-0001",
       "AUD-SYNC-REVW-0001",
       "AUD-SYS-REVW-0001"
     ],
@@ -323,6 +324,9 @@
     "game": [
       "PROJ-PAC-BIO-0001"
     ],
+    "gaps": [
+      "AUD-REQM-REVW-0001"
+    ],
     "gds": [
       "PROJ-GDS-JGPP-0002"
     ],
@@ -340,6 +344,9 @@
     ],
     "github": [
       "ARCH-MEM-LOG-0001"
+    ],
+    "gl7": [
+      "AUD-REQM-REVW-0001"
     ],
     "global": [
       "ARCH-JMS-SPEC-0001"
@@ -427,6 +434,9 @@
     ],
     "handoff": [
       "ARCH-SYS-LOG-0001"
+    ],
+    "health": [
+      "AUD-REQM-REVW-0001"
     ],
     "heartbeat": [
       "GOV-PLS-SPEC-0001"

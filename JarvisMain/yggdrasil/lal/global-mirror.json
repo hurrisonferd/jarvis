@@ -1,22 +1,22 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-15T13:29:33Z",
-    "generated_at_eastern": "2026-06-15 09:29 EDT",
-    "source_commit": "f5aa08c",
+    "generated_at_utc": "2026-06-15T13:53:47Z",
+    "generated_at_eastern": "2026-06-15 09:53 EDT",
+    "source_commit": "b7bf2c8",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 151,
+    "object_count": 152,
     "by_status": {
-      "ACTIVE": 126,
+      "ACTIVE": 127,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
     },
     "by_domain": {
       "ARCH": 37,
-      "AUD": 7,
+      "AUD": 8,
       "CONN": 21,
       "GOV": 12,
       "GS": 27,
@@ -26,7 +26,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 119,
+      "MAIN": 120,
       "SIDE": 32
     }
   },
@@ -2519,6 +2519,23 @@
         "governance",
         "aegis",
         "security"
+      ]
+    },
+    {
+      "jnl": "AUD-REQM-REVW-0001",
+      "jid": 153,
+      "jidd": "aud-8",
+      "name": "Requiem — Gaps/Heal/Life Audit",
+      "type": "REVW",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "GOV-CAN-CORE-0001",
+      "tags": [
+        "audit",
+        "health",
+        "gaps",
+        "gl7"
       ]
     }
   ]

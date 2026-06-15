@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 151,
+  "count": 152,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -535,6 +535,19 @@
       "tags": [
         "audit",
         "review"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Requiem \u2014 Gaps/Heal/Life Audit",
+      "jnl": "AUD-REQM-REVW-0001",
+      "location": "JarvisMain/Audit/requiem-gaps-heal-life-audit.md",
+      "tags": [
+        "audit",
+        "health",
+        "gaps",
+        "gl7"
       ],
       "anchors": [],
       "state": "active"
