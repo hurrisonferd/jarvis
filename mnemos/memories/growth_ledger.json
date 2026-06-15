@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T13:55:27.122484+00:00",
+  "updated": "2026-06-15T13:59:12.000568+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_032126",
-      "date": "2026-06-15",
-      "exchanges": 294,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`18a6b30..f24c65e`), tree clean. The Sync lens + divergence detector is the build that finishes Love Train \u2014 say the word when you want it."
-    },
-    {
-      "session_id": "20260615_073909",
-      "date": "2026-06-15",
-      "exchanges": 323,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Topology lens pushed (`d554e5f`) \u2014 proof of the thesis: the map existed, it just needed the query.\n\nNow the honest read on the post-audit plan you and"
-    },
     {
       "session_id": "20260615_073927",
       "date": "2026-06-15",
@@ -605,6 +545,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`45829d1`, fittingly PR #200). The Requiem audit is done \u2014 and it healed real things rather than adding any.\n\n**Soft & Wet (gaps):** `rollup.p"
+    },
+    {
+      "session_id": "20260615_135545",
+      "date": "2026-06-15",
+      "exchanges": 469,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`a6aee9b..8427891`), Requiem audit merged to main, validate GREEN at 152 objects.\n\nThe sweep healed the two things that actually mattered "
+    },
+    {
+      "session_id": "20260615_135912",
+      "date": "2026-06-15",
+      "exchanges": 473,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Both answered. First \u2014 the dormant gods, and this is a genuinely cool finding:\n\n**They're not empty \u2014 their *functions are already alive as tooling*. "
     }
   ]
 }
