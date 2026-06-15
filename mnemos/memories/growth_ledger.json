@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T13:59:12.000568+00:00",
+  "updated": "2026-06-15T14:05:38.727404+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_073927",
-      "date": "2026-06-15",
-      "exchanges": 324,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`d554e5f..f90f160`). Recap of where we landed this stretch: Sync lens merged (#190), the WasmBoy UMD bug fixed, and the Topology lens ship"
-    },
-    {
-      "session_id": "20260615_102406",
-      "date": "2026-06-15",
-      "exchanges": 339,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged to main (`8446d49`). The consolidation arc is now landed:\n\n**Live lenses in the grimoire (6):** Wiring, Health, Orphan, Sync, **Topology**, **M"
-    },
     {
       "session_id": "20260615_102421",
       "date": "2026-06-15",
@@ -607,6 +547,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Both answered. First \u2014 the dormant gods, and this is a genuinely cool finding:\n\n**They're not empty \u2014 their *functions are already alive as tooling*. "
+    },
+    {
+      "session_id": "20260615_135928",
+      "date": "2026-06-15",
+      "exchanges": 474,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`8427891..9698845`).\n\nRecap so you have it in one place: the dormant gods aren't idle \u2014 their roles are already being performed by tools w"
+    },
+    {
+      "session_id": "20260615_140538",
+      "date": "2026-06-15",
+      "exchanges": 482,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`1f60e3b`). Here's the honest read on what GPT sent back:\n\n**The test passed the part it ran:** the omni suit-up deployed and returned the bun"
     }
   ]
 }
