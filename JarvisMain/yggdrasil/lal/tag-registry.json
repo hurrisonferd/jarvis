@@ -58,6 +58,7 @@
       "AUD-CHK-SPEC-0001",
       "AUD-FULL-REVW-0001",
       "AUD-OPUS-REVW-0001",
+      "AUD-SYNC-REVW-0001",
       "AUD-SYS-REVW-0001"
     ],
     "authority": [
@@ -330,6 +331,9 @@
     "genesis": [
       "PROJ-GEN-BIO-0001"
     ],
+    "git-first": [
+      "AUD-SYNC-REVW-0001"
+    ],
     "github": [
       "ARCH-MEM-LOG-0001"
     ],
@@ -378,6 +382,7 @@
     ],
     "governance": [
       "ARCH-JRV-BIO-0003",
+      "AUD-SYNC-REVW-0001",
       "GOV-BRF-CORE-0001",
       "GOV-CAN-CORE-0001",
       "GOV-CHO-JD-0001",
@@ -868,7 +873,8 @@
     ],
     "sync": [
       "ARCH-JC-JIP-0001",
-      "ARCH-SL-JIP-0001"
+      "ARCH-SL-JIP-0001",
+      "AUD-SYNC-REVW-0001"
     ],
     "synthesis": [
       "ARCH-JRV-BIO-0001"

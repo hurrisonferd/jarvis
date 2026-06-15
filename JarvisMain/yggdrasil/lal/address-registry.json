@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 149,
+  "count": 150,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -894,6 +894,28 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "AUD-SYNC-REVW-0001",
+      "name": "TUSK Act 4 \u2014 Git/Supabase Sync Audit",
+      "type": "REVW",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "owner": "Audit",
+      "steward": null,
+      "parent": "GOV-CAN-CORE-0001",
+      "location": "JarvisMain/Audit/tusk-act4-sync-audit.md",
+      "tags": [
+        "audit",
+        "sync",
+        "governance",
+        "git-first"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-15",
+      "updated": "2026-06-15"
     },
     {
       "jnl": "AUD-SYS-REVW-0001",

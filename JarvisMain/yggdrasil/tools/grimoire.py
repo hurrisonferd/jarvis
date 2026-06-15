@@ -49,6 +49,7 @@ LENSES = [
     ("Topology",   "planned", "graph reality: hidden deps, accidental coupling",          "—"),
     ("Drift",      "planned", "evolution over snapshots: acceleration / decay zones",    "—"),
     ("Orphan",     "live",    "the debt as a worklist: a disposition proposal per orphan", "ORPHAN-LENS.md"),
+    ("Sync",       "live",    "git vs Supabase divergence — the cross-store alarm (Love Train)", "SYNC-LENS.md"),
     ("Intent",     "planned", "intent vs execution mismatch (did we build what we meant)", "—"),
     ("Resilience", "planned", "failure map: single points of failure, fragile deps",     "—"),
     ("Media",      "planned", "sensory layer: image/audio as addressable nodes",         "—"),
