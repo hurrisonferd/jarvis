@@ -6,12 +6,12 @@ tier: MAIN
 authority: CANON
 owner: Governance
 steward: 
-parent: 
+parent: GOV-CAN-CORE-0001
 jnl: GOV-KR-SPEC-0001
 seq: 135
 status: ACTIVE
 created: 2026-06-13
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md
 related: []
 references: []

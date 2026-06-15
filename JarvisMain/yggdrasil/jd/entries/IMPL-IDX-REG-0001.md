@@ -6,12 +6,12 @@ tier: MAIN
 authority: CANON
 owner: JCS Pipeline
 steward: 
-parent: 
+parent: ARCH-LAL-CORE-0001
 jnl: IMPL-IDX-REG-0001
 seq: 55
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisMain/Implementation/IndexSummary
 related: [ARCH-LAL-CORE-0001]
 references: []

@@ -1,0 +1,39 @@
+name: JARVIS — Ears (audio features)
+
+# Hands-free hearing. When a track lands on main, librosa extracts its musical bones —
+# tempo, key, energy, brightness, mood — and writes them to AUDIO-FEATURES.json + the
+# manifest's Audio section, so Jarvis/Ayre can READ the music (the connector can't hear an
+# mp3; this manufactures hearing by turning sound into words). workflow_dispatch backfills
+# the existing library on the first run. Cloud-first; soft-fails if anything's missing.
+on:
+  push:
+    branches: [main]
+    paths: ['JarvisSide/Media/audio/**', 'scripts/audio_ears.py']
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  ears:
+    name: JARVIS — hear the music
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install ffmpeg + librosa
+        run: |
+          sudo apt-get update && sudo apt-get install -y ffmpeg
+          python3 -m pip install --quiet librosa numpy soundfile audioread
+      - name: Listen
+        run: python3 scripts/audio_ears.py
+      - name: Commit features
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add JarvisSide/Media/AUDIO-FEATURES.json JarvisSide/Media/MEDIA-MANIFEST.md
+          git diff --staged --quiet || git commit -m "feat(ears): audio features from librosa [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped (protected/conflict)"

@@ -6,12 +6,12 @@ tier: SIDE
 authority: CANON
 owner: Project Log Summary
 steward: 
-parent: 
+parent: PROJ-IDX-REG-0001
 jnl: PROJ-ALL-LOG-0001
 seq: 59
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisSide/Projects/ProjectLogSummary-0001
 related: []
 references: []

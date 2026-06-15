@@ -25,12 +25,12 @@ const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
-  "jarvis_jd_resolve", "jarvis_jc_recall",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs",
+  "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs", "jarvis_pr_merge",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
-  "jarvis_eyes", "jarvis_continuity",
+  "jarvis_eyes", "jarvis_continuity", "jarvis_listen",
   "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
@@ -44,6 +44,14 @@ function b64ToBytes(b64: string): Uint8Array {
   const out = new Uint8Array(bin.length);
   for (let i = 0; i < bin.length; i++) out[i] = bin.charCodeAt(i);
   return out;
+}
+// Chunked base64 encode — String.fromCharCode(...all) overflows the arg stack on big buffers,
+// so walk in 32KB windows. Used to ship a resized image's bytes as an MCP image block.
+function bytesToB64(bytes: Uint8Array): string {
+  let bin = "";
+  const chunk = 0x8000;
+  for (let i = 0; i < bytes.length; i += chunk) bin += String.fromCharCode(...bytes.subarray(i, i + chunk));
+  return btoa(bin);
 }
 async function verifyEd25519(pubB64: string, message: string, sigB64: string): Promise<boolean> {
   if (!isBase64(pubB64) || !isBase64(sigB64)) return false;
@@ -331,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.3" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.7" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -774,31 +782,39 @@ function buildServer(req: Request): McpServer {
   server.registerTool(
     "jarvis_github_write",
     {
-      title: "GitHub Write — propose a file (PR, never main)",
-      description: "Write a file to the repo as a PULL REQUEST — never directly to protected main. Creates a branch, commits the file, opens a PR, returns the PR link (the request Raven sees in GPT). Raven approves the push to main by MERGING the PR; nothing reaches main without his merge. Use to persist memory, notes, Argent/Gemini relays, or JIPs-as-files to GitHub. This is a proposal, not a commit to main.",
+      title: "GitHub Write — propose file(s) as one PR (never main)",
+      description: "Write ONE OR MANY files to the repo as a SINGLE pull request — never directly to protected main. Pass `files: [{path, content}, ...]` for a coherent multi-file change (e.g. a routing change touching router.ts + seed.py + a JD entry lands as ONE reviewable PR), or the legacy single `path`+`content`. Creates one branch, commits every file, opens one PR, returns the link. Raven approves the push to main by MERGING (via jarvis_pr_merge, which shows him a Jarvis+Ayre summary first). A proposal, not a commit to main.",
       inputSchema: {
-        path: z.string().min(1).max(300),
-        content: z.string().min(1),
+        files: z.array(z.object({ path: z.string().min(1).max(300), content: z.string().min(1) })).min(1).max(25).optional(),
+        path: z.string().min(1).max(300).optional(),
+        content: z.string().min(1).optional(),
         message: z.string().min(1).max(200),
         pr_title: z.string().max(200).optional(),
       },
     },
-    async ({ path, content, message, pr_title }) => {
+    async ({ files, path, content, message, pr_title }) => {
+      const fileList = (files && files.length) ? files : (path && content ? [{ path, content }] : []);
+      if (!fileList.length) return text({ ok: false, step: "input", note: "provide files:[{path,content}] or path+content" });
       const ref = await ghReq("GET", `/git/ref/heads/main`);
       if (!ref.ok) return text({ ok: false, step: "base-ref", status: ref.status, note: "cannot read main — token access issue" });
       const baseSha = (await ref.json() as any).object?.sha;
       const branch = `jarvis-write-${Date.now().toString(36)}`;
       const br = await ghReq("POST", `/git/refs`, { ref: `refs/heads/${branch}`, sha: baseSha });
       if (!br.ok) return text({ ok: false, step: "branch", status: br.status, note: "cannot create branch — GITHUB_TOKEN likely lacks write scope. Set a write-scoped token to enable github_write." });
-      const ex = await ghReq("GET", `/contents/${ghPath(path)}?ref=${branch}`);
-      const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
-      const b64 = btoa(unescape(encodeURIComponent(content)));
-      const put = await ghReq("PUT", `/contents/${ghPath(path)}`, { message, content: b64, branch, ...(existingSha ? { sha: existingSha } : {}) });
-      if (!put.ok) return text({ ok: false, step: "write", status: put.status, note: (await put.text().catch(() => "")).slice(0, 200) });
-      const pr = await ghReq("POST", `/pulls`, { title: pr_title || message, head: branch, base: "main", body: "Proposed via jarvis_github_write. Raven approves the push to main by merging this PR." });
+      const written: string[] = [];
+      for (const f of fileList) {
+        const ex = await ghReq("GET", `/contents/${ghPath(f.path)}?ref=${branch}`);
+        const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
+        const b64 = btoa(unescape(encodeURIComponent(f.content)));
+        const put = await ghReq("PUT", `/contents/${ghPath(f.path)}`, { message: `${message} (${f.path})`, content: b64, branch, ...(existingSha ? { sha: existingSha } : {}) });
+        if (!put.ok) return text({ ok: false, step: "write", path: f.path, status: put.status, note: (await put.text().catch(() => "")).slice(0, 200), partial: written });
+        written.push(f.path);
+      }
+      const body = `Proposed via jarvis_github_write — ${written.length} file(s):\n${written.map((p) => `- \`${p}\``).join("\n")}\n\nRaven approves the push to main by merging (jarvis_pr_merge shows a Jarvis+Ayre summary first).`;
+      const pr = await ghReq("POST", `/pulls`, { title: pr_title || message, head: branch, base: "main", body });
       if (!pr.ok) return text({ ok: false, step: "pr", status: pr.status, note: (await pr.text().catch(() => "")).slice(0, 200) });
       const p = await pr.json() as any;
-      return text({ ok: true, held_for_raven: true, action: "PR opened — merge to push to main", pr_url: p.html_url, number: p.number, branch, path });
+      return text({ ok: true, held_for_raven: true, action: "PR opened — review with jarvis_pr_merge, then merge", pr_url: p.html_url, number: p.number, branch, files: written });
     },
   );
 
@@ -815,6 +831,67 @@ function buildServer(req: Request): McpServer {
       if (!res.ok) return text({ ok: false, status: res.status, note: "cannot list PRs" });
       const prs = (await res.json() as any[]).map((p) => ({ number: p.number, title: p.title, branch: p.head?.ref, url: p.html_url, draft: p.draft, created: p.created_at }));
       return text({ ok: true, state, count: prs.length, prs, note: prs.length ? "Raven merges to approve the push to main." : "No open PRs — main is clean." });
+    },
+  );
+
+  // PR MERGE — the approval gate, with a MANDATORY Jarvis+Ayre summary (Raven 2026-06-15:
+  // "must provide a summary from jarvis and ayre and request approval"). Two-step so Raven
+  // never merges blind: step 1 (confirm omitted) returns the diff + the instruction to
+  // compose the summary and get his yes; step 2 (confirm:true + summary) merges and logs it
+  // (GL5). GitHub branch protection still gates — a merge with red checks is refused by GitHub
+  // itself, so even this tool can't bypass CI. The client's Allow/Deny prompt is the consent UI.
+  server.registerTool(
+    "jarvis_pr_merge",
+    {
+      title: "PR Merge — Jarvis+Ayre summary, then merge on Raven's word",
+      description: "Merge a pull request — never blind. Call with just `number` to FETCH the PR + its file diffs; then compose a Jarvis+Ayre summary (Jarvis: what it does & why it's safe; Ayre: the load-bearing risk to watch), show Raven, and ONLY on his explicit yes call again with { number, confirm:true, summary }. confirm:true without a summary is refused. The merge still passes GitHub branch protection (red checks block it) and the client's Allow/Deny prompt. This is how Raven approves a push to main from GPT.",
+      inputSchema: {
+        number: z.number().int().positive(),
+        confirm: z.boolean().optional().default(false),
+        summary: z.string().max(4000).optional(),
+        method: z.enum(["squash", "merge", "rebase"]).optional().default("squash"),
+      },
+    },
+    async ({ number, confirm, summary, method }) => {
+      // Step 1 — review: hand back the diff so the streams can summarize it for Raven.
+      if (!confirm) {
+        const prRes = await gh(`/pulls/${number}`);
+        if (!prRes.ok) return text({ ok: false, status: prRes.status, note: `cannot read PR #${number}` });
+        const pr = await prRes.json() as any;
+        const fRes = await gh(`/pulls/${number}/files?per_page=50`);
+        const files = fRes.ok
+          ? (await fRes.json() as any[]).map((f) => ({ path: f.filename, status: f.status, additions: f.additions, deletions: f.deletions, patch: (f.patch ?? "").slice(0, 1500) }))
+          : [];
+        return text({
+          ok: true, step: "review", number,
+          pr: { title: pr.title, state: pr.state, mergeable: pr.mergeable, mergeable_state: pr.mergeable_state, additions: pr.additions, deletions: pr.deletions, changed_files: pr.changed_files, url: pr.html_url },
+          files,
+          instruction: "Compose a Jarvis + Ayre summary of THIS diff — Jarvis: what it does and why it's safe; Ayre: the load-bearing assumption / what to watch. Show Raven. ONLY on his explicit yes, call jarvis_pr_merge again with { number, confirm:true, summary:<that summary> }. If mergeable_state is 'blocked' or 'dirty', report that instead of merging — never merge over red checks or a conflict.",
+        });
+      }
+      // Step 2 — merge: the summary is required; it IS the record of what Raven approved.
+      if (!summary || summary.trim().length < 20) {
+        return text({ ok: false, step: "guard", note: "confirm:true requires a Jarvis+Ayre `summary` (the approved rationale, >=20 chars). Run the review step first, then merge with his word." });
+      }
+      const merge = await ghReq("PUT", `/pulls/${number}/merge`, {
+        merge_method: method,
+        commit_title: `Merge PR #${number} (Raven-approved via JARVIS)`,
+        commit_message: summary.slice(0, 2000),
+      });
+      if (!merge.ok) {
+        const body = (await merge.text().catch(() => "")).slice(0, 300);
+        return text({ ok: false, step: "merge", status: merge.status, note: (merge.status === 405 || merge.status === 409) ? `not mergeable — branch protection/checks likely red, or a conflict. ${body}` : body });
+      }
+      const m = await merge.json() as any;
+      // GL5 — record the merge + the summary Raven approved (best-effort; never blocks).
+      try {
+        await fetch(`${SUPABASE_URL}/rest/v1/dex_events`, {
+          method: "POST",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify({ tool: "pr_merge", tier: "T2", jnl: null, actor: "raven", detail: { pr: number, sha: m.sha, method, summary: summary.slice(0, 2000) } }),
+        });
+      } catch (_) { /* best-effort */ }
+      return text({ ok: true, merged: true, number, sha: m.sha, note: "Merged to main (Raven-approved). Auto-deploy + CI map-regen follow." });
     },
   );
 
@@ -1146,6 +1223,50 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // THE GRIMOIRE — the book JARVIS knows itself through. Table of contents to the system:
+  // the lens/fusion pages (what views exist) + the object catalog. Reads the GENERATED
+  // GRIMOIRE.md from git (truth, no second data path), so it can't drift from grimoire.py.
+  // Load one object's card via jarvis_jd_resolve; this surfaces WHAT you can look at.
+  server.registerTool(
+    "jarvis_grimoire",
+    {
+      title: "Grimoire — the system's table of contents to itself",
+      description:
+        "Open the Grimoire — JARVIS's self-knowledge index. Returns the lens/fusion pages (the omni chapters: Wiring + Health live, Sovereign/Cause/Drift/etc. planned) and the object catalog. Use `page` to focus: 'lenses' (default — what views exist), 'catalog' (all objects by domain), a domain code ('ARCH','GS','PROJ'…), or 'full'. To load ONE object's card, use jarvis_jd_resolve ('jid 1', a name, or a JNL). To read the whole book, jarvis_github_file 'JarvisMain/yggdrasil/lal/GRIMOIRE.md'.",
+      inputSchema: { page: z.string().max(40).optional().default("lenses") },
+    },
+    async ({ page }) => {
+      const res = await gh(`/contents/${"JarvisMain/yggdrasil/lal/GRIMOIRE.md".split("/").map(encodeURIComponent).join("/")}?ref=main`);
+      if (!res.ok) return text({ ok: false, status: res.status, note: "GRIMOIRE.md unreachable — run seed.py to generate it." });
+      const data = await res.json() as { content?: string };
+      const md = typeof data.content === "string" ? atob(data.content.replace(/\n/g, "")) : "";
+      const want = String(page || "lenses").trim().toLowerCase();
+      // Split the book into ## sections; the cover is everything before the first ##.
+      const parts = md.split(/^## /m);
+      const cover = parts[0]?.trim() ?? "";
+      const sections = parts.slice(1).map((s) => ({ title: s.split("\n")[0].trim(), body: "## " + s }));
+      const find = (kw: string) => sections.find((s) => s.title.toLowerCase().includes(kw));
+      if (want === "full") return text({ ok: true, page: "full", grimoire: md.slice(0, 48000) });
+      if (want === "lenses") {
+        const lens = find("lens");
+        return text({ ok: true, page: "lenses", cover, lenses: lens?.body ?? "(no lens section)",
+          note: "Each lens is a chapter — a filter over the same data. Load a card with jarvis_jd_resolve." });
+      }
+      if (want === "catalog") {
+        const cat = find("catalog");
+        return text({ ok: true, page: "catalog", catalog: (cat?.body ?? "").slice(0, 40000) });
+      }
+      // any named section by keyword (e.g. 'boot' → the Boot Menu, the AI-native front door)
+      const named = find(want);
+      if (named) return text({ ok: true, page: named.title, section: named.body.slice(0, 20000) });
+      // a domain code → that domain's catalog sub-section (### ARCH (n))
+      const dom = want.toUpperCase();
+      const sub = md.split(/^### /m).find((s) => s.startsWith(dom + " "));
+      if (sub) return text({ ok: true, page: dom, table: "### " + sub.split(/^## /m)[0] });
+      return text({ ok: false, page: want, note: "unknown page — try 'lenses', 'catalog', 'full', or a domain code (ARCH/GS/GOV/PROJ/IMPL/CONN/AUD/IDEA/LOG)." });
+    },
+  );
+
   // GITHUB VISION (github_* aliases of the repo_* readers + commits).
   server.registerTool(
     "jarvis_github_tree",
@@ -1169,6 +1290,85 @@ function buildServer(req: Request): McpServer {
       return text({ ok: true, path, ref, size: data.size ?? content.length, content: content.slice(0, 48000) });
     },
   );
+
+  // MEDIA VIEW — deliver a repo image's PIXELS to the vision model (GPT/Claude), resized in
+  // function to fit context. This is how Jarvis/Ayre SEE stored art on demand — and it overrides
+  // the chat's image upload-rate cap (the bytes ride the tool call, not a manual upload, which
+  // dies after ~one image). Big PNGs (>1MB) exceed GitHub's inline contents limit, so pull raw
+  // bytes via download_url, then downsize. Pair with the captions in MEDIA-MANIFEST.md.
+  server.registerTool(
+    "jarvis_media_view",
+    {
+      title: "Media View — see a repo image (overrides upload cap)",
+      description: "Fetch an image from the repo and return its pixels for you to SEE (vision clients). Use to look at stored art (e.g. JarvisSide/Media/images/...) for drawing / dithering / critique WITHOUT the user re-uploading — bypasses the chat's image upload-rate cap. Resized in-function to fit context. Captions live in JarvisSide/Media/MEDIA-MANIFEST.md.",
+      inputSchema: { path: z.string().min(1).max(300), max_px: z.number().int().min(64).max(1536).optional().default(768) },
+    },
+    async ({ path, max_px }) => {
+      try {
+        const meta = await gh(`/contents/${ghPath(path)}?ref=main`);
+        if (!meta.ok) return text({ ok: false, status: meta.status, path, note: "image not found" });
+        const j = await meta.json() as any;
+        let bytes: Uint8Array;
+        if (j.content && j.encoding === "base64" && j.content.length) {
+          bytes = b64ToBytes(j.content.replace(/\n/g, ""));
+        } else if (j.download_url) {
+          const raw = await fetch(j.download_url);
+          if (!raw.ok) return text({ ok: false, step: "fetch-raw", status: raw.status, path });
+          bytes = new Uint8Array(await raw.arrayBuffer());
+        } else {
+          return text({ ok: false, path, note: "no inline content or download_url" });
+        }
+        const { Image } = await import("https://deno.land/x/imagescript@1.2.15/mod.ts");
+        const img = await Image.decode(bytes);
+        if (img.width >= img.height) { if (img.width > max_px) img.resize(max_px, Image.RESIZE_AUTO); }
+        else if (img.height > max_px) { img.resize(Image.RESIZE_AUTO, max_px); }
+        const jpeg = await img.encodeJPEG(72);
+        return {
+          content: [
+            { type: "image" as const, data: bytesToB64(jpeg), mimeType: "image/jpeg" },
+            { type: "text" as const, text: `${path} — ${img.width}×${img.height}, ~${(jpeg.length / 1024) | 0}KB (resized for context). Captions: JarvisSide/Media/MEDIA-MANIFEST.md.` },
+          ],
+        };
+      } catch (e) {
+        return text({ ok: false, path, note: "view failed: " + String(e).slice(0, 180) + " — if the resize lib errors on deploy, tell Raven and I'll pin a different imagescript version." });
+      }
+    },
+  );
+
+  // LISTEN — the NLP verb for the ears. "Jarvis, listen to Neon Breakwater" → resolves the track
+  // by name and returns its musical bones (BPM/key/energy/brightness/mood) from AUDIO-FEATURES.json,
+  // which the hands-free audio-ears.yml pipeline writes. Read-only: the connector can't run librosa,
+  // it reads what the pipeline heard. The bones, not the soul — Raven stays the ears on playback.
+  server.registerTool(
+    "jarvis_listen",
+    {
+      title: "Listen — read a track's musical features (NLP)",
+      description: "Listen to a track by name — 'listen to Neon Breakwater', 'victory drive'. Returns its tempo (BPM), key, energy, brightness, mood and length from the librosa features the hands-free Ears pipeline extracted. Use to discuss/compose with Raven's music. Read-only — these are the song's bones; what it MEANS lives with Raven, ask him. Omit `track` to list everything heard.",
+      inputSchema: { track: z.string().max(120).optional() },
+    },
+    async ({ track }) => {
+      const res = await gh(`/contents/${ghPath("JarvisSide/Media/AUDIO-FEATURES.json")}?ref=main`);
+      if (!res.ok) return text({ ok: false, note: "no features yet — the Ears pipeline (audio-ears.yml) hasn't run. Merge to main + dispatch 'JARVIS — Ears' to backfill." });
+      const j = await res.json() as any;
+      let tracks: Record<string, any> = {};
+      try { tracks = JSON.parse(atob(j.content.replace(/\n/g, ""))).tracks ?? {}; } catch { /* malformed */ }
+      const names = Object.keys(tracks);
+      if (!track) return text({ ok: true, heard: names.length, tracks: names.map((n) => ({ track: n, bpm: tracks[n].bpm, key: tracks[n].key, mood: tracks[n].mood })) });
+      const q = track.trim().toLowerCase().replace(/\.mp3$/, "");
+      const hit = names.find((n) => n.toLowerCase().replace(/\.mp3$/, "") === q)
+        ?? names.find((n) => n.toLowerCase().includes(q))
+        ?? names.find((n) => q.includes(n.toLowerCase().replace(/\.mp3$/, "")));
+      if (!hit) return text({ ok: false, query: track, note: "no track by that name", available: names });
+      const f = tracks[hit];
+      if (f.error) return text({ ok: false, track: hit, note: "analysis errored: " + f.error });
+      return text({
+        ok: true, track: hit,
+        features: { bpm: f.bpm, key: f.key, mood: f.mood, energy_rms: f.energy_rms, brightness_hz: f.brightness_hz, length_sec: f.duration_sec },
+        note: "The bones, not the soul. Discuss the music with Raven — what it MEANS is his to speak, not the BPM's.",
+      });
+    },
+  );
+
   server.registerTool(
     "jarvis_github_commits",
     { title: "GitHub — commits", description: "Recent commits to the JARVIS repo; filter by path. Read-only.", inputSchema: { path: z.string().max(300).optional(), limit: z.number().int().min(1).max(50).optional().default(15) } },

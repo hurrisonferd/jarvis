@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 148,
+  "count": 149,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1635,6 +1635,18 @@
         "project",
         "grid",
         "federation"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Projects Registry",
+      "jnl": "PROJ-IDX-REG-0001",
+      "location": "JarvisSide/Projects",
+      "tags": [
+        "projects",
+        "index",
+        "root"
       ],
       "anchors": [],
       "state": "active"

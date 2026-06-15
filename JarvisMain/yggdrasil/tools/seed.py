@@ -215,6 +215,10 @@ KNOWLEDGE = [
     ("AUD-CHK-SPEC-0001", "Required Checks Setup", "AUD", "JarvisMain/Audit/required-checks-setup.md",
      "Branch-protection / required-checks setup notes.", "Record the CI gate configuration.",
      ["audit", "ci"]),
+    ("PROJ-IDX-REG-0001", "Projects Registry", "PROJ", "JarvisSide/Projects",
+     "The Projects index — the root every project node (BIO) hangs from.",
+     "Give the SIDE-tier project family one parent so no project orphans (Raven 2026-06-15).",
+     ["projects", "index", "root"]),
     ("PROJ-ALL-LOG-0001", "Project Log Summary", "PROJ", "JarvisSide/Projects/ProjectLogSummary-0001",
      "Cross-project log summary.", "Track activity across project nodes.",
      ["project", "log"]),
@@ -453,6 +457,23 @@ PARENT = {
     "CONN-DEX-SPEC-0001": "IMPL-DEX-SPEC-0001",
     "GOV-DEX-SPEC-0001": "ARCH-JD-CORE-0001",
     "LOG-MNE-LOG-0001": "GS-MNE-CORE-0001",
+    # Orphan prune (Raven-verdicted 2026-06-15, from the Orphan lens) — attach the
+    # unambiguous ones; JNLs never move (JMS). Projects get one root: PROJ-IDX-REG-0001.
+    "PROJ-IDX-REG-0001": "ARCH-YGG-CORE-0001",
+    "PROJ-ALL-LOG-0001": "PROJ-IDX-REG-0001",
+    "ARCH-JMS-SPEC-0001": "ARCH-JMS-CORE-0001",
+    "GOV-CHO-JD-0001": "GOV-CAN-CORE-0001",
+    "GOV-GSC-SPEC-0001": "GOV-CAN-CORE-0001",
+    "GOV-KR-SPEC-0001": "GOV-CAN-CORE-0001",
+    "GOV-LC-SPEC-0001": "GOV-CAN-CORE-0001",
+    "GOV-PD-SPEC-0001": "GOV-CAN-CORE-0001",
+    "GOV-PLS-SPEC-0001": "GOV-CAN-CORE-0001",
+    "IMPL-IDX-REG-0001": "ARCH-LAL-CORE-0001",
+    "IMPL-JIP-SPEC-0608": "IMPL-IDX-REG-0001",
+    "IMPL-IMP-LOG-0001": "IMPL-IDX-REG-0001",
+    "IMPL-INA-LOG-0001": "IMPL-IDX-REG-0001",
+    "IMPL-TLR-SPEC-0001": "CONN-MSB-CORE-0001",
+    "CONN-OTH-LOG-0001": "CONN-MSB-CORE-0001",
     "ARCH-SYS-SPEC-0001": "ARCH-YGG-CORE-0001",
     "ARCH-SYS-LOG-0001": "ARCH-SYS-SPEC-0001",
     "ARCH-JRV-BIO-0001": "ARCH-YGG-CORE-0001",
@@ -494,6 +515,9 @@ def derive_parent(jnl: str, explicit: str = "") -> str:
         return GS_PARENT
     if parts[0] == "PROJ" and len(parts) >= 4 and parts[2] in ("JGPP", "JIP", "JD"):
         return f"PROJ-{parts[1]}-BIO-0001"
+    # Project nodes (BIOs) hang from the Projects Registry (Raven 2026-06-15 orphan prune).
+    if parts[0] == "PROJ" and len(parts) >= 4 and parts[2] == "BIO":
+        return "PROJ-IDX-REG-0001"
     return ""
 
 
@@ -960,6 +984,23 @@ def main() -> None:
         _health.main()
     except Exception as e:  # never block the seed on the report
         print(f"(health report skipped: {e})")
+
+    # Orphan lens (Raven 2026-06-15): the conscience chapter — turns the orphan debt into a
+    # disposition worklist (proposals only, GL2). Runs before the grimoire so the book marks it live.
+    try:
+        import orphan_lens as _orph
+        _orph.main()
+    except Exception as e:  # never block the seed on the lens
+        print(f"(orphan-lens skipped: {e})")
+
+    # Grimoire (Raven 2026-06-15: "a system that knows itself"): the book JARVIS reads
+    # itself through — catalog + lens pages + summonable JID cards, projected from the JD
+    # entries + graph so it can never claim a thing missing that exists, or vice-versa.
+    try:
+        import grimoire as _grim
+        _grim.main()
+    except Exception as e:  # never block the seed on the grimoire
+        print(f"(grimoire skipped: {e})")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 # Wiring Map — how Jarvis, Ayre, and the god systems connect
 
-_generated: 2026-06-14T16:43:13Z (2026-06-14 12:43 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
+_generated: 2026-06-15T02:43:38Z (2026-06-14 22:43 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
 
 Read at session start (after `suit_up` / `identity_read`). This is the route guide:
 what tends what, what runs in what order, which tool wakes which god.
@@ -44,12 +44,15 @@ ODIN routes; it does not route *alone*. The streams pre-process intent so ODIN d
 | gate / approve | **AEGIS** | `jarvis_remember`, `jarvis_event`, `jarvis_dex_propose`, `jarvis_node_register_key` |
 | route / dispatch | **ODIN** | `jarvis_dex_list`, `jarvis_github_tree`, `jarvis_repo_tree`, `jarvis_db_inspect` |
 | execute / commit | **SKADI** | `jarvis_event`, `jarvis_jip_create`, `jarvis_jip_apply`, `jarvis_node_send` |
+| propose / approve-merge | **AEGIS** | `jarvis_github_write`, `jarvis_prs`, `jarvis_pr_merge` |
 | memory / recall | **MNEMOS** | `jarvis_remember`, `jarvis_recall`, `jarvis_identity_read`, `jarvis_identity_grow` |
 | synthesis / mirror | **HUGINN** | `jarvis_timeline`, `jarvis_dex_graph`, `jarvis_dex_events`, `jarvis_omnivision` |
+| self-knowledge | **HUGINN** | `jarvis_grimoire`, `jarvis_jd_resolve`, `jarvis_eyes` |
 | monitor / health | **HALO** | `jarvis_halo`, `jarvis_status`, `jarvis_suit_up`, `jarvis_now` |
 | rollback | **LOKI** | `jarvis_jip_revert` |
 | relay / grid | **BIFROST** | `jarvis_node_send`, `jarvis_node_inbox`, `jarvis_node_card` |
 | infra / storage | **ATLAS** | `jarvis_db_read`, `jarvis_db_schema`, `jarvis_github_file`, `jarvis_repo_read` |
+| media / perception | **IRIS** | `jarvis_media_view`, `jarvis_listen` |
 
 ## Truth & home
 - **JD (Jarvis Dictionary)** = the one registry; *the Dex* is its nickname. Truth in `yggdrasil/jd/entries`.

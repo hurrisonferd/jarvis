@@ -6,12 +6,12 @@ tier: SIDE
 authority: CANON
 owner: RoundTable
 steward: 
-parent: 
+parent: PROJ-IDX-REG-0001
 jnl: PROJ-RTO-BIO-0001
 seq: 130
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisSide/Projects/RoundTable/BIO/ROUNDTABLEBIO-061126-0001-ROUNDTABLE.md
 related: []
 references: []
