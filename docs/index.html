@@ -801,19 +801,19 @@ function rEmulator(){
       <div class="dl">TYPE</div><div class="dv" style="color:var(--amber)">${label}</div>
       <div class="dl">ENGINE</div><div class="dv" style="color:var(--amber)">PRESS A TO LAUNCH</div>`;
   } else {
-    // P06: RetroArch is the engine. A launches the self-hosted player in a full-window overlay;
-    // it loads ROMs locally (IDBFS) and carries its own cores + save states.
-    body=`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">RETROARCH ENGINE</div>
-      <div style="color:var(--bright);font-size:6px;line-height:2">PRESS A TO LAUNCH</div>
-      <div style="color:var(--dim);font-size:5px;margin-top:8px;line-height:2">CORES: GB · GBC · GBA · &amp; MORE</div>
-      <div style="color:var(--dim);font-size:5px;line-height:2">ROMS LOAD LOCALLY (NEVER UPLOADED)</div>
-      <div style="color:var(--dim);font-size:5px;line-height:2">SAVE STATES PERSIST IN BROWSER</div>`;
+    // P06: WasmBoy (GB/GBC) + mGBA (GBA) load a ROM directly — works today, no bundle. A opens
+    // the file picker; START launches RetroArch when its bundle is vendored into docs/retroarch/player/.
+    body=`<div style="color:var(--dim);font-size:6px;line-height:2.2;padding:4px 0">EMULATOR READY</div>
+      <div style="color:var(--bright);font-size:6px;line-height:2">PRESS A TO LOAD ROM</div>
+      <div style="color:var(--dim);font-size:5px;margin-top:8px;line-height:2">ACCEPTS: .gb · .gbc · .gba</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">LOADS LOCALLY (NEVER UPLOADED)</div>
+      <div style="color:var(--dim);font-size:5px;line-height:2">START: RETROARCH (when installed)</div>`;
   }
   const stCol=emuState==='running'?'var(--green)':emuState==='failed'||emuState==='coi'?'var(--red)':'var(--amber)';
   let footer;
   if(emuState==='running') footer='&#9650;&#9660;:UP/DN &nbsp; A:A &nbsp; B:B &nbsp; F5:SAVE &nbsp; F9:LOAD';
   else if(CartridgeCore.active) footer='A:LAUNCH &nbsp; B:STOP+BACK';
-  else footer='A:LAUNCH RETROARCH &nbsp; B:BACK';
+  else footer='A:LOAD ROM &nbsp; START:RETROARCH &nbsp; B:BACK';
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--green)">EMULATOR</span><span style="color:${stCol}">${emuState.toUpperCase()}</span></div>
     <div class="s-body scroll" style="padding-top:8px">${body}</div>
@@ -2227,7 +2227,7 @@ function ok(){
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
-  if(S==='emu'){ openRetroArch(); return; }
+  if(S==='emu'){ const inp=document.getElementById('rom-input'); if(inp) inp.click(); return; }
 }
 
 function back(){
@@ -2251,6 +2251,7 @@ function back(){
 
 function start(){
   if(emuState==='running'&&activeCore){ activeCore.setInput({START:true}); setTimeout(()=>activeCore.setInput({START:false}),80); return; }
+  if(S==='emu'){ openRetroArch(); return; }   // START launches RetroArch when its bundle is installed
   beep(660,80); S='menu'; cur=0; draw();
 }
 
