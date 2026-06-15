@@ -6,12 +6,12 @@ tier: MAIN
 authority: CANON
 owner: Governance
 steward: 
-parent: 
+parent: GOV-CAN-CORE-0001
 jnl: GOV-CHO-JD-0001
 seq: 131
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisMain/Implementation/active/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md
 related: []
 references: []

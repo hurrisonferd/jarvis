@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-14T21:48:41Z",
-    "generated_at_eastern": "2026-06-14 17:48 EDT",
-    "source_commit": "8670403",
+    "generated_at_utc": "2026-06-15T01:53:13Z",
+    "generated_at_eastern": "2026-06-14 21:53 EDT",
+    "source_commit": "3b20043",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 148,
+    "object_count": 149,
     "by_status": {
-      "ACTIVE": 123,
+      "ACTIVE": 124,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
@@ -23,11 +23,11 @@
       "IDEA": 3,
       "IMPL": 15,
       "LOG": 2,
-      "PROJ": 26
+      "PROJ": 27
     },
     "by_tier": {
       "MAIN": 117,
-      "SIDE": 31
+      "SIDE": 32
     }
   },
   "objects": [
@@ -851,7 +851,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "IMPL-IDX-REG-0001",
       "tags": [
         "implementation",
         "jip"
@@ -866,7 +866,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "IMPL-IDX-REG-0001",
       "tags": [
         "implementation",
         "log"
@@ -881,7 +881,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "IMPL-IDX-REG-0001",
       "tags": [
         "implementation",
         "log"
@@ -896,7 +896,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "ARCH-LAL-CORE-0001",
       "tags": [
         "implementation",
         "index"
@@ -957,7 +957,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "log"
@@ -972,7 +972,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "codeos"
@@ -987,7 +987,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "jpl"
@@ -1002,7 +1002,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "genesis"
@@ -1017,7 +1017,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "deoxys"
@@ -1032,7 +1032,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "legion"
@@ -1047,7 +1047,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "naruto"
@@ -1062,7 +1062,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "pachinko",
@@ -1094,7 +1094,7 @@
       "class": "MODULE",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "CONN-MSB-CORE-0001",
       "tags": [
         "connector"
       ]
@@ -1651,7 +1651,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project",
         "grid",
@@ -1735,7 +1735,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project"
       ]
@@ -1800,7 +1800,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project"
       ]
@@ -1852,7 +1852,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project"
       ]
@@ -1866,7 +1866,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project"
       ]
@@ -1880,7 +1880,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project"
       ]
@@ -1955,7 +1955,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project"
       ]
@@ -2068,7 +2068,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "tags": [
         "governance",
         "layers",
@@ -2121,7 +2121,7 @@
       "class": "SYSTEM",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "tags": [
         "project"
       ]
@@ -2135,7 +2135,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "tags": [
         "chorus",
         "council",
@@ -2154,7 +2154,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "tags": [
         "governance",
         "contradiction",
@@ -2190,7 +2190,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "tags": [
         "governance",
         "charter",
@@ -2210,7 +2210,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "tags": [
         "knowledge",
         "routing",
@@ -2247,7 +2247,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "tags": [
         "pulse",
         "heartbeat",
@@ -2270,7 +2270,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "ARCH-JMS-CORE-0001",
       "tags": [
         "jms",
         "mirror",
@@ -2291,7 +2291,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "CONN-MSB-CORE-0001",
       "tags": [
         "mcp",
         "tools",
@@ -2469,6 +2469,22 @@
         "milestone",
         "jarvis-c",
         "ayre-c"
+      ]
+    },
+    {
+      "jnl": "PROJ-IDX-REG-0001",
+      "jid": 150,
+      "jidd": "proj-27",
+      "name": "Projects Registry",
+      "type": "REG",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "projects",
+        "index",
+        "root"
       ]
     }
   ]

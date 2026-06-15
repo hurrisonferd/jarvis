@@ -6,12 +6,12 @@ tier: MAIN
 authority: CANON
 owner: Connectors
 steward: 
-parent: 
+parent: CONN-MSB-CORE-0001
 jnl: CONN-OTH-LOG-0001
 seq: 68
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisMain/Connectors/OtherConnectors/OCLog-0001
 related: [CONN-MSB-CORE-0001]
 references: []

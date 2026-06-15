@@ -1,63 +1,26 @@
 # JD Health — vitality of the governed record
 
-_148 governed objects, 194 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._
+_149 governed objects, 194 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._
 
-## Orphans (no parent — should join the family tree) (43)
+## Orphans (no parent — should join the family tree) (14)
 - ARCH-FAM-IDX-0001
 - ARCH-GS-IDX-0001
-- ARCH-JMS-SPEC-0001
 - AUD-CHK-SPEC-0001
 - AUD-COMP-REVW-0001
 - AUD-FULL-REVW-0001
 - AUD-OPUS-REVW-0001
 - AUD-SYS-REVW-0001
 - CONN-MSB-CORE-0001
-- CONN-OTH-LOG-0001
 - GOV-CAN-CORE-0001
-- GOV-CHO-JD-0001
-- GOV-GSC-SPEC-0001
-- GOV-KR-SPEC-0001
-- GOV-LC-SPEC-0001
-- GOV-PD-SPEC-0001
-- GOV-PLS-SPEC-0001
 - IDEA-PAN-INS-0001
 - IDEA-UNUS-LOG-0001
 - IDEA-USED-LOG-0001
 - IMPL-HYG-SPEC-0001
-- IMPL-IDX-REG-0001
-- IMPL-IMP-LOG-0001
-- IMPL-INA-LOG-0001
-- IMPL-JIP-SPEC-0608
-- IMPL-TLR-SPEC-0001
 - LOG-MED-LOG-0001
-- PROJ-ALL-LOG-0001
-- PROJ-COS-BIO-0001
-- PROJ-DEO-BIO-0001
-- PROJ-GDS-BIO-0001
-- PROJ-GEN-BIO-0001
-- PROJ-GRD-BIO-0001
-- PROJ-JPL-BIO-0001
-- PROJ-LEG-BIO-0001
-- PROJ-MMOD-BIO-0001
-- PROJ-MOSC-BIO-0001
-- PROJ-NAR-BIO-0001
-- PROJ-NMX-BIO-0001
-- PROJ-PAC-BIO-0001
-- PROJ-RTO-BIO-0001
-- PROJ-TRN-BIO-0001
-- PROJ-TST-BIO-0001
 
-## Isolated (no parent, nothing references them — dead-ends) (11)
+## Isolated (no parent, nothing references them — dead-ends) (3)
 - ARCH-FAM-IDX-0001
-- ARCH-JMS-SPEC-0001
-- GOV-CHO-JD-0001
-- GOV-GSC-SPEC-0001
-- GOV-KR-SPEC-0001
-- GOV-LC-SPEC-0001
-- GOV-PD-SPEC-0001
-- GOV-PLS-SPEC-0001
 - IDEA-PAN-INS-0001
-- IMPL-TLR-SPEC-0001
 - LOG-MED-LOG-0001
 
 ## Ruleless JIPs (a rule attached to nothing) (0)
@@ -86,4 +49,4 @@ _148 governed objects, 194 edges · health WARNS, never blocks (validate.py is t
 - `PROJ-TRN-JGPP-0001` UI Rework — outdated GameBoy page and the control surface
 - `PROJ-TST-JGPP-0001` JarvisTST — Temporal Task System
 
-**VITALITY:** 54 structural flag(s) + 18 open task(s).
+**VITALITY:** 17 structural flag(s) + 18 open task(s).

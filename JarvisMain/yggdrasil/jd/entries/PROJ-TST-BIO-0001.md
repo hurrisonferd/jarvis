@@ -6,12 +6,12 @@ tier: SIDE
 authority: CANON
 owner: JarvisTST
 steward: 
-parent: 
+parent: PROJ-IDX-REG-0001
 jnl: PROJ-TST-BIO-0001
 seq: 115
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisSide/Projects/JarvisTST/BIO/JARVISTSTBIO-061026-0001-JARVISTST.md
 related: []
 references: []

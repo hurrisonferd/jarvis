@@ -6,12 +6,12 @@ tier: SIDE
 authority: CANON
 owner: GDS
 steward: 
-parent: 
+parent: PROJ-IDX-REG-0001
 jnl: PROJ-GDS-BIO-0001
 seq: 121
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisSide/Projects/GDS/BIO/GDSBIO-061126-0001-GDS.md
 related: []
 references: []

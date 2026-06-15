@@ -6,12 +6,12 @@ tier: SIDE
 authority: CANON
 owner: Multimodal
 steward: 
-parent: 
+parent: PROJ-IDX-REG-0001
 jnl: PROJ-MMOD-BIO-0001
 seq: 116
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisSide/Projects/Multimodal/BIO/MULTIMODALBIO-061026-0001-MULTIMODAL.md
 related: []
 references: []

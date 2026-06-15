@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 148,
+  "count": 149,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -355,7 +355,7 @@
       "tier": "MAIN",
       "owner": "JFS",
       "steward": null,
-      "parent": "",
+      "parent": "ARCH-JMS-CORE-0001",
       "location": "JarvisMain/Implementation/task/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
       "tags": [
         "jms",
@@ -371,7 +371,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "ARCH-JNL-CORE-0001",
@@ -1345,7 +1345,7 @@
       "tier": "MAIN",
       "owner": "Connectors",
       "steward": null,
-      "parent": "",
+      "parent": "CONN-MSB-CORE-0001",
       "location": "JarvisMain/Connectors/OtherConnectors/OCLog-0001",
       "tags": [
         "connector"
@@ -1354,7 +1354,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "GOV-BRF-CORE-0001",
@@ -1404,7 +1404,7 @@
       "tier": "MAIN",
       "owner": "Governance",
       "steward": null,
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Implementation/active/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
       "tags": [
         "chorus",
@@ -1418,7 +1418,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "GOV-CON-CORE-0001",
@@ -1471,7 +1471,7 @@
       "tier": "MAIN",
       "owner": "Governance",
       "steward": null,
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
       "tags": [
         "governance",
@@ -1486,7 +1486,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "GOV-KR-SPEC-0001",
@@ -1496,7 +1496,7 @@
       "tier": "MAIN",
       "owner": "Governance",
       "steward": null,
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
       "tags": [
         "knowledge",
@@ -1510,7 +1510,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "GOV-LC-SPEC-0001",
@@ -1520,7 +1520,7 @@
       "tier": "MAIN",
       "owner": "Governance",
       "steward": null,
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
       "tags": [
         "governance",
@@ -1533,7 +1533,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "GOV-PAT-REG-0001",
@@ -1564,7 +1564,7 @@
       "tier": "MAIN",
       "owner": "Governance",
       "steward": null,
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
       "tags": [
         "governance",
@@ -1577,7 +1577,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "GOV-PLS-SPEC-0001",
@@ -1587,7 +1587,7 @@
       "tier": "MAIN",
       "owner": "Governance",
       "steward": null,
-      "parent": "",
+      "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Implementation/task/GOVPLSSPEC-061326-0001-THE-PULSE.md",
       "tags": [
         "pulse",
@@ -1605,7 +1605,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "GOV-PROC-CORE-0001",
@@ -2333,7 +2333,7 @@
       "tier": "MAIN",
       "owner": "JCS Pipeline",
       "steward": null,
-      "parent": "",
+      "parent": "ARCH-LAL-CORE-0001",
       "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
@@ -2343,7 +2343,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "IMPL-IMP-LOG-0001",
@@ -2353,7 +2353,7 @@
       "tier": "MAIN",
       "owner": "JCS Pipeline",
       "steward": null,
-      "parent": "",
+      "parent": "IMPL-IDX-REG-0001",
       "location": "JarvisMain/Implementation/Implemented",
       "tags": [
         "implementation",
@@ -2363,7 +2363,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "IMPL-INA-LOG-0001",
@@ -2373,7 +2373,7 @@
       "tier": "MAIN",
       "owner": "JCS Pipeline",
       "steward": null,
-      "parent": "",
+      "parent": "IMPL-IDX-REG-0001",
       "location": "JarvisMain/Implementation/Inactive",
       "tags": [
         "implementation",
@@ -2383,7 +2383,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "IMPL-JCS-CORE-0001",
@@ -2519,7 +2519,7 @@
       "tier": "MAIN",
       "owner": "JCS Pipeline",
       "steward": null,
-      "parent": "",
+      "parent": "IMPL-IDX-REG-0001",
       "location": "JarvisMain/Implementation/Active",
       "tags": [
         "implementation",
@@ -2529,7 +2529,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "IMPL-JQL-CORE-0001",
@@ -2560,7 +2560,7 @@
       "tier": "MAIN",
       "owner": "JCS Pipeline",
       "steward": null,
-      "parent": "",
+      "parent": "CONN-MSB-CORE-0001",
       "location": "JarvisMain/Implementation/task/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
       "tags": [
         "mcp",
@@ -2579,7 +2579,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "LOG-MED-LOG-0001",
@@ -2634,7 +2634,7 @@
       "tier": "SIDE",
       "owner": "Project Log Summary",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/ProjectLogSummary-0001",
       "tags": [
         "project",
@@ -2644,7 +2644,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-COS-BIO-0001",
@@ -2654,7 +2654,7 @@
       "tier": "SIDE",
       "owner": "CodeOS",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/CodeOS/BIO/CodeOSProjectBio",
       "tags": [
         "project",
@@ -2664,7 +2664,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-DEO-BIO-0001",
@@ -2674,7 +2674,7 @@
       "tier": "SIDE",
       "owner": "Deoxys",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/Deoxys/BIO/ProjectBio",
       "tags": [
         "project",
@@ -2684,7 +2684,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-DEO-JGPP-0001",
@@ -2715,7 +2715,7 @@
       "tier": "SIDE",
       "owner": "GDS",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/GDS/BIO/GDSBIO-061126-0001-GDS.md",
       "tags": [
         "project"
@@ -2724,7 +2724,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-GDS-JGPP-0001",
@@ -2785,7 +2785,7 @@
       "tier": "SIDE",
       "owner": "Genesis",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/Genesis/BIO/GenesisBio",
       "tags": [
         "project",
@@ -2795,7 +2795,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-GRD-BIO-0001",
@@ -2805,7 +2805,7 @@
       "tier": "SIDE",
       "owner": "The Grid",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/Grid/BIO/GRIDBIO-060926-0001-THE-GRID.md",
       "tags": [
         "project",
@@ -2816,7 +2816,28 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
+    },
+    {
+      "jnl": "PROJ-IDX-REG-0001",
+      "name": "Projects Registry",
+      "type": "REG",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Projects Registry",
+      "steward": null,
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisSide/Projects",
+      "tags": [
+        "projects",
+        "index",
+        "root"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-15",
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-JPL-BIO-0001",
@@ -2826,7 +2847,7 @@
       "tier": "SIDE",
       "owner": "JPL",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/JPL/BIO/JPLBio",
       "tags": [
         "project",
@@ -2836,7 +2857,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-JPL-JGPP-0001",
@@ -2872,7 +2893,7 @@
       "tier": "SIDE",
       "owner": "Legion",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/Legion/BIO/LegionBio",
       "tags": [
         "project",
@@ -2882,7 +2903,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-MMOD-BIO-0001",
@@ -2892,7 +2913,7 @@
       "tier": "SIDE",
       "owner": "Multimodal",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/Multimodal/BIO/MULTIMODALBIO-061026-0001-MULTIMODAL.md",
       "tags": [
         "project"
@@ -2901,7 +2922,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-MMOD-JGPP-0001",
@@ -2935,7 +2956,7 @@
       "tier": "SIDE",
       "owner": "MusicOS",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/MusicOS/BIO/MUSICOSBIO-061026-0001-MUSICOS.md",
       "tags": [
         "project"
@@ -2944,7 +2965,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-MOSC-JD-0001",
@@ -2980,7 +3001,7 @@
       "tier": "SIDE",
       "owner": "Naruto",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/Naruto/BIO/NarutoBio",
       "tags": [
         "project",
@@ -2990,7 +3011,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-NMX-BIO-0001",
@@ -3000,7 +3021,7 @@
       "tier": "SIDE",
       "owner": "NeuroMax",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/NeuroMax/BIO/NEUROMAXBIO-061026-0001-NEUROMAX.md",
       "tags": [
         "project"
@@ -3009,7 +3030,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-NMX-JGPP-0001",
@@ -3041,7 +3062,7 @@
       "tier": "SIDE",
       "owner": "Pachinko Bounce",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "pachinko-bounce",
       "tags": [
         "project",
@@ -3052,7 +3073,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-RTO-BIO-0001",
@@ -3062,7 +3083,7 @@
       "tier": "SIDE",
       "owner": "RoundTable",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/RoundTable/BIO/ROUNDTABLEBIO-061126-0001-ROUNDTABLE.md",
       "tags": [
         "project"
@@ -3071,7 +3092,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-RTO-JGPP-0001",
@@ -3104,7 +3125,7 @@
       "tier": "SIDE",
       "owner": "TronUI",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/TronUI/BIO/TRONUIBIO-061026-0001-TRONUI.md",
       "tags": [
         "project"
@@ -3113,7 +3134,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-TRN-JGPP-0001",
@@ -3145,7 +3166,7 @@
       "tier": "SIDE",
       "owner": "JarvisTST",
       "steward": null,
-      "parent": "",
+      "parent": "PROJ-IDX-REG-0001",
       "location": "JarvisSide/Projects/JarvisTST/BIO/JARVISTSTBIO-061026-0001-JARVISTST.md",
       "tags": [
         "project"
@@ -3154,7 +3175,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-14"
+      "updated": "2026-06-15"
     },
     {
       "jnl": "PROJ-TST-JGPP-0001",

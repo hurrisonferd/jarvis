@@ -1,10 +1,10 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T01:49:12Z (2026-06-14 21:49 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T01:53:22Z (2026-06-14 21:53 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**148 governed objects** · 194 edges · 9 domains.
+**149 governed objects** · 194 edges · 9 domains.
 
 ## Lens pages (the omni/fusion chapters)
 The grimoire is the book; each lens is a chapter — a different filter over the same data.
@@ -188,7 +188,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `146` | `LOG-MED-LOG-0001` | Media Library | ACTIVE | — |
 | `111` | `LOG-MNE-LOG-0001` | MNEMOS Cloud Backup | ACTIVE | — |
 
-### PROJ (26)
+### PROJ (27)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -201,6 +201,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `123` | `PROJ-GDS-JGPP-0002` | GDS Bootstrap Activation Protocol | TASK | — |
 | `62` | `PROJ-GEN-BIO-0001` | Genesis | ACTIVE | — |
 | `103` | `PROJ-GRD-BIO-0001` | The Grid | ACTIVE | — |
+| `150` | `PROJ-IDX-REG-0001` | Projects Registry | ACTIVE | — |
 | `61` | `PROJ-JPL-BIO-0001` | JPL | ACTIVE | — |
 | `114` | `PROJ-JPL-JGPP-0001` | JPL revival — first executable slice | TASK | — |
 | `64` | `PROJ-LEG-BIO-0001` | Legion | ACTIVE | — |
@@ -240,7 +241,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 **Lineage**
 - parent ↑ `—`
-- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001`
+- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `PROJ-IDX-REG-0001`
 - siblings ↔ —
 - related → `ARCH-JFS-CORE-0001`
 

@@ -6,12 +6,12 @@ tier: MAIN
 authority: CANON
 owner: Governance
 steward: 
-parent: 
+parent: GOV-CAN-CORE-0001
 jnl: GOV-LC-SPEC-0001
 seq: 127
 status: TASK
 created: 2026-06-11
-updated: 2026-06-14
+updated: 2026-06-15
 source: JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md
 related: []
 references: []
