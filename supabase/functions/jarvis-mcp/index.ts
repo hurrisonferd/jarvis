@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.9" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.10" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -821,6 +821,7 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ files, path, content, message, pr_title }) => {
+      if (!writeAuthorized(req)) return heldForApproval("github.write", { message });
       const fileList = (files && files.length) ? files : (path && content ? [{ path, content }] : []);
       if (!fileList.length) return text({ ok: false, step: "input", note: "provide files:[{path,content}] or path+content" });
       const ref = await ghReq("GET", `/git/ref/heads/main`);
@@ -881,6 +882,7 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ number, confirm, summary, method }) => {
+      if (confirm && !writeAuthorized(req)) return heldForApproval("pr.merge", { number });
       // Step 1 — review: hand back the diff so the streams can summarize it for Raven.
       if (!confirm) {
         const prRes = await gh(`/pulls/${number}`);

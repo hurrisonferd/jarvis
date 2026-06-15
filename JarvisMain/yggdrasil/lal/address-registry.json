@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 150,
+  "count": 151,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -874,6 +874,28 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "AUD-GATE-REVW-0001",
+      "name": "Sticky Fingers \u2014 Governance-Coverage Audit",
+      "type": "REVW",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "owner": "Audit",
+      "steward": null,
+      "parent": "GOV-CAN-CORE-0001",
+      "location": "JarvisMain/Audit/sticky-fingers-governance-audit.md",
+      "tags": [
+        "audit",
+        "governance",
+        "aegis",
+        "security"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-15",
+      "updated": "2026-06-15"
     },
     {
       "jnl": "AUD-OPUS-REVW-0001",
