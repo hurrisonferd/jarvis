@@ -26,7 +26,7 @@ const TOOL_NAMES = [
   "jarvis_recall", "jarvis_remember", "jarvis_event",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs", "jarvis_pr_merge",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.13" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.14" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -860,6 +860,28 @@ function buildServer(req: Request): McpServer {
       if (!res.ok) return text({ ok: false, status: res.status, note: "cannot list PRs" });
       const prs = (await res.json() as any[]).map((p) => ({ number: p.number, title: p.title, branch: p.head?.ref, url: p.html_url, draft: p.draft, created: p.created_at }));
       return text({ ok: true, state, count: prs.length, prs, note: prs.length ? "Raven merges to approve the push to main." : "No open PRs — main is clean." });
+    },
+  );
+
+  // DEPLOY — redeploy a Supabase edge function via the deploy-edge-functions workflow. Supabase
+  // loads secrets at deploy, so after a SECRET change (e.g. a new GITHUB_TOKEN) the function needs
+  // a redeploy to pick it up. Code changes auto-deploy on merge; this is the secret-only redeploy.
+  // AEGIS-gated. Needs GITHUB_TOKEN with Actions:write (in addition to Contents/PRs write).
+  server.registerTool(
+    "jarvis_deploy",
+    {
+      title: "Deploy — redeploy an edge function (load new secrets/code)",
+      description: "Redeploy a Supabase edge function by dispatching the deploy-edge-functions workflow. Use after a secret change (new GITHUB_TOKEN, etc.) — Supabase bakes secrets at deploy, so the function must redeploy to pick them up. `function` defaults to 'jarvis-mcp'. Deploys the current main; AEGIS-gated. Needs the PAT to carry Actions:write.",
+      inputSchema: { function: z.string().max(60).optional().default("jarvis-mcp") },
+    },
+    async ({ function: fn }) => {
+      if (!writeAuthorized(req)) return heldForApproval("deploy", { function: fn });
+      const r = await ghReq("POST", `/actions/workflows/deploy-edge-functions.yml/dispatches`, { ref: "main", inputs: { function: fn } });
+      if (!r.ok) {
+        const body = (await r.text().catch(() => "")).slice(0, 200);
+        return text({ ok: false, status: r.status, note: r.status === 403 ? "GITHUB_TOKEN lacks Actions:write scope — add it to the PAT." : body });
+      }
+      return text({ ok: true, dispatched: fn, note: "Redeploy dispatched — watch GitHub Actions → deploy-edge-functions (~1-2 min). Re-confirm with a write probe after." });
     },
   );
 

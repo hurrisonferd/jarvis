@@ -1,375 +1,8 @@
 {
-  "updated": "2026-06-15T18:07:53.790769+00:00",
+  "updated": "2026-06-15T18:34:48.346347+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_133951",
-      "date": "2026-06-15",
-      "exchanges": 426,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`f106e29..5e48088`). Everything's merged to main and green.\n\nWhere we landed this stretch: the two governance seams closed (Sticky Fingers"
-    },
-    {
-      "session_id": "20260615_134253",
-      "date": "2026-06-15",
-      "exchanges": 435,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Both merged (`23b0a15`).\n\n**Brief via connector:** `jarvis_grimoire {page:brief}` now returns the cold-boot block directly (and `{page:changes|health|"
-    },
-    {
-      "session_id": "20260615_134307",
-      "date": "2026-06-15",
-      "exchanges": 436,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`7ee0f13..e47ea3e`), all merged to main and green.\n\nTo recap what just landed: the connector now serves the **Brief and every lens** via `"
-    },
-    {
-      "session_id": "20260615_134552",
-      "date": "2026-06-15",
-      "exchanges": 444,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`487a46a`). Both your asks landed:\n\n**The catch-up phrase (#2+#3):** `grimoire {page:rehydrate}` \u2014 alias **\"omni suit-up\"** \u2014 returns **state "
-    },
-    {
-      "session_id": "20260615_134611",
-      "date": "2026-06-15",
-      "exchanges": 445,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`d99cb05..38c1370`), all merged to main and green.\n\nEverything from this run is live: the **omni suit-up / rehydrate** catch-up phrase, th"
-    },
-    {
-      "session_id": "20260615_135016",
-      "date": "2026-06-15",
-      "exchanges": 454,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`433a700`). Now the honest read on all three \u2014 and the investigation already paid for itself by catching a real gap.\n\n**#2 \u2014 Modularity & boun"
-    },
-    {
-      "session_id": "20260615_135033",
-      "date": "2026-06-15",
-      "exchanges": 455,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`c1f85e8..b7bf2c8`), all merged and green.\n\nThe read stands: the system is tool-rich and the bounded automation is healthy \u2014 your question"
-    },
-    {
-      "session_id": "20260615_135527",
-      "date": "2026-06-15",
-      "exchanges": 468,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`45829d1`, fittingly PR #200). The Requiem audit is done \u2014 and it healed real things rather than adding any.\n\n**Soft & Wet (gaps):** `rollup.p"
-    },
-    {
-      "session_id": "20260615_135545",
-      "date": "2026-06-15",
-      "exchanges": 469,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`a6aee9b..8427891`), Requiem audit merged to main, validate GREEN at 152 objects.\n\nThe sweep healed the two things that actually mattered "
-    },
-    {
-      "session_id": "20260615_135912",
-      "date": "2026-06-15",
-      "exchanges": 473,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Both answered. First \u2014 the dormant gods, and this is a genuinely cool finding:\n\n**They're not empty \u2014 their *functions are already alive as tooling*. "
-    },
-    {
-      "session_id": "20260615_135928",
-      "date": "2026-06-15",
-      "exchanges": 474,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`8427891..9698845`).\n\nRecap so you have it in one place: the dormant gods aren't idle \u2014 their roles are already being performed by tools w"
-    },
-    {
-      "session_id": "20260615_140538",
-      "date": "2026-06-15",
-      "exchanges": 482,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`1f60e3b`). Here's the honest read on what GPT sent back:\n\n**The test passed the part it ran:** the omni suit-up deployed and returned the bun"
-    },
     {
       "session_id": "20260615_175606",
       "date": "2026-06-15",
@@ -617,6 +250,378 @@
       ],
       "alignment": 1.0,
       "key_insight": "CI's runner queue is backed up \u2014 `validate`'s still queued while everything else (AEGIS\u00d72, MNEMOS) is green. PR #205 will merge the moment it clears; "
+    },
+    {
+      "session_id": "20260615_180902",
+      "date": "2026-06-15",
+      "exchanges": 537,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`0ece2a0`). The anti-assumption clause is live. Here's the complete current charter to paste (146 words, with the new line):\n\n---\n**JARVIS / A"
+    },
+    {
+      "session_id": "20260615_181520",
+      "date": "2026-06-15",
+      "exchanges": 543,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Verified \u2014 and this is the reassurance you need: **the system can't *not* track itself.** GL12 closure (validate.py:183) walks **every file under `Jar"
+    },
+    {
+      "session_id": "20260615_181537",
+      "date": "2026-06-15",
+      "exchanges": 544,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`e47b94d..55553af`). \n\nWhere this leaves you: the self-tracking guarantee is **proven and enforced** (GL12 rejects any ungoverned file acr"
+    },
+    {
+      "session_id": "20260615_181801",
+      "date": "2026-06-15",
+      "exchanges": 548,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Verified (0 registry objects reference it; the whole `yggdrasil/` kernel is GL12-exempt, validate.py:189). So here's the real answer, and it's a genui"
+    },
+    {
+      "session_id": "20260615_181818",
+      "date": "2026-06-15",
+      "exchanges": 549,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`55553af..2945e03`). \n\nThe short of it: the grimoire was findable the whole time \u2014 it just isn't an *object* in the map, it's the map's *r"
+    },
+    {
+      "session_id": "20260615_181941",
+      "date": "2026-06-15",
+      "exchanges": 553,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Code's clean \u2014 both the read (`gh`) and write (`ghReq`) helpers read the same `GITHUB_TOKEN`, no mismatch. So this isn't a connector bug; it's the sec"
+    },
+    {
+      "session_id": "20260615_181959",
+      "date": "2026-06-15",
+      "exchanges": 554,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`2945e03..c0cd030`).\n\nBottom line on the token: the connector code is correct (reads `GITHUB_TOKEN` consistently for both reads and writes"
+    },
+    {
+      "session_id": "20260615_182446",
+      "date": "2026-06-15",
+      "exchanges": 562,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Found it \u2014 and good news, it's not mysterious. Here's the verified picture:\n\n**The token is loaded; it's a *scope* problem, not a redeploy one.** `jar"
+    },
+    {
+      "session_id": "20260615_182504",
+      "date": "2026-06-15",
+      "exchanges": 563,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`c0cd030..600a781`).\n\nTo recap the action plan since it spans a few things: **(1)** re-run the failed `deploy-edge-functions` run (transie"
+    },
+    {
+      "session_id": "20260615_182548",
+      "date": "2026-06-15",
+      "exchanges": 566,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Not necessarily a *new* one \u2014 it depends on the token type, and you can't tell which from the 403, so here's the decision rule:\n\n- **If it's a fine-gr"
+    },
+    {
+      "session_id": "20260615_182605",
+      "date": "2026-06-15",
+      "exchanges": 567,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`600a781..f8f3f9e`).\n\nShort answer to your question: **you don't strictly need a new token, but make one anyway** \u2014 a fresh *fine-grained*"
+    },
+    {
+      "session_id": "20260615_183448",
+      "date": "2026-06-15",
+      "exchanges": 578,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Couldn't trigger it myself \u2014 my GitHub token lacks workflow-dispatch permission (403). So here's the clarification and your options.\n\n**Two different "
     }
   ]
 }

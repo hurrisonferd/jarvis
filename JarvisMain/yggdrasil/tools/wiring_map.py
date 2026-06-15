@@ -30,7 +30,7 @@ TOOL_LANE = {
     "gate / approve": ("AEGIS", ["jarvis_remember", "jarvis_event", "jarvis_dex_propose", "jarvis_node_register_key"]),
     "route / dispatch": ("ODIN", ["jarvis_dex_list", "jarvis_github_tree", "jarvis_repo_tree", "jarvis_db_inspect"]),
     "execute / commit": ("SKADI", ["jarvis_event", "jarvis_jip_create", "jarvis_jip_apply", "jarvis_node_send"]),
-    "propose / approve-merge": ("AEGIS", ["jarvis_github_write", "jarvis_prs", "jarvis_pr_merge"]),
+    "propose / approve-merge": ("AEGIS", ["jarvis_github_write", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy"]),
     "memory / recall": ("MNEMOS", ["jarvis_remember", "jarvis_recall", "jarvis_identity_read", "jarvis_identity_grow"]),
     "synthesis / mirror": ("HUGINN", ["jarvis_timeline", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_omnivision"]),
     "self-knowledge": ("HUGINN", ["jarvis_grimoire", "jarvis_jd_resolve", "jarvis_eyes"]),
