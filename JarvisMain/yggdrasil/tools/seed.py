@@ -998,6 +998,22 @@ def main() -> None:
     except Exception as e:  # never block the seed on the lens
         print(f"(orphan-lens skipped: {e})")
 
+    # Topology lens (Raven 2026-06-15): the system's shape — hubs/leaves/isolation over the
+    # canonical graph that already exists (graph.json). Self-mapping, not a parallel Omni-Map.
+    try:
+        import topology_lens as _topo
+        _topo.main()
+    except Exception as e:
+        print(f"(topology-lens skipped: {e})")
+
+    # Media lens (Raven 2026-06-15): the one un-graphed domain — media linked to objects,
+    # validated against the registry. Net-new coverage, not a new system.
+    try:
+        import media_lens as _media
+        _media.main()
+    except Exception as e:
+        print(f"(media-lens skipped: {e})")
+
     # Grimoire (Raven 2026-06-15: "a system that knows itself"): the book JARVIS reads
     # itself through — catalog + lens pages + summonable JID cards, projected from the JD
     # entries + graph so it can never claim a thing missing that exists, or vice-versa.

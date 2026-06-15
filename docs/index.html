@@ -678,23 +678,34 @@ function loadScript(url){
   });
 }
 
-// P06: GB/GBC adapter — WasmBoy (confirmed CDN)
+// P06: GB/GBC adapter — WasmBoy. The UMD CDN exposes a NAMESPACE on window.WasmBoy, so the
+// instance with .config() is often window.WasmBoy.WasmBoy — resolve it (fixes 'config is not a
+// function'). All calls go through the resolved ref _wb.
 const WasmBoyCore={
-  name:'WasmBoy', types:['gb','gbc'], _ready:false,
+  name:'WasmBoy', types:['gb','gbc'], _ready:false, _wb:null,
+  _resolve(){
+    const g=self.WasmBoy;
+    this._wb = (g && typeof g.config==='function') ? g
+             : (g && g.WasmBoy && typeof g.WasmBoy.config==='function') ? g.WasmBoy
+             : (g && g.default && typeof g.default.config==='function') ? g.default
+             : null;
+    return this._wb;
+  },
   async init(canvas){
     if(!this._ready){
       await loadScript('https://cdn.jsdelivr.net/npm/wasmboy@0.7.1/dist/wasmboy.wasm.umd.js');
       this._ready=true;
     }
-    await WasmBoy.config(canvas,{headless:false,isAudioEnabled:true,gameboyFrameRate:60,useGbcWhenOptional:true});
+    if(!this._resolve()) throw new Error('WasmBoy global not found (CDN shape changed) — try RetroArch via START');
+    await this._wb.config(canvas,{headless:false,isAudioEnabled:true,gameboyFrameRate:60,useGbcWhenOptional:true});
   },
-  async loadROM(buf){ await WasmBoy.loadROM(buf); },
-  play(){ WasmBoy.play(); },
-  pause(){ try{WasmBoy.pause();}catch(e){} },
-  stop(){ try{WasmBoy.reset();}catch(e){} },
-  setInput(s){ try{WasmBoy.setJoypadState(s);}catch(e){} },
-  async snapshot(){ try{return await WasmBoy.saveState();}catch(e){return null;} },
-  async restore(s){ try{if(s) await WasmBoy.loadState(s);}catch(e){} },
+  async loadROM(buf){ await this._wb.loadROM(buf); },
+  play(){ this._wb.play(); },
+  pause(){ try{this._wb.pause();}catch(e){} },
+  stop(){ try{this._wb.reset();}catch(e){} },
+  setInput(s){ try{this._wb.setJoypadState(s);}catch(e){} },
+  async snapshot(){ try{return await this._wb.saveState();}catch(e){return null;} },
+  async restore(s){ try{if(s) await this._wb.loadState(s);}catch(e){} },
 };
 
 // P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
