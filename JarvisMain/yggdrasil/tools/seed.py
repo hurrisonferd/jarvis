@@ -1048,6 +1048,14 @@ def main() -> None:
     except Exception as e:
         print(f"(media-lens skipped: {e})")
 
+    # Changes lens (Raven 2026-06-15): rehydration — the recent-commit delta so streams SEE
+    # what changed, not get told. Pairs with the grimoire's end-state view.
+    try:
+        import changes_lens as _chg
+        _chg.main()
+    except Exception as e:
+        print(f"(changes-lens skipped: {e})")
+
     # Grimoire (Raven 2026-06-15: "a system that knows itself"): the book JARVIS reads
     # itself through — catalog + lens pages + summonable JID cards, projected from the JD
     # entries + graph so it can never claim a thing missing that exists, or vice-versa.
