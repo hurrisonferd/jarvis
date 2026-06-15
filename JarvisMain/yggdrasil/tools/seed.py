@@ -1005,6 +1005,15 @@ def main() -> None:
           f" + {scanned} frontmatter-intake JD entries")
     print(f"LAL: {len(address_registry)} addresses, {len(tag_index)} tags")
 
+    # Graph (YVG, ARCH-...): regenerate graph.json FIRST in the tail — the Topology lens and the
+    # GameBoy GRIMOIRE view read it, so it must be current. (Was only run by dex-reconcile, leaving
+    # the graph stale vs the registry — found 2026-06-15. Now it tracks every seed/merge.)
+    try:
+        import graph_export as _graph
+        _graph.main()
+    except Exception as e:
+        print(f"(graph-export skipped: {e})")
+
     # Global Mirror (ARCH-JMS-SPEC-0001): regenerate the freshness-stamped omnivision
     # snapshot whenever the registries change, so the one-read map never goes silently stale.
     try:

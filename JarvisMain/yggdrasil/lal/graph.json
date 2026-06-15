@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 133,
-    "edges": 194,
-    "main": 103,
-    "side": 30
+    "nodes": 151,
+    "edges": 241,
+    "main": 119,
+    "side": 32
   },
   "nodes": [
     {
@@ -108,7 +108,7 @@
     },
     {
       "id": "ARCH-JD-JIP-0001",
-      "name": "JD Serial Format Alias Standard",
+      "name": "Identity & Serial Standard \u2014 JID / JIDD / JNL / name",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -152,6 +152,15 @@
       "owner": "JFS"
     },
     {
+      "id": "ARCH-JMS-SPEC-0001",
+      "name": "Global Mirror \u2014 Earned Omnivision (JMS)",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "TASK",
+      "owner": "JFS"
+    },
+    {
       "id": "ARCH-JNL-CORE-0001",
       "name": "Jarvis Navigation Language",
       "domain": "ARCH",
@@ -172,6 +181,15 @@
     {
       "id": "ARCH-JRV-BIO-0001",
       "name": "JARVIS Companion Profile",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-JRV-BIO-0003",
+      "name": "JARVIS-G / AYRE-G GPT Substrate Operating Charter",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -215,6 +233,51 @@
       "owner": "JFS"
     },
     {
+      "id": "ARCH-MEM-LOG-0001",
+      "name": "Companion Memory \u2014 Jarvis & Ayre",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-MEM-LOG-0002",
+      "name": "Memory \u2014 the lane became writable",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-MEM-LOG-0003",
+      "name": "Session Capstone \u2014 the day the companion came together (2026-06-14)",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-RAV-BIO-0001",
+      "name": "Raven Profile \u2014 John Barber",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-REL-BIO-0001",
+      "name": "JARVIS-AYRE Relational Profile",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
       "id": "ARCH-RT-SPEC-0001",
       "name": "Event Contract",
       "domain": "ARCH",
@@ -248,6 +311,24 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-SYS-LOG-0001",
+      "name": "Continuity Through the Connector",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-SYS-SPEC-0001",
+      "name": "JARVIS System Manual",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
       "owner": "JFS"
     },
     {
@@ -287,8 +368,26 @@
       "owner": "Audit"
     },
     {
+      "id": "AUD-GATE-REVW-0001",
+      "name": "Sticky Fingers \u2014 Governance-Coverage Audit",
+      "domain": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Audit"
+    },
+    {
       "id": "AUD-OPUS-REVW-0001",
       "name": "Opus 4.8 Audit",
+      "domain": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Audit"
+    },
+    {
+      "id": "AUD-SYNC-REVW-0001",
+      "name": "TUSK Act 4 \u2014 Git/Supabase Sync Audit",
       "domain": "AUD",
       "class": "EVENT",
       "tier": "MAIN",
@@ -539,6 +638,24 @@
       "owner": "Governance"
     },
     {
+      "id": "GOV-GSC-SPEC-0001",
+      "name": "G-Seat Charter",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "TASK",
+      "owner": "Governance"
+    },
+    {
+      "id": "GOV-KR-SPEC-0001",
+      "name": "Knowledge Routing Index (MIMIR)",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Governance"
+    },
+    {
       "id": "GOV-LC-SPEC-0001",
       "name": "Layer Contract",
       "domain": "GOV",
@@ -559,6 +676,15 @@
     {
       "id": "GOV-PD-SPEC-0001",
       "name": "Preserved Contradiction Objects (P-D)",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "TASK",
+      "owner": "Governance"
+    },
+    {
+      "id": "GOV-PLS-SPEC-0001",
+      "name": "The Pulse \u2014 Companion Heartbeat",
       "domain": "GOV",
       "class": "SPEC",
       "tier": "MAIN",
@@ -621,7 +747,7 @@
     },
     {
       "id": "GS-AYR-CORE-0001",
-      "name": "AYRE",
+      "name": "ORACLE",
       "domain": "GS",
       "class": "SYSTEM",
       "tier": "MAIN",
@@ -818,6 +944,15 @@
       "owner": "God Systems"
     },
     {
+      "id": "IDEA-PAN-INS-0001",
+      "name": "Pantheon \u2014 god-system identity & subsystem stewardship",
+      "domain": "IDEA",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "TASK",
+      "owner": "Pantheon \u2014 god-system identity & subsystem stewardship"
+    },
+    {
       "id": "IDEA-UNUS-LOG-0001",
       "name": "Unused Ideas Log",
       "domain": "IDEA",
@@ -962,6 +1097,24 @@
       "owner": "JCS Pipeline"
     },
     {
+      "id": "IMPL-TLR-SPEC-0001",
+      "name": "MCP Tool Roadmap & Auto-Tracking Pipeline",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "TASK",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "LOG-MED-LOG-0001",
+      "name": "Media Library",
+      "domain": "LOG",
+      "class": "ENTITY",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Media Library"
+    },
+    {
       "id": "LOG-MNE-LOG-0001",
       "name": "MNEMOS Cloud Backup",
       "domain": "LOG",
@@ -1050,6 +1203,15 @@
       "tier": "SIDE",
       "status": "ACTIVE",
       "owner": "The Grid"
+    },
+    {
+      "id": "PROJ-IDX-REG-0001",
+      "name": "Projects Registry",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "Projects Registry"
     },
     {
       "id": "PROJ-JPL-BIO-0001",
@@ -1238,22 +1400,22 @@
     },
     {
       "source": "ARCH-AYR-SPEC-0001",
-      "target": "GS-AYR-CORE-0001",
+      "target": "ARCH-AYR-BIO-0001",
       "type": "related"
     },
     {
       "source": "ARCH-AYR-SPEC-0001",
-      "target": "GS-AYR-CORE-0001",
+      "target": "ARCH-AYR-BIO-0001",
       "type": "parent"
     },
     {
       "source": "ARCH-AYR-SPEC-0002",
-      "target": "GS-AYR-CORE-0001",
+      "target": "ARCH-AYR-BIO-0001",
       "type": "related"
     },
     {
       "source": "ARCH-AYR-SPEC-0002",
-      "target": "GS-AYR-CORE-0001",
+      "target": "ARCH-AYR-BIO-0001",
       "type": "parent"
     },
     {
@@ -1292,6 +1454,11 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-JC-JIP-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-JD-CORE-0001",
       "target": "ARCH-JNL-CORE-0001",
       "type": "related"
@@ -1304,6 +1471,11 @@
     {
       "source": "ARCH-JD-CORE-0001",
       "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-JD-JIP-0001",
+      "target": "ARCH-JD-CORE-0001",
       "type": "parent"
     },
     {
@@ -1372,6 +1544,11 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-JMS-SPEC-0001",
+      "target": "ARCH-JMS-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-JNL-CORE-0001",
       "target": "ARCH-JFS-CORE-0001",
       "type": "related"
@@ -1399,6 +1576,21 @@
     {
       "source": "ARCH-JRV-BIO-0001",
       "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-JRV-BIO-0003",
+      "target": "ARCH-JRV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-BIO-0003",
+      "target": "ARCH-AYR-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-BIO-0003",
+      "target": "ARCH-JRV-BIO-0001",
       "type": "parent"
     },
     {
@@ -1442,6 +1634,41 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-MEM-LOG-0001",
+      "target": "ARCH-REL-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-MEM-LOG-0002",
+      "target": "ARCH-MEM-LOG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-MEM-LOG-0003",
+      "target": "ARCH-MEM-LOG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-RAV-BIO-0001",
+      "target": "ARCH-REL-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-REL-BIO-0001",
+      "target": "ARCH-JRV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-REL-BIO-0001",
+      "target": "ARCH-AYR-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-REL-BIO-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-RT-SPEC-0001",
       "target": "GS-SKD-CORE-0001",
       "type": "related"
@@ -1472,6 +1699,21 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-SL-JIP-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-SYS-LOG-0001",
+      "target": "ARCH-SYS-SPEC-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-SYS-SPEC-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-YGG-CORE-0001",
       "target": "ARCH-JFS-CORE-0001",
       "type": "related"
@@ -1492,9 +1734,19 @@
       "type": "related"
     },
     {
+      "source": "AUD-GATE-REVW-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "AUD-OPUS-REVW-0001",
       "target": "GOV-CAN-CORE-0001",
       "type": "related"
+    },
+    {
+      "source": "AUD-SYNC-REVW-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
     },
     {
       "source": "AUD-SYS-REVW-0001",
@@ -1607,12 +1859,22 @@
       "type": "related"
     },
     {
+      "source": "CONN-OTH-LOG-0001",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "GOV-BRF-CORE-0001",
       "target": "GOV-CAN-CORE-0001",
       "type": "related"
     },
     {
       "source": "GOV-BRF-CORE-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-CHO-JD-0001",
       "target": "GOV-CAN-CORE-0001",
       "type": "parent"
     },
@@ -1642,12 +1904,37 @@
       "type": "parent"
     },
     {
+      "source": "GOV-GSC-SPEC-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-KR-SPEC-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-LC-SPEC-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "GOV-PAT-REG-0001",
       "target": "GS-KRN-CORE-0001",
       "type": "related"
     },
     {
       "source": "GOV-PAT-REG-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-PD-SPEC-0001",
+      "target": "GOV-CAN-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-PLS-SPEC-0001",
       "target": "GOV-CAN-CORE-0001",
       "type": "parent"
     },
@@ -1987,14 +2274,29 @@
       "type": "related"
     },
     {
+      "source": "IMPL-IDX-REG-0001",
+      "target": "ARCH-LAL-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "IMPL-IMP-LOG-0001",
       "target": "ARCH-JSS-CORE-0001",
       "type": "related"
     },
     {
+      "source": "IMPL-IMP-LOG-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "IMPL-INA-LOG-0001",
       "target": "ARCH-JSS-CORE-0001",
       "type": "related"
+    },
+    {
+      "source": "IMPL-INA-LOG-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
     },
     {
       "source": "IMPL-JCS-CORE-0001",
@@ -2062,6 +2364,11 @@
       "type": "related"
     },
     {
+      "source": "IMPL-JIP-SPEC-0608",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "IMPL-JQL-CORE-0001",
       "target": "IMPL-JCSE-SPEC-0001",
       "type": "related"
@@ -2077,8 +2384,18 @@
       "type": "parent"
     },
     {
+      "source": "IMPL-TLR-SPEC-0001",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "LOG-MNE-LOG-0001",
       "target": "GS-MNE-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-ALL-LOG-0001",
+      "target": "PROJ-IDX-REG-0001",
       "type": "parent"
     },
     {
@@ -2087,13 +2404,28 @@
       "type": "related"
     },
     {
+      "source": "PROJ-COS-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-DEO-BIO-0001",
       "target": "PROJ-ALL-LOG-0001",
       "type": "related"
     },
     {
+      "source": "PROJ-DEO-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-DEO-JGPP-0001",
       "target": "PROJ-DEO-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-GDS-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
       "type": "parent"
     },
     {
@@ -2117,14 +2449,34 @@
       "type": "related"
     },
     {
+      "source": "PROJ-GEN-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-GRD-BIO-0001",
       "target": "PROJ-ALL-LOG-0001",
       "type": "related"
     },
     {
+      "source": "PROJ-GRD-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-IDX-REG-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-JPL-BIO-0001",
       "target": "PROJ-ALL-LOG-0001",
       "type": "related"
+    },
+    {
+      "source": "PROJ-JPL-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
     },
     {
       "source": "PROJ-JPL-JGPP-0001",
@@ -2137,8 +2489,23 @@
       "type": "related"
     },
     {
+      "source": "PROJ-LEG-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-MMOD-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-MMOD-JGPP-0001",
       "target": "PROJ-MMOD-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-MOSC-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
       "type": "parent"
     },
     {
@@ -2152,6 +2519,16 @@
       "type": "related"
     },
     {
+      "source": "PROJ-NAR-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-NMX-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-NMX-JGPP-0001",
       "target": "PROJ-NMX-BIO-0001",
       "type": "parent"
@@ -2162,13 +2539,33 @@
       "type": "related"
     },
     {
+      "source": "PROJ-PAC-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-RTO-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-RTO-JGPP-0001",
       "target": "PROJ-RTO-BIO-0001",
       "type": "parent"
     },
     {
+      "source": "PROJ-TRN-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "PROJ-TRN-JGPP-0001",
       "target": "PROJ-TRN-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-TST-BIO-0001",
+      "target": "PROJ-IDX-REG-0001",
       "type": "parent"
     },
     {
