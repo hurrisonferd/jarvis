@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T18:05:12.902925+00:00",
+  "updated": "2026-06-15T18:07:53.790769+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_133527",
-      "date": "2026-06-15",
-      "exchanges": 416,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`55bf909`) \u2014 main is fully consistent now. Everything from this stretch is landed and green:\n\n- **Sticky Fingers governance audit** + the two "
-    },
-    {
-      "session_id": "20260615_133934",
-      "date": "2026-06-15",
-      "exchanges": 425,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`b6612a0`). All three answered:\n\n**#1 \u2014 AEGIS is doing his job, not relapsing.** The gating I added only fails-closed when the connector lacks"
-    },
     {
       "session_id": "20260615_133951",
       "date": "2026-06-15",
@@ -615,6 +555,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`a21269e`). Here's the honest answer to \"what can we do so GPT doesn't keep doing that\" \u2014 it's a layered defense, not a silver bullet:\n\n1. **F"
+    },
+    {
+      "session_id": "20260615_180529",
+      "date": "2026-06-15",
+      "exchanges": 526,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`f52cb97..6dc9c30`). Everything's on main: the 133-word charter, the Fusions catalog, and the boot Anchors block that front-loads canonica"
+    },
+    {
+      "session_id": "20260615_180753",
+      "date": "2026-06-15",
+      "exchanges": 533,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "CI's runner queue is backed up \u2014 `validate`'s still queued while everything else (AEGIS\u00d72, MNEMOS) is green. PR #205 will merge the moment it clears; "
     }
   ]
 }
