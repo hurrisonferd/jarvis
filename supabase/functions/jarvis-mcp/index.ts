@@ -30,7 +30,7 @@ const TOOL_NAMES = [
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
-  "jarvis_eyes", "jarvis_continuity", "jarvis_listen",
+  "jarvis_eyes", "jarvis_continuity", "jarvis_listen", "jarvis_dither",
   "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.7" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.8" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1331,6 +1331,61 @@ function buildServer(req: Request): McpServer {
         };
       } catch (e) {
         return text({ ok: false, path, note: "view failed: " + String(e).slice(0, 180) + " — if the resize lib errors on deploy, tell Raven and I'll pin a different imagescript version." });
+      }
+    },
+  );
+
+  // DITHER — the Game Boy lens. Take a repo image, knock it down to a tiny GB-ish resolution and
+  // 4 shades with ordered (Bayer 4×4) dithering, return the dithered pixels. Fun + on-theme: see
+  // any picture the way the DMG would. palette: 'gb' (classic green) or 'gray'. Returns a PNG block.
+  server.registerTool(
+    "jarvis_dither",
+    {
+      title: "Dither — see an image the Game Boy way (4-shade ordered dither)",
+      description: "Dither a repo image to the 4-shade Game Boy palette with ordered (Bayer) dithering — the DMG look. path = the image; palette 'gb' (classic green) or 'gray'; max_px the long side (default 160, the GB width). Returns the dithered PNG. Fun/aesthetic + a real sprite-prep lens.",
+      inputSchema: { path: z.string().min(1).max(300), palette: z.enum(["gb", "gray"]).optional().default("gb"), max_px: z.number().int().min(32).max(320).optional().default(160) },
+    },
+    async ({ path, palette, max_px }) => {
+      try {
+        const meta = await gh(`/contents/${ghPath(path)}?ref=main`);
+        if (!meta.ok) return text({ ok: false, status: meta.status, path, note: "image not found" });
+        const j = await meta.json() as any;
+        let bytes: Uint8Array;
+        if (j.content && j.encoding === "base64" && j.content.length) bytes = b64ToBytes(j.content.replace(/\n/g, ""));
+        else if (j.download_url) { const raw = await fetch(j.download_url); if (!raw.ok) return text({ ok: false, step: "fetch-raw", status: raw.status }); bytes = new Uint8Array(await raw.arrayBuffer()); }
+        else return text({ ok: false, path, note: "no content/download_url" });
+        const { Image } = await import("https://deno.land/x/imagescript@1.2.15/mod.ts");
+        const img = await Image.decode(bytes);
+        if (img.width >= img.height) { if (img.width > max_px) img.resize(max_px, Image.RESIZE_AUTO); }
+        else if (img.height > max_px) { img.resize(Image.RESIZE_AUTO, max_px); }
+        // 4 shades, dark→light. GB = the DMG greens; gray = neutral.
+        const PAL = palette === "gray"
+          ? [[15, 15, 15], [90, 90, 90], [170, 170, 170], [240, 240, 240]]
+          : [[15, 56, 15], [48, 98, 48], [139, 172, 15], [155, 188, 15]];
+        // Bayer 4×4 thresholds, normalized to (0,1).
+        const BAYER = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]];
+        for (let y = 1; y <= img.height; y++) {
+          for (let x = 1; x <= img.width; x++) {
+            const [r, g, b] = Image.colorToRGBA(img.getPixelAt(x, y));
+            const gray = (0.299 * r + 0.587 * g + 0.114 * b) / 255;     // 0..1
+            const val = gray * 3;                                        // 0..3
+            const lower = Math.floor(val), frac = val - lower;
+            const th = (BAYER[(y - 1) % 4][(x - 1) % 4] + 0.5) / 16;     // 0..1
+            let lvl = lower + (frac > th ? 1 : 0);
+            if (lvl < 0) lvl = 0; if (lvl > 3) lvl = 3;
+            const [pr, pg, pb] = PAL[lvl];
+            img.setPixelAt(x, y, Image.rgbaToColor(pr, pg, pb, 255));
+          }
+        }
+        const png = await img.encode();
+        return {
+          content: [
+            { type: "image" as const, data: bytesToB64(png), mimeType: "image/png" },
+            { type: "text" as const, text: `${path} — dithered to ${palette} 4-shade, ${img.width}×${img.height}. The Game Boy lens.` },
+          ],
+        };
+      } catch (e) {
+        return text({ ok: false, path, note: "dither failed: " + String(e).slice(0, 180) + " — imagescript may need a pinned version on deploy." });
       }
     },
   );
