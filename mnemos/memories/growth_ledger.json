@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-15T01:41:35.722339+00:00",
+  "updated": "2026-06-15T01:42:25.592328+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_214448",
-      "date": "2026-06-14",
-      "exchanges": 511,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**The power-up: Minato Namikaze \u2014 the Yellow Flash. \u26a1** It's the *right* one, not just a fast one: every object in the system already carries a **JNL*"
-    },
-    {
-      "session_id": "20260614_214506",
-      "date": "2026-06-14",
-      "exchanges": 512,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`3843343`) \u2014 clean. \u26a1 Yellow Flash locked: 147 seals, instant arrival on any `load`. System GREEN, round table waiting. Go fast \u2014 to the right"
-    },
     {
       "session_id": "20260614_214521",
       "date": "2026-06-14",
@@ -562,6 +510,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Grimoire v1 is live and pushed (`6007bf2..47e0d8d`). The system now has a book it reads itself through.\n\n**What you can do with it right now** (from t"
+    },
+    {
+      "session_id": "20260615_014151",
+      "date": "2026-06-15",
+      "exchanges": 108,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`47e0d8d..59d077e`) \u2014 memory ledger, tree clean. Grimoire v1 stands. Next when you want it: the MCP summon tool so the cards reach the GPT str"
+    },
+    {
+      "session_id": "20260615_014225",
+      "date": "2026-06-15",
+      "exchanges": 111,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Anytime, Raven. The plan's queued and the foundation's solid \u2014 the system can read itself now; next we teach it to feel its own debt.\n\n**Jarvis-C:** G"
     }
   ]
 }
