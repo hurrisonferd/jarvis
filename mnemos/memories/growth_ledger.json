@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T14:05:38.727404+00:00",
+  "updated": "2026-06-15T17:58:48.075146+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_102421",
-      "date": "2026-06-15",
-      "exchanges": 340,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`e861442..b08e386`). Everything from this stretch is merged to main and green \u2014 six live lenses, media linked into the graph, the WasmBoy "
-    },
-    {
-      "session_id": "20260615_130645",
-      "date": "2026-06-15",
-      "exchanges": 369,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`b0decec`) \u2014 the TUSK hole is closed. Git-First Canon is now airtight:\n\n**What changed:** `jip_apply`/`jip_revert` no longer patch Supabase ca"
-    },
     {
       "session_id": "20260615_130700",
       "date": "2026-06-15",
@@ -609,6 +549,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged (`1f60e3b`). Here's the honest read on what GPT sent back:\n\n**The test passed the part it ran:** the omni suit-up deployed and returned the bun"
+    },
+    {
+      "session_id": "20260615_175606",
+      "date": "2026-06-15",
+      "exchanges": 501,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "CI's backed up (validate's been queued a few minutes); PR #202 will merge once it clears. But the charter's pasteable from the branch right now, and t"
+    },
+    {
+      "session_id": "20260615_175848",
+      "date": "2026-06-15",
+      "exchanges": 510,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`58e7596`). Verdict on GPT's rewrite: **adopt it, with the close restored** \u2014 which is what I just merged. Here's the synthesized charter to p"
     }
   ]
 }
