@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T18:15:20.259289+00:00",
+  "updated": "2026-06-15T18:18:01.111718+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_134307",
-      "date": "2026-06-15",
-      "exchanges": 436,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`7ee0f13..e47ea3e`), all merged to main and green.\n\nTo recap what just landed: the connector now serves the **Brief and every lens** via `"
-    },
-    {
-      "session_id": "20260615_134552",
-      "date": "2026-06-15",
-      "exchanges": 444,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`487a46a`). Both your asks landed:\n\n**The catch-up phrase (#2+#3):** `grimoire {page:rehydrate}` \u2014 alias **\"omni suit-up\"** \u2014 returns **state "
-    },
     {
       "session_id": "20260615_134611",
       "date": "2026-06-15",
@@ -619,6 +559,68 @@
       ],
       "alignment": 1.0,
       "key_insight": "Verified \u2014 and this is the reassurance you need: **the system can't *not* track itself.** GL12 closure (validate.py:183) walks **every file under `Jar"
+    },
+    {
+      "session_id": "20260615_181537",
+      "date": "2026-06-15",
+      "exchanges": 544,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`e47b94d..55553af`). \n\nWhere this leaves you: the self-tracking guarantee is **proven and enforced** (GL12 rejects any ungoverned file acr"
+    },
+    {
+      "session_id": "20260615_181801",
+      "date": "2026-06-15",
+      "exchanges": 548,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P24",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Verified (0 registry objects reference it; the whole `yggdrasil/` kernel is GL12-exempt, validate.py:189). So here's the real answer, and it's a genui"
     }
   ]
 }
