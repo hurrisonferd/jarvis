@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.11" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.12" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1266,6 +1266,20 @@ function buildServer(req: Request): McpServer {
       inputSchema: { page: z.string().max(40).optional().default("lenses") },
     },
     async ({ page }) => {
+      // Lens files — page=<lens> serves the generated lal file directly (the brief, the changes
+      // delta, health…), so the connector is the single window to every lens, not a straw.
+      const LENS_FILES: Record<string, string> = {
+        brief: "PORTABLE-BRIEF.md", changes: "CHANGES.md", wiring: "WIRING-MAP.md",
+        health: "HEALTH.md", orphan: "ORPHAN-LENS.md", sync: "SYNC-LENS.md",
+        topology: "TOPOLOGY-LENS.md", media: "MEDIA-LINKS.md",
+      };
+      const wantRaw = String(page || "lenses").trim().toLowerCase();
+      if (LENS_FILES[wantRaw]) {
+        const lf = await gh(`/contents/${ghPath("JarvisMain/yggdrasil/lal/" + LENS_FILES[wantRaw])}?ref=main`);
+        if (!lf.ok) return text({ ok: false, page: wantRaw, status: lf.status, note: `${LENS_FILES[wantRaw]} unreachable` });
+        const c = atob(((await lf.json()) as any).content?.replace(/\n/g, "") ?? "");
+        return text({ ok: true, page: wantRaw, content: c.slice(0, 48000) });
+      }
       const res = await gh(`/contents/${"JarvisMain/yggdrasil/lal/GRIMOIRE.md".split("/").map(encodeURIComponent).join("/")}?ref=main`);
       if (!res.ok) return text({ ok: false, status: res.status, note: "GRIMOIRE.md unreachable — run seed.py to generate it." });
       const data = await res.json() as { content?: string };
