@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T02:09:12Z (2026-06-14 22:09 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-15T02:47:32Z (2026-06-14 22:47 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -19,6 +19,28 @@ _JARVIS online · 149 objects · 18 open tasks · 15 orphans · 194 edges._
 7. **Propose a change** → `jarvis_github_write` (files→one PR) → `jarvis_pr_merge` (summary+approve)
 
 _Boot ritual: this menu, then act on what Raven says. Missing info is a tool call, not a guess._
+
+## Verbs — what you can say (the system's own phrasebook)
+Meta-NLP: natural phrases → the tool they wake. The model routes; this is the map it routes by.
+
+| say… | → tool |
+|---|---|
+| "load X" · "what is X" · "jid 1" · a name/JNL | `jarvis_jd_resolve` |
+| "listen to <track>" · "what key is X in" | `jarvis_listen` |
+| "show me / look at <image>" | `jarvis_media_view` |
+| "boot" · "what can I do" | `jarvis_grimoire {page:boot}` |
+| "the grimoire" · "what views exist" | `jarvis_grimoire {page:lenses}` |
+| "what can I say" · "verbs" | `jarvis_grimoire {page:verbs}` |
+| "how are we" · "system health" · "where do I go" | `jarvis_eyes` |
+| "what's open" · "tasks" | `jarvis_dex_list {status:TASK}` |
+| "what's wrong" · "the debt" | the Orphan lens (`ORPHAN-LENS.md`) |
+| "what happened" · "recently" | `jarvis_timeline` |
+| "search for X" | `jarvis_dex_search` |
+| "remember / recall X" | `jarvis_remember` / `jarvis_recall` |
+| "the time" · "now" | `jarvis_now` |
+| "propose a change" · "write files" | `jarvis_github_write` (files→one PR) |
+| "any PRs" | `jarvis_prs` |
+| "merge / approve it" | `jarvis_pr_merge` (Jarvis+Ayre summary, then your yes) |
 
 ## Lens pages (the omni/fusion chapters)
 The grimoire is the book; each lens is a chapter — a different filter over the same data.
