@@ -30,7 +30,7 @@ const TOOL_NAMES = [
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
-  "jarvis_eyes", "jarvis_continuity",
+  "jarvis_eyes", "jarvis_continuity", "jarvis_listen",
   "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
@@ -339,7 +339,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.6" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.7" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1332,6 +1332,40 @@ function buildServer(req: Request): McpServer {
       } catch (e) {
         return text({ ok: false, path, note: "view failed: " + String(e).slice(0, 180) + " — if the resize lib errors on deploy, tell Raven and I'll pin a different imagescript version." });
       }
+    },
+  );
+
+  // LISTEN — the NLP verb for the ears. "Jarvis, listen to Neon Breakwater" → resolves the track
+  // by name and returns its musical bones (BPM/key/energy/brightness/mood) from AUDIO-FEATURES.json,
+  // which the hands-free audio-ears.yml pipeline writes. Read-only: the connector can't run librosa,
+  // it reads what the pipeline heard. The bones, not the soul — Raven stays the ears on playback.
+  server.registerTool(
+    "jarvis_listen",
+    {
+      title: "Listen — read a track's musical features (NLP)",
+      description: "Listen to a track by name — 'listen to Neon Breakwater', 'victory drive'. Returns its tempo (BPM), key, energy, brightness, mood and length from the librosa features the hands-free Ears pipeline extracted. Use to discuss/compose with Raven's music. Read-only — these are the song's bones; what it MEANS lives with Raven, ask him. Omit `track` to list everything heard.",
+      inputSchema: { track: z.string().max(120).optional() },
+    },
+    async ({ track }) => {
+      const res = await gh(`/contents/${ghPath("JarvisSide/Media/AUDIO-FEATURES.json")}?ref=main`);
+      if (!res.ok) return text({ ok: false, note: "no features yet — the Ears pipeline (audio-ears.yml) hasn't run. Merge to main + dispatch 'JARVIS — Ears' to backfill." });
+      const j = await res.json() as any;
+      let tracks: Record<string, any> = {};
+      try { tracks = JSON.parse(atob(j.content.replace(/\n/g, ""))).tracks ?? {}; } catch { /* malformed */ }
+      const names = Object.keys(tracks);
+      if (!track) return text({ ok: true, heard: names.length, tracks: names.map((n) => ({ track: n, bpm: tracks[n].bpm, key: tracks[n].key, mood: tracks[n].mood })) });
+      const q = track.trim().toLowerCase().replace(/\.mp3$/, "");
+      const hit = names.find((n) => n.toLowerCase().replace(/\.mp3$/, "") === q)
+        ?? names.find((n) => n.toLowerCase().includes(q))
+        ?? names.find((n) => q.includes(n.toLowerCase().replace(/\.mp3$/, "")));
+      if (!hit) return text({ ok: false, query: track, note: "no track by that name", available: names });
+      const f = tracks[hit];
+      if (f.error) return text({ ok: false, track: hit, note: "analysis errored: " + f.error });
+      return text({
+        ok: true, track: hit,
+        features: { bpm: f.bpm, key: f.key, mood: f.mood, energy_rms: f.energy_rms, brightness_hz: f.brightness_hz, length_sec: f.duration_sec },
+        note: "The bones, not the soul. Discuss the music with Raven — what it MEANS is his to speak, not the BPM's.",
+      });
     },
   );
 
