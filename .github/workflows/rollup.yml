@@ -1,0 +1,32 @@
+name: JARVIS — Rollup (compression ladder)
+
+# Gives life to rollup.py — the compression ladder built but never scheduled, so the growth
+# archive grew unbounded (the 'memory without compression' risk). Weekly: roll detail up into
+# week/month/year compilations (raw retained — JMS references, never deletes), commit them.
+on:
+  schedule:
+    - cron: "0 14 * * 1"   # Mondays 14:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rollup:
+    name: JARVIS — roll the logs up
+    runs-on: ubuntu-latest
+    if: "!contains(github.event.head_commit.message, '[skip ci]')"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile the ladder
+        run: python3 JarvisMain/yggdrasil/tools/rollup.py
+      - name: Commit compilations
+        run: |
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          git add logs/compilation/
+          git diff --staged --quiet || git commit -m "chore(rollup): weekly compression ladder [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"

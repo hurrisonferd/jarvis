@@ -31,9 +31,11 @@ jobs:
       - name: Check registries are in sync with entries (no drift)
         run: |
           python JarvisMain/yggdrasil/tools/seed.py
-          if ! git diff --quiet JarvisMain/yggdrasil/; then
-            echo "::error::LAL registries / JD entries are out of sync. Run 'python JarvisMain/yggdrasil/tools/seed.py' and commit."
-            git --no-pager diff --stat JarvisMain/yggdrasil/
+          # status --porcelain catches UNTRACKED files too (git diff --quiet missed new JD
+          # entries — that's how an entry once landed in the registry but not in git).
+          if [ -n "$(git status --porcelain JarvisMain/yggdrasil/)" ]; then
+            echo "::error::LAL registries / JD entries are out of sync (incl. untracked). Run 'python JarvisMain/yggdrasil/tools/seed.py' and commit."
+            git -c color.ui=always status --short JarvisMain/yggdrasil/
             exit 1
           fi
           echo "Registries in sync."
