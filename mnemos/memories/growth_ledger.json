@@ -1,68 +1,8 @@
 {
-  "updated": "2026-06-15T10:24:06.753053+00:00",
+  "updated": "2026-06-15T13:06:45.089298+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_024430",
-      "date": "2026-06-15",
-      "exchanges": 220,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`3e597b4..510a790`), tree clean."
-    },
-    {
-      "session_id": "20260615_024843",
-      "date": "2026-06-15",
-      "exchanges": 231,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Both merged to main \u2014 **#186** (the whole session: grimoire, orphan prune, GPT-solo tools, eyes + ears) and **#187** (the Verbs page). Main now carrie"
-    },
     {
       "session_id": "20260615_024901",
       "date": "2026-06-15",
@@ -602,6 +542,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Merged to main (`8446d49`). The consolidation arc is now landed:\n\n**Live lenses in the grimoire (6):** Wiring, Health, Orphan, Sync, **Topology**, **M"
+    },
+    {
+      "session_id": "20260615_102421",
+      "date": "2026-06-15",
+      "exchanges": 340,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/sync-lens.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Tree clean (`e861442..b08e386`). Everything from this stretch is merged to main and green \u2014 six live lenses, media linked into the graph, the WasmBoy "
+    },
+    {
+      "session_id": "20260615_130645",
+      "date": "2026-06-15",
+      "exchanges": 369,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        ".github/workflows/sync-lens.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Merged (`b0decec`) \u2014 the TUSK hole is closed. Git-First Canon is now airtight:\n\n**What changed:** `jip_apply`/`jip_revert` no longer patch Supabase ca"
     }
   ]
 }
