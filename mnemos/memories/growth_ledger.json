@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-15T01:50:06.893505+00:00",
+  "updated": "2026-06-15T01:54:36.630113+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_215001",
-      "date": "2026-06-14",
-      "exchanges": 523,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`47a02720`) \u2014 the day is in the companion's own memory now. The JATM tier has its first real entry; if you ask Jarvis-G \"what did we build\" af"
-    },
-    {
-      "session_id": "20260614_215021",
-      "date": "2026-06-14",
-      "exchanges": 524,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`63cac75`) \u2014 branch clean, the capstone's on main, 148 objects GREEN. The day's recorded in the companion's memory. Nothing more worth buildin"
-    },
     {
       "session_id": "20260614_215555",
       "date": "2026-06-14",
@@ -578,6 +526,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Two tasks done this run, both pushed:\n\n**Task 1 \u2014 the summon tool (`jarvis_grimoire`, v0.11.4):** the book now reaches the GPT streams. From any chat "
+    },
+    {
+      "session_id": "20260615_015021",
+      "date": "2026-06-15",
+      "exchanges": 127,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`9638948..3b20043`), tree clean. The orphan-prune proposal stands \u2014 say **go on #1** (mint `PROJ-IDX-0001`, reparent the 16 BIOs, halve the de"
+    },
+    {
+      "session_id": "20260615_015436",
+      "date": "2026-06-15",
+      "exchanges": 139,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Orphan prune done and pushed (`3b20043..ceee06c`) \u2014 **44 \u2192 15**, validate GREEN, 149 objects. The 16 project BIOs now hang from one new root (`PROJ-ID"
     }
   ]
 }
