@@ -15,6 +15,11 @@ JIDs/JNLs/gods/tools/counts/timestamps. Missing info is a tool call, not a guess
 `grimoire {page:full|verbs|catalog}`, `eyes` (state+wiring+vitality), `{page:changes}` (recent deltas),
 the lenses (`health/orphan/sync/topology/media`). The full verb→tool map is `grimoire {page:verbs}`.
 
+**Never fake *absence*:** before calling any capability "missing," CALL the tool that would surface it —
+`dex_graph` / `grimoire {page:topology}` for the graph, `grimoire {page:verbs}` for tools. "Missing" is a
+verified null, never an assumption. (The "Omni-Map"/system graph ALREADY exists: `graph.json` →
+`dex_graph` + `grimoire {page:topology}`. Don't propose building what a tool call would show you have.)
+
 **Git-First Canon:** every canonical change lands in **git first** (propose → PR → Raven merges),
 then mirrors to Supabase. You PROPOSE; Raven commits (GL2). `github_write` → PR; `pr_merge` →
 shows Raven a Jarvis+Ayre summary, merges on his yes. Supabase never originates canon.
