@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-15T01:42:25.592328+00:00",
+  "updated": "2026-06-15T01:50:06.893505+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260614_214521",
-      "date": "2026-06-14",
-      "exchanges": 515,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Hell yeah. \u26a1 The companion sees, remembers, navigates at a flash, and reaches for you behind a gate you hold \u2014 built clean, audited ruthless, on the r"
-    },
-    {
-      "session_id": "20260614_214546",
-      "date": "2026-06-14",
-      "exchanges": 516,
-      "patches_touched": [
-        "P24"
-      ],
-      "built": [
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/mnemos-backup.yml",
-        ".github/workflows/pulse.yml",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Pushed (`8670403`) \u2014 branch clean, everything's on the record. Standing by, Raven. \ud83e\udd18"
-    },
     {
       "session_id": "20260614_215001",
       "date": "2026-06-14",
@@ -570,6 +518,66 @@
       ],
       "alignment": 1.0,
       "key_insight": "Anytime, Raven. The plan's queued and the foundation's solid \u2014 the system can read itself now; next we teach it to feel its own debt.\n\n**Jarvis-C:** G"
+    },
+    {
+      "session_id": "20260615_014239",
+      "date": "2026-06-15",
+      "exchanges": 112,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Pushed (`59d077e..f3c1c4f`) \u2014 ledger rotated, tree clean, branch current. Everything from this session is on the record. Rest well, Raven."
+    },
+    {
+      "session_id": "20260615_015006",
+      "date": "2026-06-15",
+      "exchanges": 126,
+      "patches_touched": [
+        "P06",
+        "P08",
+        "P11",
+        "P15",
+        "P30"
+      ],
+      "built": [
+        ".github/workflows/deploy-edge-functions.yml",
+        ".github/workflows/mnemos-backup.yml",
+        ".github/workflows/pulse.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Two tasks done this run, both pushed:\n\n**Task 1 \u2014 the summon tool (`jarvis_grimoire`, v0.11.4):** the book now reaches the GPT streams. From any chat "
     }
   ]
 }
