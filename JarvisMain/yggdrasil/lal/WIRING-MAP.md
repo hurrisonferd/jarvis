@@ -1,6 +1,6 @@
 # Wiring Map — how Jarvis, Ayre, and the god systems connect
 
-_generated: 2026-06-15T02:43:38Z (2026-06-14 22:43 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
+_generated: 2026-06-15T03:02:09Z (2026-06-14 23:02 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
 
 Read at session start (after `suit_up` / `identity_read`). This is the route guide:
 what tends what, what runs in what order, which tool wakes which god.
@@ -52,7 +52,7 @@ ODIN routes; it does not route *alone*. The streams pre-process intent so ODIN d
 | rollback | **LOKI** | `jarvis_jip_revert` |
 | relay / grid | **BIFROST** | `jarvis_node_send`, `jarvis_node_inbox`, `jarvis_node_card` |
 | infra / storage | **ATLAS** | `jarvis_db_read`, `jarvis_db_schema`, `jarvis_github_file`, `jarvis_repo_read` |
-| media / perception | **IRIS** | `jarvis_media_view`, `jarvis_listen` |
+| media / perception | **IRIS** | `jarvis_media_view`, `jarvis_listen`, `jarvis_dither` |
 
 ## Truth & home
 - **JD (Jarvis Dictionary)** = the one registry; *the Dex* is its nickname. Truth in `yggdrasil/jd/entries`.

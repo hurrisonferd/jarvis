@@ -38,7 +38,7 @@ TOOL_LANE = {
     "rollback": ("LOKI", ["jarvis_jip_revert"]),
     "relay / grid": ("BIFROST", ["jarvis_node_send", "jarvis_node_inbox", "jarvis_node_card"]),
     "infra / storage": ("ATLAS", ["jarvis_db_read", "jarvis_db_schema", "jarvis_github_file", "jarvis_repo_read"]),
-    "media / perception": ("IRIS", ["jarvis_media_view", "jarvis_listen"]),
+    "media / perception": ("IRIS", ["jarvis_media_view", "jarvis_listen", "jarvis_dither"]),
 }
 
 
