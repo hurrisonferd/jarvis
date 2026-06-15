@@ -19,29 +19,53 @@ paths exist and one of them makes Supabase the origin of canon. The law below cl
   `jnl_registry` + `jd_entries` from git → Supabase. So for any object **git has**, git overwrites
   Supabase each merge (git wins). Good — as far as it goes.
 
-## The cracks (canon written to Supabase outside git)
-| path | where | writes | problem |
+## The reconcile bridge (correction to the first pass — ground truth)
+`scripts/dex_reconcile.py` (run by `dex-reconcile.yml`) is the **Supabase → git** return leg:
+it pulls ACTIVE `jd_entries` that have **no local file** into `jd/dynamic.json` (or materializes
+project files), regenerates the substrate, and **opens a PR** (exit 2). So a connector-approved
+*new* object is NOT stranded in Supabase — it reconciles back to git, Raven merges, git becomes
+truth. The full loop: `dex_propose → jd_approve (Supabase) → dex_reconcile (PR) → merge → mirror`.
+This is a real, working Supabase→git bridge — a baby "Love Train": it redirects divergence into a
+PR instead of letting it corrupt git.
+
+## The cracks (what the bridge does NOT cover)
+| path | where | writes | covered by reconcile? |
 |---|---|---|---|
-| `jd_approve` | jarvis-dex 245–293 | upsert `jnl_registry` + `jd_entries` | **new object lands in Supabase, never git.** Mirror only *pushes* git's rows, so it's never reconciled back → Supabase holds canon git lacks (true divergence). |
-| `jarvis_jip_apply` | jarvis-mcp 1631–32 | patch `jd_entries` + `jnl_registry` | field change is Supabase-only → **overwritten by git on the next mirror** (silent loss). |
-| `jarvis_jip_revert` | jarvis-mcp 1650 | patch `jd_entries` | same — ephemeral. |
-| `sync_supabase.py` | mirror | upsert, **no delete** | a git-deleted object **lingers** in Supabase (stale ghost). Low risk (JMS rarely deletes). |
+| `jd_approve` (new object) | jarvis-dex 245–293 | upsert `jnl_registry` + `jd_entries` | **YES** — dex_reconcile adds missing entries to git via PR. Transient divergence, self-healing. |
+| `jarvis_jip_apply` (field edit) | jarvis-mcp 1631–32 | patch existing `jd_entries` fields | **NO** — reconcile only adds entries with no local file; it does not diff fields of existing ones. So the edit is Supabase-only → **overwritten by git on the next mirror** (silent loss). The real remaining hole. |
+| `jarvis_jip_revert` | jarvis-mcp 1650 | patch existing `jd_entries` | **NO** — same. |
+| `sync_supabase.py` | mirror | upsert, **no delete** | n/a — git-deleted object lingers in Supabase (stale ghost). Low risk (JMS rarely deletes). |
 
-## Severity
-- **Git can't be permanently perverted** for objects it *has* — the upsert re-asserts git every merge.
-- **But git is not the *whole* truth**: `jd_approve`'d objects exist only in Supabase, and
-  `jip_apply` edits silently revert. A change can *look* landed in the connector and not be real.
-  That is exactly the failure "the connector is home" must not have.
+## Severity (corrected)
+- **New objects: covered.** `jd_approve` → `dex_reconcile` PR → git. Git becomes the whole truth
+  once the reconcile PR merges. The earlier "Supabase holds canon git lacks, permanently" was wrong.
+- **Field edits on existing objects: the real hole.** `jip_apply`/`revert` change fields in Supabase
+  that reconcile never pulls back (the file already exists), so the mirror silently reverts them. A
+  `jip_apply` can *look* applied and vanish on the next merge. Narrow, but it's the one to close.
 
-## Remediation (the build that makes Git-First Canon real)
-1. **`jd_approve` → git-first.** On approval, write the JD entry `.md` to git (commit/PR via the
-   github-write path), let the mirror sync. Supabase upsert becomes a *preview*, not the origin.
-2. **`jip_apply` / `jip_revert` → git-first.** Apply the delta to the git JD entry (PR); Supabase
-   patch is the immediate runtime preview, reconciled by the merge mirror — never the source.
-3. **Mirror authoritative (optional).** Make `sync_supabase.py` delete Supabase rows absent from
-   git, so deletions propagate and no ghost survives.
-4. **Guard rail.** Until 1–2 land, the connector descriptions must say so: these tools *preview*
-   in Supabase; the canonical change is a git PR. Never present an ungit'd patch as "applied."
+## How to combat "git always wins" properly
+"Git always wins" is the *correct* behavior — the danger is only when a Supabase change never
+reached git, so git's overwrite *loses* it. The proper defense is therefore NOT to weaken git;
+it's to **guarantee every Supabase write has a git-return path**, so winning never destroys data,
+and to **make any residual divergence loud**:
+1. **Field-level reconcile.** Extend `dex_reconcile.py` to also diff fields of *existing* entries
+   (not just add missing files), so `jip_apply` edits ride a PR back to git like new objects do.
+   This closes the one real hole using the bridge that already works.
+2. **`jip_apply`/`revert` → git-first** (alternative to #1): apply the delta to the git JD entry via
+   the github-write PR; the Supabase patch is the runtime *preview*, reconciled by the merge.
+3. **Divergence detector (the loud alarm).** A check (CI or an Omni *Sync* lens) that reads BOTH
+   stores and flags any `jd_entries` row where Supabase ≠ git. Silent overwrite becomes a visible
+   flag — the safest failure mode (diverge loudly, never revert quietly).
+4. **Mirror authoritative (optional).** `sync_supabase.py` deletes Supabase rows absent from git,
+   so deletions propagate and no ghost survives.
+
+## Do the Omni tools help audit?
+Yes — but on a different axis. The Omni/fusion lenses (Omni-JMS, Orphan, Drift) audit the
+**git-side structure** (orphans, coupling, drift) because they project over git-derived
+`graph.json`/registry. They are real auditing — of *one* store. **Sync** auditing is cross-store
+(git vs Supabase), which they don't do today. The missing piece in the hoped-for stack
+(JARVIS + Ayre + god systems + Omni-JMS + grimoire + fusion) is exactly **one Sync/reconcile lens**
+that diffs the two stores. Add it and the stack audits both structure *and* sync.
 
 ## How JARVIS guides by this
 Git-First Canon is now in `CLAUDE.md` (Governed Workflow) — always-loaded, so every stream routes

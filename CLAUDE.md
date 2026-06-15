@@ -293,8 +293,9 @@ its `jd_entries`/`jnl_registry` row, any change to definition/parent/status — 
 **Supabase never originates canon.** It is the READ/runtime mirror plus its own native live
 tables (`dex_events`, `mnemos_memories`, `jd_proposals` — events/memory/staging, which live
 only there). A connector "approve"/"apply" must *propose a git change*, never patch Supabase
-canon directly. Audit + remediation: `AUD-SYNC-REVW-0001`. (Open holes: `jd_approve`,
-`jip_apply`/`jip_revert` still patch Supabase-only — treat as *preview*, not *applied*, until fixed.)
+canon directly. Audit + remediation: `AUD-SYNC-REVW-0001`. (`jd_approve` new objects reconcile to
+git via `dex_reconcile.py` → PR. Remaining hole: `jip_apply`/`jip_revert` field edits are
+Supabase-only and reconcile doesn't diff existing files — treat them as *preview*, not *applied*, until fixed.)
 
 All changes follow this loop:
 
