@@ -1,5 +1,5 @@
 ---
-name: Continuity — route + surface raw material
+name: The Pinch — squeeze the whole tree (drift, debt, bloat)
 type: RT
 class: MODULE
 tier: MAIN
@@ -12,7 +12,7 @@ seq: 185
 status: ACTIVE
 created: 2026-06-16
 updated: 2026-06-16
-source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_continuity.md
+source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_pinch.md
 related: []
 references: []
 tags: [connector, mcp, tool]
@@ -20,6 +20,6 @@ aliases: []
 ref: [PRI, IDX]
 ---
 
-**Definition:** Call first on a substantive turn: returns raw material to audit — routing pointers plus raw recall and recent execution, not a pre-formed read.
+**Definition:** The world-spell (P3): read PINCH.md in one squeeze — drift (mirror vs HEAD), debt vs structure (real orphans, not the trunk), and GL7 bloat candidates. Tells what needs attention from what's healthy structure.
 
 **Purpose:** Governed mirror of the jarvis-mcp tool surface — addressable, auditable.

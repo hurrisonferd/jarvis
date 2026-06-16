@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-16T18:42:12Z (2026-06-16 14:42 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-16T18:55:37Z (2026-06-16 14:55 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**193 governed objects** · 297 edges · 9 domains.
+**194 governed objects** · 298 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 193 objects · 19 open tasks · 6 orphans · 297 edges._
+_JARVIS online · 194 objects · 19 open tasks · 6 orphans · 298 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -136,7 +136,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `151` | `AUD-SYNC-REVW-0001` | TUSK Act 4 — Git/Supabase Sync Audit | ACTIVE | — |
 | `87` | `AUD-SYS-REVW-0001` | Jarvis System Review | ACTIVE | — |
 
-### CONN (58)
+### CONN (59)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -189,13 +189,14 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `182` | `CONN-MCP-RT-0044` | Identity — grow | ACTIVE | — |
 | `183` | `CONN-MCP-RT-0045` | Omnivision — the whole system in one read | ACTIVE | — |
 | `184` | `CONN-MCP-RT-0046` | Eyes — the whole system in one look | ACTIVE | — |
-| `185` | `CONN-MCP-RT-0047` | Continuity — route + surface raw material | ACTIVE | — |
-| `186` | `CONN-MCP-RT-0048` | Listen — a track's musical features | ACTIVE | — |
-| `187` | `CONN-MCP-RT-0049` | Dither — see an image the Game Boy way | ACTIVE | — |
-| `188` | `CONN-MCP-RT-0050` | JIP — create | ACTIVE | — |
-| `189` | `CONN-MCP-RT-0051` | JIP — list | ACTIVE | — |
-| `190` | `CONN-MCP-RT-0052` | JIP — apply (propose to git) | ACTIVE | — |
-| `191` | `CONN-MCP-RT-0053` | JIP — revert (propose to git) | ACTIVE | — |
+| `185` | `CONN-MCP-RT-0047` | The Pinch — squeeze the whole tree (drift, debt, bloat) | ACTIVE | — |
+| `186` | `CONN-MCP-RT-0048` | Continuity — route + surface raw material | ACTIVE | — |
+| `187` | `CONN-MCP-RT-0049` | Listen — a track's musical features | ACTIVE | — |
+| `188` | `CONN-MCP-RT-0050` | Dither — see an image the Game Boy way | ACTIVE | — |
+| `189` | `CONN-MCP-RT-0051` | JIP — create | ACTIVE | — |
+| `190` | `CONN-MCP-RT-0052` | JIP — list | ACTIVE | — |
+| `191` | `CONN-MCP-RT-0053` | JIP — apply (propose to git) | ACTIVE | — |
+| `195` | `CONN-MCP-RT-0054` | JIP — revert (propose to git) | ACTIVE | — |
 | `67` | `CONN-MSB-CORE-0001` | MCP-Supabase Connector | ACTIVE | — |
 | `68` | `CONN-OTH-LOG-0001` | Other Connectors | ACTIVE | — |
 

@@ -238,6 +238,7 @@
       "CONN-MCP-RT-0051",
       "CONN-MCP-RT-0052",
       "CONN-MCP-RT-0053",
+      "CONN-MCP-RT-0054",
       "CONN-MSB-CORE-0001",
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
@@ -713,6 +714,7 @@
       "CONN-MCP-RT-0051",
       "CONN-MCP-RT-0052",
       "CONN-MCP-RT-0053",
+      "CONN-MCP-RT-0054",
       "CONN-MSB-CORE-0001",
       "IMPL-TLR-SPEC-0001"
     ],
@@ -1091,7 +1093,8 @@
       "CONN-MCP-RT-0050",
       "CONN-MCP-RT-0051",
       "CONN-MCP-RT-0052",
-      "CONN-MCP-RT-0053"
+      "CONN-MCP-RT-0053",
+      "CONN-MCP-RT-0054"
     ],
     "tool-use": [
       "ARCH-JRV-BIO-0003"

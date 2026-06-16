@@ -1,5 +1,5 @@
 ---
-name: Continuity — route + surface raw material
+name: JIP — revert (propose to git)
 type: RT
 class: MODULE
 tier: MAIN
@@ -7,12 +7,12 @@ authority: CANON
 owner: Connectors
 steward: 
 parent: CONN-MSB-CORE-0001
-jnl: CONN-MCP-RT-0048
-seq: 186
+jnl: CONN-MCP-RT-0054
+seq: 195
 status: ACTIVE
 created: 2026-06-16
 updated: 2026-06-16
-source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_continuity.md
+source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_revert.md
 related: []
 references: []
 tags: [connector, mcp, tool]
@@ -20,6 +20,6 @@ aliases: []
 ref: [PRI, IDX]
 ---
 
-**Definition:** Call first on a substantive turn: returns raw material to audit — routing pointers plus raw recall and recent execution, not a pre-formed read.
+**Definition:** Roll a JD back git-first: remove its entry from jd/patches.json as a PR so seed restores the source value. AEGIS-gated.
 
 **Purpose:** Governed mirror of the jarvis-mcp tool surface — addressable, auditable.

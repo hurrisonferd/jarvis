@@ -1747,6 +1747,19 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // THE PINCH — the world-spell (P3): squeeze the whole tree → drift + debt-vs-structure + bloat.
+  server.registerTool(
+    "jarvis_pinch",
+    { title: "The Pinch — squeeze the whole tree (drift · debt · bloat)", description: "The world-spell: read the Pinch (lal/PINCH.md) in one squeeze — DRIFT (mirror vs HEAD; +1 stamp lag is expected, not staleness), DEBT vs STRUCTURE (real orphans, never the trunk — a root that anchors children is healthy), and GL7 BLOAT candidates (near-duplicate names, review-only). Tells what actually needs attention vs what's healthy structure. Proposals only (GL2); not authoritative — the source is the tree. Read-only.", inputSchema: {} },
+    async () => {
+      const r = await gh(`/contents/${"JarvisMain/yggdrasil/lal/PINCH.md".split("/").map(encodeURIComponent).join("/")}?ref=main`);
+      if (!r.ok) return text({ ok: false, status: r.status, note: "PINCH.md unreachable — run seed.py to generate it" });
+      const d = await r.json() as { content?: string };
+      const pinch = typeof d.content === "string" ? atob(d.content.replace(/\n/g, "")) : null;
+      return text({ ok: true, note: "The Pinch — drift + debt + bloat in one squeeze. Proposals only (GL2); not authoritative, the source is the tree.", pinch: pinch ?? "unreachable" });
+    },
+  );
+
   // CONTINUITY — memory injection BEFORE the answer (Raven 2026-06-14): grounding so Jarvis
   // and Ayre guide from the record, not a cold start. Reference only — never pre-shapes the
   // raw output; the streams still read the input fresh and give opinions at the END.

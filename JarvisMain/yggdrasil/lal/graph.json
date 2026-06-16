@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 193,
-    "edges": 297,
-    "main": 160,
+    "nodes": 194,
+    "edges": 298,
+    "main": 161,
     "side": 33
   },
   "nodes": [
@@ -873,7 +873,7 @@
     },
     {
       "id": "CONN-MCP-RT-0047",
-      "name": "Continuity \u2014 route + surface raw material",
+      "name": "The Pinch \u2014 squeeze the whole tree (drift, debt, bloat)",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -882,7 +882,7 @@
     },
     {
       "id": "CONN-MCP-RT-0048",
-      "name": "Listen \u2014 a track's musical features",
+      "name": "Continuity \u2014 route + surface raw material",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -891,7 +891,7 @@
     },
     {
       "id": "CONN-MCP-RT-0049",
-      "name": "Dither \u2014 see an image the Game Boy way",
+      "name": "Listen \u2014 a track's musical features",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -900,7 +900,7 @@
     },
     {
       "id": "CONN-MCP-RT-0050",
-      "name": "JIP \u2014 create",
+      "name": "Dither \u2014 see an image the Game Boy way",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -909,7 +909,7 @@
     },
     {
       "id": "CONN-MCP-RT-0051",
-      "name": "JIP \u2014 list",
+      "name": "JIP \u2014 create",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -918,7 +918,7 @@
     },
     {
       "id": "CONN-MCP-RT-0052",
-      "name": "JIP \u2014 apply (propose to git)",
+      "name": "JIP \u2014 list",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -927,6 +927,15 @@
     },
     {
       "id": "CONN-MCP-RT-0053",
+      "name": "JIP \u2014 apply (propose to git)",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0054",
       "name": "JIP \u2014 revert (propose to git)",
       "domain": "CONN",
       "class": "MODULE",
@@ -2478,6 +2487,11 @@
     },
     {
       "source": "CONN-MCP-RT-0053",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0054",
       "target": "CONN-MSB-CORE-0001",
       "type": "parent"
     },
