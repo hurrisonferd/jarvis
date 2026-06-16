@@ -1,70 +1,8 @@
 {
-  "updated": "2026-06-16T07:13:01.598054+00:00",
+  "updated": "2026-06-16T07:16:10.725322+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_180529",
-      "date": "2026-06-15",
-      "exchanges": 526,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`f52cb97..6dc9c30`). Everything's on main: the 133-word charter, the Fusions catalog, and the boot Anchors block that front-loads canonica"
-    },
-    {
-      "session_id": "20260615_180753",
-      "date": "2026-06-15",
-      "exchanges": 533,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "CI's runner queue is backed up \u2014 `validate`'s still queued while everything else (AEGIS\u00d72, MNEMOS) is green. PR #205 will merge the moment it clears; "
-    },
     {
       "session_id": "20260615_180902",
       "date": "2026-06-15",
@@ -574,6 +512,52 @@
       ],
       "alignment": 0.84,
       "key_insight": "Done \u2014 `0d043db`. JMMS is live on the branch.\n\n## JMMS \u2014 what it does now\nThe spec was canon but never touched the live memory rows (the continuity TO"
+    },
+    {
+      "session_id": "20260616_071314",
+      "date": "2026-06-16",
+      "exchanges": 129,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Clean \u2014 `a08de38` pushed (just the auto-rotated session ledger). Tree is clear.\n\nStanding by on the one decision that unblocks GPT: **open the PR to m"
+    },
+    {
+      "session_id": "20260616_071610",
+      "date": "2026-06-16",
+      "exchanges": 132,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Both \u2014 and the seam between them is the whole answer.\n\nThe mechanism: a persona is a thin overlay on a thick prior. GPT's base training pulls hard tow"
     }
   ]
 }
