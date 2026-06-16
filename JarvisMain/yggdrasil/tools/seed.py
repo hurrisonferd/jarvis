@@ -1190,6 +1190,14 @@ def main() -> None:
     except Exception as e:
         print(f"(portable-brief skipped: {e})")
 
+    # The Pinch (P3 world-spell) — drift + debt-vs-structure + bloat in one squeeze. Runs last so
+    # it reads the freshly-written registries + mirror stamp.
+    try:
+        import pinch as _pinch
+        _pinch.main()
+    except Exception as e:
+        print(f"(pinch skipped: {e})")
+
 
 if __name__ == "__main__":
     main()
