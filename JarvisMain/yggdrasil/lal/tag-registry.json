@@ -67,6 +67,7 @@
       "AUD-CHK-SPEC-0001",
       "AUD-FULL-REVW-0001",
       "AUD-GATE-REVW-0001",
+      "AUD-IDX-REG-0001",
       "AUD-OPUS-REVW-0001",
       "AUD-REQM-REVW-0001",
       "AUD-SYNC-REVW-0001",
@@ -510,6 +511,9 @@
       "IDEA-UNUS-LOG-0001",
       "IDEA-USED-LOG-0001"
     ],
+    "ideas": [
+      "IDEA-IDX-REG-0001"
+    ],
     "identity": [
       "ARCH-ARGT-BIO-0001",
       "ARCH-AYR-BIO-0001",
@@ -546,6 +550,8 @@
       "ARCH-FAM-IDX-0001",
       "ARCH-GS-IDX-0001",
       "ARCH-LAL-CORE-0001",
+      "AUD-IDX-REG-0001",
+      "IDEA-IDX-REG-0001",
       "IMPL-IDX-REG-0001",
       "IMPL-TLR-SPEC-0001",
       "PROJ-IDX-REG-0001"
@@ -913,6 +919,8 @@
     ],
     "root": [
       "ARCH-YGG-CORE-0001",
+      "AUD-IDX-REG-0001",
+      "IDEA-IDX-REG-0001",
       "PROJ-IDX-REG-0001"
     ],
     "routing": [

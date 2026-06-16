@@ -6,7 +6,7 @@ tier: MAIN
 authority: CANON
 owner: JCS Pipeline
 steward: 
-parent: 
+parent: IMPL-IDX-REG-0001
 jnl: IMPL-MOD-SPEC-0001
 seq: 192
 status: TASK

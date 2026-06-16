@@ -1,33 +1,33 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-16T18:11:24Z",
-    "generated_at_eastern": "2026-06-16 14:11 EDT",
-    "source_commit": "5965aa2",
+    "generated_at_utc": "2026-06-16T18:16:52Z",
+    "generated_at_eastern": "2026-06-16 14:16 EDT",
+    "source_commit": "c16e3e6",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 191,
+    "object_count": 193,
     "by_status": {
-      "ACTIVE": 165,
+      "ACTIVE": 167,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 19
     },
     "by_domain": {
       "ARCH": 38,
-      "AUD": 8,
+      "AUD": 9,
       "CONN": 58,
       "GOV": 12,
       "GS": 27,
-      "IDEA": 3,
+      "IDEA": 4,
       "IMPL": 16,
       "LOG": 2,
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 159,
-      "SIDE": 32
+      "MAIN": 160,
+      "SIDE": 33
     }
   },
   "objects": [
@@ -942,7 +942,7 @@
       "class": "EVENT",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "tags": [
         "audit",
         "ci"
@@ -1397,7 +1397,7 @@
       "class": "EVENT",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "tags": [
         "audit",
         "review"
@@ -1412,7 +1412,7 @@
       "class": "EVENT",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "tags": [
         "audit",
         "review"
@@ -1427,7 +1427,7 @@
       "class": "EVENT",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "tags": [
         "audit",
         "review"
@@ -1589,7 +1589,7 @@
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "IDEA-IDX-REG-0001",
       "tags": [
         "idea",
         "log"
@@ -1604,7 +1604,7 @@
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "INACTIVE",
-      "parent": "",
+      "parent": "IDEA-IDX-REG-0001",
       "tags": [
         "idea",
         "log"
@@ -1635,7 +1635,7 @@
       "class": "EVENT",
       "tier": "SIDE",
       "status": "ARCHIVED",
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "tags": [
         "research",
         "companion",
@@ -2315,7 +2315,7 @@
       "class": "ENTITY",
       "tier": "SIDE",
       "status": "TASK",
-      "parent": "",
+      "parent": "IDEA-IDX-REG-0001",
       "tags": [
         "pantheon",
         "god-systems",
@@ -3160,7 +3160,7 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
-      "parent": "",
+      "parent": "IMPL-IDX-REG-0001",
       "tags": [
         "modularity",
         "extensibility",
@@ -3173,6 +3173,38 @@
         "automation",
         "routing",
         "mirroring"
+      ]
+    },
+    {
+      "jnl": "AUD-IDX-REG-0001",
+      "jid": 193,
+      "jidd": "aud-9",
+      "name": "Audit Index",
+      "type": "REG",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "audit",
+        "index",
+        "root"
+      ]
+    },
+    {
+      "jnl": "IDEA-IDX-REG-0001",
+      "jid": 194,
+      "jidd": "idea-4",
+      "name": "Ideas Index",
+      "type": "REG",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "ideas",
+        "index",
+        "root"
       ]
     }
   ]

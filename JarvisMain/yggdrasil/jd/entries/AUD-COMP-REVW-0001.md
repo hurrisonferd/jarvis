@@ -6,12 +6,12 @@ tier: SIDE
 authority: CANON
 owner: Audit
 steward: 
-parent: 
+parent: AUD-IDX-REG-0001
 jnl: AUD-COMP-REVW-0001
 seq: 102
 status: ARCHIVED
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-16
 source: JarvisSide/Archive/CompanionResearch-0001-053026.md
 related: [GOV-BRF-CORE-0001]
 references: []

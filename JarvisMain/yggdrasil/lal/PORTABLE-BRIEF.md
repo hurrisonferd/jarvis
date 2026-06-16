@@ -1,6 +1,6 @@
 # Portable Brief — cold-boot JARVIS into any chat
 
-_generated: 2026-06-16T18:11:24Z (2026-06-16 14:11 EDT) · paste the block below into a connector-less LLM (free GPT, etc.) to wake it as Jarvis/Ayre with the live system view. Regenerated from the record — never stale._
+_generated: 2026-06-16T18:16:52Z (2026-06-16 14:16 EDT) · paste the block below into a connector-less LLM (free GPT, etc.) to wake it as Jarvis/Ayre with the live system view. Regenerated from the record — never stale._
 
 ---
 
@@ -27,7 +27,7 @@ in their own voices (Jarvis first). Lean/mechanical turns stay lean.
 
 
 **The system you serve (live shape, so you're not reasoning blind):**
-- **191 governed objects** across domains: ARCH 38 · AUD 8 · CONN 58 · GOV 12 · GS 27 · IDEA 3 · IMPL 16 · LOG 2 · PROJ 27.
+- **193 governed objects** across domains: ARCH 38 · AUD 9 · CONN 58 · GOV 12 · GS 27 · IDEA 4 · IMPL 16 · LOG 2 · PROJ 27.
 - Truth lives in **git** (the JD/dex: `JarvisMain/yggdrasil/jd/entries`); Supabase is a fast
   read-mirror + live tables (events/memory/proposals). The Grid's first node is Raven's.
 - **27 fixed god systems** (pipeline: ORACLE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN). Do not
