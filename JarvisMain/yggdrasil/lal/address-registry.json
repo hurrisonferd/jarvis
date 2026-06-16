@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 154,
+  "count": 155,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -283,6 +283,28 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "ARCH-JITM-CORE-0001",
+      "name": "Jarvis Immediate Memory",
+      "type": "CORE",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-JMMS-CORE-0001",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
+      "tags": [
+        "memory",
+        "immediate",
+        "always-on",
+        "architecture"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-16",
+      "updated": "2026-06-16"
     },
     {
       "jnl": "ARCH-JLTM-CORE-0001",

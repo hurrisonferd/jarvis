@@ -15,6 +15,7 @@ layer (what a memory means); JMMS is the *structure* layer (which tier holds it)
 
 | Tier | JNL | Horizon | Holds | Backing store |
 |------|-----|---------|-------|---------------|
+| **JITM** — immediate | `ARCH-JITM-CORE-0001` | always-on / pinned | the strict capped briefing injected every turn (a dynamic extension of the charter) — **pointers, not content** | `mnemos_memories` tagged `jitm`; injected by `jarvis_query` |
 | **JSTM** — short-term | `ARCH-JSTM-CORE-0001` | working / session | current context, recent events, the live exchange | session logs, `events`, working buffers |
 | **JLTM** — long-term | `ARCH-JLTM-CORE-0001` | consolidated | compressed knowledge, durable facts, learned patterns | `mnemos/memories/`, Supabase `mnemos_memories` |
 | **JATM** — ancestral | `ARCH-JATM-CORE-0001` | immutable lineage | the dated record — foundational decisions, the spine | `event_spine`, git history, PROMETHEUS ledger |
@@ -40,7 +41,11 @@ interaction → JSTM (capture) → compression → JLTM (consolidate) → JATM (
 - **No tier duplicates another's truth** (JMS law): JLTM points at JATM lineage; JSTM points
   at JLTM. Each tier holds references, not copies, of the tier beneath it.
 - **Every memory object is JNL-addressed** and carries a tier tag, so recall can target a
-  horizon (`#jstm` / `#jltm` / `#jatm`).
+  horizon (`#jitm` / `#jstm` / `#jltm` / `#jatm`).
+- **JITM is capped at injection, not storage.** `jarvis_query` injects only the newest 5 `jitm`
+  rows every turn — extra pins simply stop loading, so the always-on briefing can never bloat
+  (autosort-by-recency, bounded). JITM holds *pointers* (where the manual/brief/fusions live,
+  the current focus), never content; content lives in JSTM (working) or JLTM (durable).
 
 ## Relationship to the stack
 

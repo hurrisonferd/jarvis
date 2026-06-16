@@ -11,9 +11,9 @@ jnl: ARCH-JMMS-CORE-0001
 seq: 10
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-16
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
-related: [ARCH-JSTM-CORE-0001, ARCH-JLTM-CORE-0001, ARCH-JATM-CORE-0001]
+related: [ARCH-JITM-CORE-0001, ARCH-JSTM-CORE-0001, ARCH-JLTM-CORE-0001, ARCH-JATM-CORE-0001]
 references: []
 tags: [memory, core, architecture]
 aliases: [jmms, multimemory, memory system]

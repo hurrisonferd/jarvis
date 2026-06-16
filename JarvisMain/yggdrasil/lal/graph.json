@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 154,
-    "edges": 247,
-    "main": 122,
+    "nodes": 155,
+    "edges": 250,
+    "main": 123,
     "side": 32
   },
   "nodes": [
@@ -118,6 +118,15 @@
     {
       "id": "ARCH-JFS-CORE-0001",
       "name": "Jarvis File System",
+      "domain": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-JITM-CORE-0001",
+      "name": "Jarvis Immediate Memory",
       "domain": "ARCH",
       "class": "SYSTEM",
       "tier": "MAIN",
@@ -1531,6 +1540,16 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-JITM-CORE-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JITM-CORE-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-JLTM-CORE-0001",
       "target": "ARCH-JMMS-CORE-0001",
       "type": "related"
@@ -1539,6 +1558,11 @@
       "source": "ARCH-JLTM-CORE-0001",
       "target": "ARCH-JMMS-CORE-0001",
       "type": "parent"
+    },
+    {
+      "source": "ARCH-JMMS-CORE-0001",
+      "target": "ARCH-JITM-CORE-0001",
+      "type": "related"
     },
     {
       "source": "ARCH-JMMS-CORE-0001",

@@ -164,7 +164,7 @@ async function rest(path: string): Promise<unknown> {
 // JMMS — memory tiering (ARCH-JMMS-CORE-0001). Every memory carries a tier tag so recall
 // can target a horizon: JSTM (working/session) → JLTM (consolidated, the default) → JATM
 // (ancestral/immutable). Promotion is one-way; JATM never retags out. Rides the tags array.
-const JMMS_TIERS = ["jstm", "jltm", "jatm"] as const;
+const JMMS_TIERS = ["jitm", "jstm", "jltm", "jatm"] as const;
 type Tier = typeof JMMS_TIERS[number];
 function tierTag(t: unknown): Tier {
   const v = String(t ?? "jltm").toLowerCase().replace(/^#/, "");
@@ -383,7 +383,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.16" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.17" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -496,6 +496,11 @@ function buildServer(req: Request): McpServer {
         logExchange("speak_input", input),
         prior_reply ? logExchange("speak_output", prior_reply) : Promise.resolve(),
       ]);
+      // JMMS / JITM — the always-on briefing: the newest 5 jitm pins, injected EVERY turn.
+      // Capped by recency, so it can never bloat (extra pins simply stop loading). Pointers
+      // to the manual/brief/fusions + current focus — the streams hold these before answering.
+      // Best-effort; a miss never blocks the reply.
+      const jitm = await rest("mnemos_memories?select=text,tags,timestamp&tags=cs.{jitm}&order=timestamp.desc&limit=5").catch(() => []);
       try {
         // Keyless voice path: full God-System pipeline (ODIN/AEGIS/MNEMOS),
         // NO language model. Returns JARVIS's briefing for the connector to speak.
@@ -549,6 +554,9 @@ function buildServer(req: Request): McpServer {
           mode: "voice_packet",
           instruction: r.instruction,
           jarvis_briefing: r.jarvis_briefing,
+          // JITM — always-on briefing (capped at 5, newest first). Hold these every turn.
+          jitm_briefing: jitm,
+          jitm_note: "JITM = your always-on briefing (immediate memory). Keep these in mind before answering; they point to the manual/brief/fusions and the current focus.",
           // THE COUNCIL — fixed-authority vote, auditable: who weighed in, with what weight.
           council: { resolved: council.resolved, summary: council.summary, votes: council.votes },
           // CONDITIONAL DELIBERATION — present only on heavy turns; the lens-stack directive.
@@ -570,6 +578,7 @@ function buildServer(req: Request): McpServer {
         return text({
           mode: "voice_packet",
           degraded: true,
+          jitm_briefing: jitm,
           reason: `pipeline unreachable: ${String(err).slice(0, 160)}`,
           input,
           memory: memories,
@@ -642,7 +651,7 @@ function buildServer(req: Request): McpServer {
         source_type: z.string().optional().default("mcp_memory"),
         tags: z.array(z.string()).optional().default([]),
         platform: z.string().optional().default("mcp_connector"),
-        tier: z.enum(["jstm", "jltm", "jatm"]).optional().describe("JMMS horizon: jstm (working/context-window) · jltm (consolidated, default) · jatm (ancestral). Stamped as a tier tag."),
+        tier: z.enum(["jitm", "jstm", "jltm", "jatm"]).optional().describe("JMMS horizon: jitm (always-on briefing — pointers only) · jstm (working/context-window) · jltm (consolidated, default) · jatm (ancestral). Stamped as a tier tag."),
       },
     },
     async (args) => {
@@ -689,9 +698,9 @@ function buildServer(req: Request): McpServer {
         "The Jarvis MultiMemory System over live memory. `action:list` reads a tier's working set (tier:jstm is the project context-window — mark notes jstm via jarvis_remember to keep them in view). `action:promote`/`tag` move a memory up the horizon (id + to) — AEGIS-gated, ONE-WAY jstm→jltm→jatm, JATM immutable. Works like JSS does for files, but for memory rows.",
       inputSchema: {
         action: z.enum(["list", "promote", "tag"]).optional().default("list"),
-        tier: z.enum(["jstm", "jltm", "jatm"]).optional(),
+        tier: z.enum(["jitm", "jstm", "jltm", "jatm"]).optional(),
         id: z.string().optional(),
-        to: z.enum(["jstm", "jltm", "jatm"]).optional(),
+        to: z.enum(["jitm", "jstm", "jltm", "jatm"]).optional(),
         limit: z.number().int().min(1).max(100).optional().default(20),
       },
     },

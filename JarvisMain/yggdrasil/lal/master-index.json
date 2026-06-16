@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 154,
+  "count": 155,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -162,6 +162,19 @@
       "tags": [
         "filesystem",
         "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Immediate Memory",
+      "jnl": "ARCH-JITM-CORE-0001",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
+      "tags": [
+        "memory",
+        "immediate",
+        "always-on",
         "architecture"
       ],
       "anchors": [],
