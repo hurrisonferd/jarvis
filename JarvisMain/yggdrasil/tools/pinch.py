@@ -64,7 +64,12 @@ def main() -> int:
     src = fresh.get("source_commit", "")
     head = _git("rev-parse", "--short", "HEAD")
     behind = _git("rev-list", "--count", f"{src}..HEAD") if src and head else ""
-    in_sync = src and head and head.startswith(src) or behind == "0"
+    behind_n = int(behind) if behind.isdigit() else 0
+    # +1 is the inherent self-reference: the mirror file cannot carry the hash of the commit that
+    # contains it, so it always trails its own commit by one. Real drift starts at 2+. Supabase
+    # itself re-syncs on every merge (yggdrasil-validate mirror job), so the DATA is never stale —
+    # only the self-reported stamp lags. Trust the age more than the commit count.
+    in_sync = behind_n <= 1
     age = ""
     try:
         gen = datetime.fromisoformat(fresh["generated_at_utc"].replace("Z", "+00:00"))
@@ -97,8 +102,9 @@ def main() -> int:
 
     L.append("\n## 1. Drift — mirror vs the live tree")
     L.append(f"- mirror commit `{src or '?'}` · git HEAD `{head or '?'}` · "
-             + ("**IN SYNC**" if in_sync else f"**BEHIND by {behind or '?'} commit(s)** — reseed/mirror to refresh"))
-    L.append(f"- mirror stamp age: {age or 'unknown'}")
+             + ("**IN SYNC**" if in_sync else f"**BEHIND by {behind_n} commits** — reseed + let the mirror job push"))
+    L.append(f"- mirror stamp age: {age or 'unknown'} · Supabase re-syncs every merge (data is current; "
+             f"the stamp trails its own commit by one — expected, not drift).")
 
     L.append(f"\n## 2. Structure — healthy, NOT debt ({len(structural_roots)})")
     L.append("_parentless but anchoring children — these are the trunk; leave them._")

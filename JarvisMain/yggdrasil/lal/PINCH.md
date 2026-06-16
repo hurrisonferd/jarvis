@@ -1,10 +1,10 @@
 # The Pinch — the whole tree in one squeeze
 
-_generated 2026-06-16 18:46 UTC · the world-spell (P3): drift + debt + bloat, telling structure from debt (GL13/GL7). Proposals only (GL2); not authoritative — the source is the tree._
+_generated 2026-06-16 18:51 UTC · the world-spell (P3): drift + debt + bloat, telling structure from debt (GL13/GL7). Proposals only (GL2); not authoritative — the source is the tree._
 
 ## 1. Drift — mirror vs the live tree
-- mirror commit `c750951` · git HEAD `f419c9d` · **BEHIND by 2 commit(s)** — reseed/mirror to refresh
-- mirror stamp age: 4 min
+- mirror commit `c750951` · git HEAD `b492d1b` · **BEHIND by 3 commits** — reseed + let the mirror job push
+- mirror stamp age: 9 min · Supabase re-syncs every merge (data is current; the stamp trails its own commit by one — expected, not drift).
 
 ## 2. Structure — healthy, NOT debt (4)
 _parentless but anchoring children — these are the trunk; leave them._
