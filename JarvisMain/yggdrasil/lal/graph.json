@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 197,
-    "edges": 301,
-    "main": 164,
+    "nodes": 200,
+    "edges": 304,
+    "main": 167,
     "side": 33
   },
   "nodes": [
@@ -964,6 +964,33 @@
     {
       "id": "CONN-MCP-RT-0057",
       "name": "JIP \u2014 revert (propose to git)",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0058",
+      "name": "Private \u2014 tree (Jarvis-Private)",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0059",
+      "name": "Private \u2014 read file (Jarvis-Private)",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0060",
+      "name": "Private \u2014 write/scaffold (Jarvis-Private)",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -2534,6 +2561,21 @@
     },
     {
       "source": "CONN-MCP-RT-0057",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0058",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0059",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0060",
       "target": "CONN-MSB-CORE-0001",
       "type": "parent"
     },

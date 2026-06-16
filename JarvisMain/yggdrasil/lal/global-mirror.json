@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-16T19:00:44Z",
-    "generated_at_eastern": "2026-06-16 15:00 EDT",
-    "source_commit": "2a2d609",
+    "generated_at_utc": "2026-06-16T22:56:47Z",
+    "generated_at_eastern": "2026-06-16 18:56 EDT",
+    "source_commit": "67b8d8d",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 197,
+    "object_count": 200,
     "by_status": {
-      "ACTIVE": 171,
+      "ACTIVE": 174,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 19
@@ -17,7 +17,7 @@
     "by_domain": {
       "ARCH": 38,
       "AUD": 9,
-      "CONN": 62,
+      "CONN": 65,
       "GOV": 12,
       "GS": 27,
       "IDEA": 4,
@@ -26,7 +26,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 164,
+      "MAIN": 167,
       "SIDE": 33
     }
   },
@@ -3260,6 +3260,54 @@
       "jid": 198,
       "jidd": "conn-62",
       "name": "JIP — revert (propose to git)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0058",
+      "jid": 199,
+      "jidd": "conn-63",
+      "name": "Private — tree (Jarvis-Private)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0059",
+      "jid": 200,
+      "jidd": "conn-64",
+      "name": "Private — read file (Jarvis-Private)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0060",
+      "jid": 201,
+      "jidd": "conn-65",
+      "name": "Private — write/scaffold (Jarvis-Private)",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",

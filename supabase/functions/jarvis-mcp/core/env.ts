@@ -24,6 +24,7 @@ export const TOOL_NAMES = [
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
   "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_repo_search", "jarvis_self_test", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
+  "jarvis_private_tree", "jarvis_private_read", "jarvis_private_write",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",

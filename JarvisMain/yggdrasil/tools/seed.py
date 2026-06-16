@@ -617,6 +617,11 @@ _MCP_SPELLS = [
     ("jarvis_jip_list", "JIP — list", "List JIPs (version history of metadata changes), optionally for one target JD (read-only)."),
     ("jarvis_jip_apply", "JIP — apply (propose to git)", "Apply an approved JIP's delta git-first: write the field override into jd/patches.json as a PR. AEGIS-gated."),
     ("jarvis_jip_revert", "JIP — revert (propose to git)", "Roll a JD back git-first: remove its entry from jd/patches.json as a PR so seed restores the source value. AEGIS-gated."),
+    # APPEND-ONLY past here — new spells go at the END so existing CONN-MCP-RT JNLs never shift
+    # (mid-list inserts renumber everything after them and scramble the governed identity).
+    ("jarvis_private_tree", "Private — tree (Jarvis-Private)", "List file paths in the private storage/scaffolding repo (Jarvis-Private) at a ref. Read-only; needs GITHUB_TOKEN_PRIVATE."),
+    ("jarvis_private_read", "Private — read file (Jarvis-Private)", "Read one file's content from the private storage repo (Jarvis-Private). Read-only."),
+    ("jarvis_private_write", "Private — write/scaffold (Jarvis-Private)", "Write one or many files directly to main of the private storage repo (Jarvis-Private) in one commit — scaffold and store projects (not canon). AEGIS-gated."),
 ]
 _MCP_PURPOSE = "Governed mirror of the jarvis-mcp tool surface — addressable, auditable."
 for _i, (_tool, _name, _defn) in enumerate(_MCP_SPELLS, start=19):

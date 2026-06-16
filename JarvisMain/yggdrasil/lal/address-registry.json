@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 197,
+  "count": 200,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -2279,6 +2279,69 @@
       "steward": null,
       "parent": "CONN-MSB-CORE-0001",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_revert.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-16",
+      "updated": "2026-06-16"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0058",
+      "name": "Private \u2014 tree (Jarvis-Private)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "steward": null,
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-16",
+      "updated": "2026-06-16"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0059",
+      "name": "Private \u2014 read file (Jarvis-Private)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "steward": null,
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-16",
+      "updated": "2026-06-16"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0060",
+      "name": "Private \u2014 write/scaffold (Jarvis-Private)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "steward": null,
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_write.md",
       "tags": [
         "connector",
         "mcp",
