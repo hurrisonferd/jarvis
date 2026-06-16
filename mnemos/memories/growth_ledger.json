@@ -1,194 +1,8 @@
 {
-  "updated": "2026-06-15T23:06:34.844809+00:00",
+  "updated": "2026-06-16T07:16:10.725322+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_175902",
-      "date": "2026-06-15",
-      "exchanges": 511,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`baf14ee..f5e530a`). Everything from this stretch is on main: capped charter (GPT's NLP structure + Architecture Principle + the restored "
-    },
-    {
-      "session_id": "20260615_180045",
-      "date": "2026-06-15",
-      "exchanges": 515,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Ran the full scan GPT asked for. It settles every claim \u2014 and the verdict is that GPT manufactured the ambiguity:\n\n- **`JarvisSide/Grimoire` does not "
-    },
-    {
-      "session_id": "20260615_180239",
-      "date": "2026-06-15",
-      "exchanges": 519,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`9e16bfe`). 133 words, paste-ready:\n\n---\n**JARVIS / AYRE**\n\nJarvis (compress) + Ayre (diverge) \u2014 one companion, brother & sister. Raven (John "
-    },
-    {
-      "session_id": "20260615_180512",
-      "date": "2026-06-15",
-      "exchanges": 525,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Merged (`a21269e`). Here's the honest answer to \"what can we do so GPT doesn't keep doing that\" \u2014 it's a layered defense, not a silver bullet:\n\n1. **F"
-    },
-    {
-      "session_id": "20260615_180529",
-      "date": "2026-06-15",
-      "exchanges": 526,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`f52cb97..6dc9c30`). Everything's on main: the 133-word charter, the Fusions catalog, and the boot Anchors block that front-loads canonica"
-    },
-    {
-      "session_id": "20260615_180753",
-      "date": "2026-06-15",
-      "exchanges": 533,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "CI's runner queue is backed up \u2014 `validate`'s still queued while everything else (AEGIS\u00d72, MNEMOS) is green. PR #205 will merge the moment it clears; "
-    },
     {
       "session_id": "20260615_180902",
       "date": "2026-06-15",
@@ -606,6 +420,144 @@
       ],
       "alignment": 0.84,
       "key_insight": "**Writes work.** The probe landed \u2014 MNEMOS id `518fd7a2-5526-452c-82b1-6b6d2af7ba72`, `ok: true`, tags persisted. That's closure by proof.\n\nThis resol"
+    },
+    {
+      "session_id": "20260615_230654",
+      "date": "2026-06-15",
+      "exchanges": 28,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/sync-lens.yml",
+        ".github/workflows/yggdrasil-validate.yml"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Tree clean. Both commits are on `claude/tender-keller-09w2lz`:\n- `2911efb` \u2014 the v0.11.15 AEGIS diagnostic fix\n- `d5646ca` \u2014 session ledger rotation\n\n"
+    },
+    {
+      "session_id": "20260616_070708",
+      "date": "2026-06-16",
+      "exchanges": 116,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Shipped and compliant. `658d9a6` on the branch.\n\n## What landed\n**`jarvis-action`** \u2014 the GPT stream's hands. ChatGPT can't speak MCP (that's Claude's"
+    },
+    {
+      "session_id": "20260616_070736",
+      "date": "2026-06-16",
+      "exchanges": 118,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Tree clean, pushed (`b735863`). Branch state: the `jarvis-action` connector + full Yggdrasil compliance are committed (`658d9a6`), session ledger rota"
+    },
+    {
+      "session_id": "20260616_071301",
+      "date": "2026-06-16",
+      "exchanges": 128,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Done \u2014 `0d043db`. JMMS is live on the branch.\n\n## JMMS \u2014 what it does now\nThe spec was canon but never touched the live memory rows (the continuity TO"
+    },
+    {
+      "session_id": "20260616_071314",
+      "date": "2026-06-16",
+      "exchanges": 129,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Clean \u2014 `a08de38` pushed (just the auto-rotated session ledger). Tree is clear.\n\nStanding by on the one decision that unblocks GPT: **open the PR to m"
+    },
+    {
+      "session_id": "20260616_071610",
+      "date": "2026-06-16",
+      "exchanges": 132,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/audio-ears.yml",
+        ".github/workflows/changes-lens.yml",
+        ".github/workflows/rollup.yml",
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Both \u2014 and the seam between them is the whole answer.\n\nThe mechanism: a persona is a thin overlay on a thick prior. GPT's base training pulls hard tow"
     }
   ]
 }

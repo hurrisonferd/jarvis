@@ -1,24 +1,24 @@
 {
   "note": "YGG manifest \u2014 derived version snapshot of the substrate's moving parts. Rebuilt by seed.py; the grammar fingerprint must match jarvis-dex/jfs.ts (validate.py enforces).",
-  "generated": "2026-06-15",
-  "objects": 152,
+  "generated": "2026-06-16",
+  "objects": 154,
   "by_class": {
     "ENTITY": 14,
     "EVENT": 8,
-    "MODULE": 26,
+    "MODULE": 28,
     "SPEC": 47,
     "SYSTEM": 57
   },
   "by_tier": {
-    "MAIN": 120,
+    "MAIN": 122,
     "SIDE": 32
   },
   "by_status": {
-    "ACTIVE": 127,
+    "ACTIVE": 129,
     "ARCHIVED": 2,
     "INACTIVE": 5,
     "TASK": 18
   },
-  "tags": 213,
+  "tags": 216,
   "grammar_fingerprint": "35775b71c90efed8"
 }

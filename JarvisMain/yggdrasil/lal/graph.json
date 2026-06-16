@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 152,
-    "edges": 242,
-    "main": 120,
+    "nodes": 154,
+    "edges": 247,
+    "main": 122,
     "side": 32
   },
   "nodes": [
@@ -415,6 +415,24 @@
     {
       "id": "CONN-DEX-SPEC-0001",
       "name": "Jarvis Dex Action",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-GAC-CORE-0001",
+      "name": "Jarvis GPT Action Connector",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-GAC-SPEC-0001",
+      "name": "Jarvis GPT Action - OpenAPI schema",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -1775,6 +1793,31 @@
     {
       "source": "CONN-DEX-SPEC-0001",
       "target": "IMPL-DEX-SPEC-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-GAC-CORE-0001",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "CONN-GAC-CORE-0001",
+      "target": "CONN-DEX-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "CONN-GAC-CORE-0001",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-GAC-SPEC-0001",
+      "target": "CONN-GAC-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "CONN-GAC-SPEC-0001",
+      "target": "CONN-GAC-CORE-0001",
       "type": "parent"
     },
     {

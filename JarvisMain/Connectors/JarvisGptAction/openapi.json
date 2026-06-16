@@ -1,0 +1,93 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "JARVIS Action — GPT companion surface",
+    "description": "The GPT stream's hands. ChatGPT cannot speak MCP Streamable HTTP (Claude's transport); it calls JARVIS through this single REST Action. Same governed core as jarvis-mcp, different transport. Reads are open (status/now/query/recall/dex_*/jd_resolve/jc_recall/grimoire — see every JD entry, the spine, and the grimoire). Writes (remember/event) carry JARVIS_MCP_TOKEN via the x-jarvis-token header — AEGIS-gated. Propose (dex_propose) rides the dex's PROPOSE tier: it stages for Raven, never commits. Your write ceiling is PROPOSE/staged — never claim 'committed'.",
+    "version": "0.2.0"
+  },
+  "servers": [
+    { "url": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1" }
+  ],
+  "paths": {
+    "/jarvis-action": {
+      "post": {
+        "operationId": "jarvis",
+        "summary": "Call a JARVIS tool",
+        "description": "Single endpoint, tool-dispatched. READ (open): status {}; now {} (accurate time — never fabricate a timestamp); query {input, prior_reply?} (the ONE-CALL LOOP — call on every message, pass your previous answer as prior_reply); recall {query, limit?, min_similarity?} (search memory by meaning); jmms {action:'list', tier:'jstm'|'jltm'|'jatm', limit?} (read a memory tier's working set — JSTM is the live context-window); dex_list {status?, class?, tier?, type?, tag?, limit?} (browse ALL JD entries — open with status:'ACTIVE'); dex_search {term} (resolve a JNL/name/serial); dex_graph {jnl} (node + neighborhood); dex_events {tool?, actor?, jnl?, since?, limit?} (the arbitration spine — cite event ids for closure); jd_resolve {query} (the load command — 'jid 1', a name, or a JNL → full card); jc_recall {term?, limit?} (shared session memory); grimoire {page?} (self-knowledge index: 'lenses'|'catalog'|'full'|'rehydrate'|domain code). WRITE (needs x-jarvis-token = JARVIS_MCP_TOKEN, show Raven first, Allow/Deny): remember {text, source_type?, tags?, tier?} (durable memory via MNEMOS; tier defaults jltm — set jstm for working context-window notes); event {type, source, intent?, patch_id?, payload?} (the execution spine); jmms {action:'promote'|'tag', id, to:'jstm'|'jltm'|'jatm'} (move a memory up the horizon — one-way, JATM is immutable). PROPOSE (stages for Raven, never commits): dex_propose {name, domain, system, type, definition, purpose, tags?, related?} — supply MEANING only; the record derives the JNL.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": ["tool"],
+                "properties": {
+                  "tool": {
+                    "type": "string",
+                    "enum": [
+                      "status", "now", "query", "recall", "remember", "event", "jmms",
+                      "dex_list", "dex_search", "dex_graph", "dex_events", "dex_propose",
+                      "jd_resolve", "jc_recall", "grimoire"
+                    ],
+                    "description": "The JARVIS tool to invoke."
+                  },
+                  "args": {
+                    "type": "object",
+                    "description": "Tool arguments. query: {input, prior_reply?}. recall: {query, limit?, min_similarity?}. dex_list: {status?, class?, tier?, type?, tag?, limit?}. dex_search: {term}. dex_graph/jd_resolve: {jnl} or {query}. remember: {text, tags?}. event: {type, source, intent?}. dex_propose: {name, domain, system, type, definition, purpose, tags?}.",
+                    "properties": {
+                      "input": { "type": "string" },
+                      "prior_reply": { "type": "string" },
+                      "action": { "type": "string", "description": "For jmms: list | promote | tag." },
+                      "id": { "type": "string", "description": "For jmms promote/tag: the memory id." },
+                      "to": { "type": "string", "description": "For jmms promote/tag: target tier jstm|jltm|jatm." },
+                      "tier": { "type": "string", "description": "Memory tier jstm|jltm|jatm. On remember: where to file it (default jltm). On jmms list: which tier to read." },
+                      "query": { "type": "string" },
+                      "term": { "type": "string" },
+                      "jnl": { "type": "string" },
+                      "text": { "type": "string" },
+                      "type": { "type": "string" },
+                      "source": { "type": "string" },
+                      "intent": { "type": "string" },
+                      "patch_id": { "type": "string" },
+                      "page": { "type": "string" },
+                      "name": { "type": "string" },
+                      "domain": { "type": "string" },
+                      "system": { "type": "string" },
+                      "definition": { "type": "string" },
+                      "purpose": { "type": "string" },
+                      "status": { "type": "string" },
+                      "class": { "type": "string" },
+                      "tier": { "type": "string" },
+                      "tag": { "type": "string" },
+                      "tags": { "type": "array", "items": { "type": "string" } },
+                      "related": { "type": "array", "items": { "type": "string" } },
+                      "source_type": { "type": "string" },
+                      "min_similarity": { "type": "number" },
+                      "actor": { "type": "string" },
+                      "since": { "type": "string" },
+                      "limit": { "type": "integer" }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Tool result as plain JSON. Writes that lack the token return status:'held_by_aegis' with a token_state diagnosis (server_unset/client_missing/mismatch).",
+            "content": { "application/json": { "schema": { "type": "object" } } }
+          },
+          "400": { "description": "Missing 'tool'." },
+          "502": { "description": "Downstream service error (the tool ran but a dependency failed)." }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "JarvisToken": { "type": "apiKey", "in": "header", "name": "x-jarvis-token" }
+    }
+  },
+  "security": [ { "JarvisToken": [] } ]
+}

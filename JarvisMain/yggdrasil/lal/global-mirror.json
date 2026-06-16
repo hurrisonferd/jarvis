@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-15T13:53:47Z",
-    "generated_at_eastern": "2026-06-15 09:53 EDT",
-    "source_commit": "b7bf2c8",
+    "generated_at_utc": "2026-06-16T07:05:54Z",
+    "generated_at_eastern": "2026-06-16 03:05 EDT",
+    "source_commit": "d5646ca",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 152,
+    "object_count": 154,
     "by_status": {
-      "ACTIVE": 127,
+      "ACTIVE": 129,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
@@ -17,7 +17,7 @@
     "by_domain": {
       "ARCH": 37,
       "AUD": 8,
-      "CONN": 21,
+      "CONN": 23,
       "GOV": 12,
       "GS": 27,
       "IDEA": 3,
@@ -26,7 +26,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 120,
+      "MAIN": 122,
       "SIDE": 32
     }
   },
@@ -2536,6 +2536,42 @@
         "health",
         "gaps",
         "gl7"
+      ]
+    },
+    {
+      "jnl": "CONN-GAC-CORE-0001",
+      "jid": 154,
+      "jidd": "conn-22",
+      "name": "Jarvis GPT Action Connector",
+      "type": "CORE",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "gpt",
+        "action",
+        "rest",
+        "companion"
+      ]
+    },
+    {
+      "jnl": "CONN-GAC-SPEC-0001",
+      "jid": 155,
+      "jidd": "conn-23",
+      "name": "Jarvis GPT Action - OpenAPI schema",
+      "type": "SPEC",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-GAC-CORE-0001",
+      "tags": [
+        "connector",
+        "gpt",
+        "action",
+        "openapi",
+        "schema"
       ]
     }
   ]
