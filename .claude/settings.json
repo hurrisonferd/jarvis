@@ -37,7 +37,13 @@
       "mcp__JarvisMCP__jarvis_node_card",
       "mcp__JarvisMCP__jarvis_node_inbox",
       "mcp__JarvisMCP__jarvis_voice_brief",
-      "mcp__JarvisMCP__jarvis_listen"
+      "mcp__JarvisMCP__jarvis_listen",
+      "mcp__JarvisMCP__jarvis_pinch",
+      "mcp__JarvisMCP__jarvis_muster",
+      "mcp__JarvisMCP__jarvis_shiroe",
+      "mcp__JarvisMCP__jarvis_ainz",
+      "mcp__JarvisMCP__jarvis_private_tree",
+      "mcp__JarvisMCP__jarvis_private_read"
     ],
     "_comment": "Reads open, writes AEGIS-gated (GL6): the read-only sight spells auto-approve so Jarvis/Ayre see the system without a prompt. Write/execute spells (remember, event, github_write, repo_edit, pr_merge, deploy, identity_grow, jip_create/apply/revert, dex_propose, node_send) are deliberately omitted — they prompt every time."
   },

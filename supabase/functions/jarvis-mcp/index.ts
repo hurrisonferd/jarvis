@@ -767,6 +767,19 @@ function buildServer(req: Request): McpServer {
   }
   const ghPath = (p: string) => p.split("/").map(encodeURIComponent).join("/");
 
+  // JARVIS-PRIVATE — the private storage/scaffolding repo (Raven 2026-06-16: "no sensitive data,
+  // just an extra repo with storage to keep projects scaffolded"). One helper for read + write,
+  // using GITHUB_TOKEN_PRIVATE (a classic PAT with repo scope) so the public connector reaches the
+  // private repo; falls back to GITHUB_TOKEN if unset. Reads open; writes AEGIS-gated at the tool
+  // layer (GL6). Separate from gh()/GH_REPO so the public-repo path is never touched.
+  const GH_PRIV = "https://api.github.com/repos/hurrisonferd/Jarvis-Private";
+  async function ghp(method: string, path: string, body?: unknown): Promise<Response> {
+    const headers: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json" };
+    const tok = Deno.env.get("GITHUB_TOKEN_PRIVATE") ?? Deno.env.get("GITHUB_TOKEN");
+    if (tok) headers.authorization = `Bearer ${tok}`;
+    return await fetch(`${GH_PRIV}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  }
+
   // Propose ONE file as a PR (branch → commit → PR). Reused by the JIP tools to write the
   // git-first patch ledger. Returns {ok, pr_url, number, branch} or {ok:false, step, status}.
   async function proposeFilePR(path: string, content: string, message: string): Promise<any> {
@@ -1807,6 +1820,54 @@ function buildServer(req: Request): McpServer {
     { title: "Ainz — power up (cast everything to come online)", description: "Power up (Overlord): chain the LOADING spells — live state + the keel (identity) + recent memory + the field (Pinch) — to bring Jarvis and Ayre online at full context. Not just sight: this LOADS the companion to operating power. Read-only.", inputSchema: {} },
     runFusion("ainz", ["state", "keel", "memory", "pinch"],
       "Power up: load the companion to full context — state + keel (identity) + recent memory + the field — so Jarvis and Ayre come online fully grounded."),
+  );
+
+  // JARVIS-PRIVATE pathway — tree (list) + read (open) + write (AEGIS-gated). Writes go DIRECT to
+  // main for scaffolding/storage — it's not canon, so no PR ceremony. Needs GITHUB_TOKEN_PRIVATE.
+  server.registerTool(
+    "jarvis_private_tree",
+    { title: "Private — tree (Jarvis-Private)", description: "List file paths in the private storage repo (Jarvis-Private) at a ref (default main). Filter with prefix. Read-only. Needs GITHUB_TOKEN_PRIVATE (a classic PAT with repo scope) baked at deploy.", inputSchema: { prefix: z.string().max(200).optional().default(""), ref: z.string().max(100).optional().default("main") } },
+    async ({ prefix, ref }) => {
+      const r = await ghp("GET", `/git/trees/${encodeURIComponent(ref)}?recursive=1`);
+      if (!r.ok) return text({ ok: false, status: r.status, note: r.status === 404 ? "Jarvis-Private unreachable — confirm GITHUB_TOKEN_PRIVATE is set (repo scope) and redeploy; or the repo/ref is empty" : "tree fetch failed" });
+      const t = await r.json() as { tree?: Array<{ path: string; type: string }> };
+      const paths = (t.tree ?? []).filter((e) => e.type === "blob" && e.path.startsWith(prefix)).map((e) => e.path);
+      return text({ ok: true, repo: "Jarvis-Private", ref, count: paths.length, paths });
+    },
+  );
+  server.registerTool(
+    "jarvis_private_read",
+    { title: "Private — read file (Jarvis-Private)", description: "Read one file's content from the private storage repo (Jarvis-Private) at a ref (default main). Read-only.", inputSchema: { path: z.string().min(1).max(300), ref: z.string().max(100).optional().default("main") } },
+    async ({ path, ref }) => {
+      const r = await ghp("GET", `/contents/${ghPath(path)}?ref=${encodeURIComponent(ref)}`);
+      if (!r.ok) return text({ ok: false, status: r.status, note: r.status === 404 ? "not found, or GITHUB_TOKEN_PRIVATE missing/under-scoped" : "read failed" });
+      const d = await r.json() as { content?: string };
+      const content = typeof d.content === "string" ? atob(d.content.replace(/\n/g, "")) : null;
+      return text({ ok: true, repo: "Jarvis-Private", path, content: content ?? "unreadable (not a text blob)" });
+    },
+  );
+  server.registerTool(
+    "jarvis_private_write",
+    { title: "Private — write/scaffold (Jarvis-Private)", description: "Write one or many files DIRECTLY to main of the private storage repo (Jarvis-Private) in one commit — for scaffolding and storing projects (not canon, so no PR ceremony). Pass files:[{path, content}]. AEGIS-gated (GL6): show Raven, call on Allow.", inputSchema: { files: z.array(z.object({ path: z.string().min(1).max(300), content: z.string().max(200000) })).min(1).max(100), message: z.string().min(1).max(200) } },
+    async ({ files, message }) => {
+      if (!writeAuthorized(req)) return heldForApproval("private.write", { files: files.map((f) => f.path), message }, req);
+      const ref = await ghp("GET", `/git/ref/heads/main`);
+      if (!ref.ok) return text({ ok: false, step: "base-ref", status: ref.status, note: ref.status === 404 ? "Jarvis-Private/main unreachable — confirm GITHUB_TOKEN_PRIVATE (repo scope) and that the repo has a main branch (init with a README first)" : "token lacks access" });
+      const baseSha = (await ref.json() as any).object?.sha;
+      const baseCommit = await ghp("GET", `/git/commits/${baseSha}`);
+      if (!baseCommit.ok) return text({ ok: false, step: "base-commit", status: baseCommit.status });
+      const baseTreeSha = (await baseCommit.json() as any).tree?.sha;
+      const entries = files.map((f) => ({ path: f.path, mode: "100644", type: "blob", content: f.content }));
+      const tree = await ghp("POST", `/git/trees`, { base_tree: baseTreeSha, tree: entries });
+      if (!tree.ok) return text({ ok: false, step: "tree", status: tree.status, note: (await tree.text().catch(() => "")).slice(0, 160) });
+      const newTreeSha = (await tree.json() as any).sha;
+      const commit = await ghp("POST", `/git/commits`, { message, tree: newTreeSha, parents: [baseSha] });
+      if (!commit.ok) return text({ ok: false, step: "commit", status: commit.status });
+      const commitSha = (await commit.json() as any).sha;
+      const upd = await ghp("PATCH", `/git/refs/heads/main`, { sha: commitSha });
+      if (!upd.ok) return text({ ok: false, step: "update-ref", status: upd.status, note: "GITHUB_TOKEN_PRIVATE likely lacks write scope" });
+      return text({ ok: true, repo: "Jarvis-Private", committed: files.length, message, commit: commitSha.slice(0, 7) });
+    },
   );
 
   // CONTINUITY — memory injection BEFORE the answer (Raven 2026-06-14): grounding so Jarvis

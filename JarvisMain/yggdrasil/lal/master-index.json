@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 197,
+  "count": 200,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1319,6 +1319,42 @@
       "object": "JIP \u2014 revert (propose to git)",
       "jnl": "CONN-MCP-RT-0057",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_revert.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Private \u2014 tree (Jarvis-Private)",
+      "jnl": "CONN-MCP-RT-0058",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Private \u2014 read file (Jarvis-Private)",
+      "jnl": "CONN-MCP-RT-0059",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Private \u2014 write/scaffold (Jarvis-Private)",
+      "jnl": "CONN-MCP-RT-0060",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_write.md",
       "tags": [
         "connector",
         "mcp",
