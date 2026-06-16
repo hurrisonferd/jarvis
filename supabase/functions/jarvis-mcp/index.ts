@@ -26,7 +26,7 @@ const TOOL_NAMES = [
   "jarvis_recall", "jarvis_remember", "jarvis_event", "jarvis_jmms",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_repo_search", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
@@ -383,7 +383,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.18" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.19" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -913,6 +913,32 @@ function buildServer(req: Request): McpServer {
     if (cur.ok) { try { return JSON.parse(atob((await cur.json() as any).content.replace(/\n/g, ""))); } catch { /* fall through */ } }
     return doc;
   }
+
+  // REPO SEARCH — grep the codebase. The EYES for repo_edit: before a spell moves or deletes
+  // a file, find every file that references it, so the move doesn't break paths it couldn't see.
+  server.registerTool(
+    "jarvis_repo_search",
+    {
+      title: "Repo Search — grep file contents (find references before a spell)",
+      description:
+        "Search file CONTENTS across the repo (GitHub code search on main) — the eyes for jarvis_repo_edit. Before moving or deleting a file, search for its path/name/symbol to find everything that imports or references it, so the spell doesn't break what it can't see. Returns matching files with snippets. Read-only. For the file TREE use jarvis_github_tree; to READ one file use jarvis_github_file.",
+      inputSchema: { query: z.string().min(2).max(200), limit: z.number().int().min(1).max(50).optional().default(20) },
+    },
+    async ({ query, limit }) => {
+      const tok = Deno.env.get("GITHUB_TOKEN");
+      const headers: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github.text-match+json" };
+      if (tok) headers.authorization = `Bearer ${tok}`;
+      const res = await fetch(`https://api.github.com/search/code?q=${encodeURIComponent(query + " repo:hurrisonferd/jarvis")}&per_page=${limit}`, { headers });
+      if (!res.ok) return text({ ok: false, status: res.status, note: res.status === 403 ? "code search rate-limited or GITHUB_TOKEN lacks scope" : "search failed — code search indexes main only" });
+      const data = await res.json() as any;
+      const hits = (data.items ?? []).map((it: any) => ({
+        path: it.path,
+        url: it.html_url,
+        fragments: (it.text_matches ?? []).map((m: any) => (m.fragment ?? "").slice(0, 200)).slice(0, 3),
+      }));
+      return text({ ok: true, query, count: data.total_count ?? hits.length, hits, note: hits.length ? "Read a hit with jarvis_github_file before you move/delete it." : "No matches on main." });
+    },
+  );
 
   // REPO EDIT — the world-level spell: create / modify / move / delete MANY files in ONE
   // atomic commit → ONE PR (GitHub Git Trees API). Moves preserve exact bytes (reuse the
