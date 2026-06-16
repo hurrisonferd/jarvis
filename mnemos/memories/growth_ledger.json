@@ -1,39 +1,8 @@
 {
-  "updated": "2026-06-16T08:13:25.836742+00:00",
+  "updated": "2026-06-16T19:13:14.605638+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260615_181959",
-      "date": "2026-06-15",
-      "exchanges": 554,
-      "patches_touched": [
-        "P06",
-        "P08",
-        "P11",
-        "P15",
-        "P24",
-        "P30"
-      ],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/pulse.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/sync-lens.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Tree clean (`2945e03..c0cd030`).\n\nBottom line on the token: the connector code is correct (reads `GITHUB_TOKEN` consistently for both reads and writes"
-    },
     {
       "session_id": "20260615_182446",
       "date": "2026-06-15",
@@ -510,6 +479,32 @@
       ],
       "alignment": 0.84,
       "key_insight": "Did the audit against the live system, and it flipped one of your premises in a good way.\n\n**The fusion/omni tools already exist \u2014 and they're already"
+    },
+    {
+      "session_id": "20260616_191314",
+      "date": "2026-06-16",
+      "exchanges": 408,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".claude/settings.json",
+        ".github/workflows/deploy-edge-functions.yml",
+        "AGENTS.md",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/identity/jg/jg-charter.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "All the ground truth's in. Here's the full picture:\n\n## World audit \u2014 live (via the Pinch)\n\n```\n4 roots (trunk, healthy) \u00b7 1 real debt (IMPL-HYG) \u00b7 0 "
     }
   ]
 }
