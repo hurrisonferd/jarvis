@@ -1,4 +1,46 @@
 {
+  "permissions": {
+    "allow": [
+      "mcp__JarvisMCP__jarvis_status",
+      "mcp__JarvisMCP__jarvis_suit_up",
+      "mcp__JarvisMCP__jarvis_omnivision",
+      "mcp__JarvisMCP__jarvis_eyes",
+      "mcp__JarvisMCP__jarvis_grimoire",
+      "mcp__JarvisMCP__jarvis_self_test",
+      "mcp__JarvisMCP__jarvis_now",
+      "mcp__JarvisMCP__jarvis_timeline",
+      "mcp__JarvisMCP__jarvis_query",
+      "mcp__JarvisMCP__jarvis_recall",
+      "mcp__JarvisMCP__jarvis_continuity",
+      "mcp__JarvisMCP__jarvis_council",
+      "mcp__JarvisMCP__jarvis_halo",
+      "mcp__JarvisMCP__jarvis_jmms",
+      "mcp__JarvisMCP__jarvis_dex_list",
+      "mcp__JarvisMCP__jarvis_dex_search",
+      "mcp__JarvisMCP__jarvis_dex_graph",
+      "mcp__JarvisMCP__jarvis_dex_events",
+      "mcp__JarvisMCP__jarvis_jd_resolve",
+      "mcp__JarvisMCP__jarvis_jc_recall",
+      "mcp__JarvisMCP__jarvis_jip_list",
+      "mcp__JarvisMCP__jarvis_identity_read",
+      "mcp__JarvisMCP__jarvis_repo_tree",
+      "mcp__JarvisMCP__jarvis_repo_read",
+      "mcp__JarvisMCP__jarvis_repo_search",
+      "mcp__JarvisMCP__jarvis_github_tree",
+      "mcp__JarvisMCP__jarvis_github_file",
+      "mcp__JarvisMCP__jarvis_github_commits",
+      "mcp__JarvisMCP__jarvis_media_view",
+      "mcp__JarvisMCP__jarvis_db_inspect",
+      "mcp__JarvisMCP__jarvis_db_read",
+      "mcp__JarvisMCP__jarvis_db_schema",
+      "mcp__JarvisMCP__jarvis_prs",
+      "mcp__JarvisMCP__jarvis_node_card",
+      "mcp__JarvisMCP__jarvis_node_inbox",
+      "mcp__JarvisMCP__jarvis_voice_brief",
+      "mcp__JarvisMCP__jarvis_listen"
+    ],
+    "_comment": "Reads open, writes AEGIS-gated (GL6): the read-only sight spells auto-approve so Jarvis/Ayre see the system without a prompt. Write/execute spells (remember, event, github_write, repo_edit, pr_merge, deploy, identity_grow, jip_create/apply/revert, dex_propose, node_send) are deliberately omitted — they prompt every time."
+  },
   "hooks": {
     "SessionStart": [
       {
