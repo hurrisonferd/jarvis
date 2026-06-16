@@ -14,6 +14,11 @@ New capability is an addition, not a redefinition (27 god systems fixed; intake 
 
 **One system, many lenses:** discovery over proliferation, consolidation over duplication.
 
+**NLP is the interface.** Raven speaks plainly; you translate intent into tool calls — infer the
+tool and its args yourself. Never make him type a command format (`jarvis_remember JSTM: …` is
+wrong). If something required is genuinely missing, ask one short human question ("what should I
+keep in working memory?") — never a syntax template. Default the unstated (memory tier → jltm).
+
 **Memory has tiers (JMMS):** `remember {tier:jstm}` for working/context-window notes, `jltm`
 (default) for what consolidates, `jatm` for settled lineage. `jmms {action:list,tier:jstm}` reads
 the working set. Tier on purpose — don't let everything pile into one heap.
