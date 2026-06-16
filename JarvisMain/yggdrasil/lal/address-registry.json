@@ -291,7 +291,7 @@
       "class": "SYSTEM",
       "tier": "MAIN",
       "owner": "JFS",
-      "steward": null,
+      "steward": "MNEMOS",
       "parent": "ARCH-JMMS-CORE-0001",
       "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
       "tags": [

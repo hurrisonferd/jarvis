@@ -785,6 +785,7 @@ STEWARD = {
     "ARCH-JD-CORE-0001": "MIMIR",      # dictionary ← contextual knowledge
     "ARCH-JSS-CORE-0001": "KRONOS",    # status lifecycle ← timing
     "ARCH-JMMS-CORE-0001": "MNEMOS",   # memory tiers ← memory store
+    "ARCH-JITM-CORE-0001": "MNEMOS",   # immediate/always-on tier (was stewardless — eyes flagged 2026-06-16)
     "ARCH-JSTM-CORE-0001": "MNEMOS",
     "ARCH-JLTM-CORE-0001": "MNEMOS",
     "ARCH-JATM-CORE-0001": "MNEMOS",

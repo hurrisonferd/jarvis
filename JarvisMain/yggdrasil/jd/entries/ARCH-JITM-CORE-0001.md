@@ -5,7 +5,7 @@ class: SYSTEM
 tier: MAIN
 authority: CANON
 owner: JFS
-steward: 
+steward: MNEMOS
 parent: ARCH-JMMS-CORE-0001
 jnl: ARCH-JITM-CORE-0001
 seq: 156
