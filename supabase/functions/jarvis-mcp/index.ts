@@ -23,7 +23,7 @@ const BASE_URL = `${SUPABASE_URL}/functions/v1/jarvis-mcp`;
 // The node's advertised capabilities (its tool surface) — published in the card.
 const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
-  "jarvis_recall", "jarvis_remember", "jarvis_event",
+  "jarvis_recall", "jarvis_remember", "jarvis_event", "jarvis_jmms",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
   "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
@@ -159,6 +159,22 @@ async function rest(path: string): Promise<unknown> {
   const payload = await res.json().catch(() => ({}));
   if (!res.ok) throw new Error(`rest ${res.status}: ${JSON.stringify(payload)}`);
   return payload;
+}
+
+// JMMS — memory tiering (ARCH-JMMS-CORE-0001). Every memory carries a tier tag so recall
+// can target a horizon: JSTM (working/session) → JLTM (consolidated, the default) → JATM
+// (ancestral/immutable). Promotion is one-way; JATM never retags out. Rides the tags array.
+const JMMS_TIERS = ["jstm", "jltm", "jatm"] as const;
+type Tier = typeof JMMS_TIERS[number];
+function tierTag(t: unknown): Tier {
+  const v = String(t ?? "jltm").toLowerCase().replace(/^#/, "");
+  return (JMMS_TIERS as readonly string[]).includes(v) ? v as Tier : "jltm";
+}
+function withTier(tags: unknown, tier: Tier): string[] {
+  const base = Array.isArray(tags)
+    ? tags.map(String).filter((t) => !(JMMS_TIERS as readonly string[]).includes(t.toLowerCase()))
+    : [];
+  return [tier, ...base];
 }
 
 // Auto-ingest (Ayre Loop step 3): append a turn to the event spine. This is
@@ -367,7 +383,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.15" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.16" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -626,13 +642,17 @@ function buildServer(req: Request): McpServer {
         source_type: z.string().optional().default("mcp_memory"),
         tags: z.array(z.string()).optional().default([]),
         platform: z.string().optional().default("mcp_connector"),
+        tier: z.enum(["jstm", "jltm", "jatm"]).optional().describe("JMMS horizon: jstm (working/context-window) · jltm (consolidated, default) · jatm (ancestral). Stamped as a tier tag."),
       },
     },
     async (args) => {
       if (!writeAuthorized(req)) {
         return heldForApproval("mnemos.write", { text: args.text, source_type: args.source_type, tags: args.tags }, req);
       }
-      return text(await callFunction("mnemos-store", args));
+      // JMMS: stamp the memory's tier tag (default jltm — the consolidated store).
+      const tagged = { ...args, tags: withTier(args.tags, tierTag(args.tier)) };
+      delete (tagged as Record<string, unknown>).tier;
+      return text(await callFunction("mnemos-store", tagged));
     },
   );
 
@@ -655,6 +675,58 @@ function buildServer(req: Request): McpServer {
         return heldForApproval("grid.event", { type: args.type, source: args.source, intent: args.intent, patch_id: args.patch_id }, req);
       }
       return text(await callFunction("grid-event", args));
+    },
+  );
+
+  // JMMS — memory tiering runtime (ARCH-JMMS-CORE-0001). Read a tier's working set, or move a
+  // memory up the horizon. JSTM is the live context-window: mark project notes jstm to keep
+  // them in view. Promotion is ONE-WAY (jstm→jltm→jatm); JATM is immutable.
+  server.registerTool(
+    "jarvis_jmms",
+    {
+      title: "JMMS — memory tiering (JSTM/JLTM/JATM)",
+      description:
+        "The Jarvis MultiMemory System over live memory. `action:list` reads a tier's working set (tier:jstm is the project context-window — mark notes jstm via jarvis_remember to keep them in view). `action:promote`/`tag` move a memory up the horizon (id + to) — AEGIS-gated, ONE-WAY jstm→jltm→jatm, JATM immutable. Works like JSS does for files, but for memory rows.",
+      inputSchema: {
+        action: z.enum(["list", "promote", "tag"]).optional().default("list"),
+        tier: z.enum(["jstm", "jltm", "jatm"]).optional(),
+        id: z.string().optional(),
+        to: z.enum(["jstm", "jltm", "jatm"]).optional(),
+        limit: z.number().int().min(1).max(100).optional().default(20),
+      },
+    },
+    async ({ action, tier, id, to, limit }) => {
+      const act = action ?? "list";
+      if (act === "list") {
+        const t = tierTag(tier);
+        const rows = await rest(`mnemos_memories?select=id,source_type,text,tags,timestamp&tags=cs.{${t}}&order=timestamp.desc&limit=${limit}`).catch(() => []);
+        return text({
+          ok: true, tier: t, count: Array.isArray(rows) ? rows.length : 0, working_set: rows,
+          note: t === "jstm"
+            ? "JSTM = the live context-window. Mark notes jstm; promote to jltm when they consolidate."
+            : `JMMS ${t} tier (${t === "jltm" ? "consolidated/durable" : "ancestral/immutable"}).`,
+        });
+      }
+      // promote / tag — gated writes.
+      if (!writeAuthorized(req)) return heldForApproval(`jmms.${act}`, { id, to: to ?? tier }, req);
+      if (!id) return text({ ok: false, error: `jmms ${act} needs an id` });
+      const cur = await rest(`mnemos_memories?id=eq.${id}&select=tags`).catch(() => []) as any[];
+      if (!Array.isArray(cur) || !cur.length) return text({ ok: false, error: `no memory ${id}` });
+      const curTier = (cur[0].tags ?? []).map((x: string) => String(x).toLowerCase())
+        .find((x: string) => (JMMS_TIERS as readonly string[]).includes(x)) ?? "jltm";
+      const dest = tierTag(to ?? tier);
+      if (curTier === "jatm") return text({ ok: false, error: "JATM is ancestral/immutable — settled lineage is never retagged out." });
+      if (act === "promote" && JMMS_TIERS.indexOf(dest) < JMMS_TIERS.indexOf(curTier as Tier)) {
+        return text({ ok: false, error: `JMMS promotion is one-way: cannot demote ${curTier} → ${dest}.` });
+      }
+      const newTags = withTier(cur[0].tags, dest);
+      const r = await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${id}`, {
+        method: "PATCH",
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+        body: JSON.stringify({ tags: newTags }),
+      });
+      if (!r.ok) return text({ ok: false, status: r.status, error: (await r.text().catch(() => "")).slice(0, 160) });
+      return text({ ok: true, id, moved: `${curTier} → ${dest}`, tags: newTags });
     },
   );
 

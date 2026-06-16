@@ -57,7 +57,6 @@
                       "purpose": { "type": "string" },
                       "status": { "type": "string" },
                       "class": { "type": "string" },
-                      "tier": { "type": "string" },
                       "tag": { "type": "string" },
                       "tags": { "type": "array", "items": { "type": "string" } },
                       "related": { "type": "array", "items": { "type": "string" } },
