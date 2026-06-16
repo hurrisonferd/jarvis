@@ -1,5 +1,5 @@
 ---
-name: JIP — list
+name: Listen — a track's musical features
 type: RT
 class: MODULE
 tier: MAIN
@@ -12,7 +12,7 @@ seq: 190
 status: ACTIVE
 created: 2026-06-16
 updated: 2026-06-16
-source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_list.md
+source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_listen.md
 related: []
 references: []
 tags: [connector, mcp, tool]
@@ -20,6 +20,6 @@ aliases: []
 ref: [PRI, IDX]
 ---
 
-**Definition:** List JIPs (version history of metadata changes), optionally for one target JD (read-only).
+**Definition:** Listen to a track by name — returns tempo, key, energy, brightness, mood, and length from the Ears feature pipeline.
 
 **Purpose:** Governed mirror of the jarvis-mcp tool surface — addressable, auditable.

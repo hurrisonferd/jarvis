@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-16T18:55:37Z",
-    "generated_at_eastern": "2026-06-16 14:55 EDT",
-    "source_commit": "c2c1763",
+    "generated_at_utc": "2026-06-16T19:00:44Z",
+    "generated_at_eastern": "2026-06-16 15:00 EDT",
+    "source_commit": "2a2d609",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 194,
+    "object_count": 197,
     "by_status": {
-      "ACTIVE": 168,
+      "ACTIVE": 171,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 19
@@ -17,7 +17,7 @@
     "by_domain": {
       "ARCH": 38,
       "AUD": 9,
-      "CONN": 59,
+      "CONN": 62,
       "GOV": 12,
       "GS": 27,
       "IDEA": 4,
@@ -26,7 +26,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 161,
+      "MAIN": 164,
       "SIDE": 33
     }
   },
@@ -3059,7 +3059,7 @@
       "jnl": "CONN-MCP-RT-0048",
       "jid": 186,
       "jidd": "conn-53",
-      "name": "Continuity — route + surface raw material",
+      "name": "Muster — the roll call (every sight in one cast)",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3075,7 +3075,7 @@
       "jnl": "CONN-MCP-RT-0049",
       "jid": 187,
       "jidd": "conn-54",
-      "name": "Listen — a track's musical features",
+      "name": "Shiroe — full control of the field",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3091,7 +3091,7 @@
       "jnl": "CONN-MCP-RT-0050",
       "jid": 188,
       "jidd": "conn-55",
-      "name": "Dither — see an image the Game Boy way",
+      "name": "Ainz — power up (cast everything to come online)",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3107,7 +3107,7 @@
       "jnl": "CONN-MCP-RT-0051",
       "jid": 189,
       "jidd": "conn-56",
-      "name": "JIP — create",
+      "name": "Continuity — route + surface raw material",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3123,7 +3123,7 @@
       "jnl": "CONN-MCP-RT-0052",
       "jid": 190,
       "jidd": "conn-57",
-      "name": "JIP — list",
+      "name": "Listen — a track's musical features",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3139,7 +3139,7 @@
       "jnl": "CONN-MCP-RT-0053",
       "jid": 191,
       "jidd": "conn-58",
-      "name": "JIP — apply (propose to git)",
+      "name": "Dither — see an image the Game Boy way",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3211,6 +3211,54 @@
       "jnl": "CONN-MCP-RT-0054",
       "jid": 195,
       "jidd": "conn-59",
+      "name": "JIP — create",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0055",
+      "jid": 196,
+      "jidd": "conn-60",
+      "name": "JIP — list",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0056",
+      "jid": 197,
+      "jidd": "conn-61",
+      "name": "JIP — apply (propose to git)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0057",
+      "jid": 198,
+      "jidd": "conn-62",
       "name": "JIP — revert (propose to git)",
       "type": "RT",
       "class": "MODULE",
