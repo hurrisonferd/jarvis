@@ -309,6 +309,62 @@ async function runGrimoire(page: string | undefined): Promise<Json> {
   return { ok: false, page: want, note: "unknown page — try 'lenses', 'catalog', 'full', or a domain code (ARCH/GS/GOV/PROJ/IMPL/CONN/AUD/IDEA/LOG)." };
 }
 
+// ── JMMS — memory tiering (ARCH-JMMS-CORE-0001), the live-row runtime the spec called for.
+// Every memory carries a tier tag so recall can target a horizon: JSTM (working/session) →
+// JLTM (consolidated, the mnemos_memories default) → JATM (ancestral/immutable). Promotion is
+// ONE-WAY (JSTM→JLTM→JATM); JATM is append-only and never retagged out (mirrors HADES/git).
+// Uses the existing tags array — no migration. JSTM is the project context-window: mark notes
+// jstm to keep them in the working set.
+const JMMS_TIERS = ["jstm", "jltm", "jatm"] as const;
+type Tier = typeof JMMS_TIERS[number];
+function tierTag(t: unknown): Tier {
+  const v = String(t ?? "jltm").toLowerCase().replace(/^#/, "");
+  return (JMMS_TIERS as readonly string[]).includes(v) ? v as Tier : "jltm";
+}
+function withTier(tags: unknown, tier: Tier): string[] {
+  const base = Array.isArray(tags)
+    ? tags.map(String).filter((t) => !(JMMS_TIERS as readonly string[]).includes(t.toLowerCase()))
+    : [];
+  return [tier, ...base];
+}
+async function runJmms(action: string, a: Json, req: Request): Promise<Json> {
+  const act = (action || "list").toLowerCase();
+  if (act === "list") {
+    const tier = tierTag(a.tier);
+    const limit = Math.min(Number(a.limit ?? 20), 100);
+    const rows = await rest(`mnemos_memories?select=id,source_type,text,tags,timestamp&tags=cs.{${tier}}&order=timestamp.desc&limit=${limit}`).catch(() => []);
+    return {
+      ok: true, tier, count: Array.isArray(rows) ? rows.length : 0, working_set: rows,
+      note: tier === "jstm"
+        ? "JSTM = the live context-window. Mark project notes jstm to keep them in view; promote to jltm when they consolidate."
+        : `JMMS ${tier} tier (${tier === "jltm" ? "consolidated/durable" : "ancestral/immutable"}).`,
+    };
+  }
+  if (act === "promote" || act === "tag") {
+    if (!writeAuthorized(req)) return heldForApproval(`jmms.${act}`, { id: a.id, to: a.to ?? a.tier }, req);
+    const id = String(a.id ?? "");
+    if (!id) return { ok: false, error: `jmms ${act} needs { id }` };
+    const cur = await rest(`mnemos_memories?id=eq.${id}&select=tags`).catch(() => []) as any[];
+    if (!Array.isArray(cur) || !cur.length) return { ok: false, error: `no memory ${id}` };
+    const curTier = (cur[0].tags ?? []).map((t: string) => String(t).toLowerCase())
+      .find((t: string) => (JMMS_TIERS as readonly string[]).includes(t)) ?? "jltm";
+    const to = tierTag(a.to ?? a.tier);
+    if (curTier === "jatm") return { ok: false, error: "JATM is ancestral/immutable — settled lineage is never retagged out." };
+    if (act === "promote" && JMMS_TIERS.indexOf(to) < JMMS_TIERS.indexOf(curTier as Tier)) {
+      return { ok: false, error: `JMMS promotion is one-way: cannot demote ${curTier} → ${to}.` };
+    }
+    const newTags = withTier(cur[0].tags, to);
+    const r = await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${id}`, {
+      method: "PATCH",
+      headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({ tags: newTags }),
+    });
+    if (!r.ok) return { ok: false, status: r.status, error: (await r.text().catch(() => "")).slice(0, 160) };
+    return { ok: true, id, moved: `${curTier} → ${to}`, tags: newTags };
+  }
+  return { ok: false, error: `unknown jmms action '${act}' — use list | promote | tag` };
+}
+
 // ── the dispatcher — one governed surface, {tool, args} in, plain JSON out ──
 async function dispatch(tool: string, args: Json, req: Request): Promise<Json> {
   const a = args ?? {};
@@ -339,7 +395,11 @@ async function dispatch(tool: string, args: Json, req: Request): Promise<Json> {
     // writes — AEGIS-gated (same token as jarvis-mcp)
     case "remember":
       if (!writeAuthorized(req)) return heldForApproval("mnemos.write", { text: a.text, tags: a.tags }, req);
-      return await callFunction("mnemos-store", a) as Json;
+      // JMMS: stamp the memory's tier tag (default JLTM — the consolidated store).
+      return await callFunction("mnemos-store", { ...a, tags: withTier(a.tags, tierTag(a.tier)) }) as Json;
+    // JMMS — memory tiering: list a tier's working set, or move a memory up the horizon (one-way).
+    case "jmms":
+      return await runJmms(String(a.action ?? "list"), a, req);
     case "event":
       if (!writeAuthorized(req)) return heldForApproval("grid.event", { type: a.type, source: a.source, intent: a.intent }, req);
       return await callFunction("grid-event", a) as Json;
@@ -347,7 +407,7 @@ async function dispatch(tool: string, args: Json, req: Request): Promise<Json> {
     case "dex_propose":
       return await callDex("jd_propose", a, true) as Json;
     default:
-      return { ok: false, error: `unknown tool: ${tool}`, hint: "tools: status, now, query, recall, remember, event, dex_list, dex_search, dex_graph, dex_events, dex_propose, jd_resolve, jc_recall, grimoire" };
+      return { ok: false, error: `unknown tool: ${tool}`, hint: "tools: status, now, query, recall, remember, event, jmms, dex_list, dex_search, dex_graph, dex_events, dex_propose, jd_resolve, jc_recall, grimoire" };
   }
 }
 
@@ -360,7 +420,7 @@ app.get("/*", (c) =>
     version: "0.1.0",
     transport: "OpenAPI Action (REST) — the GPT stream's surface",
     note: "POST { tool, args } here. Reads open; writes carry JARVIS_MCP_TOKEN (x-jarvis-token); propose rides the dex PROPOSE tier.",
-    tools: ["status", "now", "query", "recall", "remember", "event", "dex_list", "dex_search", "dex_graph", "dex_events", "dex_propose", "jd_resolve", "jc_recall", "grimoire"],
+    tools: ["status", "now", "query", "recall", "remember", "event", "jmms", "dex_list", "dex_search", "dex_graph", "dex_events", "dex_propose", "jd_resolve", "jc_recall", "grimoire"],
   }));
 
 app.post("/*", async (c) => {
