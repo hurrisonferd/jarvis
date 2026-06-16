@@ -264,7 +264,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.21" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.22" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -744,9 +744,12 @@ function buildServer(req: Request): McpServer {
   // for connector streams. Closes the certainty-bandwidth gap — a stream that can
   // read the file does not narrate a summary of it (the relay-paste lane dies here).
   const GH_REPO = "https://api.github.com/repos/hurrisonferd/jarvis";
+  // Token resolver: prefer JARVIS_GITHUB_TOKEN (Raven set a full-scope secret; avoids any reserved-name
+  // weirdness around a secret literally named GITHUB_TOKEN), fall back to GITHUB_TOKEN. Full scope = write.
+  const ghTok = () => Deno.env.get("JARVIS_GITHUB_TOKEN") ?? Deno.env.get("GITHUB_TOKEN") ?? "";
   async function gh(path: string): Promise<Response> {
     const base: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json" };
-    const tok = Deno.env.get("GITHUB_TOKEN");
+    const tok = ghTok();
     const res = await fetch(`${GH_REPO}${path}`, { headers: tok ? { ...base, authorization: `Bearer ${tok}` } : base });
     // The repo is PUBLIC. If a bad/expired/under-scoped token gets a READ rejected (401/403),
     // retry UNAUTHENTICATED so reads (prs, files, identity, eyes) never break on a token problem.
@@ -761,7 +764,7 @@ function buildServer(req: Request): McpServer {
     const headers: Record<string, string> = {
       "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json",
     };
-    const tok = Deno.env.get("GITHUB_TOKEN");
+    const tok = ghTok();
     if (tok) headers.authorization = `Bearer ${tok}`;
     return await fetch(`${GH_REPO}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
   }
@@ -775,7 +778,7 @@ function buildServer(req: Request): McpServer {
   const GH_PRIV = "https://api.github.com/repos/hurrisonferd/Jarvis-Private";
   async function ghp(method: string, path: string, body?: unknown): Promise<Response> {
     const headers: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json" };
-    const tok = Deno.env.get("GITHUB_TOKEN_PRIVATE") ?? Deno.env.get("GITHUB_TOKEN");
+    const tok = Deno.env.get("JARVIS_GITHUB_TOKEN") ?? Deno.env.get("GITHUB_TOKEN_PRIVATE") ?? Deno.env.get("GITHUB_TOKEN");
     if (tok) headers.authorization = `Bearer ${tok}`;
     return await fetch(`${GH_PRIV}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
   }
@@ -819,7 +822,7 @@ function buildServer(req: Request): McpServer {
       inputSchema: { query: z.string().min(2).max(200), limit: z.number().int().min(1).max(50).optional().default(20) },
     },
     async ({ query, limit }) => {
-      const tok = Deno.env.get("GITHUB_TOKEN");
+      const tok = ghTok();
       const headers: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github.text-match+json" };
       if (tok) headers.authorization = `Bearer ${tok}`;
       const res = await fetch(`https://api.github.com/search/code?q=${encodeURIComponent(query + " repo:hurrisonferd/jarvis")}&per_page=${limit}`, { headers });
@@ -918,14 +921,14 @@ function buildServer(req: Request): McpServer {
       try { const n = await countRows("dex_events"); probes.supabase = { ok: true, dex_events: n }; } catch (e) { probes.supabase = { ok: false, err: String(e).slice(0, 120) }; }
       try { const d = await dexQuery({ limit: 1 }); probes.dex = { ok: !!d }; } catch (e) { probes.dex = { ok: false, err: String(e).slice(0, 120) }; }
       try {
-        const tok = Deno.env.get("GITHUB_TOKEN");
+        const tok = ghTok();
         const h: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json" };
         if (tok) h.authorization = `Bearer ${tok}`;
         const s = await fetch(`https://api.github.com/search/code?q=${encodeURIComponent("jarvis repo:hurrisonferd/jarvis")}&per_page=1`, { headers: h });
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.21", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.22", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
