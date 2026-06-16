@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 190,
+    "nodes": 191,
     "edges": 285,
-    "main": 158,
+    "main": 159,
     "side": 32
   },
   "nodes": [
@@ -1445,6 +1445,15 @@
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-MOD-SPEC-0001",
+      "name": "Modularity & Extensibility \u2014 Field Plan + Gold Law Proposal",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "TASK",
       "owner": "JCS Pipeline"
     },
     {

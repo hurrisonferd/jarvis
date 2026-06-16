@@ -1,20 +1,20 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-16T17:56:34Z (2026-06-16 13:56 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-16T18:11:24Z (2026-06-16 14:11 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**190 governed objects** · 285 edges · 9 domains.
+**191 governed objects** · 285 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 190 objects · 18 open tasks · 15 orphans · 285 edges._
+_JARVIS online · 191 objects · 19 open tasks · 16 orphans · 285 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
 1. **System health** → `jarvis_eyes` (state + wiring + vitality)
-2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 18 in flight
-3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 15 unparented
+2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 19 in flight
+3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 16 unparented
 4. **What happened** → `jarvis_timeline` (recent events + commits)
 5. **Summon a card** → `jarvis_jd_resolve` ('jid 1', a name, or a JNL)
 6. **The lenses** → `jarvis_grimoire {page:'lenses'}` (the fusion chapters)
@@ -255,7 +255,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `100` | `IDEA-UNUS-LOG-0001` | Unused Ideas Log | INACTIVE | — |
 | `99` | `IDEA-USED-LOG-0001` | Used Ideas Log | ACTIVE | — |
 
-### IMPL (15)
+### IMPL (16)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -273,6 +273,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `90` | `IMPL-JGPP-CORE-0001` | JGPP - Generative Process Protocol | ACTIVE | — |
 | `52` | `IMPL-JIP-SPEC-0608` | JIP-0608 Series | ACTIVE | — |
 | `96` | `IMPL-JQL-CORE-0001` | JQL - JD Query Language | ACTIVE | — |
+| `192` | `IMPL-MOD-SPEC-0001` | Modularity & Extensibility — Field Plan + Gold Law Proposal | TASK | — |
 | `139` | `IMPL-TLR-SPEC-0001` | MCP Tool Roadmap & Auto-Tracking Pipeline | TASK | — |
 
 ### LOG (2)

@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 190,
+  "count": 191,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -3420,6 +3420,35 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "IMPL-MOD-SPEC-0001",
+      "name": "Modularity & Extensibility \u2014 Field Plan + Gold Law Proposal",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
+      "steward": null,
+      "parent": "",
+      "location": "JarvisMain/Implementation/task/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md",
+      "tags": [
+        "modularity",
+        "extensibility",
+        "gold-law",
+        "yggdrasil",
+        "governance",
+        "roadmap",
+        "gl7",
+        "gl12",
+        "automation",
+        "routing",
+        "mirroring"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-16",
+      "updated": "2026-06-16"
     },
     {
       "jnl": "IMPL-TLR-SPEC-0001",

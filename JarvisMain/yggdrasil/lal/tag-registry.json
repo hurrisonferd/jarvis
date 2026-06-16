@@ -78,6 +78,9 @@
     "auto-tracking": [
       "IMPL-TLR-SPEC-0001"
     ],
+    "automation": [
+      "IMPL-MOD-SPEC-0001"
+    ],
     "ayre": [
       "ARCH-AYR-BIO-0001",
       "ARCH-AYR-SPEC-0001",
@@ -339,6 +342,9 @@
     "exploration": [
       "PROJ-DEO-JGPP-0001"
     ],
+    "extensibility": [
+      "IMPL-MOD-SPEC-0001"
+    ],
     "families": [
       "ARCH-FAM-IDX-0001"
     ],
@@ -389,8 +395,12 @@
     "github": [
       "ARCH-MEM-LOG-0001"
     ],
+    "gl12": [
+      "IMPL-MOD-SPEC-0001"
+    ],
     "gl7": [
-      "AUD-REQM-REVW-0001"
+      "AUD-REQM-REVW-0001",
+      "IMPL-MOD-SPEC-0001"
     ],
     "global": [
       "ARCH-JMS-SPEC-0001"
@@ -430,7 +440,8 @@
       "PROJ-GDS-JGPP-0001"
     ],
     "gold-law": [
-      "GOV-CON-CORE-0001"
+      "GOV-CON-CORE-0001",
+      "IMPL-MOD-SPEC-0001"
     ],
     "gold-laws": [
       "PROJ-MOSC-JD-0001"
@@ -461,6 +472,7 @@
       "GS-PRO-CORE-0001",
       "IMPL-DEX-SPEC-0001",
       "IMPL-FMT-SPEC-0001",
+      "IMPL-MOD-SPEC-0001",
       "PROJ-GDS-JGPP-0001",
       "PROJ-GDS-JGPP-0002"
     ],
@@ -722,11 +734,17 @@
       "ARCH-JMS-CORE-0001",
       "ARCH-JMS-SPEC-0001"
     ],
+    "mirroring": [
+      "IMPL-MOD-SPEC-0001"
+    ],
     "mnemos": [
       "LOG-MNE-LOG-0001"
     ],
     "modular": [
       "ARCH-MEM-LOG-0002"
+    ],
+    "modularity": [
+      "IMPL-MOD-SPEC-0001"
     ],
     "motif": [
       "PROJ-MOSC-JD-0001"
@@ -890,6 +908,7 @@
       "PROJ-TRN-JGPP-0001"
     ],
     "roadmap": [
+      "IMPL-MOD-SPEC-0001",
       "IMPL-TLR-SPEC-0001"
     ],
     "root": [
@@ -898,7 +917,8 @@
     ],
     "routing": [
       "GOV-GSC-SPEC-0001",
-      "GOV-KR-SPEC-0001"
+      "GOV-KR-SPEC-0001",
+      "IMPL-MOD-SPEC-0001"
     ],
     "runtime": [
       "ARCH-RT-SPEC-0001",
@@ -1086,6 +1106,9 @@
     ],
     "writable": [
       "ARCH-MEM-LOG-0002"
+    ],
+    "yggdrasil": [
+      "IMPL-MOD-SPEC-0001"
     ]
   }
 }

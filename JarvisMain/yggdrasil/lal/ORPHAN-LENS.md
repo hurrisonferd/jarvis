@@ -1,8 +1,8 @@
 # Orphan Lens — the debt, made into a worklist
 
-_generated: 2026-06-15T01:52:58Z (2026-06-14 21:52 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
+_generated: 2026-06-16T18:11:24Z (2026-06-16 14:11 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
 
-15 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **3 decide** (needs your call) · **7 archive** · **5 root** (legitimate top-level, leave as-is).
+16 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **4 decide** (needs your call) · **7 archive** · **5 root** (legitimate top-level, leave as-is).
 
 ## ATTACH — an existing parent is right there (low-risk prune)
 Set `parent:` to the suggestion, reseed; the JNL never changes (JMS law).
@@ -17,6 +17,7 @@ Set `parent:` to the suggestion, reseed; the JNL never changes (JMS law).
 |---|---|---|
 | `IDEA-PAN-INS-0001` | Pantheon — god-system identity & subsystem | no obvious parent — needs a placement decision |
 | `IDEA-USED-LOG-0001` | Used Ideas Log | no obvious parent — needs a placement decision |
+| `IMPL-MOD-SPEC-0001` | Modularity & Extensibility — Field Plan +  | no obvious parent — needs a placement decision |
 | `LOG-MED-LOG-0001` | Media Library | no obvious parent — needs a placement decision |
 
 ## ARCHIVE — done or point-in-time (move to the archive lane)

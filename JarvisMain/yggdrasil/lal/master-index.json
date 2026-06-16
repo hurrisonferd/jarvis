@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 190,
+  "count": 191,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1977,6 +1977,26 @@
         "pipeline",
         "jql",
         "query"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Modularity & Extensibility \u2014 Field Plan + Gold Law Proposal",
+      "jnl": "IMPL-MOD-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md",
+      "tags": [
+        "modularity",
+        "extensibility",
+        "gold-law",
+        "yggdrasil",
+        "governance",
+        "roadmap",
+        "gl7",
+        "gl12",
+        "automation",
+        "routing",
+        "mirroring"
       ],
       "anchors": [],
       "state": "active"
