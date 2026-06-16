@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 152,
+  "count": 154,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -585,6 +585,34 @@
         "dex",
         "gpt",
         "action"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis GPT Action Connector",
+      "jnl": "CONN-GAC-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisGptAction",
+      "tags": [
+        "connector",
+        "gpt",
+        "action",
+        "rest",
+        "companion"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis GPT Action - OpenAPI schema",
+      "jnl": "CONN-GAC-SPEC-0001",
+      "location": "JarvisMain/Connectors/JarvisGptAction/openapi.json",
+      "tags": [
+        "connector",
+        "gpt",
+        "action",
+        "openapi",
+        "schema"
       ],
       "anchors": [],
       "state": "active"

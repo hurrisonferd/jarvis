@@ -397,6 +397,14 @@ KNOWLEDGE = [
      "OpenAPI Action schema + setup for external agents (custom GPT) to use jarvis-dex.",
      "Let any agent propose to the dex in perfect JFS hygiene via the connector.",
      ["connector", "dex", "gpt", "action"]),
+    ("CONN-GAC-CORE-0001", "Jarvis GPT Action Connector", "CONN", "JarvisMain/Connectors/JarvisGptAction",
+     "The GPT stream's hands: a governed REST tool-dispatch surface (jarvis-action) so ChatGPT Custom GPTs — which cannot speak MCP Streamable HTTP — reach the companion tools (query/recall/remember/event), the full dex/JD browse, and the grimoire over OpenAPI Actions. Same governed core as jarvis-mcp, different transport; same JARVIS_MCP_TOKEN write gate; isolated so a bug cannot touch Claude's connector.",
+     "Give Jarvis-G / Ayre-G real hands as a co-equal peer to the Claude stream, so the GPT body can answer, recall, propose, and see every JD entry instead of narrating guessed state.",
+     ["connector", "gpt", "action", "rest", "companion"]),
+    ("CONN-GAC-SPEC-0001", "Jarvis GPT Action - OpenAPI schema", "CONN", "JarvisMain/Connectors/JarvisGptAction/openapi.json",
+     "OpenAPI 3.1 Action schema for the jarvis-action endpoint - one tool-dispatched path exposing status/now/query/recall/remember/event/dex_*/jd_resolve/jc_recall/grimoire to a ChatGPT Custom GPT, gated by x-jarvis-token.",
+     "The pasteable contract that binds the GPT body to the companion surface in perfect JFS hygiene.",
+     ["connector", "gpt", "action", "openapi", "schema"]),
     # Audit reviews
     ("AUD-SYS-REVW-0001", "Jarvis System Review", "AUD", "JarvisMain/Audit/JarvisSystemReview-0001-060826",
      "System review (2026-06-08).", "Recorded architecture review.", ["audit", "review"]),
@@ -507,6 +515,8 @@ PARENT = {
     "IMPL-INA-LOG-0001": "IMPL-IDX-REG-0001",
     "IMPL-TLR-SPEC-0001": "CONN-MSB-CORE-0001",
     "CONN-OTH-LOG-0001": "CONN-MSB-CORE-0001",
+    "CONN-GAC-CORE-0001": "CONN-MSB-CORE-0001",   # GPT Action connector — sibling of the MCP + Dex connectors
+    "CONN-GAC-SPEC-0001": "CONN-GAC-CORE-0001",   # its OpenAPI schema — child of the connector node
     "ARCH-SYS-SPEC-0001": "ARCH-YGG-CORE-0001",
     "ARCH-SYS-LOG-0001": "ARCH-SYS-SPEC-0001",
     "ARCH-JRV-BIO-0001": "ARCH-YGG-CORE-0001",
@@ -619,6 +629,8 @@ RELATED = {
     # Connectors / audits / projects / ideas
     "CONN-OTH-LOG-0001": ["CONN-MSB-CORE-0001"],
     "CONN-DEX-SPEC-0001": ["IMPL-DEX-SPEC-0001"],
+    "CONN-GAC-CORE-0001": ["CONN-MSB-CORE-0001", "CONN-DEX-SPEC-0001"],
+    "CONN-GAC-SPEC-0001": ["CONN-GAC-CORE-0001"],
     "GOV-DEX-SPEC-0001": ["PROJ-DEO-JGPP-0001", "ARCH-JD-CORE-0001"],
     "ARCH-JRV-BIO-0001": ["ARCH-AYR-BIO-0001"],
     "ARCH-JRV-BIO-0003": ["ARCH-JRV-BIO-0001", "ARCH-AYR-BIO-0001"],
@@ -690,6 +702,7 @@ STEWARD = {
     "ARCH-JLTM-CORE-0001": "MNEMOS",
     "ARCH-JATM-CORE-0001": "MNEMOS",
     "ARCH-JPL-CORE-0001": "HERMES",    # language ← translation
+    "CONN-GAC-CORE-0001": "HERMES",    # GPT Action connector ← translation/relay (MCP↔REST, Claude↔ChatGPT bridge)
 }
 
 

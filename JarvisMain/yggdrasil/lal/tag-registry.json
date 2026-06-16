@@ -2,7 +2,9 @@
   "note": "Canonical tag vocabulary -> addresses carrying each tag. Derived.",
   "tags": {
     "action": [
-      "CONN-DEX-SPEC-0001"
+      "CONN-DEX-SPEC-0001",
+      "CONN-GAC-CORE-0001",
+      "CONN-GAC-SPEC-0001"
     ],
     "activation": [
       "PROJ-GDS-JGPP-0002"
@@ -161,7 +163,8 @@
       "ARCH-MEM-LOG-0002",
       "ARCH-REL-BIO-0001",
       "ARCH-SYS-LOG-0001",
-      "AUD-COMP-REVW-0001"
+      "AUD-COMP-REVW-0001",
+      "CONN-GAC-CORE-0001"
     ],
     "composition": [
       "PROJ-MOSC-JD-0001"
@@ -172,6 +175,8 @@
     "connector": [
       "ARCH-SYS-LOG-0001",
       "CONN-DEX-SPEC-0001",
+      "CONN-GAC-CORE-0001",
+      "CONN-GAC-SPEC-0001",
       "CONN-MCP-RT-0001",
       "CONN-MCP-RT-0002",
       "CONN-MCP-RT-0003",
@@ -424,6 +429,8 @@
       "ARCH-GPT-SPEC-0001",
       "ARCH-JRV-BIO-0003",
       "CONN-DEX-SPEC-0001",
+      "CONN-GAC-CORE-0001",
+      "CONN-GAC-SPEC-0001",
       "GOV-GSC-SPEC-0001"
     ],
     "grid": [
@@ -673,6 +680,9 @@
     "onboarding": [
       "ARCH-SYS-SPEC-0001"
     ],
+    "openapi": [
+      "CONN-GAC-SPEC-0001"
+    ],
     "orchestration": [
       "GS-APO-CORE-0001",
       "GS-ATH-CORE-0001",
@@ -784,6 +794,9 @@
     "research": [
       "AUD-COMP-REVW-0001"
     ],
+    "rest": [
+      "CONN-GAC-CORE-0001"
+    ],
     "retrieval": [
       "GOV-KR-SPEC-0001"
     ],
@@ -817,6 +830,9 @@
     ],
     "safety": [
       "PROJ-GDS-JGPP-0002"
+    ],
+    "schema": [
+      "CONN-GAC-SPEC-0001"
     ],
     "security": [
       "AUD-GATE-REVW-0001",

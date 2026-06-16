@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-15T18:03:51Z (2026-06-15 14:03 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-16T07:05:54Z (2026-06-16 03:05 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**152 governed objects** · 242 edges · 9 domains.
+**154 governed objects** · 247 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 152 objects · 18 open tasks · 15 orphans · 242 edges._
+_JARVIS online · 154 objects · 18 open tasks · 15 orphans · 247 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -134,11 +134,13 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `151` | `AUD-SYNC-REVW-0001` | TUSK Act 4 — Git/Supabase Sync Audit | ACTIVE | — |
 | `87` | `AUD-SYS-REVW-0001` | Jarvis System Review | ACTIVE | — |
 
-### CONN (21)
+### CONN (23)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
 | `86` | `CONN-DEX-SPEC-0001` | Jarvis Dex Action | ACTIVE | — |
+| `154` | `CONN-GAC-CORE-0001` | Jarvis GPT Action Connector | ACTIVE | HERMES |
+| `155` | `CONN-GAC-SPEC-0001` | Jarvis GPT Action - OpenAPI schema | ACTIVE | — |
 | `69` | `CONN-MCP-RT-0001` | JARVIS — Suit Up | ACTIVE | — |
 | `70` | `CONN-MCP-RT-0002` | JARVIS Status | ACTIVE | — |
 | `71` | `CONN-MCP-RT-0003` | MNEMOS Recall | ACTIVE | — |
