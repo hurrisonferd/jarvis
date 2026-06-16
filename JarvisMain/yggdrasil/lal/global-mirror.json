@@ -1,18 +1,18 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-16T17:56:34Z",
-    "generated_at_eastern": "2026-06-16 13:56 EDT",
-    "source_commit": "307162c",
+    "generated_at_utc": "2026-06-16T18:11:24Z",
+    "generated_at_eastern": "2026-06-16 14:11 EDT",
+    "source_commit": "5965aa2",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 190,
+    "object_count": 191,
     "by_status": {
       "ACTIVE": 165,
       "ARCHIVED": 2,
       "INACTIVE": 5,
-      "TASK": 18
+      "TASK": 19
     },
     "by_domain": {
       "ARCH": 38,
@@ -21,12 +21,12 @@
       "GOV": 12,
       "GS": 27,
       "IDEA": 3,
-      "IMPL": 15,
+      "IMPL": 16,
       "LOG": 2,
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 158,
+      "MAIN": 159,
       "SIDE": 32
     }
   },
@@ -3149,6 +3149,30 @@
         "connector",
         "mcp",
         "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-MOD-SPEC-0001",
+      "jid": 192,
+      "jidd": "impl-16",
+      "name": "Modularity & Extensibility — Field Plan + Gold Law Proposal",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "TASK",
+      "parent": "",
+      "tags": [
+        "modularity",
+        "extensibility",
+        "gold-law",
+        "yggdrasil",
+        "governance",
+        "roadmap",
+        "gl7",
+        "gl12",
+        "automation",
+        "routing",
+        "mirroring"
       ]
     }
   ]

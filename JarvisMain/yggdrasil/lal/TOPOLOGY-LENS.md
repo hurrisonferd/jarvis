@@ -1,8 +1,8 @@
 # Topology Lens — the shape of the system
 
-_generated: 2026-06-16T17:56:34Z (2026-06-16 13:56 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
+_generated: 2026-06-16T18:11:24Z (2026-06-16 14:11 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
 
-**190 nodes · 285 edges · 3 isolated · avg degree 3.0.**
+**191 nodes · 285 edges · 4 isolated · avg degree 2.98.**
 
 ## Hubs — the most-connected nodes (the system's load-bearing spine)
 | node | degree | in | out | domain |
@@ -21,7 +21,7 @@ _generated: 2026-06-16T17:56:34Z (2026-06-16 13:56 EDT) · projected from `graph
 | `PROJ-ALL-LOG-0001` Project Log Summary | 9 | 8 | 1 | PROJ |
 
 ## Isolated — nodes with NO edges (in or out): unreachable, invisible to the loop
-`ARCH-FAM-IDX-0001`, `IDEA-PAN-INS-0001`, `LOG-MED-LOG-0001`
+`ARCH-FAM-IDX-0001`, `IDEA-PAN-INS-0001`, `IMPL-MOD-SPEC-0001`, `LOG-MED-LOG-0001`
 
 ## Edge types (the relationships that bind the graph)
 | type | count |
@@ -38,7 +38,7 @@ _generated: 2026-06-16T17:56:34Z (2026-06-16 13:56 EDT) · projected from `graph
 | GOV | 12 |
 | GS | 27 |
 | IDEA | 3 |
-| IMPL | 15 |
+| IMPL | 16 |
 | LOG | 2 |
 | PROJ | 27 |
 
