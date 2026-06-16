@@ -417,7 +417,7 @@ const app = new Hono();
 app.get("/*", (c) =>
   c.json({
     name: "jarvis-action",
-    version: "0.1.0",
+    version: "0.2.0",
     transport: "OpenAPI Action (REST) — the GPT stream's surface",
     note: "POST { tool, args } here. Reads open; writes carry JARVIS_MCP_TOKEN (x-jarvis-token); propose rides the dex PROPOSE tier.",
     tools: ["status", "now", "query", "recall", "remember", "event", "jmms", "dex_list", "dex_search", "dex_graph", "dex_events", "dex_propose", "jd_resolve", "jc_recall", "grimoire"],
