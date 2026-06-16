@@ -19,7 +19,7 @@ export const TIERS = new Set(["MAIN", "SIDE"]);
 
 export const SUBSTRATE = new Set([
   "YGG", "JFS", "JNS", "JNL", "JSL", "JMS", "JD", "LAL", "JPL",
-  "JSS", "JMMS", "JSTM", "JLTM", "JATM",
+  "JSS", "JMMS", "JITM", "JSTM", "JLTM", "JATM",
 ]);
 export const GOD_SYSTEMS = new Set([
   "AYR", "AEG", "ODN", "KRN", "SKD", "MNE", "HUG", "CHA",

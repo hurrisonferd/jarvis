@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-16T07:05:54Z (2026-06-16 03:05 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-16T08:24:30Z (2026-06-16 04:24 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**154 governed objects** · 247 edges · 9 domains.
+**155 governed objects** · 250 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 154 objects · 18 open tasks · 15 orphans · 247 edges._
+_JARVIS online · 155 objects · 18 open tasks · 15 orphans · 250 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -79,7 +79,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (37)
+### ARCH (38)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -96,6 +96,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `7` | `ARCH-JD-CORE-0001` | Jarvis Dictionary | ACTIVE | MIMIR |
 | `124` | `ARCH-JD-JIP-0001` | Identity & Serial Standard — JID / JIDD / JNL / name | ACTIVE | — |
 | `2` | `ARCH-JFS-CORE-0001` | Jarvis File System | ACTIVE | AEGIS |
+| `156` | `ARCH-JITM-CORE-0001` | Jarvis Immediate Memory | ACTIVE | — |
 | `12` | `ARCH-JLTM-CORE-0001` | Jarvis Long-Term Memory | ACTIVE | MNEMOS |
 | `10` | `ARCH-JMMS-CORE-0001` | Jarvis MultiMemory System | ACTIVE | MNEMOS |
 | `6` | `ARCH-JMS-CORE-0001` | Jarvis Mirror System | ACTIVE | HUGINN |

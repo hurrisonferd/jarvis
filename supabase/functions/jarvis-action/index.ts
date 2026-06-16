@@ -315,7 +315,7 @@ async function runGrimoire(page: string | undefined): Promise<Json> {
 // ONE-WAY (JSTM→JLTM→JATM); JATM is append-only and never retagged out (mirrors HADES/git).
 // Uses the existing tags array — no migration. JSTM is the project context-window: mark notes
 // jstm to keep them in the working set.
-const JMMS_TIERS = ["jstm", "jltm", "jatm"] as const;
+const JMMS_TIERS = ["jitm", "jstm", "jltm", "jatm"] as const;
 type Tier = typeof JMMS_TIERS[number];
 function tierTag(t: unknown): Tier {
   const v = String(t ?? "jltm").toLowerCase().replace(/^#/, "");

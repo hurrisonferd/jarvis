@@ -22,7 +22,7 @@ TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW", "JGP
 SUBSTRATE = {
     "YGG", "JFS", "JNS", "JNL", "JSL", "JMS", "JD", "LAL", "JPL",
     "JSS",                              # status system
-    "JMMS", "JSTM", "JLTM", "JATM",     # multimemory system + tiers
+    "JMMS", "JITM", "JSTM", "JLTM", "JATM",  # multimemory + tiers (JITM=immediate/always-on)
 }
 
 # JSS — Jarvis Status System. The governed lifecycle vocabulary for every object.

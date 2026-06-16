@@ -27,7 +27,7 @@ MANAGED_ROOTS = ("JarvisSide/Ideas", "JarvisMain/Implementation", "JarvisSide/Br
 # status does for the managed roots. A memory entry with no `memory:` field is the lane index
 # and stays put. Owner (shared by default; jarvis/ayre/raven the rare exception) is a tag, not a folder.
 MEMORY_ROOT = "JarvisMain/Architecture/identity/memory"
-MEM_TIERS = ("jstm", "jltm", "jatm")
+MEM_TIERS = ("jitm", "jstm", "jltm", "jatm")
 # Project artifacts stay flat (status lives in frontmatter + registries); only the
 # terminal states relocate, into the project's own archive shelf.
 PROJECTS_ROOT = "JarvisSide/Projects"

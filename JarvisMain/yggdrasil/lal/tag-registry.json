@@ -15,6 +15,9 @@
     "aegis": [
       "AUD-GATE-REVW-0001"
     ],
+    "always-on": [
+      "ARCH-JITM-CORE-0001"
+    ],
     "ancestral": [
       "ARCH-JATM-CORE-0001"
     ],
@@ -29,6 +32,7 @@
       "ARCH-JATM-CORE-0001",
       "ARCH-JD-CORE-0001",
       "ARCH-JFS-CORE-0001",
+      "ARCH-JITM-CORE-0001",
       "ARCH-JLTM-CORE-0001",
       "ARCH-JMMS-CORE-0001",
       "ARCH-JMS-CORE-0001",
@@ -479,6 +483,9 @@
     "images": [
       "LOG-MED-LOG-0001"
     ],
+    "immediate": [
+      "ARCH-JITM-CORE-0001"
+    ],
     "immutable": [
       "ARCH-JATM-CORE-0001"
     ],
@@ -627,6 +634,7 @@
     "memory": [
       "ARCH-JATM-CORE-0001",
       "ARCH-JC-JIP-0001",
+      "ARCH-JITM-CORE-0001",
       "ARCH-JLTM-CORE-0001",
       "ARCH-JMMS-CORE-0001",
       "ARCH-JSTM-CORE-0001",

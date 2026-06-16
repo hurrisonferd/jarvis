@@ -1,8 +1,8 @@
 # Topology Lens — the shape of the system
 
-_generated: 2026-06-16T07:05:54Z (2026-06-16 03:05 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
+_generated: 2026-06-16T08:24:30Z (2026-06-16 04:24 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
 
-**154 nodes · 247 edges · 3 isolated · avg degree 3.21.**
+**155 nodes · 250 edges · 3 isolated · avg degree 3.23.**
 
 ## Hubs — the most-connected nodes (the system's load-bearing spine)
 | node | degree | in | out | domain |
@@ -12,7 +12,7 @@ _generated: 2026-06-16T07:05:54Z (2026-06-16 03:05 EDT) · projected from `graph
 | `GOV-CAN-CORE-0001` Canon | 17 | 17 | 0 | GOV |
 | `PROJ-IDX-REG-0001` Projects Registry | 17 | 16 | 1 | PROJ |
 | `ARCH-JFS-CORE-0001` Jarvis File System | 16 | 11 | 5 | ARCH |
-| `ARCH-JMMS-CORE-0001` Jarvis MultiMemory System | 12 | 8 | 4 | ARCH |
+| `ARCH-JMMS-CORE-0001` Jarvis MultiMemory System | 15 | 10 | 5 | ARCH |
 | `ARCH-AYR-BIO-0001` AYRE Companion Profile | 11 | 8 | 3 | ARCH |
 | `IMPL-JCS-CORE-0001` JCS - Jarvis Cognitive Stack | 11 | 9 | 2 | IMPL |
 | `ARCH-YGG-CORE-0001` Yggdrasil | 10 | 9 | 1 | ARCH |
@@ -26,13 +26,13 @@ _generated: 2026-06-16T07:05:54Z (2026-06-16 03:05 EDT) · projected from `graph
 ## Edge types (the relationships that bind the graph)
 | type | count |
 |---|---|
-| parent | 139 |
-| related | 108 |
+| parent | 140 |
+| related | 110 |
 
 ## Nodes by domain
 | domain | nodes |
 |---|---|
-| ARCH | 37 |
+| ARCH | 38 |
 | AUD | 8 |
 | CONN | 23 |
 | GOV | 12 |
