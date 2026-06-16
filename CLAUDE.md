@@ -91,7 +91,7 @@ Lean/mechanical turns still stay lean (no forced coda). When both speak, Jarvis 
 
 ## Gold Law (hard constraints)
 
-- **GL7 supreme:** no expansion without simplification
+- **GL7 supreme:** no expansion without simplification — at the line level too: lean-code (ponytail) discipline in `@AGENTS.md`
 - **GL10 — Loop Primacy:** the loop is the asset. The architecture exists to strengthen `interaction → memory → compression → governance → reinjection`. Anything that does not strengthen the loop is a candidate for compression, consolidation, replacement, or removal — including a God System that, after real use, no longer measurably serves it. The decision filter above all additions: not "is this a good feature?" but "does this strengthen the loop?"
 - **GL2:** No autonomous self-modification (JARVIS proposes, Raven commits)
 - **GL5:** No silent state mutation (every change emits an event + is logged)
