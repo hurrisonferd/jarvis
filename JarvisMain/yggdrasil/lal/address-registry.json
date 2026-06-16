@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 193,
+  "count": 194,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -2061,6 +2061,27 @@
     },
     {
       "jnl": "CONN-MCP-RT-0047",
+      "name": "The Pinch \u2014 squeeze the whole tree (drift, debt, bloat)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "steward": null,
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_pinch.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-16",
+      "updated": "2026-06-16"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0048",
       "name": "Continuity \u2014 route + surface raw material",
       "type": "RT",
       "class": "MODULE",
@@ -2081,7 +2102,7 @@
       "updated": "2026-06-16"
     },
     {
-      "jnl": "CONN-MCP-RT-0048",
+      "jnl": "CONN-MCP-RT-0049",
       "name": "Listen \u2014 a track's musical features",
       "type": "RT",
       "class": "MODULE",
@@ -2102,7 +2123,7 @@
       "updated": "2026-06-16"
     },
     {
-      "jnl": "CONN-MCP-RT-0049",
+      "jnl": "CONN-MCP-RT-0050",
       "name": "Dither \u2014 see an image the Game Boy way",
       "type": "RT",
       "class": "MODULE",
@@ -2123,7 +2144,7 @@
       "updated": "2026-06-16"
     },
     {
-      "jnl": "CONN-MCP-RT-0050",
+      "jnl": "CONN-MCP-RT-0051",
       "name": "JIP \u2014 create",
       "type": "RT",
       "class": "MODULE",
@@ -2144,7 +2165,7 @@
       "updated": "2026-06-16"
     },
     {
-      "jnl": "CONN-MCP-RT-0051",
+      "jnl": "CONN-MCP-RT-0052",
       "name": "JIP \u2014 list",
       "type": "RT",
       "class": "MODULE",
@@ -2165,7 +2186,7 @@
       "updated": "2026-06-16"
     },
     {
-      "jnl": "CONN-MCP-RT-0052",
+      "jnl": "CONN-MCP-RT-0053",
       "name": "JIP \u2014 apply (propose to git)",
       "type": "RT",
       "class": "MODULE",
@@ -2186,7 +2207,7 @@
       "updated": "2026-06-16"
     },
     {
-      "jnl": "CONN-MCP-RT-0053",
+      "jnl": "CONN-MCP-RT-0054",
       "name": "JIP \u2014 revert (propose to git)",
       "type": "RT",
       "class": "MODULE",

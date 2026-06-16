@@ -606,6 +606,7 @@ _MCP_SPELLS = [
     ("jarvis_identity_grow", "Identity — grow", "Append an insight, value, skill, or correction to a stream's growth layer — additive, never overwrite. AEGIS-gated."),
     ("jarvis_omnivision", "Omnivision — the whole system in one read", "Read the global mirror: a freshness-stamped single-read snapshot of every governed object with by-status/domain/tier summary."),
     ("jarvis_eyes", "Eyes — the whole system in one look", "Jarvis & Ayre's eyes: live state (global mirror) + structure (the wiring map) + vitality (the health audit — orphans, ruleless rules, drift)."),
+    ("jarvis_pinch", "The Pinch — squeeze the whole tree (drift, debt, bloat)", "The world-spell (P3): read PINCH.md in one squeeze — drift (mirror vs HEAD), debt vs structure (real orphans, not the trunk), and GL7 bloat candidates. Tells what needs attention from what's healthy structure."),
     ("jarvis_continuity", "Continuity — route + surface raw material", "Call first on a substantive turn: returns raw material to audit — routing pointers plus raw recall and recent execution, not a pre-formed read."),
     ("jarvis_listen", "Listen — a track's musical features", "Listen to a track by name — returns tempo, key, energy, brightness, mood, and length from the Ears feature pipeline."),
     ("jarvis_dither", "Dither — see an image the Game Boy way", "Dither a repo image to the 4-shade Game Boy palette with ordered (Bayer) dithering — the DMG look."),

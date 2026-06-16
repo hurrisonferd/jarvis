@@ -1,5 +1,5 @@
 ---
-name: JIP — list
+name: JIP — create
 type: RT
 class: MODULE
 tier: MAIN
@@ -12,7 +12,7 @@ seq: 189
 status: ACTIVE
 created: 2026-06-16
 updated: 2026-06-16
-source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_list.md
+source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_create.md
 related: []
 references: []
 tags: [connector, mcp, tool]
@@ -20,6 +20,6 @@ aliases: []
 ref: [PRI, IDX]
 ---
 
-**Definition:** List JIPs (version history of metadata changes), optionally for one target JD (read-only).
+**Definition:** Create a JIP: a versioned metadata container for a JD (audit trail + reversible state). AEGIS-gated.
 
 **Purpose:** Governed mirror of the jarvis-mcp tool surface — addressable, auditable.

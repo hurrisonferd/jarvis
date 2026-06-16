@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-16T18:42:12Z",
-    "generated_at_eastern": "2026-06-16 14:42 EDT",
-    "source_commit": "c750951",
+    "generated_at_utc": "2026-06-16T18:55:37Z",
+    "generated_at_eastern": "2026-06-16 14:55 EDT",
+    "source_commit": "c2c1763",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 193,
+    "object_count": 194,
     "by_status": {
-      "ACTIVE": 167,
+      "ACTIVE": 168,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 19
@@ -17,7 +17,7 @@
     "by_domain": {
       "ARCH": 38,
       "AUD": 9,
-      "CONN": 58,
+      "CONN": 59,
       "GOV": 12,
       "GS": 27,
       "IDEA": 4,
@@ -26,7 +26,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 160,
+      "MAIN": 161,
       "SIDE": 33
     }
   },
@@ -3043,7 +3043,7 @@
       "jnl": "CONN-MCP-RT-0047",
       "jid": 185,
       "jidd": "conn-52",
-      "name": "Continuity — route + surface raw material",
+      "name": "The Pinch — squeeze the whole tree (drift, debt, bloat)",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3059,7 +3059,7 @@
       "jnl": "CONN-MCP-RT-0048",
       "jid": 186,
       "jidd": "conn-53",
-      "name": "Listen — a track's musical features",
+      "name": "Continuity — route + surface raw material",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3075,7 +3075,7 @@
       "jnl": "CONN-MCP-RT-0049",
       "jid": 187,
       "jidd": "conn-54",
-      "name": "Dither — see an image the Game Boy way",
+      "name": "Listen — a track's musical features",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3091,7 +3091,7 @@
       "jnl": "CONN-MCP-RT-0050",
       "jid": 188,
       "jidd": "conn-55",
-      "name": "JIP — create",
+      "name": "Dither — see an image the Game Boy way",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3107,7 +3107,7 @@
       "jnl": "CONN-MCP-RT-0051",
       "jid": 189,
       "jidd": "conn-56",
-      "name": "JIP — list",
+      "name": "JIP — create",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3123,7 +3123,7 @@
       "jnl": "CONN-MCP-RT-0052",
       "jid": 190,
       "jidd": "conn-57",
-      "name": "JIP — apply (propose to git)",
+      "name": "JIP — list",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3139,7 +3139,7 @@
       "jnl": "CONN-MCP-RT-0053",
       "jid": 191,
       "jidd": "conn-58",
-      "name": "JIP — revert (propose to git)",
+      "name": "JIP — apply (propose to git)",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3205,6 +3205,22 @@
         "ideas",
         "index",
         "root"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0054",
+      "jid": 195,
+      "jidd": "conn-59",
+      "name": "JIP — revert (propose to git)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
       ]
     }
   ]

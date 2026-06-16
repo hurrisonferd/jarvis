@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 193,
+  "count": 194,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1196,8 +1196,20 @@
       "state": "active"
     },
     {
-      "object": "Continuity \u2014 route + surface raw material",
+      "object": "The Pinch \u2014 squeeze the whole tree (drift, debt, bloat)",
       "jnl": "CONN-MCP-RT-0047",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_pinch.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Continuity \u2014 route + surface raw material",
+      "jnl": "CONN-MCP-RT-0048",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_continuity.md",
       "tags": [
         "connector",
@@ -1209,7 +1221,7 @@
     },
     {
       "object": "Listen \u2014 a track's musical features",
-      "jnl": "CONN-MCP-RT-0048",
+      "jnl": "CONN-MCP-RT-0049",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_listen.md",
       "tags": [
         "connector",
@@ -1221,7 +1233,7 @@
     },
     {
       "object": "Dither \u2014 see an image the Game Boy way",
-      "jnl": "CONN-MCP-RT-0049",
+      "jnl": "CONN-MCP-RT-0050",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dither.md",
       "tags": [
         "connector",
@@ -1233,7 +1245,7 @@
     },
     {
       "object": "JIP \u2014 create",
-      "jnl": "CONN-MCP-RT-0050",
+      "jnl": "CONN-MCP-RT-0051",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_create.md",
       "tags": [
         "connector",
@@ -1245,7 +1257,7 @@
     },
     {
       "object": "JIP \u2014 list",
-      "jnl": "CONN-MCP-RT-0051",
+      "jnl": "CONN-MCP-RT-0052",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_list.md",
       "tags": [
         "connector",
@@ -1257,7 +1269,7 @@
     },
     {
       "object": "JIP \u2014 apply (propose to git)",
-      "jnl": "CONN-MCP-RT-0052",
+      "jnl": "CONN-MCP-RT-0053",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_apply.md",
       "tags": [
         "connector",
@@ -1269,7 +1281,7 @@
     },
     {
       "object": "JIP \u2014 revert (propose to git)",
-      "jnl": "CONN-MCP-RT-0053",
+      "jnl": "CONN-MCP-RT-0054",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_revert.md",
       "tags": [
         "connector",
