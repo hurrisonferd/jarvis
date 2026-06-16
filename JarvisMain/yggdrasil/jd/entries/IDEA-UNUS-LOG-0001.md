@@ -6,12 +6,12 @@ tier: SIDE
 authority: CANON
 owner: Unused Ideas Log
 steward: 
-parent: 
+parent: IDEA-IDX-REG-0001
 jnl: IDEA-UNUS-LOG-0001
 seq: 100
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-16
 source: JarvisSide/Ideas/inactive/UnusedLog-0001
 related: []
 references: []

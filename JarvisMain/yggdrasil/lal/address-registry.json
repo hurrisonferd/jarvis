@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 191,
+  "count": 193,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -844,7 +844,7 @@
       "tier": "MAIN",
       "owner": "Audit",
       "steward": null,
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "location": "JarvisMain/Audit/required-checks-setup.md",
       "tags": [
         "audit",
@@ -854,7 +854,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "AUD-COMP-REVW-0001",
@@ -864,7 +864,7 @@
       "tier": "SIDE",
       "owner": "Audit",
       "steward": null,
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "location": "JarvisSide/Archive/CompanionResearch-0001-053026.md",
       "tags": [
         "research",
@@ -875,7 +875,7 @@
       "status": "ARCHIVED",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "AUD-FULL-REVW-0001",
@@ -885,7 +885,7 @@
       "tier": "MAIN",
       "owner": "Audit",
       "steward": null,
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "location": "JarvisMain/Audit/2026-06-04_full_system_audit.md",
       "tags": [
         "audit",
@@ -895,7 +895,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "AUD-GATE-REVW-0001",
@@ -920,6 +920,27 @@
       "updated": "2026-06-15"
     },
     {
+      "jnl": "AUD-IDX-REG-0001",
+      "name": "Audit Index",
+      "type": "REG",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "owner": "Audit",
+      "steward": null,
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisMain/Audit",
+      "tags": [
+        "audit",
+        "index",
+        "root"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-16",
+      "updated": "2026-06-16"
+    },
+    {
       "jnl": "AUD-OPUS-REVW-0001",
       "name": "Opus 4.8 Audit",
       "type": "REVW",
@@ -927,7 +948,7 @@
       "tier": "MAIN",
       "owner": "Audit",
       "steward": null,
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "location": "JarvisMain/Audit/2026-05-29_opus48_audit.md",
       "tags": [
         "audit",
@@ -937,7 +958,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "AUD-REQM-REVW-0001",
@@ -991,7 +1012,7 @@
       "tier": "MAIN",
       "owner": "Audit",
       "steward": null,
-      "parent": "",
+      "parent": "AUD-IDX-REG-0001",
       "location": "JarvisMain/Audit/JarvisSystemReview-0001-060826",
       "tags": [
         "audit",
@@ -1001,7 +1022,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "CONN-DEX-SPEC-0001",
@@ -3065,6 +3086,27 @@
       "updated": "2026-06-14"
     },
     {
+      "jnl": "IDEA-IDX-REG-0001",
+      "name": "Ideas Index",
+      "type": "REG",
+      "class": "ENTITY",
+      "tier": "SIDE",
+      "owner": "Ideas Index",
+      "steward": null,
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisSide/Ideas",
+      "tags": [
+        "ideas",
+        "index",
+        "root"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-16",
+      "updated": "2026-06-16"
+    },
+    {
       "jnl": "IDEA-PAN-INS-0001",
       "name": "Pantheon \u2014 god-system identity & subsystem stewardship",
       "type": "INS",
@@ -3072,7 +3114,7 @@
       "tier": "SIDE",
       "owner": "Pantheon \u2014 god-system identity & subsystem stewardship",
       "steward": null,
-      "parent": "",
+      "parent": "IDEA-IDX-REG-0001",
       "location": "JarvisSide/Ideas/task/IDEAPANINS-061426-0001-PANTHEON.md",
       "tags": [
         "pantheon",
@@ -3086,7 +3128,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-14",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "IDEA-UNUS-LOG-0001",
@@ -3096,7 +3138,7 @@
       "tier": "SIDE",
       "owner": "Unused Ideas Log",
       "steward": null,
-      "parent": "",
+      "parent": "IDEA-IDX-REG-0001",
       "location": "JarvisSide/Ideas/inactive/UnusedLog-0001",
       "tags": [
         "idea",
@@ -3106,7 +3148,7 @@
       "status": "INACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "IDEA-USED-LOG-0001",
@@ -3116,7 +3158,7 @@
       "tier": "SIDE",
       "owner": "Used Ideas Log",
       "steward": null,
-      "parent": "",
+      "parent": "IDEA-IDX-REG-0001",
       "location": "JarvisSide/Ideas/active/UsedLog-0001",
       "tags": [
         "idea",
@@ -3126,7 +3168,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "IMPL-DEX-SPEC-0001",
@@ -3429,7 +3471,7 @@
       "tier": "MAIN",
       "owner": "JCS Pipeline",
       "steward": null,
-      "parent": "",
+      "parent": "IMPL-IDX-REG-0001",
       "location": "JarvisMain/Implementation/task/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md",
       "tags": [
         "modularity",

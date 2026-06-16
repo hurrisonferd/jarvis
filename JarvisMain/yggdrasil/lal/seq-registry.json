@@ -1,5 +1,5 @@
 {
-  "next": 193,
+  "next": 195,
   "map": {
     "ARCH-YGG-CORE-0001": 1,
     "ARCH-JFS-CORE-0001": 2,
@@ -192,6 +192,8 @@
     "CONN-MCP-RT-0051": 189,
     "CONN-MCP-RT-0052": 190,
     "CONN-MCP-RT-0053": 191,
-    "IMPL-MOD-SPEC-0001": 192
+    "IMPL-MOD-SPEC-0001": 192,
+    "AUD-IDX-REG-0001": 193,
+    "IDEA-IDX-REG-0001": 194
   }
 }

@@ -6,12 +6,12 @@ tier: SIDE
 authority: CANON
 owner: Pantheon — god-system identity & subsystem stewardship
 steward: 
-parent: 
+parent: IDEA-IDX-REG-0001
 jnl: IDEA-PAN-INS-0001
 seq: 140
 status: TASK
 created: 2026-06-14
-updated: 2026-06-14
+updated: 2026-06-16
 source: JarvisSide/Ideas/task/IDEAPANINS-061426-0001-PANTHEON.md
 related: []
 references: []

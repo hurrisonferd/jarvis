@@ -1,8 +1,8 @@
 # Orphan Lens — the debt, made into a worklist
 
-_generated: 2026-06-16T18:11:24Z (2026-06-16 14:11 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
+_generated: 2026-06-16T18:16:52Z (2026-06-16 14:16 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
 
-16 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **4 decide** (needs your call) · **7 archive** · **5 root** (legitimate top-level, leave as-is).
+7 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **1 decide** (needs your call) · **1 archive** · **5 root** (legitimate top-level, leave as-is).
 
 ## ATTACH — an existing parent is right there (low-risk prune)
 Set `parent:` to the suggestion, reseed; the JNL never changes (JMS law).
@@ -15,21 +15,12 @@ Set `parent:` to the suggestion, reseed; the JNL never changes (JMS law).
 
 | orphan | name | question |
 |---|---|---|
-| `IDEA-PAN-INS-0001` | Pantheon — god-system identity & subsystem | no obvious parent — needs a placement decision |
-| `IDEA-USED-LOG-0001` | Used Ideas Log | no obvious parent — needs a placement decision |
-| `IMPL-MOD-SPEC-0001` | Modularity & Extensibility — Field Plan +  | no obvious parent — needs a placement decision |
 | `LOG-MED-LOG-0001` | Media Library | no obvious parent — needs a placement decision |
 
 ## ARCHIVE — done or point-in-time (move to the archive lane)
 
 | orphan | name | why |
 |---|---|---|
-| `AUD-CHK-SPEC-0001` | Required Checks Setup | point-in-time review — parent to an audit index or archive once read |
-| `AUD-COMP-REVW-0001` | Companion Research | status is ARCHIVED — autosort to the archive lane |
-| `AUD-FULL-REVW-0001` | Full System Audit | point-in-time review — parent to an audit index or archive once read |
-| `AUD-OPUS-REVW-0001` | Opus 4.8 Audit | point-in-time review — parent to an audit index or archive once read |
-| `AUD-SYS-REVW-0001` | Jarvis System Review | point-in-time review — parent to an audit index or archive once read |
-| `IDEA-UNUS-LOG-0001` | Unused Ideas Log | status is INACTIVE — autosort to the archive lane |
 | `IMPL-HYG-SPEC-0001` | Hygiene Packets Archive | status is ARCHIVED — autosort to the archive lane |
 
 ## ROOT — legitimate top-level (no action)

@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 191,
+  "count": 193,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -537,6 +537,18 @@
         "governance",
         "aegis",
         "security"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Audit Index",
+      "jnl": "AUD-IDX-REG-0001",
+      "location": "JarvisMain/Audit",
+      "tags": [
+        "audit",
+        "index",
+        "root"
       ],
       "anchors": [],
       "state": "active"
@@ -1773,6 +1785,18 @@
         "cosmic",
         "god-system",
         "canon"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Ideas Index",
+      "jnl": "IDEA-IDX-REG-0001",
+      "location": "JarvisSide/Ideas",
+      "tags": [
+        "ideas",
+        "index",
+        "root"
       ],
       "anchors": [],
       "state": "active"

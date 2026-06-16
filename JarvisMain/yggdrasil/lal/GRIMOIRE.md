@@ -1,20 +1,20 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-16T18:11:24Z (2026-06-16 14:11 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-16T18:16:52Z (2026-06-16 14:16 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**191 governed objects** · 285 edges · 9 domains.
+**193 governed objects** · 296 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 191 objects · 19 open tasks · 16 orphans · 285 edges._
+_JARVIS online · 193 objects · 19 open tasks · 7 orphans · 296 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
 1. **System health** → `jarvis_eyes` (state + wiring + vitality)
 2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 19 in flight
-3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 16 unparented
+3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 7 unparented
 4. **What happened** → `jarvis_timeline` (recent events + commits)
 5. **Summon a card** → `jarvis_jd_resolve` ('jid 1', a name, or a JNL)
 6. **The lenses** → `jarvis_grimoire {page:'lenses'}` (the fusion chapters)
@@ -122,7 +122,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `142` | `ARCH-SYS-SPEC-0001` | JARVIS System Manual | ACTIVE | — |
 | `1` | `ARCH-YGG-CORE-0001` | Yggdrasil | ACTIVE | — |
 
-### AUD (8)
+### AUD (9)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -130,6 +130,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `102` | `AUD-COMP-REVW-0001` | Companion Research | ARCHIVED | — |
 | `89` | `AUD-FULL-REVW-0001` | Full System Audit | ACTIVE | — |
 | `152` | `AUD-GATE-REVW-0001` | Sticky Fingers — Governance-Coverage Audit | ACTIVE | — |
+| `193` | `AUD-IDX-REG-0001` | Audit Index | ACTIVE | — |
 | `88` | `AUD-OPUS-REVW-0001` | Opus 4.8 Audit | ACTIVE | — |
 | `153` | `AUD-REQM-REVW-0001` | Requiem — Gaps/Heal/Life Audit | ACTIVE | — |
 | `151` | `AUD-SYNC-REVW-0001` | TUSK Act 4 — Git/Supabase Sync Audit | ACTIVE | — |
@@ -247,10 +248,11 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `18` | `GS-SKD-CORE-0001` | SKADI | ACTIVE | — |
 | `37` | `GS-ZEU-CORE-0001` | ZEUS | ACTIVE | — |
 
-### IDEA (3)
+### IDEA (4)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
+| `194` | `IDEA-IDX-REG-0001` | Ideas Index | ACTIVE | — |
 | `140` | `IDEA-PAN-INS-0001` | Pantheon — god-system identity & subsystem stewardship | TASK | — |
 | `100` | `IDEA-UNUS-LOG-0001` | Unused Ideas Log | INACTIVE | — |
 | `99` | `IDEA-USED-LOG-0001` | Used Ideas Log | ACTIVE | — |
@@ -336,13 +338,13 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 **Lineage**
 - parent ↑ `—`
-- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `PROJ-IDX-REG-0001`
+- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-IDX-REG-0001` `IDEA-IDX-REG-0001` `PROJ-IDX-REG-0001`
 - siblings ↔ —
 - related → `ARCH-JFS-CORE-0001`
 
 **Neighbors (graph edges)**
 - out → `ARCH-JFS-CORE-0001`(related)
-- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `PROJ-IDX-REG-0001`(parent)
+- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-IDX-REG-0001`(parent) `IDEA-IDX-REG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
 
 **Tags.** `root` `core` `architecture` · **aliases:** ygg, yggdrasil
 

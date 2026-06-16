@@ -6,12 +6,12 @@ tier: MAIN
 authority: CANON
 owner: Audit
 steward: 
-parent: 
+parent: AUD-IDX-REG-0001
 jnl: AUD-OPUS-REVW-0001
 seq: 88
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-16
 source: JarvisMain/Audit/2026-05-29_opus48_audit.md
 related: [GOV-CAN-CORE-0001]
 references: []
