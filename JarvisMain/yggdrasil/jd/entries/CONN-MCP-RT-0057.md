@@ -1,5 +1,5 @@
 ---
-name: Muster — the roll call (every sight in one cast)
+name: JIP — revert (propose to git)
 type: RT
 class: MODULE
 tier: MAIN
@@ -7,12 +7,12 @@ authority: CANON
 owner: Connectors
 steward: 
 parent: CONN-MSB-CORE-0001
-jnl: CONN-MCP-RT-0048
-seq: 186
+jnl: CONN-MCP-RT-0057
+seq: 198
 status: ACTIVE
 created: 2026-06-16
 updated: 2026-06-16
-source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_muster.md
+source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_revert.md
 related: []
 references: []
 tags: [connector, mcp, tool]
@@ -20,6 +20,6 @@ aliases: []
 ref: [PRI, IDX]
 ---
 
-**Definition:** Fusion world-spell: fire the full sight-chain at once — state + Pinch + health + wiring + recent commits. The whole live picture in a single cast.
+**Definition:** Roll a JD back git-first: remove its entry from jd/patches.json as a PR so seed restores the source value. AEGIS-gated.
 
 **Purpose:** Governed mirror of the jarvis-mcp tool surface — addressable, auditable.

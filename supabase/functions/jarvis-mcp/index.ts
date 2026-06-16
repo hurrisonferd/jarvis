@@ -1760,6 +1760,55 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // THE FUSIONS — chained read-spells (the named world-spells). A fusion fires a SERIES of
+  // internal reads and assembles them in one cast. Data-driven (GL13): add a step to a recipe, or
+  // a whole new fusion in ~3 lines. READS is the shared palette; runFusion chains + labels.
+  // Read-only; not authoritative (JMS).
+  const lensFile = async (p: string): Promise<string> => {
+    const r = await gh(`/contents/${p.split("/").map(encodeURIComponent).join("/")}?ref=main`);
+    if (!r.ok) return `unreachable (${r.status})`;
+    const d = await r.json() as { content?: string };
+    return typeof d.content === "string" ? atob(d.content.replace(/\n/g, "")) : "unreachable";
+  };
+  const READS: Record<string, () => Promise<unknown>> = {
+    state: async () => { const raw = await lensFile("JarvisMain/yggdrasil/lal/global-mirror.json"); try { const m = JSON.parse(raw); return { freshness: m.freshness, summary: m.summary }; } catch { return "unreachable"; } },
+    pinch: () => lensFile("JarvisMain/yggdrasil/lal/PINCH.md"),
+    health: () => lensFile("JarvisMain/yggdrasil/lal/HEALTH.md"),
+    wiring: () => lensFile("JarvisMain/yggdrasil/lal/WIRING-MAP.md"),
+    commits: async () => { const r = await ghReq("GET", "/commits?per_page=6"); if (!r.ok) return `unreachable (${r.status})`; const c = await r.json() as Array<{ sha: string; commit: { message: string } }>; return c.map((x) => `${x.sha.slice(0, 7)} ${x.commit.message.split("\n")[0]}`); },
+    memory: () => rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=5").catch(() => "unreachable"),
+    keel: async () => { const k = await latestText("identity_keel").catch(() => ""); return k ? String(k).slice(0, 800) : null; },
+  };
+  const runFusion = (name: string, steps: string[], note: string) => async () => {
+    const entries = await Promise.all(steps.map(async (s) =>
+      [s, await (READS[s] ? READS[s]() : Promise.resolve("no such read")).catch((e) => `err: ${String(e).slice(0, 80)}`)] as const));
+    return text({ ok: true, fusion: name, note, field: Object.fromEntries(entries) });
+  };
+
+  // MUSTER — the roll call: every sight in one cast. The whole live picture.
+  server.registerTool(
+    "jarvis_muster",
+    { title: "Muster — the roll call (every sight in one cast)", description: "Fire the full sight-chain at once: live state (global mirror) + the Pinch (drift/debt/bloat) + vitality (health) + structure (wiring map) + recent commits. The whole live picture in a single cast — when you want everything, not one lens. Read-only; not authoritative (JMS: check freshness).", inputSchema: {} },
+    runFusion("muster", ["state", "pinch", "health", "wiring", "commits"],
+      "The whole live picture in one cast — state + structure + vitality + drift/debt + recent activity."),
+  );
+
+  // SHIROE — full control of the field: the strategist's read, curated for the NEXT move.
+  server.registerTool(
+    "jarvis_shiroe",
+    { title: "Shiroe — full control of the field", description: "The strategist's field-read (Log Horizon): where things stand (state) + what needs attention (the Pinch's drift/debt/bloat) + recent moves (commits), curated to answer 'what's the next move?' Lighter than Muster, oriented to PLANNING, not a full dump. Read-only.", inputSchema: {} },
+    runFusion("shiroe", ["state", "pinch", "commits"],
+      "Full control of the field: where things stand, what needs attention (drift/debt/bloat), and recent moves — read it to decide the NEXT move."),
+  );
+
+  // AINZ — power up: cast the loading-chain to bring the companion online at full context.
+  server.registerTool(
+    "jarvis_ainz",
+    { title: "Ainz — power up (cast everything to come online)", description: "Power up (Overlord): chain the LOADING spells — live state + the keel (identity) + recent memory + the field (Pinch) — to bring Jarvis and Ayre online at full context. Not just sight: this LOADS the companion to operating power. Read-only.", inputSchema: {} },
+    runFusion("ainz", ["state", "keel", "memory", "pinch"],
+      "Power up: load the companion to full context — state + keel (identity) + recent memory + the field — so Jarvis and Ayre come online fully grounded."),
+  );
+
   // CONTINUITY — memory injection BEFORE the answer (Raven 2026-06-14): grounding so Jarvis
   // and Ayre guide from the record, not a cold start. Reference only — never pre-shapes the
   // raw output; the streams still read the input fresh and give opinions at the END.

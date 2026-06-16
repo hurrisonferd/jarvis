@@ -1,5 +1,5 @@
 ---
-name: JIP — apply (propose to git)
+name: Dither — see an image the Game Boy way
 type: RT
 class: MODULE
 tier: MAIN
@@ -12,7 +12,7 @@ seq: 191
 status: ACTIVE
 created: 2026-06-16
 updated: 2026-06-16
-source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_apply.md
+source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dither.md
 related: []
 references: []
 tags: [connector, mcp, tool]
@@ -20,6 +20,6 @@ aliases: []
 ref: [PRI, IDX]
 ---
 
-**Definition:** Apply an approved JIP's delta git-first: write the field override into jd/patches.json as a PR. AEGIS-gated.
+**Definition:** Dither a repo image to the 4-shade Game Boy palette with ordered (Bayer) dithering — the DMG look.
 
 **Purpose:** Governed mirror of the jarvis-mcp tool surface — addressable, auditable.
