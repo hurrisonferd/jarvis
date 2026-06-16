@@ -6,12 +6,12 @@ tier: MAIN
 authority: CANON
 owner: Media Library
 steward: 
-parent: 
+parent: ARCH-YGG-CORE-0001
 jnl: LOG-MED-LOG-0001
 seq: 146
 status: ACTIVE
 created: 2026-06-14
-updated: 2026-06-14
+updated: 2026-06-16
 source: JarvisSide/Media
 related: []
 references: []

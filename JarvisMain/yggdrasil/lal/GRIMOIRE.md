@@ -1,20 +1,20 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-16T18:34:28Z (2026-06-16 14:34 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-16T18:42:12Z (2026-06-16 14:42 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**193 governed objects** · 296 edges · 9 domains.
+**193 governed objects** · 297 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 193 objects · 19 open tasks · 7 orphans · 296 edges._
+_JARVIS online · 193 objects · 19 open tasks · 6 orphans · 297 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
 1. **System health** → `jarvis_eyes` (state + wiring + vitality)
 2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 19 in flight
-3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 7 unparented
+3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 6 unparented
 4. **What happened** → `jarvis_timeline` (recent events + commits)
 5. **Summon a card** → `jarvis_jd_resolve` ('jid 1', a name, or a JNL)
 6. **The lenses** → `jarvis_grimoire {page:'lenses'}` (the fusion chapters)
@@ -338,13 +338,13 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 **Lineage**
 - parent ↑ `—`
-- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-IDX-REG-0001` `IDEA-IDX-REG-0001` `PROJ-IDX-REG-0001`
+- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-IDX-REG-0001` `IDEA-IDX-REG-0001` `LOG-MED-LOG-0001` `PROJ-IDX-REG-0001`
 - siblings ↔ —
 - related → `ARCH-JFS-CORE-0001`
 
 **Neighbors (graph edges)**
 - out → `ARCH-JFS-CORE-0001`(related)
-- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-IDX-REG-0001`(parent) `IDEA-IDX-REG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
+- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-IDX-REG-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
 
 **Tags.** `root` `core` `architecture` · **aliases:** ygg, yggdrasil
 
