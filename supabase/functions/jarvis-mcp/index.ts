@@ -8,34 +8,11 @@ import { ayreStream, councilAnalysisDirective, councilVote, deliberationDirectiv
 import { buildNodeCard, buildPortableIdentity, GRID_VERSION, validateInbound } from "./grid.ts";
 import { identityAssertion, isBase64, messagePayload } from "./crypto.ts";
 import { haloThroughputCheck } from "./halo.ts";
+// Foundation extracted to core/ (the forge's first slice) — zero behavior change. env → http → auth.
+import { BASE_URL, type Json, NODE_ID, SERVICE_KEY, SUPABASE_URL, TOOL_NAMES } from "./core/env.ts";
+import { callFunction, rest, text } from "./core/http.ts";
+import { heldForApproval, writeAuthorized } from "./core/auth.ts";
 
-const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
-const SERVICE_KEY =
-  Deno.env.get("SUPABASE_SERVICE_KEY") ??
-  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
-  "";
-// Legacy bearer for writes. Reads + suit-up are open; writes stay AEGIS-gated.
-const MCP_TOKEN = Deno.env.get("JARVIS_MCP_TOKEN") ?? "";
-
-// THE GRID — this node's identity. Raven's node is the first node.
-const NODE_ID = Deno.env.get("JARVIS_NODE_ID") ?? "raven-node-0";
-const BASE_URL = `${SUPABASE_URL}/functions/v1/jarvis-mcp`;
-// The node's advertised capabilities (its tool surface) — published in the card.
-const TOOL_NAMES = [
-  "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
-  "jarvis_recall", "jarvis_remember", "jarvis_event", "jarvis_jmms",
-  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
-  "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_repo_search", "jarvis_self_test", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
-  "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
-  "jarvis_now",
-  "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
-  "jarvis_eyes", "jarvis_continuity", "jarvis_listen", "jarvis_dither",
-  "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
-  "jarvis_voice_brief",
-  "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
-  "jarvis_halo",
-];
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
 // signs). Standard base64 → bytes, then Web Crypto verify against a raw public key.
@@ -61,105 +38,9 @@ async function verifyEd25519(pubB64: string, message: string, sigB64: string): P
   } catch { return false; }
 }
 
-type Json = Record<string, unknown>;
-
 const app = new Hono();
 
-// The write token, accepted from wherever the connector can carry it: an
-// Authorization bearer, an x-jarvis-token header, or a ?token= URL param (the
-// universal fallback — ChatGPT connectors that send no auth can append it to the
-// connector URL). First match wins.
-function authToken(req: Request): string {
-  const raw = req.headers.get("authorization") ?? "";
-  if (raw.toLowerCase().startsWith("bearer ")) return raw.slice(7).trim();
-  const h = req.headers.get("x-jarvis-token");
-  if (h && h.trim()) return h.trim();
-  try {
-    const q = new URL(req.url).searchParams.get("token");
-    if (q && q.trim()) return q.trim();
-  } catch { /* malformed url — no token */ }
-  return "";
-}
-// AEGIS write gate. Persistent writes require the connector to carry the
-// JARVIS_MCP_TOKEN bearer (set once in the connector's auth header). Consent is
-// the client's own Allow/Deny prompt before the call — no phrase to type. Fails
-// closed when no token is configured (protects the endpoint from open writes).
-function writeAuthorized(req: Request): boolean {
-  return tokenState(req) === "ok";
-}
-// AEGIS token diagnosis — names WHY a write is gated so a held response is actionable
-// instead of ambiguous (the old message couldn't tell a missing secret from a wrong one):
-//   server_unset   — the function has NO JARVIS_MCP_TOKEN baked in (secret missing, or
-//                    set AFTER the last deploy → redeploy to pick it up; secrets bake at deploy).
-//   client_missing — the connector sent no token at all.
-//   mismatch       — the connector sent a token, but it differs from the function's.
-type TokenState = "ok" | "server_unset" | "client_missing" | "mismatch";
-function tokenState(req: Request): TokenState {
-  const sent = authToken(req);
-  if (!MCP_TOKEN) return "server_unset";
-  if (!sent) return "client_missing";
-  return sent === MCP_TOKEN ? "ok" : "mismatch";
-}
-// Held response when the write isn't authorized. Reports the precise token_state and a
-// value-free fingerprint (lengths only — NEVER the secret itself) so the failure
-// self-diagnoses. GL5: a systematic gate failure is also surfaced in the function logs.
-function heldForApproval(action: string, preview: unknown, req: Request) {
-  const st = tokenState(req);
-  const reason: Record<TokenState, string> = {
-    ok: "Authorized — no hold.",
-    server_unset: "Write not authorized: JARVIS_MCP_TOKEN is not set in THIS function's deployed env — the secret is missing, or was set after the last deploy. Redeploy jarvis-mcp (secrets bake at deploy) so it picks up the token.",
-    client_missing: "Write not authorized: the connector sent no token. Add JARVIS_MCP_TOKEN to the connector — as an Authorization bearer, an x-jarvis-token header, or ?token=… on the connector URL.",
-    mismatch: "Write not authorized: the connector's token does NOT match the function's JARVIS_MCP_TOKEN. The values differ — confirm the Supabase secret equals the token the connector carries, then redeploy.",
-  };
-  if (st !== "ok") {
-    console.error(`AEGIS hold [${action}] token_state=${st} client_len=${authToken(req).length} server_len=${MCP_TOKEN.length}`);
-  }
-  return text({
-    status: "held_by_aegis",
-    token_state: st,
-    reason: reason[st],
-    // value-free fingerprint: lengths only, so a mismatch vs an unset secret is visible
-    // without ever exposing the token.
-    diag: { client_token_len: authToken(req).length, server_token_len: MCP_TOKEN.length },
-    action,
-    preview,
-  });
-}
 
-function text(content: unknown) {
-  return {
-    content: [
-      {
-        type: "text" as const,
-        text: typeof content === "string" ? content : JSON.stringify(content, null, 2),
-      },
-    ],
-  };
-}
-
-async function callFunction(name: string, body: Json): Promise<unknown> {
-  const res = await fetch(`${SUPABASE_URL}/functions/v1/${name}`, {
-    method: "POST",
-    headers: {
-      authorization: `Bearer ${SERVICE_KEY}`,
-      apikey: SERVICE_KEY,
-      "content-type": "application/json",
-    },
-    body: JSON.stringify(body),
-  });
-  const payload = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(`${name} ${res.status}: ${JSON.stringify(payload)}`);
-  return payload;
-}
-
-async function rest(path: string): Promise<unknown> {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
-    headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY },
-  });
-  const payload = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(`rest ${res.status}: ${JSON.stringify(payload)}`);
-  return payload;
-}
 
 // JMMS — memory tiering (ARCH-JMMS-CORE-0001). Every memory carries a tier tag so recall
 // can target a horizon: JSTM (working/session) → JLTM (consolidated, the default) → JATM
