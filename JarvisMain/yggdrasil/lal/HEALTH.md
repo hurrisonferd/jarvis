@@ -17,8 +17,8 @@ _193 governed objects, 296 edges · health WARNS, never blocks (validate.py is t
 ## Ruleless JIPs (a rule attached to nothing) (0)
 - ✓ none
 
-## Stewardless substrate (no god tending it) (1)
-- ARCH-JITM-CORE-0001
+## Stewardless substrate (no god tending it) (0)
+- ✓ none
 
 ## Open tasks (in-flight work, aging watch) (19)
 - `ARCH-JC-JIP-0001` Conversational History Objects
@@ -41,4 +41,4 @@ _193 governed objects, 296 edges · health WARNS, never blocks (validate.py is t
 - `PROJ-TRN-JGPP-0001` UI Rework — outdated GameBoy page and the control surface
 - `PROJ-TST-JGPP-0001` JarvisTST — Temporal Task System
 
-**VITALITY:** 9 structural flag(s) + 19 open task(s).
+**VITALITY:** 8 structural flag(s) + 19 open task(s).

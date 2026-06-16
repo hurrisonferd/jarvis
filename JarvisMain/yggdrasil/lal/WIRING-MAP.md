@@ -1,6 +1,6 @@
 # Wiring Map — how Jarvis, Ayre, and the god systems connect
 
-_generated: 2026-06-16T07:05:54Z (2026-06-16 03:05 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
+_generated: 2026-06-16T18:34:28Z (2026-06-16 14:34 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
 
 Read at session start (after `suit_up` / `identity_read`). This is the route guide:
 what tends what, what runs in what order, which tool wakes which god.
@@ -31,6 +31,7 @@ ODIN routes; it does not route *alone*. The streams pre-process intent so ODIN d
 | Jarvis Status System | `ARCH-JSS-CORE-0001` | **KRONOS** |
 | Jarvis Dictionary | `ARCH-JD-CORE-0001` | **MIMIR** |
 | Jarvis Ancestral Memory | `ARCH-JATM-CORE-0001` | **MNEMOS** |
+| Jarvis Immediate Memory | `ARCH-JITM-CORE-0001` | **MNEMOS** |
 | Jarvis Long-Term Memory | `ARCH-JLTM-CORE-0001` | **MNEMOS** |
 | Jarvis MultiMemory System | `ARCH-JMMS-CORE-0001` | **MNEMOS** |
 | Jarvis Short-Term Memory | `ARCH-JSTM-CORE-0001` | **MNEMOS** |

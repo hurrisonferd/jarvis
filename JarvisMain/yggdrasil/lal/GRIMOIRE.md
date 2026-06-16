@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-16T18:16:52Z (2026-06-16 14:16 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-16T18:34:28Z (2026-06-16 14:34 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -96,7 +96,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `7` | `ARCH-JD-CORE-0001` | Jarvis Dictionary | ACTIVE | MIMIR |
 | `124` | `ARCH-JD-JIP-0001` | Identity & Serial Standard — JID / JIDD / JNL / name | ACTIVE | — |
 | `2` | `ARCH-JFS-CORE-0001` | Jarvis File System | ACTIVE | AEGIS |
-| `156` | `ARCH-JITM-CORE-0001` | Jarvis Immediate Memory | ACTIVE | — |
+| `156` | `ARCH-JITM-CORE-0001` | Jarvis Immediate Memory | ACTIVE | MNEMOS |
 | `12` | `ARCH-JLTM-CORE-0001` | Jarvis Long-Term Memory | ACTIVE | MNEMOS |
 | `10` | `ARCH-JMMS-CORE-0001` | Jarvis MultiMemory System | ACTIVE | MNEMOS |
 | `6` | `ARCH-JMS-CORE-0001` | Jarvis Mirror System | ACTIVE | HUGINN |
