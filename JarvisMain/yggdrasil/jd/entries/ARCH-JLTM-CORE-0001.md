@@ -11,7 +11,7 @@ jnl: ARCH-JLTM-CORE-0001
 seq: 12
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-16
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
 references: []
@@ -20,6 +20,6 @@ aliases: [jltm, long-term memory]
 ref: [PRI, SPEC, IDX]
 ---
 
-**Definition:** Consolidated semantic memory tier — durable compressed knowledge; the MNEMOS store.
+**Definition:** Long-term memory tier — what the system always remembers: durable consolidated knowledge promoted out of short-term (the MNEMOS store).
 
-**Purpose:** Hold durable, recallable knowledge promoted out of short-term.
+**Purpose:** Hold durable, recallable knowledge the system keeps for good.

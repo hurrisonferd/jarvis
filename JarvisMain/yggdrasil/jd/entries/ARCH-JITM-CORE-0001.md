@@ -20,6 +20,6 @@ aliases: []
 ref: [PRI, SPEC, IDX]
 ---
 
-**Definition:** Immediate/always-on memory tier — the strict, capped briefing injected into every turn (an extension of the charter); holds pointers, not content.
+**Definition:** System-context tier — the always-on briefing that helps Jarvis and Ayre RUN: identity, charter, and must-know pointers injected every turn (capped; pointers, not content).
 
 **Purpose:** Keep the few must-knows in front of Jarvis and Ayre every turn without bloating the prompt.

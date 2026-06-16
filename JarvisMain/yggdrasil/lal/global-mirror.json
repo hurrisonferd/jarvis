@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-16T18:16:52Z",
-    "generated_at_eastern": "2026-06-16 14:16 EDT",
-    "source_commit": "c16e3e6",
+    "generated_at_utc": "2026-06-16T18:42:12Z",
+    "generated_at_eastern": "2026-06-16 14:42 EDT",
+    "source_commit": "c750951",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -2425,7 +2425,7 @@
       "class": "ENTITY",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "",
+      "parent": "ARCH-YGG-CORE-0001",
       "tags": [
         "media",
         "audio",

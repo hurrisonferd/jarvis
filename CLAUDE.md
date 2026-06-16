@@ -96,6 +96,8 @@ Lean/mechanical turns still stay lean (no forced coda). When both speak, Jarvis 
 - **GL2:** No autonomous self-modification (JARVIS proposes, Raven commits)
 - **GL5:** No silent state mutation (every change emits an event + is logged)
 - **GL6:** No unvalidated execution (AEGIS gates high-risk actions)
+- **GL12 — Canonical Addressability:** every persistent object has a JNL address, location, tags, anchors, and index reference — or it is non-governed (invisible to the loop). Enforced by `validate.py`.
+- **GL13 — Open Extension (Raven-ratified 2026-06-16):** no structural rewrite to add a *kind of thing*. Every extension — a spell, domain, type, JID field, lens — enters through a modular, data-driven seam (one row/file + one reseed); formatting, pointing, mirroring, data-org, automation, and routing stay uniform and auto-derived. Friction beyond one-data-row-plus-reseed is a defect to remove, not a cost to pay. Extensibility is part of Yggdrasil compliance — checked, not trusted. Spec: `IMPL-MOD-SPEC-0001`; first instrument: `yggdrasil/tools/extend.py`.
 - Expansion requires `reduces_complexity=true` and `overlap_score_below=0.40`
 - Raven-Collapse is final authority on major changes
 

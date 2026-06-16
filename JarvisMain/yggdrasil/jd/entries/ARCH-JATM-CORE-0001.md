@@ -11,7 +11,7 @@ jnl: ARCH-JATM-CORE-0001
 seq: 13
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-16
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
 references: []
@@ -20,6 +20,6 @@ aliases: [jatm, ancestral memory]
 ref: [PRI, SPEC, IDX]
 ---
 
-**Definition:** Ancestral immutable memory tier — the dated lineage/spine; append-only, never rewritten.
+**Definition:** Root/critical memory tier — the foundational and critical info the system must never lose or rewrite: the dated lineage/spine, append-only, immutable.
 
-**Purpose:** Preserve the foundational record that outlives sessions (HADES-adjacent).
+**Purpose:** Preserve the root, critical record that outlives sessions and never retags out (HADES-adjacent).

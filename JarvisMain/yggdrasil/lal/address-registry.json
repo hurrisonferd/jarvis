@@ -3529,7 +3529,7 @@
       "tier": "MAIN",
       "owner": "Media Library",
       "steward": null,
-      "parent": "",
+      "parent": "ARCH-YGG-CORE-0001",
       "location": "JarvisSide/Media",
       "tags": [
         "media",
@@ -3542,7 +3542,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-14",
-      "updated": "2026-06-14"
+      "updated": "2026-06-16"
     },
     {
       "jnl": "LOG-MNE-LOG-0001",
