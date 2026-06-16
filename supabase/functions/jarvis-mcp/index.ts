@@ -26,7 +26,7 @@ const TOOL_NAMES = [
   "jarvis_recall", "jarvis_remember", "jarvis_event", "jarvis_jmms",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_repo_search", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_repo_search", "jarvis_self_test", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
@@ -383,7 +383,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.19" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.20" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1003,6 +1003,35 @@ function buildServer(req: Request): McpServer {
       if (!pr.ok) return text({ ok: false, step: "pr", status: pr.status, note: (await pr.text().catch(() => "")).slice(0, 200) });
       const p = await pr.json() as any;
       return text({ ok: true, held_for_raven: true, action: "PR opened — review with jarvis_pr_merge, then merge", pr_url: p.html_url, number: p.number, branch, ops: ops.length });
+    },
+  );
+
+  // SELF TEST — the scry spell: exercise the connector's own subsystems live and report a
+  // health matrix in one call. Solves the frozen-registry blindness — a stream can verify the
+  // whole arsenal from any session, even one whose tool list predates the latest deploy.
+  // Read-only: probes, never fires write spells (no junk PRs).
+  server.registerTool(
+    "jarvis_self_test",
+    {
+      title: "Self Test — scry the live arsenal (verify without effort)",
+      description:
+        "Exercise the connector's own subsystems and report a health matrix in ONE call — the scry spell. Probes GitHub (repo access), Supabase (DB), the dex, and code search live; reports the deployed version + registered tool count. Read-only, never fires write spells. Use after a deploy to confirm the arsenal is whole, or whenever Jarvis/Ayre need to verify themselves.",
+      inputSchema: {},
+    },
+    async () => {
+      const probes: Record<string, any> = {};
+      try { const r = await ghReq("GET", `/git/ref/heads/main`); probes.github = { ok: r.ok, status: r.status }; } catch (e) { probes.github = { ok: false, err: String(e).slice(0, 120) }; }
+      try { const n = await countRows("dex_events"); probes.supabase = { ok: true, dex_events: n }; } catch (e) { probes.supabase = { ok: false, err: String(e).slice(0, 120) }; }
+      try { const d = await dexQuery({ limit: 1 }); probes.dex = { ok: !!d }; } catch (e) { probes.dex = { ok: false, err: String(e).slice(0, 120) }; }
+      try {
+        const tok = Deno.env.get("GITHUB_TOKEN");
+        const h: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json" };
+        if (tok) h.authorization = `Bearer ${tok}`;
+        const s = await fetch(`https://api.github.com/search/code?q=${encodeURIComponent("jarvis repo:hurrisonferd/jarvis")}&per_page=1`, { headers: h });
+        probes.search = { ok: s.ok, status: s.status };
+      } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
+      const ok = Object.values(probes).every((p: any) => p.ok);
+      return text({ ok, version: "0.11.20", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
