@@ -26,7 +26,7 @@ const TOOL_NAMES = [
   "jarvis_recall", "jarvis_remember", "jarvis_event", "jarvis_jmms",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
   "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
+  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
@@ -383,7 +383,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.17" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.18" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -913,6 +913,72 @@ function buildServer(req: Request): McpServer {
     if (cur.ok) { try { return JSON.parse(atob((await cur.json() as any).content.replace(/\n/g, ""))); } catch { /* fall through */ } }
     return doc;
   }
+
+  // REPO EDIT — the world-level spell: create / modify / move / delete MANY files in ONE
+  // atomic commit → ONE PR (GitHub Git Trees API). Moves preserve exact bytes (reuse the
+  // source blob sha), so binary files survive. AEGIS-gated, git-first (never touches main
+  // directly — Raven merges to apply). This is how Jarvis & Ayre restructure the repo.
+  server.registerTool(
+    "jarvis_repo_edit",
+    {
+      title: "Repo Edit — scaffold / move / delete many files as one PR",
+      description:
+        "Restructure the repo in one atomic PR: pass `ops: [{action, path, to?, content?}]`. action = create | modify (path+content), move (path→to, bytes preserved), delete (path). Use for scaffolding a folder, moving MULTIPLE files at once, or consolidating — all in a single reviewable commit. Git-first: opens a PR, never writes main; Raven merges to apply (jarvis_pr_merge). AEGIS-gated. For simple single/multi creates, jarvis_github_write is fine; use this when you need moves/deletes or atomic restructuring.",
+      inputSchema: {
+        ops: z.array(z.object({
+          action: z.enum(["create", "modify", "move", "delete"]),
+          path: z.string().min(1).max(300),
+          to: z.string().min(1).max(300).optional(),
+          content: z.string().optional(),
+        })).min(1).max(100),
+        message: z.string().min(1).max(200),
+        pr_title: z.string().max(200).optional(),
+      },
+    },
+    async ({ ops, message, pr_title }) => {
+      if (!writeAuthorized(req)) return heldForApproval("repo.edit", { ops: ops.map((o) => ({ action: o.action, path: o.path, to: o.to })) }, req);
+      const ref = await ghReq("GET", `/git/ref/heads/main`);
+      if (!ref.ok) return text({ ok: false, step: "base-ref", status: ref.status, note: "cannot read main — token access issue" });
+      const baseSha = (await ref.json() as any).object?.sha;
+      const baseCommit = await ghReq("GET", `/git/commits/${baseSha}`);
+      if (!baseCommit.ok) return text({ ok: false, step: "base-commit", status: baseCommit.status });
+      const baseTreeSha = (await baseCommit.json() as any).tree?.sha;
+      // Moves reuse the source blob sha (exact bytes), so fetch the base tree once if needed.
+      const pathSha: Record<string, string> = {};
+      if (ops.some((o) => o.action === "move")) {
+        const tr = await ghReq("GET", `/git/trees/${baseTreeSha}?recursive=1`);
+        if (tr.ok) for (const e of ((await tr.json() as any).tree ?? [])) if (e.type === "blob") pathSha[e.path] = e.sha;
+      }
+      const entries: any[] = [];
+      for (const o of ops) {
+        if (o.action === "create" || o.action === "modify") {
+          entries.push({ path: o.path, mode: "100644", type: "blob", content: o.content ?? "" });
+        } else if (o.action === "delete") {
+          entries.push({ path: o.path, mode: "100644", type: "blob", sha: null });
+        } else if (o.action === "move") {
+          if (!o.to) return text({ ok: false, step: "move", note: `move needs 'to': ${o.path}` });
+          const sha = pathSha[o.path];
+          if (!sha) return text({ ok: false, step: "move", note: `source not found on main: ${o.path}` });
+          entries.push({ path: o.to, mode: "100644", type: "blob", sha });
+          entries.push({ path: o.path, mode: "100644", type: "blob", sha: null });
+        }
+      }
+      const tree = await ghReq("POST", `/git/trees`, { base_tree: baseTreeSha, tree: entries });
+      if (!tree.ok) return text({ ok: false, step: "tree", status: tree.status, note: (await tree.text().catch(() => "")).slice(0, 200) });
+      const newTreeSha = (await tree.json() as any).sha;
+      const commit = await ghReq("POST", `/git/commits`, { message, tree: newTreeSha, parents: [baseSha] });
+      if (!commit.ok) return text({ ok: false, step: "commit", status: commit.status });
+      const commitSha = (await commit.json() as any).sha;
+      const branch = `jarvis-spell-${Date.now().toString(36)}`;
+      const br = await ghReq("POST", `/git/refs`, { ref: `refs/heads/${branch}`, sha: commitSha });
+      if (!br.ok) return text({ ok: false, step: "branch", status: br.status, note: "GITHUB_TOKEN likely lacks write scope" });
+      const body = `Proposed via jarvis_repo_edit — ${ops.length} op(s):\n${ops.map((o) => `- ${o.action} \`${o.path}\`${o.to ? ` → \`${o.to}\`` : ""}`).join("\n")}\n\nRaven merges to apply (jarvis_pr_merge shows a Jarvis+Ayre summary first).`;
+      const pr = await ghReq("POST", `/pulls`, { title: pr_title || message, head: branch, base: "main", body });
+      if (!pr.ok) return text({ ok: false, step: "pr", status: pr.status, note: (await pr.text().catch(() => "")).slice(0, 200) });
+      const p = await pr.json() as any;
+      return text({ ok: true, held_for_raven: true, action: "PR opened — review with jarvis_pr_merge, then merge", pr_url: p.html_url, number: p.number, branch, ops: ops.length });
+    },
+  );
 
   // GITHUB WRITE — propose a file to the repo as a PR, NEVER straight to protected main.
   // Raven approves the push to main by MERGING the PR; nothing lands without his merge.
