@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-16T08:24:30Z (2026-06-16 04:24 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-16T17:56:34Z (2026-06-16 13:56 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**155 governed objects** · 250 edges · 9 domains.
+**190 governed objects** · 285 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 155 objects · 18 open tasks · 15 orphans · 250 edges._
+_JARVIS online · 190 objects · 18 open tasks · 15 orphans · 285 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -135,7 +135,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `151` | `AUD-SYNC-REVW-0001` | TUSK Act 4 — Git/Supabase Sync Audit | ACTIVE | — |
 | `87` | `AUD-SYS-REVW-0001` | Jarvis System Review | ACTIVE | — |
 
-### CONN (23)
+### CONN (58)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -160,6 +160,41 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `84` | `CONN-MCP-RT-0016` | Grid — Register Signing Key | ACTIVE | — |
 | `85` | `CONN-MCP-RT-0017` | HALO — Throughput Posture | ACTIVE | — |
 | `110` | `CONN-MCP-RT-0018` | Voice Brief — pre-warm a sealed session | ACTIVE | — |
+| `157` | `CONN-MCP-RT-0019` | JMMS — memory tiering (JSTM/JLTM/JATM) | ACTIVE | — |
+| `158` | `CONN-MCP-RT-0020` | Dex — graph (node + full neighborhood) | ACTIVE | — |
+| `159` | `CONN-MCP-RT-0021` | Dex — events (the spine) | ACTIVE | — |
+| `160` | `CONN-MCP-RT-0022` | Load — resolve any governed object (JID/JIDD/name/JNL) | ACTIVE | — |
+| `161` | `CONN-MCP-RT-0023` | Memory Lane — JC/SL relationship memory | ACTIVE | — |
+| `162` | `CONN-MCP-RT-0024` | Grimoire — the system's table of contents to itself | ACTIVE | — |
+| `163` | `CONN-MCP-RT-0025` | Repo — tree (read-only) | ACTIVE | — |
+| `164` | `CONN-MCP-RT-0026` | Repo — read file (read-only) | ACTIVE | — |
+| `165` | `CONN-MCP-RT-0027` | GitHub — tree | ACTIVE | — |
+| `166` | `CONN-MCP-RT-0028` | GitHub — read file | ACTIVE | — |
+| `167` | `CONN-MCP-RT-0029` | Media View — see a repo image | ACTIVE | — |
+| `168` | `CONN-MCP-RT-0030` | GitHub — commits | ACTIVE | — |
+| `169` | `CONN-MCP-RT-0031` | GitHub Write — propose file(s) as one PR | ACTIVE | — |
+| `170` | `CONN-MCP-RT-0032` | Repo Edit — scaffold / move / delete as one PR | ACTIVE | — |
+| `171` | `CONN-MCP-RT-0033` | Repo Search — grep file contents | ACTIVE | — |
+| `172` | `CONN-MCP-RT-0034` | Self Test — scry the live arsenal | ACTIVE | — |
+| `173` | `CONN-MCP-RT-0035` | PRs — open pull requests awaiting Raven | ACTIVE | — |
+| `174` | `CONN-MCP-RT-0036` | PR Merge — Jarvis+Ayre summary, then merge | ACTIVE | — |
+| `175` | `CONN-MCP-RT-0037` | Deploy — redeploy an edge function | ACTIVE | — |
+| `176` | `CONN-MCP-RT-0038` | DB — inspect | ACTIVE | — |
+| `177` | `CONN-MCP-RT-0039` | DB — read | ACTIVE | — |
+| `178` | `CONN-MCP-RT-0040` | DB — schema | ACTIVE | — |
+| `179` | `CONN-MCP-RT-0041` | Now — accurate time | ACTIVE | — |
+| `180` | `CONN-MCP-RT-0042` | Timeline — what happened | ACTIVE | — |
+| `181` | `CONN-MCP-RT-0043` | Identity — read | ACTIVE | — |
+| `182` | `CONN-MCP-RT-0044` | Identity — grow | ACTIVE | — |
+| `183` | `CONN-MCP-RT-0045` | Omnivision — the whole system in one read | ACTIVE | — |
+| `184` | `CONN-MCP-RT-0046` | Eyes — the whole system in one look | ACTIVE | — |
+| `185` | `CONN-MCP-RT-0047` | Continuity — route + surface raw material | ACTIVE | — |
+| `186` | `CONN-MCP-RT-0048` | Listen — a track's musical features | ACTIVE | — |
+| `187` | `CONN-MCP-RT-0049` | Dither — see an image the Game Boy way | ACTIVE | — |
+| `188` | `CONN-MCP-RT-0050` | JIP — create | ACTIVE | — |
+| `189` | `CONN-MCP-RT-0051` | JIP — list | ACTIVE | — |
+| `190` | `CONN-MCP-RT-0052` | JIP — apply (propose to git) | ACTIVE | — |
+| `191` | `CONN-MCP-RT-0053` | JIP — revert (propose to git) | ACTIVE | — |
 | `67` | `CONN-MSB-CORE-0001` | MCP-Supabase Connector | ACTIVE | — |
 | `68` | `CONN-OTH-LOG-0001` | Other Connectors | ACTIVE | — |
 

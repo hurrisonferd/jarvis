@@ -212,7 +212,8 @@ def main() -> int:
     # Map-matches-ground (Ayre's law, Raven-directed 2026-06-14): the wiring map's tool→god
     # routing must reference only tools the connector actually exposes. A map that names a dead
     # tool is a confident lie about the territory — caught here, ruthlessly.
-    conn_path = ROOT / "supabase" / "functions" / "jarvis-mcp" / "index.ts"
+    # TOOL_NAMES moved to core/env.ts (jarvis-mcp forge slice 1); read it there.
+    conn_path = ROOT / "supabase" / "functions" / "jarvis-mcp" / "core" / "env.ts"
     wmap_path = ROOT / "JarvisMain" / "yggdrasil" / "tools" / "wiring_map.py"
     if conn_path.exists() and wmap_path.exists():
         conn = conn_path.read_text()

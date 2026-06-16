@@ -1,14 +1,14 @@
 # Topology Lens — the shape of the system
 
-_generated: 2026-06-16T08:24:30Z (2026-06-16 04:24 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
+_generated: 2026-06-16T17:56:34Z (2026-06-16 13:56 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
 
-**155 nodes · 250 edges · 3 isolated · avg degree 3.23.**
+**190 nodes · 285 edges · 3 isolated · avg degree 3.0.**
 
 ## Hubs — the most-connected nodes (the system's load-bearing spine)
 | node | degree | in | out | domain |
 |---|---|---|---|---|
+| `CONN-MSB-CORE-0001` MCP-Supabase Connector | 61 | 61 | 0 | CONN |
 | `ARCH-GS-IDX-0001` God Systems Index | 28 | 27 | 1 | ARCH |
-| `CONN-MSB-CORE-0001` MCP-Supabase Connector | 26 | 26 | 0 | CONN |
 | `GOV-CAN-CORE-0001` Canon | 17 | 17 | 0 | GOV |
 | `PROJ-IDX-REG-0001` Projects Registry | 17 | 16 | 1 | PROJ |
 | `ARCH-JFS-CORE-0001` Jarvis File System | 16 | 11 | 5 | ARCH |
@@ -26,7 +26,7 @@ _generated: 2026-06-16T08:24:30Z (2026-06-16 04:24 EDT) · projected from `graph
 ## Edge types (the relationships that bind the graph)
 | type | count |
 |---|---|
-| parent | 140 |
+| parent | 175 |
 | related | 110 |
 
 ## Nodes by domain
@@ -34,7 +34,7 @@ _generated: 2026-06-16T08:24:30Z (2026-06-16 04:24 EDT) · projected from `graph
 |---|---|
 | ARCH | 38 |
 | AUD | 8 |
-| CONN | 23 |
+| CONN | 58 |
 | GOV | 12 |
 | GS | 27 |
 | IDEA | 3 |

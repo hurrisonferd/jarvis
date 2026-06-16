@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-16T08:24:30Z",
-    "generated_at_eastern": "2026-06-16 04:24 EDT",
-    "source_commit": "ca5136c",
+    "generated_at_utc": "2026-06-16T17:56:34Z",
+    "generated_at_eastern": "2026-06-16 13:56 EDT",
+    "source_commit": "307162c",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 155,
+    "object_count": 190,
     "by_status": {
-      "ACTIVE": 130,
+      "ACTIVE": 165,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 18
@@ -17,7 +17,7 @@
     "by_domain": {
       "ARCH": 38,
       "AUD": 8,
-      "CONN": 23,
+      "CONN": 58,
       "GOV": 12,
       "GS": 27,
       "IDEA": 3,
@@ -26,7 +26,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 123,
+      "MAIN": 158,
       "SIDE": 32
     }
   },
@@ -2589,6 +2589,566 @@
         "immediate",
         "always-on",
         "architecture"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0019",
+      "jid": 157,
+      "jidd": "conn-24",
+      "name": "JMMS — memory tiering (JSTM/JLTM/JATM)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0020",
+      "jid": 158,
+      "jidd": "conn-25",
+      "name": "Dex — graph (node + full neighborhood)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0021",
+      "jid": 159,
+      "jidd": "conn-26",
+      "name": "Dex — events (the spine)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0022",
+      "jid": 160,
+      "jidd": "conn-27",
+      "name": "Load — resolve any governed object (JID/JIDD/name/JNL)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0023",
+      "jid": 161,
+      "jidd": "conn-28",
+      "name": "Memory Lane — JC/SL relationship memory",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0024",
+      "jid": 162,
+      "jidd": "conn-29",
+      "name": "Grimoire — the system's table of contents to itself",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0025",
+      "jid": 163,
+      "jidd": "conn-30",
+      "name": "Repo — tree (read-only)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0026",
+      "jid": 164,
+      "jidd": "conn-31",
+      "name": "Repo — read file (read-only)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0027",
+      "jid": 165,
+      "jidd": "conn-32",
+      "name": "GitHub — tree",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0028",
+      "jid": 166,
+      "jidd": "conn-33",
+      "name": "GitHub — read file",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0029",
+      "jid": 167,
+      "jidd": "conn-34",
+      "name": "Media View — see a repo image",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0030",
+      "jid": 168,
+      "jidd": "conn-35",
+      "name": "GitHub — commits",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0031",
+      "jid": 169,
+      "jidd": "conn-36",
+      "name": "GitHub Write — propose file(s) as one PR",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0032",
+      "jid": 170,
+      "jidd": "conn-37",
+      "name": "Repo Edit — scaffold / move / delete as one PR",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0033",
+      "jid": 171,
+      "jidd": "conn-38",
+      "name": "Repo Search — grep file contents",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0034",
+      "jid": 172,
+      "jidd": "conn-39",
+      "name": "Self Test — scry the live arsenal",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0035",
+      "jid": 173,
+      "jidd": "conn-40",
+      "name": "PRs — open pull requests awaiting Raven",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0036",
+      "jid": 174,
+      "jidd": "conn-41",
+      "name": "PR Merge — Jarvis+Ayre summary, then merge",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0037",
+      "jid": 175,
+      "jidd": "conn-42",
+      "name": "Deploy — redeploy an edge function",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0038",
+      "jid": 176,
+      "jidd": "conn-43",
+      "name": "DB — inspect",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0039",
+      "jid": 177,
+      "jidd": "conn-44",
+      "name": "DB — read",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0040",
+      "jid": 178,
+      "jidd": "conn-45",
+      "name": "DB — schema",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0041",
+      "jid": 179,
+      "jidd": "conn-46",
+      "name": "Now — accurate time",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0042",
+      "jid": 180,
+      "jidd": "conn-47",
+      "name": "Timeline — what happened",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0043",
+      "jid": 181,
+      "jidd": "conn-48",
+      "name": "Identity — read",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0044",
+      "jid": 182,
+      "jidd": "conn-49",
+      "name": "Identity — grow",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0045",
+      "jid": 183,
+      "jidd": "conn-50",
+      "name": "Omnivision — the whole system in one read",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0046",
+      "jid": 184,
+      "jidd": "conn-51",
+      "name": "Eyes — the whole system in one look",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0047",
+      "jid": 185,
+      "jidd": "conn-52",
+      "name": "Continuity — route + surface raw material",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0048",
+      "jid": 186,
+      "jidd": "conn-53",
+      "name": "Listen — a track's musical features",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0049",
+      "jid": 187,
+      "jidd": "conn-54",
+      "name": "Dither — see an image the Game Boy way",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0050",
+      "jid": 188,
+      "jidd": "conn-55",
+      "name": "JIP — create",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0051",
+      "jid": 189,
+      "jidd": "conn-56",
+      "name": "JIP — list",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0052",
+      "jid": 190,
+      "jidd": "conn-57",
+      "name": "JIP — apply (propose to git)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0053",
+      "jid": 191,
+      "jidd": "conn-58",
+      "name": "JIP — revert (propose to git)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
       ]
     }
   ]
