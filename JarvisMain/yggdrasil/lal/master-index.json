@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 155,
+  "count": 190,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -843,6 +843,426 @@
         "mcp",
         "tool",
         "voice"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JMMS \u2014 memory tiering (JSTM/JLTM/JATM)",
+      "jnl": "CONN-MCP-RT-0019",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jmms.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Dex \u2014 graph (node + full neighborhood)",
+      "jnl": "CONN-MCP-RT-0020",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_graph.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Dex \u2014 events (the spine)",
+      "jnl": "CONN-MCP-RT-0021",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_events.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Load \u2014 resolve any governed object (JID/JIDD/name/JNL)",
+      "jnl": "CONN-MCP-RT-0022",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jd_resolve.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Memory Lane \u2014 JC/SL relationship memory",
+      "jnl": "CONN-MCP-RT-0023",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jc_recall.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Grimoire \u2014 the system's table of contents to itself",
+      "jnl": "CONN-MCP-RT-0024",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_grimoire.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Repo \u2014 tree (read-only)",
+      "jnl": "CONN-MCP-RT-0025",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_repo_tree.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Repo \u2014 read file (read-only)",
+      "jnl": "CONN-MCP-RT-0026",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_repo_read.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "GitHub \u2014 tree",
+      "jnl": "CONN-MCP-RT-0027",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_github_tree.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "GitHub \u2014 read file",
+      "jnl": "CONN-MCP-RT-0028",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_github_file.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Media View \u2014 see a repo image",
+      "jnl": "CONN-MCP-RT-0029",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_media_view.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "GitHub \u2014 commits",
+      "jnl": "CONN-MCP-RT-0030",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_github_commits.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "GitHub Write \u2014 propose file(s) as one PR",
+      "jnl": "CONN-MCP-RT-0031",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_github_write.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Repo Edit \u2014 scaffold / move / delete as one PR",
+      "jnl": "CONN-MCP-RT-0032",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_repo_edit.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Repo Search \u2014 grep file contents",
+      "jnl": "CONN-MCP-RT-0033",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_repo_search.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Self Test \u2014 scry the live arsenal",
+      "jnl": "CONN-MCP-RT-0034",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_self_test.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "PRs \u2014 open pull requests awaiting Raven",
+      "jnl": "CONN-MCP-RT-0035",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_prs.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "PR Merge \u2014 Jarvis+Ayre summary, then merge",
+      "jnl": "CONN-MCP-RT-0036",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_pr_merge.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Deploy \u2014 redeploy an edge function",
+      "jnl": "CONN-MCP-RT-0037",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_deploy.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "DB \u2014 inspect",
+      "jnl": "CONN-MCP-RT-0038",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_db_inspect.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "DB \u2014 read",
+      "jnl": "CONN-MCP-RT-0039",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_db_read.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "DB \u2014 schema",
+      "jnl": "CONN-MCP-RT-0040",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_db_schema.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Now \u2014 accurate time",
+      "jnl": "CONN-MCP-RT-0041",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_now.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Timeline \u2014 what happened",
+      "jnl": "CONN-MCP-RT-0042",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_timeline.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Identity \u2014 read",
+      "jnl": "CONN-MCP-RT-0043",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_identity_read.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Identity \u2014 grow",
+      "jnl": "CONN-MCP-RT-0044",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_identity_grow.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Omnivision \u2014 the whole system in one read",
+      "jnl": "CONN-MCP-RT-0045",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_omnivision.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Eyes \u2014 the whole system in one look",
+      "jnl": "CONN-MCP-RT-0046",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_eyes.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Continuity \u2014 route + surface raw material",
+      "jnl": "CONN-MCP-RT-0047",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_continuity.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Listen \u2014 a track's musical features",
+      "jnl": "CONN-MCP-RT-0048",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_listen.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Dither \u2014 see an image the Game Boy way",
+      "jnl": "CONN-MCP-RT-0049",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dither.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JIP \u2014 create",
+      "jnl": "CONN-MCP-RT-0050",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_create.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JIP \u2014 list",
+      "jnl": "CONN-MCP-RT-0051",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_list.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JIP \u2014 apply (propose to git)",
+      "jnl": "CONN-MCP-RT-0052",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_apply.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JIP \u2014 revert (propose to git)",
+      "jnl": "CONN-MCP-RT-0053",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_revert.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
       ],
       "anchors": [],
       "state": "active"

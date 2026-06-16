@@ -548,6 +548,68 @@ PARENT = {
     "CONN-MCP-RT-0017": "CONN-MSB-CORE-0001",
     "CONN-MCP-RT-0018": "CONN-MSB-CORE-0001",
 }
+
+# --- MCP spell surface (CONN-MCP-RT-0019+) ------------------------------------------------
+# The rest of the live tool arsenal, minted as governed objects so omnivision / the dex / the
+# grimoire SEE every spell (GL12 closure — an ungoverned tool is invisible to the loop). One row
+# per spell: adding a tool here and reseeding materializes its source doc, JD entry, and grimoire
+# row together — the modular grimoire (drop a spell, it's governed). 0001-0018 above are the locked
+# originals; these extend, never restructure them. Definitions mirror the registerTool blocks in
+# index.ts (ground truth); each generated doc points back there (JMS).
+_MCP_SPELLS = [
+    ("jarvis_jmms", "JMMS — memory tiering (JSTM/JLTM/JATM)", "Tier and recall live memory by horizon: JSTM (working/session) -> JLTM (consolidated) -> JATM (ancestral/immutable)."),
+    ("jarvis_dex_graph", "Dex — graph (node + full neighborhood)", "Pull everything on one governed object: its full entry plus every related and cross-referenced neighbor."),
+    ("jarvis_dex_events", "Dex — events (the spine)", "Read the arbitration spine (dex_events) — closure by proof: verify any ruling, deploy, or correction from the source of record."),
+    ("jarvis_jd_resolve", "Load — resolve any governed object (JID/JIDD/name/JNL)", "The NLP 'load' command: resolve any governed object by JID, domain serial (JIDD), name, or JNL address."),
+    ("jarvis_jc_recall", "Memory Lane — JC/SL relationship memory", "Read conversation containers (JC) and star-log digests (SL) — the relationship memory every stream shares."),
+    ("jarvis_grimoire", "Grimoire — the system's table of contents to itself", "Open the Grimoire: JARVIS's self-knowledge index — the lens/fusion chapters plus the full object catalog."),
+    ("jarvis_repo_tree", "Repo — tree (read-only)", "List live repo file paths at a ref — the read-only parity surface for the actual architecture."),
+    ("jarvis_repo_read", "Repo — read file (read-only)", "Fetch one file's content from the repo at a ref — ground truth over a secondhand summary."),
+    ("jarvis_github_tree", "GitHub — tree", "List files and directories in the JARVIS repo at a path (read-only)."),
+    ("jarvis_github_file", "GitHub — read file", "Read any file's content from the JARVIS repo (read-only)."),
+    ("jarvis_media_view", "Media View — see a repo image", "Fetch an image from the repo and return its pixels to see (vision clients) — art, screenshots, dither source."),
+    ("jarvis_github_commits", "GitHub — commits", "List recent commits to the JARVIS repo, optionally filtered by path (read-only)."),
+    ("jarvis_github_write", "GitHub Write — propose file(s) as one PR", "Write one or many files to the repo as a single pull request — never directly to protected main. AEGIS-gated."),
+    ("jarvis_repo_edit", "Repo Edit — scaffold / move / delete as one PR", "Restructure the repo in one atomic PR: create, modify, move (bytes preserved), or delete many files. AEGIS-gated."),
+    ("jarvis_repo_search", "Repo Search — grep file contents", "Search file contents across the repo (code search on main) — the eyes that find every reference before an edit."),
+    ("jarvis_self_test", "Self Test — scry the live arsenal", "Exercise the connector's own subsystems and report a health matrix in one call: GitHub, Supabase, the dex, code search, and the deployed version."),
+    ("jarvis_prs", "PRs — open pull requests awaiting Raven", "List open pull requests — the changes awaiting Raven's merge to land on main."),
+    ("jarvis_pr_merge", "PR Merge — Jarvis+Ayre summary, then merge", "Fetch a PR and its diffs for a Jarvis+Ayre summary, then merge on Raven's word — never blind. AEGIS-gated."),
+    ("jarvis_deploy", "Deploy — redeploy an edge function", "Redeploy a Supabase edge function (dispatch the deploy workflow) so it picks up new secrets or code."),
+    ("jarvis_db_inspect", "DB — inspect", "List known Supabase tables with row counts — the database landscape (read-only)."),
+    ("jarvis_db_read", "DB — read", "Query any public table over PostgREST (read-only)."),
+    ("jarvis_db_schema", "DB — schema", "Show a table's columns, sampled from a row (read-only)."),
+    ("jarvis_now", "Now — accurate time", "Return the current accurate server time (UTC + US Eastern + weekday + unix) — the model cannot tell time, so this is the clock."),
+    ("jarvis_timeline", "Timeline — what happened", "Unified chronological view across dex_events and execution_trace — the single 'what happened' across systems (read-only)."),
+    ("jarvis_identity_read", "Identity — read", "Load the identity profile for JARVIS, AYRE, ARGENT, RAVEN, or the relational keel — voice, disciplines, growth."),
+    ("jarvis_identity_grow", "Identity — grow", "Append an insight, value, skill, or correction to a stream's growth layer — additive, never overwrite. AEGIS-gated."),
+    ("jarvis_omnivision", "Omnivision — the whole system in one read", "Read the global mirror: a freshness-stamped single-read snapshot of every governed object with by-status/domain/tier summary."),
+    ("jarvis_eyes", "Eyes — the whole system in one look", "Jarvis & Ayre's eyes: live state (global mirror) + structure (the wiring map) + vitality (the health audit — orphans, ruleless rules, drift)."),
+    ("jarvis_continuity", "Continuity — route + surface raw material", "Call first on a substantive turn: returns raw material to audit — routing pointers plus raw recall and recent execution, not a pre-formed read."),
+    ("jarvis_listen", "Listen — a track's musical features", "Listen to a track by name — returns tempo, key, energy, brightness, mood, and length from the Ears feature pipeline."),
+    ("jarvis_dither", "Dither — see an image the Game Boy way", "Dither a repo image to the 4-shade Game Boy palette with ordered (Bayer) dithering — the DMG look."),
+    ("jarvis_jip_create", "JIP — create", "Create a JIP: a versioned metadata container for a JD (audit trail + reversible state). AEGIS-gated."),
+    ("jarvis_jip_list", "JIP — list", "List JIPs (version history of metadata changes), optionally for one target JD (read-only)."),
+    ("jarvis_jip_apply", "JIP — apply (propose to git)", "Apply an approved JIP's delta git-first: write the field override into jd/patches.json as a PR. AEGIS-gated."),
+    ("jarvis_jip_revert", "JIP — revert (propose to git)", "Roll a JD back git-first: remove its entry from jd/patches.json as a PR so seed restores the source value. AEGIS-gated."),
+]
+_MCP_PURPOSE = "Governed mirror of the jarvis-mcp tool surface — addressable, auditable."
+for _i, (_tool, _name, _defn) in enumerate(_MCP_SPELLS, start=19):
+    _jnl = f"CONN-MCP-RT-{_i:04d}"
+    _src = f"JarvisMain/Connectors/JarvisMCPSupabase/tools/{_tool}.md"
+    _doc = ROOT / _src
+    if not _doc.exists():
+        _doc.parent.mkdir(parents=True, exist_ok=True)
+        _doc.write_text(
+            f"# {_name}\n\n"
+            f"**JNL:** {_jnl} · **Tool:** `{_tool}` · **Connector:** jarvis-mcp\n\n"
+            f"{_defn}\n\n"
+            f"> Ground truth is the `registerTool(\"{_tool}\", ...)` block in\n"
+            f"> `supabase/functions/jarvis-mcp/index.ts` — this file is its governed mirror (JMS).\n"
+        )
+    KNOWLEDGE.append((_jnl, _name, "CONN", _src, _defn, _MCP_PURPOSE, ["connector", "mcp", "tool"]))
+    PARENT[_jnl] = "CONN-MSB-CORE-0001"
+
 # The 27 God Systems all hang from the pantheon index.
 GS_PARENT = "ARCH-GS-IDX-0001"
 
