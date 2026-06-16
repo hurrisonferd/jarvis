@@ -10,6 +10,7 @@ on:
     paths:
       - "supabase/functions/jarvis-mcp/**"
       - "supabase/functions/jarvis-dex/**"
+      - "supabase/functions/jarvis-action/**"
   workflow_dispatch:
     inputs:
       function:
@@ -35,4 +36,5 @@ jobs:
           else
             supabase functions deploy jarvis-mcp --project-ref "$REF" --no-verify-jwt
             supabase functions deploy jarvis-dex --project-ref "$REF" --no-verify-jwt
+            supabase functions deploy jarvis-action --project-ref "$REF" --no-verify-jwt
           fi
