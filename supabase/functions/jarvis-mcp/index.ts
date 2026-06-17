@@ -12,6 +12,7 @@ import { haloThroughputCheck } from "./halo.ts";
 import { BASE_URL, type Json, NODE_ID, SERVICE_KEY, SUPABASE_URL, TOOL_NAMES } from "./core/env.ts";
 import { callFunction, rest, text } from "./core/http.ts";
 import { heldForApproval, writeAuthorized } from "./core/auth.ts";
+import { gh, ghp, ghPath, ghReq, ghTok, proposeFilePR } from "./core/github.ts";
 
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
@@ -264,7 +265,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.23" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.24" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -793,65 +794,6 @@ function buildServer(req: Request): McpServer {
   // REPO PARITY (Raven-verdicted 2026-06-11, desk item 5): read-only ground truth
   // for connector streams. Closes the certainty-bandwidth gap — a stream that can
   // read the file does not narrate a summary of it (the relay-paste lane dies here).
-  const GH_REPO = "https://api.github.com/repos/hurrisonferd/jarvis";
-  // Token resolver: prefer JARVIS_GITHUB_TOKEN (Raven set a full-scope secret; avoids any reserved-name
-  // weirdness around a secret literally named GITHUB_TOKEN), fall back to GITHUB_TOKEN. Full scope = write.
-  const ghTok = () => Deno.env.get("JARVIS_GITHUB_TOKEN") ?? Deno.env.get("GITHUB_TOKEN") ?? "";
-  async function gh(path: string): Promise<Response> {
-    const base: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json" };
-    const tok = ghTok();
-    const res = await fetch(`${GH_REPO}${path}`, { headers: tok ? { ...base, authorization: `Bearer ${tok}` } : base });
-    // The repo is PUBLIC. If a bad/expired/under-scoped token gets a READ rejected (401/403),
-    // retry UNAUTHENTICATED so reads (prs, files, identity, eyes) never break on a token problem.
-    // Writes (ghReq) still require a valid token — this only rescues reads. Hardened for GPT-only.
-    if (tok && (res.status === 401 || res.status === 403)) {
-      return await fetch(`${GH_REPO}${path}`, { headers: base });
-    }
-    return res;
-  }
-  // Write-capable GitHub request (method + JSON body). Needs a write-scoped GITHUB_TOKEN.
-  async function ghReq(method: string, path: string, body?: unknown): Promise<Response> {
-    const headers: Record<string, string> = {
-      "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json",
-    };
-    const tok = ghTok();
-    if (tok) headers.authorization = `Bearer ${tok}`;
-    return await fetch(`${GH_REPO}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
-  }
-  const ghPath = (p: string) => p.split("/").map(encodeURIComponent).join("/");
-
-  // JARVIS-PRIVATE — the private storage/scaffolding repo (Raven 2026-06-16: "no sensitive data,
-  // just an extra repo with storage to keep projects scaffolded"). One helper for read + write,
-  // using GITHUB_TOKEN_PRIVATE (a classic PAT with repo scope) so the public connector reaches the
-  // private repo; falls back to GITHUB_TOKEN if unset. Reads open; writes AEGIS-gated at the tool
-  // layer (GL6). Separate from gh()/GH_REPO so the public-repo path is never touched.
-  const GH_PRIV = "https://api.github.com/repos/hurrisonferd/Jarvis-Private";
-  async function ghp(method: string, path: string, body?: unknown): Promise<Response> {
-    const headers: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json" };
-    const tok = Deno.env.get("JARVIS_GITHUB_TOKEN") ?? Deno.env.get("GITHUB_TOKEN_PRIVATE") ?? Deno.env.get("GITHUB_TOKEN");
-    if (tok) headers.authorization = `Bearer ${tok}`;
-    return await fetch(`${GH_PRIV}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
-  }
-
-  // Propose ONE file as a PR (branch → commit → PR). Reused by the JIP tools to write the
-  // git-first patch ledger. Returns {ok, pr_url, number, branch} or {ok:false, step, status}.
-  async function proposeFilePR(path: string, content: string, message: string): Promise<any> {
-    const ref = await ghReq("GET", `/git/ref/heads/main`);
-    if (!ref.ok) return { ok: false, step: "base-ref", status: ref.status };
-    const baseSha = (await ref.json() as any).object?.sha;
-    const branch = `jarvis-jip-${Date.now().toString(36)}`;
-    const br = await ghReq("POST", `/git/refs`, { ref: `refs/heads/${branch}`, sha: baseSha });
-    if (!br.ok) return { ok: false, step: "branch", status: br.status, note: "GITHUB_TOKEN may lack write scope" };
-    const ex = await ghReq("GET", `/contents/${ghPath(path)}?ref=${branch}`);
-    const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
-    const put = await ghReq("PUT", `/contents/${ghPath(path)}`,
-      { message, content: btoa(unescape(encodeURIComponent(content))), branch, ...(existingSha ? { sha: existingSha } : {}) });
-    if (!put.ok) return { ok: false, step: "write", status: put.status };
-    const pr = await ghReq("POST", `/pulls`, { title: message, head: branch, base: "main", body: message });
-    if (!pr.ok) return { ok: false, step: "pr", status: pr.status };
-    const p = await pr.json() as any;
-    return { ok: true, pr_url: p.html_url, number: p.number, branch };
-  }
 
   // Read + parse the git-first patch ledger (jd/patches.json) from main.
   async function readPatchLedger(): Promise<any> {
@@ -978,7 +920,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.23", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.24", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
