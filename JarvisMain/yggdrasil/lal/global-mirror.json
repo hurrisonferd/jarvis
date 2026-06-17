@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-17T04:20:18Z",
-    "generated_at_eastern": "2026-06-17 00:20 EDT",
-    "source_commit": "5463092",
+    "generated_at_utc": "2026-06-17T04:26:40Z",
+    "generated_at_eastern": "2026-06-17 00:26 EDT",
+    "source_commit": "01925ea",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 201,
+    "object_count": 202,
     "by_status": {
-      "ACTIVE": 174,
+      "ACTIVE": 175,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
@@ -18,7 +18,7 @@
     "by_domain": {
       "ARCH": 39,
       "AUD": 9,
-      "CONN": 65,
+      "CONN": 66,
       "GOV": 12,
       "GS": 27,
       "IDEA": 4,
@@ -27,7 +27,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 167,
+      "MAIN": 168,
       "SIDE": 34
     }
   },
@@ -3338,6 +3338,22 @@
         "jfs",
         "format",
         "architecture"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0061",
+      "jid": 203,
+      "jidd": "conn-66",
+      "name": "Mint — git-first one-shot governed object",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
       ]
     }
   ]

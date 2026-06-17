@@ -264,7 +264,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.22" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.23" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -576,23 +576,27 @@ function buildServer(req: Request): McpServer {
     {
       title: "JMMS — memory tiering (JSTM/JLTM/JATM)",
       description:
-        "The Jarvis MultiMemory System over live memory. `action:list` reads a tier's working set (tier:jstm is the project context-window — mark notes jstm via jarvis_remember to keep them in view). `action:promote`/`tag` move a memory up the horizon (id + to) — AEGIS-gated, ONE-WAY jstm→jltm→jatm, JATM immutable. Works like JSS does for files, but for memory rows.",
+        "The Jarvis MultiMemory System over live memory. `action:list` reads a tier's working set (tier:jstm is the project context-window — mark notes jstm via jarvis_remember to keep them in view). `action:promote`/`tag` move a memory up the horizon (id + to) — AEGIS-gated, ONE-WAY jstm→jltm→jatm, JATM immutable. `domain:` scopes the working set to a side-project (JDMS — e.g. domain:musicos), partitioning memory so CodeOS context and MusicOS context don't bleed. Works like JSS does for files, but for memory rows.",
       inputSchema: {
         action: z.enum(["list", "promote", "tag"]).optional().default("list"),
         tier: z.enum(["jitm", "jstm", "jltm", "jatm"]).optional(),
         id: z.string().optional(),
         to: z.enum(["jitm", "jstm", "jltm", "jatm"]).optional(),
+        domain: z.string().max(40).optional(),
         limit: z.number().int().min(1).max(100).optional().default(20),
       },
     },
-    async ({ action, tier, id, to, limit }) => {
+    async ({ action, tier, id, to, limit, domain }) => {
       const act = action ?? "list";
       if (act === "list") {
         const t = tierTag(tier);
-        const rows = await rest(`mnemos_memories?select=id,source_type,text,tags,timestamp&tags=cs.{${t}}&order=timestamp.desc&limit=${limit}`).catch(() => []);
+        const dom = domain ? `,${domain.toLowerCase()}` : "";
+        const rows = await rest(`mnemos_memories?select=id,source_type,text,tags,timestamp&tags=cs.{${t}${dom}}&order=timestamp.desc&limit=${limit}`).catch(() => []);
         return text({
-          ok: true, tier: t, count: Array.isArray(rows) ? rows.length : 0, working_set: rows,
-          note: t === "jstm"
+          ok: true, tier: t, domain: domain ?? null, count: Array.isArray(rows) ? rows.length : 0, working_set: rows,
+          note: domain
+            ? `JDMS — the '${domain}' working set within the ${t} tier (domain-scoped partition).`
+            : t === "jstm"
             ? "JSTM = the live context-window. Mark notes jstm; promote to jltm when they consolidate."
             : `JMMS ${t} tier (${t === "jltm" ? "consolidated/durable" : "ancestral/immutable"}).`,
         });
@@ -617,6 +621,52 @@ function buildServer(req: Request): McpServer {
       });
       if (!r.ok) return text({ ok: false, status: r.status, error: (await r.text().catch(() => "")).slice(0, 160) });
       return text({ ok: true, id, moved: `${curTier} → ${dest}`, tags: newTags });
+    },
+  );
+
+  // MINT — git-first one-shot governed object. The friction-free alternative to dex_propose's
+  // Supabase staging: derive the next JNL from the registry, write the frontmatter file, open ONE
+  // PR. Same gate (Raven merges -> seed adopts it in CI), none of the stage->approve->reconcile
+  // multi-step. seed regenerates the full JSE envelope from this self-describing frontmatter.
+  server.registerTool(
+    "jarvis_mint",
+    {
+      title: "Mint — git-first one-shot governed object",
+      description: "Create a governed object in ONE step. Supply MEANING (domain, system, type, name, definition, purpose, tags); the connector derives the next JNL from the registry, writes the entry file, and opens a PR. Merge to adopt (seed runs in CI and materializes the full envelope). No Supabase staging, no reconcile step — same GL2 gate (your merge). AEGIS-gated. NEVER construct a JNL by hand; pass the parts.",
+      inputSchema: {
+        domain: z.string().min(2).max(4),
+        system: z.string().min(2).max(4),
+        type: z.string().min(2).max(5),
+        name: z.string().min(1).max(120),
+        definition: z.string().min(1).max(1000),
+        purpose: z.string().min(1).max(1000),
+        tags: z.array(z.string()).max(12).optional().default([]),
+        status: z.enum(["TASK", "ACTIVE", "EXPANSION", "INACTIVE"]).optional().default("TASK"),
+        scan_root: z.string().max(80).optional().default("JarvisMain/Implementation/task"),
+      },
+    },
+    async ({ domain, system, type, name, definition, purpose, tags, status, scan_root }) => {
+      if (!writeAuthorized(req)) return heldForApproval("mint", { object: `${domain}-${system}-${type}`, name }, req);
+      const D = domain.toUpperCase(), S = system.toUpperCase(), T = type.toUpperCase();
+      const reg = await gh(`/contents/${ghPath("JarvisMain/yggdrasil/lal/address-registry.json")}?ref=main`);
+      if (!reg.ok) return text({ ok: false, status: reg.status, note: "cannot read address-registry to derive the serial" });
+      const regDoc = await reg.json() as { content?: string };
+      let records: Array<{ jnl?: string }> = [];
+      try { records = JSON.parse(atob((regDoc.content ?? "").replace(/\n/g, "") || "e30=")).records ?? []; } catch { /* empty */ }
+      const prefix = `${D}-${S}-${T}-`;
+      let max = 0;
+      for (const rec of records) { const j = String(rec.jnl ?? ""); if (j.startsWith(prefix)) { const n = parseInt(j.slice(prefix.length, prefix.length + 4), 10); if (!isNaN(n) && n > max) max = n; } }
+      const nnnn = String(max + 1).padStart(4, "0");
+      const jnl = `${D}-${S}-${T}-${nnnn}`;
+      const now = new Date();
+      const mmddyy = `${String(now.getUTCMonth() + 1).padStart(2, "0")}${String(now.getUTCDate()).padStart(2, "0")}${String(now.getUTCFullYear()).slice(2)}`;
+      const subject = (name.toUpperCase().replace(/[^A-Z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 40)) || "OBJECT";
+      const filename = `${D}${S}${T}-${mmddyy}-${nnnn}-${subject}.md`;
+      const fm = `---\njnl: ${jnl}\nname: ${name}\ntype: ${T}\nstatus: ${status}\ntags: [${tags.join(", ")}]\ndefinition: ${definition.replace(/\n/g, " ")}\npurpose: ${purpose.replace(/\n/g, " ")}\n---\n\n# ${name}\n\n${definition}\n`;
+      const path = `${scan_root.replace(/\/+$/, "")}/${filename}`;
+      const pr = await proposeFilePR(path, fm, `mint ${jnl}: ${name}`);
+      if (!pr.ok) return text({ ok: false, step: pr.step, status: pr.status, note: "mint PR failed — JARVIS_GITHUB_TOKEN may lack write scope" });
+      return text({ ok: true, jnl, path, pr_url: pr.pr_url, number: pr.number, note: "One-shot git-first mint. Merge to adopt (CI runs seed + validate). No Supabase staging." });
     },
   );
 
@@ -928,7 +978,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.22", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.23", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
