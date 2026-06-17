@@ -13,6 +13,7 @@ import { BASE_URL, type Json, NODE_ID, SERVICE_KEY, SUPABASE_URL, TOOL_NAMES } f
 import { callFunction, rest, text } from "./core/http.ts";
 import { heldForApproval, writeAuthorized } from "./core/auth.ts";
 import { gh, ghp, ghPath, ghReq, ghTok, proposeFilePR } from "./core/github.ts";
+import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, latestText, logExchange } from "./core/supabase.ts";
 
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
@@ -59,60 +60,7 @@ function withTier(tags: unknown, tier: Tier): string[] {
   return [tier, ...base];
 }
 
-// Auto-ingest (Ayre Loop step 3): append a turn to the event spine. This is
-// telemetry — append-only, NOT embedded (no semantic-search pollution), NOT
-// AEGIS-gated (it records the conversation, it doesn't create durable memory),
-// and NOT folded into identity (the fold pulls only curated high-signal types).
-// Best-effort; never blocks or fails a reply. Disable via MCP_AUTOINGEST=false.
-const AUTOINGEST = (Deno.env.get("MCP_AUTOINGEST") ?? "true") !== "false";
-async function logExchange(sourceType: string, content: string): Promise<void> {
-  if (!AUTOINGEST || !content.trim()) return;
-  try {
-    await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories`, {
-      method: "POST",
-      headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
-      body: JSON.stringify({
-        id: crypto.randomUUID(),
-        source_id: crypto.randomUUID(),
-        source_type: sourceType,
-        text: content.slice(0, 2000),
-        tags: ["exchange", "auto_ingest"],
-        platform: "mcp_connector",
-      }),
-    });
-  } catch (err) {
-    // best-effort; a missed log never breaks a reply — but surface it in function
-    // logs so a SYSTEMATIC spine failure (memory silently not persisting) is visible.
-    console.error(`logExchange(${sourceType}) failed:`, String(err).slice(0, 160));
-  }
-}
 
-// Public anon JWT — passes the verify_jwt gateway on jarvis-respond (the service
-// key may be the non-JWT secret format, which that gateway rejects). Anon-role,
-// RLS-bound, safe to embed; jarvis-respond uses its own service role internally.
-const ANON_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.jRFMf-C9ps72Bi_9IpiC3eOZD6Aj6wU4IF-j3svKTfQ";
-
-async function callFunctionAs(name: string, body: Json, key: string): Promise<unknown> {
-  const res = await fetch(`${SUPABASE_URL}/functions/v1/${name}`, {
-    method: "POST",
-    headers: { authorization: `Bearer ${key}`, apikey: key, "content-type": "application/json" },
-    body: JSON.stringify(body),
-  });
-  const payload = await res.json().catch(() => ({}));
-  if (!res.ok) throw new Error(`${name} ${res.status}: ${JSON.stringify(payload).slice(0, 200)}`);
-  return payload;
-}
-
-// Exact row count via PostgREST content-range — used for the ledger gauge.
-async function countRows(table: string): Promise<number | null> {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=id`, {
-    headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, Prefer: "count=exact", Range: "0-0" },
-  });
-  if (!res.ok) throw new Error(`countRows ${table} ${res.status}`);
-  const cr = res.headers.get("content-range");
-  if (cr && cr.includes("/")) { const t = cr.split("/")[1]; return t === "*" ? null : Number(t); }
-  return null;
-}
 
 // The 27 God Systems — canon, fixed. Surfaced so suit-up shows the whole rig.
 const GOD_SYSTEMS = {
@@ -137,15 +85,6 @@ function clockNow(): Json {
   };
 }
 
-// Top-level dex read (suit-up can't reach the per-request callDex closure). Reuses
-// the same jarvis-dex path dex_list uses; best-effort, degrades to null.
-async function dexQuery(args: Json): Promise<any> {
-  const res = await fetch(`${SUPABASE_URL}/functions/v1/jarvis-dex`, {
-    method: "POST", headers: { "content-type": "application/json" },
-    body: JSON.stringify({ tool: "jd_list", args }),
-  });
-  return await res.json().catch(() => null);
-}
 
 // The full HUD — everything Raven needs to see JARVIS is alive and online.
 async function suitUp(): Promise<Json> {
@@ -204,22 +143,6 @@ async function suitUp(): Promise<Json> {
   };
 }
 
-// Latest text of a given memory source_type (e.g. the identity keel / fold).
-async function latestText(sourceType: string): Promise<string> {
-  const rows = await rest(`mnemos_memories?select=text&source_type=eq.${sourceType}&order=timestamp.desc&limit=1`).catch(() => []);
-  return Array.isArray(rows) && rows[0] ? String((rows[0] as any).text ?? "") : "";
-}
-
-// Count rows of a source_type since an ISO timestamp (windowed spine telemetry).
-async function countSince(sourceType: string, sinceIso: string): Promise<number> {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/mnemos_memories?select=id&source_type=eq.${sourceType}&timestamp=gte.${sinceIso}`,
-    { headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, Prefer: "count=exact", Range: "0-0" } },
-  );
-  const cr = res.headers.get("content-range");
-  if (cr && cr.includes("/")) { const t = cr.split("/")[1]; return t === "*" ? 0 : Number(t); }
-  return 0;
-}
 
 // HALO — the throughput posture over a recent window. Reads the spine's cadence
 // (inputs/outputs/council traces) + the keel + the last fold guard, then applies
@@ -265,7 +188,7 @@ async function nodeCard() {
 }
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.24" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.25" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -920,7 +843,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.24", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.25", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
