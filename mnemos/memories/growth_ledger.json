@@ -1,54 +1,8 @@
 {
-  "updated": "2026-06-17T15:16:37.884543+00:00",
+  "updated": "2026-06-17T19:12:02.981176+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260616_070708",
-      "date": "2026-06-16",
-      "exchanges": 116,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/yggdrasil-validate.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "Shipped and compliant. `658d9a6` on the branch.\n\n## What landed\n**`jarvis-action`** \u2014 the GPT stream's hands. ChatGPT can't speak MCP (that's Claude's"
-    },
-    {
-      "session_id": "20260616_070736",
-      "date": "2026-06-16",
-      "exchanges": 118,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/yggdrasil-validate.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "Tree clean, pushed (`b735863`). Branch state: the `jarvis-action` connector + full Yggdrasil compliance are committed (`658d9a6`), session ledger rota"
-    },
     {
       "session_id": "20260616_071301",
       "date": "2026-06-16",
@@ -489,6 +443,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "**Deploy #39 \u2014 success.** Slice 5 is live: `tools/db.ts` deployed clean, the `registerXxx(server)` pattern *loads*. `index.ts` at 1,868, v0.11.27.\n\n**"
+    },
+    {
+      "session_id": "20260617_191103",
+      "date": "2026-06-17",
+      "exchanges": 680,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".claude/settings.json",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Slice 6 merged, local resetting. **The `req`-threading half of the forge is proven in code** \u2014 `tools/jip.ts` is the first write-capable group, and `r"
+    },
+    {
+      "session_id": "20260617_191202",
+      "date": "2026-06-17",
+      "exchanges": 683,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".claude/settings.json",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**Deploy #40 \u2014 success.** Slice 6 live: `tools/jip.ts` deployed clean, `registerJipTools(server, req)` works. `index.ts` at **1,778**, v0.11.28.\n\n## B"
     }
   ]
 }
