@@ -1,0 +1,7 @@
+{
+  "system": "MusicOS",
+  "version": "0.1.0",
+  "status": "scaffold",
+  "domains": ["composers", "instruments", "genres", "presets", "templates", "songs", "outputs", "experiments"],
+  "notes": "Initial governed ontology scaffold for music generation and VGM research"
+}

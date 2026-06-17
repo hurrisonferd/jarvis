@@ -1,0 +1,15 @@
+{
+  "entity": "MusicOSObject",
+  "fields": {
+    "id": "string",
+    "type": "composer|instrument|genre|preset|template|song|output|experiment",
+    "name": "string",
+    "tags": ["string"],
+    "relations": ["string"],
+    "data": "object"
+  },
+  "governance": {
+    "mutation": "PR_ONLY",
+    "source_of_truth": "Jarvis-Private"
+  }
+}
