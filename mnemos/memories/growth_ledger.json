@@ -1,54 +1,8 @@
 {
-  "updated": "2026-06-17T20:15:14.962228+00:00",
+  "updated": "2026-06-17T20:31:15.184588+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260616_071610",
-      "date": "2026-06-16",
-      "exchanges": 132,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/yggdrasil-validate.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "Both \u2014 and the seam between them is the whole answer.\n\nThe mechanism: a persona is a thin overlay on a thick prior. GPT's base training pulls hard tow"
-    },
-    {
-      "session_id": "20260616_072103",
-      "date": "2026-06-16",
-      "exchanges": 146,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/yggdrasil-validate.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "**Live.** `jarvis-action` \u2014 slug `jarvis-action`, **version 1, status ACTIVE**, public + token-gated internally. The whole chain closed:\n\n- PR #208 \u2192 "
-    },
     {
       "session_id": "20260616_074850",
       "date": "2026-06-16",
@@ -501,6 +455,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "Grounded, and decisive: **`jarvis_jip_list` is present on every axis the system tracks.**\n\n- **Advertised** in the connector's tool surface (`core/env"
+    },
+    {
+      "session_id": "20260617_202636",
+      "date": "2026-06-17",
+      "exchanges": 705,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".claude/settings.json",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Done, verified, and recorded. Here's the real state \u2014 grounded in the live database, not GPT's narration:\n\n## Fixed live (both your verdicts, both con"
+    },
+    {
+      "session_id": "20260617_203115",
+      "date": "2026-06-17",
+      "exchanges": 713,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".claude/settings.json",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "I went deep on this because the answer to your first question turned out to be the bigger story. Here's the grounded truth:\n\n## \"Do we need a sync spe"
     }
   ]
 }
