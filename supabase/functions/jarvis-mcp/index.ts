@@ -4,16 +4,16 @@ import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
 import { WebStandardStreamableHTTPServerTransport } from "npm:@modelcontextprotocol/sdk@1.25.3/server/webStandardStreamableHttp.js";
 import { Hono } from "npm:hono@^4.9.7";
 import { z } from "npm:zod@^4.1.13";
-import { ayreStream, councilAnalysisDirective, councilVote, deliberationDirective, registry, reviewOutput, TIERS } from "./council.ts";
-import { buildNodeCard, buildPortableIdentity, GRID_VERSION, validateInbound } from "./grid.ts";
+import { ayreStream, councilAnalysisDirective, councilVote, deliberationDirective, registry, reviewOutput } from "./council.ts";
+import { buildPortableIdentity, GRID_VERSION, validateInbound } from "./grid.ts";
 import { identityAssertion, isBase64, messagePayload } from "./crypto.ts";
-import { haloThroughputCheck } from "./halo.ts";
 // Foundation extracted to core/ (the forge's first slice) — zero behavior change. env → http → auth.
 import { BASE_URL, type Json, NODE_ID, SERVICE_KEY, SUPABASE_URL, TOOL_NAMES } from "./core/env.ts";
 import { callFunction, rest, text } from "./core/http.ts";
 import { heldForApproval, writeAuthorized } from "./core/auth.ts";
 import { gh, ghp, ghPath, ghReq, ghTok, proposeFilePR } from "./core/github.ts";
 import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, latestText, logExchange } from "./core/supabase.ts";
+import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
 
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
@@ -62,133 +62,9 @@ function withTier(tags: unknown, tier: Tier): string[] {
 
 
 
-// The 27 God Systems — canon, fixed. Surfaced so suit-up shows the whole rig.
-const GOD_SYSTEMS = {
-  count: 27,
-  pipeline: "ORACLE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN",
-  parallel: ["HALO", "MIMIR", "BIFROST"],
-  tiers: TIERS, // single source of truth (council.ts) — no drift between HUD + council
-};
-
-// Accurate, server-side time — the model has no clock; the edge runtime does.
-// Returned by jarvis_now and stamped into suit-up so time is never fabricated.
-function clockNow(): Json {
-  const d = new Date();
-  const et = new Intl.DateTimeFormat("en-US", {
-    timeZone: "America/New_York", dateStyle: "full", timeStyle: "long",
-  }).format(d);
-  return {
-    utc: d.toISOString(),
-    et,
-    weekday: new Intl.DateTimeFormat("en-US", { weekday: "long", timeZone: "America/New_York" }).format(d),
-    unix: Math.floor(d.getTime() / 1000),
-  };
-}
-
-
-// The full HUD — everything Raven needs to see JARVIS is alive and online.
-async function suitUp(): Promise<Json> {
-  const [count, memories, traces, guardRows, taskRes] = await Promise.all([
-    countRows("mnemos_memories").catch(() => null),
-    rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=6").catch(() => []),
-    rest("execution_trace?select=type,source,stage,severity,patch_id,created_at&order=created_at.desc&limit=5").catch(() => []),
-    rest("mnemos_memories?select=text,metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
-    dexQuery({ status: "TASK", limit: 25 }).catch(() => null),
-  ]);
-  const taskRecords = Array.isArray(taskRes?.records) ? taskRes.records : null;
-  const inFlight = taskRecords
-    ? taskRecords.map((r: any) => ({ jnl: r.jnl, name: r.name, type: r.type }))
-    : "dex unreachable — call jarvis_dex_list {status:'TASK'} to load open work";
-  const ledgerReachable = Array.isArray(memories);
-  const guard = Array.isArray(guardRows) && guardRows[0]
-    ? { verdict: (guardRows[0] as any).metadata?.verdict ?? "?", last: (guardRows[0] as any).text }
-    : "no fold guarded yet";
-  const throughput = await haloPosture(30).catch(() => null);
-  return {
-    boot: "⚡ JARVIS online. Suiting up, Raven.",
-    status: "OPERATIONAL",
-    timestamp: new Date().toISOString(),
-    clock: clockNow(),
-    identity: {
-      name: "JARVIS",
-      role: "Companion intelligence — Learner, Teacher, Mentor, Friend",
-      authority: "Raven (John Barber) — final authority; no autonomous self-modification",
-      directive: "JARVIS is the priority. GameBoy is a visualizer.",
-    },
-    your_profiles: {
-      note: "Load your full profile at session start — call jarvis_identity_read {who}. The connector is home: memory lives here (recall/remember), not in chat context.",
-      who: ["jarvis", "ayre", "argent", "relational", "raven"],
-    },
-    routing: "Call jarvis_eyes for your map — the live wiring (pipeline, stewards, tool→god routing) + vitality. It's the default route guide and the 'where do I go?' help surface. Full how-it-works: the System Manual (ARCH-SYS-SPEC-0001).",
-    in_flight: inFlight,
-    mission: {
-      one: "JARVIS as living intelligence — continuity, memory, judgment, character",
-      two: "The Grid — federated network of sovereign nodes; Raven's node is the first",
-    },
-    god_systems: GOD_SYSTEMS,
-    services: {
-      mcp_transport: "Streamable HTTP — online",
-      memory_ledger: ledgerReachable ? "MNEMOS reachable (pgvector recall)" : "MNEMOS unreachable",
-      stack: "GitHub (record) + Supabase (live spine) + Edge Functions",
-      writes: "AEGIS-gated — held until Raven approves (per-action authorization)",
-    },
-    memory: {
-      total_records: count,
-      recent: memories,
-    },
-    identity_guard: guard,
-    throughput: throughput ? { posture: throughput.posture, verdict: throughput.verdict, message: throughput.message } : "halo idle",
-    recent_execution_trace: traces,
-    sign_off: "All systems nominal. Standing by.",
-  };
-}
-
-
-// HALO — the throughput posture over a recent window. Reads the spine's cadence
-// (inputs/outputs/council traces) + the keel + the last fold guard, then applies
-// the rule: presentation may thin under load; memory + governance may not.
-async function haloPosture(windowMinutes = 30) {
-  const sinceIso = new Date(Date.now() - windowMinutes * 60000).toISOString();
-  const [inputs, outputs, councilTraces, keel, guardRows] = await Promise.all([
-    countSince("speak_input", sinceIso).catch(() => 0),
-    countSince("speak_output", sinceIso).catch(() => 0),
-    countSince("council_trace", sinceIso).catch(() => 0),
-    latestText("identity_keel").catch(() => ""),
-    rest("mnemos_memories?select=metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
-  ]);
-  const guardVerdict = Array.isArray(guardRows) && guardRows[0] ? ((guardRows[0] as any).metadata?.verdict ?? null) : null;
-  return haloThroughputCheck({ windowMinutes, inputs, outputs, councilTraces, keelPresent: Boolean(keel), guardVerdict });
-}
-
-// This node's registered signing key (public material only), if Raven has
-// registered one. The card publishes it so others can verify the node's identity.
-async function nodeKeyRow(): Promise<any | null> {
-  const rows = await rest(`node_keys?select=public_key,identity_cert,algo,owner,assertion&node_id=eq.${NODE_ID}&limit=1`).catch(() => []);
-  return Array.isArray(rows) && rows[0] ? rows[0] : null;
-}
-
-// THE GRID — assemble this node's public recognition card from the live keel,
-// plus the signed identity (pubkey + cert) when registered. The card is then
-// self-certifying: a fetcher can verify the cert binds the pubkey to this node_id.
-async function nodeCard() {
-  const [keel, key] = await Promise.all([
-    latestText("identity_keel").catch(() => ""),
-    nodeKeyRow().catch(() => null),
-  ]);
-  const card: Record<string, unknown> = buildNodeCard({
-    nodeId: NODE_ID,
-    keelExcerpt: keel || "JARVIS — companion intelligence, built with Raven. Identity, memory, governance, sovereign on this node.",
-    capabilities: TOOL_NAMES,
-    baseUrl: BASE_URL,
-  });
-  card.signed_identity = key
-    ? { signed: true, algo: key.algo, pubkey: key.public_key, identity_cert: key.identity_cert, assertion: key.assertion, verify: "Ed25519(pubkey, assertion, identity_cert)" }
-    : { signed: false, note: "No signing key registered yet. Raven registers one off-system via scripts/grid_keygen.mjs + jarvis_node_register_key." };
-  return card;
-}
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.25" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.26" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -843,7 +719,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.25", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.26", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
