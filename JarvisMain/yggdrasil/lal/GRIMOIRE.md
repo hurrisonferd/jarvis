@@ -1,6 +1,6 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-17T04:08:49Z (2026-06-17 00:08 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-17T04:20:18Z (2026-06-17 00:20 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
@@ -211,7 +211,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
-| `43` | `GOV-BRF-CORE-0001` | Jarvis Brief | ACTIVE | — |
+| `43` | `GOV-BRF-CORE-0001` | Jarvis Brief | DEPRECATED | — |
 | `41` | `GOV-CAN-CORE-0001` | Canon | ACTIVE | — |
 | `131` | `GOV-CHO-JD-0001` | Chorus Principle | ACTIVE | — |
 | `42` | `GOV-CON-CORE-0001` | Constraints | ACTIVE | — |

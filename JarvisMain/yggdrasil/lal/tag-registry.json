@@ -111,9 +111,6 @@
     "bridge": [
       "GOV-DEX-SPEC-0001"
     ],
-    "brief": [
-      "GOV-BRF-CORE-0001"
-    ],
     "canon": [
       "GOV-CAN-CORE-0001",
       "GS-AEG-CORE-0001",
@@ -316,6 +313,9 @@
       "PROJ-DEO-BIO-0001",
       "PROJ-DEO-JGPP-0001"
     ],
+    "deprecated": [
+      "GOV-BRF-CORE-0001"
+    ],
     "dex": [
       "ARCH-JD-CORE-0001",
       "ARCH-JD-JIP-0001",
@@ -401,6 +401,9 @@
     ],
     "genesis": [
       "PROJ-GEN-BIO-0001"
+    ],
+    "ghost": [
+      "GOV-BRF-CORE-0001"
     ],
     "git-first": [
       "AUD-SYNC-REVW-0001"
@@ -1029,6 +1032,9 @@
     ],
     "supabase": [
       "CONN-MSB-CORE-0001"
+    ],
+    "superseded": [
+      "GOV-BRF-CORE-0001"
     ],
     "sync": [
       "ARCH-JC-JIP-0001",

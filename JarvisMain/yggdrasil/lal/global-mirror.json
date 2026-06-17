@@ -1,16 +1,17 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-17T04:08:48Z",
-    "generated_at_eastern": "2026-06-17 00:08 EDT",
-    "source_commit": "c8bf6c8",
+    "generated_at_utc": "2026-06-17T04:20:18Z",
+    "generated_at_eastern": "2026-06-17 00:20 EDT",
+    "source_commit": "5463092",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
     "object_count": 201,
     "by_status": {
-      "ACTIVE": 175,
+      "ACTIVE": 174,
       "ARCHIVED": 2,
+      "DEPRECATED": 1,
       "INACTIVE": 5,
       "TASK": 19
     },
@@ -26,8 +27,8 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 168,
-      "SIDE": 33
+      "MAIN": 167,
+      "SIDE": 34
     }
   },
   "objects": [
@@ -713,12 +714,14 @@
       "name": "Jarvis Brief",
       "type": "CORE",
       "class": "SPEC",
-      "tier": "MAIN",
-      "status": "ACTIVE",
+      "tier": "SIDE",
+      "status": "DEPRECATED",
       "parent": "GOV-CAN-CORE-0001",
       "tags": [
         "governance",
-        "brief"
+        "deprecated",
+        "superseded",
+        "ghost"
       ]
     },
     {

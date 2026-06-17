@@ -10,15 +10,16 @@
     "SYSTEM": 58
   },
   "by_tier": {
-    "MAIN": 168,
-    "SIDE": 33
+    "MAIN": 167,
+    "SIDE": 34
   },
   "by_status": {
-    "ACTIVE": 175,
+    "ACTIVE": 174,
     "ARCHIVED": 2,
+    "DEPRECATED": 1,
     "INACTIVE": 5,
     "TASK": 19
   },
-  "tags": 226,
+  "tags": 228,
   "grammar_fingerprint": "2ebd5e589361dabe"
 }
