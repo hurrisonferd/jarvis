@@ -1,54 +1,8 @@
 {
-  "updated": "2026-06-17T19:12:02.981176+00:00",
+  "updated": "2026-06-17T20:15:14.962228+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260616_071301",
-      "date": "2026-06-16",
-      "exchanges": 128,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/yggdrasil-validate.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "Done \u2014 `0d043db`. JMMS is live on the branch.\n\n## JMMS \u2014 what it does now\nThe spec was canon but never touched the live memory rows (the continuity TO"
-    },
-    {
-      "session_id": "20260616_071314",
-      "date": "2026-06-16",
-      "exchanges": 129,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/yggdrasil-validate.yml",
-        "CLAUDE.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "Clean \u2014 `a08de38` pushed (just the auto-rotated session ledger). Tree is clear.\n\nStanding by on the one decision that unblocks GPT: **open the PR to m"
-    },
     {
       "session_id": "20260616_071610",
       "date": "2026-06-16",
@@ -495,6 +449,58 @@
       ],
       "alignment": 1.0,
       "key_insight": "**Deploy #40 \u2014 success.** Slice 6 live: `tools/jip.ts` deployed clean, `registerJipTools(server, req)` works. `index.ts` at **1,778**, v0.11.28.\n\n## B"
+    },
+    {
+      "session_id": "20260617_191245",
+      "date": "2026-06-17",
+      "exchanges": 685,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".claude/settings.json",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Persisted and clean \u2014 growth record on `main` (#249), local synced, working tree empty.\n\nSlice 6 closed and verified: `tools/jip.ts` live, deploy #40 "
+    },
+    {
+      "session_id": "20260617_201514",
+      "date": "2026-06-17",
+      "exchanges": 689,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".claude/settings.json",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
+        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Grounded, and decisive: **`jarvis_jip_list` is present on every axis the system tracks.**\n\n- **Advertised** in the connector's tool surface (`core/env"
     }
   ]
 }
