@@ -1,4 +1,10 @@
 {
   "note": "Git-First patch ledger (Raven-verdicted 2026-06-15). jip_apply writes a JD field override here via a PR; seed.py applies it at its write choke-points (works for any object origin); Raven merges; the mirror syncs Supabase. jip_revert removes the key. Identity fields (jnl/type/class/tier) are never patchable \u2014 MUTABLE only.",
-  "patches": {}
+  "patches": {
+    "GOV-BRF-CORE-0001": {
+      "status": "DEPRECATED",
+      "definition": "[DEPRECATED 2026-06-17] An early CLAUDE.md draft (v3.0) that contradicted current canon (it cast Claude as AYRE). Superseded by the System Manual (ARCH-SYS-SPEC-0001) + CLAUDE.md. Retained as a dated address (JMS); content stubbed.",
+      "tags": ["governance", "deprecated", "superseded", "ghost"]
+    }
+  }
 }

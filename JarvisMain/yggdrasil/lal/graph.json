@@ -1030,7 +1030,7 @@
       "domain": "GOV",
       "class": "SPEC",
       "tier": "MAIN",
-      "status": "ACTIVE",
+      "status": "DEPRECATED",
       "owner": "Governance"
     },
     {

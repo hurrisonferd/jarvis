@@ -2421,20 +2421,22 @@
       "name": "Jarvis Brief",
       "type": "CORE",
       "class": "SPEC",
-      "tier": "MAIN",
+      "tier": "SIDE",
       "owner": "Governance",
       "steward": null,
       "parent": "GOV-CAN-CORE-0001",
       "location": "JarvisMain/Architecture/JarvisBrief.md",
       "tags": [
         "governance",
-        "brief"
+        "deprecated",
+        "superseded",
+        "ghost"
       ],
       "anchors": [],
-      "status": "ACTIVE",
+      "status": "DEPRECATED",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-17"
     },
     {
       "jnl": "GOV-CAN-CORE-0001",

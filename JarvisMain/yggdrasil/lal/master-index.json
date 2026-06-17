@@ -1405,7 +1405,9 @@
       "location": "JarvisMain/Architecture/JarvisBrief.md",
       "tags": [
         "governance",
-        "brief"
+        "deprecated",
+        "superseded",
+        "ghost"
       ],
       "anchors": [],
       "state": "active"
