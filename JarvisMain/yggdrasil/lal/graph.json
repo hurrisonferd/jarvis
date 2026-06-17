@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 200,
-    "edges": 304,
-    "main": 167,
+    "nodes": 201,
+    "edges": 305,
+    "main": 168,
     "side": 33
   },
   "nodes": [
@@ -199,6 +199,15 @@
     {
       "id": "ARCH-JRV-BIO-0003",
       "name": "JARVIS-G / AYRE-G GPT Substrate Operating Charter",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-JSE-SPEC-0001",
+      "name": "JSE \u2014 Jarvis Schema Envelope",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -2047,6 +2056,11 @@
     {
       "source": "ARCH-JRV-BIO-0003",
       "target": "ARCH-JRV-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-JSE-SPEC-0001",
+      "target": "ARCH-JFS-CORE-0001",
       "type": "parent"
     },
     {

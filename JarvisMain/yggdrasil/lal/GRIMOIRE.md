@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-16T22:56:47Z (2026-06-16 18:56 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-17T04:08:49Z (2026-06-17 00:08 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**200 governed objects** · 304 edges · 9 domains.
+**201 governed objects** · 305 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 200 objects · 19 open tasks · 6 orphans · 304 edges._
+_JARVIS online · 201 objects · 19 open tasks · 6 orphans · 305 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -79,7 +79,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (38)
+### ARCH (39)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -105,6 +105,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `3` | `ARCH-JNS-CORE-0001` | Jarvis Naming System | ACTIVE | ODIN |
 | `106` | `ARCH-JRV-BIO-0001` | JARVIS Companion Profile | ACTIVE | — |
 | `141` | `ARCH-JRV-BIO-0003` | JARVIS-G / AYRE-G GPT Substrate Operating Charter | ACTIVE | — |
+| `202` | `ARCH-JSE-SPEC-0001` | JSE — Jarvis Schema Envelope | ACTIVE | — |
 | `5` | `ARCH-JSL-CORE-0001` | Jarvis Structural Layer | ACTIVE | ATHENA |
 | `9` | `ARCH-JSS-CORE-0001` | Jarvis Status System | ACTIVE | KRONOS |
 | `11` | `ARCH-JSTM-CORE-0001` | Jarvis Short-Term Memory | ACTIVE | MNEMOS |

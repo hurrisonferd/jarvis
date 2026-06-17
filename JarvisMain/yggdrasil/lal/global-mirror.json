@@ -1,21 +1,21 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-16T22:56:47Z",
-    "generated_at_eastern": "2026-06-16 18:56 EDT",
-    "source_commit": "67b8d8d",
+    "generated_at_utc": "2026-06-17T04:08:48Z",
+    "generated_at_eastern": "2026-06-17 00:08 EDT",
+    "source_commit": "c8bf6c8",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 200,
+    "object_count": 201,
     "by_status": {
-      "ACTIVE": 174,
+      "ACTIVE": 175,
       "ARCHIVED": 2,
       "INACTIVE": 5,
       "TASK": 19
     },
     "by_domain": {
-      "ARCH": 38,
+      "ARCH": 39,
       "AUD": 9,
       "CONN": 65,
       "GOV": 12,
@@ -26,7 +26,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 167,
+      "MAIN": 168,
       "SIDE": 33
     }
   },
@@ -3317,6 +3317,24 @@
         "connector",
         "mcp",
         "tool"
+      ]
+    },
+    {
+      "jnl": "ARCH-JSE-SPEC-0001",
+      "jid": 202,
+      "jidd": "arch-39",
+      "name": "JSE — Jarvis Schema Envelope",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-JFS-CORE-0001",
+      "tags": [
+        "schema",
+        "envelope",
+        "jfs",
+        "format",
+        "architecture"
       ]
     }
   ]

@@ -38,6 +38,7 @@
       "ARCH-JMS-CORE-0001",
       "ARCH-JNL-CORE-0001",
       "ARCH-JNS-CORE-0001",
+      "ARCH-JSE-SPEC-0001",
       "ARCH-JSL-CORE-0001",
       "ARCH-JSS-CORE-0001",
       "ARCH-JSTM-CORE-0001",
@@ -333,6 +334,9 @@
     "divergence": [
       "ARCH-AYR-BIO-0001"
     ],
+    "envelope": [
+      "ARCH-JSE-SPEC-0001"
+    ],
     "epistemic": [
       "PROJ-GDS-JGPP-0001"
     ],
@@ -368,6 +372,7 @@
     ],
     "format": [
       "ARCH-JD-JIP-0001",
+      "ARCH-JSE-SPEC-0001",
       "IMPL-FMT-SPEC-0001"
     ],
     "founder": [
@@ -588,6 +593,7 @@
       "PROJ-TST-JGPP-0001"
     ],
     "jfs": [
+      "ARCH-JSE-SPEC-0001",
       "PROJ-NMX-JGPP-0001"
     ],
     "jgpp": [
@@ -952,6 +958,7 @@
       "PROJ-GDS-JGPP-0002"
     ],
     "schema": [
+      "ARCH-JSE-SPEC-0001",
       "CONN-GAC-SPEC-0001"
     ],
     "security": [
