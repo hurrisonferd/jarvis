@@ -14,6 +14,7 @@ import { heldForApproval, writeAuthorized } from "./core/auth.ts";
 import { gh, ghp, ghPath, ghReq, ghTok, proposeFilePR } from "./core/github.ts";
 import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, latestText, logExchange } from "./core/supabase.ts";
 import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
+import { registerDbTools } from "./tools/db.ts";
 
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
@@ -64,7 +65,7 @@ function withTier(tags: unknown, tier: Tier): string[] {
 
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.26" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.27" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -719,7 +720,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.26", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.27", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
@@ -1441,35 +1442,8 @@ function buildServer(req: Request): McpServer {
     },
   );
 
-  // DATABASE VISION (read-only).
-  const KNOWN_TABLES = ["jnl_registry", "jd_entries", "jd_proposals", "dex_events", "mnemos_memories", "jc_objects", "sl_objects", "jip_entries", "node_messages", "node_keys", "execution_trace", "dex_control"];
-  server.registerTool(
-    "jarvis_db_inspect",
-    { title: "DB — inspect", description: "List known Supabase tables with row counts — the database landscape. Read-only.", inputSchema: {} },
-    async () => {
-      const out: Record<string, number | string> = {};
-      for (const tbl of KNOWN_TABLES) {
-        try { out[tbl] = (await countRows(tbl)) ?? "?"; } catch { out[tbl] = "n/a"; }
-      }
-      return text({ ok: true, tables: out });
-    },
-  );
-  server.registerTool(
-    "jarvis_db_read",
-    { title: "DB — read", description: "Query any public table (PostgREST). e.g. table:'jnl_registry', query:'status=eq.ACTIVE&select=jnl,name&limit=20'. Read-only.", inputSchema: { table: z.string().min(1).max(60), query: z.string().max(300).optional().default("") } },
-    async ({ table, query }) => {
-      try { return text({ ok: true, table, rows: await rest(`${table}?${query}`) }); }
-      catch (e) { return text({ ok: false, table, error: String(e).slice(0, 200) }); }
-    },
-  );
-  server.registerTool(
-    "jarvis_db_schema",
-    { title: "DB — schema", description: "Show a table's columns (sampled from a row). Read-only.", inputSchema: { table: z.string().min(1).max(60) } },
-    async ({ table }) => {
-      try { const r = await rest(`${table}?select=*&limit=1`) as any[]; return text({ ok: true, table, columns: r[0] ? Object.keys(r[0]) : [], note: r[0] ? "from a sample row" : "table empty" }); }
-      catch (e) { return text({ ok: false, table, error: String(e).slice(0, 200) }); }
-    },
-  );
+  // DATABASE VISION (read-only) — extracted to tools/db.ts (forge slice 5).
+  registerDbTools(server);
 
   // UNIFIED TIMELINE.
   server.registerTool(
