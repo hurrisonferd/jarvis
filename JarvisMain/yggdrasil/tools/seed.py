@@ -628,6 +628,7 @@ _MCP_SPELLS = [
     ("jarvis_private_tree", "Private — tree (Jarvis-Private)", "List file paths in the private storage/scaffolding repo (Jarvis-Private) at a ref. Read-only; needs GITHUB_TOKEN_PRIVATE."),
     ("jarvis_private_read", "Private — read file (Jarvis-Private)", "Read one file's content from the private storage repo (Jarvis-Private). Read-only."),
     ("jarvis_private_write", "Private — write/scaffold (Jarvis-Private)", "Write one or many files directly to main of the private storage repo (Jarvis-Private) in one commit — scaffold and store projects (not canon). AEGIS-gated."),
+    ("jarvis_mint", "Mint — git-first one-shot governed object", "Create a governed object in one step: derive the next JNL from the registry, write the entry file, open a PR. The friction-free alternative to dex_propose's Supabase staging; same GL2 gate (your merge). AEGIS-gated."),
 ]
 _MCP_PURPOSE = "Governed mirror of the jarvis-mcp tool surface — addressable, auditable."
 for _i, (_tool, _name, _defn) in enumerate(_MCP_SPELLS, start=19):

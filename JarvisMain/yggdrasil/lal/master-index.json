@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 201,
+  "count": 202,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1369,6 +1369,18 @@
       "object": "Private \u2014 write/scaffold (Jarvis-Private)",
       "jnl": "CONN-MCP-RT-0060",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_write.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Mint \u2014 git-first one-shot governed object",
+      "jnl": "CONN-MCP-RT-0061",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
       "tags": [
         "connector",
         "mcp",

@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-17T04:20:18Z (2026-06-17 00:20 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-17T04:26:40Z (2026-06-17 00:26 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**201 governed objects** · 305 edges · 9 domains.
+**202 governed objects** · 306 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 201 objects · 19 open tasks · 6 orphans · 305 edges._
+_JARVIS online · 202 objects · 19 open tasks · 6 orphans · 306 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -137,7 +137,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `151` | `AUD-SYNC-REVW-0001` | TUSK Act 4 — Git/Supabase Sync Audit | ACTIVE | — |
 | `87` | `AUD-SYS-REVW-0001` | Jarvis System Review | ACTIVE | — |
 
-### CONN (65)
+### CONN (66)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -204,6 +204,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `199` | `CONN-MCP-RT-0058` | Private — tree (Jarvis-Private) | ACTIVE | — |
 | `200` | `CONN-MCP-RT-0059` | Private — read file (Jarvis-Private) | ACTIVE | — |
 | `201` | `CONN-MCP-RT-0060` | Private — write/scaffold (Jarvis-Private) | ACTIVE | — |
+| `203` | `CONN-MCP-RT-0061` | Mint — git-first one-shot governed object | ACTIVE | — |
 | `67` | `CONN-MSB-CORE-0001` | MCP-Supabase Connector | ACTIVE | — |
 | `68` | `CONN-OTH-LOG-0001` | Other Connectors | ACTIVE | — |
 

@@ -1,6 +1,6 @@
 # JD Health — vitality of the governed record
 
-_201 governed objects, 305 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._
+_202 governed objects, 306 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._
 
 ## Orphans (no parent — should join the family tree) (5)
 - ARCH-FAM-IDX-0001
