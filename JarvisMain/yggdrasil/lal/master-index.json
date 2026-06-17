@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 200,
+  "count": 201,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -281,6 +281,20 @@
         "charter",
         "tool-use",
         "governance"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JSE \u2014 Jarvis Schema Envelope",
+      "jnl": "ARCH-JSE-SPEC-0001",
+      "location": "JarvisMain/yggdrasil/jfs/jse-schema.md",
+      "tags": [
+        "schema",
+        "envelope",
+        "jfs",
+        "format",
+        "architecture"
       ],
       "anchors": [],
       "state": "active"

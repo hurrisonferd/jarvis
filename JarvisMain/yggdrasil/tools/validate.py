@@ -19,6 +19,13 @@ LAL_DIR = ROOT / "JarvisMain" / "yggdrasil" / "lal"
 
 FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
+# JSE — Jarvis Schema Envelope (ARCH-JSE-SPEC-0001): the canonical frontmatter every JD entry
+# carries. GL12 requires 10 of these; JSE requires ALL 19 keys PRESENT — empty is fine (roots have
+# no parent/steward; [] lists), a MISSING key is the defect (the steward:null-class gap JSE kills).
+JSE_ENVELOPE = ("name", "type", "class", "tier", "authority", "owner", "steward", "parent",
+                "jnl", "seq", "status", "created", "updated", "source", "related", "references",
+                "tags", "aliases", "ref")
+
 
 def parse_front_matter(text: str) -> dict:
     m = FM_RE.match(text)
@@ -56,6 +63,11 @@ def main() -> int:
         for req in ("name", "type", "class", "tier", "jnl", "status", "created", "updated", "tags", "ref"):
             if not fm.get(req):
                 errors.append(f"{f.name}: missing GL12 field '{req}'")
+        # JSE completeness (ARCH-JSE-SPEC-0001): every entry carries the FULL envelope. A missing
+        # KEY is a defect even when a present value is legitimately empty — visibility over silence.
+        for key in JSE_ENVELOPE:
+            if key not in fm:
+                errors.append(f"{f.name}: JSE envelope missing key '{key}' (entries must carry all {len(JSE_ENVELOPE)} fields)")
         st, cls, tr = fm.get("status", ""), fm.get("class", ""), fm.get("tier", "")
         if st and st not in jnllib.STATUSES:
             errors.append(f"{f.name}: status '{st}' not in JSS vocabulary {sorted(jnllib.STATUSES)}")

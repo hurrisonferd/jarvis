@@ -185,6 +185,11 @@ GOD_SYSTEMS = [
 # --- Knowledge objects: the reorganized doc tree, each addressed + dated (the growing dex).
 # (jnl, name, type, location, definition, purpose, tags) ---
 KNOWLEDGE = [
+    # JFS family — the schema/format layer (JSE)
+    ("ARCH-JSE-SPEC-0001", "JSE — Jarvis Schema Envelope", "ARCH", "JarvisMain/yggdrasil/jfs/jse-schema.md",
+     "The umbrella that guarantees every JD entry carries the same complete 19-field frontmatter envelope — no missing fields, ever. Not a new store; the named contract seed.jd_entry_md writes and validate.py enforces.",
+     "Make every object Pokedex-uniform and kill the steward:null-class gap: a missing KEY is a defect even when an empty value is legitimate. JNS names, JNL addresses, JSE contains.",
+     ["schema", "envelope", "jfs", "format", "architecture"]),
     # Governance / canon
     ("GOV-CAN-CORE-0001", "Canon", "GOV", "JarvisMain/Architecture/canon.md",
      "Canonical architecture statement for JARVIS.", "Hold the agreed system truth.",
@@ -466,6 +471,7 @@ PARENT = {
     "ARCH-LAL-CORE-0001": "ARCH-YGG-CORE-0001",
     "ARCH-JNS-CORE-0001": "ARCH-JFS-CORE-0001",
     "ARCH-JNL-CORE-0001": "ARCH-JFS-CORE-0001",
+    "ARCH-JSE-SPEC-0001": "ARCH-JFS-CORE-0001",
     "ARCH-JSL-CORE-0001": "ARCH-JFS-CORE-0001",
     "ARCH-JMS-CORE-0001": "ARCH-JFS-CORE-0001",
     "ARCH-JSS-CORE-0001": "ARCH-JFS-CORE-0001",
