@@ -118,7 +118,7 @@ SUBSTRATE = [
      "Keep JD and LAL thin and consistent; preserve JNL identity across moves.",
      ["mirror", "core", "architecture"], ["ARCH-JFS-CORE-0001"]),
     ("JD", "Jarvis Dictionary", "ARCH-JD-CORE-0001", "JarvisMain/yggdrasil/jd/JD-SPEC.md",
-     "THE one registry of every governed object (definition + JNL + tags + relationships) — a semantic DNS. Canonical name: JD (Jarvis Dictionary); 'the Dex' is its sanctioned nickname (the Pokedex-facing view). Same thing under every face: truth = JarvisMain/yggdrasil/jd/entries; discovery = LAL; query surface = the jarvis-dex function + jarvis_dex_*/jarvis_jd_resolve tools; live mirror = Supabase jnl_registry/jd_entries. One dictionary, one home, many faces — never a second registry.",
+     "THE one registry of every governed object (definition + JNL + tags + relationships) — a semantic DNS. Canonical name: JD (Jarvis Dictionary); 'the Dex' is its sanctioned nickname (the Pokedex-facing view). Same thing under every face: truth = JarvisMain/yggdrasil/jd/entries; discovery = LAL; query surface = the jarvis-dex function + jarvis_dex_*/jarvis_jd_resolve tools; live mirror = Supabase jd_entries (one table; jnl_registry is a view over it, unified 2026-06-18). One dictionary, one home, many faces — never a second registry.",
      "Be the single source of truth for what every object IS — centralized under Yggdrasil, mirrored (never duplicated) everywhere it is read.",
      ["dictionary", "semantic", "core", "architecture", "dex"], ["ARCH-JNL-CORE-0001", "ARCH-LAL-CORE-0001"]),
     ("LAL", "Library Authority Layer", "ARCH-LAL-CORE-0001", "JarvisMain/yggdrasil/lal/README.md",
