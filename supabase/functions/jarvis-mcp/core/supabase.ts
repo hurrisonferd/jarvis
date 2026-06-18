@@ -45,9 +45,12 @@ export async function callFunctionAs(name: string, body: Json, key: string): Pro
   return payload;
 }
 
-// Exact row count via PostgREST content-range — used for the ledger gauge.
+// Exact row count via PostgREST content-range — used for the ledger gauge. Column-agnostic: the
+// old `?select=id` 400'd on jnl-keyed tables (jd_entries / the jnl_registry view have no `id`) —
+// caught live by jarvis_ayre's first cast. Range 0-0 already limits payload to one row; count=exact
+// returns the total in content-range regardless of which columns come back. Works on ANY table.
 export async function countRows(table: string): Promise<number | null> {
-  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?select=id`, {
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/${table}?limit=1`, {
     headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, Prefer: "count=exact", Range: "0-0" },
   });
   if (!res.ok) throw new Error(`countRows ${table} ${res.status}`);
