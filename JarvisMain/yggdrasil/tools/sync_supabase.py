@@ -135,7 +135,29 @@ def norm_url(u: str) -> str:
     return u
 
 
+def _upsert(base: str, table: str, payload: list[dict] | dict, headers: dict) -> tuple[bool, str]:
+    """One PostgREST upsert. Returns (ok, detail). detail is the server error on failure."""
+    req = urllib.request.Request(
+        f"{base}/rest/v1/{table}?on_conflict=jnl",
+        data=json.dumps(payload).encode(), headers=headers, method="POST")
+    try:
+        with urllib.request.urlopen(req, timeout=60) as r:
+            return True, f"HTTP {r.status}"
+    except urllib.error.HTTPError as e:
+        body = ""
+        try:
+            body = e.read().decode()[:300]
+        except Exception:
+            pass
+        return False, f"HTTP {e.code} {body}"
+    except urllib.error.URLError as e:
+        return False, str(e)
+
+
 def push() -> int:
+    """Mirror git → Supabase, batch-first with a per-row fallback so ONE bad row can no
+    longer freeze a whole table silently (the 2026-06-11 jd_entries freeze). Any row that
+    still cannot land is reported by jnl and forces a non-zero exit so CI goes red."""
     import time
     url = norm_url(os.environ.get("SUPABASE_URL", ""))
     key = os.environ.get("SUPABASE_SERVICE_KEY", "")
@@ -148,28 +170,37 @@ def push() -> int:
         "Prefer": "resolution=merge-duplicates,return=minimal",
     }
     candidates = [url] + ([CANONICAL_URL] if url != CANONICAL_URL else [])
+    failures: list[str] = []  # "table/jnl: detail" — anything that never landed
     for table, rows in (("jnl_registry", reg_rows()), ("jd_entries", jd_rows())):
-        last_err: Exception | None = None
-        done = False
-        for base in candidates:  # secret-derived URL first, canonical as the safety net
-            for attempt in range(2):
-                req = urllib.request.Request(
-                    f"{base}/rest/v1/{table}?on_conflict=jnl",
-                    data=json.dumps(rows).encode(), headers=headers, method="POST")
-                try:
-                    with urllib.request.urlopen(req, timeout=60) as r:
-                        print(f"sync_supabase: {table} <- {len(rows)} rows (HTTP {r.status}) via {base.split('//')[1].split('.')[0][:4]}…")
-                    done = True
-                    break
-                except urllib.error.URLError as e:
-                    last_err = e
-                    print(f"sync_supabase: {table} attempt failed ({e}); ", end="")
-                    print("retrying" if attempt == 0 else "next URL")
-                    time.sleep(2)
-            if done:
+        base = None
+        # Pick a reachable base URL with the full-batch upsert (the happy path).
+        for cand in candidates:
+            ok, detail = _upsert(cand, table, rows, headers)
+            if ok:
+                base = cand
+                print(f"sync_supabase: {table} <- {len(rows)} rows ({detail}) via {cand.split('//')[1].split('.')[0][:4]}…")
                 break
-        if not done:
-            raise SystemExit(f"sync_supabase: {table} failed on all URLs: {last_err}")
+            print(f"sync_supabase: {table} batch on {cand.split('//')[1].split('.')[0][:4]}… failed ({detail})")
+            time.sleep(1)
+        if base:
+            continue
+        # Batch failed on every URL — almost always ONE poison row. Degrade to per-row on the
+        # secret-derived URL so the other ~200 rows still land, and name the row(s) that don't.
+        base = candidates[0]
+        print(f"sync_supabase: {table} — falling back to per-row upsert to isolate the bad row(s)…")
+        landed = 0
+        for row in rows:
+            ok, detail = _upsert(base, table, row, headers)
+            if ok:
+                landed += 1
+            else:
+                failures.append(f"{table}/{row.get('jnl', '?')}: {detail}")
+        print(f"sync_supabase: {table} per-row — {landed}/{len(rows)} landed, {len(rows) - landed} failed")
+    if failures:
+        print("sync_supabase: ROWS THAT NEVER LANDED (mirror is incomplete):")
+        for f in failures:
+            print(f"  - {f}")
+        raise SystemExit(f"sync_supabase: {len(failures)} row(s) failed to mirror — see above.")
     return 0
 
 
