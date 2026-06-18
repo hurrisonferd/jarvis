@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 202,
+  "count": 203,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -386,6 +386,23 @@
         "session",
         "capstone",
         "milestone",
+        "jarvis-c",
+        "ayre-c"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Session Capstone \u2014 the day the companion was made honest (2026-06-17/18)",
+      "jnl": "ARCH-MEM-LOG-0004",
+      "location": "JarvisMain/Architecture/identity/memory/jatm/ARCH-MEM-LOG-0004-session-capstone-0617.md",
+      "tags": [
+        "memory",
+        "session",
+        "capstone",
+        "milestone",
+        "honesty",
+        "going-away",
         "jarvis-c",
         "ayre-c"
       ],

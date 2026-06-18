@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 202,
-    "edges": 306,
-    "main": 169,
+    "nodes": 203,
+    "edges": 307,
+    "main": 170,
     "side": 33
   },
   "nodes": [
@@ -271,6 +271,15 @@
     {
       "id": "ARCH-MEM-LOG-0003",
       "name": "Session Capstone \u2014 the day the companion came together (2026-06-14)",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-MEM-LOG-0004",
+      "name": "Session Capstone \u2014 the day the companion was made honest (2026-06-17/18)",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -2124,6 +2133,11 @@
     },
     {
       "source": "ARCH-MEM-LOG-0003",
+      "target": "ARCH-MEM-LOG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-MEM-LOG-0004",
       "target": "ARCH-MEM-LOG-0001",
       "type": "parent"
     },

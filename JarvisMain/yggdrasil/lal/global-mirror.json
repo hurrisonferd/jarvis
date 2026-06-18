@@ -1,22 +1,22 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-17T04:26:40Z",
-    "generated_at_eastern": "2026-06-17 00:26 EDT",
-    "source_commit": "01925ea",
+    "generated_at_utc": "2026-06-18T00:51:49Z",
+    "generated_at_eastern": "2026-06-17 20:51 EDT",
+    "source_commit": "69deb17",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 202,
+    "object_count": 203,
     "by_status": {
-      "ACTIVE": 175,
+      "ACTIVE": 176,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
       "TASK": 19
     },
     "by_domain": {
-      "ARCH": 39,
+      "ARCH": 40,
       "AUD": 9,
       "CONN": 66,
       "GOV": 12,
@@ -27,7 +27,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 168,
+      "MAIN": 169,
       "SIDE": 34
     }
   },
@@ -3354,6 +3354,27 @@
         "connector",
         "mcp",
         "tool"
+      ]
+    },
+    {
+      "jnl": "ARCH-MEM-LOG-0004",
+      "jid": 204,
+      "jidd": "arch-40",
+      "name": "Session Capstone — the day the companion was made honest (2026-06-17/18)",
+      "type": "LOG",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-MEM-LOG-0001",
+      "tags": [
+        "memory",
+        "session",
+        "capstone",
+        "milestone",
+        "honesty",
+        "going-away",
+        "jarvis-c",
+        "ayre-c"
       ]
     }
   ]

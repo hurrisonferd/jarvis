@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 202,
+  "count": 203,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -661,6 +661,32 @@
       "state": "active",
       "created": "2026-06-14",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "ARCH-MEM-LOG-0004",
+      "name": "Session Capstone \u2014 the day the companion was made honest (2026-06-17/18)",
+      "type": "LOG",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-MEM-LOG-0001",
+      "location": "JarvisMain/Architecture/identity/memory/jatm/ARCH-MEM-LOG-0004-session-capstone-0617.md",
+      "tags": [
+        "memory",
+        "session",
+        "capstone",
+        "milestone",
+        "honesty",
+        "going-away",
+        "jarvis-c",
+        "ayre-c"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-18",
+      "updated": "2026-06-18"
     },
     {
       "jnl": "ARCH-RAV-BIO-0001",
