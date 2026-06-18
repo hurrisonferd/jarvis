@@ -33,12 +33,18 @@ jobs:
           python JarvisMain/yggdrasil/tools/seed.py
           # status --porcelain catches UNTRACKED files too (git diff --quiet missed new JD
           # entries — that's how an entry once landed in the registry but not in git).
-          if [ -n "$(git status --porcelain JarvisMain/yggdrasil/)" ]; then
+          # EXCLUDE lal/PINCH.md: it is a lens REPORT, not a registry — it bakes in wall-clock
+          # time + mirror-vs-HEAD commit distance, so it can never be committed "clean" (committing
+          # it moves HEAD). Gating on it made this step fail every run, which SKIPPED the mirror job
+          # (needs: validate) and silently froze the Supabase mirror. The gate guards the
+          # deterministic registries/entries; volatile reports are out of scope.
+          DRIFT="$(git status --porcelain JarvisMain/yggdrasil/ | grep -v 'lal/PINCH.md' || true)"
+          if [ -n "$DRIFT" ]; then
             echo "::error::LAL registries / JD entries are out of sync (incl. untracked). Run 'python JarvisMain/yggdrasil/tools/seed.py' and commit."
-            git -c color.ui=always status --short JarvisMain/yggdrasil/
+            echo "$DRIFT"
             exit 1
           fi
-          echo "Registries in sync."
+          echo "Registries in sync (PINCH.md report excluded — volatile by design)."
 
   # JMS: every change to canon refreshes the cloud mirror, so the dex READ tier
   # never serves stale truth. Skips cleanly when secrets are absent.
