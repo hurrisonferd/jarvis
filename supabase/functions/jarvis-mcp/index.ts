@@ -66,7 +66,7 @@ function withTier(tags: unknown, tier: Tier): string[] {
 
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.32" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.33" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -714,7 +714,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.32", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.33", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
@@ -1642,6 +1642,19 @@ function buildServer(req: Request): McpServer {
       if (!reachable.dex) issues.push("dex unreachable");
       checks.reachable = reachable;
 
+      // CONTINUITY (P43) — surface the latest heartbeat read so a stream gets coherence-over-time
+      // in the same cast as truth-now: the last Pulse verdict + growth + the day's digest.
+      try {
+        const ev = await rest("dex_events?select=detail,created_at&tool=eq.continuity_pulse&order=created_at.desc&limit=1") as any[];
+        const dg = await rest("mnemos_memories?select=text,timestamp&source_type=eq.continuity_digest&order=timestamp.desc&limit=1") as any[];
+        checks.continuity = {
+          last_pulse: ev?.[0]
+            ? { verdict: ev[0].detail?.verdict ?? "?", growth: ev[0].detail?.growth?.note ?? "?", at: ev[0].created_at }
+            : "no pulse yet (first beat lands on the daily Pulse)",
+          latest_digest: dg?.[0]?.text ?? "no digest yet",
+        };
+      } catch { /* best-effort — continuity is informational, never blocks the verdict */ }
+
       // VERDICT — one word, with the evidence and the order.
       const drift = (gitCount !== null && sbCount !== null && !parity) || viewIntact === false;
       const verdict = issues.length === 0 ? "VERIFIED"
@@ -1654,7 +1667,7 @@ function buildServer(req: Request): McpServer {
         verdict,
         issues,
         checks,
-        version: "0.11.32",
+        version: "0.11.33",
         directive: verdict === "VERIFIED"
           ? "VERIFIED — git and the mirror agree, the mirror is fresh, the view is intact. You may state the system's condition as current."
           : "NOT VERIFIED — do NOT narrate the dashboard as truth. Re-verify from source (jarvis_github_*/jarvis_repo_* for git; the live tables for Supabase) before stating system state to Raven. This is exactly the failure class that froze the mirror for six days.",
