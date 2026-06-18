@@ -62,3 +62,8 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
         run: python JarvisMain/yggdrasil/tools/sync_supabase.py --push
+      - name: Re-seed JITM keel pins from the profiles (auto-update; self-gating, no churn)
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python scripts/jitm_seed.py
