@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 204,
-    "edges": 308,
-    "main": 171,
+    "nodes": 205,
+    "edges": 309,
+    "main": 172,
     "side": 33
   },
   "nodes": [
@@ -1027,6 +1027,15 @@
     {
       "id": "CONN-MCP-RT-0062",
       "name": "Ayre \u2014 verify the field is REAL (world-level truth audit)",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0063",
+      "name": "Raven \u2014 the pilot's seat (who you serve + what awaits your word)",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -2632,6 +2641,11 @@
     },
     {
       "source": "CONN-MCP-RT-0062",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0063",
       "target": "CONN-MSB-CORE-0001",
       "type": "parent"
     },

@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 204,
+  "count": 205,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -2433,6 +2433,27 @@
       "steward": null,
       "parent": "CONN-MSB-CORE-0001",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ayre.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-18",
+      "updated": "2026-06-18"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0063",
+      "name": "Raven \u2014 the pilot's seat (who you serve + what awaits your word)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "steward": null,
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_raven.md",
       "tags": [
         "connector",
         "mcp",

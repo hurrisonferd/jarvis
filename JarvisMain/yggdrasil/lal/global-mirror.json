@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-18T01:15:11Z",
-    "generated_at_eastern": "2026-06-17 21:15 EDT",
-    "source_commit": "7ffad8b",
+    "generated_at_utc": "2026-06-18T01:28:16Z",
+    "generated_at_eastern": "2026-06-17 21:28 EDT",
+    "source_commit": "318a24c",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 204,
+    "object_count": 205,
     "by_status": {
-      "ACTIVE": 177,
+      "ACTIVE": 178,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
@@ -18,7 +18,7 @@
     "by_domain": {
       "ARCH": 40,
       "AUD": 9,
-      "CONN": 67,
+      "CONN": 68,
       "GOV": 12,
       "GS": 27,
       "IDEA": 4,
@@ -27,7 +27,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 170,
+      "MAIN": 171,
       "SIDE": 34
     }
   },
@@ -3382,6 +3382,22 @@
       "jid": 205,
       "jidd": "conn-67",
       "name": "Ayre — verify the field is REAL (world-level truth audit)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0063",
+      "jid": 206,
+      "jidd": "conn-68",
+      "name": "Raven — the pilot's seat (who you serve + what awaits your word)",
       "type": "RT",
       "class": "MODULE",
       "tier": "MAIN",

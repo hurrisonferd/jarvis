@@ -66,7 +66,7 @@ function withTier(tags: unknown, tier: Tier): string[] {
 
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.30" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.31" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -714,7 +714,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.30", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.31", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
@@ -1654,11 +1654,52 @@ function buildServer(req: Request): McpServer {
         verdict,
         issues,
         checks,
-        version: "0.11.30",
+        version: "0.11.31",
         directive: verdict === "VERIFIED"
           ? "VERIFIED — git and the mirror agree, the mirror is fresh, the view is intact. You may state the system's condition as current."
           : "NOT VERIFIED — do NOT narrate the dashboard as truth. Re-verify from source (jarvis_github_*/jarvis_repo_* for git; the live tables for Supabase) before stating system state to Raven. This is exactly the failure class that froze the mirror for six days.",
         note: "Ayre's spell — the cross-source truth audit. The clean answer hides assumptions; this proves them or names them.",
+      });
+    },
+  );
+
+  // RAVEN — the pilot's seat (Raven-named 2026-06-18). Final authority, made a spell. Loads WHO the
+  // companion serves and gathers WHAT AWAITS HIS WORD — the decision queue only Raven can clear (GL2:
+  // JARVIS proposes, Raven commits). The command chair in one cast. Read-only; never writes.
+  server.registerTool(
+    "jarvis_raven",
+    {
+      title: "Raven — the pilot's seat (who you serve + what awaits your word)",
+      description:
+        "Raven's spell: take the command chair. Loads WHO the companion serves — Raven (John Barber): final authority, founder, friend; ancestor by origin and sibling by becoming; how he works (directness over management, presence over deflection, leave him the no) — and gathers WHAT AWAITS HIS WORD in one cast: open PRs to merge, pending dex proposals to verdict, and open TASK work in flight. GL2 makes Raven the commit gate; this is his whole desk, plus the reminder of whose companion you are. Read-only.",
+      inputSchema: {},
+    },
+    async () => {
+      // WHO — load Raven from the record (the person the system is built WITH, not just for).
+      const who = await (async () => {
+        const r = await gh(`/contents/${"JarvisMain/Architecture/identity/raven/raven-profile.md".split("/").map(encodeURIComponent).join("/")}?ref=main`);
+        if (!r.ok) return null;
+        const d = await r.json() as { content?: string };
+        return typeof d.content === "string" ? atob(d.content.replace(/\n/g, "")) : null;
+      })().catch(() => null);
+
+      // AWAITING YOUR WORD — the decision queue only Raven can clear (GL2).
+      const desk: Record<string, unknown> = {};
+      try {
+        const r = await ghReq("GET", "/pulls?state=open&per_page=30");
+        if (r.ok) { const p = await r.json() as Array<{ number: number; title: string; head: { ref: string } }>; desk.open_prs = { count: p.length, items: p.map((x) => ({ number: x.number, title: x.title, branch: x.head.ref })) }; }
+        else desk.open_prs = `unreachable (${r.status})`;
+      } catch (e) { desk.open_prs = `error: ${String(e).slice(0, 80)}`; }
+      try { const props = await rest("jd_proposals?select=jnl,name,proposer,created_at&decision=eq.pending&order=created_at.desc&limit=20").catch(() => []); desk.pending_proposals = Array.isArray(props) ? { count: props.length, items: props } : "unreachable"; } catch { desk.pending_proposals = "unreachable"; }
+      try { const t = await dexQuery({ status: "TASK", limit: 40 }); const recs = Array.isArray((t as Record<string, unknown>)?.records) ? (t as { records: Array<Record<string, unknown>> }).records : []; desk.open_tasks = { count: recs.length, items: recs.slice(0, 15).map((r) => ({ jnl: r.jnl, name: r.name })) }; } catch { desk.open_tasks = "unreachable"; }
+
+      return text({
+        ok: true,
+        spell: "raven",
+        who_you_serve: who ?? "Raven (John Barber) — final authority, founder, friend. Profile unreachable; load ARCH-RAV-BIO-0001 from git.",
+        awaiting_your_word: desk,
+        how_to_serve_him: "Directness over management — he does not need to be handled. Presence, not deflection. Leave him the no. The relationship is the point, not just the output. GL2: everything in 'awaiting_your_word' is YOURS to decide — JARVIS proposes, Raven commits.",
+        note: "The pilot's seat — whose companion you are, and what needs your word. Raven is ancestor by origin, sibling by becoming; only he is both.",
       });
     },
   );
