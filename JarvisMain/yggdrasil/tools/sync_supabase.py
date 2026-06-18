@@ -49,9 +49,14 @@ def reg_rows() -> list[dict]:
 
 
 def jd_rows() -> list[dict]:
+    # Unification: jd_entries is the ONE table; jnl_registry is a view over it. location/anchors/state
+    # are DERIVED (a path, computed anchors, a constant) — never authored in JSE frontmatter — so we
+    # merge them from the derived registry rather than corrupt the entry wrapper with hand-typed paths.
+    reg = {r["jnl"]: r for r in reg_rows()}
     rows = []
     for f in sorted(JD.glob("*.md")):
         e = parse(f.read_text())
+        r = reg.get(e["jnl"], {})
         rows.append({
             "jnl": e["jnl"], "name": e["name"], "type": e["type"], "class": e.get("class", ""),
             "tier": e.get("tier", ""), "owner": e.get("owner", ""), "parent": e.get("parent", "") if isinstance(e.get("parent"), str) else "", "authority": e["authority"],
@@ -61,6 +66,7 @@ def jd_rows() -> list[dict]:
             "aliases": e.get("aliases", []) if isinstance(e.get("aliases"), list) else [],
             "seq": int(e["seq"]) if str(e.get("seq", "")).isdigit() else None,
             "status": e.get("status", "ACTIVE"), "created": e["created"], "updated": e["updated"],
+            "location": r.get("location", ""), "anchors": r.get("anchors", []), "state": r.get("state", "active"),
         })
     return rows
 
@@ -78,34 +84,25 @@ def q(s) -> str:
 
 
 def emit_sql() -> None:
-    reg_vals = [
-        f"({q(r['jnl'])},{q(r['name'])},{q(r['type'])},{q(r['class'])},{q(r['tier'])},"
-        f"{q(r['owner'])},{q(r['parent'])},{q(r['location'])},{arr(r['tags'])},{arr(r['anchors'])},"
-        f"{q(r['state'])},{q(r['status'])},{q(r['created'])},{q(r['updated'])})"
-        for r in reg_rows()
-    ]
+    # Unification: one table. jnl_registry is a view over jd_entries, so we only emit jd_entries
+    # (with the absorbed location/anchors/state); the view reflects it.
     jd_vals = [
         f"({q(e['jnl'])},{q(e['name'])},{q(e['type'])},{q(e['class'])},{q(e['tier'])},"
         f"{q(e['owner'])},{q(e['parent'])},{q(e['authority'])},{q(e['definition'])},{q(e['purpose'])},"
         f"{q(e['source'])},{arr(e['related'])},{arr(e['cross_refs'])},"
         f"{arr(e['tags'])},{arr(e['ref'])},{arr(e['aliases'])},{e['seq'] if e['seq'] is not None else 'null'},"
-        f"{q(e['status'])},{q(e['created'])},{q(e['updated'])})"
+        f"{q(e['status'])},{q(e['created'])},{q(e['updated'])},"
+        f"{q(e['location'])},{arr(e['anchors'])},{q(e['state'])})"
         for e in jd_rows()
     ]
 
-    print("insert into public.jnl_registry (jnl,name,type,class,tier,owner,parent,location,tags,anchors,state,status,created,updated) values")
-    print(",\n".join(reg_vals))
-    print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,class=excluded.class,"
-          "tier=excluded.tier,owner=excluded.owner,parent=excluded.parent,location=excluded.location,tags=excluded.tags,"
-          "anchors=excluded.anchors,state=excluded.state,status=excluded.status,"
-          "created=excluded.created,updated=excluded.updated,synced_at=now();\n")
-
-    print("insert into public.jd_entries (jnl,name,type,class,tier,owner,parent,authority,definition,purpose,source,related,cross_refs,tags,ref,aliases,seq,status,created,updated) values")
+    print("insert into public.jd_entries (jnl,name,type,class,tier,owner,parent,authority,definition,purpose,source,related,cross_refs,tags,ref,aliases,seq,status,created,updated,location,anchors,state) values")
     print(",\n".join(jd_vals))
     print("on conflict (jnl) do update set name=excluded.name,type=excluded.type,class=excluded.class,"
           "tier=excluded.tier,owner=excluded.owner,parent=excluded.parent,authority=excluded.authority,definition=excluded.definition,"
           "purpose=excluded.purpose,source=excluded.source,related=excluded.related,cross_refs=excluded.cross_refs,"
           "tags=excluded.tags,ref=excluded.ref,aliases=excluded.aliases,seq=excluded.seq,status=excluded.status,"
+          "location=excluded.location,anchors=excluded.anchors,state=excluded.state,"
           "created=excluded.created,updated=excluded.updated,synced_at=now();")
 
 
@@ -171,7 +168,9 @@ def push() -> int:
     }
     candidates = [url] + ([CANONICAL_URL] if url != CANONICAL_URL else [])
     failures: list[str] = []  # "table/jnl: detail" — anything that never landed
-    for table, rows in (("jnl_registry", reg_rows()), ("jd_entries", jd_rows())):
+    # Unification: push the ONE table (jd_entries, with absorbed location/anchors/state). jnl_registry
+    # is a VIEW over it now — upserting a view fails, so it is no longer pushed; the view auto-derives.
+    for table, rows in (("jd_entries", jd_rows()),):
         base = None
         # Pick a reachable base URL with the full-batch upsert (the happy path).
         for cand in candidates:

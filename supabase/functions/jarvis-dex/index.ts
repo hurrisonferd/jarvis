@@ -242,14 +242,12 @@ Deno.serve(async (req) => {
         const status = String(args.status ?? "TASK");
         if (status !== "TASK" && status !== "EXPANSION") return fail("draft status must be TASK or EXPANSION");
         const c = await deriveCandidate(args, status);
-        await db.from("jnl_registry").upsert({
-          jnl: c.jnl, name: c.name, type: c.type, class: c.class, tier: c.tier,
-          owner: c.owner, location: c.source, tags: c.tags, status, created: c.created, updated: c.updated,
-        });
+        // Unification: jd_entries is the ONE table (location/anchors/state absorbed); jnl_registry
+        // is now a view over it, so we write the single store and the view reflects it.
         await db.from("jd_entries").upsert({
           jnl: c.jnl, name: c.name, type: c.type, class: c.class, tier: c.tier, owner: c.owner,
           authority: "DRAFT", definition: c.definition, purpose: c.purpose, source: c.source,
-          related: c.related, tags: c.tags, aliases: c.aliases, status, created: c.created, updated: c.updated,
+          location: c.source, related: c.related, tags: c.tags, aliases: c.aliases, status, created: c.created, updated: c.updated,
         });
         await logEvent("jd_draft", tier, c.jnl, actor, c);
         return json({ ok: true, jnl: c.jnl, status, drafted: true });
@@ -286,14 +284,11 @@ Deno.serve(async (req) => {
         const { data: mx } = await db.from("jd_entries")
           .select("seq").not("seq", "is", null).order("seq", { ascending: false }).limit(1);
         const seq = (mx?.[0]?.seq ?? 0) + 1;
-        await db.from("jnl_registry").upsert({
-          jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier,
-          owner: p.owner, location: p.source, tags: p.tags, status: landed, created: today, updated: today,
-        });
+        // Unification: one table (jd_entries) + jnl_registry as a view over it.
         await db.from("jd_entries").upsert({
           jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier, owner: p.owner,
           authority: "CANON", definition: p.definition, purpose: p.purpose, source: p.source,
-          related: p.related, tags: p.tags, aliases: p.aliases ?? [], status: landed, seq, created: today, updated: today,
+          location: p.source, related: p.related, tags: p.tags, aliases: p.aliases ?? [], status: landed, seq, created: today, updated: today,
         });
         await db.from("jd_proposals").update({
           decision: "approved", decided_by: "raven", decided_at: new Date().toISOString(),
@@ -314,7 +309,7 @@ Deno.serve(async (req) => {
       case "jd_deprecate": {
         const jnl = String(args.jnl ?? "");
         const status = tool === "jd_archive" ? "ARCHIVED" : "DEPRECATED";
-        await db.from("jnl_registry").update({ status, tier: "SIDE" }).eq("jnl", jnl);
+        // Unification: write the one table; the jnl_registry view reflects status/tier.
         await db.from("jd_entries").update({ status, tier: "SIDE" }).eq("jnl", jnl);
         await logEvent(tool, tier, jnl, "raven", { status });
         return json({ ok: true, jnl, status });
