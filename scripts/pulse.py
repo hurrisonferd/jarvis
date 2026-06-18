@@ -116,14 +116,62 @@ def continuity(git_objects: int) -> dict:
     # ACTIVITY — what happened overnight (events in the last 24h).
     since = (datetime.now(timezone.utc) - timedelta(hours=24)).isoformat()
     out["activity"] = {"events_24h": _sb_count(f"dex_events?created_at=gte.{since}")}
+    # GROWTH (v1) — what CHANGED since the last beat, not just whether we stayed the same. The
+    # growth invariant (IMPL-CNT-SPEC): a continuity engine must notice becoming, not only sameness.
+    last = _sb_get("dex_events?select=detail,created_at&tool=eq.continuity_pulse&order=created_at.desc&limit=1")
+    if isinstance(last, list) and last:
+        prev = (last[0] or {}).get("detail") or {}
+        prev_obj = (prev.get("drift") or {}).get("git")
+        d = git_objects - prev_obj if isinstance(prev_obj, int) else None
+        out["growth"] = {"objects_delta": d, "since": str(last[0].get("created_at", ""))[:10],
+                         "note": ("first beat" if d is None else (f"+{d} governed" if d > 0 else (f"{d} governed" if d < 0 else "steady")))}
+    else:
+        out["growth"] = {"note": "first beat"}
+    # CONTRADICTION (v2, detect-only) — duplicate identity: the same name claimed by >1 JNL. Surface
+    # only; resolution is Raven's word (Loki rollback is v2+, not autonomous).
+    try:
+        recs = json.loads(REG.read_text()).get("records", [])
+        from collections import Counter
+        names = Counter((r.get("name") or "").strip().lower() for r in recs if r.get("name"))
+        dupes = sorted(n for n, k in names.items() if k > 1)
+        out["contradiction"] = {"duplicate_names": len(dupes), "examples": dupes[:3]}
+    except Exception:
+        out["contradiction"] = {"duplicate_names": None}
     # OVERALL verdict.
     issues = []
     if drift["verdict"] != "VERIFIED":
         issues.append(drift["verdict"].lower())
     if out["keel"]["verdict"] == "behind":
         issues.append("keel pins behind profiles — re-seed")
+    if out["contradiction"].get("duplicate_names"):
+        issues.append(f"{out['contradiction']['duplicate_names']} duplicate name(s)")
     out["verdict"] = "COHERENT" if not issues else "FLAG: " + "; ".join(issues)
     return out
+
+
+def digest(c: dict, s: dict) -> None:
+    """v1 memory compression: a dated JLTM rollup of the day, written to mnemos. Observe -> record."""
+    if not (SB_URL and SB_KEY) or not c.get("checked"):
+        return
+    day = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    g = c.get("growth", {}).get("note", "")
+    text = (f"Continuity digest {day}: {c.get('verdict')}. "
+            f"{c.get('drift', {}).get('git')} objects ({g}), {s['task_count']} open tasks, "
+            f"{c.get('activity', {}).get('events_24h')} events overnight, keel {c.get('keel', {}).get('verdict')}, "
+            f"contradiction dupes={c.get('contradiction', {}).get('duplicate_names')}.")
+    try:
+        import uuid
+        req = urllib.request.Request(
+            f"{SB_URL}/rest/v1/mnemos_memories",
+            data=json.dumps({"id": str(uuid.uuid4()), "source_id": str(uuid.uuid4()),
+                             "source_type": "continuity_digest", "text": text,
+                             "tags": ["jltm", "digest", "continuity"]}).encode(),
+            headers={"apikey": SB_KEY, "authorization": f"Bearer {SB_KEY}",
+                     "content-type": "application/json", "Prefer": "return=minimal"},
+            method="POST")
+        urllib.request.urlopen(req, timeout=30).close()
+    except Exception:
+        pass
 
 
 def record(c: dict) -> None:
@@ -167,8 +215,10 @@ def compose(s: dict, c: dict) -> tuple[str, str]:
         d = c.get("drift", {})
         age = d.get("mirror_age_h")
         ev = c.get("activity", {}).get("events_24h")
-        cont = ("VERIFIED — " + f"{s['objects']} objects, mirror fresh"
-                + (f" {age}h" if age is not None else "")
+        grew = c.get("growth", {}).get("note", "")
+        cont = ("VERIFIED — " + f"{s['objects']} objects"
+                + (f" ({grew})" if grew and grew not in ("steady", "first beat") else "")
+                + ", mirror fresh" + (f" {age}h" if age is not None else "")
                 + ", keel in sync" + (f", {ev} events overnight" if ev is not None else ""))
     else:
         cont = f"⚠ {v}"
@@ -206,11 +256,12 @@ def send(title: str, body: str) -> str:
 
 def main() -> int:
     s = scan()
-    c = continuity(s["objects"])           # P43 MVP: drift + keel coherence + overnight activity
+    c = continuity(s["objects"])           # drift + keel + activity + growth (v1) + contradiction (v2)
     title, body = compose(s, c)
     print(f"pulse: {title} | {body}")
-    print(f"pulse: continuity = {c.get('verdict', 'skipped')}")
-    record(c)                              # GL5: log the continuity pass to the spine
+    print(f"pulse: continuity = {c.get('verdict', 'skipped')} | growth = {c.get('growth', {}).get('note', '-')}")
+    record(c)                              # GL5: log the continuity pass to the spine (reads PRIOR pass for growth)
+    digest(c, s)                           # v1: dated JLTM rollup of the day
     print(f"pulse: {send(title, body)}")
     return 0
 
