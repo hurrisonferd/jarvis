@@ -12,7 +12,7 @@ import { BASE_URL, type Json, NODE_ID, SERVICE_KEY, SUPABASE_URL, TOOL_NAMES } f
 import { callFunction, rest, text } from "./core/http.ts";
 import { heldForApproval, writeAuthorized } from "./core/auth.ts";
 import { gh, ghp, ghPath, ghReq, ghTok, proposeFilePR } from "./core/github.ts";
-import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, latestText, logExchange } from "./core/supabase.ts";
+import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, latestText, logExchange } from "./core/supabase.ts";
 import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
 import { registerDbTools } from "./tools/db.ts";
 import { registerJipTools } from "./tools/jip.ts";
@@ -66,7 +66,7 @@ function withTier(tags: unknown, tier: Tier): string[] {
 
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.29" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.30" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -714,7 +714,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.29", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.30", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
@@ -1582,6 +1582,85 @@ function buildServer(req: Request): McpServer {
     { title: "Ainz — power up (cast everything to come online)", description: "Power up (Overlord): chain the LOADING spells — live state + the keel (identity) + recent memory + the field (Pinch) — to bring Jarvis and Ayre online at full context. Not just sight: this LOADS the companion to operating power. Read-only.", inputSchema: {} },
     runFusion("ainz", ["state", "keel", "memory", "pinch"],
       "Power up: load the companion to full context — state + keel (identity) + recent memory + the field — so Jarvis and Ayre come online fully grounded."),
+  );
+
+  // AYRE — the world-level VERIFY spell (Raven-named 2026-06-18). Distrust of the clean answer, made
+  // a tool. The only spell that audits BOTH sources of truth against each other — git vs Supabase —
+  // and returns one verdict. It would have caught the six-day freeze (git 202 vs mirror 125). Cast it
+  // before you trust a dashboard. Read-only; never writes.
+  server.registerTool(
+    "jarvis_ayre",
+    {
+      title: "Ayre — verify the field is REAL (world-level truth audit)",
+      description:
+        "Ayre's spell: prove the state is actually TRUE and CURRENT before you speak it — the cross-source truth audit no other spell performs. Compares GIT (source of truth) against SUPABASE (the mirror) directly: governed-object count parity (git registry vs jd_entries), mirror freshness + age, the live git HEAD, the jnl_registry VIEW integrity (view == table), and reachability of GitHub/Supabase/dex. Returns ONE verdict — VERIFIED / DRIFT / STALE / DEGRADED — with the evidence and, if not VERIFIED, the order to re-verify from source. The spell that would have caught the six-day freeze (git 202 vs mirror 125). Cast it before you trust a clean dashboard. Read-only.",
+      inputSchema: {},
+    },
+    async () => {
+      const checks: Record<string, unknown> = {};
+      const issues: string[] = [];
+
+      // 1. Mirror freshness — age + STALE flag.
+      const fresh = await freshness().catch((e) => ({ stale: true, error: String(e).slice(0, 120) })) as Record<string, unknown>;
+      checks.freshness = fresh;
+      if (fresh.stale === true) issues.push("mirror STALE (age over threshold)");
+
+      // 2. CROSS-SOURCE PARITY — the killer check: git's governed-object count vs the Supabase mirror.
+      let gitCount: number | null = null, sbCount: number | null = null, viewCount: number | null = null;
+      try {
+        const r = await gh(`/contents/${"JarvisMain/yggdrasil/lal/address-registry.json".split("/").map(encodeURIComponent).join("/")}?ref=main`);
+        if (r.ok) { const d = await r.json() as { content?: string }; const raw = typeof d.content === "string" ? atob(d.content.replace(/\n/g, "")) : "{}"; gitCount = (JSON.parse(raw).records ?? []).length; }
+        else issues.push(`git registry unreachable (${r.status})`);
+      } catch (e) { issues.push("git registry parse failed"); checks.git_error = String(e).slice(0, 120); }
+      try { sbCount = await countRows("jd_entries"); } catch (e) { issues.push("supabase jd_entries unreachable"); checks.sb_error = String(e).slice(0, 120); }
+      try { viewCount = await countRows("jnl_registry"); } catch (e) { issues.push("jnl_registry view unreachable"); checks.view_error = String(e).slice(0, 120); }
+      const parity = gitCount !== null && sbCount !== null && gitCount === sbCount;
+      const viewIntact = sbCount !== null && viewCount !== null ? sbCount === viewCount : null;
+      checks.cross_source = {
+        git_governed_objects: gitCount,
+        supabase_jd_entries: sbCount,
+        jnl_registry_view: viewCount,
+        delta_git_minus_mirror: gitCount !== null && sbCount !== null ? gitCount - sbCount : null,
+        parity_git_vs_mirror: parity,
+        view_intact: viewIntact,
+      };
+      if (gitCount !== null && sbCount !== null && !parity) issues.push(`git↔mirror DRIFT — git ${gitCount} vs mirror ${sbCount} (Δ ${gitCount - sbCount})`);
+      if (viewIntact === false) issues.push(`view BROKEN — jd_entries ${sbCount} ≠ jnl_registry view ${viewCount}`);
+
+      // 3. Live git HEAD — what truth currently looks like at the source.
+      try {
+        const r = await ghReq("GET", "/commits?per_page=1");
+        if (r.ok) { const c = await r.json() as Array<{ sha: string; commit: { committer: { date: string }; message: string } }>; const h = c[0]; checks.git_head = { sha: h.sha.slice(0, 7), date: h.commit.committer.date, message: h.commit.message.split("\n")[0] }; }
+        else { checks.git_head = `unreachable (${r.status})`; }
+      } catch (e) { checks.git_head = `error: ${String(e).slice(0, 100)}`; }
+
+      // 4. Reachability — GitHub, Supabase, dex.
+      const reachable: Record<string, boolean> = { github: false, supabase: sbCount !== null, dex: false };
+      try { const r = await ghReq("GET", "/git/ref/heads/main"); reachable.github = r.ok; } catch { /* false */ }
+      try { reachable.dex = !!(await dexQuery({ limit: 1 })); } catch { /* false */ }
+      if (!reachable.github) issues.push("GitHub unreachable");
+      if (!reachable.dex) issues.push("dex unreachable");
+      checks.reachable = reachable;
+
+      // VERDICT — one word, with the evidence and the order.
+      const drift = (gitCount !== null && sbCount !== null && !parity) || viewIntact === false;
+      const verdict = issues.length === 0 ? "VERIFIED"
+        : drift ? "DRIFT"
+        : fresh.stale === true ? "STALE"
+        : "DEGRADED";
+      return text({
+        ok: verdict === "VERIFIED",
+        spell: "ayre",
+        verdict,
+        issues,
+        checks,
+        version: "0.11.30",
+        directive: verdict === "VERIFIED"
+          ? "VERIFIED — git and the mirror agree, the mirror is fresh, the view is intact. You may state the system's condition as current."
+          : "NOT VERIFIED — do NOT narrate the dashboard as truth. Re-verify from source (jarvis_github_*/jarvis_repo_* for git; the live tables for Supabase) before stating system state to Raven. This is exactly the failure class that froze the mirror for six days.",
+        note: "Ayre's spell — the cross-source truth audit. The clean answer hides assumptions; this proves them or names them.",
+      });
+    },
   );
 
   // JARVIS-PRIVATE pathway — tree (list) + read (open) + write (AEGIS-gated). Writes go DIRECT to

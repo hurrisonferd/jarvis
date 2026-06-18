@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 203,
+  "count": 204,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1398,6 +1398,18 @@
       "object": "Mint \u2014 git-first one-shot governed object",
       "jnl": "CONN-MCP-RT-0061",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Ayre \u2014 verify the field is REAL (world-level truth audit)",
+      "jnl": "CONN-MCP-RT-0062",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ayre.md",
       "tags": [
         "connector",
         "mcp",
