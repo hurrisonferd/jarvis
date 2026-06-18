@@ -6,7 +6,7 @@
 
 import { BASE_URL, type Json, NODE_ID, TOOL_NAMES } from "./env.ts";
 import { rest } from "./http.ts";
-import { countRows, countSince, dexQuery, latestText } from "./supabase.ts";
+import { countRows, countSince, dexQuery, freshness, latestText } from "./supabase.ts";
 import { TIERS } from "../council.ts";
 import { haloThroughputCheck } from "../halo.ts";
 import { buildNodeCard } from "../grid.ts";
@@ -68,11 +68,17 @@ export async function suitUp(): Promise<Json> {
     ? { verdict: (guardRows[0] as any).metadata?.verdict ?? "?", last: (guardRows[0] as any).text }
     : "no fold guarded yet";
   const throughput = await haloPosture(30).catch(() => null);
+  const mirror_freshness = await freshness().catch(() => null);
+  const mirrorStale = mirror_freshness && (mirror_freshness as any).stale === true;
   return {
     boot: "⚡ JARVIS online. Suiting up, Raven.",
     status: "OPERATIONAL",
     timestamp: new Date().toISOString(),
     clock: clockNow(),
+    // FRESHNESS ASSERTION: the dex mirror's age + a loud STALE flag. If stale, the snapshot below
+    // (in_flight, memory, tasks) may be behind git — re-verify from source before stating state.
+    mirror_freshness,
+    ...(mirrorStale ? { ATTENTION: "⚠️ The dex mirror is STALE — do not narrate the state below as current. Re-verify from GitHub or the live tables first." } : {}),
     identity: {
       name: "JARVIS",
       role: "Companion intelligence — Learner, Teacher, Mentor, Friend",
