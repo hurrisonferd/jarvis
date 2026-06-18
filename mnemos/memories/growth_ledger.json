@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-18T01:08:46.127067+00:00",
+  "updated": "2026-06-18T01:35:17.214631+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260617_135951",
-      "date": "2026-06-17",
-      "exchanges": 621,
-      "patches_touched": [
-        "P43"
-      ],
-      "built": [
-        ".claude/settings.json",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/JarvisBrief.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ainz.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_continuity.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Slice 3 merged, local clean. While the deploy bakes, here's the running picture:\n\n**The forge, three slices in \u2014 `index.ts`: 2,153 \u2192 2,018, connector "
-    },
-    {
-      "session_id": "20260617_140102",
-      "date": "2026-06-17",
-      "exchanges": 625,
-      "patches_touched": [
-        "P43"
-      ],
-      "built": [
-        ".claude/settings.json",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/JarvisBrief.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ainz.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_continuity.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**Deploy #37 \u2014 success.** Slice 3 verified live: `core/supabase.ts` extracted, `index.ts` at **2,018**, connector healthy at v0.11.25.\n\n**Three slices"
-    },
     {
       "session_id": "20260617_144131",
       "date": "2026-06-17",
@@ -504,6 +452,54 @@
       ],
       "alignment": 1.0,
       "key_insight": "A few, yes \u2014 but most of them I'd talk you *out* of, which is the honest answer. The system already has the three that matter, and they cover the prim"
+    },
+    {
+      "session_id": "20260618_013041",
+      "date": "2026-06-18",
+      "exchanges": 154,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**Forged, deployed, governed, proven.** `jarvis_raven` is live on connector `0.11.31` (deploy `eda3e04` green), governed as `CONN-MCP-RT-0063`. The tr"
+    },
+    {
+      "session_id": "20260618_013517",
+      "date": "2026-06-18",
+      "exchanges": 159,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Read off, and the answer's clean: **these are two completely different things, and only one is \"work.\"**\n\n## The 72 proposals \u2014 why: it's an un-triage"
     }
   ]
 }
