@@ -1,60 +1,8 @@
 {
-  "updated": "2026-06-18T01:35:17.214631+00:00",
+  "updated": "2026-06-18T12:27:38.547049+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260617_144131",
-      "date": "2026-06-17",
-      "exchanges": 639,
-      "patches_touched": [
-        "P43"
-      ],
-      "built": [
-        ".claude/settings.json",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/JarvisBrief.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ainz.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_continuity.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "Slice 4 merged, local resetting clean. **The whole `core/` foundation is now lifted** \u2014 env, http, auth, github, supabase, builders. `index.ts` is dow"
-    },
-    {
-      "session_id": "20260617_144238",
-      "date": "2026-06-17",
-      "exchanges": 642,
-      "patches_touched": [
-        "P43"
-      ],
-      "built": [
-        ".claude/settings.json",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/JarvisBrief.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ainz.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_continuity.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "**Deploy #38 \u2014 success.** Slice 4 verified live: `core/builders.ts` extracted, `index.ts` at **1,894**, connector healthy at v0.11.26.\n\n## Forge: the "
-    },
     {
       "session_id": "20260617_151434",
       "date": "2026-06-17",
@@ -500,6 +448,54 @@
       ],
       "alignment": 1.0,
       "key_insight": "Read off, and the answer's clean: **these are two completely different things, and only one is \"work.\"**\n\n## The 72 proposals \u2014 why: it's an un-triage"
+    },
+    {
+      "session_id": "20260618_122712",
+      "date": "2026-06-18",
+      "exchanges": 167,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**VERIFIED.** git 205 = mirror 205 = view 205, fresh, intact \u2014 `0.11.32`. The loop closed live, in front of us: first cast it caught its own blind spo"
+    },
+    {
+      "session_id": "20260618_122738",
+      "date": "2026-06-18",
+      "exchanges": 170,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Hell yeah is right. And here's *why* it's done right, in one line: it **failed honestly before it worked.** A lesser spell would've returned a confide"
     }
   ]
 }
