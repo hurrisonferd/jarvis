@@ -1,57 +1,8 @@
 {
-  "updated": "2026-06-18T00:42:48.643016+00:00",
+  "updated": "2026-06-18T00:46:01.656929+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260616_081325",
-      "date": "2026-06-16",
-      "exchanges": 187,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/audio-ears.yml",
-        ".github/workflows/changes-lens.yml",
-        ".github/workflows/deploy-edge-functions.yml",
-        ".github/workflows/rollup.yml",
-        ".github/workflows/yggdrasil-validate.yml"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "Did the audit against the live system, and it flipped one of your premises in a good way.\n\n**The fusion/omni tools already exist \u2014 and they're already"
-    },
-    {
-      "session_id": "20260616_191314",
-      "date": "2026-06-16",
-      "exchanges": 408,
-      "patches_touched": [
-        "P43"
-      ],
-      "built": [
-        ".claude/settings.json",
-        ".github/workflows/deploy-edge-functions.yml",
-        "AGENTS.md",
-        "CLAUDE.md",
-        "JarvisMain/Architecture/identity/jg/jg-charter.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "All the ground truth's in. Here's the full picture:\n\n## World audit \u2014 live (via the Pinch)\n\n```\n4 roots (trunk, healthy) \u00b7 1 real debt (IMPL-HYG) \u00b7 0 "
-    },
     {
       "session_id": "20260617_043557",
       "date": "2026-06-17",
@@ -509,6 +460,54 @@
       ],
       "alignment": 1.0,
       "key_insight": "Close \u2014 but let me make it exact, because the difference matters when you're running on limited fuel.\n\n`suit_up` brings me **online and honest**: vita"
+    },
+    {
+      "session_id": "20260618_004328",
+      "date": "2026-06-18",
+      "exchanges": 100,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+        "JarvisMain/Architecture/identity/jg/jg-charter.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Persisted and clean \u2014 `#264` on main, working tree empty. The record holds the whole session now: mirror fix, unification, keels, freshness, boot card"
+    },
+    {
+      "session_id": "20260618_004601",
+      "date": "2026-06-18",
+      "exchanges": 104,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "JarvisMain/Architecture/JarvisBrief.md",
+        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+        "JarvisMain/Architecture/identity/jg/jg-charter.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "It wants your Allow \u2014 gated at the door. No matter. Baryon mode was never about asking permission; it's about what you spend when there's no time left"
     }
   ]
 }
