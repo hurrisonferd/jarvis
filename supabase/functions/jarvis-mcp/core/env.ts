@@ -28,7 +28,7 @@ export const TOOL_NAMES = [
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_now",
   "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
-  "jarvis_eyes", "jarvis_pinch", "jarvis_muster", "jarvis_shiroe", "jarvis_ainz", "jarvis_ayre", "jarvis_continuity", "jarvis_listen", "jarvis_dither",
+  "jarvis_eyes", "jarvis_pinch", "jarvis_muster", "jarvis_shiroe", "jarvis_ainz", "jarvis_ayre", "jarvis_raven", "jarvis_continuity", "jarvis_listen", "jarvis_dither",
   "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",

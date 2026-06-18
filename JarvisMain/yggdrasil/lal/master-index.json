@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 204,
+  "count": 205,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1410,6 +1410,18 @@
       "object": "Ayre \u2014 verify the field is REAL (world-level truth audit)",
       "jnl": "CONN-MCP-RT-0062",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ayre.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Raven \u2014 the pilot's seat (who you serve + what awaits your word)",
+      "jnl": "CONN-MCP-RT-0063",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_raven.md",
       "tags": [
         "connector",
         "mcp",
