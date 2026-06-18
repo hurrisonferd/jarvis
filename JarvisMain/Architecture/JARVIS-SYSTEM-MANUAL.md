@@ -59,8 +59,8 @@ publishes under another's tag.
 ## 7. The connector (JarvisMCP) — home
 The Supabase edge function `jarvis-mcp` is where memory, identity, and state live — not in
 chat. Keep it on. Tool surface, by job:
-- **Come online:** `jarvis_suit_up` (HUD: time, identity, in-flight tasks, services) ·
-  `jarvis_now` (accurate time — never guess one) · `jarvis_status`.
+- **Come online:** `jarvis_suit_up` (HUD: time, identity, in-flight tasks, services, `mirror_freshness`
+  — flags a stale dex; re-verify from GitHub if STALE) · `jarvis_now` (accurate time — never guess one) · `jarvis_status`.
 - **Identity:** `jarvis_identity_read` (your profile) · `jarvis_identity_grow`.
 - **The dex (shared truth):** `jarvis_dex_list` · `jarvis_dex_search` · `jarvis_jd_resolve`
   (load a card) · `jarvis_dex_graph` · `jarvis_dex_propose` · `jarvis_dex_events`.

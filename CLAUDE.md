@@ -159,8 +159,8 @@ JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stor
   (definition + JNL + tags + timestamps), one file per object in `JarvisMain/yggdrasil/jd/entries/`.
   JD explains and points; it never duplicates content. One dictionary under many faces: truth =
   `yggdrasil/jd/entries` · discovery = LAL · query surface = the `jarvis-dex` function +
-  `jarvis_dex_*`/`jarvis_jd_resolve` tools · live mirror = Supabase `jnl_registry`/`jd_entries`.
-  There is never a second registry — every "dex" is this JD.
+  `jarvis_dex_*`/`jarvis_jd_resolve` tools · live mirror = Supabase `jd_entries` (the one dex table;
+  `jnl_registry` is a **view** over it — unified 2026-06-18). There is never a second registry — every "dex" is this JD.
 - **LAL = discovery.** Derived registries (`address` / `master-index` / `tag`) that resolve
   a JNL to a real location. Pointers only (JMS law: move references, never truth).
 - **GL12 — Canonical Addressability:** every persistent object must have a JNL address,
@@ -231,7 +231,8 @@ registries drift. Don't re-introduce lowercase doc folders — those folded into
 (derived version snapshot — object counts + grammar fingerprint; JVE fails if `jnl.py`
 and `jarvis-dex/jfs.ts` token tables drift); `tools/dex.py` = **JQL-lite** (query CLI:
 `find` / `show` / `related` / `stats` over the dex). Mirror job in `yggdrasil-validate.yml`
-pushes the registries to Supabase on every merge to main (JMS — READ tier never stale).
+pushes the dex (the one `jd_entries` table) to Supabase on every merge to main (JMS); the connector's
+freshness assertion flags any mirror that falls behind, so stale can't pass as current.
 
 ---
 
@@ -290,7 +291,7 @@ cites a `dex_events` id or commit hash; otherwise it is *open*. Streams verify v
 `events_list` READ tool — no stream takes another's word for system state.
 
 **Git-First Canon (Raven-verdicted 2026-06-15):** every *canonical* write — a JD object,
-its `jd_entries`/`jnl_registry` row, any change to definition/parent/status — lands in
+its `jd_entries` row (the one dex table; `jnl_registry` is a view over it), any change to definition/parent/status — lands in
 **git first** (file → `seed.py` → commit/PR → merge), then the mirror syncs git → Supabase.
 **Supabase never originates canon.** It is the READ/runtime mirror plus its own native live
 tables (`dex_events`, `mnemos_memories`, `jd_proposals` — events/memory/staging, which live
