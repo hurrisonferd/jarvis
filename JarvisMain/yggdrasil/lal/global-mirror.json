@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-18T00:51:49Z",
-    "generated_at_eastern": "2026-06-17 20:51 EDT",
-    "source_commit": "69deb17",
+    "generated_at_utc": "2026-06-18T01:15:11Z",
+    "generated_at_eastern": "2026-06-17 21:15 EDT",
+    "source_commit": "7ffad8b",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 203,
+    "object_count": 204,
     "by_status": {
-      "ACTIVE": 176,
+      "ACTIVE": 177,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
@@ -18,7 +18,7 @@
     "by_domain": {
       "ARCH": 40,
       "AUD": 9,
-      "CONN": 66,
+      "CONN": 67,
       "GOV": 12,
       "GS": 27,
       "IDEA": 4,
@@ -27,7 +27,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 169,
+      "MAIN": 170,
       "SIDE": 34
     }
   },
@@ -3375,6 +3375,22 @@
         "going-away",
         "jarvis-c",
         "ayre-c"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0062",
+      "jid": 205,
+      "jidd": "conn-67",
+      "name": "Ayre — verify the field is REAL (world-level truth audit)",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
       ]
     }
   ]
