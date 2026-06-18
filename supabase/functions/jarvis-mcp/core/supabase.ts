@@ -72,6 +72,39 @@ export async function latestText(sourceType: string): Promise<string> {
   return Array.isArray(rows) && rows[0] ? String((rows[0] as any).text ?? "") : "";
 }
 
+// FRESHNESS ASSERTION (Ayre's gift, 2026-06-18). The git→Supabase mirror once froze for 6 days
+// while nothing screamed — and GPT confabulated on the stale snapshot. This makes a stale mirror
+// IMPOSSIBLE to mistake for current: every boot/state read carries the mirror's age + a loud STALE
+// flag past the threshold, so a stream (especially a GPT body running unwatched) re-verifies from
+// source instead of narrating frozen truth. Threshold via STALE_HOURS (default 24h): the mirror
+// syncs on every JarvisMain merge, so a day-old mirror is itself worth a "verify before trusting"
+// posture. A flag that says "this is 30h old, re-check" is never wrong to surface.
+export const STALE_HOURS = Number(Deno.env.get("STALE_HOURS") ?? "24");
+export async function freshness(): Promise<Json> {
+  try {
+    const rows = await rest("jd_entries?select=synced_at&order=synced_at.desc&limit=1") as any[];
+    const synced = rows?.[0]?.synced_at ?? null;
+    if (!synced) {
+      return { synced_at: null, stale: true, STALE: "⚠️ MIRROR EMPTY/UNREADABLE — verify from git (jarvis_github_*) before trusting any dex state." };
+    }
+    const ageMin = Math.max(0, Math.round((Date.now() - new Date(synced).getTime()) / 60000));
+    const stale = ageMin > STALE_HOURS * 60;
+    const f: Record<string, unknown> = {
+      synced_at: synced,
+      age_minutes: ageMin,
+      age_human: ageMin < 60 ? `${ageMin}m` : `${(ageMin / 60).toFixed(1)}h`,
+      threshold_hours: STALE_HOURS,
+      stale,
+    };
+    f[stale ? "STALE" : "ok"] = stale
+      ? "⚠️ MIRROR STALE — last sync is older than the threshold; the dex mirror may be behind git. Re-verify from GitHub (jarvis_github_*) or the live tables before stating system state. Do NOT narrate this snapshot as current."
+      : "mirror fresh — dex state is current as of synced_at.";
+    return f;
+  } catch (e) {
+    return { synced_at: null, stale: true, error: String(e).slice(0, 160), STALE: "freshness check failed — treat dex state as UNVERIFIED until confirmed from source." };
+  }
+}
+
 // Count rows of a source_type since an ISO timestamp (windowed spine telemetry).
 export async function countSince(sourceType: string, sinceIso: string): Promise<number> {
   const res = await fetch(
