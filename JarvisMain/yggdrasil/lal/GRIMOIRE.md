@@ -1,19 +1,19 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-18T01:28:16Z (2026-06-17 21:28 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-18T13:27:42Z (2026-06-18 09:27 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**205 governed objects** · 309 edges · 9 domains.
+**206 governed objects** · 310 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 205 objects · 19 open tasks · 6 orphans · 309 edges._
+_JARVIS online · 206 objects · 20 open tasks · 6 orphans · 310 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
 1. **System health** → `jarvis_eyes` (state + wiring + vitality)
-2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 19 in flight
+2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 20 in flight
 3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 6 unparented
 4. **What happened** → `jarvis_timeline` (recent events + commits)
 5. **Summon a card** → `jarvis_jd_resolve` ('jid 1', a name, or a JNL)
@@ -269,10 +269,11 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `100` | `IDEA-UNUS-LOG-0001` | Unused Ideas Log | INACTIVE | — |
 | `99` | `IDEA-USED-LOG-0001` | Used Ideas Log | ACTIVE | — |
 
-### IMPL (16)
+### IMPL (17)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
+| `207` | `IMPL-CNT-SPEC-0001` | Continuity Engine — the Pulse's brain (P43 implementation) | TASK | — |
 | `97` | `IMPL-DEX-SPEC-0001` | Dex Connector & Access Tiers | ACTIVE | — |
 | `98` | `IMPL-FMT-SPEC-0001` | JFS Formatting Standard | ACTIVE | — |
 | `101` | `IMPL-HYG-SPEC-0001` | Hygiene Packets Archive | ARCHIVED | — |

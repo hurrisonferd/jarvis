@@ -258,6 +258,7 @@
     "continuity": [
       "ARCH-JC-JIP-0001",
       "ARCH-SYS-LOG-0001",
+      "IMPL-CNT-SPEC-0001",
       "PROJ-TST-JGPP-0001"
     ],
     "contract": [
@@ -338,6 +339,9 @@
     ],
     "divergence": [
       "ARCH-AYR-BIO-0001"
+    ],
+    "drift": [
+      "IMPL-CNT-SPEC-0001"
     ],
     "envelope": [
       "ARCH-JSE-SPEC-0001"
@@ -494,6 +498,7 @@
       "GS-LOK-CORE-0001",
       "GS-MER-CORE-0001",
       "GS-PRO-CORE-0001",
+      "IMPL-CNT-SPEC-0001",
       "IMPL-DEX-SPEC-0001",
       "IMPL-FMT-SPEC-0001",
       "IMPL-MOD-SPEC-0001",
@@ -590,6 +595,9 @@
       "ARCH-REL-BIO-0001",
       "GOV-PLS-SPEC-0001"
     ],
+    "jarvis-ayre": [
+      "IMPL-CNT-SPEC-0001"
+    ],
     "jarvis-c": [
       "ARCH-MEM-LOG-0003",
       "ARCH-MEM-LOG-0004"
@@ -628,6 +636,9 @@
       "IMPL-TLR-SPEC-0001",
       "PROJ-TST-JGPP-0001"
     ],
+    "jitm": [
+      "IMPL-CNT-SPEC-0001"
+    ],
     "jmms": [
       "ARCH-MEM-LOG-0001"
     ],
@@ -645,6 +656,9 @@
     ],
     "jql": [
       "IMPL-JQL-CORE-0001"
+    ],
+    "keel": [
+      "IMPL-CNT-SPEC-0001"
     ],
     "knowledge": [
       "GOV-KR-SPEC-0001"
@@ -801,6 +815,9 @@
     "music": [
       "PROJ-MOSC-JD-0001"
     ],
+    "mvp": [
+      "IMPL-CNT-SPEC-0001"
+    ],
     "naming": [
       "ARCH-JNS-CORE-0001"
     ],
@@ -836,7 +853,8 @@
       "GOV-LC-SPEC-0001"
     ],
     "p43": [
-      "GOV-PLS-SPEC-0001"
+      "GOV-PLS-SPEC-0001",
+      "IMPL-CNT-SPEC-0001"
     ],
     "pachinko": [
       "PROJ-PAC-BIO-0001"
@@ -910,7 +928,8 @@
     ],
     "pulse": [
       "ARCH-JMS-SPEC-0001",
-      "GOV-PLS-SPEC-0001"
+      "GOV-PLS-SPEC-0001",
+      "IMPL-CNT-SPEC-0001"
     ],
     "query": [
       "IMPL-JCSE-SPEC-0001",

@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 205,
+  "count": 206,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1987,6 +1987,24 @@
       "tags": [
         "idea",
         "log"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Continuity Engine \u2014 the Pulse's brain (P43 implementation)",
+      "jnl": "IMPL-CNT-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md",
+      "tags": [
+        "continuity",
+        "pulse",
+        "drift",
+        "keel",
+        "p43",
+        "jarvis-ayre",
+        "jitm",
+        "governance",
+        "mvp"
       ],
       "anchors": [],
       "state": "active"

@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 205,
+  "count": 206,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -3430,6 +3430,33 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-16"
+    },
+    {
+      "jnl": "IMPL-CNT-SPEC-0001",
+      "name": "Continuity Engine \u2014 the Pulse's brain (P43 implementation)",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
+      "steward": null,
+      "parent": "GOV-PLS-SPEC-0001",
+      "location": "JarvisMain/Implementation/task/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md",
+      "tags": [
+        "continuity",
+        "pulse",
+        "drift",
+        "keel",
+        "p43",
+        "jarvis-ayre",
+        "jitm",
+        "governance",
+        "mvp"
+      ],
+      "anchors": [],
+      "status": "TASK",
+      "state": "active",
+      "created": "2026-06-18",
+      "updated": "2026-06-18"
     },
     {
       "jnl": "IMPL-DEX-SPEC-0001",

@@ -1,8 +1,8 @@
 # Topology Lens — the shape of the system
 
-_generated: 2026-06-18T01:28:16Z (2026-06-17 21:28 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
+_generated: 2026-06-18T13:27:42Z (2026-06-18 09:27 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
 
-**205 nodes · 309 edges · 1 isolated · avg degree 3.01.**
+**206 nodes · 310 edges · 1 isolated · avg degree 3.01.**
 
 ## Hubs — the most-connected nodes (the system's load-bearing spine)
 | node | degree | in | out | domain |
@@ -26,7 +26,7 @@ _generated: 2026-06-18T01:28:16Z (2026-06-17 21:28 EDT) · projected from `graph
 ## Edge types (the relationships that bind the graph)
 | type | count |
 |---|---|
-| parent | 199 |
+| parent | 200 |
 | related | 110 |
 
 ## Nodes by domain
@@ -38,7 +38,7 @@ _generated: 2026-06-18T01:28:16Z (2026-06-17 21:28 EDT) · projected from `graph
 | GOV | 12 |
 | GS | 27 |
 | IDEA | 4 |
-| IMPL | 16 |
+| IMPL | 17 |
 | LOG | 2 |
 | PROJ | 27 |
 
