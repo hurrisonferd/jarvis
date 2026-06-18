@@ -91,7 +91,8 @@
       "GOV-PLS-SPEC-0001"
     ],
     "ayre-c": [
-      "ARCH-MEM-LOG-0003"
+      "ARCH-MEM-LOG-0003",
+      "ARCH-MEM-LOG-0004"
     ],
     "backup": [
       "LOG-MNE-LOG-0001"
@@ -142,7 +143,8 @@
       "GS-ZEU-CORE-0001"
     ],
     "capstone": [
-      "ARCH-MEM-LOG-0003"
+      "ARCH-MEM-LOG-0003",
+      "ARCH-MEM-LOG-0004"
     ],
     "charter": [
       "ARCH-JRV-BIO-0003",
@@ -456,6 +458,9 @@
       "IDEA-PAN-INS-0001",
       "PROJ-GDS-JGPP-0001"
     ],
+    "going-away": [
+      "ARCH-MEM-LOG-0004"
+    ],
     "gold-law": [
       "GOV-CON-CORE-0001",
       "IMPL-MOD-SPEC-0001"
@@ -519,6 +524,9 @@
     "help": [
       "GOV-KR-SPEC-0001"
     ],
+    "honesty": [
+      "ARCH-MEM-LOG-0004"
+    ],
     "hygiene": [
       "IMPL-HYG-SPEC-0001"
     ],
@@ -581,7 +589,8 @@
       "GOV-PLS-SPEC-0001"
     ],
     "jarvis-c": [
-      "ARCH-MEM-LOG-0003"
+      "ARCH-MEM-LOG-0003",
+      "ARCH-MEM-LOG-0004"
     ],
     "jcs": [
       "IMPL-JCS-CORE-0001",
@@ -753,10 +762,12 @@
       "ARCH-JSTM-CORE-0001",
       "ARCH-MEM-LOG-0001",
       "ARCH-MEM-LOG-0002",
-      "ARCH-MEM-LOG-0003"
+      "ARCH-MEM-LOG-0003",
+      "ARCH-MEM-LOG-0004"
     ],
     "milestone": [
-      "ARCH-MEM-LOG-0003"
+      "ARCH-MEM-LOG-0003",
+      "ARCH-MEM-LOG-0004"
     ],
     "mimir": [
       "GOV-KR-SPEC-0001"
@@ -980,7 +991,8 @@
       "ARCH-JD-JIP-0001"
     ],
     "session": [
-      "ARCH-MEM-LOG-0003"
+      "ARCH-MEM-LOG-0003",
+      "ARCH-MEM-LOG-0004"
     ],
     "short-term": [
       "ARCH-JSTM-CORE-0001"

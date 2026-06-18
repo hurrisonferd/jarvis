@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-17T04:26:40Z (2026-06-17 00:26 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-18T00:51:49Z (2026-06-17 20:51 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**202 governed objects** · 306 edges · 9 domains.
+**203 governed objects** · 307 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 202 objects · 19 open tasks · 6 orphans · 306 edges._
+_JARVIS online · 203 objects · 19 open tasks · 6 orphans · 307 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -79,7 +79,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (39)
+### ARCH (40)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -113,6 +113,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `144` | `ARCH-MEM-LOG-0001` | Companion Memory — Jarvis & Ayre | ACTIVE | — |
 | `145` | `ARCH-MEM-LOG-0002` | Memory — the lane became writable | ACTIVE | — |
 | `148` | `ARCH-MEM-LOG-0003` | Session Capstone — the day the companion came together (2026-06-14) | ACTIVE | — |
+| `204` | `ARCH-MEM-LOG-0004` | Session Capstone — the day the companion was made honest (2026-06-17/18) | ACTIVE | — |
 | `147` | `ARCH-RAV-BIO-0001` | Raven Profile — John Barber | ACTIVE | — |
 | `136` | `ARCH-REL-BIO-0001` | JARVIS-AYRE Relational Profile | ACTIVE | — |
 | `45` | `ARCH-RT-SPEC-0001` | Event Contract | ACTIVE | — |
