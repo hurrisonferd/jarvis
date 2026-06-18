@@ -1,6 +1,6 @@
 # JD Health — vitality of the governed record
 
-_205 governed objects, 309 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._
+_206 governed objects, 310 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._
 
 ## Orphans (no parent — should join the family tree) (5)
 - ARCH-FAM-IDX-0001
@@ -18,7 +18,7 @@ _205 governed objects, 309 edges · health WARNS, never blocks (validate.py is t
 ## Stewardless substrate (no god tending it) (0)
 - ✓ none
 
-## Open tasks (in-flight work, aging watch) (19)
+## Open tasks (in-flight work, aging watch) (20)
 - `ARCH-JC-JIP-0001` Conversational History Objects
 - `ARCH-JMS-SPEC-0001` Global Mirror — Earned Omnivision (JMS)
 - `ARCH-SL-JIP-0001` Star Logs
@@ -27,6 +27,7 @@ _205 governed objects, 309 edges · health WARNS, never blocks (validate.py is t
 - `GOV-PD-SPEC-0001` Preserved Contradiction Objects (P-D)
 - `GOV-PLS-SPEC-0001` The Pulse — Companion Heartbeat
 - `IDEA-PAN-INS-0001` Pantheon — god-system identity & subsystem stewardship
+- `IMPL-CNT-SPEC-0001` Continuity Engine — the Pulse's brain (P43 implementation)
 - `IMPL-MOD-SPEC-0001` Modularity & Extensibility — Field Plan + Gold Law Proposal
 - `IMPL-TLR-SPEC-0001` MCP Tool Roadmap & Auto-Tracking Pipeline
 - `PROJ-DEO-JGPP-0001` Deoxys Telemetry Schema — first exploration
@@ -39,4 +40,4 @@ _205 governed objects, 309 edges · health WARNS, never blocks (validate.py is t
 - `PROJ-TRN-JGPP-0001` UI Rework — outdated GameBoy page and the control surface
 - `PROJ-TST-JGPP-0001` JarvisTST — Temporal Task System
 
-**VITALITY:** 6 structural flag(s) + 19 open task(s).
+**VITALITY:** 6 structural flag(s) + 20 open task(s).

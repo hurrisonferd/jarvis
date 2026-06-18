@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 205,
-    "edges": 309,
-    "main": 172,
+    "nodes": 206,
+    "edges": 310,
+    "main": 173,
     "side": 33
   },
   "nodes": [
@@ -1446,6 +1446,15 @@
       "tier": "SIDE",
       "status": "ACTIVE",
       "owner": "Used Ideas Log"
+    },
+    {
+      "id": "IMPL-CNT-SPEC-0001",
+      "name": "Continuity Engine \u2014 the Pulse's brain (P43 implementation)",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "TASK",
+      "owner": "JCS Pipeline"
     },
     {
       "id": "IMPL-DEX-SPEC-0001",
@@ -3042,6 +3051,11 @@
     {
       "source": "IDEA-USED-LOG-0001",
       "target": "IDEA-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-CNT-SPEC-0001",
+      "target": "GOV-PLS-SPEC-0001",
       "type": "parent"
     },
     {
