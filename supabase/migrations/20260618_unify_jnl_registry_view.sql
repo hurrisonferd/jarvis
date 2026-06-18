@@ -12,8 +12,9 @@
 -- (drop view/table guards both directions).
 
 alter table public.jd_entries drop constraint if exists jd_entries_jnl_fkey;
-drop view  if exists public.jnl_registry;
-drop table if exists public.jnl_registry;
+-- jnl_registry is a real TABLE at apply time, so drop it as a table (drop view errors 42809
+-- on a table). cascade clears the FK already dropped above; harmless if none remain.
+drop table if exists public.jnl_registry cascade;
 
 create view public.jnl_registry as
   select jnl, name, type, class, tier, owner, parent, location,
