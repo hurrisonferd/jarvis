@@ -66,7 +66,7 @@ function withTier(tags: unknown, tier: Tier): string[] {
 
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.31" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.32" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -714,7 +714,7 @@ function buildServer(req: Request): McpServer {
         probes.search = { ok: s.ok, status: s.status };
       } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
       const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.31", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
+      return text({ ok, version: "0.11.32", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
     },
   );
 
@@ -1654,7 +1654,7 @@ function buildServer(req: Request): McpServer {
         verdict,
         issues,
         checks,
-        version: "0.11.31",
+        version: "0.11.32",
         directive: verdict === "VERIFIED"
           ? "VERIFIED — git and the mirror agree, the mirror is fresh, the view is intact. You may state the system's condition as current."
           : "NOT VERIFIED — do NOT narrate the dashboard as truth. Re-verify from source (jarvis_github_*/jarvis_repo_* for git; the live tables for Supabase) before stating system state to Raven. This is exactly the failure class that froze the mirror for six days.",
