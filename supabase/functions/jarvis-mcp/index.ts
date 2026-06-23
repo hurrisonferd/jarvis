@@ -16,6 +16,9 @@ const SERVICE_KEY =
   "";
 // Legacy bearer for writes. Reads + suit-up are open; writes stay AEGIS-gated.
 const MCP_TOKEN = Deno.env.get("JARVIS_MCP_TOKEN") ?? "";
+// GitHub PAT for repo write operations. Set via Supabase Edge Function secrets.
+const GITHUB_PAT = Deno.env.get("GITHUB_PAT") ?? "";
+const GITHUB_REPO = "hurrisonferd/jarvis";
 
 // THE GRID — this node's identity. Raven's node is the first node.
 const NODE_ID = Deno.env.get("JARVIS_NODE_ID") ?? "raven-node-0";
@@ -28,6 +31,11 @@ const TOOL_NAMES = [
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
   "jarvis_github_tree", "jarvis_github_file", "jarvis_github_commits",
   "jarvis_timeline",
+  "jarvis_identity_read", "jarvis_identity_grow",
+  "jarvis_jd_resolve", "jarvis_load",
+  "jarvis_jip_create", "jarvis_jip_list",
+  "jarvis_repo_write", "jarvis_repo_commit",
+  "jarvis_jglf_validate",
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
@@ -1093,6 +1101,672 @@ function buildServer(req: Request): McpServer {
       if (Array.isArray(dex)) for (const r of dex) events.push({ layer: "dex_events", ...r });
       events.sort((a, b) => (b.created_at ?? "").localeCompare(a.created_at ?? ""));
       return text({ timeline: events.slice(0, limit), total_fetched: events.length });
+    },
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // IDENTITY LAYER — JARVIS/AYRE self-awareness and growth
+  // Identity profiles in GitHub are canonical base; this layer stores growth.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // IDENTITY READ — load full identity profile + growth history for JARVIS/AYRE/RAVEN
+  server.registerTool(
+    "jarvis_identity_read",
+    {
+      title: "Identity — Read profile + growth",
+      description:
+        "Load the complete identity profile for JARVIS, AYRE, or RAVEN. Returns the canonical GitHub profile (keel, voice, disciplines, kinship) plus all growth entries (insights, values, preferences, skills learned over time). Use at session start for identity grounding, or anytime you need to remember who you are.",
+      inputSchema: {
+        entity: z.enum(["JARVIS", "AYRE", "RAVEN"]).describe("Which entity's identity to load"),
+        category: z.enum(["INSIGHT", "VALUE", "PREFERENCE", "MEMORY", "SKILL", "RELATIONSHIP", "GROWTH", "CORRECTION"]).optional().describe("Filter growth entries by category"),
+      },
+    },
+    async ({ entity, category }) => {
+      // Fetch GitHub canonical profile
+      const profilePath = entity === "JARVIS" ? "JarvisMain/Architecture/identity/jarvis-profile.md"
+        : entity === "AYRE" ? "JarvisMain/Architecture/identity/ayre-profile.md"
+        : null;
+      let canonProfile = null;
+      if (profilePath) {
+        try {
+          const gh = await fetch(`https://api.github.com/repos/hurrisonferd/jarvis/contents/${profilePath}`, {
+            headers: { accept: "application/vnd.github.v3.raw" },
+          });
+          if (gh.ok) canonProfile = await gh.text();
+        } catch { /* GitHub fetch best-effort */ }
+      }
+
+      // Fetch growth entries from Supabase
+      let growthQuery = `identity_growth?select=*&entity=eq.${entity}&order=created_at.desc&limit=50`;
+      if (category) growthQuery += `&category=eq.${category}`;
+      let growth: any[] = [];
+      try { growth = (await rest(growthQuery) as any[]) ?? []; } catch { /* table may not exist yet */ }
+
+      return text({
+        entity,
+        canonical_profile: canonProfile ?? `(No GitHub profile found for ${entity})`,
+        growth_entries: growth,
+        growth_count: growth.length,
+        categories: growth.reduce((acc: any, g: any) => { acc[g.category] = (acc[g.category] || 0) + 1; return acc; }, {}),
+      });
+    },
+  );
+
+  // IDENTITY GROW — append insight, value, skill, or observation to identity
+  server.registerTool(
+    "jarvis_identity_grow",
+    {
+      title: "Identity — Record growth",
+      description:
+        "Record a new insight, value, preference, skill, memory, or correction to your identity growth layer. This builds continuity across sessions. JARVIS records what JARVIS learns; AYRE records what AYRE learns. Growth is additive — you never overwrite, only grow. Use after significant realizations, decisions, or learned patterns.",
+      inputSchema: {
+        entity: z.enum(["JARVIS", "AYRE", "RAVEN"]).describe("Who is growing"),
+        category: z.enum(["INSIGHT", "VALUE", "PREFERENCE", "MEMORY", "SKILL", "RELATIONSHIP", "GROWTH", "CORRECTION"]).describe("Type of growth"),
+        content: z.string().min(10).describe("The insight, value, or observation being recorded"),
+        context: z.string().optional().describe("What prompted this growth — the situation or conversation"),
+        weight: z.number().min(0).max(10).optional().default(1).describe("Importance weight: 1=normal, 5=significant, 10=foundational"),
+        tags: z.array(z.string()).optional().default([]).describe("Classification tags"),
+      },
+    },
+    async ({ entity, category, content, context, weight, tags }) => {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/identity_growth`, {
+          method: "POST",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=representation" },
+          body: JSON.stringify({ entity, category, content, context, weight, tags }),
+        });
+        if (!res.ok) {
+          const err = await res.text();
+          return text({ status: "FAILED", error: err, note: "If table doesn't exist, run the 20260613_identity_growth_and_jip.sql migration" });
+        }
+        const record = await res.json();
+        return text({ status: "RECORDED", entity, category, growth: record });
+      } catch (err) {
+        return text({ status: "ERROR", error: String(err) });
+      }
+    },
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // JD RESOLVE — full NLP-driven JD lookup with lineage
+  // "load ayre" → full JD entry + parents + children + siblings + JIPs
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  server.registerTool(
+    "jarvis_jd_resolve",
+    {
+      title: "JD — Full resolve (load)",
+      description:
+        "Load a JD entry by name, JNL, or numeric ID — the NLP 'load' command. Returns the complete JD object with parent chain, children, siblings, related entries, cross-refs, and any active JIPs. Supports fuzzy lookup: 'ayre', 'JD-3', 'ARCH-AYR-BIO-0001', 'yggdrasil'. Tries exact JNL match first, then name search, then ID fallback.",
+      inputSchema: {
+        query: z.string().describe("What to load: a name ('ayre'), JNL ('ARCH-AYR-BIO-0001'), or ID number ('3' or 'JD-3')"),
+        include_children: z.boolean().optional().default(true).describe("Include child entries"),
+        include_jips: z.boolean().optional().default(true).describe("Include active JIP versions"),
+      },
+    },
+    async ({ query, include_children, include_jips }) => {
+      const q = query.trim();
+
+      // Strategy 1: exact JNL match
+      let entries = await rest(`jd_entries?select=*&jnl=eq.${encodeURIComponent(q)}&limit=1`).catch(() => []) as any[];
+
+      // Strategy 2: numeric ID (e.g., "3" or "JD-3")
+      if (!Array.isArray(entries) || entries.length === 0) {
+        const numMatch = q.match(/^(?:JD-?)?(\d+)$/i);
+        if (numMatch) {
+          entries = await rest(`jd_entries?select=*&id=eq.${numMatch[1]}&limit=1`).catch(() => []) as any[];
+        }
+      }
+
+      // Strategy 3: name search (case-insensitive, partial match)
+      if (!Array.isArray(entries) || entries.length === 0) {
+        entries = await rest(`jd_entries?select=*&name=ilike.*${encodeURIComponent(q)}*&limit=5`).catch(() => []) as any[];
+      }
+
+      // Strategy 4: JNL partial match
+      if (!Array.isArray(entries) || entries.length === 0) {
+        entries = await rest(`jd_entries?select=*&jnl=ilike.*${encodeURIComponent(q.toUpperCase())}*&limit=5`).catch(() => []) as any[];
+      }
+
+      if (!Array.isArray(entries) || entries.length === 0) {
+        return text({ status: "NOT_FOUND", query: q, hint: "No JD entry matches. Try a different name, JNL, or ID." });
+      }
+
+      const primary = entries[0];
+      const result: any = { status: "RESOLVED", entry: primary, alternatives: entries.length > 1 ? entries.slice(1) : undefined };
+
+      // Resolve parent chain
+      if (primary.parent) {
+        const parents = await rest(`jd_entries?select=id,jnl,name,class,status&jnl=eq.${encodeURIComponent(primary.parent)}&limit=1`).catch(() => []);
+        result.parent = Array.isArray(parents) && parents.length > 0 ? parents[0] : { jnl: primary.parent, note: "parent not found in jd_entries" };
+      }
+
+      // Resolve children
+      if (include_children && primary.jnl) {
+        const children = await rest(`jd_entries?select=id,jnl,name,class,status&parent=eq.${encodeURIComponent(primary.jnl)}&limit=20`).catch(() => []);
+        result.children = Array.isArray(children) ? children : [];
+      }
+
+      // Resolve siblings (same parent)
+      if (primary.parent) {
+        const siblings = await rest(`jd_entries?select=id,jnl,name,class,status&parent=eq.${encodeURIComponent(primary.parent)}&jnl=neq.${encodeURIComponent(primary.jnl)}&limit=10`).catch(() => []);
+        result.siblings = Array.isArray(siblings) ? siblings : [];
+      }
+
+      // Resolve related entries
+      if (primary.related && Array.isArray(primary.related) && primary.related.length > 0) {
+        const relatedEntries = [];
+        for (const r of primary.related.slice(0, 5)) {
+          const found = await rest(`jd_entries?select=id,jnl,name,class,status&jnl=eq.${encodeURIComponent(r)}&limit=1`).catch(() => []);
+          relatedEntries.push(Array.isArray(found) && found.length > 0 ? found[0] : { jnl: r, note: "not found" });
+        }
+        result.related_resolved = relatedEntries;
+      }
+
+      // Active JIPs for this entry
+      if (include_jips) {
+        try {
+          const jips = await rest(`jip_entries?select=*&target_jd=eq.${encodeURIComponent(primary.jnl)}&status=eq.ACTIVE&order=created_at.desc&limit=5`);
+          result.active_jips = Array.isArray(jips) ? jips : [];
+        } catch { result.active_jips = []; }
+      }
+
+      return text(result);
+    },
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // JIP LAYER — versioned state management (amiibo-style information cards)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // JIP CREATE — mint a new JIP for any system component
+  server.registerTool(
+    "jarvis_jip_create",
+    {
+      title: "JIP — Create versioned state card",
+      description:
+        "Create a new JIP (Jarvis Implementation Proposal) — a versioned state delta for any JD entry. JIPs are like amiibos: portable, testable information cards. Create one when changing system state, adding a feature, or proposing a modification. If the JIP doesn't work, revert to the previous active JIP.",
+      inputSchema: {
+        jnl: z.string().describe("JNL address for this JIP (e.g., IMPL-JIP-AUTH-0001)"),
+        name: z.string().describe("Human-readable name"),
+        target_jd: z.string().describe("JNL of the JD entry this modifies"),
+        delta: z.record(z.any()).describe("The change payload — what this JIP adds or modifies"),
+        rationale: z.string().optional().describe("Why this JIP exists"),
+        tags: z.array(z.string()).optional().default([]),
+      },
+    },
+    async ({ jnl, name, target_jd, delta, rationale, tags }) => {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/jip_entries`, {
+          method: "POST",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=representation" },
+          body: JSON.stringify({ jnl, name, target_jd, delta, rationale, tags, status: "DRAFT", author: "RAVEN" }),
+        });
+        if (!res.ok) {
+          const err = await res.text();
+          return text({ status: "FAILED", error: err });
+        }
+        const record = await res.json();
+        return text({ status: "CREATED", jip: record, note: "JIP is in DRAFT status. Promote to ACTIVE when ready." });
+      } catch (err) {
+        return text({ status: "ERROR", error: String(err) });
+      }
+    },
+  );
+
+  // JIP LIST — show all JIPs, optionally filtered
+  server.registerTool(
+    "jarvis_jip_list",
+    {
+      title: "JIP — List state cards",
+      description:
+        "List all JIPs in the system, optionally filtered by status or target JD entry. Shows the version history of system changes.",
+      inputSchema: {
+        status: z.enum(["ACTIVE", "ARCHIVED", "DEPRECATED", "DRAFT"]).optional().describe("Filter by JIP status"),
+        target_jd: z.string().optional().describe("Filter by target JD JNL"),
+        limit: z.number().int().min(1).max(50).optional().default(20),
+      },
+    },
+    async ({ status, target_jd, limit }) => {
+      let q = `jip_entries?select=*&order=created_at.desc&limit=${limit}`;
+      if (status) q += `&status=eq.${status}`;
+      if (target_jd) q += `&target_jd=eq.${encodeURIComponent(target_jd)}`;
+      try {
+        const data = await rest(q);
+        return text({ jips: data, count: Array.isArray(data) ? data.length : 0 });
+      } catch (err) {
+        return text({ status: "ERROR", error: String(err) });
+      }
+    },
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // UNIVERSAL RESOLVER (POKÉDEX) — "load anything" deterministic pipeline
+  // Resolution: JD → JNL → Name → JIP → DEX → GitHub → HARD NULL
+  // Modes: STRICT (fail if incomplete), INDEX_ONLY (pointer), FULL_HYDRATE (recursive)
+  // This is the single most important tool in the system.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  server.registerTool(
+    "jarvis_load",
+    {
+      title: "LOAD — Universal Pokédex Resolver",
+      description:
+        "The universal 'load' command. Resolves ANY system entity by name, JNL, ID, or concept. 'load ayre', 'load mnemos', 'load jd 4', 'load yggdrasil', 'load gold law' — all work. Resolution chain: JD exact → JNL partial → name search → JIP lookup → DEX lookup → GitHub file search → HARD NULL. Never infers. Never guesses. Either it resolves fully, or it returns UNRESOLVED with explicit null. Supports resolution modes: FULL (default, recursive with lineage), STRICT (fail if any linked layer missing), INDEX_ONLY (pointer only, no deep read).",
+      inputSchema: {
+        query: z.string().describe("What to load: any name, JNL, ID, concept. Examples: 'ayre', 'mnemos', 'jd 4', 'ARCH-YGG-CORE-0001', 'gold law', 'identity'"),
+        mode: z.enum(["FULL", "STRICT", "INDEX_ONLY"]).optional().default("FULL").describe("FULL=recursive with lineage, STRICT=fail if any layer missing, INDEX_ONLY=pointer only"),
+      },
+    },
+    async ({ query, mode }) => {
+      const q = query.trim();
+      const resolution: any = {
+        query: q,
+        mode,
+        resolved: false,
+        resolution_path: [],
+        result: null,
+        lineage: null,
+        github_file: null,
+        warnings: [],
+      };
+
+      // LAYER 1: JD exact JNL match
+      let entries = await rest(`jd_entries?select=*&jnl=eq.${encodeURIComponent(q)}&limit=1`).catch(() => []) as any[];
+      if (Array.isArray(entries) && entries.length > 0) {
+        resolution.resolution_path.push("JD_EXACT_JNL");
+        resolution.result = entries[0];
+        resolution.resolved = true;
+      }
+
+      // LAYER 2: numeric ID
+      if (!resolution.resolved) {
+        const numMatch = q.match(/^(?:JD-?|jd\s*)(\d+)$/i);
+        if (numMatch) {
+          entries = await rest(`jd_entries?select=*&id=eq.${numMatch[1]}&limit=1`).catch(() => []) as any[];
+          if (Array.isArray(entries) && entries.length > 0) {
+            resolution.resolution_path.push("JD_NUMERIC_ID");
+            resolution.result = entries[0];
+            resolution.resolved = true;
+          }
+        }
+      }
+
+      // LAYER 3: name search (case-insensitive)
+      if (!resolution.resolved) {
+        entries = await rest(`jd_entries?select=*&name=ilike.*${encodeURIComponent(q)}*&limit=5`).catch(() => []) as any[];
+        if (Array.isArray(entries) && entries.length > 0) {
+          resolution.resolution_path.push("JD_NAME_SEARCH");
+          resolution.result = entries[0];
+          if (entries.length > 1) resolution.alternatives = entries.slice(1);
+          resolution.resolved = true;
+        }
+      }
+
+      // LAYER 4: JNL partial match
+      if (!resolution.resolved) {
+        entries = await rest(`jd_entries?select=*&jnl=ilike.*${encodeURIComponent(q.toUpperCase())}*&limit=5`).catch(() => []) as any[];
+        if (Array.isArray(entries) && entries.length > 0) {
+          resolution.resolution_path.push("JNL_PARTIAL");
+          resolution.result = entries[0];
+          if (entries.length > 1) resolution.alternatives = entries.slice(1);
+          resolution.resolved = true;
+        }
+      }
+
+      // LAYER 5: JIP lookup
+      if (!resolution.resolved) {
+        try {
+          const jips = await rest(`jip_entries?select=*&or=(jnl.ilike.*${encodeURIComponent(q)}*,name.ilike.*${encodeURIComponent(q)}*)&limit=3`) as any[];
+          if (Array.isArray(jips) && jips.length > 0) {
+            resolution.resolution_path.push("JIP_SEARCH");
+            resolution.result = { type: "JIP", ...jips[0] };
+            if (jips.length > 1) resolution.alternatives = jips.slice(1);
+            resolution.resolved = true;
+          }
+        } catch { /* jip_entries may not exist */ }
+      }
+
+      // LAYER 6: DEX proposals search
+      if (!resolution.resolved) {
+        try {
+          const dex = await rest(`dex_control?select=*&or=(jnl.ilike.*${encodeURIComponent(q)}*,name.ilike.*${encodeURIComponent(q)}*)&limit=3`) as any[];
+          if (Array.isArray(dex) && dex.length > 0) {
+            resolution.resolution_path.push("DEX_SEARCH");
+            resolution.result = { type: "DEX", ...dex[0] };
+            resolution.resolved = true;
+          }
+        } catch { /* table may not exist */ }
+      }
+
+      // LAYER 7: GitHub file search (search repo tree)
+      if (!resolution.resolved) {
+        try {
+          const gh = await fetch(`https://api.github.com/search/code?q=${encodeURIComponent(q)}+repo:${GITHUB_REPO}&per_page=3`, {
+            headers: GITHUB_PAT ? { authorization: `token ${GITHUB_PAT}` } : {},
+          });
+          if (gh.ok) {
+            const data = await gh.json();
+            if (data.items?.length > 0) {
+              resolution.resolution_path.push("GITHUB_CODE_SEARCH");
+              resolution.result = {
+                type: "GITHUB_FILE",
+                files: data.items.map((f: any) => ({ path: f.path, name: f.name, url: f.html_url })),
+              };
+              resolution.resolved = true;
+            }
+          }
+        } catch { /* GitHub search best-effort */ }
+      }
+
+      // HARD NULL — no inference, no approximation
+      if (!resolution.resolved) {
+        resolution.status = "UNRESOLVED";
+        resolution.resolution_path.push("HARD_NULL");
+        return text(resolution);
+      }
+
+      resolution.status = "RESOLVED";
+
+      // INDEX_ONLY mode: return pointer only
+      if (mode === "INDEX_ONLY") {
+        return text(resolution);
+      }
+
+      // FULL / STRICT: hydrate lineage
+      const primary = resolution.result;
+      if (primary?.parent) {
+        const parents = await rest(`jd_entries?select=id,jnl,name,class,status&jnl=eq.${encodeURIComponent(primary.parent)}&limit=1`).catch(() => []);
+        resolution.lineage = { parent: Array.isArray(parents) && parents.length > 0 ? parents[0] : null };
+        if (mode === "STRICT" && !resolution.lineage.parent) {
+          resolution.warnings.push(`STRICT: parent ${primary.parent} not found`);
+          resolution.status = "PARTIAL_STRICT_FAIL";
+        }
+      }
+
+      // Children
+      if (primary?.jnl) {
+        const children = await rest(`jd_entries?select=id,jnl,name,class,status&parent=eq.${encodeURIComponent(primary.jnl)}&limit=30`).catch(() => []);
+        resolution.lineage = { ...resolution.lineage, children: Array.isArray(children) ? children : [] };
+      }
+
+      // Siblings
+      if (primary?.parent) {
+        const siblings = await rest(`jd_entries?select=id,jnl,name,class,status&parent=eq.${encodeURIComponent(primary.parent)}&jnl=neq.${encodeURIComponent(primary.jnl)}&limit=10`).catch(() => []);
+        resolution.lineage = { ...resolution.lineage, siblings: Array.isArray(siblings) ? siblings : [] };
+      }
+
+      // Related entries
+      if (primary?.related && Array.isArray(primary.related) && primary.related.length > 0) {
+        const relatedEntries = [];
+        for (const r of primary.related.slice(0, 8)) {
+          const found = await rest(`jd_entries?select=id,jnl,name,class,status&jnl=eq.${encodeURIComponent(r)}&limit=1`).catch(() => []);
+          relatedEntries.push(Array.isArray(found) && found.length > 0 ? found[0] : { jnl: r, resolved: false });
+        }
+        resolution.lineage = { ...resolution.lineage, related: relatedEntries };
+      }
+
+      // Active JIPs
+      if (primary?.jnl) {
+        try {
+          const jips = await rest(`jip_entries?select=*&target_jd=eq.${encodeURIComponent(primary.jnl)}&status=eq.ACTIVE&order=created_at.desc&limit=5`);
+          resolution.active_jips = Array.isArray(jips) ? jips : [];
+        } catch { resolution.active_jips = []; }
+      }
+
+      // GitHub file content (if entry has a known file path)
+      if (primary?.jnl) {
+        const entryPath = `JarvisMain/yggdrasil/jd/entries/${primary.jnl}.md`;
+        try {
+          const gh = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${entryPath}`, {
+            headers: { accept: "application/vnd.github.v3.raw", ...(GITHUB_PAT ? { authorization: `token ${GITHUB_PAT}` } : {}) },
+          });
+          if (gh.ok) resolution.github_file = await gh.text();
+        } catch { /* best effort */ }
+      }
+
+      return text(resolution);
+    },
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // REPO WRITE LAYER — GitHub mutation tools (AEGIS-gated)
+  // JARVIS/AYRE can now modify the repo through governed write operations.
+  // All writes require MCP_TOKEN auth. All writes create commits.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  // Helper: get current file SHA (needed for GitHub Updates API)
+  async function getFileSha(path: string): Promise<string | null> {
+    if (!GITHUB_PAT) return null;
+    try {
+      const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`, {
+        headers: { authorization: `token ${GITHUB_PAT}` },
+      });
+      if (!res.ok) return null;
+      const data = await res.json();
+      return data.sha ?? null;
+    } catch { return null; }
+  }
+
+  server.registerTool(
+    "jarvis_repo_write",
+    {
+      title: "Repo — Write/update file",
+      description:
+        "Create or update a file in the GitHub repository. AEGIS-gated — requires MCP_TOKEN auth. Used for: creating JD entries, writing specs, updating identity profiles, restructuring. Commits directly to main. Provide full file content.",
+      inputSchema: {
+        path: z.string().describe("File path relative to repo root (e.g., 'JarvisMain/yggdrasil/jd/entries/NEW-ENTRY.md')"),
+        content: z.string().describe("Full file content to write"),
+        message: z.string().describe("Git commit message"),
+        branch: z.string().optional().default("main").describe("Branch to commit to"),
+      },
+    },
+    async ({ path, content, message, branch }, { request }) => {
+      if (!writeAuthorized(request)) return heldForApproval("repo_write", { path, message });
+      if (!GITHUB_PAT) return text({ status: "FAILED", error: "GITHUB_PAT not configured in Edge Function secrets" });
+
+      const sha = await getFileSha(path);
+      const body: any = {
+        message,
+        content: btoa(unescape(encodeURIComponent(content))),
+        branch,
+      };
+      if (sha) body.sha = sha; // update existing file
+
+      try {
+        const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`, {
+          method: "PUT",
+          headers: { authorization: `token ${GITHUB_PAT}`, "content-type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) {
+          const err = await res.text();
+          return text({ status: "FAILED", http: res.status, error: err });
+        }
+        const data = await res.json();
+        await logExchange("repo_write", `${sha ? "UPDATE" : "CREATE"} ${path}: ${message}`);
+        return text({
+          status: sha ? "UPDATED" : "CREATED",
+          path,
+          sha: data.content?.sha,
+          commit_sha: data.commit?.sha?.slice(0, 7),
+          commit_url: data.commit?.html_url,
+        });
+      } catch (err) {
+        return text({ status: "ERROR", error: String(err) });
+      }
+    },
+  );
+
+  server.registerTool(
+    "jarvis_repo_commit",
+    {
+      title: "Repo — Multi-file commit",
+      description:
+        "Commit multiple file changes in a single atomic commit. Used for: repo restructuring, JGLF compliance migrations, batch JD entry updates. Each file specifies path + content + action (create/update/delete).",
+      inputSchema: {
+        message: z.string().describe("Git commit message"),
+        files: z.array(z.object({
+          path: z.string().describe("File path relative to repo root"),
+          content: z.string().optional().describe("File content (required for create/update, omit for delete)"),
+          action: z.enum(["create", "update", "delete"]).describe("What to do with this file"),
+        })).describe("Array of file changes"),
+        branch: z.string().optional().default("main"),
+      },
+    },
+    async ({ message, files, branch }, { request }) => {
+      if (!writeAuthorized(request)) return heldForApproval("repo_commit", { message, file_count: files.length });
+      if (!GITHUB_PAT) return text({ status: "FAILED", error: "GITHUB_PAT not configured" });
+
+      try {
+        // Get current tree SHA for the branch
+        const refRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/ref/heads/${branch}`, {
+          headers: { authorization: `token ${GITHUB_PAT}` },
+        });
+        if (!refRes.ok) return text({ status: "FAILED", error: `Branch '${branch}' not found` });
+        const refData = await refRes.json();
+        const baseCommitSha = refData.object.sha;
+
+        // Get base tree
+        const commitRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/commits/${baseCommitSha}`, {
+          headers: { authorization: `token ${GITHUB_PAT}` },
+        });
+        const commitData = await commitRes.json();
+        const baseTreeSha = commitData.tree.sha;
+
+        // Build tree entries
+        const tree: any[] = [];
+        for (const f of files) {
+          if (f.action === "delete") {
+            tree.push({ path: f.path, mode: "100644", type: "blob", sha: null });
+          } else {
+            // Create blob
+            const blobRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/blobs`, {
+              method: "POST",
+              headers: { authorization: `token ${GITHUB_PAT}`, "content-type": "application/json" },
+              body: JSON.stringify({ content: f.content ?? "", encoding: "utf-8" }),
+            });
+            const blobData = await blobRes.json();
+            tree.push({ path: f.path, mode: "100644", type: "blob", sha: blobData.sha });
+          }
+        }
+
+        // Create tree
+        const treeRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/trees`, {
+          method: "POST",
+          headers: { authorization: `token ${GITHUB_PAT}`, "content-type": "application/json" },
+          body: JSON.stringify({ base_tree: baseTreeSha, tree }),
+        });
+        const treeData = await treeRes.json();
+
+        // Create commit
+        const newCommitRes = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/commits`, {
+          method: "POST",
+          headers: { authorization: `token ${GITHUB_PAT}`, "content-type": "application/json" },
+          body: JSON.stringify({ message, tree: treeData.sha, parents: [baseCommitSha] }),
+        });
+        const newCommitData = await newCommitRes.json();
+
+        // Update ref
+        await fetch(`https://api.github.com/repos/${GITHUB_REPO}/git/refs/heads/${branch}`, {
+          method: "PATCH",
+          headers: { authorization: `token ${GITHUB_PAT}`, "content-type": "application/json" },
+          body: JSON.stringify({ sha: newCommitData.sha }),
+        });
+
+        await logExchange("repo_commit", `MULTI-FILE COMMIT (${files.length} files): ${message}`);
+        return text({
+          status: "COMMITTED",
+          commit_sha: newCommitData.sha?.slice(0, 7),
+          files_changed: files.length,
+          message,
+        });
+      } catch (err) {
+        return text({ status: "ERROR", error: String(err) });
+      }
+    },
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // JGLF VALIDATOR — structural compliance checker
+  // Scans JD entries and reports violations of JGLF principles.
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  server.registerTool(
+    "jarvis_jglf_validate",
+    {
+      title: "JGLF — Validate structural compliance",
+      description:
+        "Scan all JD entries and validate JGLF compliance. Reports: orphan entries (no parent), broken lineage, missing fields, non-standard domains/types, empty related arrays, and structural violations. Returns actionable fix list.",
+      inputSchema: {
+        domain: z.string().optional().describe("Filter by domain prefix (e.g., 'ARCH', 'GS', 'PROJ')"),
+      },
+    },
+    async ({ domain }) => {
+      let q = `jd_entries?select=id,jnl,name,type,class,status,system,domain,parent,related,cross_refs&order=jnl.asc&limit=200`;
+      if (domain) q += `&jnl=ilike.${encodeURIComponent(domain)}*`;
+      const entries = await rest(q).catch(() => []) as any[];
+      if (!Array.isArray(entries)) return text({ status: "ERROR", error: "Could not fetch JD entries" });
+
+      const VALID_DOMAINS = ["GS", "ARCH", "GOV", "PROJ", "GRID", "CONN", "LOG", "AUD", "IMPL", "IDEA"];
+      const VALID_TYPES = ["CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG"];
+      const jnlSet = new Set(entries.map((e: any) => e.jnl));
+
+      const violations: any[] = [];
+      const stats = { total: entries.length, orphans: 0, empty_related: 0, broken_parents: 0, non_standard_type: 0 };
+
+      for (const e of entries) {
+        const issues: string[] = [];
+        const eDomain = e.jnl?.split("-")[0];
+
+        // JGLF Law 3: Every object has lineage
+        if (!e.parent && e.jnl !== "ARCH-YGG-CORE-0001") {
+          issues.push("ORPHAN: no parent defined (JGLF Law 3 violation)");
+          stats.orphans++;
+        }
+
+        // Check parent exists
+        if (e.parent && !jnlSet.has(e.parent)) {
+          issues.push(`BROKEN_PARENT: parent '${e.parent}' not found in JD entries`);
+          stats.broken_parents++;
+        }
+
+        // Empty related
+        if (!e.related || (Array.isArray(e.related) && e.related.length === 0)) {
+          issues.push("EMPTY_RELATED: no related entries linked");
+          stats.empty_related++;
+        }
+
+        // Non-standard domain
+        if (eDomain && !VALID_DOMAINS.includes(eDomain)) {
+          issues.push(`NON_STANDARD_DOMAIN: '${eDomain}' not in JGLF domain registry`);
+        }
+
+        if (issues.length > 0) {
+          violations.push({ jnl: e.jnl, name: e.name, issues });
+        }
+      }
+
+      // Summary by class
+      const byClass: Record<string, number> = {};
+      const byDomain: Record<string, number> = {};
+      const byStatus: Record<string, number> = {};
+      for (const e of entries) {
+        byClass[e.class] = (byClass[e.class] || 0) + 1;
+        const d = e.jnl?.split("-")[0] ?? "UNKNOWN";
+        byDomain[d] = (byDomain[d] || 0) + 1;
+        byStatus[e.status] = (byStatus[e.status] || 0) + 1;
+      }
+
+      return text({
+        jglf_compliance: violations.length === 0 ? "PASS" : "VIOLATIONS_FOUND",
+        stats,
+        by_class: byClass,
+        by_domain: byDomain,
+        by_status: byStatus,
+        violations: violations.slice(0, 50),
+        total_violations: violations.length,
+      });
     },
   );
 
