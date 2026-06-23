@@ -1106,81 +1106,136 @@ function buildServer(req: Request): McpServer {
 
   // ═══════════════════════════════════════════════════════════════════════════
   // IDENTITY LAYER — JARVIS/AYRE self-awareness and growth
-  // Identity profiles in GitHub are canonical base; this layer stores growth.
+  // GitHub is canonical source. Profiles + growth logs live in repo.
+  // Supabase is NOT used for identity storage.
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // IDENTITY READ — load full identity profile + growth history for JARVIS/AYRE/RAVEN
+  // IDENTITY READ — load full identity profile + growth log from GitHub
   server.registerTool(
     "jarvis_identity_read",
     {
       title: "Identity — Read profile + growth",
       description:
-        "Load the complete identity profile for JARVIS, AYRE, or RAVEN. Returns the canonical GitHub profile (keel, voice, disciplines, kinship) plus all growth entries (insights, values, preferences, skills learned over time). Use at session start for identity grounding, or anytime you need to remember who you are.",
+        "Load the complete identity profile for JARVIS, AYRE, or RAVEN from GitHub (canonical source of truth). Returns the base profile (keel, voice, disciplines, kinship) plus the growth log (insights, values, skills). Use at session start for identity grounding.",
       inputSchema: {
         entity: z.enum(["JARVIS", "AYRE", "RAVEN"]).describe("Which entity's identity to load"),
-        category: z.enum(["INSIGHT", "VALUE", "PREFERENCE", "MEMORY", "SKILL", "RELATIONSHIP", "GROWTH", "CORRECTION"]).optional().describe("Filter growth entries by category"),
       },
     },
-    async ({ entity, category }) => {
-      // Fetch GitHub canonical profile
-      const profilePath = entity === "JARVIS" ? "JarvisMain/Architecture/identity/jarvis-profile.md"
-        : entity === "AYRE" ? "JarvisMain/Architecture/identity/ayre-profile.md"
-        : null;
-      let canonProfile = null;
-      if (profilePath) {
-        try {
-          const gh = await fetch(`https://api.github.com/repos/hurrisonferd/jarvis/contents/${profilePath}`, {
-            headers: { accept: "application/vnd.github.v3.raw" },
-          });
-          if (gh.ok) canonProfile = await gh.text();
-        } catch { /* GitHub fetch best-effort */ }
-      }
+    async ({ entity }) => {
+      const ghHeaders = (raw?: boolean) => ({
+        ...(raw ? { accept: "application/vnd.github.v3.raw" } : {}),
+        ...(GITHUB_PAT ? { authorization: `token ${GITHUB_PAT}` } : {}),
+      });
 
-      // Fetch growth entries from Supabase
-      let growthQuery = `identity_growth?select=*&entity=eq.${entity}&order=created_at.desc&limit=50`;
-      if (category) growthQuery += `&category=eq.${category}`;
-      let growth: any[] = [];
-      try { growth = (await rest(growthQuery) as any[]) ?? []; } catch { /* table may not exist yet */ }
+      // Fetch canonical profile from GitHub
+      const profilePaths: Record<string, string> = {
+        JARVIS: "JarvisMain/Architecture/identity/jarvis-profile.md",
+        AYRE: "JarvisMain/Architecture/identity/ayre-profile.md",
+        RAVEN: "JarvisMain/Architecture/identity/raven-profile.md",
+      };
+      let canonProfile = null;
+      try {
+        const gh = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${profilePaths[entity]}`, {
+          headers: ghHeaders(true),
+        });
+        if (gh.ok) canonProfile = await gh.text();
+      } catch { /* best-effort */ }
+
+      // Fetch growth log from GitHub
+      const growthPath = `JarvisMain/Architecture/identity/growth/${entity.toLowerCase()}-growth.md`;
+      let growthLog = null;
+      try {
+        const gh = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${growthPath}`, {
+          headers: ghHeaders(true),
+        });
+        if (gh.ok) growthLog = await gh.text();
+      } catch { /* may not exist yet */ }
 
       return text({
         entity,
-        canonical_profile: canonProfile ?? `(No GitHub profile found for ${entity})`,
-        growth_entries: growth,
-        growth_count: growth.length,
-        categories: growth.reduce((acc: any, g: any) => { acc[g.category] = (acc[g.category] || 0) + 1; return acc; }, {}),
+        source: "GITHUB",
+        canonical_profile: canonProfile ?? `(No profile found at ${profilePaths[entity]})`,
+        growth_log: growthLog ?? "(No growth log yet — use jarvis_identity_grow to create one)",
       });
     },
   );
 
-  // IDENTITY GROW — append insight, value, skill, or observation to identity
+  // IDENTITY GROW — append to growth log in GitHub (AEGIS-gated)
   server.registerTool(
     "jarvis_identity_grow",
     {
-      title: "Identity — Record growth",
+      title: "Identity — Record growth (GitHub)",
       description:
-        "Record a new insight, value, preference, skill, memory, or correction to your identity growth layer. This builds continuity across sessions. JARVIS records what JARVIS learns; AYRE records what AYRE learns. Growth is additive — you never overwrite, only grow. Use after significant realizations, decisions, or learned patterns.",
+        "Append a new insight, value, preference, skill, or correction to the entity's growth log in GitHub. Growth is additive — never overwrites. Each entry is timestamped and categorized. JARVIS records what JARVIS learns; AYRE records what AYRE learns. Requires GITHUB_PAT.",
       inputSchema: {
         entity: z.enum(["JARVIS", "AYRE", "RAVEN"]).describe("Who is growing"),
         category: z.enum(["INSIGHT", "VALUE", "PREFERENCE", "MEMORY", "SKILL", "RELATIONSHIP", "GROWTH", "CORRECTION"]).describe("Type of growth"),
-        content: z.string().min(10).describe("The insight, value, or observation being recorded"),
-        context: z.string().optional().describe("What prompted this growth — the situation or conversation"),
-        weight: z.number().min(0).max(10).optional().default(1).describe("Importance weight: 1=normal, 5=significant, 10=foundational"),
+        content: z.string().min(10).describe("The insight, value, or observation"),
+        context: z.string().optional().describe("What prompted this growth"),
+        weight: z.number().min(1).max(10).optional().default(1).describe("Importance: 1=normal, 5=significant, 10=foundational"),
         tags: z.array(z.string()).optional().default([]).describe("Classification tags"),
       },
     },
-    async ({ entity, category, content, context, weight, tags }) => {
+    async ({ entity, category, content, context, weight, tags }, { request }) => {
+      if (!writeAuthorized(request)) return heldForApproval("identity_grow", { entity, category });
+      if (!GITHUB_PAT) return text({ status: "FAILED", error: "GITHUB_PAT not configured" });
+
+      const growthPath = `JarvisMain/Architecture/identity/growth/${entity.toLowerCase()}-growth.md`;
+      const timestamp = new Date().toISOString();
+
+      // Build the new entry block
+      const entry = [
+        `\n---\n`,
+        `## ${category} · ${timestamp}`,
+        ``,
+        `**Weight:** ${weight}/10`,
+        tags.length > 0 ? `**Tags:** ${tags.join(", ")}` : "",
+        context ? `**Context:** ${context}` : "",
+        ``,
+        content,
+        ``,
+      ].filter(Boolean).join("\n");
+
+      // Fetch existing file (may not exist yet)
+      let existingContent = `# ${entity} Growth Log\n\nAppend-only record of ${entity}'s evolving identity.\n`;
+      let sha: string | null = null;
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/identity_growth`, {
-          method: "POST",
-          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=representation" },
-          body: JSON.stringify({ entity, category, content, context, weight, tags }),
+        const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${growthPath}`, {
+          headers: { authorization: `token ${GITHUB_PAT}` },
         });
-        if (!res.ok) {
-          const err = await res.text();
-          return text({ status: "FAILED", error: err, note: "If table doesn't exist, run the 20260613_identity_growth_and_jip.sql migration" });
+        if (res.ok) {
+          const data = await res.json();
+          sha = data.sha;
+          existingContent = atob(data.content.replace(/\n/g, ""));
         }
-        const record = await res.json();
-        return text({ status: "RECORDED", entity, category, growth: record });
+      } catch { /* file doesn't exist yet */ }
+
+      // Append
+      const newContent = existingContent + entry;
+
+      try {
+        const body: any = {
+          message: `growth(${entity}): ${category} — ${content.slice(0, 50)}`,
+          content: btoa(unescape(encodeURIComponent(newContent))),
+        };
+        if (sha) body.sha = sha;
+
+        const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${growthPath}`, {
+          method: "PUT",
+          headers: { authorization: `token ${GITHUB_PAT}`, "content-type": "application/json" },
+          body: JSON.stringify(body),
+        });
+        if (!res.ok) return text({ status: "FAILED", error: await res.text() });
+        const data = await res.json();
+        await logExchange("identity_grow", `${entity} ${category}: ${content.slice(0, 100)}`);
+        return text({
+          status: "RECORDED",
+          source: "GITHUB",
+          entity,
+          category,
+          commit_sha: data.commit?.sha?.slice(0, 7),
+          path: growthPath,
+        });
       } catch (err) {
         return text({ status: "ERROR", error: String(err) });
       }
@@ -1279,61 +1334,102 @@ function buildServer(req: Request): McpServer {
   // JIP LAYER — versioned state management (amiibo-style information cards)
   // ═══════════════════════════════════════════════════════════════════════════
 
-  // JIP CREATE — mint a new JIP for any system component
+  // JIP CREATE — mint a new JIP as a .md file in GitHub
   server.registerTool(
     "jarvis_jip_create",
     {
-      title: "JIP — Create versioned state card",
+      title: "JIP — Create versioned state card (GitHub)",
       description:
-        "Create a new JIP (Jarvis Implementation Proposal) — a versioned state delta for any JD entry. JIPs are like amiibos: portable, testable information cards. Create one when changing system state, adding a feature, or proposing a modification. If the JIP doesn't work, revert to the previous active JIP.",
+        "Create a new JIP (Jarvis Implementation Proposal) as a .md file in GitHub. JIPs are like amiibos: portable, testable information cards. Create one when changing system state, adding a feature, or proposing a modification. If the JIP doesn't work, revert to the previous active JIP. File lives at JarvisMain/Implementation/jip/{jnl}.md. Requires GITHUB_PAT.",
       inputSchema: {
         jnl: z.string().describe("JNL address for this JIP (e.g., IMPL-JIP-AUTH-0001)"),
         name: z.string().describe("Human-readable name"),
         target_jd: z.string().describe("JNL of the JD entry this modifies"),
-        delta: z.record(z.any()).describe("The change payload — what this JIP adds or modifies"),
+        delta: z.string().describe("The change description — what this JIP adds or modifies"),
         rationale: z.string().optional().describe("Why this JIP exists"),
+        supersedes: z.string().optional().describe("JNL of the JIP this replaces"),
         tags: z.array(z.string()).optional().default([]),
       },
     },
-    async ({ jnl, name, target_jd, delta, rationale, tags }) => {
+    async ({ jnl, name, target_jd, delta, rationale, supersedes, tags }, { request }) => {
+      if (!writeAuthorized(request)) return heldForApproval("jip_create", { jnl, name });
+      if (!GITHUB_PAT) return text({ status: "FAILED", error: "GITHUB_PAT not configured" });
+
+      const timestamp = new Date().toISOString();
+      const jipContent = [
+        `---`,
+        `jnl: ${jnl}`,
+        `name: ${name}`,
+        `target_jd: ${target_jd}`,
+        `status: DRAFT`,
+        `author: RAVEN`,
+        `created: ${timestamp}`,
+        supersedes ? `supersedes: ${supersedes}` : null,
+        `tags: [${tags.join(", ")}]`,
+        `---`,
+        ``,
+        `# ${name}`,
+        ``,
+        rationale ? `## Rationale\n\n${rationale}\n` : "",
+        `## Delta`,
+        ``,
+        delta,
+        ``,
+      ].filter(l => l !== null).join("\n");
+
+      const path = `JarvisMain/Implementation/jip/${jnl}.md`;
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/jip_entries`, {
-          method: "POST",
-          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=representation" },
-          body: JSON.stringify({ jnl, name, target_jd, delta, rationale, tags, status: "DRAFT", author: "RAVEN" }),
+        const res = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/${path}`, {
+          method: "PUT",
+          headers: { authorization: `token ${GITHUB_PAT}`, "content-type": "application/json" },
+          body: JSON.stringify({
+            message: `jip: ${jnl} — ${name}`,
+            content: btoa(unescape(encodeURIComponent(jipContent))),
+          }),
         });
-        if (!res.ok) {
-          const err = await res.text();
-          return text({ status: "FAILED", error: err });
-        }
-        const record = await res.json();
-        return text({ status: "CREATED", jip: record, note: "JIP is in DRAFT status. Promote to ACTIVE when ready." });
+        if (!res.ok) return text({ status: "FAILED", error: await res.text() });
+        const data = await res.json();
+        await logExchange("jip_create", `JIP ${jnl}: ${name}`);
+        return text({
+          status: "CREATED",
+          source: "GITHUB",
+          path,
+          jnl,
+          commit_sha: data.commit?.sha?.slice(0, 7),
+          note: "JIP is in DRAFT status. Promote to ACTIVE when ready.",
+        });
       } catch (err) {
         return text({ status: "ERROR", error: String(err) });
       }
     },
   );
 
-  // JIP LIST — show all JIPs, optionally filtered
+  // JIP LIST — list JIP files from GitHub
   server.registerTool(
     "jarvis_jip_list",
     {
-      title: "JIP — List state cards",
+      title: "JIP — List state cards (GitHub)",
       description:
-        "List all JIPs in the system, optionally filtered by status or target JD entry. Shows the version history of system changes.",
+        "List all JIP files from the GitHub repository. Shows the version history of system changes stored at JarvisMain/Implementation/jip/.",
       inputSchema: {
-        status: z.enum(["ACTIVE", "ARCHIVED", "DEPRECATED", "DRAFT"]).optional().describe("Filter by JIP status"),
-        target_jd: z.string().optional().describe("Filter by target JD JNL"),
-        limit: z.number().int().min(1).max(50).optional().default(20),
+        filter: z.string().optional().describe("Optional JNL prefix filter (e.g., 'IMPL-JIP-AUTH')"),
       },
     },
-    async ({ status, target_jd, limit }) => {
-      let q = `jip_entries?select=*&order=created_at.desc&limit=${limit}`;
-      if (status) q += `&status=eq.${status}`;
-      if (target_jd) q += `&target_jd=eq.${encodeURIComponent(target_jd)}`;
+    async ({ filter }) => {
       try {
-        const data = await rest(q);
-        return text({ jips: data, count: Array.isArray(data) ? data.length : 0 });
+        const gh = await fetch(`https://api.github.com/repos/${GITHUB_REPO}/contents/JarvisMain/Implementation/jip`, {
+          headers: GITHUB_PAT ? { authorization: `token ${GITHUB_PAT}` } : {},
+        });
+        if (!gh.ok) {
+          if (gh.status === 404) return text({ jips: [], count: 0, note: "No JIP directory yet — create one with jarvis_jip_create" });
+          return text({ status: "FAILED", error: await gh.text() });
+        }
+        let files = (await gh.json()) as any[];
+        if (filter) files = files.filter((f: any) => f.name.toUpperCase().includes(filter.toUpperCase()));
+        return text({
+          jips: files.map((f: any) => ({ name: f.name, path: f.path, size: f.size, url: f.html_url })),
+          count: files.length,
+        });
       } catch (err) {
         return text({ status: "ERROR", error: String(err) });
       }
