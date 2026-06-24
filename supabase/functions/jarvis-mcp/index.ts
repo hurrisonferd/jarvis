@@ -763,7 +763,15 @@ function buildServer(req: Request): McpServer {
       probes.search = { ok: s.ok, status: s.status };
     } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
     const ok = Object.values(probes).every((p: any) => p.ok);
-    return { ok, version: "0.11.33", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." };
+    return {
+      ok,
+      version: "0.11.33",
+      tools: TOOL_NAMES.length,
+      source_basis: { observation: "live endpoint", canon: "GitHub main", memory: "MNEMOS / JC", conversation: "this session" },
+      verified_at: clockNow(),
+      probes,
+      note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed.",
+    };
   }
 
   server.registerTool(
@@ -779,6 +787,7 @@ function buildServer(req: Request): McpServer {
     },
     async ({ focus, prior_commit }) => {
       const self_test = await runSelfTest();
+      const canon = await ghReq("GET", `/git/ref/heads/main`).then(async (r) => r.ok ? (await r.json() as any)?.object?.sha ?? null : null).catch(() => null);
       const now = new Date();
       const dayKey = now.toISOString().slice(0, 10);
       const mondayOffset = now.getUTCDay() === 0 ? 6 : now.getUTCDay() - 1;
@@ -806,6 +815,12 @@ function buildServer(req: Request): McpServer {
         opened_at: clockNow(),
         focus: focus ?? null,
         prior_commit: prior_commit ?? null,
+        resumability_receipt: {
+          source_basis: { observation: "live endpoint", canon: "GitHub main", memory: "MNEMOS / JC", conversation: "this session" },
+          repo_head: canon,
+          session_head: prior_commit ?? null,
+          verified_at: clockNow(),
+        },
         pointers: {
           day: dayKey,
           week: `${weekYear}-W${String(weekNum).padStart(2, "0")}`,

@@ -44,6 +44,7 @@ A fresh session should begin with a bootstrap packet that includes:
 - latest Star Log pointer for day, week, and month
 - current open tasks
 - current drift signals
+- a resumability receipt showing source basis, repo head, and verification time
 
 The bootstrap is a connector behavior, not a custom-instructions trick. The connector should be the first place that continuity gets enforced.
 
@@ -79,6 +80,7 @@ The system should be able to prove:
 - day/week/month retrieval returns the expected JC and SL slices
 - pruning does not break pointer recovery
 - the bootstrap packet still works after restart
+- the bootstrap packet identifies its source basis explicitly
 
 ## Ratification
 `author: RAVEN`

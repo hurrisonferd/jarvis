@@ -1,6 +1,8 @@
 ## Purpose
 A session handoff artifact is a live work order written to the repo at the end of any session where work remains incomplete. It is not memory. It is not a summary. It is the next node's first instruction.
 It should be backed by the session event log, ideally via a JC object that names the turn and points at the latest commit hash.
+Star Logs may summarize the same period at day/week/month scale, but the handoff is always the next instruction.
+A resumability receipt from the session-open bootstrap can be cited here when available: source basis, repo head, and verification time.
 
 ## Format
 ```text
