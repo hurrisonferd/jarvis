@@ -11,13 +11,14 @@ jnl: GOV-PD-SPEC-0001
 seq: 132
 status: TASK
 created: 2026-06-11
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md
 related: []
 references: []
 tags: [governance, contradiction, arbitration, federation, epistemics]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** P-D — the preserved-contradiction object class. When two streams produce valid but incompatible interpretations, the conflict is stored as a first-class object — both readings, both authors, the stakes, and the evidence each cites — rather than resolved by force or dissolved by politeness. Arbitration input, never arbitration trigger.

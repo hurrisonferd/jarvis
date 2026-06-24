@@ -11,13 +11,14 @@ jnl: PROJ-GDS-BIO-0001
 seq: 121
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisSide/Projects/GDS/BIO/GDSBIO-061126-0001-GDS.md
 related: []
 references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** God-system Design Spec project: explorations mapping the existing council (the fixed 27) into epistemic functions — truth, deliberation, execution, memory arbitration. GSRL maps; it never redefines.

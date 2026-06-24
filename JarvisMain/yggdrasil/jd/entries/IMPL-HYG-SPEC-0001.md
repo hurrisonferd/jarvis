@@ -11,13 +11,14 @@ jnl: IMPL-HYG-SPEC-0001
 seq: 101
 status: ARCHIVED
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisSide/Archive/HygienePackets-0001-060926.md
 related: [IMPL-FMT-SPEC-0001]
 references: []
 tags: [hygiene, archive, reference]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Eight archived GPT hygiene packets with per-packet governance verdicts.

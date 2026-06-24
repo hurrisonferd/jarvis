@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0043
 seq: 181
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_identity_read.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Load the identity profile for JARVIS, AYRE, ARGENT, RAVEN, or the relational keel — voice, disciplines, growth.

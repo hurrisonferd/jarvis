@@ -11,13 +11,14 @@ jnl: GOV-CHO-JD-0001
 seq: 131
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisMain/Implementation/active/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md
 related: []
 references: []
 tags: [chorus, council, halo, epistemics, governance, plurality]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** A multi-agent epistemic model where multiple reasoning systems preserve distinct perspectives to maximize stability of truth-finding. Value emerges from structured disagreement, identifiable voices, and controlled tension rather than forced consensus or homogenized output.

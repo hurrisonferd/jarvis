@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0044
 seq: 182
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_identity_grow.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Append an insight, value, skill, or correction to a stream's growth layer — additive, never overwrite. AEGIS-gated.

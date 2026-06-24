@@ -1,15 +1,24 @@
 ---
-jnl: GOV-RES-CORE-0001
+jnl: GOV-RES-SPEC-0002
 name: Resumability Definition
+type: SPEC
 class: SPEC
-status: ACTIVE
-domain: GOV
-system: ATHENA
+tier: MAIN
+authority: CANON
+owner: JARVIS
+steward: ATHENA
 parent: ARCH-YGG-CORE-0001
-related: [ARCH-JMMS-CORE-0001, ARCH-JMS-CORE-0001, GOV-VER-CORE-0001]
+seq: 233
+status: ACTIVE
+created: 2026-06-24
+updated: 2026-06-24
+source: JarvisMain/Architecture/specs/resumability-definition.md
+related: [ARCH-JMMS-CORE-0001, ARCH-JMS-CORE-0001]
+references: []
 tags: [continuity, resumability, identity, memory, governance]
-author: RAVEN
-ratified: 2026-06-24
+aliases: []
+ref: [SPEC]
+memory_tier: JATM
 ---
 
 # Resumability Definition

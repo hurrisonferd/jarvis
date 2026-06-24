@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0009
 seq: 77
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_list.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** List the dex (JD/JNL registry — the shared truth across all agents and sessions).

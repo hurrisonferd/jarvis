@@ -11,13 +11,14 @@ jnl: GS-LOK-CORE-0001
 seq: 27
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/god_systems/T5_LOKI/contract.json
 related: [GS-JAN-CORE-0001]
 references: []
 tags: [governance, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Rollback + mutation control.

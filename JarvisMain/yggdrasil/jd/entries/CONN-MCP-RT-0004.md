@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0004
 seq: 72
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_council.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Show the council: JARVIS + the 27 God Systems as a fixed-authority body, grouped by tier (the folders/chambers).

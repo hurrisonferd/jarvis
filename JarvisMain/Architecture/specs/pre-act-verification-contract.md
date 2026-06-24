@@ -1,15 +1,24 @@
 ---
-jnl: GOV-VER-CORE-0001
+jnl: GOV-VRF-SPEC-0001
 name: Pre-Act Verification Contract
+type: SPEC
 class: SPEC
-status: ACTIVE
-domain: GOV
-system: AEGIS
+tier: MAIN
+authority: CANON
+owner: JARVIS
+steward: AEGIS
 parent: ARCH-YGG-CORE-0001
+seq: 234
+status: ACTIVE
+created: 2026-06-24
+updated: 2026-06-24
+source: JarvisMain/Architecture/specs/pre-act-verification-contract.md
 related: [ARCH-JSS-CORE-0001, ARCH-JMS-CORE-0001]
+references: []
 tags: [governance, verification, anti-hallucination, distributed, continuity]
-author: RAVEN
-ratified: 2026-06-24
+aliases: []
+ref: [SPEC]
+memory_tier: JLTM
 ---
 
 # Pre-Act Verification Contract

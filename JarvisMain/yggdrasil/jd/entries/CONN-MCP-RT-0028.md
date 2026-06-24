@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0028
 seq: 166
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_github_file.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Read any file's content from the JARVIS repo (read-only).

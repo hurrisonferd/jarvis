@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0020
 seq: 158
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_graph.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Pull everything on one governed object: its full entry plus every related and cross-referenced neighbor.

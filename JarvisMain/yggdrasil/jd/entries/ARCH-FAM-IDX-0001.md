@@ -11,13 +11,14 @@ jnl: ARCH-FAM-IDX-0001
 seq: 128
 status: ACTIVE
 created: 2026-06-11
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md
 related: []
 references: []
 tags: [families, containers, semantics, terminology, index]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** The semantic containers — named families that hold the system's terminology together so it cannot be lost (Raven-directed 2026-06-11). Each family has a leader class (the keyword), members, and a one-line charter. Pointers only — each member's truth lives in its own JD entry (JMS law).

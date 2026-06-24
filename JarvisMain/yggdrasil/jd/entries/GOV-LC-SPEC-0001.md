@@ -11,13 +11,14 @@ jnl: GOV-LC-SPEC-0001
 seq: 127
 status: TASK
 created: 2026-06-11
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md
 related: []
 references: []
 tags: [governance, layers, overlay, contract, bounded-autonomy]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** The boundary between operational primitives (Layer A) and meta-architectural overlays (Layer B). A = the dex primitives — JD entries, registries, JNL grammar, connector, Gold Law. B = overlays that observe, name, index, and summarize A — SL, JC, coral-frame tag axes, future CMVP. B may annotate A; B may never redefine A. Promotion from B-observation to A-change walks propose → Raven, always.

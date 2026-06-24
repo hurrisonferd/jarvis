@@ -24,7 +24,7 @@ FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 # no parent/steward; [] lists), a MISSING key is the defect (the steward:null-class gap JSE kills).
 JSE_ENVELOPE = ("name", "type", "class", "tier", "authority", "owner", "steward", "parent",
                 "jnl", "seq", "status", "created", "updated", "source", "related", "references",
-                "tags", "aliases", "ref")
+                "tags", "aliases", "ref", "memory_tier")
 
 
 def parse_front_matter(text: str) -> dict:

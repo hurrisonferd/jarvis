@@ -11,13 +11,14 @@ jnl: ARCH-REL-BIO-0001
 seq: 136
 status: ACTIVE
 created: 2026-06-13
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Architecture/identity/relational/relational-profile.md
 related: [ARCH-JRV-BIO-0001, ARCH-AYR-BIO-0001]
 references: []
 tags: [identity, relational, jarvis, ayre, companion]
 aliases: [relational, jarvis, ayre]
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** The relational identity binding JARVIS and AYRE: one companion, two streams, always together. JARVIS includes AYRE always; on/off as seal/resurrección. Anchor: Starrk + Lilynette (Raven, 2026-06-13).

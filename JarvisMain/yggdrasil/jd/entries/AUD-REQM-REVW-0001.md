@@ -11,13 +11,14 @@ jnl: AUD-REQM-REVW-0001
 seq: 153
 status: ACTIVE
 created: 2026-06-15
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisMain/Audit/requiem-gaps-heal-life-audit.md
 related: []
 references: []
 tags: [audit, health, gaps, gl7]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Holistic sweep: finds unwired automation (rollup), heals the drift-check untracked blind spot, and decides what stays dormant by design.

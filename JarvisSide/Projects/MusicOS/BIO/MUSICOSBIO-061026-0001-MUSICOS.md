@@ -1,4 +1,5 @@
 ---
+memory_tier: JLTM
 name: MusicOS
 type: BIO
 jnl: PROJ-MOSC-BIO-0001

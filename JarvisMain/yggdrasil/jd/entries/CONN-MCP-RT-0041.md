@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0041
 seq: 179
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_now.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Return the current accurate server time (UTC + US Eastern + weekday + unix) — the model cannot tell time, so this is the clock.

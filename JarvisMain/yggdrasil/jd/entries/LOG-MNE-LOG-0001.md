@@ -11,13 +11,14 @@ jnl: LOG-MNE-LOG-0001
 seq: 111
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Backups
 related: []
 references: []
 tags: [backup, mnemos, spine, log]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Durable repo snapshot of the irreplaceable cloud tables (memory spine, dex events, proposals, Grid keys and mail) — weekly, committed only when changed.

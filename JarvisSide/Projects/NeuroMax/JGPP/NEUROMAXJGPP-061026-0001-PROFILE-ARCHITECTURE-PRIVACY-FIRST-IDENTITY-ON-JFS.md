@@ -1,4 +1,5 @@
 ---
+memory_tier: JLTM
 name: Profile architecture — privacy-first identity on JFS
 type: JGPP
 jnl: PROJ-NMX-JGPP-0001

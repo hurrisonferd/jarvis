@@ -11,13 +11,14 @@ jnl: ARCH-JMMS-CORE-0001
 seq: 10
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JITM-CORE-0001, ARCH-JSTM-CORE-0001, ARCH-JLTM-CORE-0001, ARCH-JATM-CORE-0001]
 references: []
 tags: [memory, core, architecture]
 aliases: [jmms, multimemory, memory system]
 ref: [PRI, SPEC, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Memory tiering/addressing across time horizons (JSTM/JLTM/JATM); sits beside MNEMOS.

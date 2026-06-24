@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 206,
-    "edges": 310,
-    "main": 173,
+    "nodes": 230,
+    "edges": 351,
+    "main": 197,
     "side": 33
   },
   "nodes": [
@@ -37,6 +37,15 @@
     {
       "id": "ARCH-AYR-SPEC-0002",
       "name": "AYRE Loop",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-BAK-LOG-0001",
+      "name": "JARVIS Backup Seed",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -118,6 +127,15 @@
     {
       "id": "ARCH-JFS-CORE-0001",
       "name": "Jarvis File System",
+      "domain": "ARCH",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-JHTM-CORE-0001",
+      "name": "Jarvis Historical Term Memory",
       "domain": "ARCH",
       "class": "SYSTEM",
       "tier": "MAIN",
@@ -251,6 +269,15 @@
       "owner": "JFS"
     },
     {
+      "id": "ARCH-LED-LOG-0001",
+      "name": "Mainline Event Ledger",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
       "id": "ARCH-MEM-LOG-0001",
       "name": "Companion Memory \u2014 Jarvis & Ayre",
       "domain": "ARCH",
@@ -289,6 +316,15 @@
     {
       "id": "ARCH-RAV-BIO-0001",
       "name": "Raven Profile \u2014 John Barber",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-REF-IDX-0001",
+      "name": "JARVIS CANON \u2014 Volume Index and Rebuild Packet",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -366,6 +402,15 @@
       "tier": "MAIN",
       "status": "ACTIVE",
       "owner": "JFS"
+    },
+    {
+      "id": "AUD-CFG-REVW-0001",
+      "name": "Stale Config Audit",
+      "domain": "AUD",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Audit"
     },
     {
       "id": "AUD-CHK-SPEC-0001",
@@ -1061,6 +1106,15 @@
       "owner": "Connectors"
     },
     {
+      "id": "GOV-AUT-SPEC-0001",
+      "name": "Governed Autonomy Contract",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Governance"
+    },
+    {
       "id": "GOV-BRF-CORE-0001",
       "name": "Jarvis Brief",
       "domain": "GOV",
@@ -1133,6 +1187,15 @@
       "owner": "Governance"
     },
     {
+      "id": "GOV-LOO-SPEC-0001",
+      "name": "Continuity Layers and Bounded Autonomy",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Governance"
+    },
+    {
       "id": "GOV-PAT-REG-0001",
       "name": "Patch Archive",
       "domain": "GOV",
@@ -1162,6 +1225,33 @@
     {
       "id": "GOV-PROC-CORE-0001",
       "name": "Patch Process",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Governance"
+    },
+    {
+      "id": "GOV-RES-CORE-0001",
+      "name": "Resumability Definition",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Governance"
+    },
+    {
+      "id": "GOV-RES-SPEC-0002",
+      "name": "Resumability Definition",
+      "domain": "GOV",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Governance"
+    },
+    {
+      "id": "GOV-VRF-SPEC-0001",
+      "name": "Pre-Act Verification Contract",
       "domain": "GOV",
       "class": "SPEC",
       "tier": "MAIN",
@@ -1448,6 +1538,15 @@
       "owner": "Used Ideas Log"
     },
     {
+      "id": "IMPL-BRF-CORE-0001",
+      "name": "BRF \u2014 Portable Brief",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
       "id": "IMPL-CNT-SPEC-0001",
       "name": "Continuity Engine \u2014 the Pulse's brain (P43 implementation)",
       "domain": "IMPL",
@@ -1466,8 +1565,35 @@
       "owner": "JCS Pipeline"
     },
     {
+      "id": "IMPL-EXT-CORE-0001",
+      "name": "EXT \u2014 Extend Tool",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
       "id": "IMPL-FMT-SPEC-0001",
       "name": "JFS Formatting Standard",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-GRM-CORE-0001",
+      "name": "GRM \u2014 Grimoire Generator",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-HTH-CORE-0001",
+      "name": "HTH \u2014 Health Report",
       "domain": "IMPL",
       "class": "SPEC",
       "tier": "MAIN",
@@ -1574,8 +1700,26 @@
       "owner": "JCS Pipeline"
     },
     {
+      "id": "IMPL-JNL-CORE-0001",
+      "name": "JNL \u2014 JNL Parser",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
       "id": "IMPL-JQL-CORE-0001",
       "name": "JQL - JD Query Language",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-MIR-CORE-0001",
+      "name": "MIR \u2014 Mirror Tool",
       "domain": "IMPL",
       "class": "SPEC",
       "tier": "MAIN",
@@ -1592,12 +1736,84 @@
       "owner": "JCS Pipeline"
     },
     {
+      "id": "IMPL-NEW-CORE-0001",
+      "name": "NEW \u2014 Mint Tool",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-PCH-CORE-0001",
+      "name": "PCH \u2014 Pinch Check",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-RLU-CORE-0001",
+      "name": "RLU \u2014 Rollup Generator",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-SED-CORE-0001",
+      "name": "SED \u2014 Seed Tool",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-SRT-CORE-0001",
+      "name": "SRT \u2014 Autosort Tool",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-SUP-CORE-0001",
+      "name": "SUP \u2014 Supabase Sync",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
       "id": "IMPL-TLR-SPEC-0001",
       "name": "MCP Tool Roadmap & Auto-Tracking Pipeline",
       "domain": "IMPL",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "TASK",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-VLD-CORE-0001",
+      "name": "VLD \u2014 Validate Tool",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JCS Pipeline"
+    },
+    {
+      "id": "IMPL-YVG-CORE-0001",
+      "name": "YVG \u2014 Graph Export",
+      "domain": "IMPL",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
       "owner": "JCS Pipeline"
     },
     {
@@ -1914,6 +2130,11 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-BAK-LOG-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-FLOW-SPEC-0001",
       "target": "GS-SKD-CORE-0001",
       "type": "related"
@@ -1996,6 +2217,16 @@
     {
       "source": "ARCH-JFS-CORE-0001",
       "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-JHTM-CORE-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JHTM-CORE-0001",
+      "target": "ARCH-JMMS-CORE-0001",
       "type": "parent"
     },
     {
@@ -2149,6 +2380,11 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-LED-LOG-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-MEM-LOG-0001",
       "target": "ARCH-REL-BIO-0001",
       "type": "parent"
@@ -2171,6 +2407,36 @@
     {
       "source": "ARCH-RAV-BIO-0001",
       "target": "ARCH-REL-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-REF-IDX-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-REF-IDX-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-REF-IDX-0001",
+      "target": "GOV-RES-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-REF-IDX-0001",
+      "target": "GOV-CON-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-REF-IDX-0001",
+      "target": "GOV-AUT-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-REF-IDX-0001",
+      "target": "ARCH-YGG-CORE-0001",
       "type": "parent"
     },
     {
@@ -2237,6 +2503,11 @@
       "source": "ARCH-YGG-CORE-0001",
       "target": "ARCH-JFS-CORE-0001",
       "type": "related"
+    },
+    {
+      "source": "AUD-CFG-REVW-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
     },
     {
       "source": "AUD-CHK-SPEC-0001",
@@ -2669,6 +2940,21 @@
       "type": "parent"
     },
     {
+      "source": "GOV-AUT-SPEC-0001",
+      "target": "GOV-CON-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-AUT-SPEC-0001",
+      "target": "GOV-RES-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-AUT-SPEC-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "GOV-BRF-CORE-0001",
       "target": "GOV-CAN-CORE-0001",
       "type": "related"
@@ -2724,6 +3010,26 @@
       "type": "parent"
     },
     {
+      "source": "GOV-LOO-SPEC-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-LOO-SPEC-0001",
+      "target": "GOV-RES-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-LOO-SPEC-0001",
+      "target": "GOV-AUT-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-LOO-SPEC-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "GOV-PAT-REG-0001",
       "target": "GS-KRN-CORE-0001",
       "type": "related"
@@ -2751,6 +3057,51 @@
     {
       "source": "GOV-PROC-CORE-0001",
       "target": "GOV-PAT-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-RES-CORE-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-RES-CORE-0001",
+      "target": "ARCH-JMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-RES-CORE-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-RES-SPEC-0002",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-RES-SPEC-0002",
+      "target": "ARCH-JMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-RES-SPEC-0002",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "GOV-VRF-SPEC-0001",
+      "target": "ARCH-JSS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-VRF-SPEC-0001",
+      "target": "ARCH-JMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "GOV-VRF-SPEC-0001",
+      "target": "ARCH-YGG-CORE-0001",
       "type": "parent"
     },
     {
@@ -3054,6 +3405,11 @@
       "type": "parent"
     },
     {
+      "source": "IMPL-BRF-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "IMPL-CNT-SPEC-0001",
       "target": "GOV-PLS-SPEC-0001",
       "type": "parent"
@@ -3074,6 +3430,11 @@
       "type": "parent"
     },
     {
+      "source": "IMPL-EXT-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "IMPL-FMT-SPEC-0001",
       "target": "ARCH-JNS-CORE-0001",
       "type": "related"
@@ -3091,6 +3452,16 @@
     {
       "source": "IMPL-FMT-SPEC-0001",
       "target": "IMPL-JIP-SPEC-0608",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-GRM-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-HTH-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
       "type": "parent"
     },
     {
@@ -3199,6 +3570,11 @@
       "type": "parent"
     },
     {
+      "source": "IMPL-JNL-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "IMPL-JQL-CORE-0001",
       "target": "IMPL-JCSE-SPEC-0001",
       "type": "related"
@@ -3214,13 +3590,58 @@
       "type": "parent"
     },
     {
+      "source": "IMPL-MIR-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
       "source": "IMPL-MOD-SPEC-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-NEW-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-PCH-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-RLU-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-SED-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-SRT-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-SUP-CORE-0001",
       "target": "IMPL-IDX-REG-0001",
       "type": "parent"
     },
     {
       "source": "IMPL-TLR-SPEC-0001",
       "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-VLD-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "IMPL-YVG-CORE-0001",
+      "target": "IMPL-IDX-REG-0001",
       "type": "parent"
     },
     {

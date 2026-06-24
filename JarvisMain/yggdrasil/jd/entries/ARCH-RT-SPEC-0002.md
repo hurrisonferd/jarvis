@@ -11,13 +11,14 @@ jnl: ARCH-RT-SPEC-0002
 seq: 46
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Architecture/runtime/execution-model.md
 related: [GS-SKD-CORE-0001]
 references: []
 tags: [architecture, runtime]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** The runtime execution model.

@@ -11,13 +11,14 @@ jnl: ARCH-JNS-CORE-0001
 seq: 3
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JFS-CORE-0001]
 references: []
 tags: [naming, core, architecture]
 aliases: [jns, jarvis naming system]
 ref: [PRI, SPEC, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Defines what something is called — semantic, specific filenames.

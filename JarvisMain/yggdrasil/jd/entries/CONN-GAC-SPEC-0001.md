@@ -11,13 +11,14 @@ jnl: CONN-GAC-SPEC-0001
 seq: 155
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisGptAction/openapi.json
 related: [CONN-GAC-CORE-0001]
 references: []
 tags: [connector, gpt, action, openapi, schema]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** OpenAPI 3.1 Action schema for the jarvis-action endpoint - one tool-dispatched path exposing status/now/query/recall/remember/event/dex_*/jd_resolve/jc_recall/grimoire to a ChatGPT Custom GPT, gated by x-jarvis-token.

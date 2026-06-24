@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0011
 seq: 79
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_propose.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Stage a new governed object in the dex.

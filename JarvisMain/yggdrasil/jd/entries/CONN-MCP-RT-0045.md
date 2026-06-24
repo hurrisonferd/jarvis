@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0045
 seq: 183
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_omnivision.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Read the global mirror: a freshness-stamped single-read snapshot of every governed object with by-status/domain/tier summary.

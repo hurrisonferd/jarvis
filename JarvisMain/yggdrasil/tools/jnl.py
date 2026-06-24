@@ -22,11 +22,11 @@ TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW", "JGP
 SUBSTRATE = {
     "YGG", "JFS", "JNS", "JNL", "JSL", "JMS", "JD", "LAL", "JPL",
     "JSS",                              # status system
-    "JMMS", "JITM", "JSTM", "JLTM", "JATM",  # multimemory + tiers (JITM=immediate/always-on)
+    "JMMS", "JITM", "JSTM", "JLTM", "JATM", "JHTM",  # multimemory + tiers
 }
 
 # JSS — Jarvis Status System. The governed lifecycle vocabulary for every object.
-STATUSES = {"TASK", "EXPANSION", "ACTIVE", "INACTIVE", "ARCHIVED", "DEPRECATED"}
+STATUSES = {"EXPANSION", "ACTIVE", "INACTIVE", "ARCHIVED", "DEPRECATED", "TASK"}
 
 # Ontology classes (hygiene packet 1): what kind of object this is.
 CLASSES = {"SYSTEM", "SPEC", "MODULE", "ENTITY", "EVENT", "REGISTRY"}

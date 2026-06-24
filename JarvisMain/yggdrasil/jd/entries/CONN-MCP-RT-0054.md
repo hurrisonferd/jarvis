@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0054
 seq: 195
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_create.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Create a JIP: a versioned metadata container for a JD (audit trail + reversible state). AEGIS-gated.

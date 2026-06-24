@@ -1,4 +1,5 @@
 ---
+memory_tier: JLTM
 name: NeuroMax
 type: BIO
 jnl: PROJ-NMX-BIO-0001

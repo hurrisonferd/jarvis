@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0058
 seq: 199
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** List file paths in the private storage/scaffolding repo (Jarvis-Private) at a ref. Read-only; needs GITHUB_TOKEN_PRIVATE.

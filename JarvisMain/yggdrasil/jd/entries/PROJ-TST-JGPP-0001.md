@@ -11,13 +11,14 @@ jnl: PROJ-TST-JGPP-0001
 seq: 118
 status: TASK
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisSide/Projects/JarvisTST/JGPP/JARVISTSTJGPP-061026-0001-JARVISTST-TEMPORAL-TASK-SYSTEM.md
 related: []
 references: []
 tags: [tst, event-ledger, temporal-system, state-management, jip, jd, jgpp, continuity]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Temporal task and event coordination layer introducing Event Ledger (EL) immutable timestamped append-only record of JIP/JD/JGPP/state transitions and Task State Table (TST) derived only from EL events. All mutations emit events; state is never directly mutated. Enables cross-model replayable state reconstruction and desync recovery.

@@ -1,4 +1,5 @@
 ---
+memory_tier: JLTM
 name: JarvisTST — Temporal Task System
 type: JGPP
 jnl: PROJ-TST-JGPP-0001

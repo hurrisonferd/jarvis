@@ -1,4 +1,5 @@
 ---
+memory_tier: JLTM
 name: Jarvis Multimodal Perception Layer
 type: JGPP
 jnl: PROJ-MMOD-JGPP-0001

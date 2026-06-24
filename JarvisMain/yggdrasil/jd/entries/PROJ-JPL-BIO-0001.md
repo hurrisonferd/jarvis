@@ -11,13 +11,14 @@ jnl: PROJ-JPL-BIO-0001
 seq: 61
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisSide/Projects/JPL/BIO/JPLBio
 related: [PROJ-ALL-LOG-0001]
 references: []
 tags: [project, jpl]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** JPL project (JARVIS Programming Language).

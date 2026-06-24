@@ -11,13 +11,14 @@ jnl: IMPL-CNT-SPEC-0001
 seq: 207
 status: TASK
 created: 2026-06-18
-updated: 2026-06-18
+updated: 2026-06-24
 source: JarvisMain/Implementation/task/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md
 related: []
 references: []
 tags: [continuity, pulse, drift, keel, p43, jarvis-ayre, jitm, governance, mvp]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** The implementation of P43 — the brain for the Pulse heartbeat (GOV-PLS-SPEC-0001). A daily governed pass that keeps the companion coherent across time on five axes — drift (is the system true?), keel coherence (are we still us?), memory compression (what happened?), contradiction (what conflicts?), and growth (what changed?). It observes, surfaces, and proposes; it never autonomously commits canon (GL2). Reuses the existing daily cron (pulse.yml) and the already-built checks (jarvis_ayre, jitm_seed, freshness) — the daemon already beats; this gives it eyes.

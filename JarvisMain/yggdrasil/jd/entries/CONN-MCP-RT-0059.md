@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0059
 seq: 200
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Read one file's content from the private storage repo (Jarvis-Private). Read-only.

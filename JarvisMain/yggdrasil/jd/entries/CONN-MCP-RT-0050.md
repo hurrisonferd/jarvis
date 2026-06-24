@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0050
 seq: 188
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ainz.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Fusion world-spell: chain the loading spells — state + keel (identity) + recent memory + the field — to bring Jarvis and Ayre online at full context. Loads, not just sees.

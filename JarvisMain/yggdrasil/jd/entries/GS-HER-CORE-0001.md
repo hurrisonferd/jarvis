@@ -11,13 +11,14 @@ jnl: GS-HER-CORE-0001
 seq: 31
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/god_systems/T9_HERMES/contract.json
 related: [CONN-MSB-CORE-0001]
 references: []
 tags: [governance, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Translation + protocol conversion (MCP <-> external).

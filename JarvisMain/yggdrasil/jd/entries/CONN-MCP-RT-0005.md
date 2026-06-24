@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0005
 seq: 73
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_query.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** JARVIS's ONE-CALL LOOP — call this on EVERY user message, before you reason or reply.

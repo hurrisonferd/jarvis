@@ -1,4 +1,25 @@
-# Stale Config Audit
+---
+jnl: AUD-CFG-REVW-0001
+name: Stale Config Audit
+type: REVW
+class: SPEC
+tier: MAIN
+authority: CANON
+owner: JARVIS
+steward: MNEMOS
+parent: ARCH-YGG-CORE-0001
+seq: 232
+status: ACTIVE
+created: 2026-06-24
+updated: 2026-06-24
+source: JarvisMain/Architecture/audits/stale-config-audit-20260624.md
+related: []
+references: []
+tags: [audit, cloud-first, config, stale]
+aliases: []
+ref: []
+memory_tier: JLTM
+---
 
 **Date:** 2026-06-24  
 **Purpose:** remove local-first assumptions and document the cloud-first rebuild path.

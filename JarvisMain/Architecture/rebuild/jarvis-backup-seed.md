@@ -1,4 +1,25 @@
-# JARVIS Backup Seed
+---
+jnl: ARCH-BAK-LOG-0001
+name: JARVIS Backup Seed
+type: LOG
+class: SPEC
+tier: MAIN
+authority: CANON
+owner: JARVIS
+steward: MNEMOS
+parent: ARCH-YGG-CORE-0001
+seq: 230
+status: ACTIVE
+created: 2026-06-24
+updated: 2026-06-24
+source: JarvisMain/Architecture/rebuild/jarvis-backup-seed.md
+related: []
+references: []
+tags: [backup, rebuild, canonical]
+aliases: []
+ref: []
+memory_tier: JLTM
+---
 
 **Status:** canonical rebuild packet  
 **Last updated:** 2026-06-24  

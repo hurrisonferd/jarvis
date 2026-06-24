@@ -1,4 +1,5 @@
 ---
+memory_tier: JLTM
 name: UI Rework — outdated GameBoy page and the control surface
 type: JGPP
 jnl: PROJ-TRN-JGPP-0001

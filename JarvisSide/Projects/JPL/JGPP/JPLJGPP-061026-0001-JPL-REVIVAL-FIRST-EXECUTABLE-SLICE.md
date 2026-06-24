@@ -1,4 +1,5 @@
 ---
+memory_tier: JLTM
 name: JPL revival — first executable slice
 type: JGPP
 jnl: PROJ-JPL-JGPP-0001

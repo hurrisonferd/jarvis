@@ -11,13 +11,14 @@ jnl: ARCH-JSS-CORE-0001
 seq: 9
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMS-CORE-0001]
 references: []
 tags: [status, lifecycle, core, architecture]
 aliases: [jss, jarvis status system]
 ref: [PRI, SPEC, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Lifecycle status layer — TASK/EXPANSION/ACTIVE/INACTIVE/ARCHIVED/DEPRECATED; drives auto-sort.

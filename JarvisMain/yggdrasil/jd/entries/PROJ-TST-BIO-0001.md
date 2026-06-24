@@ -11,13 +11,14 @@ jnl: PROJ-TST-BIO-0001
 seq: 115
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisSide/Projects/JarvisTST/BIO/JARVISTSTBIO-061026-0001-JARVISTST.md
 related: []
 references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Temporal task and event coordination layer: the Event Ledger (EL, immutable append-only causality record) and the Task State Table (TST, state derived only from EL events). Causality and state, formally separated.

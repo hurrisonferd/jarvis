@@ -11,13 +11,14 @@ jnl: IMPL-INA-LOG-0001
 seq: 54
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisMain/Implementation/Inactive
 related: [ARCH-JSS-CORE-0001]
 references: []
 tags: [implementation, log]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Folder of inactive packets + log.

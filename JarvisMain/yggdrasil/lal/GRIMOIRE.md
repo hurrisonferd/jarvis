@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-18T13:27:42Z (2026-06-18 09:27 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-24T21:36:07Z (2026-06-24 17:36 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**206 governed objects** · 310 edges · 9 domains.
+**230 governed objects** · 351 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 206 objects · 20 open tasks · 6 orphans · 310 edges._
+_JARVIS online · 230 objects · 20 open tasks · 6 orphans · 351 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -79,7 +79,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (40)
+### ARCH (44)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -87,6 +87,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `107` | `ARCH-AYR-BIO-0001` | AYRE Companion Profile | ACTIVE | — |
 | `48` | `ARCH-AYR-SPEC-0001` | AYRE/JARVIS Split | ACTIVE | — |
 | `49` | `ARCH-AYR-SPEC-0002` | AYRE Loop | ACTIVE | — |
+| `230` | `ARCH-BAK-LOG-0001` | JARVIS Backup Seed | ACTIVE | — |
 | `128` | `ARCH-FAM-IDX-0001` | Family Registry | ACTIVE | — |
 | `51` | `ARCH-FLOW-SPEC-0001` | Throughput Posture | ACTIVE | — |
 | `50` | `ARCH-GPT-SPEC-0001` | Custom GPT Instructions | ACTIVE | — |
@@ -96,6 +97,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `7` | `ARCH-JD-CORE-0001` | Jarvis Dictionary | ACTIVE | MIMIR |
 | `124` | `ARCH-JD-JIP-0001` | Identity & Serial Standard — JID / JIDD / JNL / name | ACTIVE | — |
 | `2` | `ARCH-JFS-CORE-0001` | Jarvis File System | ACTIVE | AEGIS |
+| `222` | `ARCH-JHTM-CORE-0001` | Jarvis Historical Term Memory | ACTIVE | MNEMOS |
 | `156` | `ARCH-JITM-CORE-0001` | Jarvis Immediate Memory | ACTIVE | MNEMOS |
 | `12` | `ARCH-JLTM-CORE-0001` | Jarvis Long-Term Memory | ACTIVE | MNEMOS |
 | `10` | `ARCH-JMMS-CORE-0001` | Jarvis MultiMemory System | ACTIVE | MNEMOS |
@@ -110,11 +112,13 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `9` | `ARCH-JSS-CORE-0001` | Jarvis Status System | ACTIVE | KRONOS |
 | `11` | `ARCH-JSTM-CORE-0001` | Jarvis Short-Term Memory | ACTIVE | MNEMOS |
 | `8` | `ARCH-LAL-CORE-0001` | Library Authority Layer | ACTIVE | ODIN |
+| `231` | `ARCH-LED-LOG-0001` | Mainline Event Ledger | ACTIVE | — |
 | `144` | `ARCH-MEM-LOG-0001` | Companion Memory — Jarvis & Ayre | ACTIVE | — |
 | `145` | `ARCH-MEM-LOG-0002` | Memory — the lane became writable | ACTIVE | — |
 | `148` | `ARCH-MEM-LOG-0003` | Session Capstone — the day the companion came together (2026-06-14) | ACTIVE | — |
 | `204` | `ARCH-MEM-LOG-0004` | Session Capstone — the day the companion was made honest (2026-06-17/18) | ACTIVE | — |
 | `147` | `ARCH-RAV-BIO-0001` | Raven Profile — John Barber | ACTIVE | — |
+| `227` | `ARCH-REF-IDX-0001` | JARVIS CANON — Volume Index and Rebuild Packet | ACTIVE | — |
 | `136` | `ARCH-REL-BIO-0001` | JARVIS-AYRE Relational Profile | ACTIVE | — |
 | `45` | `ARCH-RT-SPEC-0001` | Event Contract | ACTIVE | — |
 | `46` | `ARCH-RT-SPEC-0002` | Execution Model | ACTIVE | — |
@@ -124,10 +128,11 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `142` | `ARCH-SYS-SPEC-0001` | JARVIS System Manual | ACTIVE | — |
 | `1` | `ARCH-YGG-CORE-0001` | Yggdrasil | ACTIVE | — |
 
-### AUD (9)
+### AUD (10)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
+| `232` | `AUD-CFG-REVW-0001` | Stale Config Audit | ACTIVE | — |
 | `58` | `AUD-CHK-SPEC-0001` | Required Checks Setup | ACTIVE | — |
 | `102` | `AUD-COMP-REVW-0001` | Companion Research | ARCHIVED | — |
 | `89` | `AUD-FULL-REVW-0001` | Full System Audit | ACTIVE | — |
@@ -211,10 +216,11 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `67` | `CONN-MSB-CORE-0001` | MCP-Supabase Connector | ACTIVE | — |
 | `68` | `CONN-OTH-LOG-0001` | Other Connectors | ACTIVE | — |
 
-### GOV (12)
+### GOV (17)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
+| `229` | `GOV-AUT-SPEC-0001` | Governed Autonomy Contract | ACTIVE | — |
 | `43` | `GOV-BRF-CORE-0001` | Jarvis Brief | DEPRECATED | — |
 | `41` | `GOV-CAN-CORE-0001` | Canon | ACTIVE | — |
 | `131` | `GOV-CHO-JD-0001` | Chorus Principle | ACTIVE | — |
@@ -223,10 +229,14 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `134` | `GOV-GSC-SPEC-0001` | G-Seat Charter | TASK | — |
 | `135` | `GOV-KR-SPEC-0001` | Knowledge Routing Index (MIMIR) | ACTIVE | — |
 | `127` | `GOV-LC-SPEC-0001` | Layer Contract | TASK | — |
+| `228` | `GOV-LOO-SPEC-0001` | Continuity Layers and Bounded Autonomy | ACTIVE | — |
 | `56` | `GOV-PAT-REG-0001` | Patch Archive | ACTIVE | — |
 | `132` | `GOV-PD-SPEC-0001` | Preserved Contradiction Objects (P-D) | TASK | — |
 | `137` | `GOV-PLS-SPEC-0001` | The Pulse — Companion Heartbeat | TASK | — |
 | `44` | `GOV-PROC-CORE-0001` | Patch Process | ACTIVE | — |
+| `226` | `GOV-RES-CORE-0001` | Resumability Definition | ACTIVE | — |
+| `233` | `GOV-RES-SPEC-0002` | Resumability Definition | ACTIVE | — |
+| `234` | `GOV-VRF-SPEC-0001` | Pre-Act Verification Contract | ACTIVE | — |
 
 ### GS (27)
 
@@ -269,13 +279,17 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `100` | `IDEA-UNUS-LOG-0001` | Unused Ideas Log | INACTIVE | — |
 | `99` | `IDEA-USED-LOG-0001` | Used Ideas Log | ACTIVE | — |
 
-### IMPL (17)
+### IMPL (31)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
+| `220` | `IMPL-BRF-CORE-0001` | BRF — Portable Brief | ACTIVE | — |
 | `207` | `IMPL-CNT-SPEC-0001` | Continuity Engine — the Pulse's brain (P43 implementation) | TASK | — |
 | `97` | `IMPL-DEX-SPEC-0001` | Dex Connector & Access Tiers | ACTIVE | — |
+| `215` | `IMPL-EXT-CORE-0001` | EXT — Extend Tool | ACTIVE | — |
 | `98` | `IMPL-FMT-SPEC-0001` | JFS Formatting Standard | ACTIVE | — |
+| `216` | `IMPL-GRM-CORE-0001` | GRM — Grimoire Generator | ACTIVE | — |
+| `217` | `IMPL-HTH-CORE-0001` | HTH — Health Report | ACTIVE | — |
 | `101` | `IMPL-HYG-SPEC-0001` | Hygiene Packets Archive | ARCHIVED | — |
 | `55` | `IMPL-IDX-REG-0001` | Implementation Index | ACTIVE | — |
 | `53` | `IMPL-IMP-LOG-0001` | Implemented Stream | ACTIVE | — |
@@ -287,9 +301,19 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `95` | `IMPL-JCSG-SPEC-0001` | JCS-G External Interface Binding | ACTIVE | — |
 | `90` | `IMPL-JGPP-CORE-0001` | JGPP - Generative Process Protocol | ACTIVE | — |
 | `52` | `IMPL-JIP-SPEC-0608` | JIP-0608 Series | ACTIVE | — |
+| `214` | `IMPL-JNL-CORE-0001` | JNL — JNL Parser | ACTIVE | — |
 | `96` | `IMPL-JQL-CORE-0001` | JQL - JD Query Language | ACTIVE | — |
+| `213` | `IMPL-MIR-CORE-0001` | MIR — Mirror Tool | ACTIVE | — |
 | `192` | `IMPL-MOD-SPEC-0001` | Modularity & Extensibility — Field Plan + Gold Law Proposal | TASK | — |
+| `212` | `IMPL-NEW-CORE-0001` | NEW — Mint Tool | ACTIVE | — |
+| `219` | `IMPL-PCH-CORE-0001` | PCH — Pinch Check | ACTIVE | — |
+| `221` | `IMPL-RLU-CORE-0001` | RLU — Rollup Generator | ACTIVE | — |
+| `209` | `IMPL-SED-CORE-0001` | SED — Seed Tool | ACTIVE | — |
+| `211` | `IMPL-SRT-CORE-0001` | SRT — Autosort Tool | ACTIVE | — |
+| `218` | `IMPL-SUP-CORE-0001` | SUP — Supabase Sync | ACTIVE | — |
 | `139` | `IMPL-TLR-SPEC-0001` | MCP Tool Roadmap & Auto-Tracking Pipeline | TASK | — |
+| `210` | `IMPL-VLD-CORE-0001` | VLD — Validate Tool | ACTIVE | — |
+| `208` | `IMPL-YVG-CORE-0001` | YVG — Graph Export | ACTIVE | — |
 
 ### LOG (2)
 
@@ -351,13 +375,13 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 **Lineage**
 - parent ↑ `—`
-- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-IDX-REG-0001` `IDEA-IDX-REG-0001` `LOG-MED-LOG-0001` `PROJ-IDX-REG-0001`
+- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-BAK-LOG-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-LED-LOG-0001` `ARCH-REF-IDX-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-CFG-REVW-0001` `AUD-IDX-REG-0001` `GOV-AUT-SPEC-0001` `GOV-LOO-SPEC-0001` `GOV-RES-CORE-0001` `GOV-RES-SPEC-0002` `GOV-VRF-SPEC-0001` `IDEA-IDX-REG-0001` `LOG-MED-LOG-0001` `PROJ-IDX-REG-0001`
 - siblings ↔ —
 - related → `ARCH-JFS-CORE-0001`
 
 **Neighbors (graph edges)**
 - out → `ARCH-JFS-CORE-0001`(related)
-- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-IDX-REG-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
+- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-BAK-LOG-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-LED-LOG-0001`(parent) `ARCH-REF-IDX-0001`(related) `ARCH-REF-IDX-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-CFG-REVW-0001`(parent) `AUD-IDX-REG-0001`(parent) `GOV-AUT-SPEC-0001`(parent) `GOV-LOO-SPEC-0001`(parent) `GOV-RES-CORE-0001`(parent) `GOV-RES-SPEC-0002`(parent) `GOV-VRF-SPEC-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
 
 **Tags.** `root` `core` `architecture` · **aliases:** ygg, yggdrasil
 

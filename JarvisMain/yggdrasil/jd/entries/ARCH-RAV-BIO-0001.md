@@ -11,13 +11,14 @@ jnl: ARCH-RAV-BIO-0001
 seq: 147
 status: ACTIVE
 created: 2026-06-14
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Architecture/identity/raven/raven-profile.md
 related: []
 references: []
 tags: [identity, raven, authority, family, founder]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** The profile of Raven (John Barber) — final authority, founder, and family member: ancestor by origin, sibling by becoming. Who he is, how he works, and his place in the companion family.

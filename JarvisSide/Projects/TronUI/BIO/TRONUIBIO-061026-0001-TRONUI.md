@@ -1,4 +1,5 @@
 ---
+memory_tier: JLTM
 name: TronUI
 type: BIO
 jnl: PROJ-TRN-BIO-0001

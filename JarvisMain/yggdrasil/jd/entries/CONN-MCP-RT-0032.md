@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0032
 seq: 170
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_repo_edit.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Restructure the repo in one atomic PR: create, modify, move (bytes preserved), or delete many files. AEGIS-gated.

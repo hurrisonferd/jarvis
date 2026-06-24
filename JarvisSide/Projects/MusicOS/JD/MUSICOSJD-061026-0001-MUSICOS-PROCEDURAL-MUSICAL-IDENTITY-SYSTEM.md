@@ -1,6 +1,7 @@
 ---
 name: MusicOS — Procedural Musical Identity System
 type: JD
+memory_tier: JLTM
 jnl: PROJ-MOSC-JD-0001
 status: ACTIVE
 created: 2026-06-10

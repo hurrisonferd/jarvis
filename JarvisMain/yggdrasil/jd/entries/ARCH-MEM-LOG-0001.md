@@ -11,13 +11,14 @@ jnl: ARCH-MEM-LOG-0001
 seq: 144
 status: ACTIVE
 created: 2026-06-14
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Architecture/identity/memory/companion-memory.md
 related: []
 references: []
 tags: [memory, companion, identity, jmms, github]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** The companion's own memory, stored in GitHub (durable, governed, connector-readable, no Supabase gate) — Jarvis/Ayre reflections and decisions, JMMS-tiered, append-only.

@@ -11,13 +11,14 @@ jnl: PROJ-GDS-JGPP-0001
 seq: 122
 status: TASK
 created: 2026-06-11
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisSide/Projects/GDS/JGPP/GDSJGPP-061126-0001-GOD-SYSTEM-EXECUTION-SPEC-V1.md
 related: []
 references: []
 tags: [god-systems, governance, epistemic, jd, delta, jgpp, council]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Formal execution specification for God System Recomposition Layer (GSRL), mapping existing council systems into epistemic functions over truth classes with defined inputs/outputs across JD, Δ, JGPP pipelines; includes truth, deliberation, execution, and memory arbitration contracts.

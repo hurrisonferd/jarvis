@@ -11,13 +11,14 @@ jnl: PROJ-ALL-LOG-0001
 seq: 59
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisSide/Projects/ProjectLogSummary-0001
 related: []
 references: []
 tags: [project, log]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Cross-project log summary.

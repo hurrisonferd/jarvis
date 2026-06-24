@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0053
 seq: 191
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dither.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Dither a repo image to the 4-shade Game Boy palette with ordered (Bayer) dithering — the DMG look.

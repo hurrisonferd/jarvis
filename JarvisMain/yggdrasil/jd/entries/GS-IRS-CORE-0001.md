@@ -11,13 +11,14 @@ jnl: GS-IRS-CORE-0001
 seq: 32
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/god_systems/T6_IRIS/contract.json
 related: [GS-AEG-CORE-0001]
 references: []
 tags: [governance, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Integrity verification + anomaly detection.

@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0030
 seq: 168
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-16
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_github_commits.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** List recent commits to the JARVIS repo, optionally filtered by path (read-only).

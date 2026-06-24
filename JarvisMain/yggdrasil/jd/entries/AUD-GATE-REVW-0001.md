@@ -11,13 +11,14 @@ jnl: AUD-GATE-REVW-0001
 seq: 152
 status: ACTIVE
 created: 2026-06-15
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisMain/Audit/sticky-fingers-governance-audit.md
 related: []
 references: []
 tags: [audit, governance, aegis, security]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Maps every state-mutation path and its gate; finds + closes the two ungated seams (github_write, pr_merge).

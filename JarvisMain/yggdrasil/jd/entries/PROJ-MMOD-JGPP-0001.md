@@ -11,13 +11,14 @@ jnl: PROJ-MMOD-JGPP-0001
 seq: 119
 status: TASK
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisSide/Projects/Multimodal/JGPP/MULTIMODALJGPP-061026-0001-JARVIS-MULTIMODAL-PERCEPTION-LAYER.md
 related: []
 references: []
 tags: [multimodal, perception, event-ledger, tst, jpl, streams]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Event-sourced multimodal layer that converts non-text inputs into structured perceptual events compatible with EL and TST. Produces timestamped segments and normalized feature representations with strict separation between raw input, interpretation, and state mutation.

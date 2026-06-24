@@ -11,13 +11,14 @@ jnl: ARCH-JMS-SPEC-0001
 seq: 138
 status: TASK
 created: 2026-06-13
-updated: 2026-06-15
+updated: 2026-06-24
 source: JarvisMain/Implementation/task/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md
 related: []
 references: []
 tags: [jms, mirror, omnivision, global, freshness, reachability, pulse, nemesis]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** A derived, complete, freshness-stamped single-read snapshot of the whole system — repo structure + dex state + status — so any stream reads the entire world in one pass instead of N traversal calls. Activates JMS (the Mirror System, ARCH-JMS-CORE-0001) as earned omnivision. The mirror is never truth; it points at truth (JMS law: move references, never truth) and always carries its own freshness so a stale read is impossible to mistake for a current one.

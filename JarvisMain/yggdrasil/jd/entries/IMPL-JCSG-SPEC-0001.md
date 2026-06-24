@@ -11,13 +11,14 @@ jnl: IMPL-JCSG-SPEC-0001
 seq: 95
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Implementation/Active/JIP-0608-G
 related: [IMPL-JCS-CORE-0001]
 references: []
 tags: [jcs, layer, interface]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** JCS layer G: external interface binding.

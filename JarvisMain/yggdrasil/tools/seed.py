@@ -61,7 +61,11 @@ _CREATED_RE = re.compile(r"^created:\s*(\S+)", re.MULTILINE)
 # is adopted into the dex — the file is its own manifest (natural growth, no list edits).
 SCAN_ROOTS = ("JarvisSide/Projects", "JarvisMain/Implementation",
               "JarvisSide/Ideas", "JarvisSide/Breakthroughs", "JarvisSide/Archive",
-              "JarvisMain/Architecture/identity")  # identity tree: drop a frontmatter .md (memory, raven, …), it governs itself
+              "JarvisMain/Architecture/identity",  # identity tree
+              "JarvisMain/Manual",  # canonical manual
+              "JarvisMain/Architecture/specs",  # architecture specs
+              "JarvisMain/Architecture/rebuild",  # rebuild artifacts
+              "JarvisMain/Architecture/audits")  # audit records
 _FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)
 
 
@@ -149,6 +153,10 @@ SUBSTRATE = [
      "Root/critical memory tier — the foundational and critical info the system must never lose or rewrite: the dated lineage/spine, append-only, immutable.",
      "Preserve the root, critical record that outlives sessions and never retags out (HADES-adjacent).",
      ["memory", "ancestral", "immutable", "architecture"], ["ARCH-JMMS-CORE-0001"]),
+    ("JHTM", "Jarvis Historical Term Memory", "ARCH-JHTM-CORE-0001", "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
+     "Historical term memory tier — compressed JLTM summaries that have been folded once. One-way promotion toward JATM.",
+     "Bridge short-term and ancestral. A fold receipt must accompany every JHTM entry.",
+     ["memory", "historical", "fold", "architecture"], ["ARCH-JMMS-CORE-0001"]),
 ]
 
 # --- The 27 God Systems (GS). (code, name, tier_group, definition) ---
@@ -459,6 +467,63 @@ KNOWLEDGE = [
      "Canonical model for IDs/tags/status/routing; one identity (JNL), JGPP/JIP/JD pipeline types.",
      "Let the connector upload JGPP/JIP/JD with auto-format, routing, and queryable retrieval.",
      ["format", "ids", "jnl", "governance", "spec"]),
+    # --- Yggdrasil tool registry (IMPL-YVG, IMPL-SED, IMPL-VLD, IMPL-SRT, IMPL-NEW, IMPL-MIR, IMPL-JNL, IMPL-EXT, IMPL-GRM, IMPL-HTH, IMPL-SUP, IMPL-PCH, IMPL-BRF, IMPL-RLU)
+    ("IMPL-YVG-CORE-0001", "YVG — Graph Export", "IMPL", "JarvisMain/yggdrasil/tools/graph_export.py",
+     "Exports the governed graph as a navigable JSON object graph. Feeds the visualizer and YGG version snapshot.",
+     "Expose the governed record as a queryable graph for tooling and visualization.",
+     ["graph", "export", "tool", "visualizer", "yggdrasil"]),
+    ("IMPL-SED-CORE-0001", "SED — Seed Tool", "IMPL", "JarvisMain/yggdrasil/tools/seed.py",
+     "Rebuilds all derived registries (JD entries, LAL index, address-registry, graph) from source manifests + scan roots.",
+     "Ensure every governed object is discoverable and canonically addressed after a change.",
+     ["seed", "registry", "jd", "lal", "graph", "tool"]),
+    ("IMPL-VLD-CORE-0001", "VLD — Validate Tool", "IMPL", "JarvisMain/yggdrasil/tools/validate.py",
+     "JVE — enforces GL12 closure: every governed file has a JNL, valid JSE frontmatter, no dangling edges, zero ungoverned files.",
+     "Be the hard gate before every commit. Fail loud — no silent governance gaps.",
+     ["validate", "jve", "gl12", "governance", "tool"]),
+    ("IMPL-SRT-CORE-0001", "SRT — Autosort Tool", "IMPL", "JarvisMain/yggdrasil/tools/autosort.py",
+     "Relocates files to match their JSS status. ACTIVE→parent dir; INACTIVE→inactive/; ARCHIVED→JarvisSide/Archive; DEPRECATED→Deprecated/.",
+     "Keep the tree honest. Status drives placement — autosort enforces it.",
+     ["autosort", "jss", "status", "placement", "tool"]),
+    ("IMPL-NEW-CORE-0001", "NEW — Mint Tool", "IMPL", "JarvisMain/yggdrasil/tools/new.py",
+     "Mints a new governed object in one command: JNL + formatted file + seq-registry update.",
+     "Reduce the friction of creating governed objects to a single command.",
+     ["new", "mint", "create", "governed", "tool"]),
+    ("IMPL-MIR-CORE-0001", "MIR — Mirror Tool", "IMPL", "JarvisMain/yggdrasil/tools/mirror.py",
+     "Syncs governed objects between git (canonical) and Supabase (runtime mirror). Reads jd_entries, updates Supabase.",
+     "Keep the runtime mirror fresh. Git is always source of truth.",
+     ["mirror", "sync", "supabase", "jd_entries", "tool"]),
+    ("IMPL-JNL-CORE-0001", "JNL — JNL Parser", "IMPL", "JarvisMain/yggdrasil/tools/jnl.py",
+     "Executable mirror of the JNL grammar spec. Parses, validates, and returns typed JNL address objects.",
+     "Be the ground truth for JNL grammar — the spec doc and this module stay in lockstep.",
+     ["jnl", "parser", "grammar", "validator", "tool"]),
+    ("IMPL-EXT-CORE-0001", "EXT — Extend Tool", "IMPL", "JarvisMain/yggdrasil/tools/extend.py",
+     "Extends a kind of thing through a data-driven seam: one row/file + one reseed. The first instrument of GL13 Open Extension.",
+     "Add new types, domains, systems, or JMMS tiers without a structural rewrite.",
+     ["extend", "gl13", "extension", "data-driven", "tool"]),
+    ("IMPL-GRM-CORE-0001", "GRM — Grimoire Generator", "IMPL", "JarvisMain/yggdrasil/tools/grimoire.py",
+     "Generates the grimoire — a catalog card for every governed object in the tree.",
+     "Surface the governed record as a readable catalog. One card per object.",
+     ["grimoire", "catalog", "card", "tool"]),
+    ("IMPL-HTH-CORE-0001", "HTH — Health Report", "IMPL", "JarvisMain/yggdrasil/tools/health.py",
+     "Generates JD health — orphan analysis, edge integrity, ruleless JIPs. Read-only, never blocks.",
+     "Diagnose the governed record between full VLD runs.",
+     ["health", "diagnostic", "orphans", "tool"]),
+    ("IMPL-SUP-CORE-0001", "SUP — Supabase Sync", "IMPL", "JarvisMain/yggdrasil/tools/sync_supabase.py",
+     "Pushes canonical JD entries to Supabase jd_entries table and writes dex_events on canonical changes.",
+     "Mirror git canonical to runtime Supabase. The event spine lives there.",
+     ["supabase", "sync", "events", "tool"]),
+    ("IMPL-PCH-CORE-0001", "PCH — Pinch Check", "IMPL", "JarvisMain/yggdrasil/tools/pinch.py",
+     "Checks for schema drift: JNL grammar, JSE envelope, and YGG manifest fingerprints must stay in sync.",
+     "Flag drift between the executable grammar (jnl.py) and the reference spec (jnl-grammar.md).",
+     ["pinch", "drift", "schema", "tool"]),
+    ("IMPL-BRF-CORE-0001", "BRF — Portable Brief", "IMPL", "JarvisMain/yggdrasil/tools/portable_brief.py",
+     "Generates a portable brief: the minimal governance context a new node needs to operate.",
+     "Give any node a single-file bootstrap packet. One brief, fully governed.",
+     ["brief", "portable", "bootstrap", "tool"]),
+    ("IMPL-RLU-CORE-0001", "RLU — Rollup Generator", "IMPL", "JarvisMain/yggdrasil/tools/rollup.py",
+     "Generates session rollups: summary of what was done, decisions made, and open items.",
+     "Keep session continuity between handoffs. Rollup is the session artifact.",
+     ["rollup", "session", "handoff", "tool"]),
 ]
 
 # --- PARENT: containment/ownership — the family tree. A system code names its whole
@@ -480,6 +545,7 @@ PARENT = {
     "ARCH-JSTM-CORE-0001": "ARCH-JMMS-CORE-0001",
     "ARCH-JLTM-CORE-0001": "ARCH-JMMS-CORE-0001",
     "ARCH-JATM-CORE-0001": "ARCH-JMMS-CORE-0001",
+    "ARCH-JHTM-CORE-0001": "ARCH-JMMS-CORE-0001",
     # Specs belong to the system they specify. The AYRE/JARVIS split + Ayre loop
     # specs describe the COMPANION stream, not the intake god (now ORACLE) — they
     # parent to the AYRE companion profile (rename disentangling, 2026-06-14).
@@ -544,6 +610,21 @@ PARENT = {
     "IDEA-USED-LOG-0001": "IDEA-IDX-REG-0001",
     "IDEA-UNUS-LOG-0001": "IDEA-IDX-REG-0001",
     "IMPL-MOD-SPEC-0001": "IMPL-IDX-REG-0001",
+    # Yggdrasil tool registry — all children of the IMPL index
+    "IMPL-YVG-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-SED-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-VLD-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-SRT-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-NEW-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-MIR-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-JNL-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-EXT-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-GRM-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-HTH-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-SUP-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-PCH-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-BRF-CORE-0001": "IMPL-IDX-REG-0001",
+    "IMPL-RLU-CORE-0001": "IMPL-IDX-REG-0001",
     "LOG-MED-LOG-0001": "ARCH-YGG-CORE-0001",  # Media Library approved (Raven 2026-06-16): a top-level media registry
     "IMPL-TLR-SPEC-0001": "CONN-MSB-CORE-0001",
     "CONN-OTH-LOG-0001": "CONN-MSB-CORE-0001",
@@ -808,6 +889,7 @@ STEWARD = {
     "ARCH-JSTM-CORE-0001": "MNEMOS",
     "ARCH-JLTM-CORE-0001": "MNEMOS",
     "ARCH-JATM-CORE-0001": "MNEMOS",
+    "ARCH-JHTM-CORE-0001": "MNEMOS",
     "ARCH-JPL-CORE-0001": "HERMES",    # language ← translation
     "CONN-GAC-CORE-0001": "HERMES",    # GPT Action connector ← translation/relay (MCP↔REST, Claude↔ChatGPT bridge)
 }
@@ -933,6 +1015,7 @@ def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, r
         f"tags: [{', '.join(tags)}]",
         f"aliases: [{', '.join(aliases if aliases is not None else ALIASES.get(jnl, []))}]",
         f"ref: [{', '.join(ref)}]",
+        f"memory_tier: JLTM",
         "---",
         "",
         f"**Definition:** {definition}",

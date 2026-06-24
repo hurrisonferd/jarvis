@@ -1,6 +1,9 @@
 {
   "note": "Canonical tag vocabulary -> addresses carrying each tag. Derived.",
   "tags": {
+    "AEGIS": [
+      "GOV-AUT-SPEC-0001"
+    ],
     "action": [
       "CONN-DEX-SPEC-0001",
       "CONN-GAC-CORE-0001",
@@ -21,6 +24,9 @@
     "ancestral": [
       "ARCH-JATM-CORE-0001"
     ],
+    "anti-hallucination": [
+      "GOV-VRF-SPEC-0001"
+    ],
     "arbitration": [
       "GOV-PD-SPEC-0001"
     ],
@@ -32,6 +38,7 @@
       "ARCH-JATM-CORE-0001",
       "ARCH-JD-CORE-0001",
       "ARCH-JFS-CORE-0001",
+      "ARCH-JHTM-CORE-0001",
       "ARCH-JITM-CORE-0001",
       "ARCH-JLTM-CORE-0001",
       "ARCH-JMMS-CORE-0001",
@@ -65,6 +72,7 @@
       "LOG-MED-LOG-0001"
     ],
     "audit": [
+      "AUD-CFG-REVW-0001",
       "AUD-CHK-SPEC-0001",
       "AUD-FULL-REVW-0001",
       "AUD-GATE-REVW-0001",
@@ -83,6 +91,13 @@
     "automation": [
       "IMPL-MOD-SPEC-0001"
     ],
+    "autonomy": [
+      "GOV-AUT-SPEC-0001",
+      "GOV-LOO-SPEC-0001"
+    ],
+    "autosort": [
+      "IMPL-SRT-CORE-0001"
+    ],
     "ayre": [
       "ARCH-AYR-BIO-0001",
       "ARCH-AYR-SPEC-0001",
@@ -95,6 +110,7 @@
       "ARCH-MEM-LOG-0004"
     ],
     "backup": [
+      "ARCH-BAK-LOG-0001",
       "LOG-MNE-LOG-0001"
     ],
     "bifrost": [
@@ -104,6 +120,7 @@
       "GOV-GSC-SPEC-0001"
     ],
     "bootstrap": [
+      "IMPL-BRF-CORE-0001",
       "PROJ-GDS-JGPP-0002"
     ],
     "bounded-autonomy": [
@@ -112,7 +129,11 @@
     "bridge": [
       "GOV-DEX-SPEC-0001"
     ],
+    "brief": [
+      "IMPL-BRF-CORE-0001"
+    ],
     "canon": [
+      "ARCH-REF-IDX-0001",
       "GOV-CAN-CORE-0001",
       "GS-AEG-CORE-0001",
       "GS-APO-CORE-0001",
@@ -142,9 +163,21 @@
       "GS-SKD-CORE-0001",
       "GS-ZEU-CORE-0001"
     ],
+    "canonical": [
+      "ARCH-BAK-LOG-0001"
+    ],
     "capstone": [
       "ARCH-MEM-LOG-0003",
       "ARCH-MEM-LOG-0004"
+    ],
+    "card": [
+      "IMPL-GRM-CORE-0001"
+    ],
+    "catalog": [
+      "IMPL-GRM-CORE-0001"
+    ],
+    "chapters": [
+      "ARCH-REF-IDX-0001"
     ],
     "charter": [
       "ARCH-JRV-BIO-0003",
@@ -155,6 +188,9 @@
     ],
     "ci": [
       "AUD-CHK-SPEC-0001"
+    ],
+    "cloud-first": [
+      "AUD-CFG-REVW-0001"
     ],
     "codec": [
       "PROJ-JPL-JGPP-0001"
@@ -179,6 +215,9 @@
     ],
     "compression": [
       "PROJ-JPL-JGPP-0001"
+    ],
+    "config": [
+      "AUD-CFG-REVW-0001"
     ],
     "connector": [
       "ARCH-SYS-LOG-0001",
@@ -257,7 +296,12 @@
     ],
     "continuity": [
       "ARCH-JC-JIP-0001",
+      "ARCH-REF-IDX-0001",
       "ARCH-SYS-LOG-0001",
+      "GOV-LOO-SPEC-0001",
+      "GOV-RES-CORE-0001",
+      "GOV-RES-SPEC-0002",
+      "GOV-VRF-SPEC-0001",
       "IMPL-CNT-SPEC-0001",
       "PROJ-TST-JGPP-0001"
     ],
@@ -307,6 +351,12 @@
       "PROJ-GDS-JGPP-0001",
       "PROJ-RTO-JGPP-0001"
     ],
+    "create": [
+      "IMPL-NEW-CORE-0001"
+    ],
+    "data-driven": [
+      "IMPL-EXT-CORE-0001"
+    ],
     "declarative": [
       "GOV-DEX-SPEC-0001"
     ],
@@ -331,17 +381,24 @@
       "IMPL-DEX-SPEC-0001",
       "IMPL-TLR-SPEC-0001"
     ],
+    "diagnostic": [
+      "IMPL-HTH-CORE-0001"
+    ],
     "dictionary": [
       "ARCH-JD-CORE-0001"
     ],
     "discovery": [
       "ARCH-LAL-CORE-0001"
     ],
+    "distributed": [
+      "GOV-VRF-SPEC-0001"
+    ],
     "divergence": [
       "ARCH-AYR-BIO-0001"
     ],
     "drift": [
-      "IMPL-CNT-SPEC-0001"
+      "IMPL-CNT-SPEC-0001",
+      "IMPL-PCH-CORE-0001"
     ],
     "envelope": [
       "ARCH-JSE-SPEC-0001"
@@ -357,14 +414,28 @@
       "PROJ-MMOD-JGPP-0001",
       "PROJ-TST-JGPP-0001"
     ],
+    "event-log": [
+      "GOV-LOO-SPEC-0001"
+    ],
     "events": [
-      "ARCH-SL-JIP-0001"
+      "ARCH-LED-LOG-0001",
+      "ARCH-SL-JIP-0001",
+      "IMPL-SUP-CORE-0001"
     ],
     "exploration": [
       "PROJ-DEO-JGPP-0001"
     ],
+    "export": [
+      "IMPL-YVG-CORE-0001"
+    ],
+    "extend": [
+      "IMPL-EXT-CORE-0001"
+    ],
     "extensibility": [
       "IMPL-MOD-SPEC-0001"
+    ],
+    "extension": [
+      "IMPL-EXT-CORE-0001"
     ],
     "families": [
       "ARCH-FAM-IDX-0001"
@@ -378,6 +449,9 @@
     ],
     "filesystem": [
       "ARCH-JFS-CORE-0001"
+    ],
+    "fold": [
+      "ARCH-JHTM-CORE-0001"
     ],
     "format": [
       "ARCH-JD-JIP-0001",
@@ -415,13 +489,18 @@
       "GOV-BRF-CORE-0001"
     ],
     "git-first": [
+      "ARCH-LED-LOG-0001",
       "AUD-SYNC-REVW-0001"
     ],
     "github": [
       "ARCH-MEM-LOG-0001"
     ],
     "gl12": [
-      "IMPL-MOD-SPEC-0001"
+      "IMPL-MOD-SPEC-0001",
+      "IMPL-VLD-CORE-0001"
+    ],
+    "gl13": [
+      "IMPL-EXT-CORE-0001"
     ],
     "gl7": [
       "AUD-REQM-REVW-0001",
@@ -478,6 +557,7 @@
       "ARCH-JRV-BIO-0003",
       "AUD-GATE-REVW-0001",
       "AUD-SYNC-REVW-0001",
+      "GOV-AUT-SPEC-0001",
       "GOV-BRF-CORE-0001",
       "GOV-CAN-CORE-0001",
       "GOV-CHO-JD-0001",
@@ -489,6 +569,9 @@
       "GOV-PD-SPEC-0001",
       "GOV-PLS-SPEC-0001",
       "GOV-PROC-CORE-0001",
+      "GOV-RES-CORE-0001",
+      "GOV-RES-SPEC-0002",
+      "GOV-VRF-SPEC-0001",
       "GS-ARG-CORE-0001",
       "GS-ATL-CORE-0001",
       "GS-DAN-CORE-0001",
@@ -502,8 +585,12 @@
       "IMPL-DEX-SPEC-0001",
       "IMPL-FMT-SPEC-0001",
       "IMPL-MOD-SPEC-0001",
+      "IMPL-VLD-CORE-0001",
       "PROJ-GDS-JGPP-0001",
       "PROJ-GDS-JGPP-0002"
+    ],
+    "governed": [
+      "IMPL-NEW-CORE-0001"
     ],
     "gpt": [
       "ARCH-GPT-SPEC-0001",
@@ -513,23 +600,41 @@
       "CONN-GAC-SPEC-0001",
       "GOV-GSC-SPEC-0001"
     ],
+    "grammar": [
+      "IMPL-JNL-CORE-0001"
+    ],
+    "graph": [
+      "IMPL-SED-CORE-0001",
+      "IMPL-YVG-CORE-0001"
+    ],
     "grid": [
       "PROJ-GRD-BIO-0001"
+    ],
+    "grimoire": [
+      "IMPL-GRM-CORE-0001"
     ],
     "halo": [
       "GOV-CHO-JD-0001"
     ],
     "handoff": [
-      "ARCH-SYS-LOG-0001"
+      "ARCH-SYS-LOG-0001",
+      "IMPL-RLU-CORE-0001"
+    ],
+    "hard-stops": [
+      "GOV-AUT-SPEC-0001"
     ],
     "health": [
-      "AUD-REQM-REVW-0001"
+      "AUD-REQM-REVW-0001",
+      "IMPL-HTH-CORE-0001"
     ],
     "heartbeat": [
       "GOV-PLS-SPEC-0001"
     ],
     "help": [
       "GOV-KR-SPEC-0001"
+    ],
+    "historical": [
+      "ARCH-JHTM-CORE-0001"
     ],
     "honesty": [
       "ARCH-MEM-LOG-0004"
@@ -555,6 +660,8 @@
       "ARCH-RAV-BIO-0001",
       "ARCH-REL-BIO-0001",
       "ARCH-SYS-LOG-0001",
+      "GOV-RES-CORE-0001",
+      "GOV-RES-SPEC-0002",
       "IDEA-PAN-INS-0001",
       "PROJ-MOSC-JD-0001",
       "PROJ-NMX-JGPP-0001"
@@ -610,10 +717,14 @@
       "IMPL-JCSG-SPEC-0001"
     ],
     "jd": [
+      "IMPL-SED-CORE-0001",
       "IMPL-TLR-SPEC-0001",
       "PROJ-GDS-JGPP-0001",
       "PROJ-GDS-JGPP-0002",
       "PROJ-TST-JGPP-0001"
+    ],
+    "jd_entries": [
+      "IMPL-MIR-CORE-0001"
     ],
     "jfs": [
       "ARCH-JSE-SPEC-0001",
@@ -647,7 +758,8 @@
     ],
     "jnl": [
       "ARCH-JD-JIP-0001",
-      "IMPL-FMT-SPEC-0001"
+      "IMPL-FMT-SPEC-0001",
+      "IMPL-JNL-CORE-0001"
     ],
     "jpl": [
       "PROJ-JPL-BIO-0001",
@@ -657,6 +769,12 @@
     "jql": [
       "IMPL-JQL-CORE-0001"
     ],
+    "jss": [
+      "IMPL-SRT-CORE-0001"
+    ],
+    "jve": [
+      "IMPL-VLD-CORE-0001"
+    ],
     "keel": [
       "IMPL-CNT-SPEC-0001"
     ],
@@ -665,6 +783,9 @@
     ],
     "kronos": [
       "GOV-PLS-SPEC-0001"
+    ],
+    "lal": [
+      "IMPL-SED-CORE-0001"
     ],
     "layer": [
       "IMPL-JCSD-SPEC-0001",
@@ -698,7 +819,11 @@
     "long-term": [
       "ARCH-JLTM-CORE-0001"
     ],
+    "main": [
+      "ARCH-LED-LOG-0001"
+    ],
     "manual": [
+      "ARCH-REF-IDX-0001",
       "ARCH-SYS-SPEC-0001"
     ],
     "mcp": [
@@ -774,6 +899,7 @@
     "memory": [
       "ARCH-JATM-CORE-0001",
       "ARCH-JC-JIP-0001",
+      "ARCH-JHTM-CORE-0001",
       "ARCH-JITM-CORE-0001",
       "ARCH-JLTM-CORE-0001",
       "ARCH-JMMS-CORE-0001",
@@ -781,7 +907,9 @@
       "ARCH-MEM-LOG-0001",
       "ARCH-MEM-LOG-0002",
       "ARCH-MEM-LOG-0003",
-      "ARCH-MEM-LOG-0004"
+      "ARCH-MEM-LOG-0004",
+      "GOV-RES-CORE-0001",
+      "GOV-RES-SPEC-0002"
     ],
     "milestone": [
       "ARCH-MEM-LOG-0003",
@@ -790,9 +918,13 @@
     "mimir": [
       "GOV-KR-SPEC-0001"
     ],
+    "mint": [
+      "IMPL-NEW-CORE-0001"
+    ],
     "mirror": [
       "ARCH-JMS-CORE-0001",
-      "ARCH-JMS-SPEC-0001"
+      "ARCH-JMS-SPEC-0001",
+      "IMPL-MIR-CORE-0001"
     ],
     "mirroring": [
       "IMPL-MOD-SPEC-0001"
@@ -830,6 +962,9 @@
     "nemesis": [
       "ARCH-JMS-SPEC-0001"
     ],
+    "new": [
+      "IMPL-NEW-CORE-0001"
+    ],
     "observatory": [
       "PROJ-RTO-JGPP-0001"
     ],
@@ -842,12 +977,18 @@
     "openapi": [
       "CONN-GAC-SPEC-0001"
     ],
+    "operating-rule": [
+      "ARCH-LED-LOG-0001"
+    ],
     "orchestration": [
       "GS-APO-CORE-0001",
       "GS-ATH-CORE-0001",
       "GS-BFR-CORE-0001",
       "GS-HAL-CORE-0001",
       "GS-NEM-CORE-0001"
+    ],
+    "orphans": [
+      "IMPL-HTH-CORE-0001"
     ],
     "overlay": [
       "GOV-LC-SPEC-0001"
@@ -868,6 +1009,9 @@
     "parity": [
       "GOV-GSC-SPEC-0001"
     ],
+    "parser": [
+      "IMPL-JNL-CORE-0001"
+    ],
     "patches": [
       "GOV-PAT-REG-0001",
       "GOV-PROC-CORE-0001"
@@ -875,14 +1019,23 @@
     "perception": [
       "PROJ-MMOD-JGPP-0001"
     ],
+    "pinch": [
+      "IMPL-PCH-CORE-0001"
+    ],
     "pipeline": [
       "IMPL-JCS-CORE-0001",
       "IMPL-JGPP-CORE-0001",
       "IMPL-JQL-CORE-0001",
       "IMPL-TLR-SPEC-0001"
     ],
+    "placement": [
+      "IMPL-SRT-CORE-0001"
+    ],
     "plurality": [
       "GOV-CHO-JD-0001"
+    ],
+    "portable": [
+      "IMPL-BRF-CORE-0001"
     ],
     "privacy": [
       "PROJ-NMX-JGPP-0001"
@@ -941,6 +1094,10 @@
     "reachability": [
       "ARCH-JMS-SPEC-0001"
     ],
+    "rebuild": [
+      "ARCH-BAK-LOG-0001",
+      "ARCH-REF-IDX-0001"
+    ],
     "reference": [
       "ARCH-SYS-SPEC-0001",
       "IMPL-HYG-SPEC-0001",
@@ -948,6 +1105,9 @@
     ],
     "reflection": [
       "GOV-PLS-SPEC-0001"
+    ],
+    "registry": [
+      "IMPL-SED-CORE-0001"
     ],
     "relational": [
       "ARCH-REL-BIO-0001"
@@ -957,6 +1117,15 @@
     ],
     "rest": [
       "CONN-GAC-CORE-0001"
+    ],
+    "resumability": [
+      "ARCH-REF-IDX-0001",
+      "GOV-LOO-SPEC-0001",
+      "GOV-RES-CORE-0001",
+      "GOV-RES-SPEC-0002"
+    ],
+    "retention": [
+      "GOV-LOO-SPEC-0001"
     ],
     "retrieval": [
       "GOV-KR-SPEC-0001"
@@ -975,6 +1144,9 @@
     "roadmap": [
       "IMPL-MOD-SPEC-0001",
       "IMPL-TLR-SPEC-0001"
+    ],
+    "rollup": [
+      "IMPL-RLU-CORE-0001"
     ],
     "root": [
       "ARCH-YGG-CORE-0001",
@@ -998,11 +1170,18 @@
     ],
     "schema": [
       "ARCH-JSE-SPEC-0001",
-      "CONN-GAC-SPEC-0001"
+      "CONN-GAC-SPEC-0001",
+      "IMPL-PCH-CORE-0001"
+    ],
+    "scope": [
+      "GOV-AUT-SPEC-0001"
     ],
     "security": [
       "AUD-GATE-REVW-0001",
       "PROJ-JPL-JGPP-0001"
+    ],
+    "seed": [
+      "IMPL-SED-CORE-0001"
     ],
     "semantic": [
       "ARCH-JD-CORE-0001"
@@ -1015,7 +1194,11 @@
     ],
     "session": [
       "ARCH-MEM-LOG-0003",
-      "ARCH-MEM-LOG-0004"
+      "ARCH-MEM-LOG-0004",
+      "IMPL-RLU-CORE-0001"
+    ],
+    "session-open": [
+      "GOV-LOO-SPEC-0001"
     ],
     "short-term": [
       "ARCH-JSTM-CORE-0001"
@@ -1037,6 +1220,9 @@
     "spine": [
       "LOG-MNE-LOG-0001"
     ],
+    "stale": [
+      "AUD-CFG-REVW-0001"
+    ],
     "standard": [
       "ARCH-JD-JIP-0001"
     ],
@@ -1050,7 +1236,8 @@
       "PROJ-TST-JGPP-0001"
     ],
     "status": [
-      "ARCH-JSS-CORE-0001"
+      "ARCH-JSS-CORE-0001",
+      "IMPL-SRT-CORE-0001"
     ],
     "stewardship": [
       "IDEA-PAN-INS-0001"
@@ -1068,7 +1255,9 @@
       "PROJ-MOSC-JD-0001"
     ],
     "supabase": [
-      "CONN-MSB-CORE-0001"
+      "CONN-MSB-CORE-0001",
+      "IMPL-MIR-CORE-0001",
+      "IMPL-SUP-CORE-0001"
     ],
     "superseded": [
       "GOV-BRF-CORE-0001"
@@ -1076,7 +1265,9 @@
     "sync": [
       "ARCH-JC-JIP-0001",
       "ARCH-SL-JIP-0001",
-      "AUD-SYNC-REVW-0001"
+      "AUD-SYNC-REVW-0001",
+      "IMPL-MIR-CORE-0001",
+      "IMPL-SUP-CORE-0001"
     ],
     "synthesis": [
       "ARCH-JRV-BIO-0001"
@@ -1165,7 +1356,21 @@
       "CONN-MCP-RT-0060",
       "CONN-MCP-RT-0061",
       "CONN-MCP-RT-0062",
-      "CONN-MCP-RT-0063"
+      "CONN-MCP-RT-0063",
+      "IMPL-BRF-CORE-0001",
+      "IMPL-EXT-CORE-0001",
+      "IMPL-GRM-CORE-0001",
+      "IMPL-HTH-CORE-0001",
+      "IMPL-JNL-CORE-0001",
+      "IMPL-MIR-CORE-0001",
+      "IMPL-NEW-CORE-0001",
+      "IMPL-PCH-CORE-0001",
+      "IMPL-RLU-CORE-0001",
+      "IMPL-SED-CORE-0001",
+      "IMPL-SRT-CORE-0001",
+      "IMPL-SUP-CORE-0001",
+      "IMPL-VLD-CORE-0001",
+      "IMPL-YVG-CORE-0001"
     ],
     "tool-use": [
       "ARCH-JRV-BIO-0003"
@@ -1180,17 +1385,31 @@
     "ui": [
       "PROJ-TRN-JGPP-0001"
     ],
+    "validate": [
+      "IMPL-VLD-CORE-0001"
+    ],
+    "validator": [
+      "IMPL-JNL-CORE-0001"
+    ],
+    "verification": [
+      "GOV-VRF-SPEC-0001"
+    ],
     "visualizer": [
+      "IMPL-YVG-CORE-0001",
       "PROJ-RTO-JGPP-0001"
     ],
     "voice": [
       "CONN-MCP-RT-0018"
     ],
+    "volumes": [
+      "ARCH-REF-IDX-0001"
+    ],
     "writable": [
       "ARCH-MEM-LOG-0002"
     ],
     "yggdrasil": [
-      "IMPL-MOD-SPEC-0001"
+      "IMPL-MOD-SPEC-0001",
+      "IMPL-YVG-CORE-0001"
     ]
   }
 }

@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 206,
+  "count": 230,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -46,6 +46,18 @@
       "tags": [
         "architecture",
         "ayre"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Backup Seed",
+      "jnl": "ARCH-BAK-LOG-0001",
+      "location": "JarvisMain/Architecture/rebuild/jarvis-backup-seed.md",
+      "tags": [
+        "backup",
+        "rebuild",
+        "canonical"
       ],
       "anchors": [],
       "state": "active"
@@ -162,6 +174,19 @@
       "tags": [
         "filesystem",
         "core",
+        "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Jarvis Historical Term Memory",
+      "jnl": "ARCH-JHTM-CORE-0001",
+      "location": "JarvisMain/yggdrasil/jmms/JMMS-SPEC.md",
+      "tags": [
+        "memory",
+        "historical",
+        "fold",
         "architecture"
       ],
       "anchors": [],
@@ -350,6 +375,19 @@
       "state": "active"
     },
     {
+      "object": "Mainline Event Ledger",
+      "jnl": "ARCH-LED-LOG-0001",
+      "location": "JarvisMain/Architecture/rebuild/mainline-event-ledger.md",
+      "tags": [
+        "events",
+        "git-first",
+        "main",
+        "operating-rule"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Companion Memory \u2014 Jarvis & Ayre",
       "jnl": "ARCH-MEM-LOG-0001",
       "location": "JarvisMain/Architecture/identity/memory/companion-memory.md",
@@ -419,6 +457,22 @@
         "authority",
         "family",
         "founder"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS CANON \u2014 Volume Index and Rebuild Packet",
+      "jnl": "ARCH-REF-IDX-0001",
+      "location": "JarvisMain/Manual/ARCHREFIDX-062426-0001-VOLUME-INDEX-AND-REBUILD-PACKET.md",
+      "tags": [
+        "manual",
+        "canon",
+        "rebuild",
+        "volumes",
+        "chapters",
+        "continuity",
+        "resumability"
       ],
       "anchors": [],
       "state": "active"
@@ -521,6 +575,19 @@
         "root",
         "core",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Stale Config Audit",
+      "jnl": "AUD-CFG-REVW-0001",
+      "location": "JarvisMain/Architecture/audits/stale-config-audit-20260624.md",
+      "tags": [
+        "audit",
+        "cloud-first",
+        "config",
+        "stale"
       ],
       "anchors": [],
       "state": "active"
@@ -1453,6 +1520,20 @@
       "state": "active"
     },
     {
+      "object": "Governed Autonomy Contract",
+      "jnl": "GOV-AUT-SPEC-0001",
+      "location": "JarvisMain/Manual/Operations/ARCH-GOV-AUTO-0001-062426.md",
+      "tags": [
+        "governance",
+        "autonomy",
+        "scope",
+        "hard-stops",
+        "AEGIS"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Jarvis Brief",
       "jnl": "GOV-BRF-CORE-0001",
       "location": "JarvisMain/Architecture/JarvisBrief.md",
@@ -1562,6 +1643,21 @@
       "state": "active"
     },
     {
+      "object": "Continuity Layers and Bounded Autonomy",
+      "jnl": "GOV-LOO-SPEC-0001",
+      "location": "JarvisMain/Manual/Operations/ARCH-CONN-LOOP-0001-062426.md",
+      "tags": [
+        "continuity",
+        "resumability",
+        "autonomy",
+        "event-log",
+        "session-open",
+        "retention"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Patch Archive",
       "jnl": "GOV-PAT-REG-0001",
       "location": "JarvisMain/Patches",
@@ -1614,6 +1710,48 @@
         "governance",
         "patches",
         "process"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Resumability Definition",
+      "jnl": "GOV-RES-CORE-0001",
+      "location": "JarvisMain/Manual/Operations/GOV-RES-CORE-0001-062426.md",
+      "tags": [
+        "continuity",
+        "resumability",
+        "identity",
+        "memory",
+        "governance"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Resumability Definition",
+      "jnl": "GOV-RES-SPEC-0002",
+      "location": "JarvisMain/Architecture/specs/resumability-definition.md",
+      "tags": [
+        "continuity",
+        "resumability",
+        "identity",
+        "memory",
+        "governance"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Pre-Act Verification Contract",
+      "jnl": "GOV-VRF-SPEC-0001",
+      "location": "JarvisMain/Architecture/specs/pre-act-verification-contract.md",
+      "tags": [
+        "governance",
+        "verification",
+        "anti-hallucination",
+        "distributed",
+        "continuity"
       ],
       "anchors": [],
       "state": "active"
@@ -1992,6 +2130,19 @@
       "state": "active"
     },
     {
+      "object": "BRF \u2014 Portable Brief",
+      "jnl": "IMPL-BRF-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/portable_brief.py",
+      "tags": [
+        "brief",
+        "portable",
+        "bootstrap",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Continuity Engine \u2014 the Pulse's brain (P43 implementation)",
       "jnl": "IMPL-CNT-SPEC-0001",
       "location": "JarvisMain/Implementation/task/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md",
@@ -2023,6 +2174,20 @@
       "state": "active"
     },
     {
+      "object": "EXT \u2014 Extend Tool",
+      "jnl": "IMPL-EXT-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/extend.py",
+      "tags": [
+        "extend",
+        "gl13",
+        "extension",
+        "data-driven",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "JFS Formatting Standard",
       "jnl": "IMPL-FMT-SPEC-0001",
       "location": "JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md",
@@ -2032,6 +2197,32 @@
         "jnl",
         "governance",
         "spec"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "GRM \u2014 Grimoire Generator",
+      "jnl": "IMPL-GRM-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/grimoire.py",
+      "tags": [
+        "grimoire",
+        "catalog",
+        "card",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "HTH \u2014 Health Report",
+      "jnl": "IMPL-HTH-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/health.py",
+      "tags": [
+        "health",
+        "diagnostic",
+        "orphans",
+        "tool"
       ],
       "anchors": [],
       "state": "active"
@@ -2165,6 +2356,20 @@
       "state": "active"
     },
     {
+      "object": "JNL \u2014 JNL Parser",
+      "jnl": "IMPL-JNL-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/jnl.py",
+      "tags": [
+        "jnl",
+        "parser",
+        "grammar",
+        "validator",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "JQL - JD Query Language",
       "jnl": "IMPL-JQL-CORE-0001",
       "location": "JarvisMain/Implementation/Active/JIP-0608-E",
@@ -2172,6 +2377,20 @@
         "pipeline",
         "jql",
         "query"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "MIR \u2014 Mirror Tool",
+      "jnl": "IMPL-MIR-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/mirror.py",
+      "tags": [
+        "mirror",
+        "sync",
+        "supabase",
+        "jd_entries",
+        "tool"
       ],
       "anchors": [],
       "state": "active"
@@ -2197,6 +2416,88 @@
       "state": "active"
     },
     {
+      "object": "NEW \u2014 Mint Tool",
+      "jnl": "IMPL-NEW-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/new.py",
+      "tags": [
+        "new",
+        "mint",
+        "create",
+        "governed",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "PCH \u2014 Pinch Check",
+      "jnl": "IMPL-PCH-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/pinch.py",
+      "tags": [
+        "pinch",
+        "drift",
+        "schema",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "RLU \u2014 Rollup Generator",
+      "jnl": "IMPL-RLU-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/rollup.py",
+      "tags": [
+        "rollup",
+        "session",
+        "handoff",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "SED \u2014 Seed Tool",
+      "jnl": "IMPL-SED-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/seed.py",
+      "tags": [
+        "seed",
+        "registry",
+        "jd",
+        "lal",
+        "graph",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "SRT \u2014 Autosort Tool",
+      "jnl": "IMPL-SRT-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/autosort.py",
+      "tags": [
+        "autosort",
+        "jss",
+        "status",
+        "placement",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "SUP \u2014 Supabase Sync",
+      "jnl": "IMPL-SUP-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/sync_supabase.py",
+      "tags": [
+        "supabase",
+        "sync",
+        "events",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "MCP Tool Roadmap & Auto-Tracking Pipeline",
       "jnl": "IMPL-TLR-SPEC-0001",
       "location": "JarvisMain/Implementation/task/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
@@ -2212,6 +2513,34 @@
         "auto-tracking",
         "council",
         "index"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "VLD \u2014 Validate Tool",
+      "jnl": "IMPL-VLD-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/validate.py",
+      "tags": [
+        "validate",
+        "jve",
+        "gl12",
+        "governance",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "YVG \u2014 Graph Export",
+      "jnl": "IMPL-YVG-CORE-0001",
+      "location": "JarvisMain/yggdrasil/tools/graph_export.py",
+      "tags": [
+        "graph",
+        "export",
+        "tool",
+        "visualizer",
+        "yggdrasil"
       ],
       "anchors": [],
       "state": "active"

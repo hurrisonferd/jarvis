@@ -34,6 +34,7 @@ a defect** — that is the `steward: null`-class bug JSE exists to make impossib
 | `tags` | semantic tags | no |
 | `aliases` | alternate names | yes (`[]`) |
 | `ref` | reference tier flags (PRI/IDX/SPEC) | no |
+| `memory_tier` | JMMS tier this object lives in (JITM/JSTM/JLTM/JHTM/JATM) | no |
 
 Body (after frontmatter): **`**Definition:**`** (what it is) + **`**Purpose:**`** (why it exists).
 

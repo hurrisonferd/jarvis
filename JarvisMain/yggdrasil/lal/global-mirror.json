@@ -1,33 +1,33 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-18T13:27:42Z",
-    "generated_at_eastern": "2026-06-18 09:27 EDT",
-    "source_commit": "123c710",
+    "generated_at_utc": "2026-06-24T21:30:23Z",
+    "generated_at_eastern": "2026-06-24 17:30 EDT",
+    "source_commit": "f873995",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 206,
+    "object_count": 230,
     "by_status": {
-      "ACTIVE": 178,
+      "ACTIVE": 202,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
       "TASK": 20
     },
     "by_domain": {
-      "ARCH": 40,
-      "AUD": 9,
+      "ARCH": 44,
+      "AUD": 10,
       "CONN": 68,
-      "GOV": 12,
+      "GOV": 17,
       "GS": 27,
       "IDEA": 4,
-      "IMPL": 17,
+      "IMPL": 31,
       "LOG": 2,
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 172,
+      "MAIN": 196,
       "SIDE": 34
     }
   },
@@ -3429,6 +3429,431 @@
         "jitm",
         "governance",
         "mvp"
+      ]
+    },
+    {
+      "jnl": "IMPL-YVG-CORE-0001",
+      "jid": 208,
+      "jidd": "impl-18",
+      "name": "YVG — Graph Export",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "graph",
+        "export",
+        "tool",
+        "visualizer",
+        "yggdrasil"
+      ]
+    },
+    {
+      "jnl": "IMPL-SED-CORE-0001",
+      "jid": 209,
+      "jidd": "impl-19",
+      "name": "SED — Seed Tool",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "seed",
+        "registry",
+        "jd",
+        "lal",
+        "graph",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-VLD-CORE-0001",
+      "jid": 210,
+      "jidd": "impl-20",
+      "name": "VLD — Validate Tool",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "validate",
+        "jve",
+        "gl12",
+        "governance",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-SRT-CORE-0001",
+      "jid": 211,
+      "jidd": "impl-21",
+      "name": "SRT — Autosort Tool",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "autosort",
+        "jss",
+        "status",
+        "placement",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-NEW-CORE-0001",
+      "jid": 212,
+      "jidd": "impl-22",
+      "name": "NEW — Mint Tool",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "new",
+        "mint",
+        "create",
+        "governed",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-MIR-CORE-0001",
+      "jid": 213,
+      "jidd": "impl-23",
+      "name": "MIR — Mirror Tool",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "mirror",
+        "sync",
+        "supabase",
+        "jd_entries",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-JNL-CORE-0001",
+      "jid": 214,
+      "jidd": "impl-24",
+      "name": "JNL — JNL Parser",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "jnl",
+        "parser",
+        "grammar",
+        "validator",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-EXT-CORE-0001",
+      "jid": 215,
+      "jidd": "impl-25",
+      "name": "EXT — Extend Tool",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "extend",
+        "gl13",
+        "extension",
+        "data-driven",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-GRM-CORE-0001",
+      "jid": 216,
+      "jidd": "impl-26",
+      "name": "GRM — Grimoire Generator",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "grimoire",
+        "catalog",
+        "card",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-HTH-CORE-0001",
+      "jid": 217,
+      "jidd": "impl-27",
+      "name": "HTH — Health Report",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "health",
+        "diagnostic",
+        "orphans",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-SUP-CORE-0001",
+      "jid": 218,
+      "jidd": "impl-28",
+      "name": "SUP — Supabase Sync",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "supabase",
+        "sync",
+        "events",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-PCH-CORE-0001",
+      "jid": 219,
+      "jidd": "impl-29",
+      "name": "PCH — Pinch Check",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "pinch",
+        "drift",
+        "schema",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-BRF-CORE-0001",
+      "jid": 220,
+      "jidd": "impl-30",
+      "name": "BRF — Portable Brief",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "brief",
+        "portable",
+        "bootstrap",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "IMPL-RLU-CORE-0001",
+      "jid": 221,
+      "jidd": "impl-31",
+      "name": "RLU — Rollup Generator",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "IMPL-IDX-REG-0001",
+      "tags": [
+        "rollup",
+        "session",
+        "handoff",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "ARCH-JHTM-CORE-0001",
+      "jid": 222,
+      "jidd": "arch-41",
+      "name": "Jarvis Historical Term Memory",
+      "type": "CORE",
+      "class": "SYSTEM",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-JMMS-CORE-0001",
+      "tags": [
+        "memory",
+        "historical",
+        "fold",
+        "architecture"
+      ]
+    },
+    {
+      "jnl": "GOV-RES-CORE-0001",
+      "jid": 226,
+      "jidd": "gov-13",
+      "name": "Resumability Definition",
+      "type": "CORE",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "continuity",
+        "resumability",
+        "identity",
+        "memory",
+        "governance"
+      ]
+    },
+    {
+      "jnl": "ARCH-REF-IDX-0001",
+      "jid": 227,
+      "jidd": "arch-42",
+      "name": "JARVIS CANON — Volume Index and Rebuild Packet",
+      "type": "IDX",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "manual",
+        "canon",
+        "rebuild",
+        "volumes",
+        "chapters",
+        "continuity",
+        "resumability"
+      ]
+    },
+    {
+      "jnl": "GOV-LOO-SPEC-0001",
+      "jid": 228,
+      "jidd": "gov-14",
+      "name": "Continuity Layers and Bounded Autonomy",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "continuity",
+        "resumability",
+        "autonomy",
+        "event-log",
+        "session-open",
+        "retention"
+      ]
+    },
+    {
+      "jnl": "GOV-AUT-SPEC-0001",
+      "jid": 229,
+      "jidd": "gov-15",
+      "name": "Governed Autonomy Contract",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "governance",
+        "autonomy",
+        "scope",
+        "hard-stops",
+        "AEGIS"
+      ]
+    },
+    {
+      "jnl": "ARCH-BAK-LOG-0001",
+      "jid": 230,
+      "jidd": "arch-43",
+      "name": "JARVIS Backup Seed",
+      "type": "LOG",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "backup",
+        "rebuild",
+        "canonical"
+      ]
+    },
+    {
+      "jnl": "ARCH-LED-LOG-0001",
+      "jid": 231,
+      "jidd": "arch-44",
+      "name": "Mainline Event Ledger",
+      "type": "LOG",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "events",
+        "git-first",
+        "main",
+        "operating-rule"
+      ]
+    },
+    {
+      "jnl": "AUD-CFG-REVW-0001",
+      "jid": 232,
+      "jidd": "aud-10",
+      "name": "Stale Config Audit",
+      "type": "REVW",
+      "class": "EVENT",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "audit",
+        "cloud-first",
+        "config",
+        "stale"
+      ]
+    },
+    {
+      "jnl": "GOV-RES-SPEC-0002",
+      "jid": 233,
+      "jidd": "gov-16",
+      "name": "Resumability Definition",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "continuity",
+        "resumability",
+        "identity",
+        "memory",
+        "governance"
+      ]
+    },
+    {
+      "jnl": "GOV-VRF-SPEC-0001",
+      "jid": 234,
+      "jidd": "gov-17",
+      "name": "Pre-Act Verification Contract",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "governance",
+        "verification",
+        "anti-hallucination",
+        "distributed",
+        "continuity"
       ]
     }
   ]

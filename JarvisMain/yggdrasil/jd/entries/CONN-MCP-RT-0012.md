@@ -11,13 +11,14 @@ jnl: CONN-MCP-RT-0012
 seq: 80
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-14
+updated: 2026-06-24
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_node_card.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
 
 **Definition:** Return this JARVIS node's public Grid identity card: companion, owner, keel excerpt, capabilities, consent policy, and endpoints.
