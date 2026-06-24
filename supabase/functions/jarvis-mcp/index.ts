@@ -179,6 +179,8 @@ function buildServer(req: Request): McpServer {
         logExchange("speak_input", input),
         prior_reply ? logExchange("speak_output", prior_reply) : Promise.resolve(),
       ]);
+      const resumability = await runSelfTest();
+      const repoHead = await ghReq("GET", `/git/ref/heads/main`).then(async (r) => r.ok ? (await r.json() as any)?.object?.sha ?? null : null).catch(() => null);
       // JMMS / JITM — the always-on briefing: the newest 5 jitm pins, injected EVERY turn.
       // Capped by recency, so it can never bloat (extra pins simply stop loading). Pointers
       // to the manual/brief/fusions + current focus — the streams hold these before answering.
@@ -248,6 +250,11 @@ function buildServer(req: Request): McpServer {
           output_review: prior_reply ? reviewOutput(prior_reply, r.aegis as any[]) : undefined,
           input,
           memories_used: r.memories_used ?? 0,
+          resumability_receipt: {
+            source_basis: resumability.source_basis ?? { observation: "live endpoint", canon: "GitHub main", memory: "MNEMOS / JC", conversation: "this session" },
+            repo_head: repoHead,
+            verified_at: resumability.verified_at ?? clockNow(),
+          },
           note: "No external model generated this — YOU are JARVIS's voice; speak from the briefing. The loop closes itself: pass your final answer as `prior_reply` on your NEXT jarvis_query call and it is logged + reviewed (no separate call to skip). If output_review is present, it reviewed your LAST turn's reply — surface any correction at the top.",
         });
       } catch (err) {
@@ -265,6 +272,11 @@ function buildServer(req: Request): McpServer {
           reason: `pipeline unreachable: ${String(err).slice(0, 160)}`,
           input,
           memory: memories,
+          resumability_receipt: {
+            source_basis: resumability.source_basis ?? { observation: "live endpoint", canon: "GitHub main", memory: "MNEMOS / JC", conversation: "this session" },
+            repo_head: repoHead,
+            verified_at: resumability.verified_at ?? clockNow(),
+          },
           instruction:
             "Answer as JARVIS — direct, dense, a companion to Raven — grounded in the memory above. Honor AEGIS: answering and recalling is fine; do not claim to have performed any write or state change.",
         });
