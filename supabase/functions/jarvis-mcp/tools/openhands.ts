@@ -6,10 +6,9 @@
 // Extracted verbatim from index.ts — zero behavior change.
 import { z } from "npm:zod@^4.1.13";
 import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
-import { BASE_URL, type Json, NODE_ID, TOOL_NAMES } from "../core/env.ts";
+import { type Json } from "../core/env.ts";
 import { callFunction, rest, text } from "../core/http.ts";
-import { latestText } from "../core/supabase.ts";
-import { countRows } from "../core/supabase.ts";
+import { SUPABASE_URL, SERVICE_KEY } from "../core/env.ts";
 import { councilVote } from "../council.ts";
 
 // ---------------------------------------------------------------------------
@@ -295,12 +294,12 @@ export function registerOpenHandsTools(server: McpServer): void {
           ...tags_extra,
         ];
         const res = await fetch(
-          `${Deno.env.get("SUPABASE_URL") ?? ""}/rest/v1/mnemos_memories`,
+          `${SUPABASE_URL}/rest/v1/mnemos_memories`,
           {
             method: "POST",
             headers: {
-              authorization: `Bearer ${Deno.env.get("SUPABASE_SERVICE_KEY") ?? ""}`,
-              apikey: Deno.env.get("SUPABASE_SERVICE_KEY") ?? "",
+              authorization: `Bearer ${SERVICE_KEY}`,
+              apikey: SERVICE_KEY,
               "content-type": "application/json",
               Prefer: "return=minimal",
             },
