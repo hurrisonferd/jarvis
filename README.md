@@ -1,75 +1,52 @@
 # JARVIS
 
-JARVIS is a local-first AI orchestration experiment built around an MCP-style server, governed routing, and semantic memory.
+JARVIS is a cloud-first AI orchestration system built around a Supabase Edge Function MCP connector, governed routing, and semantic memory.
 
-The public repository contains the code and safe examples. Local runtime state, logs, vector databases, private seeds, and secrets should stay local or move to Supabase.
+The public repository contains the code and safe examples. Runtime state, memory rows, connector traffic, and governed tool state belong in Supabase/GitHub-backed cloud surfaces. Local files are only for development, private seeds, temporary logs, and diagnostics.
 
 ## Project Pieces
 
-- `jarvis_mcp_server.py` - FastAPI JSON-RPC/SSE server exposing JARVIS tools.
+- `supabase/functions/jarvis-mcp/` - cloud MCP connector exposed as a Supabase Edge Function.
+- `JarvisMain/Architecture/rebuild/jarvis-backup-seed.md` - sanitized rebuild packet for the MCP backend.
+- `JarvisMain/Connectors/JarvisMCPSupabase/` - Git-backed MCP tool mirror docs.
 - `mnemos/mnemos_vector.py` - semantic memory layer backed by SQLite and Ollama embeddings.
 - `chaos/session_sync.py` - session start/end helpers and HUGINN-style diff logic.
 - `chaos/chaos_seed.example.json` - sanitized sample seed for local setup.
 - `intake/` - GitHub-backed review lane for GPT, Claude, Codex, and other AI handoffs.
 
-## Local Setup
+## Cloud Connector
 
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-pip install -r requirements.txt
-copy chaos\chaos_seed.example.json chaos\chaos_seed.json
-python jarvis_mcp_server.py
-```
-
-The server runs at:
+The connector endpoint is:
 
 ```text
-http://localhost:7777
+https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp
 ```
 
-Health check:
+MCP clients should connect to that URL with SSE/Streamable HTTP support. The Continue config in `.continue/mcpServers/jarvis.yaml` is pointed at the cloud connector.
 
-```text
-http://localhost:7777/health
-```
+Secrets for the deployed function live in Supabase, not in this repo. Keep service-role keys, MCP write tokens, GitHub tokens, and private seeds out of git.
 
-## Optional Supabase Sync
+## Local Development
 
-Set these environment variables before starting the server:
+Local development is for tests, scripts, and diagnostics only. Do not treat a local MCP server or tunnel as the authoritative runtime.
+
+If a script needs Supabase access, set local environment variables without committing them:
 
 ```powershell
 $env:SUPABASE_URL="https://oexghfsvhnggddllgvrt.supabase.co"
 $env:SUPABASE_SERVICE_ROLE_KEY="your-private-service-role-key"
 ```
 
-Use a service-role key for server-side JARVIS sync. Do not commit it. Public anon/publishable keys should only be used after Row Level Security policies are configured.
-
-You can also put the same values in a local `.env`; the MCP server and MNEMOS loader read it automatically.
-
-## Optional MNEMOS Vector Search
-
-MNEMOS expects Ollama with `nomic-embed-text`:
-
-```powershell
-ollama pull nomic-embed-text
-ollama serve
-```
-
-`jarvis_end` and `jarvis_log` write local JSON, Supabase rows, and MNEMOS vectors when the required services are available.
+Use a service-role key only in trusted server-side contexts. Public anon/publishable keys should only be used after Row Level Security policies are configured.
 
 ## Continue.dev
 
 Workspace MCP configs live in `.continue/mcpServers/`:
 
-- `jarvis.yaml` connects Continue to the local JARVIS server at `http://localhost:7777/sse`.
+- `jarvis.yaml` connects Continue to the Supabase-hosted JARVIS MCP connector.
 - `gbrain.yaml` connects Continue to `gbrain serve` after GBrain is installed.
 
-MCP tools only load in Continue agent mode. Start JARVIS before opening the tools:
-
-```powershell
-python jarvis_mcp_server.py
-```
+MCP tools only load in Continue agent mode. The JARVIS connector is cloud-hosted; no local server startup is required.
 
 ## GBrain
 
@@ -101,7 +78,7 @@ Do not commit secrets, service-role keys, private seeds, or raw private logs in 
 
 All intake promoted into code, memory, migrations, policies, or automation should follow the JARVIS governed workflow in `intake/recycle/jarvis-governed-workflow.md`: review against Gold Law, identify relevant God Systems, log important rationale, and preserve user control.
 
-Codex is the JARVIS execution layer for local implementation work. Its archetype is Kang: production, building, execution. When Codex edits files, runs tests, applies migrations, commits, pushes, or syncs the repo, treat that as a JARVIS-executed operation under the governed workflow.
+Codex is the JARVIS execution layer for implementation work. Its archetype is Kang: production, building, execution. When Codex edits files, runs tests, applies migrations, commits, pushes, or verifies cloud-visible state, treat that as a JARVIS-executed operation under the governed workflow.
 
 ## Continuity Records
 
@@ -116,17 +93,14 @@ Long-range concepts live in `intake/recycle/`. THE GRID is tracked there as a fu
 
 ## Repo Sync Loop
 
-Codex can make targeted repo changes, commit them to GitHub, and JARVIS can pull the updated code through its MCP tool:
+Codex can make targeted repo changes, commit them to GitHub, and the cloud connector can read the updated code through its GitHub-backed MCP tools:
 
 ```text
 Describe the change in Codex
 Codex edits and pushes hurrisonferd/jarvis
-Call jarvis_repo_sync with action=status
-Call jarvis_repo_sync with action=pull when ready
-Restart the local server if Python code changed
+Call jarvis_github_commits / jarvis_self_test to verify cloud-visible state
+Redeploy jarvis-mcp when Supabase Edge Function code or baked secrets change
 ```
-
-`jarvis_repo_sync` only supports `status` and fast-forward `pull`. It refuses to pull over uncommitted local changes.
 
 ## Heartbeat Watcher
 
@@ -146,5 +120,8 @@ Do not commit:
 - `chaos/chaos_seed.json`
 - `chaos/session_log.json`
 - `chaos/prometheus_log.json`
+- `chaos/live_log.json`
+- `chaos/tunnel_*.txt`
 - `chaos/mnemos_vectors.db`
+- `supabase/.temp/`
 - `.env`

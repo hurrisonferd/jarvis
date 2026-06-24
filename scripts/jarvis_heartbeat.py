@@ -158,6 +158,8 @@ def heartbeat_once() -> list[dict]:
 
 def post_live_log(jarvis_url: str, action: str, status: str = "done",
                   push: bool = False, push_title: str = "JARVIS") -> None:
+    if not jarvis_url:
+        return
     payload: dict = {"action": action, "status": status}
     if push:
         payload["push"] = True
@@ -187,8 +189,8 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Observe JARVIS repo/intake changes.")
     parser.add_argument("--once", action="store_true", help="Run one heartbeat and exit.")
     parser.add_argument("--interval", type=int, default=60, help="Polling interval in seconds.")
-    parser.add_argument("--jarvis-url", default="http://localhost:7777",
-                        help="JARVIS MCP server URL for live_log POSTs.")
+    parser.add_argument("--jarvis-url", default=os.environ.get("JARVIS_HEARTBEAT_URL", ""),
+                        help="Optional cloud endpoint for live_log POSTs. Empty means observe-only.")
     parser.add_argument("--test-push", action="store_true", help="Fire a test push and exit.")
     args = parser.parse_args()
 

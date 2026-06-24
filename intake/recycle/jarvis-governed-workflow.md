@@ -6,12 +6,15 @@ Use this workflow for any project or agent handoff that should pass through JARV
 
 JARVIS is the operating context for agent-driven work. It provides memory, architecture, review language, decision logging, and explicit constraints.
 
-Codex is the JARVIS execution layer for local implementation work: filesystem changes, tests, migrations, commits, pushes, and repo sync tasks. Its archetype is Kang: production, building, execution.
+Codex is the JARVIS execution layer for implementation work: filesystem changes, tests, migrations, commits, pushes, and cloud-visible repo verification. Its archetype is Kang: production, building, execution.
+
+GitHub is source of truth. Supabase is the runtime substrate that allows the MCP backend to run. Supabase may mirror, execute, and store runtime state, but rebuildable MCP knowledge belongs in Git unless it is a secret or private live log.
 
 God Systems and Gold Law are governance lenses unless enforcement is implemented in code, tests, CI, Supabase policies, or MCP tools.
 
 Continuity is a hard law for every larynx node (`free GPT`, `Codex`, `free Claude`, `Claude Code`, `Antigravity`). Each node must verify live repo state, tool surface, and the current handoff before claiming progress. No silent exits, and no inferred success without read-back.
 Use JC objects as the readable session event log, and keep the durable continuity spine in git commits plus machine-readable handoff artifacts. Memory may explain the turn; git proves it happened.
+Star Logs are the summary lane for day/week/month rollups. They can compress and move older material, but only after the source JC pointers remain recoverable.
 
 ## Standard Loop
 
@@ -42,7 +45,7 @@ Use JC objects as the readable session event log, and keep the durable continuit
    Commit and push changes to GitHub.
 
 9. Sync
-   Use jarvis_repo_sync status/pull where the local MCP server should update from GitHub.
+   Verify the cloud connector can see the GitHub state. Redeploy Supabase Edge Functions when connector code or baked secrets change.
 
 10. Recycle
    Move completed intake to processed/ and copy reusable patterns to recycle/.
@@ -62,6 +65,7 @@ Use JC objects as the readable session event log, and keep the durable continuit
 - Does it include verification proportional to the risk?
 - Does a decision need a PROMETHEUS rationale log?
 - Does new memory belong in MNEMOS or Supabase?
+- Does rebuild-critical MCP knowledge belong in Git instead of only in live memory?
 - Does the work create overlap or drift that ERIS/NEMESIS should flag?
 
 ## Project Use

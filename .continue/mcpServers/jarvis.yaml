@@ -2,7 +2,7 @@ name: JARVIS MCP
 version: 0.0.1
 schema: v1
 mcpServers:
-  - name: JARVIS Local
+  - name: JARVIS Cloud
     type: sse
-    url: http://localhost:7777/sse
+    url: https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp
     connectionTimeout: 10000
