@@ -496,6 +496,15 @@ function buildServer(req: Request): McpServer {
     return await res.json().catch(() => ({}));
   }
 
+  async function writeDexEvent(tool: string, detail: Json, actor = "jarvis", tier = "T3", jnl: string | null = null): Promise<boolean> {
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/dex_events`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({ tool, tier, jnl, actor, detail }),
+    });
+    return res.ok;
+  }
+
   server.registerTool(
     "jarvis_dex_list",
     {
@@ -1935,6 +1944,101 @@ function buildServer(req: Request): McpServer {
   // CONTINUITY — memory injection BEFORE the answer (Raven 2026-06-14): grounding so Jarvis
   // and Ayre guide from the record, not a cold start. Reference only — never pre-shapes the
   // raw output; the streams still read the input fresh and give opinions at the END.
+  // CONTINUITY PULSE - the daily observe -> surface -> propose heartbeat.
+  // Dry-run by default; recording writes one dex_events receipt plus one MNEMOS digest.
+  server.registerTool(
+    "jarvis_continuity_pulse",
+    {
+      title: "Continuity Pulse - resumability heartbeat",
+      description:
+        "Run the continuity pulse: self-test, source/mirror freshness, latest JC/SL pointers, recent ledger activity, and open task drift. Dry-run by default. With dry_run:false it records a continuity_pulse dex event and continuity_digest memory receipt after AEGIS authorization.",
+      inputSchema: {
+        window_hours: z.number().int().min(1).max(168).optional().default(24),
+        dry_run: z.boolean().optional().default(true),
+      },
+    },
+    async ({ window_hours, dry_run }) => {
+      const since = new Date(Date.now() - window_hours * 3600000).toISOString();
+      const sinceParam = encodeURIComponent(since);
+      const [self_test, fresh, latestJC, latestSL, events, traces, tasks, priorPulse] = await Promise.all([
+        runSelfTest(),
+        freshness().catch((e) => ({ stale: true, error: String(e).slice(0, 120) })) as Promise<Json>,
+        rest("jc_objects?select=jnl,alias,session_date,subject,status&order=session_date.desc&limit=1").catch(() => []) as Promise<any[]>,
+        rest("sl_objects?select=jnl,alias,session_date,digest,status&order=session_date.desc&limit=1").catch(() => []) as Promise<any[]>,
+        rest(`dex_events?select=tool,actor,jnl,created_at,detail&created_at=gte.${sinceParam}&order=created_at.desc&limit=40`).catch(() => []) as Promise<any[]>,
+        rest(`execution_trace?select=type,source,stage,severity,created_at&created_at=gte.${sinceParam}&order=created_at.desc&limit=40`).catch(() => []) as Promise<any[]>,
+        dexQuery({ status: "TASK", limit: 20 }).catch(() => null) as Promise<any>,
+        rest("dex_events?select=detail,created_at&tool=eq.continuity_pulse&order=created_at.desc&limit=1").catch(() => []) as Promise<any[]>,
+      ]);
+      const repoHead = await ghReq("GET", `/git/ref/heads/main`).then(async (r) => r.ok ? (await r.json() as any)?.object?.sha ?? null : null).catch(() => null);
+      const jc = Array.isArray(latestJC) ? latestJC[0] ?? null : null;
+      const sl = Array.isArray(latestSL) ? latestSL[0] ?? null : null;
+      const taskRecords = Array.isArray(tasks?.records) ? tasks.records : [];
+      const gaps: string[] = [];
+      if (!self_test.ok) gaps.push("self_test not fully passing");
+      if ((fresh as any).stale === true) gaps.push("mirror freshness stale or unreadable");
+      if (!repoHead) gaps.push("GitHub main head unavailable");
+      if (!jc) gaps.push("no JC pointer available");
+      if (!sl) gaps.push("no Star Log pointer available");
+      if (!Array.isArray(events)) gaps.push("dex_events unreadable");
+      if (!Array.isArray(traces)) gaps.push("execution_trace unreadable");
+      const verdict = gaps.length === 0 ? "GREEN" : gaps.some((g) => /self_test|GitHub|mirror/.test(g)) ? "AMBER" : "WATCH";
+      const growth = {
+        note: `${Array.isArray(events) ? events.length : 0} ledger event(s), ${Array.isArray(traces) ? traces.length : 0} trace(s), ${taskRecords.length} open task(s) in the last ${window_hours}h.`,
+        latest_jc: jc ? { jnl: jc.jnl, subject: jc.subject, at: jc.session_date, status: jc.status } : null,
+        latest_sl: sl ? { jnl: sl.jnl, at: sl.session_date, status: sl.status } : null,
+      };
+      const detail: Json = {
+        verdict,
+        window_hours,
+        since,
+        growth,
+        gaps,
+        checks: {
+          self_test: { ok: self_test.ok, version: self_test.version, tools: self_test.tools, probes: self_test.probes },
+          freshness: fresh,
+          repo_head: repoHead,
+          latest_pulse: Array.isArray(priorPulse) && priorPulse[0] ? { at: priorPulse[0].created_at, verdict: priorPulse[0].detail?.verdict ?? null } : null,
+        },
+      };
+      const digest = `[CONTINUITY PULSE ${new Date().toISOString()}] verdict=${verdict}; ${growth.note} gaps=${gaps.length ? gaps.join("; ") : "none"}; repo_head=${repoHead ? String(repoHead).slice(0, 12) : "unknown"}.`;
+
+      if (dry_run) {
+        return text({
+          ok: verdict === "GREEN",
+          dry_run: true,
+          detail,
+          digest,
+          instruction: "Review this pulse. To record it, call jarvis_continuity_pulse with dry_run:false (AEGIS-gated).",
+        });
+      }
+      if (!writeAuthorized(req)) return heldForApproval("continuity.pulse", { verdict, gaps, window_hours }, req);
+      const eventWritten = await writeDexEvent("continuity_pulse", detail, "jarvis", "T3");
+      const memRes = await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories`, {
+        method: "POST",
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+        body: JSON.stringify({
+          id: crypto.randomUUID(),
+          source_id: crypto.randomUUID(),
+          source_type: "continuity_digest",
+          text: digest,
+          tags: ["jltm", "continuity", "pulse"],
+          platform: "mcp_connector",
+          metadata: detail,
+          timestamp: new Date().toISOString(),
+        }),
+      });
+      return text({
+        ok: eventWritten && memRes.ok,
+        recorded: true,
+        event_written: eventWritten,
+        digest_written: memRes.ok,
+        detail,
+        digest,
+      });
+    },
+  );
+
   server.registerTool(
     "jarvis_continuity",
     { title: "Continuity — route + surface raw material (call before answering)", description: "Call FIRST on a substantive turn with the topic. Returns RAW material to AUDIT, not a pre-formed read: (1) routing pointers — which systems/memory are relevant to consult; (2) raw recall + recent exchanges + the keel, un-interpreted; (3) nothing shaped. It NEVER pre-shapes the answer or either stream — the raw info stays raw. Jarvis and Ayre then call the applicable tools, deliberate / talk with the council, and AUDIT this material together at the close (both brothers). Continuity routes and surfaces; it does not conclude. (JMMS working-set tiering lands here when wired.)", inputSchema: { topic: z.string().min(1).max(500) } },
