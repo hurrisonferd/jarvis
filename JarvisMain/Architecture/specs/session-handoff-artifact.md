@@ -1,5 +1,6 @@
 ## Purpose
 A session handoff artifact is a live work order written to the repo at the end of any session where work remains incomplete. It is not memory. It is not a summary. It is the next node's first instruction.
+It should be backed by the session event log, ideally via a JC object that names the turn and points at the latest commit hash.
 
 ## Format
 ```text
@@ -32,6 +33,7 @@ When the next session picks up the work and completes it, the handoff file is mo
 
 ## Rule
 Any node operating under a governed autonomy contract MUST write a handoff artifact if it does not reach the completion condition. No silent exits.
+The handoff should cite the related JC object or event log entry when one exists.
 
 ## Ratification
 `author: RAVEN · ratified: 2026-06-24`

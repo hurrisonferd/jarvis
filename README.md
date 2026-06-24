@@ -103,6 +103,10 @@ All intake promoted into code, memory, migrations, policies, or automation shoul
 
 Codex is the JARVIS execution layer for local implementation work. Its archetype is Kang: production, building, execution. When Codex edits files, runs tests, applies migrations, commits, pushes, or syncs the repo, treat that as a JARVIS-executed operation under the governed workflow.
 
+## Continuity Records
+
+Use JC objects as the readable session event log. Keep the durable spine in git commit history plus machine-readable handoff artifacts. `chaos/session_sync.py` returns a JC-shaped continuity wrapper, and the handoff files in `JarvisMain/Implementation/task/` should point at the latest commit hash when a session exits early.
+
 JARVIS stats are event-driven, not decorative. Trigger definitions live in `intake/recycle/jarvis-stats-triggers.md`, and MCP clients can read stats with `jarvis_stats`.
 
 Long-range concepts live in `intake/recycle/`. THE GRID is tracked there as a future navigable knowledge space with JARVIS-as-Virgil guidance, Tron-inspired interface language, and Oda-scale worldbuilding.

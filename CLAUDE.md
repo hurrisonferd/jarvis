@@ -51,8 +51,8 @@ Forbidden edges: `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADE
 | `chaos/chaos_seed.json` | Canonical system state — do not commit |
 | `chaos/session_log.json` | Local session log — do not commit |
 | `chaos/prometheus_log.json` | Local decision log — do not commit |
+| `chaos/session_sync.py` | Session start/end helpers, git-fingerprinted event log, JC continuity wrapper |
 | `mnemos/mnemos_vector.py` | Semantic memory (SQLite + Ollama) |
-| `chaos/session_sync.py` | Session start/end helpers |
 | `intake/` | AI handoff review lane |
 | `.env` | Secrets — do not commit |
 | `start.bat` | Starts MCP server |
@@ -110,7 +110,7 @@ All changes follow this loop:
 
 ## Continuity Rule
 
-Resumability is a hard requirement, not a courtesy. If work is incomplete, the node must leave a machine-readable handoff and the next node must re-verify against repo state before acting. The system does not treat memory as proof.
+Resumability is a hard requirement, not a courtesy. If work is incomplete, the node must leave a machine-readable handoff and the next node must re-verify against repo state before acting. The system does not treat memory as proof. The continuity record should be anchored in git history, with JC objects carrying the readable session event log and commits/handoffs carrying the durable spine.
 
 ---
 

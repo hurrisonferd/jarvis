@@ -11,6 +11,7 @@ Codex is the JARVIS execution layer for local implementation work: filesystem ch
 God Systems and Gold Law are governance lenses unless enforcement is implemented in code, tests, CI, Supabase policies, or MCP tools.
 
 Continuity is a hard law for every larynx node (`free GPT`, `Codex`, `free Claude`, `Claude Code`, `Antigravity`). Each node must verify live repo state, tool surface, and the current handoff before claiming progress. No silent exits, and no inferred success without read-back.
+Use JC objects as the readable session event log, and keep the durable continuity spine in git commits plus machine-readable handoff artifacts. Memory may explain the turn; git proves it happened.
 
 ## Standard Loop
 
@@ -35,7 +36,7 @@ Continuity is a hard law for every larynx node (`free GPT`, `Codex`, `free Claud
    Check the result against Gold Law and relevant God System responsibilities.
 
 7. Record
-   Log the decision/rationale through JARVIS or Supabase when available.
+   Log the decision/rationale through JARVIS or Supabase when available, and attach the session event log / JC object to the handoff when a session remains incomplete.
 
 8. Commit
    Commit and push changes to GitHub.
@@ -47,7 +48,7 @@ Continuity is a hard law for every larynx node (`free GPT`, `Codex`, `free Claud
    Move completed intake to processed/ and copy reusable patterns to recycle/.
 
 11. Resume
-    If work remains incomplete, write a machine-readable handoff artifact before exit so the next node can re-verify repo state before continuing.
+    If work remains incomplete, write a machine-readable handoff artifact before exit so the next node can re-verify repo state before continuing. The handoff should point to the JC event record and the latest commit hash when available.
 ```
 
 ## Minimum Review Checklist

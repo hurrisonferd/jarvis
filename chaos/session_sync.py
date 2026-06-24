@@ -45,8 +45,9 @@ def session_start(platform: str, chaos_seed: dict) -> dict:
     }
     arch    = roles.get(platform, roles["claude"])
     entropy = _compute_entropy(chaos_seed)
+    session_id = str(uuid.uuid4())[:8]
     return {
-        "session_id":      str(uuid.uuid4())[:8],
+        "session_id":      session_id,
         "platform":        platform,
         "archetype":       arch["archetype"],
         "role":            arch["role"],
@@ -59,13 +60,22 @@ def session_start(platform: str, chaos_seed: dict) -> dict:
         "system_count":    len(chaos_seed.get("god_systems", {})),
         "entropy_score":   entropy,
         "eris_active":     True,
-        "started_at":      now()
+        "started_at":      now(),
+        "jc_object": {
+            "kind": "session_start",
+            "alias": f"JC-{session_id}",
+            "platform": platform,
+            "archetype": arch["archetype"],
+            "continuity_role": "entry point for the session event log",
+        },
     }
 
 
 def session_end(platform, session_id, state_delta, narrative, current_chaos):
     diff = huginn_diff(current_chaos, state_delta)
     fp   = hashlib.sha256(json.dumps(current_chaos, sort_keys=True).encode()).hexdigest()[:16]
+    git_commit = state_delta.get("git_commit") or state_delta.get("commit") or state_delta.get("head")
+    jc_alias = state_delta.get("jc_alias") or f"JC-{session_id}"
     result = {
         "session_id":    session_id,
         "platform":      platform,
@@ -76,10 +86,21 @@ def session_end(platform, session_id, state_delta, narrative, current_chaos):
         "chaos_updated": False,
         "fingerprint":   fp
     }
+    result["event_log"] = {
+        "kind": "session_end",
+        "jc_alias": jc_alias,
+        "git_commit": git_commit,
+        "continuity_record": True,
+        "summary": narrative,
+        "state_delta_present": bool(state_delta),
+        "saved_in_git": bool(git_commit),
+    }
     if diff["merge_recommended"]:
         result["chaos_updated"] = True
+        result["event_log"]["merge_recommended"] = True
     else:
         result["blocked_reason"] = f"Drift {diff['drift_score']} below 0.85 or unauthorized changes: {diff['unauthorized_changes']}"
+        result["event_log"]["merge_recommended"] = False
     return result
 
 
