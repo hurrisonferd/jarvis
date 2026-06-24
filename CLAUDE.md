@@ -253,9 +253,9 @@ All changes follow this loop:
 2. context     — check JARVIS status, relevant God Systems, Gold Law
 3. implement   — scoped changes only, no unrelated cleanup
 4. verify      — syntax check, tests if applicable
-5. log         — jarvis_log for significant decisions (PROMETHEUS)
+5. log         — jarvis_event for significant decisions (PROMETHEUS)
 6. commit      — clean commit to main
-7. sync        — jarvis_repo_sync if local MCP server needs update
+7. sync        — jarvis_github_commits to verify push landed
 8. recycle     — move processed intake; copy reusable patterns to recycle/
 ```
 

@@ -39,7 +39,7 @@ God Systems and Gold Law are governance lenses unless enforcement is implemented
    Commit and push changes to GitHub.
 
 9. Sync
-   Use jarvis_repo_sync status/pull where the local MCP server should update from GitHub.
+   Use jarvis_github_commits to verify push landed; jarvis_github_tree to confirm structure.
 
 10. Recycle
    Move completed intake to processed/ and copy reusable patterns to recycle/.
