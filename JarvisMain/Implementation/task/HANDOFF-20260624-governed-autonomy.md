@@ -10,12 +10,14 @@ authorized_scope: [JarvisMain/Architecture/specs/governed-autonomy-contract.md](
 - Session-open bootstrap added in the connector as `jarvis_session_open`.
 - JC/SL recall now supports day/week/month pointers and grouped slices.
 - Continuity layers spec committed.
+- Pre-act verification contract and resumability definition committed (`c3b8237`).
+- `jarvis_load` and `jarvis_jglf_validate` shipped in the connector (`973548b`).
 
 ## Remaining
 - `jarvis_fold` tool not yet implemented (needs Supabase Edge Function).
 - JSTM session-close purge not yet implemented.
 - Session-open should be adopted by the runtime entrypoint so it becomes the first call on fresh sessions.
-- Pre-act verification contract not yet confirmed as enforced across all nodes.
+- Mirror freshness still needs a live spot-check before we call resumability healthy across nodes.
 
 ## Next action
 Implement `jarvis_fold` as a Supabase Edge Function following the spec in `jmms-tier-enforcement.md` - dry_run mode first, approve gate second.
