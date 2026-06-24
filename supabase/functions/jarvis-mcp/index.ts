@@ -2296,6 +2296,92 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  // SESSION CLOSE — purge or promote JSTM at the boundary so session residue does not leak.
+  server.registerTool(
+    "jarvis_session_close",
+    {
+      title: "Session Close — JSTM purge/promote",
+      description:
+        "Close out a session by resolving JSTM rows: preview the working set, promote selected entries to JLTM, or purge the session-only residue by tagging it closed. AEGIS-gated when mutating rows. Returns a receipt so the next node can see what was promoted or retired.",
+      inputSchema: {
+        action: z.enum(["preview", "promote", "purge"]).optional().default("preview"),
+        domain: z.string().max(40).optional().describe("Optional side-project partition (e.g. 'musicos')."),
+        limit: z.number().int().min(1).max(100).optional().default(50),
+      },
+    },
+    async ({ action, domain, limit }) => {
+      const act = action ?? "preview";
+      let q = `mnemos_memories?select=id,text,tags,source_type,timestamp&tags=cs.{jstm}&order=timestamp.desc&limit=${limit}`;
+      if (domain) q += `&tags=cs.{${domain.toLowerCase()}}`;
+      const rows = await rest(q).catch(() => []) as any[];
+      if (!Array.isArray(rows)) return text({ ok: false, error: "Could not fetch JSTM rows for session close" });
+      const working = rows.filter((r: any) => {
+        const tags = (r.tags ?? []).map((t: string) => String(t).toLowerCase());
+        return tags.includes("jstm") && !tags.includes("folded") && !tags.includes("purged");
+      });
+      const preview = working.map((m: any) => ({
+        id: m.id,
+        timestamp: m.timestamp,
+        sample: String(m.text ?? "").slice(0, 120),
+        tags: m.tags ?? [],
+      }));
+      if (act === "preview") {
+        return text({
+          ok: true,
+          action: "preview",
+          domain: domain ?? null,
+          count: working.length,
+          working_set: preview,
+          receipt: { session_closed: false, promoted: 0, purged: 0 },
+        });
+      }
+      if (!writeAuthorized(req)) return heldForApproval(`session.${act}`, { count: working.length, domain: domain ?? null }, req);
+      const promoted: string[] = [];
+      const purged: string[] = [];
+      for (const m of working) {
+        const tags = (m.tags ?? []).map((t: string) => String(t).toLowerCase());
+        if (act === "promote") {
+          const newTags = Array.from(new Set(withTier(tags, "jltm").concat(["session_closed"])));
+          await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${m.id}`, {
+            method: "PATCH",
+            headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+            body: JSON.stringify({ tags: newTags }),
+          });
+          promoted.push(m.id);
+        } else {
+          const newTags = Array.from(new Set(tags.filter((t: string) => t !== "jstm").concat(["purged", "session_closed"])));
+          await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${m.id}`, {
+            method: "PATCH",
+            headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+            body: JSON.stringify({ tags: newTags }),
+          });
+          purged.push(m.id);
+        }
+      }
+      const receipt = {
+        text: `[SESSION CLOSE ${new Date().toISOString()}] action=${act} domain=${domain ?? "all"} count=${working.length} promoted=${promoted.length} purged=${purged.length}.`,
+        source_type: "session_close_receipt",
+        tags: ["jatm", "session_close_receipt"],
+        timestamp: new Date().toISOString(),
+      };
+      await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories`, {
+        method: "POST",
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+        body: JSON.stringify(receipt),
+      });
+      return text({
+        ok: true,
+        action: act,
+        domain: domain ?? null,
+        count: working.length,
+        promoted: promoted.length,
+        purged: purged.length,
+        receipt_written: true,
+        receipt_tier: "JATM",
+      });
+    },
+  );
+
   return server;
 }
 

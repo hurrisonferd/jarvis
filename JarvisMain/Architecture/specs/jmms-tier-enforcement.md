@@ -30,6 +30,7 @@ ratified: 2026-06-24
 **Infrastructure:** LIVE. Read via `jarvis_jmms { tier: "jstm" }`. Write via `jarvis_remember { tier: "jstm" }`.
 **Rule:** JSTM entries that survive session close without promotion to JLTM are abandoned memory. A session-close hook should either promote or discard them.
 **Missing (operational):** No automated session-close purge. Today, JSTM entries accumulate unless manually promoted or deleted.
+**Tool surface:** `jarvis_session_close` should provide the session-close hook for preview, promote, or purge so JSTM residue does not leak forward.
 
 ---
 
