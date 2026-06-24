@@ -106,6 +106,7 @@ Codex is the JARVIS execution layer for local implementation work. Its archetype
 ## Continuity Records
 
 Use JC objects as the readable session event log. Keep the durable spine in git commit history plus machine-readable handoff artifacts. `chaos/session_sync.py` returns a JC-shaped continuity wrapper, and the handoff files in `JarvisMain/Implementation/task/` should point at the latest commit hash when a session exits early.
+Star Logs are the summarized form of that lane, with timestamps acting as pointers that let us fetch day, week, or month slices without inventing structure on the fly. The continuity ladder and session-open bootstrap are defined in `JarvisMain/Architecture/specs/continuity-layers-and-bounded-autonomy.md`.
 
 JARVIS stats are event-driven, not decorative. Trigger definitions live in `intake/recycle/jarvis-stats-triggers.md`, and MCP clients can read stats with `jarvis_stats`.
 

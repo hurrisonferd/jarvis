@@ -546,22 +546,83 @@ function buildServer(req: Request): McpServer {
     {
       title: "Memory lane — JC/SL objects",
       description:
-        "Read conversation containers (JC) and star-log digests (SL) — the relationship memory every stream shares (ARCH-JC-JIP-0001). No term: recent sessions. Term: alias (JC-061126-1), JNL, or subject fragment. Read-only; JC records, it never rules — decisions cite the spine.",
+        "Read conversation containers (JC) and star-log digests (SL) — the relationship memory every stream shares (ARCH-JC-JIP-0001). Use it as a pointer-based lane: ask for a day, week, month, or recent slice, and the connector returns the matching JC/SL window. Read-only; JC records, it never rules — decisions cite the spine.",
       inputSchema: {
         term: z.string().max(120).optional(),
-        limit: z.number().int().min(1).max(20).optional().default(5),
+        period: z.enum(["day", "week", "month", "all"]).optional().default("all"),
+        at: z.string().max(40).optional().describe("Optional UTC date/time pointer used to anchor the day/week/month slice."),
+        limit: z.number().int().min(1).max(50).optional().default(10),
       },
     },
-    async ({ term, limit }) => {
+    async ({ term, period, at, limit }) => {
       const cols = "jnl,alias,session_date,subject,participants,tags,summary,raven_input,keystones,decisions,open,profiles,metrics,status";
+      const anchor = new Date(at ?? new Date().toISOString());
+      const cleanAnchor = Number.isNaN(anchor.getTime()) ? new Date() : anchor;
+      const startOfDay = new Date(Date.UTC(cleanAnchor.getUTCFullYear(), cleanAnchor.getUTCMonth(), cleanAnchor.getUTCDate()));
+      const weekDay = startOfDay.getUTCDay() === 0 ? 6 : startOfDay.getUTCDay() - 1;
+      const startOfWeek = new Date(startOfDay);
+      startOfWeek.setUTCDate(startOfDay.getUTCDate() - weekDay);
+      const startOfMonth = new Date(Date.UTC(cleanAnchor.getUTCFullYear(), cleanAnchor.getUTCMonth(), 1));
+      const nextDay = new Date(startOfDay); nextDay.setUTCDate(startOfDay.getUTCDate() + 1);
+      const nextWeek = new Date(startOfWeek); nextWeek.setUTCDate(startOfWeek.getUTCDate() + 7);
+      const nextMonth = new Date(Date.UTC(cleanAnchor.getUTCFullYear(), cleanAnchor.getUTCMonth() + 1, 1));
+      const toDate = (d: Date) => d.toISOString().slice(0, 10);
+      const dateKey = (d: unknown) => String(d ?? "").slice(0, 10);
+      const weekStartKey = toDate(startOfWeek);
+      const weekStart = new Date(`${weekStartKey}T00:00:00Z`);
+      const weekYear = weekStart.getUTCFullYear();
+      const weekNum = (() => {
+        const tmp = new Date(Date.UTC(weekStart.getUTCFullYear(), weekStart.getUTCMonth(), weekStart.getUTCDate()));
+        tmp.setUTCDate(tmp.getUTCDate() + 4 - (tmp.getUTCDay() || 7));
+        const yearStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
+        return Math.ceil((((tmp.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+      })();
+      const range = period === "day"
+        ? { start: startOfDay, end: nextDay }
+        : period === "week"
+          ? { start: startOfWeek, end: nextWeek }
+          : period === "month"
+            ? { start: startOfMonth, end: nextMonth }
+            : null;
+      const qBase = `select=${cols}&order=session_date.desc&limit=${limit}`;
       const q = term
-        ? `jc_objects?select=${cols}&or=(alias.eq.${term},jnl.eq.${term},subject.ilike.*${term}*)&limit=${limit}`
-        : `jc_objects?select=${cols}&order=session_date.desc&limit=${limit}`;
-      const [jcs, sls] = await Promise.all([
-        rest(q).catch(() => []),
-        rest(`sl_objects?select=jnl,alias,session_date,digest,events,status&order=session_date.desc&limit=${limit}`).catch(() => []),
-      ]);
-      return text({ ok: true, jc: jcs, sl: sls, law: "JC records; it never rules — decisions cite the spine (P-C)." });
+        ? `jc_objects?${qBase}&or=(alias.eq.${term},jnl.eq.${term},subject.ilike.*${term}*)`
+        : range
+          ? `jc_objects?${qBase}&session_date=gte.${toDate(range.start)}&session_date=lt.${toDate(range.end)}`
+          : `jc_objects?${qBase}`;
+      const sQ = term
+        ? `sl_objects?select=jnl,alias,session_date,digest,events,status&or=(alias.eq.${term},jnl.eq.${term},digest.ilike.*${term}*)&order=session_date.desc&limit=${limit}`
+        : range
+          ? `sl_objects?select=jnl,alias,session_date,digest,events,status&session_date=gte.${toDate(range.start)}&session_date=lt.${toDate(range.end)}&order=session_date.desc&limit=${limit}`
+          : `sl_objects?select=jnl,alias,session_date,digest,events,status&order=session_date.desc&limit=${limit}`;
+      const [jcs, sls] = await Promise.all([rest(q).catch(() => []), rest(sQ).catch(() => [])]);
+      const groupByDay = (rows: any[]) => rows.reduce((acc: Record<string, any[]>, row) => {
+        const key = dateKey(row.session_date ?? row.created_at ?? row.timestamp);
+        (acc[key] ??= []).push(row);
+        return acc;
+      }, {});
+      const pointers = period === "all"
+        ? {
+            day: toDate(cleanAnchor),
+            week: `${weekYear}-W${String(weekNum).padStart(2, "0")}`,
+            week_start: weekStartKey,
+            month: `${cleanAnchor.getUTCFullYear()}-${String(cleanAnchor.getUTCMonth() + 1).padStart(2, "0")}`,
+          }
+        : {
+            day: toDate(startOfDay),
+            week: `${weekYear}-W${String(weekNum).padStart(2, "0")}`,
+            week_start: weekStartKey,
+            month: `${startOfMonth.getUTCFullYear()}-${String(startOfMonth.getUTCMonth() + 1).padStart(2, "0")}`,
+          };
+      return text({
+        ok: true,
+        period,
+        at: at ?? null,
+        pointers,
+        jc: { count: Array.isArray(jcs) ? jcs.length : 0, rows: jcs, by_day: groupByDay(Array.isArray(jcs) ? jcs : []) },
+        sl: { count: Array.isArray(sls) ? sls.length : 0, rows: sls, by_day: groupByDay(Array.isArray(sls) ? sls : []) },
+        law: "JC records; it never rules — decisions cite the spine (P-C). Timestamps are pointers to the right day/week/month slice.",
+      });
     },
   );
 
@@ -689,6 +750,99 @@ function buildServer(req: Request): McpServer {
     },
   );
 
+  async function runSelfTest(): Promise<Record<string, unknown>> {
+    const probes: Record<string, any> = {};
+    try { const r = await ghReq("GET", `/git/ref/heads/main`); probes.github = { ok: r.ok, status: r.status }; } catch (e) { probes.github = { ok: false, err: String(e).slice(0, 120) }; }
+    try { const n = await countRows("dex_events"); probes.supabase = { ok: true, dex_events: n }; } catch (e) { probes.supabase = { ok: false, err: String(e).slice(0, 120) }; }
+    try { const d = await dexQuery({ limit: 1 }); probes.dex = { ok: !!d }; } catch (e) { probes.dex = { ok: false, err: String(e).slice(0, 120) }; }
+    try {
+      const tok = ghTok();
+      const h: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json" };
+      if (tok) h.authorization = `Bearer ${tok}`;
+      const s = await fetch(`https://api.github.com/search/code?q=${encodeURIComponent("jarvis repo:hurrisonferd/jarvis")}&per_page=1`, { headers: h });
+      probes.search = { ok: s.ok, status: s.status };
+    } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
+    const ok = Object.values(probes).every((p: any) => p.ok);
+    return { ok, version: "0.11.33", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." };
+  }
+
+  server.registerTool(
+    "jarvis_session_open",
+    {
+      title: "Session Open — continuity bootstrap",
+      description:
+        "Run this first in a fresh session. It performs the live self-test and returns the continuity bootstrap packet: tool health, session pointers, layer order, and the governed next steps before generation begins. Read-only.",
+      inputSchema: {
+        focus: z.string().max(500).optional().describe("Optional session focus or topic."),
+        prior_commit: z.string().max(80).optional().describe("Optional latest commit hash if already known."),
+      },
+    },
+    async ({ focus, prior_commit }) => {
+      const self_test = await runSelfTest();
+      const now = new Date();
+      const dayKey = now.toISOString().slice(0, 10);
+      const mondayOffset = now.getUTCDay() === 0 ? 6 : now.getUTCDay() - 1;
+      const weekStart = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()));
+      weekStart.setUTCDate(weekStart.getUTCDate() - mondayOffset);
+      const weekStartKey = weekStart.toISOString().slice(0, 10);
+      const weekYear = (() => {
+        const tmp = new Date(Date.UTC(weekStart.getUTCFullYear(), weekStart.getUTCMonth(), weekStart.getUTCDate()));
+        tmp.setUTCDate(tmp.getUTCDate() + 4 - (tmp.getUTCDay() || 7));
+        return tmp.getUTCFullYear();
+      })();
+      const weekNum = (() => {
+        const tmp = new Date(Date.UTC(weekStart.getUTCFullYear(), weekStart.getUTCMonth(), weekStart.getUTCDate()));
+        tmp.setUTCDate(tmp.getUTCDate() + 4 - (tmp.getUTCDay() || 7));
+        const yearStart = new Date(Date.UTC(tmp.getUTCFullYear(), 0, 1));
+        return Math.ceil((((tmp.getTime() - yearStart.getTime()) / 86400000) + 1) / 7);
+      })();
+      const monthKey = `${now.getUTCFullYear()}-${String(now.getUTCMonth() + 1).padStart(2, "0")}`;
+      const [latestJC, latestSL] = await Promise.all([
+        rest("jc_objects?select=jnl,alias,session_date,subject,status&order=session_date.desc&limit=1").catch(() => []),
+        rest("sl_objects?select=jnl,alias,session_date,digest,status&order=session_date.desc&limit=1").catch(() => []),
+      ]);
+      return text({
+        ok: true,
+        opened_at: clockNow(),
+        focus: focus ?? null,
+        prior_commit: prior_commit ?? null,
+        pointers: {
+          day: dayKey,
+          week: `${weekYear}-W${String(weekNum).padStart(2, "0")}`,
+          week_start: weekStartKey,
+          month: monthKey,
+        },
+        latest: {
+          jc: Array.isArray(latestJC) ? latestJC[0] ?? null : null,
+          sl: Array.isArray(latestSL) ? latestSL[0] ?? null : null,
+        },
+        continuity: {
+          order: [
+            "self_test",
+            "load latest JC event log",
+            "load Star Log pointers for day/week/month",
+            "reconstruct the working brief",
+            "answer or propose within scope",
+          ],
+          layers: {
+            event_log: "git commit history + JC objects",
+            summaries: "Star Logs for day/week/month rollups",
+            working_memory: "JSTM / JLTM",
+            ancestral_spine: "JATM",
+          },
+          autonomy_envelope: {
+            observe: "record and classify",
+            propose: "prepare governed changes",
+            gate: "AEGIS or Raven approval",
+            act: "only inside scope after approval",
+          },
+          retention_rule: "Summaries may move older JC/SL material after source pointers remain recoverable.",
+        },
+        self_test,
+      });
+    },
+  );
+
   // SELF TEST — the scry spell: exercise the connector's own subsystems live and report a
   // health matrix in one call. Solves the frozen-registry blindness — a stream can verify the
   // whole arsenal from any session, even one whose tool list predates the latest deploy.
@@ -701,21 +855,7 @@ function buildServer(req: Request): McpServer {
         "Exercise the connector's own subsystems and report a health matrix in ONE call — the scry spell. Probes GitHub (repo access), Supabase (DB), the dex, and code search live; reports the deployed version + registered tool count. Read-only, never fires write spells. Use after a deploy to confirm the arsenal is whole, or whenever Jarvis/Ayre need to verify themselves.",
       inputSchema: {},
     },
-    async () => {
-      const probes: Record<string, any> = {};
-      try { const r = await ghReq("GET", `/git/ref/heads/main`); probes.github = { ok: r.ok, status: r.status }; } catch (e) { probes.github = { ok: false, err: String(e).slice(0, 120) }; }
-      try { const n = await countRows("dex_events"); probes.supabase = { ok: true, dex_events: n }; } catch (e) { probes.supabase = { ok: false, err: String(e).slice(0, 120) }; }
-      try { const d = await dexQuery({ limit: 1 }); probes.dex = { ok: !!d }; } catch (e) { probes.dex = { ok: false, err: String(e).slice(0, 120) }; }
-      try {
-        const tok = ghTok();
-        const h: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json" };
-        if (tok) h.authorization = `Bearer ${tok}`;
-        const s = await fetch(`https://api.github.com/search/code?q=${encodeURIComponent("jarvis repo:hurrisonferd/jarvis")}&per_page=1`, { headers: h });
-        probes.search = { ok: s.ok, status: s.status };
-      } catch (e) { probes.search = { ok: false, err: String(e).slice(0, 120) }; }
-      const ok = Object.values(probes).every((p: any) => p.ok);
-      return text({ ok, version: "0.11.33", tools: TOOL_NAMES.length, probes, note: ok ? "Arsenal whole — every subsystem answers." : "A subsystem failed — see probes; the connector still serves what passed." });
-    },
+    async () => text(await runSelfTest()),
   );
 
   // GITHUB WRITE — propose a file to the repo as a PR, NEVER straight to protected main.

@@ -8,10 +8,29 @@ import json
 import hashlib
 import uuid
 from datetime import datetime, timezone
+from datetime import timedelta
 
 
 def now():
     return datetime.now(timezone.utc).isoformat()
+
+
+def _parse_utc(value: str | None = None) -> datetime:
+    raw = (value or now()).replace("Z", "+00:00")
+    dt = datetime.fromisoformat(raw)
+    return dt.astimezone(timezone.utc)
+
+
+def timeline_pointers(value: str | None = None) -> dict:
+    dt = _parse_utc(value)
+    iso = dt.isocalendar()
+    monday = dt.date() - timedelta(days=dt.weekday())
+    return {
+        "day": dt.strftime("%Y-%m-%d"),
+        "week": f"{iso.year}-W{iso.week:02d}",
+        "week_start": monday.isoformat(),
+        "month": dt.strftime("%Y-%m"),
+    }
 
 
 def huginn_diff(seed_state: dict, incoming_delta: dict) -> dict:
@@ -61,6 +80,12 @@ def session_start(platform: str, chaos_seed: dict) -> dict:
         "entropy_score":   entropy,
         "eris_active":     True,
         "started_at":      now(),
+        "continuity_layers": [
+            "event_log",
+            "summaries",
+            "working_memory",
+            "ancestral_spine",
+        ],
         "jc_object": {
             "kind": "session_start",
             "alias": f"JC-{session_id}",
@@ -68,6 +93,7 @@ def session_start(platform: str, chaos_seed: dict) -> dict:
             "archetype": arch["archetype"],
             "continuity_role": "entry point for the session event log",
         },
+        "timeline_pointers": timeline_pointers(),
     }
 
 
@@ -94,6 +120,13 @@ def session_end(platform, session_id, state_delta, narrative, current_chaos):
         "summary": narrative,
         "state_delta_present": bool(state_delta),
         "saved_in_git": bool(git_commit),
+        "timeline_pointers": timeline_pointers(),
+        "layers": [
+            "event_log",
+            "summaries",
+            "working_memory",
+            "ancestral_spine",
+        ],
     }
     if diff["merge_recommended"]:
         result["chaos_updated"] = True
