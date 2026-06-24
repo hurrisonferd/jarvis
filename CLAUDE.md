@@ -53,6 +53,7 @@ Forbidden edges: `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADE
 | `chaos/prometheus_log.json` | Local decision log — do not commit |
 | `chaos/session_sync.py` | Session start/end helpers, git-fingerprinted event log, JC continuity wrapper |
 | `mnemos/mnemos_vector.py` | Semantic memory (SQLite + Ollama) |
+| `JarvisMain/Manual/` | Operating manual + bounded event history |
 | `intake/` | AI handoff review lane |
 | `.env` | Secrets — do not commit |
 | `start.bat` | Starts MCP server |
