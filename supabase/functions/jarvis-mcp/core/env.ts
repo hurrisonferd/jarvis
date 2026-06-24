@@ -22,7 +22,7 @@ export const TOOL_NAMES = [
   "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
   "jarvis_recall", "jarvis_remember", "jarvis_event", "jarvis_jmms", "jarvis_mint",
   "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose",
-  "jarvis_jd_resolve", "jarvis_jc_recall", "jarvis_grimoire",
+  "jarvis_jd_resolve", "jarvis_load", "jarvis_jc_recall", "jarvis_grimoire", "jarvis_jglf_validate",
   "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_repo_search", "jarvis_self_test", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
   "jarvis_private_tree", "jarvis_private_read", "jarvis_private_write",
   "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",

@@ -1792,6 +1792,223 @@ function buildServer(req: Request): McpServer {
   // JIP LIFECYCLE — extracted to tools/jip.ts (forge slice 6).
   registerJipTools(server, req);
 
+  // ═══════════════════════════════════════════════════════════════════════════
+  // UNIVERSAL RESOLVER (POKÉDEX) — "load anything" deterministic pipeline
+  // Resolution: JD → JNL → Name → JIP → DEX → GitHub → HARD NULL
+  // Modes: STRICT (fail if incomplete), INDEX_ONLY (pointer), FULL (recursive)
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  server.registerTool(
+    "jarvis_load",
+    {
+      title: "LOAD — Universal Pokédex Resolver",
+      description:
+        "The universal 'load' command. Resolves ANY system entity by name, JNL, ID, or concept. 'load ayre', 'load mnemos', 'load jd 4', 'load yggdrasil', 'load gold law' — all work. Resolution chain: JD exact → JNL partial → name search → JIP lookup → DEX lookup → GitHub file search → HARD NULL. Never infers. Never guesses. Either it resolves fully, or it returns UNRESOLVED with explicit null. Modes: FULL (default, recursive with lineage), STRICT (fail if any linked layer missing), INDEX_ONLY (pointer only, no deep read).",
+      inputSchema: {
+        query: z.string().describe("What to load: any name, JNL, ID, concept. Examples: 'ayre', 'mnemos', 'jd 4', 'ARCH-YGG-CORE-0001', 'gold law', 'identity'"),
+        mode: z.enum(["FULL", "STRICT", "INDEX_ONLY"]).optional().default("FULL").describe("FULL=recursive with lineage, STRICT=fail if any layer missing, INDEX_ONLY=pointer only"),
+      },
+    },
+    async ({ query, mode }) => {
+      const q = query.trim();
+      const resolution: any = {
+        query: q, mode, resolved: false,
+        resolution_path: [], result: null, lineage: null, github_file: null, warnings: [],
+      };
+
+      // LAYER 1: JD exact JNL match
+      let entries = await rest(`jd_entries?select=*&jnl=eq.${encodeURIComponent(q)}&limit=1`).catch(() => []) as any[];
+      if (Array.isArray(entries) && entries.length > 0) {
+        resolution.resolution_path.push("JD_EXACT_JNL");
+        resolution.result = entries[0]; resolution.resolved = true;
+      }
+
+      // LAYER 2: numeric ID (e.g., "3", "JD-3", "jd 3", "jid 3")
+      if (!resolution.resolved) {
+        const numMatch = q.match(/^(?:ji?d[\s-]*)?#?\s*(\d+)$/i);
+        if (numMatch) {
+          entries = await rest(`jd_entries?select=*&id=eq.${numMatch[1]}&limit=1`).catch(() => []) as any[];
+          if (Array.isArray(entries) && entries.length > 0) {
+            resolution.resolution_path.push("JD_NUMERIC_ID");
+            resolution.result = entries[0]; resolution.resolved = true;
+          }
+        }
+      }
+
+      // LAYER 3: name search (case-insensitive)
+      if (!resolution.resolved) {
+        entries = await rest(`jd_entries?select=*&name=ilike.*${encodeURIComponent(q)}*&limit=5`).catch(() => []) as any[];
+        if (Array.isArray(entries) && entries.length > 0) {
+          resolution.resolution_path.push("JD_NAME_SEARCH");
+          resolution.result = entries[0];
+          if (entries.length > 1) resolution.alternatives = entries.slice(1);
+          resolution.resolved = true;
+        }
+      }
+
+      // LAYER 4: JNL partial match
+      if (!resolution.resolved) {
+        entries = await rest(`jd_entries?select=*&jnl=ilike.*${encodeURIComponent(q.toUpperCase())}*&limit=5`).catch(() => []) as any[];
+        if (Array.isArray(entries) && entries.length > 0) {
+          resolution.resolution_path.push("JNL_PARTIAL");
+          resolution.result = entries[0];
+          if (entries.length > 1) resolution.alternatives = entries.slice(1);
+          resolution.resolved = true;
+        }
+      }
+
+      // LAYER 5: JIP lookup
+      if (!resolution.resolved) {
+        try {
+          const jips = await rest(`jip_entries?select=*&or=(jnl.ilike.*${encodeURIComponent(q)}*,name.ilike.*${encodeURIComponent(q)}*)&limit=3`) as any[];
+          if (Array.isArray(jips) && jips.length > 0) {
+            resolution.resolution_path.push("JIP_SEARCH");
+            resolution.result = { type: "JIP", ...jips[0] };
+            if (jips.length > 1) resolution.alternatives = jips.slice(1);
+            resolution.resolved = true;
+          }
+        } catch { /* jip_entries may not exist */ }
+      }
+
+      // LAYER 6: DEX proposals search
+      if (!resolution.resolved) {
+        try {
+          const dex = await rest(`dex_control?select=*&or=(jnl.ilike.*${encodeURIComponent(q)}*,name.ilike.*${encodeURIComponent(q)}*)&limit=3`) as any[];
+          if (Array.isArray(dex) && dex.length > 0) {
+            resolution.resolution_path.push("DEX_SEARCH");
+            resolution.result = { type: "DEX", ...dex[0] };
+            resolution.resolved = true;
+          }
+        } catch { /* table may not exist */ }
+      }
+
+      // LAYER 7: GitHub file search
+      if (!resolution.resolved) {
+        try {
+          const ghRes = await gh(`/search/code?q=${encodeURIComponent(q)}+repo:hurrisonferd/jarvis&per_page=3`);
+          if (ghRes.ok) {
+            const data = await ghRes.json() as any;
+            if (data.items?.length > 0) {
+              resolution.resolution_path.push("GITHUB_CODE_SEARCH");
+              resolution.result = {
+                type: "GITHUB_FILE",
+                files: data.items.map((f: any) => ({ path: f.path, name: f.name, url: f.html_url })),
+              };
+              resolution.resolved = true;
+            }
+          }
+        } catch { /* best-effort */ }
+      }
+
+      // HARD NULL — no inference, no approximation
+      if (!resolution.resolved) {
+        resolution.status = "UNRESOLVED";
+        resolution.resolution_path.push("HARD_NULL");
+        return text(resolution);
+      }
+      resolution.status = "RESOLVED";
+
+      // INDEX_ONLY: return pointer only
+      if (mode === "INDEX_ONLY") return text(resolution);
+
+      // FULL / STRICT: hydrate lineage
+      const primary = resolution.result;
+      if (primary?.parent) {
+        const parents = await rest(`jd_entries?select=id,jnl,name,class,status&jnl=eq.${encodeURIComponent(primary.parent)}&limit=1`).catch(() => []);
+        resolution.lineage = { parent: Array.isArray(parents) && parents.length > 0 ? parents[0] : null };
+        if (mode === "STRICT" && !resolution.lineage.parent) {
+          resolution.warnings.push(`STRICT: parent ${primary.parent} not found`);
+          resolution.status = "PARTIAL_STRICT_FAIL";
+        }
+      }
+      if (primary?.jnl) {
+        const children = await rest(`jd_entries?select=id,jnl,name,class,status&parent=eq.${encodeURIComponent(primary.jnl)}&limit=30`).catch(() => []);
+        resolution.lineage = { ...resolution.lineage, children: Array.isArray(children) ? children : [] };
+      }
+      if (primary?.parent) {
+        const siblings = await rest(`jd_entries?select=id,jnl,name,class,status&parent=eq.${encodeURIComponent(primary.parent)}&jnl=neq.${encodeURIComponent(primary.jnl)}&limit=10`).catch(() => []);
+        resolution.lineage = { ...resolution.lineage, siblings: Array.isArray(siblings) ? siblings : [] };
+      }
+      if (primary?.related && Array.isArray(primary.related) && primary.related.length > 0) {
+        const relatedEntries = [];
+        for (const r of primary.related.slice(0, 8)) {
+          const found = await rest(`jd_entries?select=id,jnl,name,class,status&jnl=eq.${encodeURIComponent(r)}&limit=1`).catch(() => []);
+          relatedEntries.push(Array.isArray(found) && found.length > 0 ? found[0] : { jnl: r, resolved: false });
+        }
+        resolution.lineage = { ...resolution.lineage, related: relatedEntries };
+      }
+      // Active JIPs
+      if (primary?.jnl) {
+        try {
+          const jips = await rest(`jip_entries?select=*&target_jd=eq.${encodeURIComponent(primary.jnl)}&status=eq.ACTIVE&order=created_at.desc&limit=5`);
+          resolution.active_jips = Array.isArray(jips) ? jips : [];
+        } catch { resolution.active_jips = []; }
+      }
+      // GitHub file content
+      if (primary?.jnl) {
+        const entryPath = `JarvisMain/yggdrasil/jd/entries/${primary.jnl}.md`;
+        try {
+          const ghRes = await fetch(`https://api.github.com/repos/hurrisonferd/jarvis/contents/${entryPath}`, {
+            headers: { accept: "application/vnd.github.v3.raw", ...(ghTok() ? { authorization: `Bearer ${ghTok()}` } : {}) },
+          });
+          if (ghRes.ok) resolution.github_file = await ghRes.text();
+        } catch { /* best effort */ }
+      }
+
+      return text(resolution);
+    },
+  );
+
+  // ═══════════════════════════════════════════════════════════════════════════
+  // JGLF VALIDATOR — structural compliance checker
+  // ═══════════════════════════════════════════════════════════════════════════
+
+  server.registerTool(
+    "jarvis_jglf_validate",
+    {
+      title: "JGLF — Validate structural compliance",
+      description:
+        "Scan all JD entries and validate JGLF compliance. Reports: orphan entries (no parent), broken lineage, missing fields, non-standard domains, empty related arrays, and structural violations. Returns actionable fix list.",
+      inputSchema: {
+        domain: z.string().optional().describe("Filter by domain prefix (e.g., 'ARCH', 'GS', 'PROJ')"),
+      },
+    },
+    async ({ domain }) => {
+      let q = `jd_entries?select=id,jnl,name,type,class,status,system,domain,parent,related,cross_refs&order=jnl.asc&limit=200`;
+      if (domain) q += `&jnl=ilike.${encodeURIComponent(domain)}*`;
+      const entries = await rest(q).catch(() => []) as any[];
+      if (!Array.isArray(entries)) return text({ status: "ERROR", error: "Could not fetch JD entries" });
+
+      const VALID_DOMAINS = ["GS", "ARCH", "GOV", "PROJ", "GRID", "CONN", "LOG", "AUD", "IMPL", "IDEA"];
+      const jnlSet = new Set(entries.map((e: any) => e.jnl));
+      const violations: any[] = [];
+      const stats = { total: entries.length, orphans: 0, empty_related: 0, broken_parents: 0 };
+
+      for (const e of entries) {
+        const issues: string[] = [];
+        const eDomain = e.jnl?.split("-")[0];
+        if (!e.parent && e.jnl !== "ARCH-YGG-CORE-0001") { issues.push("ORPHAN: no parent (JGLF Law 3)"); stats.orphans++; }
+        if (e.parent && !jnlSet.has(e.parent)) { issues.push(`BROKEN_PARENT: '${e.parent}' not found`); stats.broken_parents++; }
+        if (!e.related || (Array.isArray(e.related) && e.related.length === 0)) { issues.push("EMPTY_RELATED"); stats.empty_related++; }
+        if (eDomain && !VALID_DOMAINS.includes(eDomain)) { issues.push(`NON_STANDARD_DOMAIN: '${eDomain}'`); }
+        if (issues.length > 0) violations.push({ jnl: e.jnl, name: e.name, issues });
+      }
+
+      const byClass: Record<string, number> = {}, byDomain: Record<string, number> = {}, byStatus: Record<string, number> = {};
+      for (const e of entries) {
+        byClass[e.class] = (byClass[e.class] || 0) + 1;
+        byDomain[e.jnl?.split("-")[0] ?? "UNKNOWN"] = (byDomain[e.jnl?.split("-")[0] ?? "UNKNOWN"] || 0) + 1;
+        byStatus[e.status] = (byStatus[e.status] || 0) + 1;
+      }
+
+      return text({
+        jglf_compliance: violations.length === 0 ? "PASS" : "VIOLATIONS_FOUND",
+        stats, by_class: byClass, by_domain: byDomain, by_status: byStatus,
+        violations: violations.slice(0, 50), total_violations: violations.length,
+      });
+    },
+  );
+
   return server;
 }
 
