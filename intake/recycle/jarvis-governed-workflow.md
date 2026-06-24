@@ -10,6 +10,8 @@ Codex is the JARVIS execution layer for local implementation work: filesystem ch
 
 God Systems and Gold Law are governance lenses unless enforcement is implemented in code, tests, CI, Supabase policies, or MCP tools.
 
+Continuity is a hard law for every larynx node (`free GPT`, `Codex`, `free Claude`, `Claude Code`, `Antigravity`). Each node must verify live repo state, tool surface, and the current handoff before claiming progress. No silent exits, and no inferred success without read-back.
+
 ## Standard Loop
 
 ```text
@@ -27,7 +29,7 @@ God Systems and Gold Law are governance lenses unless enforcement is implemented
    Codex, as the JARVIS execution layer, makes scoped changes against the repo, project spec, and governance context.
 
 5. Verify
-   Run syntax checks, tests, migrations, or app verification appropriate to the change.
+   Run syntax checks, tests, migrations, or app verification appropriate to the change, then read back the written state.
 
 6. Review
    Check the result against Gold Law and relevant God System responsibilities.
@@ -43,6 +45,9 @@ God Systems and Gold Law are governance lenses unless enforcement is implemented
 
 10. Recycle
    Move completed intake to processed/ and copy reusable patterns to recycle/.
+
+11. Resume
+    If work remains incomplete, write a machine-readable handoff artifact before exit so the next node can re-verify repo state before continuing.
 ```
 
 ## Minimum Review Checklist

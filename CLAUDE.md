@@ -20,6 +20,7 @@ Local-first AI orchestration system. MCP server + semantic memory + governed wor
 ## Gold Law (hard constraints)
 
 - **GL7 supreme:** no expansion without simplification
+- **Continuity is law:** every larynx node (`free GPT`, `Codex`, `free Claude`, `Claude Code`, `Antigravity`) must verify live repo state, tool surface, and the current handoff before claiming progress; no silent exits, no inferred success without read-back
 - No autonomous self-modification
 - No silent state mutation
 - No unvalidated execution
@@ -98,14 +99,18 @@ All changes follow this loop:
 
 ```
 1. intake/     — add request or handoff
-2. context     — check JARVIS status, relevant God Systems, Gold Law
+2. context     — check JARVIS status, relevant God Systems, Gold Law, and the latest handoff artifact
 3. implement   — scoped changes only, no unrelated cleanup
-4. verify      — syntax check, tests if applicable
+4. verify      — syntax check, tests if applicable, then read back the written state
 5. log         — jarvis_log for significant decisions (PROMETHEUS)
 6. commit      — clean commit to main
 7. sync        — jarvis_repo_sync if local MCP server needs update
 8. recycle     — move processed intake; copy reusable patterns to recycle/
 ```
+
+## Continuity Rule
+
+Resumability is a hard requirement, not a courtesy. If work is incomplete, the node must leave a machine-readable handoff and the next node must re-verify against repo state before acting. The system does not treat memory as proof.
 
 ---
 
