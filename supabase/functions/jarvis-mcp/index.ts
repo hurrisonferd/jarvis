@@ -16,6 +16,7 @@ import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, l
 import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
 import { registerDbTools } from "./tools/db.ts";
 import { registerJipTools } from "./tools/jip.ts";
+import { registerOpenHandsTools } from "./tools/openhands.ts";
 
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
@@ -1438,6 +1439,9 @@ function buildServer(req: Request): McpServer {
 
   // DATABASE VISION (read-only) — extracted to tools/db.ts (forge slice 5).
   registerDbTools(server);
+
+  // OPENHANDS COMPANION (forge slice 7) — spine-backed briefing for coding agents.
+  registerOpenHandsTools(server);
 
   // UNIFIED TIMELINE.
   server.registerTool(

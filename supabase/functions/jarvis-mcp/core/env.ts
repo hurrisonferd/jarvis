@@ -33,4 +33,5 @@ export const TOOL_NAMES = [
   "jarvis_voice_brief",
   "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
   "jarvis_halo",
+  "jarvis_openhands_context",
 ];
