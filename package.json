@@ -1,0 +1,16 @@
+{
+  "name": "jarvis-connector-sync",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Client SDK and diagnostics for governed JARVIS connector synchronization.",
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "diagnostics": "npm run build && node dist/diagnostics.js",
+    "validate": "npm run build && node dist/diagnostics.js --offline"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.10",
+    "typescript": "^5.5.4"
+  }
+}

@@ -44,16 +44,20 @@ Use `intake/` for AI handoffs reviewed before they become memory, code, or migra
 
 ---
 
-## Optional: local MCP server (on-PC)
+## MCP Backend Rebuild
 
-`jarvis_mcp_server.py` is a FastAPI MCP server (port 7777). It is **optional and PC-only** — kept for local workflows that genuinely benefit from on-machine services (Ollama embeddings, a local Neo4j graph). The cloud path above is canonical; reach for the local server only when the PC adds something GitHub/Supabase cannot.
+Git is the rebuild source. Supabase runs the backend.
 
-```powershell
-pip install -r requirements.txt
-python jarvis_mcp_server.py          # http://localhost:7777  (health: /health)
-```
+- MCP source: `supabase/functions/jarvis-mcp/`
+- MCP endpoint: `https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp`
+- Rebuild packet: `JarvisMain/Architecture/rebuild/jarvis-backup-seed.md`
+- Mainline/event rule: `JarvisMain/Architecture/rebuild/mainline-event-ledger.md`
+- Tool mirror docs: `JarvisMain/Connectors/JarvisMCPSupabase/`
+- Client config: `.continue/mcpServers/jarvis.yaml`
 
-Continue.dev MCP configs live in `.continue/mcpServers/` (`jarvis.yaml` → local SSE endpoint). MCP tools load in Continue agent mode only.
+MCP clients should connect to the Supabase endpoint with SSE/Streamable HTTP support. Secrets for the deployed function live in Supabase or the deployment environment, never in Git.
+
+Meaningful changes land through `main` and should carry an event or ledger pointer: `audit/patch_ledger.json` for patch/change tracking, the runtime event contract for Supabase event shape, and the commit hash for durable proof.
 
 ---
 
@@ -61,7 +65,9 @@ Continue.dev MCP configs live in `.continue/mcpServers/` (`jarvis.yaml` → loca
 
 - `.env` and `.env.*` (secrets)
 - `chaos/chaos_seed.json`, `chaos/session_log.json`, `chaos/prometheus_log.json`
+- `chaos/live_log.json`, `chaos/tunnel_*.txt`
 - `chaos/mnemos_vectors.db` and any local vector DB
+- `supabase/.temp/`
 - Service-role keys, private seeds, raw private logs
 
 The public anon/publishable key is client-safe **only** behind Row Level Security. Service-role keys are server-side only.

@@ -3,6 +3,7 @@ __pycache__/
 *.py[cod]
 
 node_modules/
+dist/
 
 .env
 .env.*
@@ -11,9 +12,15 @@ node_modules/
 chaos/chaos_seed.json
 chaos/session_log.json
 chaos/prometheus_log.json
+chaos/live_log.json
+chaos/tunnel_*.txt
 chaos/*.db
 chaos/*.sqlite
 chaos/*.sqlite3
+
+grid_images/
+
+supabase/.temp/
 
 .DS_Store
 Thumbs.db

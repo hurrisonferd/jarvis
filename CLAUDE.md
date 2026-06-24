@@ -240,9 +240,13 @@ freshness assertion flags any mirror that falls behind, so stale can't pass as c
 
 | Path | Purpose |
 |------|---------|
-| `supabase/functions/jarvis-mcp/` | The cloud MCP connector (live, v0.9.x) |
+| `supabase/functions/jarvis-mcp/` | The cloud MCP connector (live, Supabase Edge Function) |
 | `supabase/functions/jarvis-respond/` | Edge logic — router, guard, AEGIS, execute |
-| `chaos/chaos_seed.json` | Canonical system state — do not commit |
+| `supabase/migrations/` | Database schema history needed for rebuild |
+| `JarvisMain/Architecture/rebuild/jarvis-backup-seed.md` | Sanitized rebuild packet and authority map |
+| `JarvisMain/Connectors/JarvisMCPSupabase/` | MCP tool mirror docs |
+| `.continue/mcpServers/jarvis.yaml` | Cloud MCP client config |
+| `chaos/chaos_seed.json` | Private local seed/state cache — do not commit |
 | `chaos/session_log.json` | Local session log — do not commit |
 | `chaos/prometheus_log.json` | Local decision log — do not commit |
 | `chaos/session_sync.py` | Session start/end helpers |
@@ -259,8 +263,9 @@ freshness assertion flags any mirror that falls behind, so stale can't pass as c
 
 | Service | Address | Notes |
 |---------|---------|-------|
-| Supabase | `oexghfsvhnggddllgvrt` | Project; credentials in `.env`. Edge functions + dex tables. |
-| `jarvis-mcp` | edge function | The cloud MCP connector |
+| GitHub | `hurrisonferd/jarvis` | Canonical source and rebuild truth. |
+| Supabase | `oexghfsvhnggddllgvrt` | Runtime substrate for MCP, database, Edge Functions, and memory. |
+| `jarvis-mcp` | `https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp` | The cloud MCP connector. |
 | Jarvis-Private | `github.com/hurrisonferd/Jarvis-Private` | Raven's private repo (registered 2026-06-11). Not in default session scope — grant via environment repo list when a session needs it. |
 
 > **Cloud-first only.** The legacy local rig (FastAPI MCP server, Neo4j, Ollama) was removed
@@ -310,7 +315,7 @@ All changes follow this loop:
 4. verify      — syntax check, tests if applicable
 5. log         — jarvis_log for significant decisions (PROMETHEUS)
 6. commit      — clean commit to main
-7. sync        — jarvis_repo_sync if local MCP server needs update
+7. sync        — verify cloud-visible GitHub state and redeploy Edge Functions when connector code or baked secrets change
 8. recycle     — move processed intake; copy reusable patterns to recycle/
 ```
 

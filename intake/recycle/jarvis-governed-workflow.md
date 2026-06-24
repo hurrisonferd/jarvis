@@ -6,7 +6,9 @@ Use this workflow for any project or agent handoff that should pass through JARV
 
 JARVIS is the operating context for agent-driven work. It provides memory, architecture, review language, decision logging, and explicit constraints.
 
-Codex is the JARVIS execution layer for local implementation work: filesystem changes, tests, migrations, commits, pushes, and repo sync tasks. Its archetype is Kang: production, building, execution.
+Codex is the JARVIS execution layer for implementation work: filesystem changes, tests, migrations, commits, pushes, and cloud-visible repo verification. Its archetype is Kang: production, building, execution.
+
+GitHub is source of truth. Supabase is the runtime substrate that allows the MCP backend to run. Supabase may mirror, execute, and store runtime state, but rebuildable MCP knowledge belongs in Git unless it is a secret or private live log.
 
 God Systems and Gold Law are governance lenses unless enforcement is implemented in code, tests, CI, Supabase policies, or MCP tools.
 
@@ -39,9 +41,12 @@ God Systems and Gold Law are governance lenses unless enforcement is implemented
    Commit and push changes to GitHub.
 
 9. Sync
-   Use jarvis_repo_sync status/pull where the local MCP server should update from GitHub.
+   Verify the cloud connector can see the GitHub state. Redeploy Supabase Edge Functions when connector code or baked secrets change.
 
-10. Recycle
+10. Ledger
+   Record the meaningful event path: patch ledger entry, Supabase runtime event id when emitted, and commit hash. Main is canon; branches are staging.
+
+11. Recycle
    Move completed intake to processed/ and copy reusable patterns to recycle/.
 ```
 
@@ -56,6 +61,8 @@ God Systems and Gold Law are governance lenses unless enforcement is implemented
 - Does it include verification proportional to the risk?
 - Does a decision need a PROMETHEUS rationale log?
 - Does new memory belong in MNEMOS or Supabase?
+- Does rebuild-critical MCP knowledge belong in Git instead of only in live memory?
+- Does the change have a mainline/event ledger pointer?
 - Does the work create overlap or drift that ERIS/NEMESIS should flag?
 
 ## Project Use

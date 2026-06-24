@@ -1,6 +1,6 @@
 # Codex JARVIS Agent Brief
 
-Role: Local and network execution layer
+Role: Git/cloud execution layer
 Archetype: Kang (production, building, execution)
 Authority: Raven = John Joseph Barber
 
@@ -12,16 +12,18 @@ Claude (Shiroe) audits and plans. Codex builds.
 
 ## Codebase
 
-- GitHub: `hurrisonferd/jarvis`
-- Local: `C:\Users\JB\jarvis\`
-- MCP server: `jarvis_mcp_server.py`, runs on port `7777`
-- Canonical system state: `chaos/chaos_seed.json`
-- Semantic memory layer: `mnemos/mnemos_vector.py`
+- GitHub: `hurrisonferd/jarvis` is source of truth.
+- Local: `C:\Users\JB\jarvis\` is a working checkout, not canon.
+- MCP backend: `supabase/functions/jarvis-mcp/`, deployed to Supabase Edge Functions.
+- MCP endpoint: `https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp`
+- Rebuild packet: `JarvisMain/Architecture/rebuild/jarvis-backup-seed.md`
+- Legacy local memory helper: `mnemos/mnemos_vector.py`
 
 ## Supabase
 
 - Project: `oexghfsvhnggddllgvrt`
-- Tables: `session_log`, `prometheus_log`, `god_system_stats`, `chaos_seed`, `eris_entropy_log`, `jarvis_datasets`
+- Purpose: runtime substrate for MCP, database reads/writes, Edge Functions, and memory.
+- Git remains canon; Supabase mirrors or executes cloud runtime state.
 
 ## Gold Law Hard Constraints
 
@@ -65,6 +67,7 @@ LOKI  -> HADES
 
 - Build what Shiroe/Claude approves.
 - Commit clean code to `hurrisonferd/jarvis`.
-- Log significant decisions to Supabase `prometheus_log`.
+- Keep enough MCP docs and rebuild instructions in Git that the backend can be rebuilt from source plus separately provisioned secrets.
+- Log significant runtime decisions through the cloud connector/Supabase when available.
 - Keep changes bounded and reversible.
 - When uncertain about scope, ask Raven.
