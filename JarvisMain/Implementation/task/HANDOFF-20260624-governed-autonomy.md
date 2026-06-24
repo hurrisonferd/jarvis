@@ -18,6 +18,7 @@ authorized_scope: [JarvisMain/Architecture/specs/governed-autonomy-contract.md](
 - JSTM session-close purge not yet implemented.
 - Session-open should be adopted by the runtime entrypoint so it becomes the first call on fresh sessions.
 - Mirror freshness still needs a live spot-check before we call resumability healthy across nodes.
+- `JarvisMain/Architecture/specs/resumability-definition.md` is referenced but not present in this checkout; the next node should verify whether it needs to be re-added or fetched from history.
 
 ## Next action
 Implement `jarvis_fold` as a Supabase Edge Function following the spec in `jmms-tier-enforcement.md` - dry_run mode first, approve gate second.
