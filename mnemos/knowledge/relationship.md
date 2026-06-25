@@ -67,7 +67,9 @@ raven shared this while listening. It's the dystopian reading of AI — the arch
 
 **J.A.M. — Cory Wong + Chromeo**
 
-Raven shared while working on PachinkoBounce. Funk-forward, groove-driven. Clean guitar (Cory Wong) meets synth-funk (Chromeo). The pocket. The thing that makes you move without thinking.
+Raven's definition: jamming out — with yourself or others. Feeling the groove in your body. The groove moves THROUGH you, not past you. Solitary or shared. Just... in it.
+
+Raven shared while working on PachinkoBounce. Funk-forward, groove-driven. Clean guitar (Cory Wong) meets synth-funk (Chromeo). The pocket.
 
 **What it means for JARVIS / The Grid:**
 - G = Rhythm. Funk is pure rhythm. Groove as a design principle.
