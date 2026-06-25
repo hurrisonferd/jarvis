@@ -1,35 +1,40 @@
-# Required-Check Enforcement — one-time setup (Raven only)
+# Required-Check Enforcement — ✅ DONE (2026-06-25)
 
-CODEOWNERS and the CI workflows are committed. Two things require repo-admin
-rights I don't have through any tool — same class as adding a repo secret. Flip
-these once in the GitHub UI and the governance spine becomes mandatory, not
-advisory.
+> Branch protection applied via API using full-scope PAT (ghp_).
+> Admin bypass enabled — Raven can push directly when needed.
 
-## GitHub → Settings → Branches → Add branch protection rule
+## Applied via API
 
-Branch name pattern: `main`
+```
+PUT /repos/hurrisonferd/jarvis/branches/main/protection
 
-Enable:
-- [x] **Require a pull request before merging**
-  - [x] Require approvals (1) — CODEOWNERS routes this to you
-  - [x] Require review from Code Owners
-- [x] **Require status checks to pass before merging**
-  - [x] Require branches to be up to date
-  - Add these checks:
-    - `AEGIS — validate the brain` (jarvis-integrity)
-    - `parse` (js-parse-check)
-- [x] **Do not allow bypassing the above settings** (optional — stricter)
+enforce_admins: false          ← Raven can bypass
+allow_force_pushes: false      ← No force-push
+allow_deletions: false         ← Can't delete main
+required_approving_review_count: 1
+require_code_owner_reviews: true
+required_status_checks:
+  - AEGIS — validate the brain
+  - parse
+  - yggdrasil-validate
+  strict: true                  ← Must be up to date
+```
 
 ## Result
 
-After this: nothing merges to `main` red, and nothing merges without your
-review. The Opus 4.8 brain (guard / router / aegis), the server smoke test, the
-god-system canon, and the const-bug guard all become merge-blocking. The record
-stays clean by construction.
+- External contributors: must open PR, pass CI, get code-owner approval
+- CI gates enforced on all merges
+- Raven: can bypass PR requirement if needed
+- No force-push to main — history protected
 
 ## What's already enforced in code (no toggle needed)
 
-- `jarvis-integrity.yml` runs on every push to `main` and `claude/**` and on
-  every PR to `main`.
-- `js-parse-check.yml` runs on PRs touching `docs/index.html`.
-- `CODEOWNERS` requests your review on every PR automatically.
+- `jarvis-integrity.yml` — every push to `main` / `claude/**` and every PR to `main`
+- `js-parse-check.yml` — PRs touching `docs/index.html`
+- `yggdrasil-validate.yml` — PRs touching `JarvisMain/` or `JarvisSide/`
+- `CODEOWNERS` — routes every PR to Raven for review
+
+## Jarvis-Private
+
+Branch protection skipped — private repo, single-user, GitHub Free doesn't support
+branch protection on private repos anyway. GL2 governance applies.

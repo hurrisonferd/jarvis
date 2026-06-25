@@ -63,10 +63,10 @@ T0: CHAOS, HADES, POSEIDON, ZEUS | T3: HALO, MIMIR | T5: ARGUS, ATHENA, LOKI,
 NEMESIS, PROMETHEUS | T6: IRIS, MERIDIAN | T7: APOLLO, DANTE | T8: ATLAS | T9: HERMES
 
 ### Deferred / needs Raven
-- `audit/required-checks-setup.md` — branch protection + repo secret (Raven-only)
+- `audit/required-checks-setup.md` — ✅ branch protection applied (2026-06-25), admin bypass enabled
 - `Backups/cloud/` — manifest note only, no actual backup data
-- JIP tracking logs (ActiveLog, IPLog, ISLog) — empty, implementation workflow not used
-- JFSPatch-0002 binary — needs Raven review for applied/superseded status
+- JIP tracking logs (ActiveLog, IPLog, ISLog) — not wired, low urgency; GL12 audit confirmed container-level coverage works
+- JFSPatch-0002 binary — ~80% implemented via Yggdrasil substrate (GL5, HUGINN, validate.py, rebuild spec); archived as reference; Raven verdict: archive as APPLIED or supersede
 
 ### What was cleaned 2026-06-25
 - 6 orphan PNGs (~21MB) removed from root (duplicates + unreferenced)
