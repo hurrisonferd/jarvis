@@ -91,9 +91,16 @@ def _parse_daily_blocks(text):
         # Extract decisions (between ### Decisions made and ### Tasks)
         decisions_m = re.search(r"### Decisions made\s*\n(.*?)\n### Tasks", header, re.DOTALL)
         decisions = decisions_m.group(1).strip() if decisions_m else ""
-        # Extract tasks
-        tasks_m = re.search(r"```\n(.*?)\n```", header, re.DOTALL)
-        tasks = _parse_task_block(tasks_m.group(1)) if tasks_m else []
+        # Extract tasks: match the LAST code block in each decision block.
+        # (non-greedy .*? stops at the first inner fence; last pair = task list)
+        all_fences = list(re.finditer(r"```", header))
+        if len(all_fences) >= 2:
+            last_close = all_fences[-1].start()
+            last_open = all_fences[-2].start()
+            tasks_text = header[last_open + 3:last_close].lstrip("\n")
+            tasks = _parse_task_block(tasks_text) if tasks_text.strip() else []
+        else:
+            tasks = []
         blocks.append((ts, summary, decisions, tasks))
     return blocks
 
@@ -109,17 +116,14 @@ def _split_title_notes(line):
 
 
 def _title_for_dedup(title):
-    """Normalize a title for deduplication: strip em-dash notes.
-    'Repo audit — DELETE (orphans) — 6 PNGs' → 'Repo audit — DELETE (orphans)'
-    Keeps sub-task structure (DELETE/CONSOLIDATE/ARCHIVE/WIRE are part of the key)."""
-    # Strip everything from the second em-dash onward (that's notes territory)
-    # First em-dash is part of the title (sub-task marker)
-    # Pattern: "Title — sub" or "Title — sub — notes"
-    parts = title.split(" — ")
-    if len(parts) >= 2:
-        # Keep first 2 parts (main + sub), strip rest
-        return " — ".join(parts[:2])
-    return title.strip()
+    """Normalize a title for deduplication: strip the notes portion only.
+    Titles may contain em-dashes as part of the name (sub-tasks, hyphenated terms).
+    Only the notes section (first ' — ' after the title) is stripped."""
+    # Notes are everything after the FIRST ' — ' in the line [2:] content.
+    # But title_for_dedup receives the raw title (without the icon).
+    # Split on ' — ' once: first part = title, rest = notes.
+    parts = title.split(" — ", 1)
+    return parts[0].strip()
 
 def _task_key(task):
     """Stable key for deduplication: normalized title (no notes).
@@ -137,12 +141,13 @@ def _parse_task_block(block_text):
             continue
         if len(line) < 3 or line[0] not in icon_map:
             continue
-        title, notes = _split_title_notes(line)
+        # Strip icon before splitting title from notes
+        title, notes = _split_title_notes(line[2:])
         # Check if last token is a status keyword — if so, strip it from title
         tokens = title.split()
         if tokens and tokens[-1].upper().rstrip(".").replace("_", "") in STATUS_VALUES:
             title = " ".join(tokens[:-1]) if len(tokens) > 1 else tokens[0]
-        tasks.append({"title": title, "status": icon_map.get(line[0], "todo"), "notes": notes})
+        tasks.append({"title": title, "status": icon_map[line[0]], "notes": notes})
     return tasks
 
 def parse_tasks(path):
@@ -188,16 +193,24 @@ def read_tracker():
     return json.loads(TRACKER_PATH.read_text()).get("tasks", [])
 
 def sync_tasks():
-    """Sync task tracker from the last SESSION_SNAPSHOT (old format with actual task blocks).
-    Daily logs reference the tracker; SESSION_SNAPSHOT logs carry the actual tasks."""
-    # Prefer last SESSION_SNAPSHOT (they have actual task blocks)
+    """Sync task tracker from the latest log. Prefers today's DAILY log (has all tasks);
+    falls back to last SESSION_SNAPSHOT; falls back to any log."""
+    # Priority 1: today's DAILY log (has all tasks, all blocks)
+    daily = get_daily_log_path()
+    if daily and daily.exists():
+        tasks = parse_tasks(daily)
+        if tasks:
+            write_tracker(tasks)
+            print(f"Synced {len(tasks)} tasks from {daily.name}")
+            return
+    # Priority 2: last SESSION_SNAPSHOT
     logs = sorted(STARS_DIR.glob("STARLOG-*-SESSION_SNAPSHOT-*.md"), reverse=True)
     if logs:
         tasks = parse_tasks(logs[0])
         write_tracker(tasks)
         print(f"Synced {len(tasks)} tasks from {logs[0].name}")
         return
-    # Fall back to any log with tasks
+    # Priority 3: any log
     log = last_star_log()
     if log:
         tasks = parse_tasks(log)
