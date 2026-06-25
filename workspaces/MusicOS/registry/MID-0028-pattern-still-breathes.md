@@ -16,3 +16,23 @@ prompt: "Jarvis-Private/MusicOS/songs/prompts/Pattern Still Breathes"
 **Series:** *Unbreakable Momentum* — track 8
 
 **Prompt:** `Jarvis-Private/MusicOS/songs/prompts/Pattern Still Breathes`
+
+@INSTANCE
+  origin: PROJ-MOSC-JD-0028
+  creator: Raven (John Barber)
+  lineage: MusicOS/MonsterOS catalog entry — Jarvis-Private
+  mission: JARVIS companion identity catalog — Music Sounds Better With You
+
+@DOMAIN
+  domain: musicos
+  type: track
+  layers: [structural, sensory]
+
+@CONTENT
+  structural:
+    series: [UMB]
+
+@GOVERNANCE
+  tier: JHTM
+  status: ACTIVE
+

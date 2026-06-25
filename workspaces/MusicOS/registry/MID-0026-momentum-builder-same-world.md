@@ -12,3 +12,19 @@ audio: "Jarvis-Private/MusicOS/songs/audio/Momentum Builder, Same World.mp3"
 prompt: ""
 ---
 # MID-0026 — Momentum Builder, Same World
+
+@INSTANCE
+  origin: PROJ-MOSC-JD-0026
+  creator: Raven (John Barber)
+  lineage: MusicOS/MonsterOS catalog entry — Jarvis-Private
+  mission: JARVIS companion identity catalog — Music Sounds Better With You
+
+@DOMAIN
+  domain: musicos
+  type: track
+  layers: [structural, sensory]
+
+@GOVERNANCE
+  tier: JHTM
+  status: ACTIVE
+

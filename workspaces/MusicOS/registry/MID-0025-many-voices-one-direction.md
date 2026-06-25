@@ -16,3 +16,23 @@ prompt: "Jarvis-Private/MusicOS/songs/prompts/Many Voices, One Direction"
 **Series:** *Unbreakable Momentum* — track 6
 
 **Prompt:** `Jarvis-Private/MusicOS/songs/prompts/Many Voices, One Direction`
+
+@INSTANCE
+  origin: PROJ-MOSC-JD-0025
+  creator: Raven (John Barber)
+  lineage: MusicOS/MonsterOS catalog entry — Jarvis-Private
+  mission: JARVIS companion identity catalog — Music Sounds Better With You
+
+@DOMAIN
+  domain: musicos
+  type: track
+  layers: [structural, sensory]
+
+@CONTENT
+  structural:
+    series: [UMB]
+
+@GOVERNANCE
+  tier: JHTM
+  status: ACTIVE
+

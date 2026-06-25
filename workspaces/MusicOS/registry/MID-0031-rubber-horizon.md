@@ -16,3 +16,23 @@ prompt: "Jarvis-Private/MusicOS/songs/prompts/Rubber Horizon"
 **Series:** *Unbreakable Momentum* — track 1
 
 **Prompt:** `Jarvis-Private/MusicOS/songs/prompts/Rubber Horizon`
+
+@INSTANCE
+  origin: PROJ-MOSC-JD-0031
+  creator: Raven (John Barber)
+  lineage: MusicOS/MonsterOS catalog entry — Jarvis-Private
+  mission: JARVIS companion identity catalog — Music Sounds Better With You
+
+@DOMAIN
+  domain: musicos
+  type: track
+  layers: [structural, sensory]
+
+@CONTENT
+  structural:
+    series: [UMB]
+
+@GOVERNANCE
+  tier: JHTM
+  status: ACTIVE
+

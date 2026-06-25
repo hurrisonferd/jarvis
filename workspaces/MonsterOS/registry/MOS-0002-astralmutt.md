@@ -14,3 +14,19 @@ variants: ['astralmutt.png']
 ## Variants
 
 - `astralmutt.png`
+
+@INSTANCE
+  origin: PROJ-MOSR-JD-0002
+  creator: Raven (John Barber)
+  lineage: MusicOS/MonsterOS catalog entry — Jarvis-Private
+  mission: JARVIS companion identity catalog — Music Sounds Better With You
+
+@DOMAIN
+  domain: monsteros
+  type: npc
+  layers: [structural, physics]
+
+@GOVERNANCE
+  tier: JHTM
+  status: ACTIVE
+

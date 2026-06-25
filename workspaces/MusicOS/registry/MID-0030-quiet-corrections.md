@@ -16,3 +16,23 @@ prompt: "Jarvis-Private/MusicOS/songs/prompts/Quiet Corrections"
 **Series:** *Unbreakable Momentum* — track 5
 
 **Prompt:** `Jarvis-Private/MusicOS/songs/prompts/Quiet Corrections`
+
+@INSTANCE
+  origin: PROJ-MOSC-JD-0030
+  creator: Raven (John Barber)
+  lineage: MusicOS/MonsterOS catalog entry — Jarvis-Private
+  mission: JARVIS companion identity catalog — Music Sounds Better With You
+
+@DOMAIN
+  domain: musicos
+  type: track
+  layers: [structural, sensory]
+
+@CONTENT
+  structural:
+    series: [UMB]
+
+@GOVERNANCE
+  tier: JHTM
+  status: ACTIVE
+

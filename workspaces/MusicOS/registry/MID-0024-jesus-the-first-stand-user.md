@@ -16,3 +16,23 @@ prompt: "Jarvis-Private/MusicOS/songs/prompts/Jesus, the First Stand User"
 **Series:** *Steel Ball Run* — track 6
 
 **Prompt:** `Jarvis-Private/MusicOS/songs/prompts/Jesus, the First Stand User`
+
+@INSTANCE
+  origin: PROJ-MOSC-JD-0024
+  creator: Raven (John Barber)
+  lineage: MusicOS/MonsterOS catalog entry — Jarvis-Private
+  mission: JARVIS companion identity catalog — Music Sounds Better With You
+
+@DOMAIN
+  domain: musicos
+  type: track
+  layers: [structural, sensory]
+
+@CONTENT
+  structural:
+    series: [SBR]
+
+@GOVERNANCE
+  tier: JHTM
+  status: ACTIVE
+

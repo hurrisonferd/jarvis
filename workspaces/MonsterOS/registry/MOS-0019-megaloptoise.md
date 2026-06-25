@@ -15,3 +15,19 @@ variants: ['4K_Megalopotoise.png', 'Megaloptoise.png']
 
 - `4K_Megalopotoise.png`
 - `Megaloptoise.png`
+
+@INSTANCE
+  origin: PROJ-MOSR-JD-0019
+  creator: Raven (John Barber)
+  lineage: MusicOS/MonsterOS catalog entry — Jarvis-Private
+  mission: JARVIS companion identity catalog — Music Sounds Better With You
+
+@DOMAIN
+  domain: monsteros
+  type: npc
+  layers: [structural, physics]
+
+@GOVERNANCE
+  tier: JHTM
+  status: ACTIVE
+
