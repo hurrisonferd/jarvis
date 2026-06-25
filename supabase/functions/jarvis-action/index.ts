@@ -496,8 +496,11 @@ async function dispatch(tool: string, args: Json, req: Request): Promise<Json> {
     // writes — AEGIS-gated (same token as jarvis-mcp)
     case "remember":
       if (!writeAuthorized(req)) return heldForApproval("mnemos.write", { text: a.text, tags: a.tags }, req);
-      // JMMS: stamp the memory's tier tag (default JLTM — the consolidated store).
-      return await callFunction("mnemos-store", { ...a, tags: withTier(a.tags, tierTag(a.tier)) }) as Json;
+      // JMMS: stamp the memory's tier (tag + column).
+      const tier = tierTag(a.tier);
+      return await callFunction("mnemos-store", {
+        ...a, tags: withTier(a.tags, tier), memory_tier: tier,
+      }) as Json;
     // JMMS — memory tiering: list a tier's working set, or move a memory up the horizon (one-way).
     case "jmms":
       return await runJmms(String(a.action ?? "list"), a, req);

@@ -54,6 +54,12 @@ Deno.serve(async (req: Request) => {
   const limit      = Math.min((payload.limit as number) ?? 10, 20);
   const sourceType = (payload.source_type as string) ?? "";
   const tags       = (payload.tags as string[]) ?? [];
+  // REWORK 2 (MEDIUM): JLTM recall path — filter by memory_tier for tier-specific retrieval.
+  // Valid tiers: jitm | jstm | jhtm | jltm | jatm.
+  const VALID_TIERS = ['jitm', 'jstm', 'jhtm', 'jltm', 'jatm'];
+  const memoryTier  = VALID_TIERS.includes((payload.memory_tier as string) ?? "")
+    ? (payload.memory_tier as string)
+    : null;
 
   const sb = createClient(
     Deno.env.get("SUPABASE_URL") ?? "",
@@ -65,9 +71,10 @@ Deno.serve(async (req: Request) => {
 
     if (query.length > 0) {
       // P33: full-text ranked search via tsvector + tag overlap re-ranking
-      const { data: ftData, error: ftErr } = await sb
-        .from("mnemos_memories")
-        .select("id, text, source_type, timestamp, metadata, entropy, tags")
+      let q = sb.from("mnemos_memories")
+        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier");
+      if (memoryTier) q = q.eq("memory_tier", memoryTier);
+      const { data: ftData, error: ftErr } = await q
         .textSearch("tsv", query, { type: "plain", config: "english" })
         .order("timestamp", { ascending: false })
         .limit(limit * 2);
@@ -87,9 +94,10 @@ Deno.serve(async (req: Request) => {
 
     } else if (tags.length > 0) {
       // P33: tag-only search — memories with overlapping tags
-      const { data: tagData, error: tagErr } = await sb
-        .from("mnemos_memories")
-        .select("id, text, source_type, timestamp, metadata, entropy, tags")
+      let q = sb.from("mnemos_memories")
+        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier");
+      if (memoryTier) q = q.eq("memory_tier", memoryTier);
+      const { data: tagData, error: tagErr } = await q
         .overlaps("tags", tags)
         .order("timestamp", { ascending: false })
         .limit(limit);
@@ -98,11 +106,12 @@ Deno.serve(async (req: Request) => {
       data = tagData ?? [];
 
     } else {
-      // No query, no tags — recency fallback
+      // No query, no tags — recency fallback (optionally tier-filtered)
       let q = sb
         .from("mnemos_memories")
-        .select("id, text, source_type, timestamp, metadata, entropy, tags")
+        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier")
         .order("timestamp", { ascending: false });
+      if (memoryTier) q = q.eq("memory_tier", memoryTier);
       if (sourceType) q = q.eq("source_type", sourceType);
       const { data: recent, error: recErr } = await q.limit(limit);
       if (recErr) throw recErr;

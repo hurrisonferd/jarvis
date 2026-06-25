@@ -74,6 +74,13 @@ Deno.serve(async (req: Request) => {
     status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
   });
 
+  // REWORK 1 (HIGH): stamp every memory with its JMMS tier.
+  // Valid tiers: jitm | jstm | jhtm | jltm | jatm. Default jltm (consolidated/durable).
+  const VALID_TIERS = ['jitm', 'jstm', 'jhtm', 'jltm', 'jatm'];
+  const tier = VALID_TIERS.includes(payload.memory_tier as string)
+    ? (payload.memory_tier as string)
+    : 'jltm';
+
   const sb = createClient(SB_URL, SB_SVC_KEY);
   const vocab = await getVocab(sb);
   const autoTags = tagText(text, vocab);
@@ -93,6 +100,7 @@ Deno.serve(async (req: Request) => {
     },
     timestamp: (payload.timestamp as string) ?? new Date().toISOString(),
     tags,
+    memory_tier: tier,
   };
 
   try {

@@ -342,7 +342,12 @@ function buildServer(req: Request): McpServer {
         return heldForApproval("mnemos.write", { text: args.text, source_type: args.source_type, tags: args.tags }, req);
       }
       // JMMS: stamp the memory's tier tag (default jltm — the consolidated store).
-      const tagged = { ...args, tags: withTier(args.tags, tierTag(args.tier)) };
+      const tier = tierTag(args.tier);
+      const tagged = {
+        ...args,
+        tags: withTier(args.tags, tier),
+        memory_tier: tier, // REWORK 1: column-level tier (not just tag)
+      };
       delete (tagged as Record<string, unknown>).tier;
       return text(await callFunction("mnemos-store", tagged));
     },
