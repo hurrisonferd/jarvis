@@ -47,9 +47,9 @@ const app = new Hono();
 
 
 // JMMS — memory tiering (ARCH-JMMS-CORE-0001). Every memory carries a tier tag so recall
-// can target a horizon: JSTM (working/session) → JLTM (consolidated, the default) → JATM
-// (ancestral/immutable). Promotion is one-way; JATM never retags out. Rides the tags array.
-const JMMS_TIERS = ["jitm", "jstm", "jltm", "jatm"] as const;
+// can target a horizon: JITM → JSTM → JHTM → JLTM → JATM. Promotion is one-way; JATM
+// never retags out. Rides the tags array. JHTM added 2026-06-24.
+const JMMS_TIERS = ["jitm", "jstm", "jhtm", "jltm", "jatm"] as const;
 type Tier = typeof JMMS_TIERS[number];
 function tierTag(t: unknown): Tier {
   const v = String(t ?? "jltm").toLowerCase().replace(/^#/, "");
@@ -334,7 +334,7 @@ function buildServer(req: Request): McpServer {
         source_type: z.string().optional().default("mcp_memory"),
         tags: z.array(z.string()).optional().default([]),
         platform: z.string().optional().default("mcp_connector"),
-        tier: z.enum(["jitm", "jstm", "jltm", "jatm"]).optional().describe("JMMS horizon: jitm (always-on briefing — pointers only) · jstm (working/context-window) · jltm (consolidated, default) · jatm (ancestral). Stamped as a tier tag."),
+        tier: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional().describe("JMMS horizon: jitm (always-on briefing — pointers only) · jstm (working/session) · jhtm (historical/compressed summary) · jltm (consolidated, default) · jatm (ancestral/immutable). Promotion: jstm→jhtm→jltm→jatm (one-way)."),
       },
     },
     async (args) => {
@@ -378,12 +378,12 @@ function buildServer(req: Request): McpServer {
     {
       title: "JMMS — memory tiering (JSTM/JLTM/JATM)",
       description:
-        "The Jarvis MultiMemory System over live memory. `action:list` reads a tier's working set (tier:jstm is the project context-window — mark notes jstm via jarvis_remember to keep them in view). `action:promote`/`tag` move a memory up the horizon (id + to) — AEGIS-gated, ONE-WAY jstm→jltm→jatm, JATM immutable. `domain:` scopes the working set to a side-project (JDMS — e.g. domain:musicos), partitioning memory so CodeOS context and MusicOS context don't bleed. Works like JSS does for files, but for memory rows.",
+        "The Jarvis MultiMemory System over live memory. `action:list` reads a tier's working set (tier:jstm is the project context-window — mark notes jstm via jarvis_remember to keep them in view). `action:promote`/`tag` move a memory up the horizon (id + to) — AEGIS-gated, ONE-WAY jstm→jhtm→jltm→jatm, JATM immutable. `domain:` scopes the working set to a side-project (JDMS — e.g. domain:musicos), partitioning memory so CodeOS context and MusicOS context don't bleed. Works like JSS does for files, but for memory rows.",
       inputSchema: {
         action: z.enum(["list", "promote", "tag"]).optional().default("list"),
-        tier: z.enum(["jitm", "jstm", "jltm", "jatm"]).optional(),
+        tier: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional(),
         id: z.string().optional(),
-        to: z.enum(["jitm", "jstm", "jltm", "jatm"]).optional(),
+        to: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional(),
         domain: z.string().max(40).optional(),
         limit: z.number().int().min(1).max(100).optional().default(20),
       },

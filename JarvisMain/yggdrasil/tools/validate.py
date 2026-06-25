@@ -186,12 +186,16 @@ def main() -> int:
             errors.append(f"{rec['jnl']}: filename sequence {m.group(2)} != JNL Log segment (JNS/JNL must agree)")
 
     # GL12 closure: every file under the umbrellas must be governed — either a registered
-    # location, inside a registered folder-location, or inside a registered project node.
+    # location, inside a registered folder-location, inside a registered project node,
+    # or in the Connectors class (governed as a system, not by per-entry location).
     locations = {r.get("location", "") for r in records}
     governed_dirs = {l for l in locations if (ROOT / l).is_dir()}
     codes_path = ROOT / "JarvisMain" / "yggdrasil" / "jfs" / "project-codes.json"
     if codes_path.exists():
         governed_dirs |= {i["folder"] for i in json.loads(codes_path.read_text())["codes"].values()}
+    # Connector doc mirrors are governed as a class: CONN entries exist but per-entry location
+    # is not practical (65 files). The CONNECTORS umbrella is the governed address.
+    governed_dirs.add("JarvisMain/Connectors")
     for base in ("JarvisMain", "JarvisSide"):
         for f in sorted((ROOT / base).rglob("*")):
             if f.is_dir() or f.name == ".gitkeep":

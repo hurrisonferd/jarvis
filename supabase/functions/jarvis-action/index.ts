@@ -309,13 +309,12 @@ async function runGrimoire(page: string | undefined): Promise<Json> {
   return { ok: false, page: want, note: "unknown page — try 'lenses', 'catalog', 'full', or a domain code (ARCH/GS/GOV/PROJ/IMPL/CONN/AUD/IDEA/LOG)." };
 }
 
-// ── JMMS — memory tiering (ARCH-JMMS-CORE-0001), the live-row runtime the spec called for.
-// Every memory carries a tier tag so recall can target a horizon: JSTM (working/session) →
-// JLTM (consolidated, the mnemos_memories default) → JATM (ancestral/immutable). Promotion is
-// ONE-WAY (JSTM→JLTM→JATM); JATM is append-only and never retagged out (mirrors HADES/git).
-// Uses the existing tags array — no migration. JSTM is the project context-window: mark notes
-// jstm to keep them in the working set.
-const JMMS_TIERS = ["jitm", "jstm", "jltm", "jatm"] as const;
+// ── JMMS — five memory horizons (JHTM added 2026-06-24). Every memory carries a tier tag
+// so recall can target a horizon: JITM → JSTM → JHTM → JLTM → JATM. Promotion is ONE-WAY;
+// JATM is append-only and never retagged out (mirrors HADES/git). Uses the existing tags
+// array — no migration. JSTM is the project context-window: mark notes jstm to keep them in
+// the working set.
+const JMMS_TIERS = ["jitm", "jstm", "jhtm", "jltm", "jatm"] as const;
 type Tier = typeof JMMS_TIERS[number];
 function tierTag(t: unknown): Tier {
   const v = String(t ?? "jltm").toLowerCase().replace(/^#/, "");
@@ -333,11 +332,16 @@ async function runJmms(action: string, a: Json, req: Request): Promise<Json> {
     const tier = tierTag(a.tier);
     const limit = Math.min(Number(a.limit ?? 20), 100);
     const rows = await rest(`mnemos_memories?select=id,source_type,text,tags,timestamp&tags=cs.{${tier}}&order=timestamp.desc&limit=${limit}`).catch(() => []);
+    const notes: Record<string, string> = {
+      jitm: "JITM = always-on briefing. Pointers only — what manual/fusions/focus to keep in view.",
+      jstm: "JSTM = the live context-window. Mark project notes jstm to keep them in view; promote to jhtm when they consolidate.",
+      jhtm: "JHTM = historical/compressed summary (14-day fold). Receipt accompanies every entry.",
+      jltm: "JLTM = consolidated/durable. The default tier.",
+      jatm: "JATM = ancestral/immutable. Settled lineage — never retagged out.",
+    };
     return {
       ok: true, tier, count: Array.isArray(rows) ? rows.length : 0, working_set: rows,
-      note: tier === "jstm"
-        ? "JSTM = the live context-window. Mark project notes jstm to keep them in view; promote to jltm when they consolidate."
-        : `JMMS ${tier} tier (${tier === "jltm" ? "consolidated/durable" : "ancestral/immutable"}).`,
+      note: notes[tier] ?? `JMMS ${tier} tier.`,
     };
   }
   if (act === "promote" || act === "tag") {

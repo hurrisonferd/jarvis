@@ -11,7 +11,7 @@ jnl: CONN-MCP-RT-0062
 seq: 205
 status: ACTIVE
 created: 2026-06-18
-updated: 2026-06-24
+updated: 2026-06-25
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_ayre.md
 related: []
 references: []

@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 230,
+  "count": 232,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -2302,7 +2302,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0051",
@@ -2323,7 +2323,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0052",
@@ -2344,7 +2344,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0053",
@@ -2365,7 +2365,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0054",
@@ -2386,7 +2386,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0055",
@@ -2407,7 +2407,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0056",
@@ -2428,7 +2428,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0057",
@@ -2449,7 +2449,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0058",
@@ -2470,7 +2470,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0059",
@@ -2491,7 +2491,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0060",
@@ -2512,7 +2512,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0061",
@@ -2533,7 +2533,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-17",
-      "updated": "2026-06-17"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0062",
@@ -2554,7 +2554,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-18",
-      "updated": "2026-06-18"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MCP-RT-0063",
@@ -2575,7 +2575,49 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-18",
-      "updated": "2026-06-18"
+      "updated": "2026-06-25"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0064",
+      "name": "Load \u2014 Universal Pok\u00e9dex Resolver",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "steward": null,
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_load.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0065",
+      "name": "JGLF \u2014 Validate structural compliance",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "steward": null,
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jglf_validate.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
     },
     {
       "jnl": "CONN-MSB-CORE-0001",

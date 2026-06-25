@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 230,
+  "count": 232,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -1489,6 +1489,30 @@
       "object": "Raven \u2014 the pilot's seat (who you serve + what awaits your word)",
       "jnl": "CONN-MCP-RT-0063",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_raven.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Load \u2014 Universal Pok\u00e9dex Resolver",
+      "jnl": "CONN-MCP-RT-0064",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_load.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JGLF \u2014 Validate structural compliance",
+      "jnl": "CONN-MCP-RT-0065",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jglf_validate.md",
       "tags": [
         "connector",
         "mcp",

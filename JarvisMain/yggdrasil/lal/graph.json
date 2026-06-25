@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 230,
-    "edges": 351,
-    "main": 197,
+    "nodes": 232,
+    "edges": 353,
+    "main": 199,
     "side": 33
   },
   "nodes": [
@@ -1081,6 +1081,24 @@
     {
       "id": "CONN-MCP-RT-0063",
       "name": "Raven \u2014 the pilot's seat (who you serve + what awaits your word)",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0064",
+      "name": "Load \u2014 Universal Pok\u00e9dex Resolver",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0065",
+      "name": "JGLF \u2014 Validate structural compliance",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -2926,6 +2944,16 @@
     },
     {
       "source": "CONN-MCP-RT-0063",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0064",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0065",
       "target": "CONN-MSB-CORE-0001",
       "type": "parent"
     },

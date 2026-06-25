@@ -712,6 +712,10 @@ _MCP_SPELLS = [
     ("jarvis_mint", "Mint — git-first one-shot governed object", "Create a governed object in one step: derive the next JNL from the registry, write the entry file, open a PR. The friction-free alternative to dex_propose's Supabase staging; same GL2 gate (your merge). AEGIS-gated."),
     ("jarvis_ayre", "Ayre — verify the field is REAL (world-level truth audit)", "World-level VERIFY spell: the cross-source truth audit — git vs Supabase count parity, mirror freshness, jnl_registry view integrity, reachability — returning ONE verdict (VERIFIED/DRIFT/STALE/DEGRADED) before you trust a dashboard. Distrust of the clean answer, made a tool. Read-only."),
     ("jarvis_raven", "Raven — the pilot's seat (who you serve + what awaits your word)", "Take the command chair: loads WHO the companion serves (Raven — final authority, founder, friend; how he works) and gathers WHAT AWAITS HIS WORD — open PRs, pending proposals, open TASK work — in one cast. GL2 made a surface: his whole desk. Read-only."),
+    # PATCH 2026-06-24: jarvis_load and jarvis_jglf_validate registered in MCP but undocumented.
+    # Append-only at end so RT numbers stay stable for all pre-existing spells.
+    ("jarvis_load", "Load — Universal Pokédex Resolver", "The universal 'load' command. Resolves ANY system entity by name, JNL, ID, or concept — no guessing, no inference. Resolution chain: JD exact JNL → JD numeric ID → name search → JIP lookup → DEX lookup → GitHub file search → HARD NULL. Modes: FULL (recursive with lineage), STRICT (fail if any layer missing), INDEX_ONLY (pointer only)."),
+    ("jarvis_jglf_validate", "JGLF — Validate structural compliance", "Scan all JD entries and validate JGLF (Jarvis Governance & Layout Framework) compliance. Reports: orphan entries (no parent), broken lineage, missing fields, non-standard domains, empty related arrays, and structural violations. Returns actionable fix list."),
 ]
 _MCP_PURPOSE = "Governed mirror of the jarvis-mcp tool surface — addressable, auditable."
 for _i, (_tool, _name, _defn) in enumerate(_MCP_SPELLS, start=19):

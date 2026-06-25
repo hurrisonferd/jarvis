@@ -287,6 +287,8 @@
       "CONN-MCP-RT-0061",
       "CONN-MCP-RT-0062",
       "CONN-MCP-RT-0063",
+      "CONN-MCP-RT-0064",
+      "CONN-MCP-RT-0065",
       "CONN-MSB-CORE-0001",
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
@@ -890,6 +892,8 @@
       "CONN-MCP-RT-0061",
       "CONN-MCP-RT-0062",
       "CONN-MCP-RT-0063",
+      "CONN-MCP-RT-0064",
+      "CONN-MCP-RT-0065",
       "CONN-MSB-CORE-0001",
       "IMPL-TLR-SPEC-0001"
     ],
@@ -1357,6 +1361,8 @@
       "CONN-MCP-RT-0061",
       "CONN-MCP-RT-0062",
       "CONN-MCP-RT-0063",
+      "CONN-MCP-RT-0064",
+      "CONN-MCP-RT-0065",
       "IMPL-BRF-CORE-0001",
       "IMPL-EXT-CORE-0001",
       "IMPL-GRM-CORE-0001",

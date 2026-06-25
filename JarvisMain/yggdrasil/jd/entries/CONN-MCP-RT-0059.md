@@ -11,7 +11,7 @@ jnl: CONN-MCP-RT-0059
 seq: 200
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-25
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md
 related: []
 references: []

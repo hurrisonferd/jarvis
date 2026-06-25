@@ -11,7 +11,7 @@ jnl: CONN-MCP-RT-0053
 seq: 191
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-25
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dither.md
 related: []
 references: []

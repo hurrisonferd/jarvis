@@ -11,49 +11,60 @@ layer (what a memory means); JMMS is the *structure* layer (which tier holds it)
 
 > Separation, like the rest of JFS: MNEMOS thinks about memory; JMMS files it.
 
-## The three tiers
+## The five tiers (2026-06-24: JHTM added between JSTM and JLTM)
 
 | Tier | JNL | Horizon | Holds | Backing store |
 |------|-----|---------|-------|---------------|
 | **JITM** — immediate | `ARCH-JITM-CORE-0001` | always-on / pinned | the strict capped briefing injected every turn (a dynamic extension of the charter) — **pointers, not content** | `mnemos_memories` tagged `jitm`; injected by `jarvis_query` |
 | **JSTM** — short-term | `ARCH-JSTM-CORE-0001` | working / session | current context, recent events, the live exchange | session logs, `events`, working buffers |
-| **JLTM** — long-term | `ARCH-JLTM-CORE-0001` | consolidated | compressed knowledge, durable facts, learned patterns | `mnemos/memories/`, Supabase `mnemos_memories` |
+| **JHTM** — historical | `ARCH-JHTM-CORE-0001` | compressed summary | JSTM compressed into narrative summaries; fold receipts accompany every entry; 14-day cadence | `mnemos_memories` tagged `jhtm` |
+| **JLTM** — long-term | `ARCH-JLTM-CORE-0001` | consolidated | compressed knowledge, durable facts, learned patterns; JHTM fold receipts land here | `mnemos/memories/`, Supabase `mnemos_memories` |
 | **JATM** — ancestral | `ARCH-JATM-CORE-0001` | immutable lineage | the dated record — foundational decisions, the spine | `event_spine`, git history, PROMETHEUS ledger |
 
-## Flow (strengthens the loop, GL10)
+> **JHTM vs JATM:** JHTM is actively used for the 14-day fold — compressed summaries that remain
+> accessible and queryable. JATM is the settled ancestral record — immutable, never rewritten.
+
+## Promotion chain
 
 ```
-interaction → JSTM (capture) → compression → JLTM (consolidate) → JATM (settle into lineage)
-                  ▲                                                      │
-                  └──────────────── reinjection (recall) ◀──────────────┘
+JITM (always-on briefing, pointers only)
+  ↓ (content captured)
+JSTM (working / session — high churn, summarized, not kept whole)
+  ↓ (14-day fold + receipt)
+JHTM (compressed summary — narrative form, queryable)
+  ↓ (fold receipt + further compression)
+JLTM (consolidated / durable — MNEMOS meaning work happens here)
+  ↓ (settled lineage)
+JATM (ancestral / immutable — never retagged out)
 ```
 
-- **JSTM** is high-churn and volatile — the working set. It is *summarized*, not kept whole.
-- **JLTM** is the consolidation target — what compression promotes out of JSTM. Durable,
-  semantic, recallable. This is where MNEMOS does its meaning work.
-- **JATM** is append-only and **never rewritten**. It is the ancestral record: every commit,
-  every governed decision, the immutable spine (HADES-adjacent). Truth that outlives sessions.
+- **JSTM → JHTM:** MNEMOS folds JSTM sessions into narrative summaries; a fold receipt
+  accompanies every JHTM entry.
+- **JHTM → JLTM:** JLTM is the durable recall target; JHTM summaries land here with receipts.
+- **JLTM → JATM:** settled into the immutable spine.
+- **Promotion is one-way for JATM:** JATM is append-only, never edited or demoted.
 
 ## Rules
 
-- **Promotion is one-way for JATM:** memory may move JSTM → JLTM → JATM, but JATM is
-  immutable — you append, you never edit. (Mirrors HADES / git history.)
-- **No tier duplicates another's truth** (JMS law): JLTM points at JATM lineage; JSTM points
-  at JLTM. Each tier holds references, not copies, of the tier beneath it.
+- **No tier duplicates another's truth** (JMS law): JLTM points at JATM lineage; JSTM
+  points at JLTM. Each tier holds references, not copies, of the tier beneath it.
 - **Every memory object is JNL-addressed** and carries a tier tag, so recall can target a
-  horizon (`#jitm` / `#jstm` / `#jltm` / `#jatm`).
+  horizon (`#jitm` / `#jstm` / `#jhtm` / `#jltm` / `#jatm`).
 - **JITM is capped at injection, not storage.** `jarvis_query` injects only the newest 5 `jitm`
-  rows every turn — extra pins simply stop loading, so the always-on briefing can never bloat
-  (autosort-by-recency, bounded). JITM holds *pointers* (where the manual/brief/fusions live,
-  the current focus), never content; content lives in JSTM (working) or JLTM (durable).
+  rows every turn — extra pins stop loading so the briefing never bloats (autosort-by-recency,
+  bounded). JITM holds *pointers* only; content lives in JSTM or above.
+- **JHTM receipts:** every JHTM entry must carry a fold receipt (source session references,
+  compression method, timestamp). Without a receipt, JHTM entries are rejected.
 
 ## Relationship to the stack
 
 ```
 JMMS (memory addressing)        MNEMOS (memory meaning, God System)
-   ├── JSTM  working               ↕  uses JMMS tiers to store/recall
-   ├── JLTM  consolidated
-   └── JATM  ancestral  ◀── settles into ── HADES (immutable event spine)
+   ├── JITM  always-on              ↕  uses JMMS tiers to store/recall
+   ├── JSTM  working
+   ├── JHTM  historical (14-day fold)
+   ├── JLTM  consolidated       ◀── settles into ── HADES (immutable event spine)
+   └── JATM  ancestral
 ```
 
 JMMS is the JFS family member that makes memory *navigable across time* the same way JNL

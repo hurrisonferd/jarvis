@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-24T21:30:23Z",
-    "generated_at_eastern": "2026-06-24 17:30 EDT",
-    "source_commit": "f873995",
+    "generated_at_utc": "2026-06-25T00:10:23Z",
+    "generated_at_eastern": "2026-06-24 20:10 EDT",
+    "source_commit": "559f125",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 230,
+    "object_count": 232,
     "by_status": {
-      "ACTIVE": 202,
+      "ACTIVE": 204,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
@@ -18,7 +18,7 @@
     "by_domain": {
       "ARCH": 44,
       "AUD": 10,
-      "CONN": 68,
+      "CONN": 70,
       "GOV": 17,
       "GS": 27,
       "IDEA": 4,
@@ -27,7 +27,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 196,
+      "MAIN": 198,
       "SIDE": 34
     }
   },
@@ -3854,6 +3854,38 @@
         "anti-hallucination",
         "distributed",
         "continuity"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0064",
+      "jid": 236,
+      "jidd": "conn-69",
+      "name": "Load — Universal Pokédex Resolver",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ]
+    },
+    {
+      "jnl": "CONN-MCP-RT-0065",
+      "jid": 237,
+      "jidd": "conn-70",
+      "name": "JGLF — Validate structural compliance",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "CONN-MSB-CORE-0001",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
       ]
     }
   ]

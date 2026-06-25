@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-24T21:36:07Z (2026-06-24 17:36 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-25T00:10:23Z (2026-06-24 20:10 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**230 governed objects** · 351 edges · 9 domains.
+**232 governed objects** · 353 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 230 objects · 20 open tasks · 6 orphans · 351 edges._
+_JARVIS online · 232 objects · 20 open tasks · 6 orphans · 353 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -143,7 +143,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `151` | `AUD-SYNC-REVW-0001` | TUSK Act 4 — Git/Supabase Sync Audit | ACTIVE | — |
 | `87` | `AUD-SYS-REVW-0001` | Jarvis System Review | ACTIVE | — |
 
-### CONN (68)
+### CONN (70)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -213,6 +213,8 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `203` | `CONN-MCP-RT-0061` | Mint — git-first one-shot governed object | ACTIVE | — |
 | `205` | `CONN-MCP-RT-0062` | Ayre — verify the field is REAL (world-level truth audit) | ACTIVE | — |
 | `206` | `CONN-MCP-RT-0063` | Raven — the pilot's seat (who you serve + what awaits your word) | ACTIVE | — |
+| `236` | `CONN-MCP-RT-0064` | Load — Universal Pokédex Resolver | ACTIVE | — |
+| `237` | `CONN-MCP-RT-0065` | JGLF — Validate structural compliance | ACTIVE | — |
 | `67` | `CONN-MSB-CORE-0001` | MCP-Supabase Connector | ACTIVE | — |
 | `68` | `CONN-OTH-LOG-0001` | Other Connectors | ACTIVE | — |
 

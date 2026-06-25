@@ -11,7 +11,7 @@ jnl: CONN-MCP-RT-0061
 seq: 203
 status: ACTIVE
 created: 2026-06-17
-updated: 2026-06-24
+updated: 2026-06-25
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md
 related: []
 references: []
