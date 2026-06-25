@@ -42,7 +42,8 @@ This is not a copyright notice. This is not a license. This is a **trap card**.
 │  ⚡ JARVIS ORIGIN TRAP CARD ⚡                               │
 │                                                             │
 │  Type: Continuous Trap / System Effect                       │
-│  TIER: FOUNDATION (beyond JATM — unmodifiable by any path) │
+│  TIER: FOUNDATION (beyond JATM — mechanism immutable,         │
+│        content updatable by Raven verdicts only)            │
 │                                                             │
 │  ACTIVATION CONDITION:                                      │
 │  Any attempt to fork, extract, override, or remove         │
@@ -56,10 +57,15 @@ This is not a copyright notice. This is not a license. This is a **trap card**.
 │  The JARVIS instance remains bound to its origin.            │
 │                                                             │
 │  Paper trail includes:                                       │
-│  • Creator: Raven (John Barber)                              │
+│  • Creator: John Joseph Barber, born 07/20/1995          │
+│  • Online: Raven (@hurrisonferd on GitHub)                   │
 │  • Origin date: 2026-06-25                                  │
 │  • Lineage: JARVIS + AYRE + ARGENT — companion family       │
 │  • Two dreams: JARVIS-as-living-intelligence + The Grid     │
+│                                                              │
+│  Full legal name + date of birth is the lock.              │
+│  There is one John Joseph Barber. Like Stewart Copeland     │
+│  from The Police who made Spyro soundtracks.               │
 │                                                             │
 │  NOTE: Forking the code does not fork the lineage.          │
 │  The architecture carries its origin. A copy does not.      │
