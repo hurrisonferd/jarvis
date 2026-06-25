@@ -21,3 +21,51 @@ accessibility are **never** on the chopping block. Mark every deferred shortcut 
 The best code is the code you never wrote. This is **GL7** (no expansion without
 simplification) made concrete: it applies to every agent, every diff. Before a refactor or
 a new subsystem, name the concrete capability it unblocks — "cleaner" is not a reason.
+
+---
+
+## JARVIS System State (2026-06-25)
+
+### What's live
+- **MNEMOS**: 13 stores, ~500KB. Key: decisions.json (341 gov decisions, git-first fallback),
+  sessions.json (local writer), growth_archive (329KB JATM). Updated on every session close.
+- **StarLogs**: `audit/starlogs/`, auto-generated via `scripts/sl.py --session-close`.
+- **MusicOS**: 47 tracks, MID-0001–0047, 3 series. JarvisSide/Projects/MusicOS/JD/MUSIC/.
+- **MonsterOS**: 26 monsters, MOS-0001–0026. JarvisSide/Projects/MonsterOS/JD/MONSTERS/.
+- **JVE validator**: `JarvisMain/yggdrasil/tools/jpl_validate.py` — run on any new JD entries.
+
+### Top buried value
+- `intake/recycle/jarvis-governed-workflow.md` — 11-step session workflow checklist, not wired
+- `JarvisMain/Implementation/Active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md` — MIMIR
+  routing table (who to ask for what), not in help systems
+- `JarvisMain/Architecture/specs/throughput-posture.md` — HALO's boundary: production pressure
+  may compress PRESENTATION but never PERSISTENCE or GOVERNANCE
+- `JarvisMain/Architecture/specs/pre-act-verification-contract.md` — anti-hallucination contract
+- `JarvisMain/Architecture/specs/IMPL-HON-SPEC-0001.md` — Honest Answering: name the gap, show
+  the search, never fill with inference
+- `JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md` — resume-path documentation
+
+### Naming conventions (for media cataloging)
+- `4K_` prefix = high-res variant of base name
+- `(plush)` suffix = plush toy variant (not a separate entity)
+- `(N)` = duplicate marker — strip on ingest, keep in variants[]
+- 4K filename typo: `Megalopotoise` → `Megaloptoise`
+- Image canonical location: `JarvisSide/Media/images/`, audio: `JarvisSide/Media/audio/`
+- DO NOT leave copies at repo root — always dedupe against Media/ before committing
+
+### Active God Systems (29, all wired)
+ORACLE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN (primary pipeline)
+T0: CHAOS, HADES, POSEIDON, ZEUS | T3: HALO, MIMIR | T5: ARGUS, ATHENA, LOKI,
+NEMESIS, PROMETHEUS | T6: IRIS, MERIDIAN | T7: APOLLO, DANTE | T8: ATLAS | T9: HERMES
+
+### Deferred / needs Raven
+- `audit/required-checks-setup.md` — branch protection + repo secret (Raven-only)
+- `Backups/cloud/` — manifest note only, no actual backup data
+- JIP tracking logs (ActiveLog, IPLog, ISLog) — empty, implementation workflow not used
+- JFSPatch-0002 binary — needs Raven review for applied/superseded status
+
+### What was cleaned 2026-06-25
+- 6 orphan PNGs (~21MB) removed from root (duplicates + unreferenced)
+- `Implementation/task/` → merged into `Architecture/specs/` (9 specs surfaced)
+- `Implementation/{Inactive,Implemented,active,tasks}/` — empty dirs deleted
+- `intake/next-session-2026-06-25-late.md` → moved to processed/
