@@ -40,6 +40,7 @@ jobs:
         run: |
           git clone --depth 1 https://x-access-token:${JARVIS_PRIVATE_TOKEN}@github.com/hurrisonferd/Jarvis-Private.git /tmp/Jarvis-Private
           echo "tracks=$(ls /tmp/Jarvis-Private/MusicOS/songs/audio/*.mp3 2>/dev/null | wc -l)" >> $GITHUB_OUTPUT
+          echo "JARVIS_PRIVATE=/tmp/Jarvis-Private" >> $GITHUB_OUTPUT
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -52,10 +53,15 @@ jobs:
           python3 -m pip install --quiet librosa numpy soundfile audioread matplotlib
 
       - name: Run ears
+        env:
+          JARVIS_PRIVATE: /tmp/Jarvis-Private
         run: |
-          python3 scripts/music_ears.py --audio-dir /tmp/Jarvis-Private/MusicOS/songs/audio
+          python3 scripts/music_ears.py \
+            --audio-dir /tmp/Jarvis-Private/MusicOS/songs/audio \
+            --output-root JarvisSide/Media \
+            --source-root /tmp/Jarvis-Private/MusicOS/songs
 
-      - name: Commit & push
+      - name: Commit & push — JARVIS repo
         run: |
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
@@ -67,4 +73,22 @@ jobs:
           else
             git commit -m "feat(music_ears): MusicOS audio features + spectrograms [skip ci]"
             git push origin main || (git pull --rebase origin main && git push origin main)
+          fi
+
+      - name: Mirror spectrograms to Jarvis-Private
+        env:
+          JARVIS_PRIVATE_TOKEN: ${{ secrets.JARVIS_PRIVATE_TOKEN }}
+          WORKSPACE: ${{ github.workspace }}
+        run: |
+          cd /tmp/Jarvis-Private
+          git config user.name  "JARVIS"
+          git config user.email "jarvis@jarvis.local"
+          mkdir -p MusicOS/songs/spectrograms
+          cp $WORKSPACE/JarvisSide/Media/spectrograms/*.png MusicOS/songs/spectrograms/
+          git add MusicOS/songs/spectrograms/
+          if git diff --staged --quiet; then
+            echo "no spectrogram changes"
+          else
+            git commit -m "feat(ears): spectrograms from music_ears [skip ci]"
+            git push origin main || echo "Push skipped (protected)"
           fi

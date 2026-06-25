@@ -105,11 +105,17 @@ def file_hash(p: Path) -> str:
     return hashlib.sha256(p.read_bytes()).hexdigest()[:16]
 
 
-def run(audio_dir: Path, output_root: Path, private_token: str | None = None) -> dict:
+def run(audio_dir: Path, output_root: Path, source_root: Path | None = None, private_token: str | None = None) -> dict:
     features_path = output_root / "AUDIO-FEATURES.json"
     manifest_path = output_root / "MEDIA-MANIFEST.md"
     spectrograms_dir = output_root / "spectrograms"
     spectrograms_dir.mkdir(parents=True, exist_ok=True)
+
+    # Also write spectrograms to source (MusicOS/songs/spectrograms/) alongside the audio
+    source_spec_dir = None
+    if source_root:
+        source_spec_dir = source_root / "spectrograms"
+        source_spec_dir.mkdir(parents=True, exist_ok=True)
 
     # Load cache
     cache = {}
@@ -128,6 +134,14 @@ def run(audio_dir: Path, output_root: Path, private_token: str | None = None) ->
         prev = cache.get(mp3.name)
         if prev and prev.get("hash") == h:
             out[mp3.name] = prev
+            # Mirror cached spectrogram to source if it exists
+            if source_spec_dir:
+                src_out = source_spec_dir / f"{mp3.stem}.png"
+                if not src_out.exists():
+                    cached_spec = spectrograms_dir / f"{mp3.stem}.png"
+                    if cached_spec.exists():
+                        import shutil
+                        shutil.copy2(cached_spec, src_out)
             print(f"  = {mp3.name} (cached)")
             continue
         try:
@@ -140,6 +154,11 @@ def run(audio_dir: Path, output_root: Path, private_token: str | None = None) ->
                 spec_out = spectrograms_dir / f"{mp3.stem}.png"
                 render_spectrogram(y, sr, spec_out)
                 feat["spectrogram"] = f"spectrograms/{mp3.stem}.png"
+                # Mirror to source location (MusicOS/songs/spectrograms/)
+                if source_spec_dir:
+                    src_out = source_spec_dir / f"{mp3.stem}.png"
+                    import shutil
+                    shutil.copy2(spec_out, src_out)
                 print(f"  ♪ {mp3.name}: {feat['bpm']} BPM · {feat['key']} · {feat['mood']} · spec")
             except Exception as e:
                 feat["spectrogram"] = ""
@@ -199,6 +218,8 @@ def main() -> int:
                         help="Local audio directory (skip clone)")
     parser.add_argument("--output-root", type=Path, default=DEFAULT_OUTPUT,
                         help="JARVIS repo root (default: $REPO/JarvisSide/Media)")
+    parser.add_argument("--source-root", type=Path, default=None,
+                        help="Source repo root — mirrors spectrograms to SOURCE/spectrograms/")
     parser.add_argument("--token", type=str, default=None,
                         help="GitHub token for Jarvis-Private (or env:JARVIS_PRIVATE_TOKEN)")
     args = parser.parse_args()
@@ -211,19 +232,24 @@ def main() -> int:
     elif private_token:
         tmp, audio_dir = clone_private_audio(private_token)
         print(f"cloned: {audio_dir}")
+        # Auto-set source_root if not specified
+        if args.source_root is None and tmp:
+            args.source_root = tmp / "MusicOS" / "songs"
     else:
         # Try local path first
         local = Path("MusicOS/songs/audio")
         if local.exists():
             tmp = None
             audio_dir = local
+            if args.source_root is None:
+                args.source_root = local.parent
         else:
             print("ERROR: --audio-dir required, or set JARVIS_PRIVATE_TOKEN / --token")
             print("  python3 scripts/music_ears.py --audio-dir /path/to/audio")
             return 1
 
     try:
-        run(audio_dir, args.output_root)
+        run(audio_dir, args.output_root, source_root=args.source_root)
     finally:
         if tmp:
             shutil.rmtree(tmp, ignore_errors=True)
