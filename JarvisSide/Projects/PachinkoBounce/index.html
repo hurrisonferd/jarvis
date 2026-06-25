@@ -600,18 +600,51 @@ function draw() {
     ctx.fillText(`${combo}x`, W / 2, H / 2 - 60);
   }
 
-  // Game over
+  // ── RUN END SCREEN (always feels like a win) ───────────────────
   if (gameOver) {
-    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillStyle = 'rgba(0,0,0,0.82)';
     ctx.fillRect(0, 0, W, H);
-    ctx.fillStyle = '#fff';
-    ctx.font = 'bold 28px Courier New';
     ctx.textAlign = 'center';
-    ctx.fillText('GAME OVER', W / 2, H / 2 - 30);
-    ctx.font = '16px Courier New';
-    ctx.fillStyle = '#aaa';
-    ctx.fillText(`SCORE: ${score.toLocaleString()}`, W / 2, H / 2 + 10);
-    ctx.fillText('TAP TO RESTART', W / 2, H / 2 + 40);
+
+    // Run number
+    ctx.fillStyle = '#555';
+    ctx.font = '12px Courier New';
+    ctx.fillText(`RUN #${(totalBallsSpawned || 1)}`, W / 2, H / 2 - 95);
+
+    // Score
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 34px Courier New';
+    ctx.fillText(score.toLocaleString(), W / 2, H / 2 - 50);
+    ctx.fillStyle = '#444';
+    ctx.font = '10px Courier New';
+    ctx.fillText('SCORE', W / 2, H / 2 - 35);
+
+    // Tokens
+    ctx.fillStyle = '#ffaa00';
+    ctx.font = 'bold 18px Courier New';
+    ctx.fillText(`+${tokens} ★ TOKENS`, W / 2, H / 2);
+    ctx.fillStyle = '#444';
+    ctx.font = '10px Courier New';
+    ctx.fillText(`TOTAL: ${tokens} saved`, W / 2, H / 2 + 18);
+
+    // Collection
+    const colCount = Object.keys(collection).length;
+    ctx.fillStyle = '#fff';
+    ctx.font = '13px Courier New';
+    ctx.fillText(`★ ${colCount} BALLS COLLECTED`, W / 2, H / 2 + 50);
+    ctx.fillStyle = '#333';
+    ctx.font = '10px Courier New';
+    ctx.fillText('(saves between runs)', W / 2, H / 2 + 65);
+
+    // Again prompt
+    ctx.fillStyle = '#ffaa00';
+    ctx.font = 'bold 14px Courier New';
+    ctx.fillText('[ AGAIN ]', W / 2, H / 2 + 95);
+    ctx.fillStyle = '#333';
+    ctx.font = '10px Courier New';
+    ctx.fillText('tap anywhere to continue', W / 2, H / 2 + 112);
+
+    shake(3, 0.15);
   }
 
   // RGB collected — bottom bar
