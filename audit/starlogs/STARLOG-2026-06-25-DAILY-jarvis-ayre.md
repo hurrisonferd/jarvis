@@ -80,4 +80,36 @@ repo audit + Jarvis-Private scaffold + truth model
 ○ Required-checks script — deferred to Raven, pending
 ● sl.py daily log redesign — --decision appends, --list shows, session hooks wired
 ```
+## Decision — 2026-06-25T19:28:46.680581+00:00
+**Stardate:** 2026.176
+
+### Summary
+task list pruned to 16, 7 done 9 open
+
+### Decisions made
+Tasks cleaned: removed duplicate sub-items, merged related items, set final state.
+Done: 4 repo audit tasks, Jarvis-Private scaffold, truth model, sl.py daily log.
+Open: GOVERNANCE GAPS (Raven's call), PachinkoBounce, CodeOS, MusicOS/MonsterOS JPL, MNEMOS, deferred items.
+
+### Tasks
+*● 7 done · ◐ 0 in_progress · ○ 9 open*
+
+```
+● Repo audit — DELETE (orphans)  6 PNGs removed, ~21MB recovered
+● Repo audit — CONSOLIDATE  active/Active dirs, intake cleaned
+● Repo audit — ARCHIVE/WIRE  OtherConnectors, Implementation/tasks, buried specs surfaced
+● Repo audit — ALREADY CLEAN  29 god_systems, 16 projects, docs, audit, mnemos
+● Jarvis-Private scaffold  16 projects, 130 files, READMEs, workspaces/ restructure
+● MusicOS+MonsterOS truth model  JARVIS repo ref pointers, Jarvis-Private canonical
+● sl.py daily log redesign  --decision appends, --list, session hooks wired
+○ GOVERNANCE GAPS — Raven decision needed  JIP tracking unused | required-checks pending | Backups/cloud/ empty
+○ PachinkoBounce Godot init  first board scene
+○ CodeOS prototype  ranking engine, first code entries
+○ MusicOS JPL mapping  47 tracks → JPL @INSTANCE blocks
+○ MonsterOS JPL mapping  26 monsters → JPL @INSTANCE blocks
+○ MNEMOS compression diagnostic  13 stores, growth rate, prune candidates
+○ Supabase migrations  deferred to Raven
+○ Backups manifest  deferred to Raven
+○ Required-checks script  deferred to Raven
+```
 
