@@ -1,10 +1,10 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 242,
-    "edges": 404,
+    "nodes": 243,
+    "edges": 407,
     "main": 210,
-    "side": 32
+    "side": 33
   },
   "nodes": [
     {
@@ -1959,6 +1959,15 @@
       "tier": "SIDE",
       "status": "ACTIVE",
       "owner": "Project Log Summary"
+    },
+    {
+      "id": "PROJ-BRDK-BIO-0001",
+      "name": "Bridgekeeper",
+      "domain": "PROJ",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "owner": "Bridgekeeper"
     },
     {
       "id": "PROJ-COS-BIO-0001",
@@ -4034,6 +4043,21 @@
     },
     {
       "source": "PROJ-ALL-LOG-0001",
+      "target": "PROJ-IDX-REG-0001",
+      "type": "parent"
+    },
+    {
+      "source": "PROJ-BRDK-BIO-0001",
+      "target": "PROJ-ALL-LOG-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-BRDK-BIO-0001",
+      "target": "ARCH-SYS-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "PROJ-BRDK-BIO-0001",
       "target": "PROJ-IDX-REG-0001",
       "type": "parent"
     },

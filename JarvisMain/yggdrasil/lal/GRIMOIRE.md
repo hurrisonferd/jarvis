@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-25T22:24:16Z (2026-06-25 18:24 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-25T23:20:15Z (2026-06-25 19:20 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**242 governed objects** · 404 edges · 9 domains.
+**243 governed objects** · 407 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 242 objects · 20 open tasks · 4 orphans · 404 edges._
+_JARVIS online · 243 objects · 20 open tasks · 4 orphans · 407 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -335,11 +335,12 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `146` | `LOG-MED-LOG-0001` | Media Library | ACTIVE | — |
 | `111` | `LOG-MNE-LOG-0001` | MNEMOS Cloud Backup | ACTIVE | — |
 
-### PROJ (26)
+### PROJ (27)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
 | `59` | `PROJ-ALL-LOG-0001` | Project Log Summary | ACTIVE | — |
+| `263` | `PROJ-BRDK-BIO-0001` | Bridgekeeper | ACTIVE | — |
 | `60` | `PROJ-COS-BIO-0001` | CodeOS | ACTIVE | — |
 | `63` | `PROJ-DEO-BIO-0001` | Deoxys | ACTIVE | — |
 | `104` | `PROJ-DEO-JGPP-0001` | Deoxys Telemetry Schema — first exploration | TASK | — |

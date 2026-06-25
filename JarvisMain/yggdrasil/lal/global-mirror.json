@@ -1,15 +1,15 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-25T22:28:47Z",
-    "generated_at_eastern": "2026-06-25 18:28 EDT",
-    "source_commit": "befd64f",
+    "generated_at_utc": "2026-06-25T23:20:15Z",
+    "generated_at_eastern": "2026-06-25 19:20 EDT",
+    "source_commit": "57db200",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 242,
+    "object_count": 243,
     "by_status": {
-      "ACTIVE": 214,
+      "ACTIVE": 215,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
@@ -24,11 +24,11 @@
       "IDEA": 4,
       "IMPL": 32,
       "LOG": 2,
-      "PROJ": 26
+      "PROJ": 27
     },
     "by_tier": {
       "MAIN": 209,
-      "SIDE": 33
+      "SIDE": 34
     }
   },
   "objects": [
@@ -4070,6 +4070,23 @@
         "jpl",
         "follin",
         "research"
+      ]
+    },
+    {
+      "jnl": "PROJ-BRDK-BIO-0001",
+      "jid": 263,
+      "jidd": "proj-27",
+      "name": "Bridgekeeper",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "status": "ACTIVE",
+      "parent": "PROJ-IDX-REG-0001",
+      "tags": [
+        "project",
+        "security",
+        "governance",
+        "github"
       ]
     }
   ]

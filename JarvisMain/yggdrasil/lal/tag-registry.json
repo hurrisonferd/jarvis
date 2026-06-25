@@ -514,7 +514,8 @@
       "AUD-SYNC-REVW-0001"
     ],
     "github": [
-      "ARCH-MEM-LOG-0001"
+      "ARCH-MEM-LOG-0001",
+      "PROJ-BRDK-BIO-0001"
     ],
     "gl12": [
       "IMPL-MOD-SPEC-0001",
@@ -603,6 +604,7 @@
       "IMPL-HON-SPEC-0001",
       "IMPL-MOD-SPEC-0001",
       "IMPL-VLD-CORE-0001",
+      "PROJ-BRDK-BIO-0001",
       "PROJ-GDS-JGPP-0001",
       "PROJ-GDS-JGPP-0002"
     ],
@@ -1113,6 +1115,7 @@
     ],
     "project": [
       "PROJ-ALL-LOG-0001",
+      "PROJ-BRDK-BIO-0001",
       "PROJ-COS-BIO-0001",
       "PROJ-DEO-BIO-0001",
       "PROJ-GDS-BIO-0001",
@@ -1251,6 +1254,7 @@
     ],
     "security": [
       "AUD-GATE-REVW-0001",
+      "PROJ-BRDK-BIO-0001",
       "PROJ-JPL-JGPP-0001"
     ],
     "seed": [

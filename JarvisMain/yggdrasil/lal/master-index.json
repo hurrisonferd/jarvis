@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 242,
+  "count": 243,
   "index": [
     {
       "object": "JARVIS Canon Index",
@@ -2764,6 +2764,19 @@
       "tags": [
         "project",
         "log"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Bridgekeeper",
+      "jnl": "PROJ-BRDK-BIO-0001",
+      "location": "JarvisSide/Projects/Bridgekeeper/BIO/BRDKBIO-062525-0001-BRIDGEKEEPER.md",
+      "tags": [
+        "project",
+        "security",
+        "governance",
+        "github"
       ],
       "anchors": [],
       "state": "active"

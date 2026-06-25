@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 242,
+  "count": 243,
   "records": [
     {
       "jnl": "ARCH-ARCH-IDX-0001",
@@ -4720,6 +4720,28 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-15"
+    },
+    {
+      "jnl": "PROJ-BRDK-BIO-0001",
+      "name": "Bridgekeeper",
+      "type": "BIO",
+      "class": "SYSTEM",
+      "tier": "SIDE",
+      "owner": "Bridgekeeper",
+      "steward": null,
+      "parent": "PROJ-IDX-REG-0001",
+      "location": "JarvisSide/Projects/Bridgekeeper/BIO/BRDKBIO-062525-0001-BRIDGEKEEPER.md",
+      "tags": [
+        "project",
+        "security",
+        "governance",
+        "github"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
     },
     {
       "jnl": "PROJ-COS-BIO-0001",
