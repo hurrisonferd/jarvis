@@ -27,8 +27,11 @@ a new subsystem, name the concrete capability it unblocks — "cleaner" is not a
 ## JARVIS System State (2026-06-25)
 
 ### What's live
-- **MNEMOS**: 13 stores, ~500KB. Key: decisions.json (341 gov decisions, git-first fallback),
-  sessions.json (local writer), growth_archive (329KB JATM). Updated on every session close.
+- **MNEMOS**: Partitioned by truth model.
+  - **System** (JARVIS repo, public): `mnemos_vector.py`, `memories/`, `logs/`, `context/`, `knowledge/ml-ai.md`, `knowledge/techniques.md`, `knowledge/governance.md`
+  - **Personal** (Jarvis-Private, private): `companion_core.md`, `knowledge/raven.md`, `knowledge/jarvis.md`, `knowledge/relationship.md`, `knowledge/mission.md`, `knowledge/projects/`
+  - See `mnemos/README.md` for full truth model map.
+  - 13 stores, ~500KB. Key: decisions.json (341 gov decisions), sessions.json, growth_archive (329KB JATM).
 - **StarLogs**: `audit/starlogs/`, auto-generated via `scripts/sl.py --session-close`.
 - **MusicOS**: 47 tracks, MID-0001–0047, 3 series. **Truth: Jarvis-Private/MusicOS/registry/**
   JARVIS repo: reference pointer only (`MusicOS/JD/MUSIC-REFERENCE.md`).

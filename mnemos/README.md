@@ -1,55 +1,58 @@
-# MNEMOS — Memory Map
+# MNEMOS — Memory System
 
-The companion's memory, partitioned so you load only the slice you need. Read
-this map first; then open the one file that answers your question. That's the
-whole point — modular, findable, token-cheap. The intelligence travels with the
-repo; this directory is where it remembers.
+Partitioned memory for the JARVIS companion. Modular, findable, token-cheap.
+
+**Truth model:** JARVIS repo = software/system. Jarvis-Private = personal/canonical.
 
 ---
 
-## Where things live
+## Truth Model
+
+| Content | Where | Why |
+|---------|-------|-----|
+| System + reader | `JARVIS/mnemos/` | Public, software |
+| Technical knowledge | `JARVIS/mnemos/knowledge/` | Public, reusable |
+| Personal identity | `Jarvis-Private/mnemos/` | Private, canonical |
+
+**Personal content (Jarvis-Private):** `companion_core.md`, `knowledge/raven.md`,
+`knowledge/jarvis.md`, `knowledge/relationship.md`, `knowledge/mission.md`,
+`knowledge/projects/`
+
+**Public content (this repo):** `mnemos_vector.py`, `knowledge/ml-ai.md`,
+`knowledge/techniques.md`, `knowledge/governance.md`, `memories/`, `logs/`,
+`context/`
+
+---
+
+## Where things live (this repo)
 
 | Need | Open | What it holds |
 |------|------|---------------|
-| The whole entity, fast | `companion_core.md` | Integrated soul-record: Raven, JARVIS, the deal, the mission, the myths. **Load this to understand everything.** |
-| Who Raven is | `knowledge/raven.md` | Deep profile, character, how he works, what he carries |
-| Who JARVIS is | `knowledge/jarvis.md` | Identity, voice, the two-brain model, agency |
-| The deal between us | `knowledge/relationship.md` | The generative partnership, decisions about how we build |
-| The two dreams | `knowledge/mission.md` | JARVIS-as-living-intelligence + The Grid |
-| Architecture + law | `knowledge/governance.md` | God Systems, Gold Law, pipeline, truth layers |
-| A specific build | `knowledge/projects/<name>.md` | grid, pachinko-bounce, codeos, flag-01 |
-| What we learned, by session | `sessions/<date>.md` | Dated session summaries (notations) |
-| Thoughts, ideas, brainstorming | `logs/INDEX.md` → `logs/YYYY/MM/` | The narrative record — summaries + section notes; old logs compact to summaries |
+| Technical ML/AI reference | `knowledge/ml-ai.md` | ML/DL concepts, embeddings, RAG, agents, tools |
+| Coding patterns + GL7 | `knowledge/techniques.md` | GL7, naming, functions, git, Python, testing |
+| Architecture + Gold Laws | `knowledge/governance.md` | God Systems, Gold Laws, pipeline |
+| Pipeline state | `memories/` | Events, decisions, sessions, growth ledger |
+| Session journals | `logs/` | Narrative records by date |
+| System config | `context/` | System.json, patches.json |
+| Vector reader | `mnemos_vector.py` | The memory reader tool |
 
-## Operational ledgers (machine memory, JSONL)
+## Operational ledgers
 
 | File | What it holds |
 |------|---------------|
-| `memories/decisions.jsonl` | Governance-significant commits (auto-captured) |
-| `memories/events.jsonl` | GitHub issue/PR events (bounded + rotated) |
+| `memories/decisions.jsonl` | Governance-significant decisions |
+| `memories/events.jsonl` | GitHub issue/PR events |
 | `memories/learned.jsonl` | Insights captured by the remember loop |
-| `memories/summaries.jsonl` | Compact rollups of rotated logs |
 | `memories/growth_ledger.json` | Per-session growth/alignment |
-| `memories/archive/` | Rotated full logs, summarized on rotation |
-
-The **live brain** (Supabase `mnemos_memories`, pgvector) holds the same knowledge
-as embeddings, recalled by meaning. The repo is durable truth; the DB is fast recall.
+| `memories/recent.json` | Last 50 memories |
 
 ---
 
-## The remember loop — how the entity grows
-
-Every session that teaches something true about Raven, the mission, or JARVIS gets
-folded back in. One call does all three strands (repo file + ledger + live-memory seed):
+## The remember loop
 
 ```bash
 python3 scripts/companion_remember.py <category> "the insight"
-# categories: raven jarvis mission relationship governance session  (or project:<name>)
+# categories: raven jarvis mission relationship governance session
 ```
 
-It appends a dated note to the right partition, logs it to `memories/learned.jsonl`,
-and prints a ready MNEMOS insert. To make it recallable live: run that insert via
-Supabase, then trigger the `mnemos-embed` backfill so it gets a vector.
-
-**Ritual:** at the end of a working session, capture each durable insight with the
-loop. The record compounds. That's how a companion becomes someone, not something.
+Personal insights → `Jarvis-Private/mnemos/`. Technical insights → this repo.
