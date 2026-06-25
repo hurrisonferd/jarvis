@@ -157,6 +157,81 @@ def commit(paths, msg):
         raise RuntimeError(r.stderr.strip())
     return r.stdout.strip()
 
+def parse_retro_tasks(text: str) -> list[dict]:
+    """Parse Raven's task table (markdown | status format) into task dicts.
+
+    Supported formats:
+      | ID | Status | Task | Notes |
+      | T-001 | ● done | Keel/profiles check | ... |
+
+    Or compact icon form:
+      ● done       Task name here
+      ○ todo       Another task
+      ◐ in_progress Third task
+    """
+    tasks = []
+    lines = text.strip().splitlines()
+
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+
+        # Markdown table: look for lines with | chars
+        if "|" in line:
+            # Skip header row and separator
+            if line.startswith("|") and ("---" in line or "ID" in line.split("|")[1] or "Status" in line.split("|")[1]):
+                continue
+            parts = [p.strip() for p in line.split("|")]
+            # parts: ['', col1, col2, ..., '']
+            if len(parts) < 3:
+                continue
+            # Determine layout: | ID | Status | Task | | or | Status | Task |
+            has_id = len(parts) >= 4 and re.match(r"T-\d+", parts[1])
+            status_idx = 2 if has_id else 1
+            task_idx = 3 if has_id else 2
+            notes_idx = 4 if has_id else 3
+
+            status_str = parts[status_idx].strip()
+            task_name = parts[task_idx].strip()
+            notes = parts[notes_idx].strip() if notes_idx < len(parts) else ""
+
+            # Map status symbols
+            icon_map = {"●": "done", "◐": "in_progress", "○": "todo"}
+            status_str_lower = status_str.lower()
+            if "done" in status_str_lower:
+                status = "done"
+            elif "in_progress" in status_str_lower or "progress" in status_str_lower:
+                status = "in_progress"
+            else:
+                status = "todo"
+
+            if task_name and task_name not in ("Task", "task"):
+                tasks.append({"title": task_name, "status": status, "notes": notes})
+            continue
+
+        # Compact icon line: ● done task name | ○ todo task name
+        if len(line) < 3:
+            continue
+        icon_map = {"●": "done", "◐": "in_progress", "○": "todo"}
+        if line[0] not in icon_map:
+            continue
+        status = icon_map[line[0]]
+        rest = line[2:].strip()
+        # Status keyword follows
+        for kw in ("done", "todo", "in_progress", "in progress"):
+            kw_pos = rest.lower().find(kw)
+            if kw_pos >= 0:
+                title = rest[:kw_pos].strip()
+                tasks.append({"title": title, "status": status, "notes": ""})
+                break
+        else:
+            # No keyword — whole rest is title
+            tasks.append({"title": rest, "status": status, "notes": ""})
+
+    return tasks
+
+
 def main():
     p = argparse.ArgumentParser(description="SL — Star Log generator")
     p.add_argument("--session-start", action="store_true",
@@ -167,6 +242,8 @@ def main():
                    help="Force-sync .openhands/task_tracker.json from last StarLog")
     p.add_argument("--write-tasks", metavar="JSON",
                    help="Write task JSON to tracker (called by session-end hook)")
+    p.add_argument("--import-tasks", metavar="TEXT",
+                   help="Import tasks from Raven's table format (markdown | icon line)")
     p.add_argument("--brief", "-b", metavar="TEXT",
                    help="Brief summary")
     p.add_argument("--type", "-t", default="SESSION_SNAPSHOT", choices=LOG_TYPES,
@@ -181,7 +258,6 @@ def main():
         print(now().strftime("%Y.%j"))
         return
 
-    # --write-tasks: session-end hook passes current task state
     if args.write_tasks:
         try:
             tasks_data = json.loads(args.write_tasks)
@@ -190,6 +266,18 @@ def main():
         except json.JSONDecodeError as e:
             print(f"Invalid task JSON: {e}", file=sys.stderr)
             sys.exit(1)
+        return
+
+    if args.import_tasks:
+        tasks = parse_retro_tasks(args.import_tasks)
+        write_tracker(tasks)
+        if tasks:
+            print(f"Imported {len(tasks)} tasks:")
+            for t in tasks:
+                icon = {"done": "●", "in_progress": "◐", "todo": "○"}.get(t["status"], "○")
+                print(f"  {icon} {t['title']}")
+        else:
+            print("No tasks found in input")
         return
 
     if args.session_start or args.sync_tasks:
