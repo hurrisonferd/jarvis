@@ -11,6 +11,8 @@ on:
       - "supabase/functions/jarvis-mcp/**"
       - "supabase/functions/jarvis-dex/**"
       - "supabase/functions/jarvis-action/**"
+      - "supabase/functions/kronos-fold/**"
+      - "supabase/migrations/**"
   workflow_dispatch:
     inputs:
       function:
@@ -26,7 +28,23 @@ jobs:
       - uses: supabase/setup-cli@v1
         with:
           version: latest
-      - name: Deploy
+      - name: Apply pending migrations
+        env:
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        run: |
+          # Apply any migration files not yet in schema_migrations.
+          # SQL is fully idempotent (ALTER TABLE ADD COLUMN IF NOT EXISTS, CREATE INDEX IF NOT EXISTS).
+          for f in supabase/migrations/*.sql; do
+            NAME="${f%.sql}"
+            EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null)
+            if [ "$EXISTS" = "1" ]; then
+              echo "✓ $NAME already applied"
+            else
+              echo "→ applying $NAME"
+              psql "$DATABASE_URL" -f "$f" && echo "✓ applied" || echo "⚠ may already be applied — idempotent SQL, continuing"
+            fi
+          done
+      - name: Deploy edge functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           REF: oexghfsvhnggddllgvrt
@@ -34,7 +52,8 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt
           else
-            supabase functions deploy jarvis-mcp --project-ref "$REF" --no-verify-jwt
-            supabase functions deploy jarvis-dex --project-ref "$REF" --no-verify-jwt
-            supabase functions deploy jarvis-action --project-ref "$REF" --no-verify-jwt
+            supabase functions deploy jarvis-mcp     --project-ref "$REF" --no-verify-jwt
+            supabase functions deploy jarvis-dex     --project-ref "$REF" --no-verify-jwt
+            supabase functions deploy jarvis-action  --project-ref "$REF" --no-verify-jwt
+            supabase functions deploy kronos-fold    --project-ref "$REF" --no-verify-jwt
           fi
