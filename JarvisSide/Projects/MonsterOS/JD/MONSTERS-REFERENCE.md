@@ -10,7 +10,7 @@ authority: GOV-FIRST
 
 ## MonsterOS registry moved
 
-**Canonical registry:** [Jarvis-Private/MonsterOS/registry/](https://github.com/hurrisonferd/Jarvis-Private/tree/main/MonsterOS/registry/)
+**Canonical registry:** [Jarvis-Private/workspaces/MonsterOS/registry/](https://github.com/hurrisonferd/Jarvis-Private/tree/main/workspaces/MonsterOS/registry/)
 26 monster JD entries (MOS-0001 through MOS-0026).
 
 **Governance:** MonsterOS content lives in Jarvis-Private. JARVIS repo holds: BIO, JGPP, governance.

@@ -10,7 +10,7 @@ authority: GOV-FIRST
 
 ## MusicOS registry moved
 
-**Canonical registry:** [Jarvis-Private/MusicOS/registry/](https://github.com/hurrisonferd/Jarvis-Private/tree/main/MusicOS/registry/)
+**Canonical registry:** [Jarvis-Private/workspaces/MusicOS/registry/](https://github.com/hurrisonferd/Jarvis-Private/tree/main/workspaces/MusicOS/registry/)
 47 track JD entries (MID-0001 through MID-0047).
 
 **Governance:** MusicOS content lives in Jarvis-Private. JARVIS repo holds: BIO, JGPP, governance.
