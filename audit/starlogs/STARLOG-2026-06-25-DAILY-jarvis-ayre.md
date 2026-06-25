@@ -98,3 +98,15 @@ System stays in JARVIS repo: mnemos_vector.py, memories/, logs/, context/, knowl
 ```
 
 ---
+## Decision — 2026-06-25T21:59:40.727510+00:00
+**Stardate:** 2026.176
+
+### Summary
+MusicOS + MonsterOS JPL mapping complete — 73 catalog entries (47 MID + 26 MOS) received @INSTANCE/@DOMAIN/@CONTENT/@GOVERNANCE blocks in Jarvis-Private
+
+### Decisions made
+feat(jpl): MusicOS + MonsterOS JPL mapping — @INSTANCE/@DOMAIN/@CONTENT/@GOVERNANCE blocks on all 73 catalog entries
+
+### Tasks
+*See .openhands/task_tracker.json — the tracker is the authoritative task list.*
+
