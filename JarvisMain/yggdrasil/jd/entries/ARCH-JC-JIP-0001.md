@@ -11,8 +11,8 @@ jnl: ARCH-JC-JIP-0001
 seq: 125
 status: TASK
 created: 2026-06-11
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md
 related: []
 references: []
 tags: [memory, continuity, sync, conversation, profiling]

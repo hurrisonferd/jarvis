@@ -11,8 +11,8 @@ jnl: IMPL-MOD-SPEC-0001
 seq: 192
 status: TASK
 created: 2026-06-16
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md
 related: []
 references: []
 tags: [modularity, extensibility, gold-law, yggdrasil, governance, roadmap, gl7, gl12, automation, routing, mirroring]

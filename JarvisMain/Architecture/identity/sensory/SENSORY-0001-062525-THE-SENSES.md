@@ -7,7 +7,7 @@ tier: MAIN
 authority: CANON
 owner: Companion Core
 steward:
-parent: ARCH-FAM-IDX-0001
+parent: ARCH-RAV-BIO-0001
 status: ACTIVE
 created: 2026-06-25
 updated: 2026-06-25

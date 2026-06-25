@@ -11,8 +11,8 @@ jnl: GOV-KR-SPEC-0001
 seq: 135
 status: ACTIVE
 created: 2026-06-13
-updated: 2026-06-24
-source: JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md
 related: []
 references: []
 tags: [knowledge, routing, mimir, help, retrieval, navigation]

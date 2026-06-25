@@ -11,11 +11,11 @@ jnl: ARCH-RAV-BIO-0001
 seq: 147
 status: ACTIVE
 created: 2026-06-14
-updated: 2026-06-24
+updated: 2026-06-25
 source: JarvisMain/Architecture/identity/raven/raven-profile.md
-related: []
+related: [ARCH-JRV-SPEC-0004]
 references: []
-tags: [identity, raven, authority, family, founder]
+tags: [identity, raven, authority, family, founder, trap-card, origin]
 aliases: []
 ref: [PRI, IDX]
 memory_tier: JLTM

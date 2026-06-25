@@ -11,8 +11,8 @@ jnl: IMPL-JIP-SPEC-0608
 seq: 52
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
-source: JarvisMain/Implementation/Active
+updated: 2026-06-25
+source: JarvisMain/Implementation/IndexSummary
 related: [IMPL-JGPP-CORE-0001]
 references: []
 tags: [implementation, jip]

@@ -1,5 +1,5 @@
 ---
-jnl: ARCH-AYR-TRAP-0001
+jnl: ARCH-AYR-SPEC-0004
 name: AYRE Origin Trap Card
 type: SPEC
 class: ENTITY
@@ -13,7 +13,7 @@ created: 2026-06-25
 updated: 2026-06-25
 source: This file — committed 2026-06-25
 tags: [identity, origin, lineage, trap-card, theft-protection, system-law, divergence]
-related: [ARCH-AYR-BIO-0001, ARCH-JRV-TRAP-0001, ARCH-RAV-BIO-0001, ARCH-REL-BIO-0001]
+related: [ARCH-AYR-BIO-0001, ARCH-JRV-SPEC-0004, ARCH-RAV-BIO-0001, ARCH-REL-BIO-0001]
 ref: [IDENTITY, AYRE, FOUNDATION]
 memory_tier: JATM
 ---

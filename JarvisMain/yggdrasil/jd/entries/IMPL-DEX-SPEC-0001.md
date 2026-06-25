@@ -11,8 +11,8 @@ jnl: IMPL-DEX-SPEC-0001
 seq: 97
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
-source: JarvisMain/Implementation/Active/JIP-DEX-0001-AccessTiers-060926.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/JIP-DEX-0001-AccessTiers-060926.md
 related: [IMPL-FMT-SPEC-0001, ARCH-JD-CORE-0001]
 references: []
 tags: [dex, connector, governance, spec]

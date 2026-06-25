@@ -1,6 +1,6 @@
 ---
-jnl: ARCH-JPL-FOLLIN-0001
-name: JPL Research — The Follin Program
+jnl: ARCH-JPL-SPEC-0005
+name: JPL Research — The Follin Program (RSRCH)
 type: SPEC
 class: RESEARCH
 tier: MAIN

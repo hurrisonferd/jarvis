@@ -1,20 +1,20 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-25T02:20:49Z (2026-06-24 22:20 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-25T22:24:16Z (2026-06-25 18:24 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**242 governed objects** · 399 edges · 9 domains.
+**242 governed objects** · 404 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 242 objects · 20 open tasks · 5 orphans · 399 edges._
+_JARVIS online · 242 objects · 20 open tasks · 4 orphans · 404 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
 1. **System health** → `jarvis_eyes` (state + wiring + vitality)
 2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 20 in flight
-3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 5 unparented
+3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 4 unparented
 4. **What happened** → `jarvis_timeline` (recent events + commits)
 5. **Summon a card** → `jarvis_jd_resolve` ('jid 1', a name, or a JNL)
 6. **The lenses** → `jarvis_grimoire {page:'lenses'}` (the fusion chapters)
@@ -79,7 +79,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (54)
+### ARCH (56)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -94,8 +94,8 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `48` | `ARCH-AYR-SPEC-0001` | AYRE/JARVIS Split | ACTIVE | — |
 | `49` | `ARCH-AYR-SPEC-0002` | AYRE Loop | ACTIVE | — |
 | `240` | `ARCH-AYR-SPEC-0003` | AYRE NLP Control Surface | ACTIVE | — |
+| `251` | `ARCH-AYR-SPEC-0004` | AYRE Origin Trap Card | ACTIVE | — |
 | `230` | `ARCH-BAK-LOG-0001` | JARVIS Backup Seed | ACTIVE | — |
-| `128` | `ARCH-FAM-IDX-0001` | Family Registry | ACTIVE | — |
 | `51` | `ARCH-FLOW-SPEC-0001` | Throughput Posture | ACTIVE | — |
 | `50` | `ARCH-GPT-SPEC-0001` | Custom GPT Instructions | ACTIVE | — |
 | `57` | `ARCH-GS-IDX-0001` | God Systems Index | ACTIVE | — |
@@ -103,7 +103,6 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `13` | `ARCH-JATM-CORE-0001` | Jarvis Ancestral Memory | ACTIVE | MNEMOS |
 | `125` | `ARCH-JC-JIP-0001` | Conversational History Objects | TASK | — |
 | `7` | `ARCH-JD-CORE-0001` | Jarvis Dictionary | ACTIVE | MIMIR |
-| `124` | `ARCH-JD-JIP-0001` | Identity & Serial Standard — JID / JIDD / JNL / name | ACTIVE | — |
 | `2` | `ARCH-JFS-CORE-0001` | Jarvis File System | ACTIVE | AEGIS |
 | `222` | `ARCH-JHTM-CORE-0001` | Jarvis Historical Term Memory | ACTIVE | MNEMOS |
 | `156` | `ARCH-JITM-CORE-0001` | Jarvis Immediate Memory | ACTIVE | MNEMOS |
@@ -113,9 +112,12 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `138` | `ARCH-JMS-SPEC-0001` | Global Mirror — Earned Omnivision (JMS) | TASK | — |
 | `4` | `ARCH-JNL-CORE-0001` | Jarvis Navigation Language | ACTIVE | ODIN |
 | `3` | `ARCH-JNS-CORE-0001` | Jarvis Naming System | ACTIVE | ODIN |
+| `253` | `ARCH-JPL-SPEC-0001` | JPL — Jarvis Programming Language | ACTIVE | — |
+| `260` | `ARCH-JPL-SPEC-0005` | JPL Research — The Follin Program | ACTIVE | — |
 | `106` | `ARCH-JRV-BIO-0001` | JARVIS Companion Profile | ACTIVE | — |
 | `141` | `ARCH-JRV-BIO-0003` | JARVIS-G / AYRE-G GPT Substrate Operating Charter | ACTIVE | — |
 | `242` | `ARCH-JRV-SPEC-0003` | JARVIS NLP Control Surface | ACTIVE | — |
+| `252` | `ARCH-JRV-SPEC-0004` | JARVIS Origin Trap Card | ACTIVE | — |
 | `202` | `ARCH-JSE-SPEC-0001` | JSE — Jarvis Schema Envelope | ACTIVE | — |
 | `5` | `ARCH-JSL-CORE-0001` | Jarvis Structural Layer | ACTIVE | ATHENA |
 | `9` | `ARCH-JSS-CORE-0001` | Jarvis Status System | ACTIVE | KRONOS |
@@ -228,14 +230,13 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `67` | `CONN-MSB-CORE-0001` | MCP-Supabase Connector | ACTIVE | — |
 | `68` | `CONN-OTH-LOG-0001` | Other Connectors | ACTIVE | — |
 
-### GOV (16)
+### GOV (15)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
 | `229` | `GOV-AUT-SPEC-0001` | Governed Autonomy Contract | ACTIVE | — |
 | `43` | `GOV-BRF-CORE-0001` | Jarvis Brief | DEPRECATED | — |
 | `41` | `GOV-CAN-CORE-0001` | Canon | ACTIVE | — |
-| `131` | `GOV-CHO-JD-0001` | Chorus Principle | ACTIVE | — |
 | `42` | `GOV-CON-CORE-0001` | Constraints | ACTIVE | — |
 | `105` | `GOV-DEX-SPEC-0001` | Dex-Council Validation Bridge | ACTIVE | — |
 | `134` | `GOV-GSC-SPEC-0001` | G-Seat Charter | TASK | — |
@@ -334,7 +335,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `146` | `LOG-MED-LOG-0001` | Media Library | ACTIVE | — |
 | `111` | `LOG-MNE-LOG-0001` | MNEMOS Cloud Backup | ACTIVE | — |
 
-### PROJ (27)
+### PROJ (26)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -354,7 +355,6 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `116` | `PROJ-MMOD-BIO-0001` | Multimodal | ACTIVE | — |
 | `119` | `PROJ-MMOD-JGPP-0001` | Jarvis Multimodal Perception Layer | TASK | — |
 | `117` | `PROJ-MOSC-BIO-0001` | MusicOS | ACTIVE | — |
-| `120` | `PROJ-MOSC-JD-0001` | MusicOS — Procedural Musical Identity System | ACTIVE | — |
 | `65` | `PROJ-NAR-BIO-0001` | Naruto | ACTIVE | — |
 | `112` | `PROJ-NMX-BIO-0001` | NeuroMax | ACTIVE | — |
 | `113` | `PROJ-NMX-JGPP-0001` | Profile architecture — privacy-first identity on JFS | TASK | — |

@@ -11,8 +11,8 @@ jnl: IMPL-INA-LOG-0001
 seq: 54
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
-source: JarvisMain/Implementation/Inactive
+updated: 2026-06-25
+source: JarvisMain/Implementation/IndexSummary
 related: [ARCH-JSS-CORE-0001]
 references: []
 tags: [implementation, log]

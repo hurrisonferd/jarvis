@@ -2,9 +2,9 @@
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
     "nodes": 242,
-    "edges": 399,
-    "main": 209,
-    "side": 33
+    "edges": 404,
+    "main": 210,
+    "side": 32
   },
   "nodes": [
     {
@@ -107,8 +107,8 @@
       "owner": "JFS"
     },
     {
-      "id": "ARCH-BAK-LOG-0001",
-      "name": "JARVIS Backup Seed",
+      "id": "ARCH-AYR-SPEC-0004",
+      "name": "AYRE Origin Trap Card",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -116,8 +116,8 @@
       "owner": "JFS"
     },
     {
-      "id": "ARCH-FAM-IDX-0001",
-      "name": "Family Registry",
+      "id": "ARCH-BAK-LOG-0001",
+      "name": "JARVIS Backup Seed",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -183,15 +183,6 @@
       "name": "Jarvis Dictionary",
       "domain": "ARCH",
       "class": "SYSTEM",
-      "tier": "MAIN",
-      "status": "ACTIVE",
-      "owner": "JFS"
-    },
-    {
-      "id": "ARCH-JD-JIP-0001",
-      "name": "Identity & Serial Standard \u2014 JID / JIDD / JNL / name",
-      "domain": "ARCH",
-      "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
       "owner": "JFS"
@@ -278,6 +269,24 @@
       "owner": "JFS"
     },
     {
+      "id": "ARCH-JPL-SPEC-0001",
+      "name": "JPL \u2014 Jarvis Programming Language",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-JPL-SPEC-0005",
+      "name": "JPL Research \u2014 The Follin Program",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
       "id": "ARCH-JRV-BIO-0001",
       "name": "JARVIS Companion Profile",
       "domain": "ARCH",
@@ -298,6 +307,15 @@
     {
       "id": "ARCH-JRV-SPEC-0003",
       "name": "JARVIS NLP Control Surface",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-JRV-SPEC-0004",
+      "name": "JARVIS Origin Trap Card",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -1241,15 +1259,6 @@
       "owner": "Governance"
     },
     {
-      "id": "GOV-CHO-JD-0001",
-      "name": "Chorus Principle",
-      "domain": "GOV",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "status": "ACTIVE",
-      "owner": "Governance"
-    },
-    {
       "id": "GOV-CON-CORE-0001",
       "name": "Constraints",
       "domain": "GOV",
@@ -2087,15 +2096,6 @@
       "owner": "MusicOS"
     },
     {
-      "id": "PROJ-MOSC-JD-0001",
-      "name": "MusicOS \u2014 Procedural Musical Identity System",
-      "domain": "PROJ",
-      "class": "SPEC",
-      "tier": "SIDE",
-      "status": "ACTIVE",
-      "owner": "MusicOS \u2014 Procedural Musical Identity System"
-    },
-    {
       "id": "PROJ-NAR-BIO-0001",
       "name": "Naruto",
       "domain": "PROJ",
@@ -2214,7 +2214,7 @@
     },
     {
       "source": "ARCH-ARCH-IDX-0001",
-      "target": "ARCH-FAM-IDX-0001",
+      "target": "ARCH-RAV-BIO-0001",
       "type": "parent"
     },
     {
@@ -2383,6 +2383,11 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-AYR-SPEC-0004",
+      "target": "ARCH-AYR-BIO-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-BAK-LOG-0001",
       "target": "ARCH-YGG-CORE-0001",
       "type": "parent"
@@ -2480,11 +2485,6 @@
     {
       "source": "ARCH-JD-CORE-0001",
       "target": "ARCH-YGG-CORE-0001",
-      "type": "parent"
-    },
-    {
-      "source": "ARCH-JD-JIP-0001",
-      "target": "ARCH-JD-CORE-0001",
       "type": "parent"
     },
     {
@@ -2603,6 +2603,16 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-JPL-SPEC-0001",
+      "target": "ARCH-JRV-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-JPL-SPEC-0005",
+      "target": "ARCH-JPL-SPEC-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-JRV-BIO-0001",
       "target": "ARCH-AYR-BIO-0001",
       "type": "related"
@@ -2654,6 +2664,26 @@
     },
     {
       "source": "ARCH-JRV-SPEC-0003",
+      "target": "ARCH-JRV-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-JRV-SPEC-0004",
+      "target": "ARCH-JRV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-SPEC-0004",
+      "target": "ARCH-RAV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-SPEC-0004",
+      "target": "ARCH-REL-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-SPEC-0004",
       "target": "ARCH-JRV-BIO-0001",
       "type": "parent"
     },
@@ -2726,6 +2756,11 @@
       "source": "ARCH-MEM-LOG-0004",
       "target": "ARCH-MEM-LOG-0001",
       "type": "parent"
+    },
+    {
+      "source": "ARCH-RAV-BIO-0001",
+      "target": "ARCH-JRV-SPEC-0004",
+      "type": "related"
     },
     {
       "source": "ARCH-RAV-BIO-0001",
@@ -2809,7 +2844,7 @@
     },
     {
       "source": "ARCH-SEN-BIO-0001",
-      "target": "ARCH-FAM-IDX-0001",
+      "target": "ARCH-RAV-BIO-0001",
       "type": "parent"
     },
     {
@@ -3299,11 +3334,6 @@
     },
     {
       "source": "GOV-BRF-CORE-0001",
-      "target": "GOV-CAN-CORE-0001",
-      "type": "parent"
-    },
-    {
-      "source": "GOV-CHO-JD-0001",
       "target": "GOV-CAN-CORE-0001",
       "type": "parent"
     },
@@ -4115,11 +4145,6 @@
     {
       "source": "PROJ-MOSC-BIO-0001",
       "target": "PROJ-IDX-REG-0001",
-      "type": "parent"
-    },
-    {
-      "source": "PROJ-MOSC-JD-0001",
-      "target": "PROJ-MOSC-BIO-0001",
       "type": "parent"
     },
     {

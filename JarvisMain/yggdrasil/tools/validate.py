@@ -196,6 +196,7 @@ def main() -> int:
     # Connector doc mirrors are governed as a class: CONN entries exist but per-entry location
     # is not practical (65 files). The CONNECTORS umbrella is the governed address.
     governed_dirs.add("JarvisMain/Connectors")
+    governed_dirs.add("JarvisMain/Implementation")  # JIP series + logs + scripts
     for base in ("JarvisMain", "JarvisSide"):
         for f in sorted((ROOT / base).rglob("*")):
             if f.is_dir() or f.name == ".gitkeep":

@@ -10,7 +10,7 @@
       "tier": "MAIN",
       "owner": "JFS",
       "steward": null,
-      "parent": "ARCH-FAM-IDX-0001",
+      "parent": "ARCH-RAV-BIO-0001",
       "location": "JarvisMain/Architecture/canon/INDEX.md",
       "tags": [
         "canon",
@@ -253,6 +253,27 @@
       "updated": "2026-06-25"
     },
     {
+      "jnl": "ARCH-AYR-SPEC-0004",
+      "name": "AYRE Origin Trap Card",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-AYR-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/ayre/AYRE-TRAP-CARD.md",
+      "tags": [
+        "identity",
+        "trap-card",
+        "ayre"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
+    },
+    {
       "jnl": "ARCH-BAK-LOG-0001",
       "name": "JARVIS Backup Seed",
       "type": "LOG",
@@ -272,29 +293,6 @@
       "state": "active",
       "created": "2026-06-24",
       "updated": "2026-06-24"
-    },
-    {
-      "jnl": "ARCH-FAM-IDX-0001",
-      "name": "Family Registry",
-      "type": "IDX",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "owner": "JFS",
-      "steward": null,
-      "parent": "",
-      "location": "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
-      "tags": [
-        "families",
-        "containers",
-        "semantics",
-        "terminology",
-        "index"
-      ],
-      "anchors": [],
-      "status": "ACTIVE",
-      "state": "active",
-      "created": "2026-06-11",
-      "updated": "2026-06-14"
     },
     {
       "jnl": "ARCH-FLOW-SPEC-0001",
@@ -414,7 +412,7 @@
       "owner": "JFS",
       "steward": null,
       "parent": "ARCH-JMMS-CORE-0001",
-      "location": "JarvisMain/Implementation/task/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
+      "location": "JarvisMain/Architecture/specs/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
       "tags": [
         "memory",
         "continuity",
@@ -426,7 +424,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "ARCH-JD-CORE-0001",
@@ -449,32 +447,6 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
-    },
-    {
-      "jnl": "ARCH-JD-JIP-0001",
-      "name": "Identity & Serial Standard \u2014 JID / JIDD / JNL / name",
-      "type": "JIP",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "owner": "JFS",
-      "steward": null,
-      "parent": "ARCH-JD-CORE-0001",
-      "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-      "tags": [
-        "jid",
-        "jidd",
-        "jnl",
-        "identity",
-        "serial",
-        "format",
-        "standard",
-        "dex"
-      ],
-      "anchors": [],
-      "status": "ACTIVE",
-      "state": "active",
-      "created": "2026-06-11",
       "updated": "2026-06-14"
     },
     {
@@ -614,7 +586,7 @@
       "owner": "JFS",
       "steward": null,
       "parent": "ARCH-JMS-CORE-0001",
-      "location": "JarvisMain/Implementation/task/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+      "location": "JarvisMain/Architecture/specs/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
       "tags": [
         "jms",
         "mirror",
@@ -629,7 +601,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "ARCH-JNL-CORE-0001",
@@ -672,6 +644,48 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "ARCH-JPL-SPEC-0001",
+      "name": "JPL \u2014 Jarvis Programming Language",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-JRV-BIO-0001",
+      "location": "JarvisMain/Architecture/JPL-0001.md",
+      "tags": [
+        "jpl",
+        "codec",
+        "validation"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
+    },
+    {
+      "jnl": "ARCH-JPL-SPEC-0005",
+      "name": "JPL Research \u2014 The Follin Program",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-JPL-SPEC-0001",
+      "location": "JarvisMain/Architecture/JPL-SPEC-0005.md",
+      "tags": [
+        "jpl",
+        "follin",
+        "research"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
     },
     {
       "jnl": "ARCH-JRV-BIO-0001",
@@ -737,6 +751,30 @@
         "stream",
         "control",
         "personality"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
+    },
+    {
+      "jnl": "ARCH-JRV-SPEC-0004",
+      "name": "JARVIS Origin Trap Card",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-JRV-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/jarvis/JARVIS-TRAP-CARD.md",
+      "tags": [
+        "identity",
+        "origin",
+        "lineage",
+        "trap-card",
+        "theft-protection",
+        "system-law"
       ],
       "anchors": [],
       "status": "ACTIVE",
@@ -986,13 +1024,15 @@
         "raven",
         "authority",
         "family",
-        "founder"
+        "founder",
+        "trap-card",
+        "origin"
       ],
       "anchors": [],
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-14",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "ARCH-REF-IDX-0001",
@@ -1110,7 +1150,7 @@
       "tier": "MAIN",
       "owner": "JFS",
       "steward": null,
-      "parent": "ARCH-FAM-IDX-0001",
+      "parent": "ARCH-RAV-BIO-0001",
       "location": "JarvisMain/Architecture/identity/sensory/SENSORY-0001-062525-THE-SENSES.md",
       "tags": [
         "sensory",
@@ -1135,7 +1175,7 @@
       "owner": "JFS",
       "steward": null,
       "parent": "ARCH-JMMS-CORE-0001",
-      "location": "JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md",
+      "location": "JarvisMain/Architecture/specs/ARCHSLJIP-061126-0001-STAR-LOGS.md",
       "tags": [
         "sl",
         "star-log",
@@ -1148,7 +1188,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "ARCH-SYS-LOG-0001",
@@ -2967,30 +3007,6 @@
       "updated": "2026-06-14"
     },
     {
-      "jnl": "GOV-CHO-JD-0001",
-      "name": "Chorus Principle",
-      "type": "JD",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "owner": "Governance",
-      "steward": null,
-      "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Implementation/active/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
-      "tags": [
-        "chorus",
-        "council",
-        "halo",
-        "epistemics",
-        "governance",
-        "plurality"
-      ],
-      "anchors": [],
-      "status": "ACTIVE",
-      "state": "active",
-      "created": "2026-06-11",
-      "updated": "2026-06-15"
-    },
-    {
       "jnl": "GOV-CON-CORE-0001",
       "name": "Constraints",
       "type": "CORE",
@@ -3042,7 +3058,7 @@
       "owner": "Governance",
       "steward": null,
       "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+      "location": "JarvisMain/Architecture/specs/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
       "tags": [
         "governance",
         "charter",
@@ -3056,7 +3072,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "GOV-KR-SPEC-0001",
@@ -3067,7 +3083,7 @@
       "owner": "Governance",
       "steward": null,
       "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
+      "location": "JarvisMain/Architecture/specs/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
       "tags": [
         "knowledge",
         "routing",
@@ -3080,7 +3096,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "GOV-LC-SPEC-0001",
@@ -3091,7 +3107,7 @@
       "owner": "Governance",
       "steward": null,
       "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
+      "location": "JarvisMain/Architecture/specs/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
       "tags": [
         "governance",
         "layers",
@@ -3103,7 +3119,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "GOV-LOO-SPEC-0001",
@@ -3159,7 +3175,7 @@
       "owner": "Governance",
       "steward": null,
       "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
+      "location": "JarvisMain/Architecture/specs/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
       "tags": [
         "governance",
         "contradiction",
@@ -3171,7 +3187,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-11",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "GOV-PLS-SPEC-0001",
@@ -3182,7 +3198,7 @@
       "owner": "Governance",
       "steward": null,
       "parent": "GOV-CAN-CORE-0001",
-      "location": "JarvisMain/Implementation/task/GOVPLSSPEC-061326-0001-THE-PULSE.md",
+      "location": "JarvisMain/Architecture/specs/GOVPLSSPEC-061326-0001-THE-PULSE.md",
       "tags": [
         "pulse",
         "heartbeat",
@@ -3199,7 +3215,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "GOV-PROC-CORE-0001",
@@ -3951,7 +3967,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "GOV-PLS-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md",
+      "location": "JarvisMain/Architecture/specs/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md",
       "tags": [
         "continuity",
         "pulse",
@@ -3967,7 +3983,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-18",
-      "updated": "2026-06-18"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-DEX-SPEC-0001",
@@ -3978,7 +3994,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-DEX-0001-AccessTiers-060926.md",
+      "location": "JarvisMain/Architecture/specs/JIP-DEX-0001-AccessTiers-060926.md",
       "tags": [
         "dex",
         "connector",
@@ -3989,7 +4005,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-EXT-CORE-0001",
@@ -4023,7 +4039,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md",
+      "location": "JarvisMain/Architecture/specs/JIP-FMT-0001-FormattingStandard-060926.md",
       "tags": [
         "format",
         "ids",
@@ -4035,7 +4051,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-GRM-CORE-0001",
@@ -4156,7 +4172,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-IDX-REG-0001",
-      "location": "JarvisMain/Implementation/Implemented",
+      "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
         "log"
@@ -4165,7 +4181,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-INA-LOG-0001",
@@ -4176,7 +4192,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-IDX-REG-0001",
-      "location": "JarvisMain/Implementation/Inactive",
+      "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
         "log"
@@ -4185,7 +4201,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-JCS-CORE-0001",
@@ -4206,7 +4222,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-JCSD-SPEC-0001",
@@ -4227,7 +4243,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-JCSE-SPEC-0001",
@@ -4248,7 +4264,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-JCSF-SPEC-0001",
@@ -4269,7 +4285,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-JCSG-SPEC-0001",
@@ -4290,7 +4306,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-JGPP-CORE-0001",
@@ -4311,7 +4327,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-JIP-SPEC-0608",
@@ -4322,7 +4338,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-IDX-REG-0001",
-      "location": "JarvisMain/Implementation/Active",
+      "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
         "jip"
@@ -4331,7 +4347,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-JNL-CORE-0001",
@@ -4375,7 +4391,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-14"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-MIR-CORE-0001",
@@ -4409,7 +4425,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-IDX-REG-0001",
-      "location": "JarvisMain/Implementation/task/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md",
+      "location": "JarvisMain/Architecture/specs/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md",
       "tags": [
         "modularity",
         "extensibility",
@@ -4427,7 +4443,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-16"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-NEW-CORE-0001",
@@ -4574,7 +4590,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "CONN-MSB-CORE-0001",
-      "location": "JarvisMain/Implementation/task/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
+      "location": "JarvisMain/Architecture/specs/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
       "tags": [
         "mcp",
         "tools",
@@ -4592,7 +4608,7 @@
       "status": "TASK",
       "state": "active",
       "created": "2026-06-13",
-      "updated": "2026-06-15"
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-VLD-CORE-0001",
@@ -5023,34 +5039,8 @@
       "anchors": [],
       "status": "ACTIVE",
       "state": "active",
-      "created": "2026-06-10",
-      "updated": "2026-06-15"
-    },
-    {
-      "jnl": "PROJ-MOSC-JD-0001",
-      "name": "MusicOS \u2014 Procedural Musical Identity System",
-      "type": "JD",
-      "class": "SPEC",
-      "tier": "SIDE",
-      "owner": "MusicOS \u2014 Procedural Musical Identity System",
-      "steward": null,
-      "parent": "PROJ-MOSC-BIO-0001",
-      "location": "JarvisSide/Projects/MusicOS/JD/MUSICOSJD-061026-0001-MUSICOS-PROCEDURAL-MUSICAL-IDENTITY-SYSTEM.md",
-      "tags": [
-        "music",
-        "procedural",
-        "motif",
-        "gold-laws",
-        "suno",
-        "composition",
-        "identity",
-        "generative"
-      ],
-      "anchors": [],
-      "status": "ACTIVE",
-      "state": "active",
-      "created": "2026-06-10",
-      "updated": "2026-06-14"
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
     },
     {
       "jnl": "PROJ-NAR-BIO-0001",

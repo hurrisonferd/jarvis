@@ -1,5 +1,5 @@
 ---
-jnl: ARCH-JRV-TRAP-0001
+jnl: ARCH-JRV-SPEC-0004
 name: JARVIS Origin Trap Card
 type: SPEC
 class: ENTITY

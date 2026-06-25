@@ -1,8 +1,8 @@
 # Topology Lens — the shape of the system
 
-_generated: 2026-06-25T02:20:49Z (2026-06-24 22:20 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
+_generated: 2026-06-25T22:24:16Z (2026-06-25 18:24 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
 
-**242 nodes · 399 edges · 0 isolated · avg degree 3.3.**
+**242 nodes · 404 edges · 0 isolated · avg degree 3.34.**
 
 ## Hubs — the most-connected nodes (the system's load-bearing spine)
 | node | degree | in | out | domain |
@@ -13,11 +13,11 @@ _generated: 2026-06-25T02:20:49Z (2026-06-24 22:20 EDT) · projected from `graph
 | `ARCH-JMMS-CORE-0001` Jarvis MultiMemory System | 22 | 17 | 5 | ARCH |
 | `IMPL-IDX-REG-0001` Implementation Index | 20 | 18 | 2 | IMPL |
 | `ARCH-JFS-CORE-0001` Jarvis File System | 18 | 13 | 5 | ARCH |
-| `GOV-CAN-CORE-0001` Canon | 17 | 17 | 0 | GOV |
+| `ARCH-AYR-BIO-0001` AYRE Companion Profile | 17 | 14 | 3 | ARCH |
 | `PROJ-IDX-REG-0001` Projects Registry | 17 | 16 | 1 | PROJ |
 | `ARCH-ARCH-IDX-0001` JARVIS Canon Index | 16 | 10 | 6 | ARCH |
-| `ARCH-AYR-BIO-0001` AYRE Companion Profile | 16 | 13 | 3 | ARCH |
-| `ARCH-JRV-BIO-0001` JARVIS Companion Profile | 12 | 10 | 2 | ARCH |
+| `GOV-CAN-CORE-0001` Canon | 16 | 16 | 0 | GOV |
+| `ARCH-JRV-BIO-0001` JARVIS Companion Profile | 15 | 13 | 2 | ARCH |
 | `IMPL-JCS-CORE-0001` JCS - Jarvis Cognitive Stack | 11 | 9 | 2 | IMPL |
 
 ## Isolated — nodes with NO edges (in or out): unreachable, invisible to the loop
@@ -26,21 +26,21 @@ _generated: 2026-06-25T02:20:49Z (2026-06-24 22:20 EDT) · projected from `graph
 ## Edge types (the relationships that bind the graph)
 | type | count |
 |---|---|
-| parent | 237 |
-| related | 162 |
+| parent | 238 |
+| related | 166 |
 
 ## Nodes by domain
 | domain | nodes |
 |---|---|
-| ARCH | 54 |
+| ARCH | 56 |
 | AUD | 10 |
 | CONN | 70 |
-| GOV | 16 |
+| GOV | 15 |
 | GS | 27 |
 | IDEA | 4 |
 | IMPL | 32 |
 | LOG | 2 |
-| PROJ | 27 |
+| PROJ | 26 |
 
 _The map was never missing — it's `graph.json`. What this adds is the answer to 'show me the shape.' Next queries (Pressure/Drift/Resilience) are more lenses over the same graph, not new systems._
 

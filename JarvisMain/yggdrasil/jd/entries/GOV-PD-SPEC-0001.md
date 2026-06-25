@@ -11,8 +11,8 @@ jnl: GOV-PD-SPEC-0001
 seq: 132
 status: TASK
 created: 2026-06-11
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md
 related: []
 references: []
 tags: [governance, contradiction, arbitration, federation, epistemics]

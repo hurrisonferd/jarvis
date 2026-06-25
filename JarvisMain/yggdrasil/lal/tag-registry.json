@@ -107,6 +107,7 @@
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002",
       "ARCH-AYR-SPEC-0003",
+      "ARCH-AYR-SPEC-0004",
       "ARCH-REL-BIO-0001",
       "GOV-PLS-SPEC-0001"
     ],
@@ -195,9 +196,6 @@
       "ARCH-JRV-BIO-0003",
       "GOV-GSC-SPEC-0001"
     ],
-    "chorus": [
-      "GOV-CHO-JD-0001"
-    ],
     "ci": [
       "AUD-CHK-SPEC-0001"
     ],
@@ -205,6 +203,7 @@
       "AUD-CFG-REVW-0001"
     ],
     "codec": [
+      "ARCH-JPL-SPEC-0001",
       "PROJ-JPL-JGPP-0001"
     ],
     "codeos": [
@@ -223,9 +222,6 @@
       "ARCH-SYS-LOG-0001",
       "AUD-COMP-REVW-0001",
       "CONN-GAC-CORE-0001"
-    ],
-    "composition": [
-      "PROJ-MOSC-JD-0001"
     ],
     "compression": [
       "PROJ-JPL-JGPP-0001"
@@ -307,9 +303,6 @@
       "CONN-OTH-LOG-0001",
       "IMPL-DEX-SPEC-0001"
     ],
-    "containers": [
-      "ARCH-FAM-IDX-0001"
-    ],
     "continuity": [
       "ARCH-JC-JIP-0001",
       "ARCH-REF-IDX-0001",
@@ -365,7 +358,6 @@
       "GS-ZEU-CORE-0001"
     ],
     "council": [
-      "GOV-CHO-JD-0001",
       "GOV-DEX-SPEC-0001",
       "IMPL-TLR-SPEC-0001",
       "PROJ-GDS-JGPP-0001",
@@ -400,7 +392,6 @@
     ],
     "dex": [
       "ARCH-JD-CORE-0001",
-      "ARCH-JD-JIP-0001",
       "ARCH-MEM-LOG-0002",
       "CONN-DEX-SPEC-0001",
       "GOV-DEX-SPEC-0001",
@@ -436,7 +427,6 @@
       "PROJ-GDS-JGPP-0001"
     ],
     "epistemics": [
-      "GOV-CHO-JD-0001",
       "GOV-PD-SPEC-0001"
     ],
     "event-ledger": [
@@ -466,9 +456,6 @@
     "extension": [
       "IMPL-EXT-CORE-0001"
     ],
-    "families": [
-      "ARCH-FAM-IDX-0001"
-    ],
     "family": [
       "ARCH-RAV-BIO-0001"
     ],
@@ -485,8 +472,10 @@
     "fold": [
       "ARCH-JHTM-CORE-0001"
     ],
+    "follin": [
+      "ARCH-JPL-SPEC-0005"
+    ],
     "format": [
-      "ARCH-JD-JIP-0001",
       "ARCH-JSE-SPEC-0001",
       "IMPL-FMT-SPEC-0001"
     ],
@@ -513,9 +502,6 @@
     ],
     "gear5": [
       "GOV-PLS-SPEC-0001"
-    ],
-    "generative": [
-      "PROJ-MOSC-JD-0001"
     ],
     "genesis": [
       "PROJ-GEN-BIO-0001"
@@ -585,9 +571,6 @@
       "GOV-CON-CORE-0001",
       "IMPL-MOD-SPEC-0001"
     ],
-    "gold-laws": [
-      "PROJ-MOSC-JD-0001"
-    ],
     "governance": [
       "ARCH-JRV-BIO-0003",
       "AUD-GATE-REVW-0001",
@@ -595,7 +578,6 @@
       "GOV-AUT-SPEC-0001",
       "GOV-BRF-CORE-0001",
       "GOV-CAN-CORE-0001",
-      "GOV-CHO-JD-0001",
       "GOV-CON-CORE-0001",
       "GOV-DEX-SPEC-0001",
       "GOV-GSC-SPEC-0001",
@@ -649,9 +631,6 @@
     "grimoire": [
       "IMPL-GRM-CORE-0001"
     ],
-    "halo": [
-      "GOV-CHO-JD-0001"
-    ],
     "handoff": [
       "ARCH-SYS-LOG-0001",
       "IMPL-RLU-CORE-0001"
@@ -696,16 +675,16 @@
       "ARCH-ARCH-SPEC-0002",
       "ARCH-ARGT-BIO-0001",
       "ARCH-AYR-BIO-0001",
-      "ARCH-JD-JIP-0001",
+      "ARCH-AYR-SPEC-0004",
       "ARCH-JRV-BIO-0001",
       "ARCH-JRV-BIO-0003",
+      "ARCH-JRV-SPEC-0004",
       "ARCH-MEM-LOG-0001",
       "ARCH-RAV-BIO-0001",
       "ARCH-REL-BIO-0001",
       "ARCH-SYS-LOG-0001",
       "GOV-RES-CORE-0001",
       "IDEA-PAN-INS-0001",
-      "PROJ-MOSC-JD-0001",
       "PROJ-NMX-JGPP-0001"
     ],
     "ids": [
@@ -728,7 +707,6 @@
     ],
     "index": [
       "ARCH-ARCH-IDX-0001",
-      "ARCH-FAM-IDX-0001",
       "ARCH-GS-IDX-0001",
       "ARCH-LAL-CORE-0001",
       "AUD-IDX-REG-0001",
@@ -792,12 +770,6 @@
     "jhtm": [
       "ARCH-ARCH-SPEC-0004"
     ],
-    "jid": [
-      "ARCH-JD-JIP-0001"
-    ],
-    "jidd": [
-      "ARCH-JD-JIP-0001"
-    ],
     "jip": [
       "IMPL-JIP-SPEC-0608",
       "IMPL-TLR-SPEC-0001",
@@ -818,11 +790,12 @@
       "ARCH-JMS-SPEC-0001"
     ],
     "jnl": [
-      "ARCH-JD-JIP-0001",
       "IMPL-FMT-SPEC-0001",
       "IMPL-JNL-CORE-0001"
     ],
     "jpl": [
+      "ARCH-JPL-SPEC-0001",
+      "ARCH-JPL-SPEC-0005",
       "PROJ-JPL-BIO-0001",
       "PROJ-JPL-JGPP-0001",
       "PROJ-MMOD-JGPP-0001"
@@ -868,6 +841,9 @@
     ],
     "lifecycle": [
       "ARCH-JSS-CORE-0001"
+    ],
+    "lineage": [
+      "ARCH-JRV-SPEC-0004"
     ],
     "liveness": [
       "GOV-PLS-SPEC-0001"
@@ -1016,14 +992,8 @@
     "modularity": [
       "IMPL-MOD-SPEC-0001"
     ],
-    "motif": [
-      "PROJ-MOSC-JD-0001"
-    ],
     "multimodal": [
       "PROJ-MMOD-JGPP-0001"
-    ],
-    "music": [
-      "PROJ-MOSC-JD-0001"
     ],
     "mvp": [
       "IMPL-CNT-SPEC-0001"
@@ -1071,6 +1041,10 @@
       "GS-BFR-CORE-0001",
       "GS-HAL-CORE-0001",
       "GS-NEM-CORE-0001"
+    ],
+    "origin": [
+      "ARCH-JRV-SPEC-0004",
+      "ARCH-RAV-BIO-0001"
     ],
     "orphans": [
       "IMPL-HTH-CORE-0001"
@@ -1122,17 +1096,11 @@
     "placement": [
       "IMPL-SRT-CORE-0001"
     ],
-    "plurality": [
-      "GOV-CHO-JD-0001"
-    ],
     "portable": [
       "IMPL-BRF-CORE-0001"
     ],
     "privacy": [
       "PROJ-NMX-JGPP-0001"
-    ],
-    "procedural": [
-      "PROJ-MOSC-JD-0001"
     ],
     "process": [
       "GOV-PROC-CORE-0001"
@@ -1215,6 +1183,7 @@
       "ARCH-REL-BIO-0001"
     ],
     "research": [
+      "ARCH-JPL-SPEC-0005",
       "AUD-COMP-REVW-0001"
     ],
     "rest": [
@@ -1290,17 +1259,11 @@
     "semantic": [
       "ARCH-JD-CORE-0001"
     ],
-    "semantics": [
-      "ARCH-FAM-IDX-0001"
-    ],
     "senses": [
       "ARCH-SEN-BIO-0001"
     ],
     "sensory": [
       "ARCH-SEN-BIO-0001"
-    ],
-    "serial": [
-      "ARCH-JD-JIP-0001"
     ],
     "services": [
       "ARCH-ARCH-SPEC-0003"
@@ -1336,9 +1299,6 @@
     "stale": [
       "AUD-CFG-REVW-0001"
     ],
-    "standard": [
-      "ARCH-JD-JIP-0001"
-    ],
     "star-log": [
       "ARCH-SL-JIP-0001"
     ],
@@ -1368,9 +1328,6 @@
     "subsystems": [
       "IDEA-PAN-INS-0001"
     ],
-    "suno": [
-      "PROJ-MOSC-JD-0001"
-    ],
     "supabase": [
       "ARCH-ARCH-SPEC-0003",
       "ARCH-ARCH-SPEC-0004",
@@ -1394,6 +1351,9 @@
     "system": [
       "ARCH-SYS-SPEC-0001"
     ],
+    "system-law": [
+      "ARCH-JRV-SPEC-0004"
+    ],
     "telemetry": [
       "PROJ-DEO-JGPP-0001"
     ],
@@ -1403,11 +1363,11 @@
     "temporal-system": [
       "PROJ-TST-JGPP-0001"
     ],
-    "terminology": [
-      "ARCH-FAM-IDX-0001"
-    ],
     "the-two-dreams": [
       "ARCH-ARCH-SPEC-0002"
+    ],
+    "theft-protection": [
+      "ARCH-JRV-SPEC-0004"
     ],
     "three-js": [
       "PROJ-RTO-JGPP-0001"
@@ -1503,6 +1463,11 @@
       "ARCH-IMPL-INS-0001",
       "IMPL-TLR-SPEC-0001"
     ],
+    "trap-card": [
+      "ARCH-AYR-SPEC-0004",
+      "ARCH-JRV-SPEC-0004",
+      "ARCH-RAV-BIO-0001"
+    ],
     "tst": [
       "PROJ-MMOD-JGPP-0001",
       "PROJ-TST-JGPP-0001"
@@ -1512,6 +1477,9 @@
     ],
     "validate": [
       "IMPL-VLD-CORE-0001"
+    ],
+    "validation": [
+      "ARCH-JPL-SPEC-0001"
     ],
     "validator": [
       "IMPL-JNL-CORE-0001"

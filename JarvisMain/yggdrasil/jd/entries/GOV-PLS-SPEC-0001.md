@@ -11,8 +11,8 @@ jnl: GOV-PLS-SPEC-0001
 seq: 137
 status: TASK
 created: 2026-06-13
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/GOVPLSSPEC-061326-0001-THE-PULSE.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/GOVPLSSPEC-061326-0001-THE-PULSE.md
 related: []
 references: []
 tags: [pulse, heartbeat, kronos, reflection, ayre, jarvis, p43, liveness, governance, gear5]

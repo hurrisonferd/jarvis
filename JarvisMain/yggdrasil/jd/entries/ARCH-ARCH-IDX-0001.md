@@ -6,7 +6,7 @@ tier: MAIN
 authority: CANON
 owner: JFS
 steward: 
-parent: ARCH-FAM-IDX-0001
+parent: ARCH-RAV-BIO-0001
 jnl: ARCH-ARCH-IDX-0001
 seq: 243
 status: ACTIVE

@@ -11,8 +11,8 @@ jnl: IMPL-TLR-SPEC-0001
 seq: 139
 status: TASK
 created: 2026-06-13
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md
 related: []
 references: []
 tags: [mcp, tools, roadmap, pipeline, starlog, dex, jip, jd, auto-tracking, council, index]

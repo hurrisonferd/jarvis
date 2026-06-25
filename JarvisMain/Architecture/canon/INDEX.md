@@ -7,7 +7,7 @@ tier: MAIN
 authority: CANON
 owner: JARVIS
 steward: MNEMOS
-parent: ARCH-FAM-IDX-0001
+parent: ARCH-RAV-BIO-0001
 seq: 001
 status: ACTIVE
 created: 2026-06-25

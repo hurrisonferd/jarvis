@@ -11,8 +11,8 @@ jnl: GOV-LC-SPEC-0001
 seq: 127
 status: TASK
 created: 2026-06-11
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md
 related: []
 references: []
 tags: [governance, layers, overlay, contract, bounded-autonomy]

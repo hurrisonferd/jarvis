@@ -1,8 +1,8 @@
 # Orphan Lens — the debt, made into a worklist
 
-_generated: 2026-06-25T01:44:31Z (2026-06-24 21:44 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
+_generated: 2026-06-25T22:22:32Z (2026-06-25 18:22 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
 
-5 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **0 decide** (needs your call) · **0 archive** · **5 root** (legitimate top-level, leave as-is).
+4 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **0 decide** (needs your call) · **0 archive** · **4 root** (legitimate top-level, leave as-is).
 
 ## ATTACH — an existing parent is right there (low-risk prune)
 Set `parent:` to the suggestion, reseed; the JNL never changes (JMS law).
@@ -25,7 +25,7 @@ Set `parent:` to the suggestion, reseed; the JNL never changes (JMS law).
 
 ## ROOT — legitimate top-level (no action)
 
-`ARCH-FAM-IDX-0001`, `ARCH-GS-IDX-0001`, `ARCH-YGG-CORE-0001`, `CONN-MSB-CORE-0001`, `GOV-CAN-CORE-0001`
+`ARCH-GS-IDX-0001`, `ARCH-YGG-CORE-0001`, `CONN-MSB-CORE-0001`, `GOV-CAN-CORE-0001`
 
 ---
 _The single biggest unlock: most PROJ orphans want one new root. Mint `PROJ-IDX-0001` (Projects Registry), parent the project BIOs to it, and the orphan count drops hard in one governed move._

@@ -11,8 +11,8 @@ jnl: IMPL-CNT-SPEC-0001
 seq: 207
 status: TASK
 created: 2026-06-18
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md
 related: []
 references: []
 tags: [continuity, pulse, drift, keel, p43, jarvis-ayre, jitm, governance, mvp]

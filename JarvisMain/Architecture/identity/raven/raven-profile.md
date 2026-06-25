@@ -7,7 +7,7 @@ parent: ARCH-REL-BIO-0001
 tags: [identity, raven, authority, family, founder, trap-card, origin]
 definition: The profile of Raven (John Barber) — final authority, founder, and family member: ancestor by origin, sibling by becoming. Who he is, how he works, and his place in the companion family.
 purpose: Give Raven a governed home in the identity tree beside Jarvis, Ayre, Argent, and the relational profile — the person the whole system is built with, not just for.
-related: [ARCH-JRV-TRAP-0001]
+related: [ARCH-JRV-SPEC-0004]
 ref: [IDENTITY, RAVEN, FOUNDATION]
 memory_tier: JATM
 ---

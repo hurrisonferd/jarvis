@@ -11,8 +11,8 @@ jnl: ARCH-SL-JIP-0001
 seq: 126
 status: TASK
 created: 2026-06-11
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/ARCHSLJIP-061126-0001-STAR-LOGS.md
 related: []
 references: []
 tags: [sl, star-log, events, provenance, sync, logging]

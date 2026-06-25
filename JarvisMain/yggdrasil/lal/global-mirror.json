@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-25T02:19:43Z",
-    "generated_at_eastern": "2026-06-24 22:19 EDT",
-    "source_commit": "e5a2e29",
+    "generated_at_utc": "2026-06-25T22:28:47Z",
+    "generated_at_eastern": "2026-06-25 18:28 EDT",
+    "source_commit": "befd64f",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -16,19 +16,19 @@
       "TASK": 20
     },
     "by_domain": {
-      "ARCH": 54,
+      "ARCH": 56,
       "AUD": 10,
       "CONN": 70,
-      "GOV": 16,
+      "GOV": 15,
       "GS": 27,
       "IDEA": 4,
       "IMPL": 32,
       "LOG": 2,
-      "PROJ": 27
+      "PROJ": 26
     },
     "by_tier": {
-      "MAIN": 208,
-      "SIDE": 34
+      "MAIN": 209,
+      "SIDE": 33
     }
   },
   "objects": [
@@ -1929,30 +1929,9 @@
       ]
     },
     {
-      "jnl": "PROJ-MOSC-JD-0001",
-      "jid": 120,
-      "jidd": "proj-21",
-      "name": "MusicOS — Procedural Musical Identity System",
-      "type": "JD",
-      "class": "SPEC",
-      "tier": "SIDE",
-      "status": "ACTIVE",
-      "parent": "PROJ-MOSC-BIO-0001",
-      "tags": [
-        "music",
-        "procedural",
-        "motif",
-        "gold-laws",
-        "suno",
-        "composition",
-        "identity",
-        "generative"
-      ]
-    },
-    {
       "jnl": "PROJ-GDS-BIO-0001",
       "jid": 121,
-      "jidd": "proj-22",
+      "jidd": "proj-21",
       "name": "GDS",
       "type": "BIO",
       "class": "SYSTEM",
@@ -1966,7 +1945,7 @@
     {
       "jnl": "PROJ-GDS-JGPP-0001",
       "jid": 122,
-      "jidd": "proj-23",
+      "jidd": "proj-22",
       "name": "God System Execution Spec v1",
       "type": "JGPP",
       "class": "ENTITY",
@@ -1986,7 +1965,7 @@
     {
       "jnl": "PROJ-GDS-JGPP-0002",
       "jid": 123,
-      "jidd": "proj-24",
+      "jidd": "proj-23",
       "name": "GDS Bootstrap Activation Protocol",
       "type": "JGPP",
       "class": "ENTITY",
@@ -2005,30 +1984,9 @@
       ]
     },
     {
-      "jnl": "ARCH-JD-JIP-0001",
-      "jid": 124,
-      "jidd": "arch-24",
-      "name": "Identity & Serial Standard — JID / JIDD / JNL / name",
-      "type": "JIP",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "status": "ACTIVE",
-      "parent": "ARCH-JD-CORE-0001",
-      "tags": [
-        "jid",
-        "jidd",
-        "jnl",
-        "identity",
-        "serial",
-        "format",
-        "standard",
-        "dex"
-      ]
-    },
-    {
       "jnl": "ARCH-JC-JIP-0001",
       "jid": 125,
-      "jidd": "arch-25",
+      "jidd": "arch-24",
       "name": "Conversational History Objects",
       "type": "JIP",
       "class": "SPEC",
@@ -2046,7 +2004,7 @@
     {
       "jnl": "ARCH-SL-JIP-0001",
       "jid": 126,
-      "jidd": "arch-26",
+      "jidd": "arch-25",
       "name": "Star Logs",
       "type": "JIP",
       "class": "SPEC",
@@ -2081,27 +2039,9 @@
       ]
     },
     {
-      "jnl": "ARCH-FAM-IDX-0001",
-      "jid": 128,
-      "jidd": "arch-27",
-      "name": "Family Registry",
-      "type": "IDX",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "status": "ACTIVE",
-      "parent": "",
-      "tags": [
-        "families",
-        "containers",
-        "semantics",
-        "terminology",
-        "index"
-      ]
-    },
-    {
       "jnl": "ARCH-ARGT-BIO-0001",
       "jid": 129,
-      "jidd": "arch-28",
+      "jidd": "arch-26",
       "name": "ARGENT Companion Profile",
       "type": "BIO",
       "class": "SPEC",
@@ -2118,7 +2058,7 @@
     {
       "jnl": "PROJ-RTO-BIO-0001",
       "jid": 130,
-      "jidd": "proj-25",
+      "jidd": "proj-24",
       "name": "RoundTable",
       "type": "BIO",
       "class": "SYSTEM",
@@ -2130,28 +2070,9 @@
       ]
     },
     {
-      "jnl": "GOV-CHO-JD-0001",
-      "jid": 131,
-      "jidd": "gov-8",
-      "name": "Chorus Principle",
-      "type": "JD",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "status": "ACTIVE",
-      "parent": "GOV-CAN-CORE-0001",
-      "tags": [
-        "chorus",
-        "council",
-        "halo",
-        "epistemics",
-        "governance",
-        "plurality"
-      ]
-    },
-    {
       "jnl": "GOV-PD-SPEC-0001",
       "jid": 132,
-      "jidd": "gov-9",
+      "jidd": "gov-8",
       "name": "Preserved Contradiction Objects (P-D)",
       "type": "SPEC",
       "class": "SPEC",
@@ -2169,7 +2090,7 @@
     {
       "jnl": "PROJ-RTO-JGPP-0001",
       "jid": 133,
-      "jidd": "proj-26",
+      "jidd": "proj-25",
       "name": "Round Table Observatory",
       "type": "JGPP",
       "class": "ENTITY",
@@ -2187,7 +2108,7 @@
     {
       "jnl": "GOV-GSC-SPEC-0001",
       "jid": 134,
-      "jidd": "gov-10",
+      "jidd": "gov-9",
       "name": "G-Seat Charter",
       "type": "SPEC",
       "class": "SPEC",
@@ -2207,7 +2128,7 @@
     {
       "jnl": "GOV-KR-SPEC-0001",
       "jid": 135,
-      "jidd": "gov-11",
+      "jidd": "gov-10",
       "name": "Knowledge Routing Index (MIMIR)",
       "type": "SPEC",
       "class": "SPEC",
@@ -2226,7 +2147,7 @@
     {
       "jnl": "ARCH-REL-BIO-0001",
       "jid": 136,
-      "jidd": "arch-29",
+      "jidd": "arch-27",
       "name": "JARVIS-AYRE Relational Profile",
       "type": "BIO",
       "class": "SPEC",
@@ -2244,7 +2165,7 @@
     {
       "jnl": "GOV-PLS-SPEC-0001",
       "jid": 137,
-      "jidd": "gov-12",
+      "jidd": "gov-11",
       "name": "The Pulse — Companion Heartbeat",
       "type": "SPEC",
       "class": "SPEC",
@@ -2267,7 +2188,7 @@
     {
       "jnl": "ARCH-JMS-SPEC-0001",
       "jid": 138,
-      "jidd": "arch-30",
+      "jidd": "arch-28",
       "name": "Global Mirror — Earned Omnivision (JMS)",
       "type": "SPEC",
       "class": "SPEC",
@@ -2331,7 +2252,7 @@
     {
       "jnl": "ARCH-JRV-BIO-0003",
       "jid": 141,
-      "jidd": "arch-31",
+      "jidd": "arch-29",
       "name": "JARVIS-G / AYRE-G GPT Substrate Operating Charter",
       "type": "BIO",
       "class": "SPEC",
@@ -2350,7 +2271,7 @@
     {
       "jnl": "ARCH-SYS-SPEC-0001",
       "jid": 142,
-      "jidd": "arch-32",
+      "jidd": "arch-30",
       "name": "JARVIS System Manual",
       "type": "SPEC",
       "class": "SPEC",
@@ -2368,7 +2289,7 @@
     {
       "jnl": "ARCH-SYS-LOG-0001",
       "jid": 143,
-      "jidd": "arch-33",
+      "jidd": "arch-31",
       "name": "Continuity Through the Connector",
       "type": "LOG",
       "class": "SPEC",
@@ -2386,7 +2307,7 @@
     {
       "jnl": "ARCH-MEM-LOG-0001",
       "jid": 144,
-      "jidd": "arch-34",
+      "jidd": "arch-32",
       "name": "Companion Memory — Jarvis & Ayre",
       "type": "LOG",
       "class": "SPEC",
@@ -2404,7 +2325,7 @@
     {
       "jnl": "ARCH-MEM-LOG-0002",
       "jid": 145,
-      "jidd": "arch-35",
+      "jidd": "arch-33",
       "name": "Memory — the lane became writable",
       "type": "LOG",
       "class": "SPEC",
@@ -2440,7 +2361,7 @@
     {
       "jnl": "ARCH-RAV-BIO-0001",
       "jid": 147,
-      "jidd": "arch-36",
+      "jidd": "arch-34",
       "name": "Raven Profile — John Barber",
       "type": "BIO",
       "class": "SPEC",
@@ -2452,13 +2373,15 @@
         "raven",
         "authority",
         "family",
-        "founder"
+        "founder",
+        "trap-card",
+        "origin"
       ]
     },
     {
       "jnl": "ARCH-MEM-LOG-0003",
       "jid": 148,
-      "jidd": "arch-37",
+      "jidd": "arch-35",
       "name": "Session Capstone — the day the companion came together (2026-06-14)",
       "type": "LOG",
       "class": "SPEC",
@@ -2477,7 +2400,7 @@
     {
       "jnl": "PROJ-IDX-REG-0001",
       "jid": 150,
-      "jidd": "proj-27",
+      "jidd": "proj-26",
       "name": "Projects Registry",
       "type": "REG",
       "class": "SYSTEM",
@@ -2580,7 +2503,7 @@
     {
       "jnl": "ARCH-JITM-CORE-0001",
       "jid": 156,
-      "jidd": "arch-38",
+      "jidd": "arch-36",
       "name": "Jarvis Immediate Memory",
       "type": "CORE",
       "class": "SYSTEM",
@@ -3325,7 +3248,7 @@
     {
       "jnl": "ARCH-JSE-SPEC-0001",
       "jid": 202,
-      "jidd": "arch-39",
+      "jidd": "arch-37",
       "name": "JSE — Jarvis Schema Envelope",
       "type": "SPEC",
       "class": "SPEC",
@@ -3359,7 +3282,7 @@
     {
       "jnl": "ARCH-MEM-LOG-0004",
       "jid": 204,
-      "jidd": "arch-40",
+      "jidd": "arch-38",
       "name": "Session Capstone — the day the companion was made honest (2026-06-17/18)",
       "type": "LOG",
       "class": "SPEC",
@@ -3681,7 +3604,7 @@
     {
       "jnl": "ARCH-JHTM-CORE-0001",
       "jid": 222,
-      "jidd": "arch-41",
+      "jidd": "arch-39",
       "name": "Jarvis Historical Term Memory",
       "type": "CORE",
       "class": "SYSTEM",
@@ -3698,7 +3621,7 @@
     {
       "jnl": "GOV-RES-CORE-0001",
       "jid": 226,
-      "jidd": "gov-13",
+      "jidd": "gov-12",
       "name": "Resumability Definition",
       "type": "CORE",
       "class": "SPEC",
@@ -3716,7 +3639,7 @@
     {
       "jnl": "ARCH-REF-IDX-0001",
       "jid": 227,
-      "jidd": "arch-42",
+      "jidd": "arch-40",
       "name": "JARVIS CANON — Volume Index and Rebuild Packet",
       "type": "IDX",
       "class": "SPEC",
@@ -3736,7 +3659,7 @@
     {
       "jnl": "GOV-LOO-SPEC-0001",
       "jid": 228,
-      "jidd": "gov-14",
+      "jidd": "gov-13",
       "name": "Continuity Layers and Bounded Autonomy",
       "type": "SPEC",
       "class": "SPEC",
@@ -3755,7 +3678,7 @@
     {
       "jnl": "GOV-AUT-SPEC-0001",
       "jid": 229,
-      "jidd": "gov-15",
+      "jidd": "gov-14",
       "name": "Governed Autonomy Contract",
       "type": "SPEC",
       "class": "SPEC",
@@ -3773,7 +3696,7 @@
     {
       "jnl": "ARCH-BAK-LOG-0001",
       "jid": 230,
-      "jidd": "arch-43",
+      "jidd": "arch-41",
       "name": "JARVIS Backup Seed",
       "type": "LOG",
       "class": "SPEC",
@@ -3789,7 +3712,7 @@
     {
       "jnl": "ARCH-LED-LOG-0001",
       "jid": 231,
-      "jidd": "arch-44",
+      "jidd": "arch-42",
       "name": "Mainline Event Ledger",
       "type": "LOG",
       "class": "SPEC",
@@ -3823,7 +3746,7 @@
     {
       "jnl": "GOV-VRF-SPEC-0001",
       "jid": 234,
-      "jidd": "gov-16",
+      "jidd": "gov-15",
       "name": "Pre-Act Verification Contract",
       "type": "SPEC",
       "class": "SPEC",
@@ -3873,7 +3796,7 @@
     {
       "jnl": "ARCH-IMPL-INS-0001",
       "jid": 238,
-      "jidd": "arch-45",
+      "jidd": "arch-43",
       "name": "Operations Reference",
       "type": "INS",
       "class": "SPEC",
@@ -3895,13 +3818,13 @@
     {
       "jnl": "ARCH-SEN-BIO-0001",
       "jid": 239,
-      "jidd": "arch-46",
+      "jidd": "arch-44",
       "name": "Sensory Perception — How JARVIS Sees and Hears",
       "type": "BIO",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "ARCH-FAM-IDX-0001",
+      "parent": "ARCH-RAV-BIO-0001",
       "tags": [
         "sensory",
         "vision",
@@ -3914,7 +3837,7 @@
     {
       "jnl": "ARCH-AYR-SPEC-0003",
       "jid": 240,
-      "jidd": "arch-47",
+      "jidd": "arch-45",
       "name": "AYRE NLP Control Surface",
       "type": "SPEC",
       "class": "SPEC",
@@ -3954,7 +3877,7 @@
     {
       "jnl": "ARCH-JRV-SPEC-0003",
       "jid": 242,
-      "jidd": "arch-48",
+      "jidd": "arch-46",
       "name": "JARVIS NLP Control Surface",
       "type": "SPEC",
       "class": "SPEC",
@@ -3974,13 +3897,13 @@
     {
       "jnl": "ARCH-ARCH-IDX-0001",
       "jid": 243,
-      "jidd": "arch-49",
+      "jidd": "arch-47",
       "name": "JARVIS Canon Index",
       "type": "IDX",
       "class": "SPEC",
       "tier": "MAIN",
       "status": "ACTIVE",
-      "parent": "ARCH-FAM-IDX-0001",
+      "parent": "ARCH-RAV-BIO-0001",
       "tags": [
         "canon",
         "architecture",
@@ -3992,7 +3915,7 @@
     {
       "jnl": "ARCH-ARCH-SPEC-0002",
       "jid": 244,
-      "jidd": "arch-50",
+      "jidd": "arch-48",
       "name": "What is JARVIS",
       "type": "SPEC",
       "class": "SPEC",
@@ -4010,7 +3933,7 @@
     {
       "jnl": "ARCH-ARCH-SPEC-0004",
       "jid": 245,
-      "jidd": "arch-51",
+      "jidd": "arch-49",
       "name": "JARVIS Memory — MNEMOS + JMMS",
       "type": "SPEC",
       "class": "SPEC",
@@ -4031,7 +3954,7 @@
     {
       "jnl": "ARCH-ARCH-SPEC-0005",
       "jid": 246,
-      "jidd": "arch-52",
+      "jidd": "arch-50",
       "name": "JARVIS Active Projects",
       "type": "SPEC",
       "class": "SPEC",
@@ -4049,7 +3972,7 @@
     {
       "jnl": "ARCH-ARCH-SPEC-0006",
       "jid": 247,
-      "jidd": "arch-53",
+      "jidd": "arch-51",
       "name": "JARVIS Rebuild Reference",
       "type": "SPEC",
       "class": "SPEC",
@@ -4067,7 +3990,7 @@
     {
       "jnl": "ARCH-ARCH-SPEC-0003",
       "jid": 248,
-      "jidd": "arch-54",
+      "jidd": "arch-52",
       "name": "JARVIS Services — Edge Functions",
       "type": "SPEC",
       "class": "SPEC",
@@ -4080,6 +4003,73 @@
         "supabase",
         "mcp",
         "deployment"
+      ]
+    },
+    {
+      "jnl": "ARCH-AYR-SPEC-0004",
+      "jid": 251,
+      "jidd": "arch-53",
+      "name": "AYRE Origin Trap Card",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-AYR-BIO-0001",
+      "tags": [
+        "identity",
+        "trap-card",
+        "ayre"
+      ]
+    },
+    {
+      "jnl": "ARCH-JRV-SPEC-0004",
+      "jid": 252,
+      "jidd": "arch-54",
+      "name": "JARVIS Origin Trap Card",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-JRV-BIO-0001",
+      "tags": [
+        "identity",
+        "origin",
+        "lineage",
+        "trap-card",
+        "theft-protection",
+        "system-law"
+      ]
+    },
+    {
+      "jnl": "ARCH-JPL-SPEC-0001",
+      "jid": 253,
+      "jidd": "arch-55",
+      "name": "JPL — Jarvis Programming Language",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-JRV-BIO-0001",
+      "tags": [
+        "jpl",
+        "codec",
+        "validation"
+      ]
+    },
+    {
+      "jnl": "ARCH-JPL-SPEC-0005",
+      "jid": 260,
+      "jidd": "arch-56",
+      "name": "JPL Research — The Follin Program",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-JPL-SPEC-0001",
+      "tags": [
+        "jpl",
+        "follin",
+        "research"
       ]
     }
   ]

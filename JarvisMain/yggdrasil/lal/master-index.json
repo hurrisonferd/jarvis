@@ -154,6 +154,18 @@
       "state": "active"
     },
     {
+      "object": "AYRE Origin Trap Card",
+      "jnl": "ARCH-AYR-SPEC-0004",
+      "location": "JarvisMain/Architecture/identity/ayre/AYRE-TRAP-CARD.md",
+      "tags": [
+        "identity",
+        "trap-card",
+        "ayre"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "JARVIS Backup Seed",
       "jnl": "ARCH-BAK-LOG-0001",
       "location": "JarvisMain/Architecture/rebuild/jarvis-backup-seed.md",
@@ -161,20 +173,6 @@
         "backup",
         "rebuild",
         "canonical"
-      ],
-      "anchors": [],
-      "state": "active"
-    },
-    {
-      "object": "Family Registry",
-      "jnl": "ARCH-FAM-IDX-0001",
-      "location": "JarvisMain/Implementation/active/ARCHFAMIDX-061126-0001-FAMILY-REGISTRY.md",
-      "tags": [
-        "families",
-        "containers",
-        "semantics",
-        "terminology",
-        "index"
       ],
       "anchors": [],
       "state": "active"
@@ -246,7 +244,7 @@
     {
       "object": "Conversational History Objects",
       "jnl": "ARCH-JC-JIP-0001",
-      "location": "JarvisMain/Implementation/task/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
+      "location": "JarvisMain/Architecture/specs/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
       "tags": [
         "memory",
         "continuity",
@@ -266,23 +264,6 @@
         "semantic",
         "core",
         "architecture",
-        "dex"
-      ],
-      "anchors": [],
-      "state": "active"
-    },
-    {
-      "object": "Identity & Serial Standard \u2014 JID / JIDD / JNL / name",
-      "jnl": "ARCH-JD-JIP-0001",
-      "location": "JarvisMain/Implementation/active/ARCHJDJIP-061126-0001-JD-SERIAL-FORMAT-ALIAS-STANDARD.md",
-      "tags": [
-        "jid",
-        "jidd",
-        "jnl",
-        "identity",
-        "serial",
-        "format",
-        "standard",
         "dex"
       ],
       "anchors": [],
@@ -365,7 +346,7 @@
     {
       "object": "Global Mirror \u2014 Earned Omnivision (JMS)",
       "jnl": "ARCH-JMS-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+      "location": "JarvisMain/Architecture/specs/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
       "tags": [
         "jms",
         "mirror",
@@ -399,6 +380,30 @@
         "naming",
         "core",
         "architecture"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JPL \u2014 Jarvis Programming Language",
+      "jnl": "ARCH-JPL-SPEC-0001",
+      "location": "JarvisMain/Architecture/JPL-0001.md",
+      "tags": [
+        "jpl",
+        "codec",
+        "validation"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JPL Research \u2014 The Follin Program",
+      "jnl": "ARCH-JPL-SPEC-0005",
+      "location": "JarvisMain/Architecture/JPL-SPEC-0005.md",
+      "tags": [
+        "jpl",
+        "follin",
+        "research"
       ],
       "anchors": [],
       "state": "active"
@@ -443,6 +448,21 @@
         "stream",
         "control",
         "personality"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Origin Trap Card",
+      "jnl": "ARCH-JRV-SPEC-0004",
+      "location": "JarvisMain/Architecture/identity/jarvis/JARVIS-TRAP-CARD.md",
+      "tags": [
+        "identity",
+        "origin",
+        "lineage",
+        "trap-card",
+        "theft-protection",
+        "system-law"
       ],
       "anchors": [],
       "state": "active"
@@ -593,7 +613,9 @@
         "raven",
         "authority",
         "family",
-        "founder"
+        "founder",
+        "trap-card",
+        "origin"
       ],
       "anchors": [],
       "state": "active"
@@ -679,7 +701,7 @@
     {
       "object": "Star Logs",
       "jnl": "ARCH-SL-JIP-0001",
-      "location": "JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md",
+      "location": "JarvisMain/Architecture/specs/ARCHSLJIP-061126-0001-STAR-LOGS.md",
       "tags": [
         "sl",
         "star-log",
@@ -1734,21 +1756,6 @@
       "state": "active"
     },
     {
-      "object": "Chorus Principle",
-      "jnl": "GOV-CHO-JD-0001",
-      "location": "JarvisMain/Implementation/active/GOVCHOJD-061126-0001-CHORUS-PRINCIPLE.md",
-      "tags": [
-        "chorus",
-        "council",
-        "halo",
-        "epistemics",
-        "governance",
-        "plurality"
-      ],
-      "anchors": [],
-      "state": "active"
-    },
-    {
       "object": "Constraints",
       "jnl": "GOV-CON-CORE-0001",
       "location": "JarvisMain/Architecture/constraints.md",
@@ -1776,7 +1783,7 @@
     {
       "object": "G-Seat Charter",
       "jnl": "GOV-GSC-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+      "location": "JarvisMain/Architecture/specs/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
       "tags": [
         "governance",
         "charter",
@@ -1792,7 +1799,7 @@
     {
       "object": "Knowledge Routing Index (MIMIR)",
       "jnl": "GOV-KR-SPEC-0001",
-      "location": "JarvisMain/Implementation/active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
+      "location": "JarvisMain/Architecture/specs/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
       "tags": [
         "knowledge",
         "routing",
@@ -1807,7 +1814,7 @@
     {
       "object": "Layer Contract",
       "jnl": "GOV-LC-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
+      "location": "JarvisMain/Architecture/specs/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
       "tags": [
         "governance",
         "layers",
@@ -1848,7 +1855,7 @@
     {
       "object": "Preserved Contradiction Objects (P-D)",
       "jnl": "GOV-PD-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
+      "location": "JarvisMain/Architecture/specs/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md",
       "tags": [
         "governance",
         "contradiction",
@@ -1862,7 +1869,7 @@
     {
       "object": "The Pulse \u2014 Companion Heartbeat",
       "jnl": "GOV-PLS-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/GOVPLSSPEC-061326-0001-THE-PULSE.md",
+      "location": "JarvisMain/Architecture/specs/GOVPLSSPEC-061326-0001-THE-PULSE.md",
       "tags": [
         "pulse",
         "heartbeat",
@@ -2307,7 +2314,7 @@
     {
       "object": "Continuity Engine \u2014 the Pulse's brain (P43 implementation)",
       "jnl": "IMPL-CNT-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md",
+      "location": "JarvisMain/Architecture/specs/IMPLCNTSPEC-061826-0001-CONTINUITY-ENGINE.md",
       "tags": [
         "continuity",
         "pulse",
@@ -2325,7 +2332,7 @@
     {
       "object": "Dex Connector & Access Tiers",
       "jnl": "IMPL-DEX-SPEC-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-DEX-0001-AccessTiers-060926.md",
+      "location": "JarvisMain/Architecture/specs/JIP-DEX-0001-AccessTiers-060926.md",
       "tags": [
         "dex",
         "connector",
@@ -2352,7 +2359,7 @@
     {
       "object": "JFS Formatting Standard",
       "jnl": "IMPL-FMT-SPEC-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-FMT-0001-FormattingStandard-060926.md",
+      "location": "JarvisMain/Architecture/specs/JIP-FMT-0001-FormattingStandard-060926.md",
       "tags": [
         "format",
         "ids",
@@ -2431,7 +2438,7 @@
     {
       "object": "Implemented Stream",
       "jnl": "IMPL-IMP-LOG-0001",
-      "location": "JarvisMain/Implementation/Implemented",
+      "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
         "log"
@@ -2442,7 +2449,7 @@
     {
       "object": "Inactive Stream",
       "jnl": "IMPL-INA-LOG-0001",
-      "location": "JarvisMain/Implementation/Inactive",
+      "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
         "log"
@@ -2525,7 +2532,7 @@
     {
       "object": "JIP-0608 Series",
       "jnl": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active",
+      "location": "JarvisMain/Implementation/IndexSummary",
       "tags": [
         "implementation",
         "jip"
@@ -2576,7 +2583,7 @@
     {
       "object": "Modularity & Extensibility \u2014 Field Plan + Gold Law Proposal",
       "jnl": "IMPL-MOD-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md",
+      "location": "JarvisMain/Architecture/specs/IMPLMODSPEC-061626-0001-MODULARITY-EXTENSIBILITY-LAW.md",
       "tags": [
         "modularity",
         "extensibility",
@@ -2678,7 +2685,7 @@
     {
       "object": "MCP Tool Roadmap & Auto-Tracking Pipeline",
       "jnl": "IMPL-TLR-SPEC-0001",
-      "location": "JarvisMain/Implementation/task/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
+      "location": "JarvisMain/Architecture/specs/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md",
       "tags": [
         "mcp",
         "tools",
@@ -2943,23 +2950,6 @@
       "location": "JarvisSide/Projects/MusicOS/BIO/MUSICOSBIO-061026-0001-MUSICOS.md",
       "tags": [
         "project"
-      ],
-      "anchors": [],
-      "state": "active"
-    },
-    {
-      "object": "MusicOS \u2014 Procedural Musical Identity System",
-      "jnl": "PROJ-MOSC-JD-0001",
-      "location": "JarvisSide/Projects/MusicOS/JD/MUSICOSJD-061026-0001-MUSICOS-PROCEDURAL-MUSICAL-IDENTITY-SYSTEM.md",
-      "tags": [
-        "music",
-        "procedural",
-        "motif",
-        "gold-laws",
-        "suno",
-        "composition",
-        "identity",
-        "generative"
       ],
       "anchors": [],
       "state": "active"

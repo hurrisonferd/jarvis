@@ -1,6 +1,6 @@
 # Media Lens — media linked into the graph
 
-_generated: 2026-06-25T01:31:27Z (2026-06-24 21:31 EDT) · from `media-links.json` (declared, git-first) + `AUDIO-FEATURES.json`. Every link is validated against the registry — dangling links are flagged, never silent._
+_generated: 2026-06-25T22:07:57Z (2026-06-25 18:07 EDT) · from `media-links.json` (declared, git-first) + `AUDIO-FEATURES.json`. Every link is validated against the registry — dangling links are flagged, never silent._
 
 **11 media items · 5 images · 6 audio · linked into the graph.**
 
@@ -17,11 +17,11 @@ _generated: 2026-06-25T01:31:27Z (2026-06-24 21:31 EDT) · from `media-links.jso
 | track | links | BPM · key · mood |
 |---|---|---|
 | `Immediate Launch.mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | 136.0 · B major · driving, high-energy, bright |
-| `Neon Breakwater.mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | 123.0 · F# minor · driving, high-energy, bright |
+| `Neon Breakwater.mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | not yet heard |
 | `Victory Drive.mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | 136.0 · F# minor · driving, high-energy, bright |
-| `The Word.mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | 129.2 · A major · driving, high-energy, bright |
-| `Am I Inside the TV.mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | 112.3 · D major · mid-tempo, high-energy, bright |
-| `This Game Sucks, But That Music...mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | 143.6 · C minor · driving, high-energy, bright |
+| `The Word.mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | not yet heard |
+| `Am I Inside the TV.mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | not yet heard |
+| `This Game Sucks, But That Music...mp3` | `PROJ-MOSC-BIO-0001` (MusicOS) | not yet heard |
 
 _Media is now navigable: a track or image resolves to the project/world it belongs to. Refine the links in `JarvisSide/Media/media-links.json`; the lens re-validates on reseed._
 

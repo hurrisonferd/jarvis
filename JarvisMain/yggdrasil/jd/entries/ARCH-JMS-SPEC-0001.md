@@ -11,8 +11,8 @@ jnl: ARCH-JMS-SPEC-0001
 seq: 138
 status: TASK
 created: 2026-06-13
-updated: 2026-06-24
-source: JarvisMain/Implementation/task/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md
+updated: 2026-06-25
+source: JarvisMain/Architecture/specs/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md
 related: []
 references: []
 tags: [jms, mirror, omnivision, global, freshness, reachability, pulse, nemesis]
