@@ -33,10 +33,11 @@ jobs:
         env:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
         run: |
-          # Install psql client for Supabase PostgreSQL
+          if [ -z "$DATABASE_URL" ]; then
+            echo "⚠ DATABASE_URL not set — skipping migrations (set the secret in repo settings)"
+            exit 0
+          fi
           sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client > /dev/null 2>&1
-          # Apply any migration files not yet in schema_migrations.
-          # SQL is fully idempotent (ALTER TABLE ADD COLUMN IF NOT EXISTS, CREATE INDEX IF NOT EXISTS).
           for f in supabase/migrations/*.sql; do
             NAME="${f%.sql}"
             EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null)
