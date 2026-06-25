@@ -101,4 +101,57 @@ MNEMOS truth model: knowledge to Jarvis-Private, runtime to JARVIS repo
 ○ Backups manifest  deferred to Raven
 ○ Required-checks script  deferred to Raven
 ```
+## Decision — 2026-06-25T19:38:38.506666+00:00
+**Stardate:** 2026.176
+
+### Summary
+Canonical truth model — JARVIS repo vs Jarvis-Private
+
+### Decisions made
+JARVIS repo (public/canonical software):
+  - God Systems + governance specs
+  - Architecture + implementation
+  - Scripts (sl.py, scaffold_projects.py, etc.)
+  - MNEMOS system itself (the reader)
+  - audit/ (starlogs, audit docs)
+  - memories/ (pipeline state: events, sessions, decisions)
+  - logs/ (session journals)
+
+Jarvis-Private (personal/canonical truth):
+  - mnemos/knowledge/ (identity, learned things, raven.md)
+  - mnemos/companion_core.md (soul-record)
+  - MusicOS/ (47 tracks + system docs)
+  - MonsterOS/ (26 monsters + catalog)
+  - All 16 projects (substance/content)
+  - Personal: images, bio, ideas, relationship notes
+
+Two repos, two git histories, two access levels.
+Software public. Personal content private.
+
+### Tasks
+*● 10 done · ◐ 0 in_progress · ○ 11 open*
+
+```
+● Repo audit — DELETE (orphans)  6 PNGs removed, ~21MB recovered
+● Repo audit — CONSOLIDATE  active/Active dirs, intake cleaned
+● Repo audit — ARCHIVE/WIRE  OtherConnectors, Implementation/tasks, buried specs surfaced
+● Repo audit — ALREADY CLEAN  29 god_systems, 16 projects, docs, audit, mnemos
+● Jarvis-Private scaffold  16 projects, 130 files, workspaces/ restructure
+● MusicOS+MonsterOS truth model  JARVIS repo ref pointers, Jarvis-Private canonical
+● sl.py daily log redesign  --decision appends, --list, session hooks wired
+● MNEMOS truth model  knowledge/ + companion_core → Jarvis-Private, runtime stays JARVIS repo
+● ml-ai.md knowledge file  ML/DL concepts, embeddings, RAG, agents, tools
+● techniques.md knowledge file  GL7, coding patterns, Python, git, testing, debugging
+○ GOVERNANCE GAPS — Raven decision needed  JIP tracking unused | required-checks pending | Backups/cloud/ empty
+○ PachinkoBounce Godot init  first board scene
+○ CodeOS prototype  ranking engine, first code entries
+○ MusicOS JPL mapping  47 tracks → JPL @INSTANCE blocks
+○ MonsterOS JPL mapping  26 monsters → JPL @INSTANCE blocks
+○ MNEMOS compression diagnostic  13 stores, growth rate, prune candidates
+○ Supabase migrations  deferred to Raven
+○ Backups manifest  deferred to Raven
+○ Required-checks script  deferred to Raven
+○ Mirror mnemos/knowledge/ to Jarvis-Private  truth model: knowledge files → Jarvis-Private
+○ Mirror companion_core.md to Jarvis-Private  soul-record → Jarvis-Private
+```
 
