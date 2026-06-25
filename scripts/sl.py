@@ -97,6 +97,22 @@ def _parse_daily_blocks(text):
         blocks.append((ts, summary, decisions, tasks))
     return blocks
 
+def _split_title_notes(line):
+    """Split a task line into (title, notes).
+    Only split on '  ' (double-space) — unambiguous.
+    Em-dashes are part of the title. Notes only present if double-space present."""
+    rest = line[2:].strip()
+    if "  " in rest:
+        parts = rest.split("  ", 1)
+        return parts[0].strip(), parts[1].strip()
+    return rest, ""
+
+def _task_key(task):
+    """Stable key for deduplication: title only.
+    Multiple appearances of the same task title collapse into one — last seen wins."""
+    title = task.get("title", "")
+    return title.strip()
+
 def _parse_task_block(block_text):
     """Parse a task code block into task dicts."""
     icon_map = {"●": "done", "◐": "in_progress", "○": "todo"}
@@ -108,16 +124,12 @@ def _parse_task_block(block_text):
             continue
         if len(line) < 3 or line[0] not in icon_map:
             continue
-        icon = line[0]
-        rest = line[2:].strip()
-        tokens = rest.split()
-        if not tokens:
-            continue
-        if tokens[-1].upper().rstrip(".").replace("_", "") in STATUS_VALUES:
+        title, notes = _split_title_notes(line)
+        # Check if last token is a status keyword — if so, strip it from title
+        tokens = title.split()
+        if tokens and tokens[-1].upper().rstrip(".").replace("_", "") in STATUS_VALUES:
             title = " ".join(tokens[:-1]) if len(tokens) > 1 else tokens[0]
-        else:
-            title = rest
-        tasks.append({"title": title, "status": icon_map.get(icon, "todo"), "notes": ""})
+        tasks.append({"title": title, "status": icon_map.get(line[0], "todo"), "notes": notes})
     return tasks
 
 def parse_tasks(path):
@@ -127,11 +139,12 @@ def parse_tasks(path):
     # Check if it's a DAILY log (has multiple ## Decision blocks)
     if "## Decision —" in text:
         blocks = _parse_daily_blocks(text)
-        # Collect all tasks from all blocks, deduplicate by title (prefer last seen)
+        # Collect all tasks from all blocks, deduplicate by _task_key (prefer last seen)
         seen = {}
         for _, _, _, tasks in blocks:
             for t in tasks:
-                seen[t["title"]] = t
+                key = _task_key(t)
+                seen[key] = t
         return list(seen.values())
     # Old single-block format
     m = re.search(r"```\n(.*?)\n```", text, re.DOTALL)
