@@ -1,0 +1,2190 @@
+{
+  "note": "MusicOS Cognitive Distillation \u2014 primitives, Suno grammar, Famistudio NSF, Wave correlates. Source: GPT-era MusicOS proto-OS (CNS/rail/weight theory).",
+  "catalog": {
+    "total": 25,
+    "with_prompts": 19,
+    "audio_only": 6,
+    "series": {
+      "Unbreakable Momentum": 11,
+      "Syncopation Engine": 7
+    },
+    "rgb_distribution": {
+      "R": 14,
+      "G": 10,
+      "B": 1
+    }
+  },
+  "issues": [
+    {
+      "track": "Boundary at Speed",
+      "issue": "audio_only",
+      "note": "no prompt \u2014 audio analysis only"
+    },
+    {
+      "track": "Eigenrail Pressure",
+      "issue": "audio_only",
+      "note": "no prompt \u2014 audio analysis only"
+    },
+    {
+      "track": "Golden Drive",
+      "issue": "audio_only",
+      "note": "no prompt \u2014 audio analysis only"
+    },
+    {
+      "track": "Golden Spin",
+      "issue": "audio_only",
+      "note": "no prompt \u2014 audio analysis only"
+    },
+    {
+      "track": "Jesus, the First Stand User",
+      "issue": "audio_only",
+      "note": "no prompt \u2014 audio analysis only"
+    },
+    {
+      "track": "Steel Ball Run",
+      "issue": "audio_only",
+      "note": "no prompt \u2014 audio analysis only"
+    }
+  ],
+  "series_catalog": {
+    "Unbreakable Momentum": [
+      "DON\u2019T ASK PERMISSION",
+      "ELASTIC UNDER FIRE",
+      "ELASTIC UNDER FIRE(B-Side)",
+      "FORWARD IS A DECISION",
+      "MANY VOICES, ONE DIRECTION",
+      "PATTERN STILL BREATHES",
+      "QUIET CORRECTIONS",
+      "RUBBER HORIZON",
+      "UNBREAKABLE",
+      "WE KEEP MOVING",
+      "WILL HOLDS SHAPE"
+    ],
+    "Syncopation Engine": [
+      "Elastic Acceleration",
+      "First Extreme Peak",
+      "Groove Pocket Reset",
+      "Immediate Launch",
+      "Re-Acceleration",
+      "SNAP-BACK ENGINE",
+      "Victory Drive"
+    ],
+    "Neon Race": []
+  },
+  "rgb_catalog": {
+    "R": [
+      "Boundary at Speed",
+      "DON\u2019T ASK PERMISSION",
+      "ELASTIC UNDER FIRE",
+      "ELASTIC UNDER FIRE(B-Side)",
+      "Eigenrail Pressure",
+      "FORWARD IS A DECISION",
+      "Golden Drive",
+      "Golden Spin",
+      "Jesus, the First Stand User",
+      "PATTERN STILL BREATHES",
+      "RUBBER HORIZON",
+      "Space Racer",
+      "Steel Ball Run",
+      "UNBREAKABLE",
+      "WILL HOLDS SHAPE"
+    ],
+    "G": [
+      "Elastic Acceleration",
+      "First Extreme Peak",
+      "Groove Pocket Reset",
+      "Immediate Launch",
+      "MANY VOICES, ONE DIRECTION",
+      "QUIET CORRECTIONS",
+      "Re-Acceleration",
+      "SNAP-BACK ENGINE",
+      "Victory Drive"
+    ],
+    "B": [
+      "WE KEEP MOVING"
+    ]
+  },
+  "physics_frequency": {
+    "unbreakable": 11,
+    "resolve": 11,
+    "loop": 9,
+    "roll": 9,
+    "propulsion": 9,
+    "pocket": 6,
+    "authority": 5,
+    "multiplicity": 5,
+    "kinetic": 5,
+    "layering": 4,
+    "bounce": 3,
+    "unwavering": 2,
+    "subdivision precision": 2,
+    "elastic bounce": 2,
+    "phase": 2,
+    "rubber": 2,
+    "grid": 2,
+    "gravity groove": 2,
+    "declarative motif": 1,
+    "elastic movement": 1,
+    "cohesion": 1,
+    "breath": 1,
+    "re-acceleration": 1,
+    "snap-back": 1,
+    "tension push": 1,
+    "rail authority": 1,
+    "circular bass": 1,
+    "weight": 1,
+    "mass": 1,
+    "fixed grid": 1,
+    "inevitability": 1,
+    "forward momentum": 1,
+    "space": 1,
+    "rubber-on-fire": 1,
+    "surge": 1
+  },
+  "framework": {
+    "Unbreakable Momentum": {
+      "abbr": "UM",
+      "bpm_range": [
+        78,
+        88
+      ],
+      "keys": [
+        "E minor",
+        "B minor",
+        "E major",
+        "? minor"
+      ],
+      "rgb_bias": "R",
+      "description": "Physics of persistence. Minimal harmony, maximal groove. The track moves because it chooses to.",
+      "physics_core": [
+        "rail authority",
+        "gravity groove",
+        "inevitability",
+        "elastic bounce"
+      ]
+    },
+    "Syncopation Engine": {
+      "abbr": "SE",
+      "bpm_range": [
+        98,
+        106
+      ],
+      "keys": [
+        "B minor",
+        "F# minor",
+        "C# minor",
+        "F minor"
+      ],
+      "rgb_bias": "G",
+      "description": "Groove as mechanical engineering. Dry kit, elastic bass, subdivision as propulsion.",
+      "physics_core": [
+        "subdivision precision",
+        "snap-back",
+        "elastic bass",
+        "groove density"
+      ]
+    },
+    "Neon Race": {
+      "abbr": "NR",
+      "bpm_range": [
+        70,
+        75
+      ],
+      "keys": [
+        "F minor",
+        "C# minor"
+      ],
+      "rgb_bias": "B",
+      "description": "Steel blue gravity groove. Dense mechanical propulsion with disciplined digital precision.",
+      "physics_core": [
+        "gravity groove",
+        "fixed grid",
+        "rail authority",
+        "mechanical propulsion"
+      ]
+    }
+  },
+  "atoms": {
+    "rail_theory": {
+      "description": "Rail = predictable structural repetition. Weight = body-locked groove mass.",
+      "constraints": {
+        "rail_minimum": "Rail must be present in all tracks \u2014 identity anchor",
+        "contrast_gradual": "Dynamic contrast must be gradual \u2014 CNS-safe",
+        "no_sudden_spikes": "No sudden dynamic spikes \u2014 autism-safe default",
+        "density_phases_in": "Density layering must phase in \u2014 not slam"
+      },
+      "failure_modes": {
+        "rail_drops": "anxiety risk",
+        "contrast_drops": "boredom risk",
+        "repetition_drops": "identity instability risk"
+      }
+    },
+    "dual_layer_prompt": {
+      "description": "Max Metric (structural) + Art Prompt (theme/color). Baked together.",
+      "max_metric_layer": "Groove density, rail authority, harmonic gravity, spatial density, subdivision behavior, stage presence weight",
+      "art_layer": "Emotional tone, visual metaphor, color weighting, environmental space, symbolic gravity",
+      "rule": "Max Metric controls the skeleton. Art Prompt controls the nervous system tone. They must not contradict."
+    },
+    "cns_safe_constraints": {
+      "no_vocals": 11,
+      "no_drops": 11,
+      "no_chaos": 11,
+      "instrumental_only": 11
+    },
+    "top_physics": {
+      "unbreakable": 11,
+      "propulsion": 9,
+      "pocket": 6,
+      "kinetic": 5,
+      "bounce": 3,
+      "unwavering": 2,
+      "subdivision precision": 2,
+      "elastic bounce": 2,
+      "rubber": 2,
+      "grid": 2,
+      "gravity groove": 2,
+      "elastic movement": 1,
+      "breath": 1,
+      "re-acceleration": 1,
+      "snap-back": 1
+    },
+    "top_colors": {
+      "forward": 17,
+      "groove": 17,
+      "propulsion": 9,
+      "elastic": 9,
+      "deep": 8,
+      "warm": 7,
+      "subdivision": 7,
+      "neon race": 6,
+      "pocket": 6,
+      "red propulsion": 5,
+      "kinetic": 5,
+      "dense": 3
+    },
+    "bpm_range_observed": [
+      86.1,
+      172.3
+    ],
+    "bpm_mean_observed": 122.1,
+    "note": "Extracted from corpus. These atoms encode the MusicOS proto-OS \u2014 not a finished system, but the living creative grammar that produced the tracks."
+  },
+  "tracks": {
+    "Boundary at Speed.mp3": {
+      "title": "Boundary at Speed",
+      "series": null,
+      "series_abbr": null,
+      "bpm": 83.4,
+      "key": "E minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [],
+        "G_groove": [],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: []",
+      "physics": [],
+      "genre_tags": [],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": false,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "83 BPM E minor | dark warm synth-rock, heavy bass",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 91095,
+        "pattern_length_bars": 1,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "continuous groove"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "weight/mass",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "weight/mass"
+      },
+      "prompt_excerpt": null,
+      "audio": {
+        "duration_sec": 266.8,
+        "bpm": 83.4,
+        "key": "E minor",
+        "energy_rms": 0.1828,
+        "brightness_hz": 2411.0,
+        "onset_density": 3.62,
+        "dynamic_range_db": 9.1,
+        "mood": "slow, high-energy, warm"
+      }
+    },
+    "DON\u2019T ASK PERMISSION.mp3": {
+      "title": "DON\u2019T ASK PERMISSION",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 86.0,
+      "key": "E minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "forward"
+        ],
+        "G_groove": [
+          "groove"
+        ],
+        "B_range": [
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Power: forward",
+      "physics": [
+        "unbreakable",
+        "loop",
+        "declarative motif",
+        "authority",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock | 86 BPM E minor | dark warm synth-rock, heavy bass | unbreakable, loop, declarative motif | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 93935,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 5 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "weight/mass",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "weight/mass"
+      },
+      "prompt_excerpt": "track 7 of Unbreakable Momentum\nInstrumental-only synth-rock track at 86 BPM driven by a confident, forward-moving groove that feels decisive and unhesitating, Drums are tight and assertive\u2014driving kick, firm snare, and steady hi-hats with subtle syncopation that adds motion without tension, Bass carries a strong, repeating line that feels inevitable, reinforcing momentum rather than competing with it, Guitars and synths use focused, midrange tones, looping short, declarative motifs that project",
+      "audio": {
+        "duration_sec": 222.6,
+        "bpm": 86.1,
+        "key": "E minor",
+        "energy_rms": 0.1629,
+        "brightness_hz": 2203.0,
+        "onset_density": 3.11,
+        "dynamic_range_db": 8.8,
+        "mood": "slow, high-energy, warm"
+      }
+    },
+    "ELASTIC UNDER FIRE(B-Side).mp3": {
+      "title": "ELASTIC UNDER FIRE(B-Side)",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 84.0,
+      "key": "E minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "dense",
+          "forward"
+        ],
+        "G_groove": [
+          "groove"
+        ],
+        "B_range": [
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Power: dense+forward",
+      "physics": [
+        "unbreakable",
+        "roll",
+        "loop",
+        "layering",
+        "multiplicity",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock",
+        "funk-rock",
+        "synth-rock / funk-rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock, funk-rock | 84 BPM E minor | dark warm synth-rock, heavy bass | unbreakable, roll, loop | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 91750,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 6 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "pocket/groove",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "pocket/groove"
+      },
+      "prompt_excerpt": "track 3 of Unbreakable Momentum\nInstrumental-only synth-rock / funk-rock track at 84 BPM built around a forward-driving groove that feels stretched but unbroken, Drums stay tightly locked\u2014driving kick, confident snare, and syncopated hi-hats adding rhythmic tension without increasing speed, Bass pushes a resilient, repeating line that absorbs pressure and converts it into motion, Guitars and synths introduce slightly sharper attacks and denser phrasing, layering short, loopable motifs that sugge",
+      "audio": {
+        "duration_sec": 260.2,
+        "bpm": 112.3,
+        "key": "E minor",
+        "energy_rms": 0.1464,
+        "brightness_hz": 2859.0,
+        "onset_density": 4.09,
+        "dynamic_range_db": 12.9,
+        "mood": "mid-tempo, high-energy, bright"
+      }
+    },
+    "ELASTIC UNDER FIRE.mp3": {
+      "title": "ELASTIC UNDER FIRE",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 84.0,
+      "key": "E major",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "dense",
+          "forward"
+        ],
+        "G_groove": [
+          "groove"
+        ],
+        "B_range": [
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Power: dense+forward",
+      "physics": [
+        "unbreakable",
+        "roll",
+        "loop",
+        "layering",
+        "multiplicity",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock",
+        "funk-rock",
+        "synth-rock / funk-rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock, funk-rock | 84 BPM E major | dark warm synth-rock, heavy bass | unbreakable, roll, loop | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 91750,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 6 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "weight/mass",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "weight/mass"
+      },
+      "prompt_excerpt": "track 3 of Unbreakable Momentum\nInstrumental-only synth-rock / funk-rock track at 84 BPM built around a forward-driving groove that feels stretched but unbroken, Drums stay tightly locked\u2014driving kick, confident snare, and syncopated hi-hats adding rhythmic tension without increasing speed, Bass pushes a resilient, repeating line that absorbs pressure and converts it into motion, Guitars and synths introduce slightly sharper attacks and denser phrasing, layering short, loopable motifs that sugge",
+      "audio": {
+        "duration_sec": 211.9,
+        "bpm": 86.1,
+        "key": "E major",
+        "energy_rms": 0.2373,
+        "brightness_hz": 2963.0,
+        "onset_density": 2.47,
+        "dynamic_range_db": 12.0,
+        "mood": "slow, high-energy, bright"
+      }
+    },
+    "Eigenrail Pressure.mp3": {
+      "title": "Eigenrail Pressure",
+      "series": null,
+      "series_abbr": null,
+      "bpm": 123.0,
+      "key": "D major",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [],
+        "G_groove": [],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: []",
+      "physics": [],
+      "genre_tags": [],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": false,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "123 BPM D major | dark warm synth-rock, heavy bass",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 134349,
+        "pattern_length_bars": 1,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "continuous groove"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "driving/propulsion",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "driving/propulsion"
+      },
+      "prompt_excerpt": null,
+      "audio": {
+        "duration_sec": 300.6,
+        "bpm": 123.0,
+        "key": "D major",
+        "energy_rms": 0.2285,
+        "brightness_hz": 2766.0,
+        "onset_density": 2.12,
+        "dynamic_range_db": 9.4,
+        "mood": "driving, high-energy, bright"
+      }
+    },
+    "Elastic Acceleration.mp3": {
+      "title": "Elastic Acceleration",
+      "series": "Syncopation Engine",
+      "series_abbr": "SE",
+      "bpm": 100.0,
+      "key": "B minor",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "warm",
+          "propulsion",
+          "forward"
+        ],
+        "G_groove": [
+          "neon",
+          "neon race",
+          "elastic",
+          "groove",
+          "subdivision",
+          "dry"
+        ],
+        "B_range": [
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Groove: warm+propulsion",
+      "physics": [
+        "propulsion",
+        "elastic movement"
+      ],
+      "genre_tags": [
+        "synthpop",
+        "synthpop rock",
+        "dry kit",
+        "neon race"
+      ],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synthpop, synthpop rock | 100 BPM B minor | neon synthpop, elastic groove, dry drums | propulsion, elastic movement",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 109227,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 2 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "pocket/groove",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "pocket/groove"
+      },
+      "prompt_excerpt": "track 2 of Syncopation Engine\nA groove-driven neon race dry kit synthpop rock track in B minor at 100 BPM, built around syncopated kick patterns and a warm elastic bassline with slight glide between notes, clean minor chord stabs repeating in tight rhythmic bursts with rounded attack and subtle saturation warmth, dry snare snap with fuller body and articulate hi-hat subdivision featuring light dynamic variation, bold midrange synth tone with smooth digital character, tight rhythm guitar reinforc",
+      "audio": {
+        "duration_sec": 180.0,
+        "bpm": 103.4,
+        "key": "B minor",
+        "energy_rms": 0.1398,
+        "brightness_hz": 2574.0,
+        "onset_density": 4.8,
+        "dynamic_range_db": 11.6,
+        "mood": "mid-tempo, high-energy, bright"
+      }
+    },
+    "FORWARD IS A DECISION.mp3": {
+      "title": "FORWARD IS A DECISION",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 88.0,
+      "key": "B minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "forward"
+        ],
+        "G_groove": [
+          "groove"
+        ],
+        "B_range": [
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Power: forward",
+      "physics": [
+        "unwavering",
+        "unbreakable",
+        "roll",
+        "loop",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock",
+        "funk-rock",
+        "synth-rock / funk-rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock, funk-rock | 88 BPM B minor | dark warm synth-rock, heavy bass | unwavering, unbreakable, roll | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 96119,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 5 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "weight/mass",
+          "articulate clarity",
+          "wide dynamic swings",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "weight/mass"
+      },
+      "prompt_excerpt": "track 9 of Unbreakable Momentum\nInstrumental-only synth-rock / funk-rock track at 88 BPM built around a confident, intentional forward-driving groove, Drums are tight and decisive\u2014driving kick, clean snare, and focused hi-hats with subtle syncopation that reinforces motion without urgency, Bass carries a clear, repeating motif that feels chosen and unwavering, anchoring the rail with purpose, Guitars and synths sharpen in tone and articulation, looping short, affirmative phrases that reinforce d",
+      "audio": {
+        "duration_sec": 170.8,
+        "bpm": 89.1,
+        "key": "B minor",
+        "energy_rms": 0.1857,
+        "brightness_hz": 2553.0,
+        "onset_density": 3.89,
+        "dynamic_range_db": 17.0,
+        "mood": "slow, high-energy, bright"
+      }
+    },
+    "First Extreme Peak.mp3": {
+      "title": "First Extreme Peak",
+      "series": "Syncopation Engine",
+      "series_abbr": "SE",
+      "bpm": 106.0,
+      "key": "C# minor",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "warm",
+          "red propulsion",
+          "subtle red",
+          "kinetic",
+          "propulsion",
+          "forward"
+        ],
+        "G_groove": [
+          "neon",
+          "green-dominant",
+          "neon race",
+          "elastic",
+          "groove",
+          "subdivision",
+          "dry"
+        ],
+        "B_range": [
+          "steel-blue",
+          "bright",
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Groove: warm+red propulsion",
+      "physics": [
+        "subdivision precision",
+        "kinetic",
+        "propulsion",
+        "roll",
+        "authority"
+      ],
+      "genre_tags": [
+        "synthpop",
+        "synthpop propulsion",
+        "dry kit",
+        "neon race"
+      ],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synthpop, synthpop propulsion | 106 BPM C# minor | neon synthpop, elastic groove, dry drums | subdivision precision, kinetic, propulsion",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 115780,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 5 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "blitz/sprint physics",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "blitz/sprint physics"
+      },
+      "prompt_excerpt": "track 3 of Syncopation Engine\nA green-dominant neon race dry kit synthpop propulsion track in C# minor at 106 BPM with precise syncopated kick patterns and a smooth elastic bassline creating rhythmic forward motion, punchy snare hits with controlled body and articulate hi-hat subdivision generating fast subdivision lift, clean minor chord stab hook repeating in tight rhythmic cycles with warm balanced tone and measured decay, steel-blue compression keeping the mix tight and focused, subtle red p",
+      "audio": {
+        "duration_sec": 188.2,
+        "bpm": 143.6,
+        "key": "C# minor",
+        "energy_rms": 0.1442,
+        "brightness_hz": 2834.0,
+        "onset_density": 2.41,
+        "dynamic_range_db": 8.3,
+        "mood": "driving, high-energy, bright"
+      }
+    },
+    "Golden Drive.mp3": {
+      "title": "Golden Drive",
+      "series": null,
+      "series_abbr": null,
+      "bpm": 80.7,
+      "key": "A minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [],
+        "G_groove": [],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: []",
+      "physics": [],
+      "genre_tags": [],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": false,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "80 BPM A minor | dark warm synth-rock, heavy bass",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 88146,
+        "pattern_length_bars": 1,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "continuous groove"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "weight/mass",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "weight/mass"
+      },
+      "prompt_excerpt": null,
+      "audio": {
+        "duration_sec": 196.8,
+        "bpm": 80.7,
+        "key": "A minor",
+        "energy_rms": 0.1421,
+        "brightness_hz": 2642.0,
+        "onset_density": 3.25,
+        "dynamic_range_db": 9.8,
+        "mood": "slow, high-energy, bright"
+      }
+    },
+    "Golden Spin.mp3": {
+      "title": "Golden Spin",
+      "series": null,
+      "series_abbr": null,
+      "bpm": 161.5,
+      "key": "D# major",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [],
+        "G_groove": [],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: []",
+      "physics": [],
+      "genre_tags": [],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": false,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "161 BPM D# major | dark warm synth-rock, heavy bass",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 176401,
+        "pattern_length_bars": 1,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "continuous groove"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "blitz/sprint physics",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "blitz/sprint physics"
+      },
+      "prompt_excerpt": null,
+      "audio": {
+        "duration_sec": 269.0,
+        "bpm": 161.5,
+        "key": "D# major",
+        "energy_rms": 0.1699,
+        "brightness_hz": 2951.0,
+        "onset_density": 2.51,
+        "dynamic_range_db": 9.8,
+        "mood": "driving, high-energy, bright"
+      }
+    },
+    "Groove Pocket Reset.mp3": {
+      "title": "Groove Pocket Reset",
+      "series": "Syncopation Engine",
+      "series_abbr": "SE",
+      "bpm": 98.0,
+      "key": "F# minor",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "warm",
+          "red propulsion",
+          "kinetic",
+          "propulsion",
+          "forward",
+          "deep"
+        ],
+        "G_groove": [
+          "neon",
+          "green-forward",
+          "neon race",
+          "elastic",
+          "groove",
+          "bounce",
+          "subdivision",
+          "pocket",
+          "dry"
+        ],
+        "B_range": [
+          "steel-blue",
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Groove: warm+red propulsion",
+      "physics": [
+        "elastic bounce",
+        "pocket",
+        "kinetic",
+        "propulsion",
+        "bounce"
+      ],
+      "genre_tags": [
+        "synthpop",
+        "dry kit",
+        "neon race"
+      ],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synthpop, dry kit | 98 BPM F# minor | neon synthpop, elastic groove, dry drums | elastic bounce, pocket, kinetic",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 107042,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 5 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "pocket/groove",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "pocket/groove"
+      },
+      "prompt_excerpt": "track 4 of Syncopation Engine\nA green-forward neon race dry kit synthpop track in F# minor driven by syncopated kick patterns and a smooth elastic bassline creating deep rhythmic bounce, punchy snare hits with warm body and articulate hi-hat subdivision adding subtle kinetic lift, clean minor chord stabs repeating with clear spacing and balanced decay, steel-blue tight mix control maintaining focus and punch, light red propulsion keeping steady forward movement, subtle neon accents adding energy",
+      "audio": {
+        "duration_sec": 158.3,
+        "bpm": 99.4,
+        "key": "F# minor",
+        "energy_rms": 0.1812,
+        "brightness_hz": 2165.0,
+        "onset_density": 4.91,
+        "dynamic_range_db": 13.3,
+        "mood": "mid-tempo, high-energy, warm"
+      }
+    },
+    "Immediate Launch.mp3": {
+      "title": "Immediate Launch",
+      "series": "Syncopation Engine",
+      "series_abbr": "SE",
+      "bpm": 102.0,
+      "key": "F# minor",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "warm",
+          "kinetic",
+          "propulsion",
+          "forward",
+          "launch"
+        ],
+        "G_groove": [
+          "neon",
+          "neon race",
+          "elastic",
+          "bouncy",
+          "groove",
+          "bounce",
+          "subdivision",
+          "dry"
+        ],
+        "B_range": [
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Groove: warm+kinetic",
+      "physics": [
+        "elastic bounce",
+        "kinetic",
+        "propulsion",
+        "bounce"
+      ],
+      "genre_tags": [
+        "synthpop",
+        "synthpop rock",
+        "dry kit",
+        "neon race"
+      ],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synthpop, synthpop rock | 102 BPM F# minor | neon synthpop, elastic groove, dry drums | elastic bounce, kinetic, propulsion",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 111411,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 4 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "driving/propulsion",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "driving/propulsion"
+      },
+      "prompt_excerpt": "A sharp, articulate drum fill bursts into a bouncy neon race dry kit synthpop rock track in F# minor at 102 BPM, featuring a clean and punchy minor chord stab hook repeating in tight rhythmic bursts with clear spacing between hits, syncopated kick patterns and elastic bass locking into a lively groove, rounded kick body and crisp snare snap with subtle hi-hat subdivision accents creating rhythmic lift, bold midrange synth tone with warm digital character, tight rhythm guitar reinforcing the stab",
+      "audio": {
+        "duration_sec": 151.0,
+        "bpm": 136.0,
+        "key": "B major",
+        "energy_rms": 0.2051,
+        "brightness_hz": 2688.0,
+        "onset_density": 2.93,
+        "dynamic_range_db": 11.0,
+        "mood": "driving, high-energy, bright"
+      }
+    },
+    "Jesus, the First Stand User.mp3": {
+      "title": "Jesus, the First Stand User",
+      "series": null,
+      "series_abbr": null,
+      "bpm": 152.0,
+      "key": "E minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [],
+        "G_groove": [],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: []",
+      "physics": [],
+      "genre_tags": [],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": false,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "152 BPM E minor | dark warm synth-rock, heavy bass",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 166025,
+        "pattern_length_bars": 1,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "continuous groove"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "blitz/sprint physics",
+          "articulate clarity",
+          "wide dynamic swings",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "blitz/sprint physics"
+      },
+      "prompt_excerpt": null,
+      "audio": {
+        "duration_sec": 449.2,
+        "bpm": 152.0,
+        "key": "E minor",
+        "energy_rms": 0.2055,
+        "brightness_hz": 2200.0,
+        "onset_density": 1.38,
+        "dynamic_range_db": 15.4,
+        "mood": "driving, high-energy, warm"
+      }
+    },
+    "MANY VOICES, ONE DIRECTION.mp3": {
+      "title": "MANY VOICES, ONE DIRECTION",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 82.0,
+      "key": "E minor",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "deep"
+        ],
+        "G_groove": [
+          "groove",
+          "pocket"
+        ],
+        "B_range": []
+      },
+      "rgb_interpretation": "Groove: deep",
+      "physics": [
+        "pocket",
+        "unbreakable",
+        "phase",
+        "multiplicity",
+        "cohesion",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock",
+        "glitch-tinged rock",
+        "synth-rock / glitch-tinged rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock, glitch-tinged rock | 82 BPM E minor | neon synthpop, elastic groove, dry drums | pocket, unbreakable, phase | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 89566,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 6 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "weight/mass",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "weight/mass"
+      },
+      "prompt_excerpt": "track 6 of Unbreakable Momentum\nInstrumental-only synth-rock / glitch-tinged rock track at 82 BPM where multiple repeating motifs coexist under a single, unbroken groove, Drums remain locked in a deep pocket\u2014steady kick, confident snare, and lightly varied hi-hat patterns cycling at different lengths without disrupting tempo, Bass anchors the rail with a consistent, circular line that holds everything together, Guitars and synths introduce several short, repeating phrases that phase subtly again",
+      "audio": {
+        "duration_sec": 235.0,
+        "bpm": 86.1,
+        "key": "E minor",
+        "energy_rms": 0.1659,
+        "brightness_hz": 2338.0,
+        "onset_density": 3.66,
+        "dynamic_range_db": 9.8,
+        "mood": "slow, high-energy, warm"
+      }
+    },
+    "PATTERN STILL BREATHES.mp3": {
+      "title": "PATTERN STILL BREATHES",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 80.0,
+      "key": "B major",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "warm",
+          "forward",
+          "deep"
+        ],
+        "G_groove": [
+          "subdivision",
+          "pocket"
+        ],
+        "B_range": [
+          "wide"
+        ]
+      },
+      "rgb_interpretation": "Power: warm+forward",
+      "physics": [
+        "pocket",
+        "breath",
+        "unbreakable",
+        "loop",
+        "multiplicity",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock | 80 BPM B major | dark warm synth-rock, heavy bass | pocket, breath, unbreakable | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 87381,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 6 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "blitz/sprint physics",
+          "warm low-end (R-power)",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "blitz/sprint physics"
+      },
+      "prompt_excerpt": "track 8 of Unbreakable Momentum\nInstrumental-only synth-rock track at 80 BPM designed to feel open, breathable, and steady without losing momentum, Drums stay deeply pocketed\u2014warm kick, relaxed snare, and lightly articulated hi-hats that outline clean subdivisions with restraint, Bass maintains a smooth, repeating line that feels settled and confident, anchoring the rail, Guitars and synths use cleaner tones and wider spacing, looping short motifs that leave room between phrases while remaining ",
+      "audio": {
+        "duration_sec": 243.0,
+        "bpm": 161.5,
+        "key": "B major",
+        "energy_rms": 0.17,
+        "brightness_hz": 1543.0,
+        "onset_density": 4.5,
+        "dynamic_range_db": 12.5,
+        "mood": "driving, high-energy, warm"
+      }
+    },
+    "QUIET CORRECTIONS.mp3": {
+      "title": "QUIET CORRECTIONS",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 80.0,
+      "key": "G major",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "forward",
+          "deep"
+        ],
+        "G_groove": [
+          "groove",
+          "subdivision",
+          "pocket"
+        ],
+        "B_range": [
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Groove: forward+deep",
+      "physics": [
+        "pocket",
+        "unbreakable",
+        "roll",
+        "loop",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock | 80 BPM G major | neon synthpop, elastic groove, dry drums | pocket, unbreakable, roll | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 87381,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 5 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "pocket/groove",
+          "articulate clarity",
+          "controlled dynamics",
+          "subdivision layering"
+        ],
+        "dominant_feel": "pocket/groove"
+      },
+      "prompt_excerpt": "track 5 of Unbreakable Momentum\nInstrumental-only synth-rock track at 80 BPM focused on subtle refinement and clarity while maintaining uninterrupted forward motion, Drums remain firmly pocketed\u2014deep kick, clean snare, and precise hi-hats articulating subdivisions with increased definition rather than added energy, Bass continues a steady, repeating motif, slightly more melodic and controlled, reinforcing stability, Guitars and synths shift to cleaner tones and tighter voicings, looping short ph",
+      "audio": {
+        "duration_sec": 212.4,
+        "bpm": 117.5,
+        "key": "G major",
+        "energy_rms": 0.1652,
+        "brightness_hz": 2133.0,
+        "onset_density": 5.61,
+        "dynamic_range_db": 11.9,
+        "mood": "mid-tempo, high-energy, warm"
+      }
+    },
+    "RUBBER HORIZON.mp3": {
+      "title": "RUBBER HORIZON",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 78.0,
+      "key": "E minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "warm",
+          "forward",
+          "deep"
+        ],
+        "G_groove": [
+          "elastic",
+          "groove",
+          "bounce"
+        ],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: warm+forward",
+      "physics": [
+        "rubber",
+        "unbreakable",
+        "bounce",
+        "loop",
+        "multiplicity",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock | 78 BPM E minor | dark warm synth-rock, heavy bass | rubber, unbreakable, bounce | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 85197,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 6 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "blitz/sprint physics",
+          "warm low-end (R-power)",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "blitz/sprint physics"
+      },
+      "prompt_excerpt": "track 1 of Unbreakable Momentum\nInstrumental-only synth-rock / funk-inflected rock track at 78 BPM built around a steady, forward-moving groove that feels resilient and elastic without losing control, Drums are locked and confident\u2014deep kick, clean snare, and lightly syncopated hi-hats creating bounce while staying firmly on the rail, Bass carries a warm, repeating motif that pushes momentum forward with a rubbery feel, absorbing pressure instead of reacting to it, Guitars and synths use clean t",
+      "audio": {
+        "duration_sec": 131.5,
+        "bpm": 152.0,
+        "key": "E minor",
+        "energy_rms": 0.1479,
+        "brightness_hz": 1646.0,
+        "onset_density": 4.02,
+        "dynamic_range_db": 13.1,
+        "mood": "driving, high-energy, warm"
+      }
+    },
+    "Re-Acceleration.mp3": {
+      "title": "Re-Acceleration",
+      "series": "Syncopation Engine",
+      "series_abbr": "SE",
+      "bpm": 104.0,
+      "key": "B minor",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "warm",
+          "red propulsion",
+          "subtle red",
+          "propulsion",
+          "forward"
+        ],
+        "G_groove": [
+          "neon",
+          "green-forward",
+          "neon race",
+          "elastic",
+          "groove",
+          "dry"
+        ],
+        "B_range": [
+          "steel-blue",
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Groove: warm+red propulsion",
+      "physics": [
+        "re-acceleration",
+        "propulsion",
+        "roll"
+      ],
+      "genre_tags": [
+        "synthpop",
+        "synthpop propulsion",
+        "dry kit",
+        "neon race"
+      ],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synthpop, synthpop propulsion | 104 BPM B minor | neon synthpop, elastic groove, dry drums | re-acceleration, propulsion, roll",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 113596,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 3 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "pocket/groove",
+          "articulate clarity",
+          "controlled dynamics",
+          "subdivision layering"
+        ],
+        "dominant_feel": "pocket/groove"
+      },
+      "prompt_excerpt": "track 5 of Syncopation Engine\nA green-forward neon race dry kit synthpop propulsion track in B minor driven by highly syncopated kick patterns and a reactive elastic electric bassline creating lively forward motion, punchy snare hits with controlled body and fast articulate hi-hat patterns adding rhythmic lift, clean minor chord stab hook performed with warm analog synth tone repeating in tight rhythmic cycles, tight electric rhythm guitar reinforcing the groove, steel-blue mix control keeping e",
+      "audio": {
+        "duration_sec": 226.6,
+        "bpm": 103.4,
+        "key": "B minor",
+        "energy_rms": 0.1531,
+        "brightness_hz": 2741.0,
+        "onset_density": 5.86,
+        "dynamic_range_db": 10.8,
+        "mood": "mid-tempo, high-energy, bright"
+      }
+    },
+    "SNAP-BACK ENGINE.mp3": {
+      "title": "SNAP-BACK ENGINE",
+      "series": "Syncopation Engine",
+      "series_abbr": "SE",
+      "bpm": 104.0,
+      "key": "E minor",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "propulsion",
+          "forward"
+        ],
+        "G_groove": [
+          "elastic",
+          "groove",
+          "grid",
+          "dry",
+          "chiptune"
+        ],
+        "B_range": [
+          "bright",
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Groove: propulsion+forward",
+      "physics": [
+        "snap-back",
+        "grid",
+        "propulsion",
+        "tension push",
+        "roll",
+        "loop",
+        "phase",
+        "authority"
+      ],
+      "genre_tags": [
+        "synth-rock",
+        "chiptune"
+      ],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": true,
+        "strip_rebuild": true,
+        "declarative_ending": true
+      },
+      "suno_prompt": "synth-rock, chiptune | 104 BPM E minor | neon synthpop, elastic groove, dry drums | snap-back, grid, propulsion",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 113596,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "drums+bass(8bars) \u2192 full \u2192 rebuild",
+        "ending": "clean declarative 2-bar motif"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "pocket/groove",
+          "airborne highs (B-range)",
+          "wide dynamic swings",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "pocket/groove"
+      },
+      "prompt_excerpt": "track 7 of Syncopation Engine\nHook-first instrumental synth-rock with clean chiptune edge and PS1-era racing urgency, locked 4/4 at a tight 104 BPM with precise grid timing and an immediately walkable kick\u2013snare rail, dry articulate drums driving steady 16th-note hats with short controlled fills, elastic bass loop that repeats every 8 bars with a subtle tension push in bars 6\u20137 and a snap-back in bar 8, analog synth chord blocks punching on offbeats, tight palm-muted guitar stabs doubling the rh",
+      "audio": {
+        "duration_sec": 170.0,
+        "bpm": 103.4,
+        "key": "E minor",
+        "energy_rms": 0.1632,
+        "brightness_hz": 3839.0,
+        "onset_density": 3.75,
+        "dynamic_range_db": 15.2,
+        "mood": "mid-tempo, high-energy, bright"
+      }
+    },
+    "Space Racer.mp3": {
+      "title": "Space Racer",
+      "series": null,
+      "series_abbr": null,
+      "bpm": 72.0,
+      "key": "F minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "red propulsion",
+          "gravity",
+          "heavy",
+          "dense",
+          "mass",
+          "propulsion",
+          "forward",
+          "deep",
+          "low-end",
+          "compressed"
+        ],
+        "G_groove": [
+          "groove",
+          "subdivision",
+          "grid",
+          "dry",
+          "square-wave",
+          "pulse"
+        ],
+        "B_range": [
+          "steel blue",
+          "atmospheric",
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Power: red propulsion+gravity",
+      "physics": [
+        "rail authority",
+        "gravity groove",
+        "subdivision precision",
+        "grid",
+        "propulsion",
+        "circular bass",
+        "gravity groove",
+        "weight",
+        "mass",
+        "fixed grid",
+        "layering",
+        "authority"
+      ],
+      "genre_tags": [
+        "synthpop",
+        "steel blue synthpop"
+      ],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": false,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synthpop, steel blue synthpop | 72 BPM F minor | dark warm synth-rock, heavy bass | rail authority, gravity groove, subdivision precision",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 78643,
+        "pattern_length_bars": 1,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "continuous groove"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "pocket/groove",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "pocket/groove"
+      },
+      "prompt_excerpt": "albumless\nMotif-and-bass-first steel blue synthpop with red propulsion grit and green subdivision precision, immediate square-wave lead hook locked tightly to a deep circular bass and immovable kick rail, heavy gravity groove with dry physical drums blending grounded low-end mass and articulate hi-hat intelligence, compressed center-weighted mix with firm midrange density and subtle electric guitar reinforcement, driving pulse-based digital motif with clipped oscillator attack and sustained weig",
+      "audio": {
+        "duration_sec": 400.2,
+        "bpm": 117.5,
+        "key": "F minor",
+        "energy_rms": 0.143,
+        "brightness_hz": 2413.0,
+        "onset_density": 4.56,
+        "dynamic_range_db": 13.0,
+        "mood": "mid-tempo, high-energy, warm"
+      }
+    },
+    "Steel Ball Run.mp3": {
+      "title": "Steel Ball Run",
+      "series": null,
+      "series_abbr": null,
+      "bpm": 89.1,
+      "key": "E minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [],
+        "G_groove": [],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: []",
+      "physics": [],
+      "genre_tags": [],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": false,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "89 BPM E minor | dark warm synth-rock, heavy bass",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 97321,
+        "pattern_length_bars": 1,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "continuous groove"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "weight/mass",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "weight/mass"
+      },
+      "prompt_excerpt": null,
+      "audio": {
+        "duration_sec": 388.0,
+        "bpm": 89.1,
+        "key": "E minor",
+        "energy_rms": 0.186,
+        "brightness_hz": 2707.0,
+        "onset_density": 2.04,
+        "dynamic_range_db": 12.7,
+        "mood": "slow, high-energy, bright"
+      }
+    },
+    "UNBREAKABLE.mp3": {
+      "title": "UNBREAKABLE",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 86.0,
+      "key": "E minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "dark",
+          "dark synth",
+          "dark synth-rock",
+          "deep"
+        ],
+        "G_groove": [
+          "groove",
+          "pocket"
+        ],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: dark+dark synth",
+      "physics": [
+        "pocket",
+        "inevitability",
+        "unwavering",
+        "unbreakable",
+        "loop",
+        "resolve"
+      ],
+      "genre_tags": [
+        "dark synth-rock",
+        "synth-rock",
+        "dark synth"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "dark synth-rock, synth-rock | 86 BPM E minor | dark warm synth-rock, heavy bass | pocket, inevitability, unwavering | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 93935,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 6 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "blitz/sprint physics",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "blitz/sprint physics"
+      },
+      "prompt_excerpt": "track 10 of Unbreakable Momentum\nInstrumental-only dark synth-rock / rock track at 86 BPM built around a single, unwavering groove that never yields, Drums are steady and confident\u2014driving kick, firm snare, and restrained hi-hats maintaining a deep, immovable pocket, Bass repeats a grounded, forceful motif that anchors the track without variation, reinforcing inevitability, Guitars and synths hold consistent tones and phrasing, looping short, declarative riffs that project endurance rather than ",
+      "audio": {
+        "duration_sec": 480.0,
+        "bpm": 172.3,
+        "key": "E minor",
+        "energy_rms": 0.1646,
+        "brightness_hz": 2788.0,
+        "onset_density": 4.01,
+        "dynamic_range_db": 11.8,
+        "mood": "driving, high-energy, bright"
+      }
+    },
+    "Victory Drive.mp3": {
+      "title": "Victory Drive",
+      "series": "Syncopation Engine",
+      "series_abbr": "SE",
+      "bpm": 103.0,
+      "key": "F# minor",
+      "rgb": "G",
+      "rgb_tags": {
+        "R_power": [
+          "red propulsion",
+          "subtle red",
+          "kinetic",
+          "propulsion",
+          "forward"
+        ],
+        "G_groove": [
+          "neon",
+          "green-forward",
+          "neon race",
+          "elastic",
+          "groove",
+          "dry"
+        ],
+        "B_range": [
+          "steel-blue",
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Groove: red propulsion+subtle red",
+      "physics": [
+        "kinetic",
+        "propulsion",
+        "roll",
+        "layering"
+      ],
+      "genre_tags": [
+        "dry kit",
+        "neon race"
+      ],
+      "constraints": {
+        "no_vocals": false,
+        "no_drops": false,
+        "no_chaos": false,
+        "instrumental_only": false,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "dry kit, neon race | 103 BPM F# minor | neon synthpop, elastic groove, dry drums | kinetic, propulsion, roll",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 112503,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 4 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "driving/propulsion",
+          "articulate clarity",
+          "controlled dynamics",
+          "subdivision layering"
+        ],
+        "dominant_feel": "driving/propulsion"
+      },
+      "prompt_excerpt": "track 6 of Syncopation Engine\nA green-forward neon race dry kit synth propulsion track in F# minor at 103 BPM driven by tight syncopated kick patterns and a smooth elastic electric bassline creating steady forward motion, punchy snare hits with controlled body and articulate hi-hat patterns adding rhythmic lift, bold analog synth chord blocks repeating in clean rhythmic cycles, focused electric bass and drum layering maintaining kinetic drive, steel-blue mix control keeping everything tight and ",
+      "audio": {
+        "duration_sec": 149.9,
+        "bpm": 136.0,
+        "key": "F# minor",
+        "energy_rms": 0.168,
+        "brightness_hz": 2731.0,
+        "onset_density": 6.04,
+        "dynamic_range_db": 10.2,
+        "mood": "driving, high-energy, bright"
+      }
+    },
+    "WE KEEP MOVING.mp3": {
+      "title": "WE KEEP MOVING",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 88.0,
+      "key": "D minor",
+      "rgb": "B",
+      "rgb_tags": {
+        "R_power": [
+          "kinetic",
+          "propulsion",
+          "forward"
+        ],
+        "G_groove": [
+          "elastic"
+        ],
+        "B_range": [
+          "wide",
+          "atmospheric",
+          "space",
+          "tight"
+        ]
+      },
+      "rgb_interpretation": "Range: kinetic+propulsion",
+      "physics": [
+        "forward momentum",
+        "rubber",
+        "kinetic",
+        "propulsion",
+        "space",
+        "unbreakable",
+        "rubber-on-fire",
+        "roll",
+        "surge",
+        "resolve"
+      ],
+      "genre_tags": [
+        "synth-rock"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "synth-rock | 88 BPM D minor | bright steel-blue synthpop, atmospheric space | forward momentum, rubber, kinetic | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 96119,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 10 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "blitz/sprint physics",
+          "articulate clarity",
+          "controlled dynamics",
+          "subdivision layering"
+        ],
+        "dominant_feel": "blitz/sprint physics"
+      },
+      "prompt_excerpt": "track 11 of Unbreakable Momentum\nInstrumental-only synth-rock track at 88 BPM combining elastic forward momentum with wide, atmospheric space, Drums are agile and tightly controlled\u2014driving kick, crisp snare, and lively, syncopated hi-hat work that feels kinetic without rushing, creating a rolling, rubber-on-fire propulsion, Bass anchors the rail with a confident, repeating line that stays grounded while absorbing heat, Plucked string textures inspired by traditional string timbres appear as rhy",
+      "audio": {
+        "duration_sec": 230.1,
+        "bpm": 152.0,
+        "key": "D minor",
+        "energy_rms": 0.1933,
+        "brightness_hz": 2999.0,
+        "onset_density": 5.81,
+        "dynamic_range_db": 9.2,
+        "mood": "driving, high-energy, bright"
+      }
+    },
+    "WILL HOLDS SHAPE.mp3": {
+      "title": "WILL HOLDS SHAPE",
+      "series": "Unbreakable Momentum",
+      "series_abbr": "UM",
+      "bpm": 80.0,
+      "key": "D# minor",
+      "rgb": "R",
+      "rgb_tags": {
+        "R_power": [
+          "dark",
+          "dark synth",
+          "dark synth-rock",
+          "heavy",
+          "forward",
+          "deep"
+        ],
+        "G_groove": [
+          "groove",
+          "pocket"
+        ],
+        "B_range": []
+      },
+      "rgb_interpretation": "Power: dark+dark synth",
+      "physics": [
+        "pocket",
+        "unbreakable",
+        "authority",
+        "resolve"
+      ],
+      "genre_tags": [
+        "dark synth-rock",
+        "synth-rock",
+        "dark synth"
+      ],
+      "constraints": {
+        "no_vocals": true,
+        "no_drops": true,
+        "no_chaos": true,
+        "instrumental_only": true,
+        "loop_based": true,
+        "strip_rebuild": false,
+        "declarative_ending": false
+      },
+      "suno_prompt": "dark synth-rock, synth-rock | 80 BPM D# minor | dark warm synth-rock, heavy bass | pocket, unbreakable, authority | instrumental only | no drops | no chaos",
+      "famistudio_nsf": {
+        "time_signature": "4/4",
+        "tempo_hz": 87381,
+        "pattern_length_bars": 8,
+        "instruments": [],
+        "channels_used": [
+          "pulse1",
+          "triangle",
+          "noise",
+          " DMC"
+        ],
+        "structural_notes": [],
+        "structure": "8-bar loop, 4 phrase layers"
+      },
+      "audio_correlates": {
+        "concepts": [
+          "blitz/sprint physics",
+          "articulate clarity",
+          "controlled dynamics",
+          "clean rhythmic space"
+        ],
+        "dominant_feel": "blitz/sprint physics"
+      },
+      "prompt_excerpt": "track 2 of Unbreakable Momentum\nInstrumental-only dark synth-rock track at 80 BPM built on a firm, repeating midrange riff that establishes boundaries without aggression, Drums are heavy and precise\u2014deep kick, deliberate snare, restrained hi-hats\u2014locking an unbreakable pocket that never rushes, Bass doubles the rail with a thick, confident line that reinforces authority and forward motion, Guitars and synths stay focused and minimal, cycling short motifs that feel resolute rather than explosive,",
+      "audio": {
+        "duration_sec": 209.9,
+        "bpm": 161.5,
+        "key": "D# minor",
+        "energy_rms": 0.2257,
+        "brightness_hz": 2668.0,
+        "onset_density": 2.69,
+        "dynamic_range_db": 9.4,
+        "mood": "driving, high-energy, bright"
+      }
+    }
+  }
+}
