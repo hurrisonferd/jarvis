@@ -56,8 +56,10 @@ jobs:
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
             supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt
           else
-            supabase functions deploy jarvis-mcp     --project-ref "$REF" --no-verify-jwt
-            supabase functions deploy jarvis-dex     --project-ref "$REF" --no-verify-jwt
-            supabase functions deploy jarvis-action  --project-ref "$REF" --no-verify-jwt
-            supabase functions deploy kronos-fold    --project-ref "$REF" --no-verify-jwt
+            # Deploy all functions — new ones deploy automatically
+            for fn in supabase/functions/*/; do
+              NAME=$(basename "$fn")
+              echo "→ deploying $NAME"
+              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt
+            done
           fi
