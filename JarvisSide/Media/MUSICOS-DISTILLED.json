@@ -2,50 +2,20 @@
   "note": "MusicOS Cognitive Distillation \u2014 primitives, Suno grammar, Famistudio NSF, Wave correlates. Source: GPT-era MusicOS proto-OS (CNS/rail/weight theory).",
   "catalog": {
     "total": 25,
-    "with_prompts": 19,
-    "audio_only": 6,
+    "with_prompts": 25,
+    "audio_only": 0,
     "series": {
+      "Steel Ball Run": 6,
       "Unbreakable Momentum": 11,
       "Syncopation Engine": 7
     },
     "rgb_distribution": {
-      "R": 14,
-      "G": 10,
-      "B": 1
+      "R": 10,
+      "G": 13,
+      "B": 2
     }
   },
-  "issues": [
-    {
-      "track": "Boundary at Speed",
-      "issue": "audio_only",
-      "note": "no prompt \u2014 audio analysis only"
-    },
-    {
-      "track": "Eigenrail Pressure",
-      "issue": "audio_only",
-      "note": "no prompt \u2014 audio analysis only"
-    },
-    {
-      "track": "Golden Drive",
-      "issue": "audio_only",
-      "note": "no prompt \u2014 audio analysis only"
-    },
-    {
-      "track": "Golden Spin",
-      "issue": "audio_only",
-      "note": "no prompt \u2014 audio analysis only"
-    },
-    {
-      "track": "Jesus, the First Stand User",
-      "issue": "audio_only",
-      "note": "no prompt \u2014 audio analysis only"
-    },
-    {
-      "track": "Steel Ball Run",
-      "issue": "audio_only",
-      "note": "no prompt \u2014 audio analysis only"
-    }
-  ],
+  "issues": [],
   "series_catalog": {
     "Unbreakable Momentum": [
       "DON\u2019T ASK PERMISSION",
@@ -69,35 +39,43 @@
       "SNAP-BACK ENGINE",
       "Victory Drive"
     ],
-    "Neon Race": []
+    "Neon Race": [],
+    "Steel Ball Run": [
+      "Boundary at Speed",
+      "Eigenrail Pressure",
+      "Golden Drive",
+      "Golden Spin",
+      "Jesus, the First Stand User",
+      "Steel Ball Run"
+    ]
   },
   "rgb_catalog": {
     "R": [
-      "Boundary at Speed",
       "DON\u2019T ASK PERMISSION",
       "ELASTIC UNDER FIRE",
       "ELASTIC UNDER FIRE(B-Side)",
-      "Eigenrail Pressure",
       "FORWARD IS A DECISION",
-      "Golden Drive",
-      "Golden Spin",
       "Jesus, the First Stand User",
       "PATTERN STILL BREATHES",
       "RUBBER HORIZON",
       "Space Racer",
-      "Steel Ball Run",
       "UNBREAKABLE",
       "WILL HOLDS SHAPE"
     ],
     "G": [
+      "Boundary at Speed",
+      "Eigenrail Pressure",
       "Elastic Acceleration",
       "First Extreme Peak",
+      "Golden Drive",
+      "Golden Spin",
       "Groove Pocket Reset",
       "Immediate Launch",
       "MANY VOICES, ONE DIRECTION",
       "QUIET CORRECTIONS",
       "Re-Acceleration",
       "SNAP-BACK ENGINE",
+      "Steel Ball Run",
       "Victory Drive"
     ],
     "B": [
@@ -105,23 +83,28 @@
     ]
   },
   "physics_frequency": {
+    "roll": 15,
+    "resolve": 15,
     "unbreakable": 11,
-    "resolve": 11,
-    "loop": 9,
-    "roll": 9,
+    "loop": 11,
     "propulsion": 9,
-    "pocket": 6,
-    "authority": 5,
+    "authority": 8,
+    "pocket": 8,
     "multiplicity": 5,
     "kinetic": 5,
+    "bounce": 5,
     "layering": 4,
-    "bounce": 3,
-    "unwavering": 2,
+    "grid": 4,
+    "unwavering": 3,
+    "forward momentum": 2,
+    "weight": 2,
     "subdivision precision": 2,
+    "resolution": 2,
     "elastic bounce": 2,
+    "mass": 2,
     "phase": 2,
     "rubber": 2,
-    "grid": 2,
+    "rail authority": 2,
     "gravity groove": 2,
     "declarative motif": 1,
     "elastic movement": 1,
@@ -130,13 +113,9 @@
     "re-acceleration": 1,
     "snap-back": 1,
     "tension push": 1,
-    "rail authority": 1,
     "circular bass": 1,
-    "weight": 1,
-    "mass": 1,
     "fixed grid": 1,
     "inevitability": 1,
-    "forward momentum": 1,
     "space": 1,
     "rubber-on-fire": 1,
     "surge": 1
@@ -202,6 +181,36 @@
         "rail authority",
         "mechanical propulsion"
       ]
+    },
+    "Steel Ball Run": {
+      "abbr": "SBR",
+      "bpm_range": [
+        78,
+        88
+      ],
+      "keys": [
+        "D major",
+        "? minor",
+        "? major"
+      ],
+      "rgb_bias": "R",
+      "description": "JoJo-coded engine series. Atom (precision/math), Luffy (elastic), Lucifer (boundary), Jojo (luminous). Rail-bound motion as law. BPM 78-88, mid-tempo.",
+      "physics_core": [
+        "rail-bound motion",
+        "law-bound motion",
+        "mathematical precision",
+        "triplet-informed",
+        "polymetric",
+        "boundary enforcement",
+        "controlled distortion",
+        "luminous authority",
+        "radiant",
+        "forward-locked",
+        "pressure building",
+        "fixed system",
+        "clean structure",
+        "clean boundary"
+      ]
     }
   },
   "atoms": {
@@ -226,79 +235,91 @@
       "rule": "Max Metric controls the skeleton. Art Prompt controls the nervous system tone. They must not contradict."
     },
     "cns_safe_constraints": {
-      "no_vocals": 11,
+      "no_vocals": 12,
       "no_drops": 11,
       "no_chaos": 11,
       "instrumental_only": 11
     },
     "top_physics": {
+      "roll": 15,
+      "resolve": 15,
       "unbreakable": 11,
+      "loop": 11,
       "propulsion": 9,
-      "pocket": 6,
+      "authority": 8,
+      "pocket": 8,
+      "multiplicity": 5,
       "kinetic": 5,
-      "bounce": 3,
-      "unwavering": 2,
-      "subdivision precision": 2,
-      "elastic bounce": 2,
-      "rubber": 2,
-      "grid": 2,
-      "gravity groove": 2,
-      "elastic movement": 1,
-      "breath": 1,
-      "re-acceleration": 1,
-      "snap-back": 1
+      "bounce": 5,
+      "layering": 4,
+      "grid": 4,
+      "unwavering": 3,
+      "forward momentum": 2,
+      "weight": 2
     },
     "top_colors": {
-      "forward": 17,
-      "groove": 17,
+      "forward": 20,
+      "groove": 19,
+      "elastic": 11,
+      "subdivision": 10,
       "propulsion": 9,
-      "elastic": 9,
+      "pocket": 8,
       "deep": 8,
       "warm": 7,
-      "subdivision": 7,
+      "bright": 6,
       "neon race": 6,
-      "pocket": 6,
       "red propulsion": 5,
-      "kinetic": 5,
-      "dense": 3
+      "kinetic": 5
     },
     "bpm_range_observed": [
-      86.1,
+      80.7,
       172.3
     ],
-    "bpm_mean_observed": 122.1,
+    "bpm_mean_observed": 120.4,
     "note": "Extracted from corpus. These atoms encode the MusicOS proto-OS \u2014 not a finished system, but the living creative grammar that produced the tracks."
   },
   "tracks": {
     "Boundary at Speed.mp3": {
       "title": "Boundary at Speed",
-      "series": null,
-      "series_abbr": null,
-      "bpm": 83.4,
+      "series": "Steel Ball Run",
+      "series_abbr": "SBR",
+      "bpm": 82.0,
       "key": "E minor",
-      "rgb": "R",
+      "rgb": "G",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "R_power": [
+          "forward"
+        ],
+        "G_groove": [
+          "groove",
+          "dry"
+        ],
+        "B_range": [
+          "bright",
+          "tight"
+        ]
       },
-      "rgb_interpretation": "Power: []",
-      "physics": [],
+      "rgb_interpretation": "Groove: forward",
+      "physics": [
+        "forward momentum",
+        "roll",
+        "authority"
+      ],
       "genre_tags": [],
       "constraints": {
         "no_vocals": false,
         "no_drops": false,
         "no_chaos": false,
         "instrumental_only": false,
-        "loop_based": false,
+        "loop_based": true,
         "strip_rebuild": false,
         "declarative_ending": false
       },
-      "suno_prompt": "83 BPM E minor | dark warm synth-rock, heavy bass",
+      "suno_prompt": "82 BPM E minor | neon synthpop, elastic groove, dry drums | forward momentum, roll, authority",
       "famistudio_nsf": {
         "time_signature": "4/4",
-        "tempo_hz": 91095,
-        "pattern_length_bars": 1,
+        "tempo_hz": 89566,
+        "pattern_length_bars": 8,
         "instruments": [],
         "channels_used": [
           "pulse1",
@@ -307,7 +328,7 @@
           " DMC"
         ],
         "structural_notes": [],
-        "structure": "continuous groove"
+        "structure": "8-bar loop, 3 phrase layers"
       },
       "audio_correlates": {
         "concepts": [
@@ -318,7 +339,7 @@
         ],
         "dominant_feel": "weight/mass"
       },
-      "prompt_excerpt": null,
+      "prompt_excerpt": "track 3 of Steel Ball Run\nMid-tempo instrumental around 82 BPM focused on firmness under motion and clean boundary enforcement, A driving bassline locks into a repeating engine pattern that never drops, emphasizing forward momentum with tight note length and controlled accents, Drums are assertive and disciplined: kick stays constant, snare hits hard and dry on two and four with occasional sharper boundary strikes, while hi-hats remain minimal, opening briefly for short triplet or dotted accents",
       "audio": {
         "duration_sec": 266.8,
         "bpm": 83.4,
@@ -562,33 +583,48 @@
     },
     "Eigenrail Pressure.mp3": {
       "title": "Eigenrail Pressure",
-      "series": null,
-      "series_abbr": null,
+      "series": "Steel Ball Run",
+      "series_abbr": "SBR",
       "bpm": 123.0,
       "key": "D major",
-      "rgb": "R",
+      "rgb": "G",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "R_power": [
+          "heavy",
+          "forward"
+        ],
+        "G_groove": [
+          "groove",
+          "subdivision",
+          "grid"
+        ],
+        "B_range": [
+          "bright"
+        ]
       },
-      "rgb_interpretation": "Power: []",
-      "physics": [],
-      "genre_tags": [],
+      "rgb_interpretation": "Groove: heavy+forward",
+      "physics": [
+        "grid",
+        "roll",
+        "weight"
+      ],
+      "genre_tags": [
+        "synthpop"
+      ],
       "constraints": {
-        "no_vocals": false,
+        "no_vocals": true,
         "no_drops": false,
         "no_chaos": false,
         "instrumental_only": false,
-        "loop_based": false,
+        "loop_based": true,
         "strip_rebuild": false,
         "declarative_ending": false
       },
-      "suno_prompt": "123 BPM D major | dark warm synth-rock, heavy bass",
+      "suno_prompt": "synthpop | 123 BPM D major | neon synthpop, elastic groove, dry drums | grid, roll, weight | instrumental only",
       "famistudio_nsf": {
         "time_signature": "4/4",
         "tempo_hz": 134349,
-        "pattern_length_bars": 1,
+        "pattern_length_bars": 8,
         "instruments": [],
         "channels_used": [
           "pulse1",
@@ -597,7 +633,7 @@
           " DMC"
         ],
         "structural_notes": [],
-        "structure": "continuous groove"
+        "structure": "8-bar loop, 3 phrase layers"
       },
       "audio_correlates": {
         "concepts": [
@@ -608,7 +644,7 @@
         ],
         "dominant_feel": "driving/propulsion"
       },
-      "prompt_excerpt": null,
+      "prompt_excerpt": "track 5 of Steel Ball Run\nA slow-to-mid tempo forward-driving instrumental built on rigid rhythmic rails and internal pressure, where nothing rushes but everything moves, Thick, midrange-heavy rock guitars lock into a hypnotic, repeating riff that feels mechanically enforced, bending blues-derived notes into slightly unstable, non-Euclidean shapes without losing groove, Bass functions as a constant engine, rolling in triplet-informed motion that subtly pushes against the grid while never breakin",
       "audio": {
         "duration_sec": 300.6,
         "bpm": 123.0,
@@ -869,33 +905,47 @@
     },
     "Golden Drive.mp3": {
       "title": "Golden Drive",
-      "series": null,
-      "series_abbr": null,
-      "bpm": 80.7,
+      "series": "Steel Ball Run",
+      "series_abbr": "SBR",
+      "bpm": 78.0,
       "key": "A minor",
-      "rgb": "R",
+      "rgb": "G",
       "rgb_tags": {
         "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "G_groove": [
+          "elastic",
+          "bounce",
+          "pocket",
+          "dry"
+        ],
+        "B_range": [
+          "tight"
+        ]
       },
-      "rgb_interpretation": "Power: []",
-      "physics": [],
+      "rgb_interpretation": "Groove: ['elastic', 'bounce']",
+      "physics": [
+        "pocket",
+        "bounce",
+        "roll",
+        "loop",
+        "resolution",
+        "resolve"
+      ],
       "genre_tags": [],
       "constraints": {
         "no_vocals": false,
         "no_drops": false,
         "no_chaos": false,
         "instrumental_only": false,
-        "loop_based": false,
+        "loop_based": true,
         "strip_rebuild": false,
         "declarative_ending": false
       },
-      "suno_prompt": "80 BPM A minor | dark warm synth-rock, heavy bass",
+      "suno_prompt": "78 BPM A minor | neon synthpop, elastic groove, dry drums | pocket, bounce, roll",
       "famistudio_nsf": {
         "time_signature": "4/4",
-        "tempo_hz": 88146,
-        "pattern_length_bars": 1,
+        "tempo_hz": 85197,
+        "pattern_length_bars": 8,
         "instruments": [],
         "channels_used": [
           "pulse1",
@@ -904,7 +954,7 @@
           " DMC"
         ],
         "structural_notes": [],
-        "structure": "continuous groove"
+        "structure": "8-bar loop, 6 phrase layers"
       },
       "audio_correlates": {
         "concepts": [
@@ -915,7 +965,7 @@
         ],
         "dominant_feel": "weight/mass"
       },
-      "prompt_excerpt": null,
+      "prompt_excerpt": "track 2 of Steel Ball Run\nMid-tempo instrumental around 78 BPM combining precision, drive, and elastic energy, A steady bassline forms a continuous engine with clean articulation and subtle accent shifts that imply rotation without changing speed (Atom: precision and structure), Drums stay disciplined and dry: kick remains grounded, snare is sharp and assertive on two and four with occasional harder hits that add bite (Lucifer: edge and boundary), while hi-hats introduce light triplet and dotted",
       "audio": {
         "duration_sec": 196.8,
         "bpm": 80.7,
@@ -929,33 +979,47 @@
     },
     "Golden Spin.mp3": {
       "title": "Golden Spin",
-      "series": null,
-      "series_abbr": null,
-      "bpm": 161.5,
+      "series": "Steel Ball Run",
+      "series_abbr": "SBR",
+      "bpm": 78.0,
       "key": "D# major",
-      "rgb": "R",
+      "rgb": "G",
       "rgb_tags": {
         "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "G_groove": [
+          "elastic",
+          "bounce",
+          "pocket",
+          "dry"
+        ],
+        "B_range": [
+          "tight"
+        ]
       },
-      "rgb_interpretation": "Power: []",
-      "physics": [],
+      "rgb_interpretation": "Groove: ['elastic', 'bounce']",
+      "physics": [
+        "pocket",
+        "bounce",
+        "roll",
+        "loop",
+        "resolution",
+        "resolve"
+      ],
       "genre_tags": [],
       "constraints": {
         "no_vocals": false,
         "no_drops": false,
         "no_chaos": false,
         "instrumental_only": false,
-        "loop_based": false,
+        "loop_based": true,
         "strip_rebuild": false,
         "declarative_ending": false
       },
-      "suno_prompt": "161 BPM D# major | dark warm synth-rock, heavy bass",
+      "suno_prompt": "78 BPM D# major | neon synthpop, elastic groove, dry drums | pocket, bounce, roll",
       "famistudio_nsf": {
         "time_signature": "4/4",
-        "tempo_hz": 176401,
-        "pattern_length_bars": 1,
+        "tempo_hz": 85197,
+        "pattern_length_bars": 8,
         "instruments": [],
         "channels_used": [
           "pulse1",
@@ -964,7 +1028,7 @@
           " DMC"
         ],
         "structural_notes": [],
-        "structure": "continuous groove"
+        "structure": "8-bar loop, 6 phrase layers"
       },
       "audio_correlates": {
         "concepts": [
@@ -975,7 +1039,7 @@
         ],
         "dominant_feel": "blitz/sprint physics"
       },
-      "prompt_excerpt": null,
+      "prompt_excerpt": "track 1 of Steel Ball Run\nMid-tempo instrumental around 78 BPM combining precision, drive, and elastic energy, A steady bassline forms a continuous engine with clean articulation and subtle accent shifts that imply rotation without changing speed (Atom: precision and structure), Drums stay disciplined and dry: kick remains grounded, snare is sharp and assertive on two and four with occasional harder hits that add bite (Lucifer: edge and boundary), while hi-hats introduce light triplet and dotted",
       "audio": {
         "duration_sec": 269.0,
         "bpm": 161.5,
@@ -1166,18 +1230,32 @@
     },
     "Jesus, the First Stand User.mp3": {
       "title": "Jesus, the First Stand User",
-      "series": null,
-      "series_abbr": null,
+      "series": "Steel Ball Run",
+      "series_abbr": "SBR",
       "bpm": 152.0,
       "key": "E minor",
       "rgb": "R",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "R_power": [
+          "dark",
+          "mass"
+        ],
+        "G_groove": [
+          "subdivision",
+          "pulse"
+        ],
+        "B_range": [
+          "bright"
+        ]
       },
-      "rgb_interpretation": "Power: []",
-      "physics": [],
+      "rgb_interpretation": "Power: dark+mass",
+      "physics": [
+        "unwavering",
+        "roll",
+        "mass",
+        "authority",
+        "resolve"
+      ],
       "genre_tags": [],
       "constraints": {
         "no_vocals": false,
@@ -1188,7 +1266,7 @@
         "strip_rebuild": false,
         "declarative_ending": false
       },
-      "suno_prompt": "152 BPM E minor | dark warm synth-rock, heavy bass",
+      "suno_prompt": "152 BPM E minor | dark warm synth-rock, heavy bass | unwavering, roll, mass",
       "famistudio_nsf": {
         "time_signature": "4/4",
         "tempo_hz": 166025,
@@ -1212,7 +1290,7 @@
         ],
         "dominant_feel": "blitz/sprint physics"
       },
-      "prompt_excerpt": null,
+      "prompt_excerpt": "track 6 of Steel Ball Run\nA slow-to-mid tempo instrumental finale built as a first stand\u2014unyielding resolve manifested through perfect control, repetition, and luminous authority, Guitars are bold and declarative, locking into a simple, iconic riff that repeats with absolute conviction, growing heavier and more radiant through layered harmonics, octave reinforcement, and controlled distortion rather than complexity, Bass anchors the track as an immovable foundation, steady and unwavering, reinfo",
       "audio": {
         "duration_sec": 449.2,
         "bpm": 152.0,
@@ -1802,18 +1880,32 @@
     },
     "Steel Ball Run.mp3": {
       "title": "Steel Ball Run",
-      "series": null,
-      "series_abbr": null,
-      "bpm": 89.1,
+      "series": "Steel Ball Run",
+      "series_abbr": "SBR",
+      "bpm": 88.0,
       "key": "E minor",
-      "rgb": "R",
+      "rgb": "G",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "R_power": [
+          "forward"
+        ],
+        "G_groove": [
+          "subdivision",
+          "grid"
+        ],
+        "B_range": [
+          "bright",
+          "tight"
+        ]
       },
-      "rgb_interpretation": "Power: []",
-      "physics": [],
+      "rgb_interpretation": "Groove: forward",
+      "physics": [
+        "rail authority",
+        "grid",
+        "roll",
+        "authority",
+        "resolve"
+      ],
       "genre_tags": [],
       "constraints": {
         "no_vocals": false,
@@ -1824,10 +1916,10 @@
         "strip_rebuild": false,
         "declarative_ending": false
       },
-      "suno_prompt": "89 BPM E minor | dark warm synth-rock, heavy bass",
+      "suno_prompt": "88 BPM E minor | neon synthpop, elastic groove, dry drums | rail authority, grid, roll",
       "famistudio_nsf": {
         "time_signature": "4/4",
-        "tempo_hz": 97321,
+        "tempo_hz": 96119,
         "pattern_length_bars": 1,
         "instruments": [],
         "channels_used": [
@@ -1848,7 +1940,7 @@
         ],
         "dominant_feel": "weight/mass"
       },
-      "prompt_excerpt": null,
+      "prompt_excerpt": "track 4 of Steel Ball Run\nA relentless mid-tempo engine around ~88 BPM built on absolute rail authority, where mathematical precision, raw drive, and disciplined aggression fuse into nonstop forward motion, Drums are hyper-locked and uncompromising\u2014hard kick/snare spine, razor-consistent hi-hat grids with controlled subdivision pressure (tight 16ths, brief tuplet flashes, short polymetric illusions) that increase perceived speed without bending time, Bass is f Symbolic texture and brightness fli",
       "audio": {
         "duration_sec": 388.0,
         "bpm": 89.1,

@@ -2,27 +2,33 @@
   "note": "JARVIS MusicOS NLP \u2014 ears + prompts + prose + RGB + physics (music_nlp.py).",
   "catalog": {
     "total": 25,
-    "with_prompts": 19,
-    "audio_only": 6,
+    "with_prompts": 25,
+    "audio_only": 0,
     "series": {
+      "Steel Ball Run": 6,
       "Unbreakable Momentum": 11,
       "Syncopation Engine": 7
     },
     "rgb_distribution": {
-      "R": 14,
-      "G": 10,
-      "B": 1
+      "R": 10,
+      "G": 13,
+      "B": 2
     }
   },
   "matched": [
+    "Boundary at Speed.mp3",
     "DON\u2019T ASK PERMISSION.mp3",
     "ELASTIC UNDER FIRE(B-Side).mp3",
     "ELASTIC UNDER FIRE.mp3",
+    "Eigenrail Pressure.mp3",
     "Elastic Acceleration.mp3",
     "FORWARD IS A DECISION.mp3",
     "First Extreme Peak.mp3",
+    "Golden Drive.mp3",
+    "Golden Spin.mp3",
     "Groove Pocket Reset.mp3",
     "Immediate Launch.mp3",
+    "Jesus, the First Stand User.mp3",
     "MANY VOICES, ONE DIRECTION.mp3",
     "PATTERN STILL BREATHES.mp3",
     "QUIET CORRECTIONS.mp3",
@@ -30,34 +36,43 @@
     "Re-Acceleration.mp3",
     "SNAP-BACK ENGINE.mp3",
     "Space Racer.mp3",
+    "Steel Ball Run.mp3",
     "UNBREAKABLE.mp3",
     "Victory Drive.mp3",
     "WE KEEP MOVING.mp3",
     "WILL HOLDS SHAPE.mp3"
   ],
-  "unmatched": [
-    "Boundary at Speed.mp3",
-    "Eigenrail Pressure.mp3",
-    "Golden Drive.mp3",
-    "Golden Spin.mp3",
-    "Jesus, the First Stand User.mp3",
-    "Steel Ball Run.mp3"
-  ],
+  "unmatched": [],
   "tracks": {
     "Boundary at Speed.mp3": {
       "title": "Boundary at Speed",
-      "has_prompt": false,
-      "prompt": "",
-      "series": null,
-      "series_abbrev": null,
-      "track_number": null,
+      "has_prompt": true,
+      "prompt": "track 3 of Steel Ball Run\nMid-tempo instrumental around 82 BPM focused on firmness under motion and clean boundary enforcement, A driving bassline locks into a repeating engine pattern that never drops, emphasizing forward momentum with tight note length and controlled accents, Drums are assertive and disciplined: kick stays constant, snare hits hard and dry on two and four with occasional sharper boundary strikes, while hi-hats remain minimal, opening briefly for short triplet or dotted accents before snapping closed again, Rhythm guitar uses chunky midrange chords and muted strikes, repeating a strict pattern with small articulation changes to reinforce authority through consistency, Harmony stays modal and restrained, avoiding release or brightness, A single brief stop-start moment interrupts the groove, then immediately re-engages at full strength, Dynamics shift in steps, never swells, The track feels fast, focused, and immovable\u2014holding its line without hesitation",
+      "series": "Steel Ball Run",
+      "series_abbrev": "SBR",
+      "track_number": 3,
       "rgb": "R",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "R_power": [
+          "forward",
+          "boundary enforcement",
+          "clean boundary"
+        ],
+        "G_groove": [
+          "groove"
+        ],
+        "B_range": [
+          "bright"
+        ]
       },
-      "physics": [],
+      "physics": [
+        "forward momentum",
+        "roll",
+        "authority",
+        "boundary enforcement",
+        "stop-start",
+        "clean boundary"
+      ],
       "drive_signature": "drift/clear/Power",
       "constraints": {
         "no_vocals": false,
@@ -66,10 +81,10 @@
         "instrumental_only": false
       },
       "spectral_reading": "heavy low-end weight; midrange warmth; compressed density; clean rhythmic space",
-      "prose": "83 BPM E minor, slow, high-energy, warm. Instrumental. [no prompt \u2014 audio analysis only]",
-      "source": "audio_features_only",
-      "confidence": "low",
-      "summary": "Boundary at Speed. drift clear Power. RGB:R. no series. Physics: none extracted. 83 BPM E minor, slow, high-energy, warm. Instrumental. [no prompt \u2014 audio analysis only]",
+      "prose": "83.4 BPM E minor, slow, high-energy, warm.",
+      "source": "prompt",
+      "confidence": "high",
+      "summary": "Boundary at Speed. drift clear Power. RGB:R. Steel Ball Run #3. Physics: forward momentum, roll, authority, boundary enforcement, stop-start. 83.4 BPM E minor, slow, high-energy, warm.",
       "duration_sec": 266.8,
       "bpm": 83.4,
       "key": "E minor",
@@ -98,7 +113,11 @@
         "B_range": []
       },
       "physics": [
-        "unbreakable"
+        "unbreakable",
+        "loop",
+        "declarative motif",
+        "authority",
+        "resolve"
       ],
       "drive_signature": "drift/clear/Rhythm",
       "constraints": {
@@ -110,8 +129,8 @@
       "spectral_reading": "heavy low-end weight; midrange warmth; compressed density; clean rhythmic space",
       "prose": "86.1 BPM E minor, slow, high-energy, warm.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "DON\u2019T ASK PERMISSION. drift clear Rhythm. RGB:G. Unbreakable Momentum #7. Physics: unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 86.1 BPM E minor, slow, high-energy, warm.",
+      "confidence": "high",
+      "summary": "DON\u2019T ASK PERMISSION. drift clear Rhythm. RGB:G. Unbreakable Momentum #7. Physics: unbreakable, loop, declarative motif, authority, resolve. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 86.1 BPM E minor, slow, high-energy, warm.",
       "duration_sec": 222.6,
       "bpm": 86.1,
       "key": "E minor",
@@ -141,7 +160,12 @@
         "B_range": []
       },
       "physics": [
-        "unbreakable"
+        "unbreakable",
+        "roll",
+        "loop",
+        "layering",
+        "multiplicity",
+        "resolve"
       ],
       "drive_signature": "groove/clear/Power",
       "constraints": {
@@ -153,8 +177,8 @@
       "spectral_reading": "driving syncopation; articulate clarity; controlled dynamics; clean rhythmic space",
       "prose": "112.3 BPM E minor, mid-tempo, high-energy, bright.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "ELASTIC UNDER FIRE(B-Side). groove clear Power. RGB:R. Unbreakable Momentum #3. Physics: unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 112.3 BPM E minor, mid-tempo, high-energy, bright.",
+      "confidence": "high",
+      "summary": "ELASTIC UNDER FIRE(B-Side). groove clear Power. RGB:R. Unbreakable Momentum #3. Physics: unbreakable, roll, loop, layering, multiplicity. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 112.3 BPM E minor, mid-tempo, high-energy, bright.",
       "duration_sec": 260.2,
       "bpm": 112.3,
       "key": "E minor",
@@ -184,7 +208,12 @@
         "B_range": []
       },
       "physics": [
-        "unbreakable"
+        "unbreakable",
+        "roll",
+        "loop",
+        "layering",
+        "multiplicity",
+        "resolve"
       ],
       "drive_signature": "pocket/clear/Power",
       "constraints": {
@@ -196,8 +225,8 @@
       "spectral_reading": "heavy low-end weight; articulate clarity; controlled dynamics; clean rhythmic space",
       "prose": "86.1 BPM E major, slow, high-energy, bright.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "ELASTIC UNDER FIRE. pocket clear Power. RGB:R. Unbreakable Momentum #3. Physics: unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 86.1 BPM E major, slow, high-energy, bright.",
+      "confidence": "high",
+      "summary": "ELASTIC UNDER FIRE. pocket clear Power. RGB:R. Unbreakable Momentum #3. Physics: unbreakable, roll, loop, layering, multiplicity. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 86.1 BPM E major, slow, high-energy, bright.",
       "duration_sec": 211.9,
       "bpm": 86.1,
       "key": "E major",
@@ -210,30 +239,51 @@
     },
     "Eigenrail Pressure.mp3": {
       "title": "Eigenrail Pressure",
-      "has_prompt": false,
-      "prompt": "",
-      "series": null,
-      "series_abbrev": null,
-      "track_number": null,
+      "has_prompt": true,
+      "prompt": "track 5 of Steel Ball Run\nA slow-to-mid tempo forward-driving instrumental built on rigid rhythmic rails and internal pressure, where nothing rushes but everything moves, Thick, midrange-heavy rock guitars lock into a hypnotic, repeating riff that feels mechanically enforced, bending blues-derived notes into slightly unstable, non-Euclidean shapes without losing groove, Bass functions as a constant engine, rolling in triplet-informed motion that subtly pushes against the grid while never breaking tempo, Drums are authoritative and grounded, with heavy kick-snare weight and crisp hi-hat subdivisions that inject motion through ghost notes, off-grid accents, and occasional polymetric shimmer, Bright synthpop layers and glassy arpeggiated textures flicker above the The track should feel like pressure building inside a fixed system\u2014controlled, addictive, and forward-locked\u2014evoking video-game momentum, rail-bound motion, and mathematical tension rather than emotion or narrative, with no vocals and no ambient drift",
+      "series": "Steel Ball Run",
+      "series_abbrev": "SBR",
+      "track_number": 5,
       "rgb": "R",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "R_power": [
+          "heavy",
+          "forward",
+          "rail-bound",
+          "forward-locked"
+        ],
+        "G_groove": [
+          "groove",
+          "subdivision",
+          "grid"
+        ],
+        "B_range": [
+          "bright"
+        ]
       },
-      "physics": [],
+      "physics": [
+        "grid",
+        "roll",
+        "weight",
+        "rail-bound motion",
+        "triplet-informed",
+        "polymetric",
+        "forward-locked",
+        "pressure building",
+        "fixed system"
+      ],
       "drive_signature": "groove/clear/Power",
       "constraints": {
-        "no_vocals": false,
+        "no_vocals": true,
         "no_drops": false,
         "no_chaos": false,
         "instrumental_only": false
       },
       "spectral_reading": "driving syncopation; articulate clarity; compressed density; clean rhythmic space",
-      "prose": "123 BPM D major, driving, high-energy, bright. Instrumental. [no prompt \u2014 audio analysis only]",
-      "source": "audio_features_only",
-      "confidence": "low",
-      "summary": "Eigenrail Pressure. groove clear Power. RGB:R. no series. Physics: none extracted. 123 BPM D major, driving, high-energy, bright. Instrumental. [no prompt \u2014 audio analysis only]",
+      "prose": "123.0 BPM D major, driving, high-energy, bright.",
+      "source": "prompt",
+      "confidence": "high",
+      "summary": "Eigenrail Pressure. groove clear Power. RGB:R. Steel Ball Run #5. Physics: grid, roll, weight, rail-bound motion, triplet-informed. Constraints: no_vocals. 123.0 BPM D major, driving, high-energy, bright.",
       "duration_sec": 300.6,
       "bpm": 123.0,
       "key": "D major",
@@ -311,7 +361,10 @@
       },
       "physics": [
         "unwavering",
-        "unbreakable"
+        "unbreakable",
+        "roll",
+        "loop",
+        "resolve"
       ],
       "drive_signature": "pocket/clear/Rhythm",
       "constraints": {
@@ -323,8 +376,8 @@
       "spectral_reading": "heavy low-end weight; articulate clarity; wide dynamic swings; clean rhythmic space",
       "prose": "89.1 BPM B minor, slow, high-energy, bright.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "FORWARD IS A DECISION. pocket clear Rhythm. RGB:G. Unbreakable Momentum #9. Physics: unwavering, unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 89.1 BPM B minor, slow, high-energy, bright.",
+      "confidence": "high",
+      "summary": "FORWARD IS A DECISION. pocket clear Rhythm. RGB:G. Unbreakable Momentum #9. Physics: unwavering, unbreakable, roll, loop, resolve. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 89.1 BPM B minor, slow, high-energy, bright.",
       "duration_sec": 170.8,
       "bpm": 89.1,
       "key": "B minor",
@@ -368,7 +421,9 @@
       "physics": [
         "subdivision precision",
         "kinetic",
-        "propulsion"
+        "propulsion",
+        "roll",
+        "authority"
       ],
       "drive_signature": "drive/clear/Rhythm",
       "constraints": {
@@ -381,7 +436,7 @@
       "prose": "track 3 of Syncopation Engine\nA green-dominant neon race dry kit synthpop propulsion track in C# minor at 106 BPM with precise syncopated kick patterns and a smooth elastic bassline creating rhythmic forward motion, punchy snare hits with controlled body and articulate hi-hat subdivision generating fast subdivision lift, clean minor chord stab hook repeating in tight rhythmic cycles with warm balanced tone and measured decay, steel-blue compression keeping the mix tight and focused, subtle red propulsion driving momentum, and light neon accents adding kinetic brightness, all built on groove density and subdivision precision, This track does first extreme peak through subdivision-driven propulsion, tight drum authority, and elastic rhythmic movement, 106 BPM.",
       "source": "prompt",
       "confidence": "high",
-      "summary": "First Extreme Peak. drive clear Rhythm. RGB:G. Syncopation Engine #3. Physics: subdivision precision, kinetic, propulsion. track 3 of Syncopation Engine\nA green-dominant neon race dry kit synthpop propulsion track in C# minor at 106 BPM with p",
+      "summary": "First Extreme Peak. drive clear Rhythm. RGB:G. Syncopation Engine #3. Physics: subdivision precision, kinetic, propulsion, roll, authority. track 3 of Syncopation Engine\nA green-dominant neon race dry kit synthpop propulsion track in C# minor at 106 BPM with p",
       "duration_sec": 188.2,
       "bpm": 143.6,
       "key": "C# minor",
@@ -394,19 +449,33 @@
     },
     "Golden Drive.mp3": {
       "title": "Golden Drive",
-      "has_prompt": false,
-      "prompt": "",
-      "series": null,
-      "series_abbrev": null,
-      "track_number": null,
-      "rgb": "R",
+      "has_prompt": true,
+      "prompt": "track 2 of Steel Ball Run\nMid-tempo instrumental around 78 BPM combining precision, drive, and elastic energy, A steady bassline forms a continuous engine with clean articulation and subtle accent shifts that imply rotation without changing speed (Atom: precision and structure), Drums stay disciplined and dry: kick remains grounded, snare is sharp and assertive on two and four with occasional harder hits that add bite (Lucifer: edge and boundary), while hi-hats introduce light triplet and dotted-note figures that bounce and snap back into the pocket (Luffy: elasticity and lift), Rhythm guitar repeats rounded, looping figures with controlled muting and small timing flex, occasionally stretching a phrase before snapping back tight, Harmony stays modal and restrained, avoiding emotional resolution, Brief textural accents add sparkle, then collapse immediately, The track feels balanced but alive\u2014firm control, sharp resolve, and playful motion coexisting without escalation",
+      "series": "Steel Ball Run",
+      "series_abbrev": "SBR",
+      "track_number": 2,
+      "rgb": "G",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
+        "R_power": [
+          "edge and boundary"
+        ],
+        "G_groove": [
+          "elastic",
+          "pocket",
+          "bounce"
+        ],
         "B_range": []
       },
-      "physics": [],
-      "drive_signature": "drift/clear/Power",
+      "physics": [
+        "pocket",
+        "bounce",
+        "roll",
+        "loop",
+        "resolution",
+        "resolve",
+        "edge and boundary"
+      ],
+      "drive_signature": "drift/clear/Rhythm",
       "constraints": {
         "no_vocals": false,
         "no_drops": false,
@@ -414,10 +483,10 @@
         "instrumental_only": false
       },
       "spectral_reading": "heavy low-end weight; articulate clarity; compressed density; clean rhythmic space",
-      "prose": "80 BPM A minor, slow, high-energy, bright. Instrumental. [no prompt \u2014 audio analysis only]",
-      "source": "audio_features_only",
-      "confidence": "low",
-      "summary": "Golden Drive. drift clear Power. RGB:R. no series. Physics: none extracted. 80 BPM A minor, slow, high-energy, bright. Instrumental. [no prompt \u2014 audio analysis only]",
+      "prose": "80.7 BPM A minor, slow, high-energy, bright.",
+      "source": "prompt",
+      "confidence": "high",
+      "summary": "Golden Drive. drift clear Rhythm. RGB:G. Steel Ball Run #2. Physics: pocket, bounce, roll, loop, resolution. 80.7 BPM A minor, slow, high-energy, bright.",
       "duration_sec": 196.8,
       "bpm": 80.7,
       "key": "A minor",
@@ -430,19 +499,33 @@
     },
     "Golden Spin.mp3": {
       "title": "Golden Spin",
-      "has_prompt": false,
-      "prompt": "",
-      "series": null,
-      "series_abbrev": null,
-      "track_number": null,
-      "rgb": "R",
+      "has_prompt": true,
+      "prompt": "track 1 of Steel Ball Run\nMid-tempo instrumental around 78 BPM combining precision, drive, and elastic energy, A steady bassline forms a continuous engine with clean articulation and subtle accent shifts that imply rotation without changing speed (Atom: precision and structure), Drums stay disciplined and dry: kick remains grounded, snare is sharp and assertive on two and four with occasional harder hits that add bite (Lucifer: edge and boundary), while hi-hats introduce light triplet and dotted-note figures that bounce and snap back into the pocket (Luffy: elasticity and lift), Rhythm guitar repeats rounded, looping figures with controlled muting and small timing flex, occasionally stretching a phrase before snapping back tight, Harmony stays modal and restrained, avoiding emotional resolution, Brief textural accents add sparkle, then collapse immediately, The track feels balanced but alive\u2014firm control, sharp resolve, and playful motion coexisting without escalation",
+      "series": "Steel Ball Run",
+      "series_abbrev": "SBR",
+      "track_number": 1,
+      "rgb": "G",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
+        "R_power": [
+          "edge and boundary"
+        ],
+        "G_groove": [
+          "elastic",
+          "pocket",
+          "bounce"
+        ],
         "B_range": []
       },
-      "physics": [],
-      "drive_signature": "blitz/clear/Power",
+      "physics": [
+        "pocket",
+        "bounce",
+        "roll",
+        "loop",
+        "resolution",
+        "resolve",
+        "edge and boundary"
+      ],
+      "drive_signature": "blitz/clear/Rhythm",
       "constraints": {
         "no_vocals": false,
         "no_drops": false,
@@ -450,10 +533,10 @@
         "instrumental_only": false
       },
       "spectral_reading": "fast-twitch syncopation; articulate clarity; compressed density; clean rhythmic space",
-      "prose": "161 BPM D# major, driving, high-energy, bright. Instrumental. [no prompt \u2014 audio analysis only]",
-      "source": "audio_features_only",
-      "confidence": "low",
-      "summary": "Golden Spin. blitz clear Power. RGB:R. no series. Physics: none extracted. 161 BPM D# major, driving, high-energy, bright. Instrumental. [no prompt \u2014 audio analysis only]",
+      "prose": "161.5 BPM D# major, driving, high-energy, bright.",
+      "source": "prompt",
+      "confidence": "high",
+      "summary": "Golden Spin. blitz clear Rhythm. RGB:G. Steel Ball Run #1. Physics: pocket, bounce, roll, loop, resolution. 161.5 BPM D# major, driving, high-energy, bright.",
       "duration_sec": 269.0,
       "bpm": 161.5,
       "key": "D# major",
@@ -578,19 +661,47 @@
     },
     "Jesus, the First Stand User.mp3": {
       "title": "Jesus, the First Stand User",
-      "has_prompt": false,
-      "prompt": "",
-      "series": null,
-      "series_abbrev": null,
-      "track_number": null,
-      "rgb": "R",
+      "has_prompt": true,
+      "prompt": "track 6 of Steel Ball Run\nA slow-to-mid tempo instrumental finale built as a first stand\u2014unyielding resolve manifested through perfect control, repetition, and luminous authority, Guitars are bold and declarative, locking into a simple, iconic riff that repeats with absolute conviction, growing heavier and more radiant through layered harmonics, octave reinforcement, and controlled distortion rather than complexity, Bass anchors the track as an immovable foundation, steady and unwavering, reinforcing the rail with calm triplet-informed momentum that feels eternal rather than urgent, Drums are disciplined and ceremonial: massive, grounded kick and snare patterns with precise, restrained subdivision work that adds shimmer and motion without aggression, evoking patience, endurance, and inevitable strength, Synth elements are radiant and symbolic\u2014bright, glass-like arpeggios, sustained metallic pads, and sharp pulses that feel holy without sentimentality, shining through the darkness like law made visible",
+      "series": "Steel Ball Run",
+      "series_abbrev": "SBR",
+      "track_number": 6,
+      "rgb": "B",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "R_power": [
+          "dark",
+          "mass",
+          "holy",
+          "law made visible"
+        ],
+        "G_groove": [
+          "subdivision"
+        ],
+        "B_range": [
+          "bright",
+          "luminous",
+          "radiant",
+          "luminous authority",
+          "glass-like",
+          "metallic pads"
+        ]
       },
-      "physics": [],
-      "drive_signature": "drive/clear/Power",
+      "physics": [
+        "unwavering",
+        "roll",
+        "mass",
+        "authority",
+        "resolve",
+        "controlled distortion",
+        "triplet-informed",
+        "luminous authority",
+        "radiant",
+        "holy",
+        "law made visible",
+        "glass-like",
+        "metallic pads"
+      ],
+      "drive_signature": "drive/clear/Range",
       "constraints": {
         "no_vocals": false,
         "no_drops": false,
@@ -598,10 +709,10 @@
         "instrumental_only": false
       },
       "spectral_reading": "fast-twitch syncopation; midrange warmth; wide dynamic swings; clean rhythmic space",
-      "prose": "152 BPM E minor, driving, high-energy, warm. Instrumental. [no prompt \u2014 audio analysis only]",
-      "source": "audio_features_only",
-      "confidence": "low",
-      "summary": "Jesus, the First Stand User. drive clear Power. RGB:R. no series. Physics: none extracted. 152 BPM E minor, driving, high-energy, warm. Instrumental. [no prompt \u2014 audio analysis only]",
+      "prose": "152.0 BPM E minor, driving, high-energy, warm.",
+      "source": "prompt",
+      "confidence": "high",
+      "summary": "Jesus, the First Stand User. drive clear Range. RGB:B. Steel Ball Run #6. Physics: unwavering, roll, mass, authority, resolve. 152.0 BPM E minor, driving, high-energy, warm.",
       "duration_sec": 449.2,
       "bpm": 152.0,
       "key": "E minor",
@@ -632,7 +743,11 @@
       },
       "physics": [
         "pocket",
-        "unbreakable"
+        "unbreakable",
+        "phase",
+        "multiplicity",
+        "cohesion",
+        "resolve"
       ],
       "drive_signature": "drift/clear/Rhythm",
       "constraints": {
@@ -644,8 +759,8 @@
       "spectral_reading": "heavy low-end weight; midrange warmth; compressed density; clean rhythmic space",
       "prose": "86.1 BPM E minor, slow, high-energy, warm.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "MANY VOICES, ONE DIRECTION. drift clear Rhythm. RGB:G. Unbreakable Momentum #6. Physics: pocket, unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 86.1 BPM E minor, slow, high-energy, warm.",
+      "confidence": "high",
+      "summary": "MANY VOICES, ONE DIRECTION. drift clear Rhythm. RGB:G. Unbreakable Momentum #6. Physics: pocket, unbreakable, phase, multiplicity, cohesion. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 86.1 BPM E minor, slow, high-energy, warm.",
       "duration_sec": 235.0,
       "bpm": 86.1,
       "key": "E minor",
@@ -681,7 +796,10 @@
       "physics": [
         "pocket",
         "breath",
-        "unbreakable"
+        "unbreakable",
+        "loop",
+        "multiplicity",
+        "resolve"
       ],
       "drive_signature": "blitz/warm/Power",
       "constraints": {
@@ -694,7 +812,7 @@
       "prose": "161.5 BPM B major, driving, high-energy, warm.",
       "source": "prompt",
       "confidence": "high",
-      "summary": "PATTERN STILL BREATHES. blitz warm Power. RGB:R. Unbreakable Momentum #8. Physics: pocket, breath, unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 161.5 BPM B major, driving, high-energy, warm.",
+      "summary": "PATTERN STILL BREATHES. blitz warm Power. RGB:R. Unbreakable Momentum #8. Physics: pocket, breath, unbreakable, loop, multiplicity. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 161.5 BPM B major, driving, high-energy, warm.",
       "duration_sec": 243.0,
       "bpm": 161.5,
       "key": "B major",
@@ -727,7 +845,10 @@
       },
       "physics": [
         "pocket",
-        "unbreakable"
+        "unbreakable",
+        "roll",
+        "loop",
+        "resolve"
       ],
       "drive_signature": "groove/clear/Rhythm",
       "constraints": {
@@ -739,8 +860,8 @@
       "spectral_reading": "driving syncopation; midrange warmth; controlled dynamics; layered subdivision",
       "prose": "117.5 BPM G major, mid-tempo, high-energy, warm.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "QUIET CORRECTIONS. groove clear Rhythm. RGB:G. Unbreakable Momentum #5. Physics: pocket, unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 117.5 BPM G major, mid-tempo, high-energy, warm.",
+      "confidence": "high",
+      "summary": "QUIET CORRECTIONS. groove clear Rhythm. RGB:G. Unbreakable Momentum #5. Physics: pocket, unbreakable, roll, loop, resolve. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 117.5 BPM G major, mid-tempo, high-energy, warm.",
       "duration_sec": 212.4,
       "bpm": 117.5,
       "key": "G major",
@@ -775,7 +896,10 @@
       "physics": [
         "rubber",
         "unbreakable",
-        "bounce"
+        "bounce",
+        "loop",
+        "multiplicity",
+        "resolve"
       ],
       "drive_signature": "drive/warm/Rhythm",
       "constraints": {
@@ -788,7 +912,7 @@
       "prose": "152.0 BPM E minor, driving, high-energy, warm.",
       "source": "prompt",
       "confidence": "high",
-      "summary": "RUBBER HORIZON. drive warm Rhythm. RGB:G. Unbreakable Momentum #1. Physics: rubber, unbreakable, bounce. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 152.0 BPM E minor, driving, high-energy, warm.",
+      "summary": "RUBBER HORIZON. drive warm Rhythm. RGB:G. Unbreakable Momentum #1. Physics: rubber, unbreakable, bounce, loop, multiplicity. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 152.0 BPM E minor, driving, high-energy, warm.",
       "duration_sec": 131.5,
       "bpm": 152.0,
       "key": "E minor",
@@ -827,7 +951,8 @@
       },
       "physics": [
         "re-acceleration",
-        "propulsion"
+        "propulsion",
+        "roll"
       ],
       "drive_signature": "groove/clear/Power",
       "constraints": {
@@ -839,8 +964,8 @@
       "spectral_reading": "steady pocket groove; articulate clarity; controlled dynamics; layered subdivision",
       "prose": "track 5 of Syncopation Engine\nA green-forward neon race dry kit synthpop propulsion track in B minor driven by highly syncopated kick patterns and a reactive elastic electric bassline creating lively forward motion, punchy snare hits with controlled body and fast articulate hi-hat patterns adding rhythmic lift, clean minor chord stab hook performed with warm analog synth tone repeating in tight rhythmic cycles, tight electric rhythm guitar reinforcing the groove, steel-blue mix control keeping everything focused and punchy, subtle red propulsion supporting acceleration, all built on groove complexity and precise rhythmic movement, This track does re-acceleration through syncopated analog groove intensity and elastic bass propulsion, 104 BPM.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "Re-Acceleration. groove clear Power. RGB:R. Syncopation Engine #5. Physics: re-acceleration, propulsion. track 5 of Syncopation Engine\nA green-forward neon race dry kit synthpop propulsion track in B minor driven by highly sy",
+      "confidence": "high",
+      "summary": "Re-Acceleration. groove clear Power. RGB:R. Syncopation Engine #5. Physics: re-acceleration, propulsion, roll. track 5 of Syncopation Engine\nA green-forward neon race dry kit synthpop propulsion track in B minor driven by highly sy",
       "duration_sec": 226.6,
       "bpm": 103.4,
       "key": "B minor",
@@ -877,7 +1002,11 @@
         "snap-back",
         "grid",
         "propulsion",
-        "tension push"
+        "tension push",
+        "roll",
+        "loop",
+        "phase",
+        "authority"
       ],
       "drive_signature": "groove/bright/Rhythm",
       "constraints": {
@@ -890,7 +1019,7 @@
       "prose": "track 7 of Syncopation Engine\nHook-first instrumental synth-rock with clean chiptune edge and PS1-era racing urgency, locked 4/4 at a tight 104 BPM with precise grid timing and an immediately walkable kick\u2013snare rail, dry articulate drums driving steady 16th-note hats with short controlled fills, elastic bass loop that repeats every 8 bars with a subtle tension push in bars 6\u20137 and a snap-back in bar 8, analog synth chord blocks punching on offbeats, tight palm-muted guitar stabs doubling the rhythm for propulsion, bright-but-controlled chiptune lead motifs that cycle in 1\u20132 bar phrases and phase slightly over the 8-bar loop without breaking the groove, single tonal center with restrained harmony, mid-track strip-down to drums+bass for 8 bars then rebuild with the same loop for addictive repetition, ending with a clean declarative final 2-bar motif, This track does relentless forward motion through repetition, elastic bass, and drum-led authority, 104 BPM.",
       "source": "prompt",
       "confidence": "high",
-      "summary": "SNAP-BACK ENGINE. groove bright Rhythm. RGB:G. Syncopation Engine #7. Physics: snap-back, grid, propulsion, tension push. track 7 of Syncopation Engine\nHook-first instrumental synth-rock with clean chiptune edge and PS1-era racing urgency, lo",
+      "summary": "SNAP-BACK ENGINE. groove bright Rhythm. RGB:G. Syncopation Engine #7. Physics: snap-back, grid, propulsion, tension push, roll. track 7 of Syncopation Engine\nHook-first instrumental synth-rock with clean chiptune edge and PS1-era racing urgency, lo",
       "duration_sec": 170.0,
       "bpm": 103.4,
       "key": "E minor",
@@ -937,7 +1066,12 @@
         "grid",
         "propulsion",
         "circular bass",
-        "gravity groove"
+        "gravity groove",
+        "weight",
+        "mass",
+        "fixed grid",
+        "layering",
+        "authority"
       ],
       "drive_signature": "groove/clear/Power",
       "constraints": {
@@ -963,19 +1097,42 @@
     },
     "Steel Ball Run.mp3": {
       "title": "Steel Ball Run",
-      "has_prompt": false,
-      "prompt": "",
-      "series": null,
-      "series_abbrev": null,
-      "track_number": null,
-      "rgb": "R",
+      "has_prompt": true,
+      "prompt": "track 4 of Steel Ball Run\nA relentless mid-tempo engine around ~88 BPM built on absolute rail authority, where mathematical precision, raw drive, and disciplined aggression fuse into nonstop forward motion, Drums are hyper-locked and uncompromising\u2014hard kick/snare spine, razor-consistent hi-hat grids with controlled subdivision pressure (tight 16ths, brief tuplet flashes, short polymetric illusions) that increase perceived speed without bending time, Bass is f Symbolic texture and brightness flicker on the surface (Jojo), pure momentum and forward drive push relentlessly (Luffy), sharp boundary and power keep everything disciplined and hard-edged (Lucifer), and underlying it all is Atom-level math\u2014clean structure, repeatable logic, no drift, no emotion-led arcs, Salience is evenly distributed, variance is micro and constant (filters, gates, articulation swaps), and nothing resolves or tells a story; the track exists as law-bound motion itself, ending as if the machine is still accelerating long after the fade",
+      "series": "Steel Ball Run",
+      "series_abbrev": "SBR",
+      "track_number": 4,
+      "rgb": "G",
       "rgb_tags": {
-        "R_power": [],
-        "G_groove": [],
-        "B_range": []
+        "R_power": [
+          "forward"
+        ],
+        "G_groove": [
+          "subdivision",
+          "grid",
+          "clean structure",
+          "atom-level math",
+          "repeatable logic"
+        ],
+        "B_range": [
+          "bright"
+        ]
       },
-      "physics": [],
-      "drive_signature": "pocket/clear/Power",
+      "physics": [
+        "rail authority",
+        "grid",
+        "roll",
+        "authority",
+        "resolve",
+        "law-bound motion",
+        "mathematical precision",
+        "polymetric",
+        "atom-level math",
+        "clean structure",
+        "repeatable logic",
+        "symbolic texture"
+      ],
+      "drive_signature": "pocket/clear/Rhythm",
       "constraints": {
         "no_vocals": false,
         "no_drops": false,
@@ -983,10 +1140,10 @@
         "instrumental_only": false
       },
       "spectral_reading": "heavy low-end weight; articulate clarity; controlled dynamics; clean rhythmic space",
-      "prose": "89 BPM E minor, slow, high-energy, bright. Instrumental. [no prompt \u2014 audio analysis only]",
-      "source": "audio_features_only",
-      "confidence": "low",
-      "summary": "Steel Ball Run. pocket clear Power. RGB:R. no series. Physics: none extracted. 89 BPM E minor, slow, high-energy, bright. Instrumental. [no prompt \u2014 audio analysis only]",
+      "prose": "89.1 BPM E minor, slow, high-energy, bright.",
+      "source": "prompt",
+      "confidence": "high",
+      "summary": "Steel Ball Run. pocket clear Rhythm. RGB:G. Steel Ball Run #4. Physics: rail authority, grid, roll, authority, resolve. 89.1 BPM E minor, slow, high-energy, bright.",
       "duration_sec": 388.0,
       "bpm": 89.1,
       "key": "E minor",
@@ -1021,7 +1178,9 @@
         "pocket",
         "inevitability",
         "unwavering",
-        "unbreakable"
+        "unbreakable",
+        "loop",
+        "resolve"
       ],
       "drive_signature": "blitz/clear/Power",
       "constraints": {
@@ -1034,7 +1193,7 @@
       "prose": "172.3 BPM E minor, driving, high-energy, bright.",
       "source": "prompt",
       "confidence": "high",
-      "summary": "UNBREAKABLE. blitz clear Power. RGB:R. Unbreakable Momentum #10. Physics: pocket, inevitability, unwavering, unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 172.3 BPM E minor, driving, high-energy, bright.",
+      "summary": "UNBREAKABLE. blitz clear Power. RGB:R. Unbreakable Momentum #10. Physics: pocket, inevitability, unwavering, unbreakable, loop. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 172.3 BPM E minor, driving, high-energy, bright.",
       "duration_sec": 480.0,
       "bpm": 172.3,
       "key": "E minor",
@@ -1073,7 +1232,9 @@
       },
       "physics": [
         "kinetic",
-        "propulsion"
+        "propulsion",
+        "roll",
+        "layering"
       ],
       "drive_signature": "drive/clear/Power",
       "constraints": {
@@ -1085,8 +1246,8 @@
       "spectral_reading": "driving syncopation; articulate clarity; controlled dynamics; layered subdivision",
       "prose": "track 6 of Syncopation Engine\nA green-forward neon race dry kit synth propulsion track in F# minor at 103 BPM driven by tight syncopated kick patterns and a smooth elastic electric bassline creating steady forward motion, punchy snare hits with controlled body and articulate hi-hat patterns adding rhythmic lift, bold analog synth chord blocks repeating in clean rhythmic cycles, focused electric bass and drum layering maintaining kinetic drive, steel-blue mix control keeping everything tight and balanced, subtle red propulsion supporting momentum, all centered on groove precision and confident forward movement, This track does victory drive through controlled propulsion, elastic groove clarity, and confident rhythmic motion at sustained high energy, 103 BPM.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "Victory Drive. drive clear Power. RGB:R. Syncopation Engine #6. Physics: kinetic, propulsion. track 6 of Syncopation Engine\nA green-forward neon race dry kit synth propulsion track in F# minor at 103 BPM driven by ",
+      "confidence": "high",
+      "summary": "Victory Drive. drive clear Power. RGB:R. Syncopation Engine #6. Physics: kinetic, propulsion, roll, layering. track 6 of Syncopation Engine\nA green-forward neon race dry kit synth propulsion track in F# minor at 103 BPM driven by ",
       "duration_sec": 149.9,
       "bpm": 136.0,
       "key": "F# minor",
@@ -1126,7 +1287,11 @@
         "kinetic",
         "propulsion",
         "space",
-        "unbreakable"
+        "unbreakable",
+        "rubber-on-fire",
+        "roll",
+        "surge",
+        "resolve"
       ],
       "drive_signature": "drive/clear/Range",
       "constraints": {
@@ -1174,7 +1339,9 @@
       },
       "physics": [
         "pocket",
-        "unbreakable"
+        "unbreakable",
+        "authority",
+        "resolve"
       ],
       "drive_signature": "blitz/clear/Power",
       "constraints": {
@@ -1186,8 +1353,8 @@
       "spectral_reading": "fast-twitch syncopation; articulate clarity; compressed density; clean rhythmic space",
       "prose": "161.5 BPM D# minor, driving, high-energy, bright.",
       "source": "prompt",
-      "confidence": "medium",
-      "summary": "WILL HOLDS SHAPE. blitz clear Power. RGB:R. Unbreakable Momentum #2. Physics: pocket, unbreakable. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 161.5 BPM D# minor, driving, high-energy, bright.",
+      "confidence": "high",
+      "summary": "WILL HOLDS SHAPE. blitz clear Power. RGB:R. Unbreakable Momentum #2. Physics: pocket, unbreakable, authority, resolve. Constraints: no_vocals, no_drops, no_chaos, instrumental_only. 161.5 BPM D# minor, driving, high-energy, bright.",
       "duration_sec": 209.9,
       "bpm": 161.5,
       "key": "D# minor",

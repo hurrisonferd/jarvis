@@ -102,6 +102,23 @@ SERIES: dict[str, dict] = {
         "physics": ["gravity groove", "fixed grid", "rail authority", "mechanical propulsion"],
         "description": "Steel blue gravity groove. Dense mechanical propulsion with disciplined digital precision.",
     },
+    "Steel Ball Run": {
+        "abbr": "SBR",
+        "bpm_range": (78, 88),
+        "keys": ["D major", "? minor", "? major"],
+        "genre_tags": ["instrumental rock", "instrumental", "JoJo series"],
+        "color_bias": "R",
+        "constraints": ["no vocals", "no ambient drift"],
+        "physics": [
+            "rail-bound motion", "law-bound motion", "mathematical precision",
+            "triplet-informed", "polymetric", "boundary enforcement",
+            "controlled distortion", "luminous authority", "radiant",
+            "forward-locked", "pressure building", "fixed system",
+            "clean structure", "clean boundary",
+        ],
+        "description": "JoJo-coded engine series. Atom (precision/math), Luffy (elastic), Lucifer (boundary), "
+                       "Jojo (luminous). Rail-bound motion as law. BPM 78-88, mid-tempo.",
+    },
 }
 
 # ─── Suno Prompt Grammar ──────────────────────────────────────────────────────

@@ -17,21 +17,42 @@ SERIES = {
     "unbreakable momentum": "Unbreakable Momentum",
     "syncopation engine": "Syncopation Engine",
     "neon race": "Neon Race",
+    "steel ball run": "Steel Ball Run",
 }
 SERIES_ABBREV = {
     "Unbreakable Momentum": "UM",
     "Syncopation Engine": "SE",
     "Neon Race": "NR",
+    "Steel Ball Run": "SBR",
 }
 
-# Physics / space metaphors for physics_signature()
+# Physics / spatial metaphors for physics_signature()
+# JoJo SBR codes: Luffy (elastic bounce), Lucifer (boundary/edge),
+# Atom (precision/math), Jojo (luminous/radiant)
 PHYSICS_TAGS = [
+    # Rail theory (UM/SE)
     "rail authority", "gravity groove", "elastic bounce", "snap-back",
     "forward momentum", "re-acceleration", "rubber", "friction",
     "subdivision precision", "grid", "pocket", "kinetic",
     "propulsion", "tension push", "breath", "space",
     "inevitability", "unwavering", "unbreakable",
     "bounce", "elastic movement", "circular bass", "gravity groove",
+    "rubber-on-fire", "roll", "surge", "weight", "mass",
+    "fixed grid", "bar subdivision", "phrase cycle", "loop",
+    "phase", "layering", "accumulation",
+    "declarative motif", "resolution", "authority",
+    "multiplicity", "cohesion", "resolve",
+    # JoJo series (SBR)
+    "rail-bound motion", "law-bound motion", "mathematical precision",
+    "boundary enforcement", "edge and boundary", "controlled distortion",
+    "triplet-informed", "triplet motion", "polymetric", "non-Euclidean",
+    "luminous authority", "radiant", "holy", "law made visible",
+    "forward-locked", "pressure building", "fixed system",
+    "stop-start", "step dynamics", "clean boundary",
+    "atom-level math", "clean structure", "repeatable logic",
+    "salience distributed", "micro variance", "machine still accelerating",
+    "glass-like", "metallic pads", "symbolic texture",
+    "rotational energy",
 ]
 
 
@@ -40,6 +61,7 @@ def _color_signature(text: str) -> dict:
     t = text.lower()
     r_tags, g_tags, b_tags = [], [], []
     color_map = {
+        # RGB core
         "steel-blue compression": "B", "steel blue compression": "B",
         "steel-blue mix": "B", "steel blue mix": "B",
         "neon accents": "G", "neon race": "G",
@@ -52,6 +74,15 @@ def _color_signature(text: str) -> dict:
         "subdivision": "G", "grid": "G", "pocket": "G",
         "kinetic": "R", "propulsion": "R", "forward": "R", "launch": "R",
         "deep": "R", "low-end": "R", "bounce": "G",
+        # JoJo SBR codes
+        "boundary enforcement": "R", "edge and boundary": "R",  # Lucifer → R (authority)
+        "luminous": "B", "radiant": "B", "luminous authority": "B",  # Jojo → B (range)
+        "glass-like": "B", "metallic pads": "B",  # B (clarity)
+        "holy": "R", "law made visible": "R",  # R (authority)
+        "clean boundary": "R", "clean structure": "G",  # Atom → G (precision)
+        "atom-level math": "G", "repeatable logic": "G",  # Atom → G
+        "rail-bound": "R", "forward-locked": "R",  # R (authority)
+        "step dynamics": "G",  # G (controlled motion)
     }
     for phrase, channel in color_map.items():
         if phrase in t:
