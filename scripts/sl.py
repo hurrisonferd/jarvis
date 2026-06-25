@@ -99,19 +99,32 @@ def _parse_daily_blocks(text):
 
 def _split_title_notes(line):
     """Split a task line into (title, notes).
-    Only split on '  ' (double-space) — unambiguous.
-    Em-dashes are part of the title. Notes only present if double-space present."""
+    Double-space '  ' is the only notes delimiter.
+    Em-dashes are part of the title. Notes only present if double-space is used."""
     rest = line[2:].strip()
     if "  " in rest:
         parts = rest.split("  ", 1)
         return parts[0].strip(), parts[1].strip()
     return rest, ""
 
-def _task_key(task):
-    """Stable key for deduplication: title only.
-    Multiple appearances of the same task title collapse into one — last seen wins."""
-    title = task.get("title", "")
+
+def _title_for_dedup(title):
+    """Normalize a title for deduplication: strip em-dash notes.
+    'Repo audit — DELETE (orphans) — 6 PNGs' → 'Repo audit — DELETE (orphans)'
+    Keeps sub-task structure (DELETE/CONSOLIDATE/ARCHIVE/WIRE are part of the key)."""
+    # Strip everything from the second em-dash onward (that's notes territory)
+    # First em-dash is part of the title (sub-task marker)
+    # Pattern: "Title — sub" or "Title — sub — notes"
+    parts = title.split(" — ")
+    if len(parts) >= 2:
+        # Keep first 2 parts (main + sub), strip rest
+        return " — ".join(parts[:2])
     return title.strip()
+
+def _task_key(task):
+    """Stable key for deduplication: normalized title (no notes).
+    Multiple appearances of the same task collapse into one — last seen wins."""
+    return _title_for_dedup(task.get("title", ""))
 
 def _parse_task_block(block_text):
     """Parse a task code block into task dicts."""
@@ -175,6 +188,16 @@ def read_tracker():
     return json.loads(TRACKER_PATH.read_text()).get("tasks", [])
 
 def sync_tasks():
+    """Sync task tracker from the last SESSION_SNAPSHOT (old format with actual task blocks).
+    Daily logs reference the tracker; SESSION_SNAPSHOT logs carry the actual tasks."""
+    # Prefer last SESSION_SNAPSHOT (they have actual task blocks)
+    logs = sorted(STARS_DIR.glob("STARLOG-*-SESSION_SNAPSHOT-*.md"), reverse=True)
+    if logs:
+        tasks = parse_tasks(logs[0])
+        write_tracker(tasks)
+        print(f"Synced {len(tasks)} tasks from {logs[0].name}")
+        return
+    # Fall back to any log with tasks
     log = last_star_log()
     if log:
         tasks = parse_tasks(log)
@@ -216,14 +239,12 @@ def _format_tasks(tasks):
         lines.append(f"{icon} {title}  {note}".rstrip())
     return "\n".join(lines)
 
-def build_decision_block(summary, decisions_text, tasks, ts=None):
-    """Build a decision block for a daily StarLog."""
+def build_decision_block(summary, decisions_text, ts=None):
+    """Build a decision block for a daily StarLog. Tasks live in the tracker file — not carried forward."""
     if ts is None:
         ts = now()
     ts_str = ts.isoformat()
     stardate = ts.strftime("%Y.%j")
-    task_lines = _format_tasks(tasks)
-    nav = task_count(tasks)
     return f"""## Decision — {ts_str}
 **Stardate:** {stardate}
 
@@ -234,11 +255,7 @@ def build_decision_block(summary, decisions_text, tasks, ts=None):
 {decisions_text}
 
 ### Tasks
-*{nav}*
-
-```
-{task_lines}
-```"""
+*See .openhands/task_tracker.json — the tracker is the authoritative task list.*"""
 
 def build_daily_log_header(stardate, stream):
     """Build the opening header for a new daily StarLog."""
@@ -248,11 +265,11 @@ def build_daily_log_header(stardate, stream):
 
 ---"""
 
-def append_decision_to_daily(summary, decisions_text, tasks, stream="jarvis-ayre"):
+def append_decision_to_daily(summary, decisions_text, stream="jarvis-ayre"):
     """Append a decision block to today's daily StarLog. Creates the log if it doesn't exist."""
     path = get_daily_log_path(stream)
     stardate = now().strftime("%Y.%j")
-    block = build_decision_block(summary, decisions_text, tasks)
+    block = build_decision_block(summary, decisions_text)
     if path.exists():
         existing = path.read_text()
         # Strip trailing --- and newline before appending
@@ -415,14 +432,13 @@ def main():
     # --decision: append to today's daily StarLog
     if args.decision:
         summary, decisions_text = args.decision
-        tasks = read_tracker()
-        path = append_decision_to_daily(summary, decisions_text, tasks, args.stream)
+        path = append_decision_to_daily(summary, decisions_text, args.stream)
         print(f"Appended decision to: {path.name}")
         commit([path], f"chore(audit): SL — {now().date()} — decision: {summary[:60]}")
         sync_tasks()
         return
 
-    # --list: show today's decisions
+    # --list: show today's decisions + overall task state from tracker
     if args.list:
         _, blocks = read_daily_log(args.stream)
         if not blocks:
@@ -430,25 +446,20 @@ def main():
         else:
             print(f"Today's decisions ({len(blocks)}):")
             print()
-            for i, (ts, summary, _, tasks) in enumerate(blocks, 1):
-                done = sum(1 for t in tasks if t["status"] == "done")
-                todo = sum(1 for t in tasks if t["status"] == "todo")
+            for i, (ts, summary, _, _) in enumerate(blocks, 1):
                 print(f"  {i}. {ts[:19]} — {summary}")
-                print(f"     ● {done} done · ○ {todo} open")
-            print()
-            nav = task_count()
-            print(f"  Overall: {nav}")
+        print()
+        nav = task_count()
+        print(f"  Task state: {nav}")
         return
 
-    # --session-start: sync from today's daily log
+    # --session-start: read tracker (set by --sync-tasks at previous session close)
     if args.session_start:
-        log = get_daily_log_path(args.stream)
-        if log.exists():
-            tasks = parse_tasks(log)
-            write_tracker(tasks)
-            print(f"Synced {len(tasks)} tasks from {log.name}")
+        tasks = read_tracker()
+        if tasks:
+            print(f"Loaded {len(tasks)} tasks from tracker")
         else:
-            sync_tasks()  # fall back to last StarLog
+            sync_tasks()  # no tracker, build from daily log
         return
 
     # --mimir routing table
