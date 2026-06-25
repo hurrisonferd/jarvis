@@ -1,0 +1,31 @@
+name: "JARVIS Ears — dispatch"
+
+# When audio or prompts land in MusicOS/songs/, tell JARVIS to analyze them.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'MusicOS/songs/audio/**'
+      - 'MusicOS/songs/prompts/**'
+  workflow_dispatch: {}   # manual trigger
+
+permissions:
+  contents: read
+  actions: write   # needed for repository_dispatch
+
+jobs:
+  dispatch:
+    name: Dispatch JARVIS ears
+    runs-on: ubuntu-latest
+    steps:
+      - name: Dispatch
+        uses: peter-evans/repository-dispatch@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          repository: hurrisonferd/jarvis
+          event-type: music-ears
+          client-payload: |
+            {
+              "sha": "${{ github.sha }}",
+              "ref": "${{ github.ref }}"
+            }
