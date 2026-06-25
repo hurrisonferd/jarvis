@@ -58,4 +58,29 @@ System stays in JARVIS repo: mnemos_vector.py, memories/, logs/, context/, knowl
 
 ### Tasks
 *See .openhands/task_tracker.json — the tracker is the authoritative task list.*
+## Decision — 2026-06-25T20:22:41.979123+00:00
+**Stardate:** 2026.176
+
+### Summary
+PachinkoBounce design decisions
+
+### Decisions made
+Core: 3 balls max · bricks die from balls only · ball falls = gone · 0 balls = run end
+Loop: brick kills can drop new balls (gacha) · collect RGB orbs · chaos meter from tapping
+Abilities: SPD/MAS/MUL/GRV/BNC/SHD/XPL/CHN/MAG/FIR/FRZ · each with real physics effects
+RGB: R=Power G=Rhythm B=Range · STR sub: R=size G=mass B=damage · TEQ sub: R=bounce G=speed B=multi-ball
+Rarity: Common/Uncommon/Rare/Epic/Legendary/Mythic (6 tiers) · Borderlands-style drop rates
+Textures: solid/square/diamond/star5/hex/shard/ring
+Patterns: none/pulse/wave/spiral/flash/orbit/halo
+Chaos mode: meter fills from tapping · ★ CHAOS 5T summons extreme ball
+Extreme balls: TITAN/PHANTOM/SWARM/FORTRESS/DETONATOR/LINK/ULTIMATE
+Tokens: earned from kills · spend on chaos summon · never forced
+Run end screen: always a win · score + tokens earned + collection count · 'AGAIN' prompt
+Collection: localStorage · shows all balls found · persists between runs
+Pinball trench: side rails · 3 lanes · depth gradient · lane-specific physics
+Fashion core: Mythic aura · animated names · collection gallery · legendary balls glow
+Voluntary rewards: +1 TOKEN button always available · never forced · always wanting another run
+
+### Tasks
+*See .openhands/task_tracker.json — the tracker is the authoritative task list.*
 
