@@ -30,20 +30,21 @@ a new subsystem, name the concrete capability it unblocks — "cleaner" is not a
 - **MNEMOS**: 13 stores, ~500KB. Key: decisions.json (341 gov decisions, git-first fallback),
   sessions.json (local writer), growth_archive (329KB JATM). Updated on every session close.
 - **StarLogs**: `audit/starlogs/`, auto-generated via `scripts/sl.py --session-close`.
-- **MusicOS**: 47 tracks, MID-0001–0047, 3 series. JarvisSide/Projects/MusicOS/JD/MUSIC/.
-- **MonsterOS**: 26 monsters, MOS-0001–0026. JarvisSide/Projects/MonsterOS/JD/MONSTERS/.
+- **MusicOS**: 47 tracks, MID-0001–0047, 3 series. **Truth: Jarvis-Private/MusicOS/registry/**
+  JARVIS repo: reference pointer only (`MusicOS/JD/MUSIC-REFERENCE.md`).
+- **MonsterOS**: 26 monsters, MOS-0001–0026. **Truth: Jarvis-Private/MonsterOS/registry/**
+  JARVIS repo: reference pointer only (`MonsterOS/JD/MONSTERS-REFERENCE.md`).
 - **JVE validator**: `JarvisMain/yggdrasil/tools/jpl_validate.py` — run on any new JD entries.
 
 ### Top buried value
-- `intake/recycle/jarvis-governed-workflow.md` — 11-step session workflow checklist, not wired
-- `JarvisMain/Implementation/Active/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md` — MIMIR
-  routing table (who to ask for what), not in help systems
 - `JarvisMain/Architecture/specs/throughput-posture.md` — HALO's boundary: production pressure
   may compress PRESENTATION but never PERSISTENCE or GOVERNANCE
 - `JarvisMain/Architecture/specs/pre-act-verification-contract.md` — anti-hallucination contract
 - `JarvisMain/Architecture/specs/IMPL-HON-SPEC-0001.md` — Honest Answering: name the gap, show
   the search, never fill with inference
 - `JarvisMain/Architecture/CONTINUITY-THROUGH-THE-CONNECTOR.md` — resume-path documentation
+- `JarvisMain/Architecture/specs/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md` — MIMIR
+  routing table; available via `python3 scripts/sl.py --mimir`
 
 ### Naming conventions (for media cataloging)
 - `4K_` prefix = high-res variant of base name
