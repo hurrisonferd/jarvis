@@ -67,6 +67,10 @@ Provision these before deploying. Do not commit values anywhere.
 
 ### GitHub
 - `GITHUB_TOKEN` = GitHub PAT with `repo` scope (for connector GitHub tools)
+- `JARVIS_PRIVATE_TOKEN` = **GitHub PAT with `repo` scope** — stored in the **JARVIS repo** (not Jarvis-Private)
+  - Required so `music-ears.yml` (in JARVIS) can clone Jarvis-Private for MusicOS audio
+  - Create at: https://github.com/settings/tokens → `Generate new token (classic)` → `repo` scope
+  - Add to: https://github.com/hurrisonferd/jarvis/settings/secrets → `New repository secret` → `JARVIS_PRIVATE_TOKEN`
 
 ### JARVIS MCP
 - `JARVIS_MCP_TOKEN` = Bearer token for MCP authentication
@@ -114,6 +118,10 @@ supabase db push --project-ref oexghfsvhnggddllgvrt
 #   - 2022024_jmms_jse_tier_integration.sql      (JMMS tiers)
 
 # 4. Set secrets in Supabase Edge Function settings:
+# 4. Set JARVIS repo secrets (cross-repo PAT for music-ears):
+#    https://github.com/hurrisonferd/jarvis/settings/secrets → New repository secret
+#    - Name: JARVIS_PRIVATE_TOKEN  |  Value: GitHub PAT with repo scope
+#    This allows music-ears.yml (JARVIS repo) to clone Jarvis-Private for MusicOS audio analysis.
 #   - SUPABASE_URL
 #   - SUPABASE_SERVICE_ROLE_KEY
 #   - DATABASE_URL
