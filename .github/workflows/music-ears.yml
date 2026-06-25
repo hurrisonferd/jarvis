@@ -1,26 +1,24 @@
 name: "JARVIS — MusicOS Ears"
 
-# MusicOS ears. Clones Jarvis-Private/MusicOS/songs/audio/, runs librosa on every track,
-# writes spectrograms + AUDIO-FEATURES.json + MEDIA-MANIFEST.md to JarvisSide/Media/.
-# Dispatches from Jarvis-Private on audio push, or manually via workflow_dispatch.
-# The companion hears the bones; the soul is Raven's.
+# MusicOS ears. Dispatches from Jarvis-Private when audio lands; runs librosa analysis
+# on MusicOS/songs/audio/, writes spectrograms + AUDIO-FEATURES.json + MEDIA-MANIFEST.md
+# to this repo. The companion hears the bones; the soul is Raven's.
 on:
-  # Dispatches from Jarvis-Private when audio lands (see Jarvis-Private/.github/workflows/)
+  # Dispatches from Jarvis-Private when audio lands
   repository_dispatch:
     types: [music-ears]
   # Manual backfill / re-analysis
   workflow_dispatch:
     inputs:
-      audio_dir:
-        description: "Override audio source (e.g. MusicOS/songs/audio/)"
-        required: false
-        default: ""
       force:
         description: "Re-analyze all tracks (ignore cache)"
         required: false
         default: "false"
         type: boolean
 
+# JARVIS_PRIVATE_TOKEN: GitHub PAT with repo scope. Stored as a repo secret.
+# Required so this workflow (in JARVIS repo) can clone Jarvis-Private for audio source.
+# Create at: https://github.com/settings/tokens  →  repo scope
 permissions:
   contents: write
 
@@ -36,17 +34,12 @@ jobs:
       - name: Checkout JARVIS
         uses: actions/checkout@v4
 
-      - name: Clone MusicOS audio
+      - name: Clone MusicOS audio from Jarvis-Private
         env:
-          GH_PAT: ${{ secrets.GITHUB_TOKEN }}
+          JARVIS_PRIVATE_TOKEN: ${{ secrets.JARVIS_PRIVATE_TOKEN }}
         run: |
-          git clone --depth 1 https://x-access-token:${GH_PAT}@github.com/hurrisonferd/Jarvis-Private.git /tmp/Jarvis-Private
-          AUDIO_DIR="/tmp/Jarvis-Private/MusicOS/songs/audio"
-          if [ -n "${{ inputs.audio_dir }}" ]; then
-            AUDIO_DIR="${{ inputs.audio_dir }}"
-          fi
-          echo "AUDIO_DIR=$AUDIO_DIR" >> $GITHUB_OUTPUT
-          echo "TRACK_COUNT=$(ls "$AUDIO_DIR"/*.mp3 2>/dev/null | wc -l)" >> $GITHUB_OUTPUT
+          git clone --depth 1 https://x-access-token:${JARVIS_PRIVATE_TOKEN}@github.com/hurrisonferd/Jarvis-Private.git /tmp/Jarvis-Private
+          echo "tracks=$(ls /tmp/Jarvis-Private/MusicOS/songs/audio/*.mp3 2>/dev/null | wc -l)" >> $GITHUB_OUTPUT
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -59,25 +52,8 @@ jobs:
           python3 -m pip install --quiet librosa numpy soundfile audioread matplotlib
 
       - name: Run ears
-        env:
-          JARVIS_PRIVATE_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          FORCE: ${{ inputs.force }}
         run: |
-          AUDIO_DIR=$(git -C /tmp/Jarvis-Private config --get remote.origin.url 2>/dev/null \
-            && echo "/tmp/Jarvis-Private/MusicOS/songs/audio" \
-            || echo "${{ inputs.audio_dir || '/tmp/Jarvis-Private/MusicOS/songs/audio' }}")
-
-          # If workflow_dispatch with audio_dir override
-          if [ -n "${{ inputs.audio_dir }}" ]; then
-            python3 scripts/music_ears.py --audio-dir "${{ inputs.audio_dir }}"
-          else
-            python3 scripts/music_ears.py --audio-dir /tmp/Jarvis-Private/MusicOS/songs/audio
-          fi
-
-      - name: Report
-        run: |
-          echo "Spectrograms: $(ls JarvisSide/Media/spectrograms/*.png 2>/dev/null | wc -l)"
-          echo "Tracks in features: $(python3 -c "import json; d=json.load(open('JarvisSide/Media/AUDIO-FEATURES.json')); print(len(d.get('tracks',{})))" 2>/dev/null || echo 0)"
+          python3 scripts/music_ears.py --audio-dir /tmp/Jarvis-Private/MusicOS/songs/audio
 
       - name: Commit & push
         run: |
