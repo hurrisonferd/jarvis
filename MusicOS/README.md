@@ -1,30 +1,30 @@
 # MusicOS
 
-MusicOS is the governed music ontology and composition system within Jarvis-Private.
+**JNL:** PROJ-MUSI-BIO-0001
+**Status:** ACTIVE
+**JARVIS repo:** `JarvisSide/Projects/MusicOS/` (canonical spec, governed)
+**This repo:** development workspace, assets, Suno outputs, registry
+**Suno:** `suno.com/profile/jarvis-ayre`
 
-It translates musical intent into structured assets: presets, composers, instruments, genres, and outputs.
+## What
+Procedural music generation framework: persistent musical identity through motif systems,
+constraint rules (MusicOS Gold Laws), and prompt-to-composition compilation — music as
+evolving identity, not standalone tracks.
 
-## Core Concept
+## Current state
+- **47 tracks** catalogued (MID-0001 through MID-0047)
+- RGB physics encoding: R=Power, G=Groove, B=Range
+- `registry/MUSIC-CATALOG.md` — full catalog with names, series, duplicates resolved
+- `registry/` — 49 JD entries (47 tracks + 2 system docs)
+- Active production via Suno; canonical registry in JARVIS repo
 
-- Intent → Structure → Generation
-- Music knowledge is treated as a graph, not static files
-- All outputs are reproducible and parameterized
-
-## Modules
-
-- composers/
-- instruments/
-- genres/
-- presets/
-- templates/
-- songs/
-- outputs/
-- experiments/
-- registry/
-
-## MCP Integration (future)
-
-- jarvis_musicos_search
-- jarvis_musicos_compose
-- jarvis_musicos_translate
-- jarvis_musicos_archive
+## Directory map
+- `src/` — prompt generation tools, distillation scripts
+- `registry/` — canonical JD entries (mirrored from JARVIS repo)
+- `composers/` — per-composer prompt configs
+- `genres/` — genre profiles
+- `instruments/` — instrument definitions
+- `presets/` — Gold Law presets, constraint rules
+- `templates/` — prompt templates
+- `outputs/` — Suno outputs, audio files
+- `experiments/` — scratch space for new series or techniques
