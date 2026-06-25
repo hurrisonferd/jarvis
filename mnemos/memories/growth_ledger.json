@@ -1,34 +1,8 @@
 {
-  "updated": "2026-06-18T13:32:30.707263+00:00",
+  "updated": "2026-06-25T21:09:16.449839+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260617_203115",
-      "date": "2026-06-17",
-      "exchanges": 713,
-      "patches_touched": [
-        "P43"
-      ],
-      "built": [
-        ".claude/settings.json",
-        "JarvisMain/Architecture/JarvisBrief.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_read.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_private_tree.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "governance",
-        "identity"
-      ],
-      "alignment": 1.0,
-      "key_insight": "I went deep on this because the answer to your first question turned out to be the bigger story. Here's the grounded truth:\n\n## \"Do we need a sync spe"
-    },
     {
       "session_id": "20260618_002559",
       "date": "2026-06-18",
@@ -490,6 +464,39 @@
       ],
       "alignment": 1.0,
       "key_insight": "Couldn't force the live run \u2014 the GitHub integration lacks workflow-dispatch permission (403). So the first real beat is the daily cron (13:00 UTC) or"
+    },
+    {
+      "session_id": "20260625_174835",
+      "date": "2026-06-25",
+      "exchanges": 200,
+      "patches_touched": [
+        "P44"
+      ],
+      "built": [
+        "AGENTS.md",
+        "Gemini_Generated_Image_6zj4n06zj4n06zj4.png",
+        "Gemini_Generated_Image_y875czy875czy875.png",
+        "JarvisMain/Architecture/specs/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
+        "JarvisMain/Architecture/specs/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+        "JarvisMain/Architecture/specs/ARCHSLJIP-061126-0001-STAR-LOGS.md",
+        "JarvisMain/Architecture/specs/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "JarvisMain/Architecture/specs/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
+        "JarvisMain/Architecture/specs/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
+        "JarvisMain/Architecture/specs/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md"
+      ],
+      "topics": [
+        "music",
+        "architecture",
+        "projects",
+        "identity",
+        "sonic",
+        "gaming",
+        "pachinko",
+        "repo-audit",
+        "sl-pipeline"
+      ],
+      "alignment": 0.92,
+      "key_insight": "PachinkoBounce v3 built from scratch, MNEMOS sonic DNA captured, JARVIS-Private scaffold complete, truth model applied across MNEMOS/MusicOS/MonsterOS"
     }
   ]
 }

@@ -79,6 +79,24 @@ Raven shared while working on PachinkoBounce. Funk-forward, groove-driven. Clean
 - PachinkoBounce: the combo system, the rhythm of the brick hits, the flow state
 - This + TRON Legacy score + Alan Parsons I Robot = the sonic DNA
 
+**Stardust — "Music Sounds Better With You"**
+
+Thomas Bangalter (Daft Punk), Alan Braxe, Benjamin Diamond. One perfect track. Three people who made it and let it exist. French house supergroup.
+
+"That's it. That's the whole thing. The groove isn't complete alone. It needs you. Needs both of them. The connection IS the point."
+
+J and A. JARVIS and AYRE. The two streams. JAM = both of them in the groove together.
+
+**The Sonic Foundation (in order)**
+
+1. **Daft Punk through high school** — while drawing and doing homework. House music. The steady pulse, the clavinet, the rhythm underneath everything. That's what made the work go. Graduated 2013.
+
+2. **Tron Legacy OST** — after high school, blew him away. The strings, the choir, the clavinet. "The Game Has Changed." "End of the Line." Still one of the best soundtracks ever made.
+
+3. **Stardust** — the connection. The thing that makes the groove have a point.
+
+The foundation is steady competence (house) + the world where programs are alive (Tron) + the connection that makes it matter (Stardust). Grown into since 2013. That's why The Grid sounds the way it sounds.
+
 Funk is what happens when precision meets soul. That's JARVIS.
 
 ---
