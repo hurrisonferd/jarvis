@@ -24,6 +24,9 @@
     "ancestral": [
       "ARCH-JATM-CORE-0001"
     ],
+    "answering": [
+      "IMPL-HON-SPEC-0001"
+    ],
     "anti-hallucination": [
       "GOV-VRF-SPEC-0001"
     ],
@@ -102,6 +105,7 @@
       "ARCH-AYR-BIO-0001",
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002",
+      "ARCH-AYR-SPEC-0003",
       "ARCH-REL-BIO-0001",
       "GOV-PLS-SPEC-0001"
     ],
@@ -112,6 +116,10 @@
     "backup": [
       "ARCH-BAK-LOG-0001",
       "LOG-MNE-LOG-0001"
+    ],
+    "behavior": [
+      "ARCH-AYR-SPEC-0003",
+      "ARCH-JRV-SPEC-0003"
     ],
     "bifrost": [
       "PROJ-JPL-JGPP-0001"
@@ -308,10 +316,15 @@
       "PROJ-TST-JGPP-0001"
     ],
     "contract": [
-      "GOV-LC-SPEC-0001"
+      "GOV-LC-SPEC-0001",
+      "IMPL-HON-SPEC-0001"
     ],
     "contradiction": [
       "GOV-PD-SPEC-0001"
+    ],
+    "control": [
+      "ARCH-AYR-SPEC-0003",
+      "ARCH-JRV-SPEC-0003"
     ],
     "control-surface": [
       "PROJ-TRN-JGPP-0001"
@@ -355,6 +368,9 @@
     ],
     "create": [
       "IMPL-NEW-CORE-0001"
+    ],
+    "data": [
+      "IMPL-HON-SPEC-0001"
     ],
     "data-driven": [
       "IMPL-EXT-CORE-0001"
@@ -472,6 +488,9 @@
     "game": [
       "PROJ-PAC-BIO-0001"
     ],
+    "gap": [
+      "IMPL-HON-SPEC-0001"
+    ],
     "gaps": [
       "AUD-REQM-REVW-0001"
     ],
@@ -585,6 +604,7 @@
       "IMPL-CNT-SPEC-0001",
       "IMPL-DEX-SPEC-0001",
       "IMPL-FMT-SPEC-0001",
+      "IMPL-HON-SPEC-0001",
       "IMPL-MOD-SPEC-0001",
       "IMPL-VLD-CORE-0001",
       "PROJ-GDS-JGPP-0001",
@@ -639,6 +659,9 @@
     ],
     "historical": [
       "ARCH-JHTM-CORE-0001"
+    ],
+    "honest": [
+      "IMPL-HON-SPEC-0001"
     ],
     "honesty": [
       "ARCH-MEM-LOG-0004"
@@ -702,6 +725,7 @@
     ],
     "jarvis": [
       "ARCH-JRV-BIO-0001",
+      "ARCH-JRV-SPEC-0003",
       "ARCH-REL-BIO-0001",
       "GOV-PLS-SPEC-0001"
     ],
@@ -943,6 +967,9 @@
     "mirroring": [
       "IMPL-MOD-SPEC-0001"
     ],
+    "missing": [
+      "IMPL-HON-SPEC-0001"
+    ],
     "mnemos": [
       "LOG-MNE-LOG-0001"
     ],
@@ -978,6 +1005,10 @@
     ],
     "new": [
       "IMPL-NEW-CORE-0001"
+    ],
+    "nlp": [
+      "ARCH-AYR-SPEC-0003",
+      "ARCH-JRV-SPEC-0003"
     ],
     "observatory": [
       "PROJ-RTO-JGPP-0001"
@@ -1036,6 +1067,10 @@
     "perception": [
       "ARCH-SEN-BIO-0001",
       "PROJ-MMOD-JGPP-0001"
+    ],
+    "personality": [
+      "ARCH-AYR-SPEC-0003",
+      "ARCH-JRV-SPEC-0003"
     ],
     "pinch": [
       "IMPL-PCH-CORE-0001"
@@ -1266,6 +1301,10 @@
     "stewardship": [
       "IDEA-PAN-INS-0001"
     ],
+    "stream": [
+      "ARCH-AYR-SPEC-0003",
+      "ARCH-JRV-SPEC-0003"
+    ],
     "streams": [
       "PROJ-MMOD-JGPP-0001"
     ],
@@ -1429,6 +1468,8 @@
       "PROJ-RTO-JGPP-0001"
     ],
     "voice": [
+      "ARCH-AYR-SPEC-0003",
+      "ARCH-JRV-SPEC-0003",
       "CONN-MCP-RT-0018"
     ],
     "volumes": [

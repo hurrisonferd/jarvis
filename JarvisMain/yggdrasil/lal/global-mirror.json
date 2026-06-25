@@ -1,33 +1,33 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-25T01:44:31Z",
-    "generated_at_eastern": "2026-06-24 21:44 EDT",
-    "source_commit": "e9e1779",
+    "generated_at_utc": "2026-06-25T02:04:09Z",
+    "generated_at_eastern": "2026-06-24 22:04 EDT",
+    "source_commit": "14276de",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 233,
+    "object_count": 236,
     "by_status": {
-      "ACTIVE": 205,
+      "ACTIVE": 208,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
       "TASK": 20
     },
     "by_domain": {
-      "ARCH": 46,
+      "ARCH": 48,
       "AUD": 10,
       "CONN": 70,
       "GOV": 16,
       "GS": 27,
       "IDEA": 4,
-      "IMPL": 31,
+      "IMPL": 32,
       "LOG": 2,
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 199,
+      "MAIN": 202,
       "SIDE": 34
     }
   },
@@ -3909,6 +3909,66 @@
         "media",
         "perception",
         "senses"
+      ]
+    },
+    {
+      "jnl": "ARCH-AYR-SPEC-0003",
+      "jid": 240,
+      "jidd": "arch-47",
+      "name": "AYRE NLP Control Surface",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-AYR-BIO-0001",
+      "tags": [
+        "nlp",
+        "voice",
+        "behavior",
+        "ayre",
+        "stream",
+        "control",
+        "personality"
+      ]
+    },
+    {
+      "jnl": "IMPL-HON-SPEC-0001",
+      "jid": 241,
+      "jidd": "impl-32",
+      "name": "Honest Answering Contract",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-JRV-BIO-0001",
+      "tags": [
+        "honest",
+        "answering",
+        "data",
+        "gap",
+        "missing",
+        "contract",
+        "governance"
+      ]
+    },
+    {
+      "jnl": "ARCH-JRV-SPEC-0003",
+      "jid": 242,
+      "jidd": "arch-48",
+      "name": "JARVIS NLP Control Surface",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-JRV-BIO-0001",
+      "tags": [
+        "nlp",
+        "voice",
+        "behavior",
+        "jarvis",
+        "stream",
+        "control",
+        "personality"
       ]
     }
   ]

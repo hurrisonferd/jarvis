@@ -1,8 +1,9 @@
 # Audit Digest — 2026-W26
 **Period:** 2026-06-22 → 2026-06-28 (ISO week)
-**Sessions:** 3
+**Sessions:** 4
 
 ## Commits
+- `14276de`
 - `0e8e0ae`
 - `21c564f`
 - `e6dfb2e`
@@ -11,12 +12,14 @@
 - `93ac91e`
 
 ## What We Built
+- 1. Sensory READ wired into AINZ fusion
 - 1. Deploy `kronos-fold` edge function
 
 ## Session Records
-- [[audit_log/Audit Entry.md|Audit Entry — 2026-06-24T23:25]]
-- [[audit_log/Audit Entry.md|Audit Entry — 2026-06-24T23:25]]
-- [[audit_log/Audit Entry.md|Audit Entry — 2026-06-25T01:25]]
+- [[2026/2026-W26/Audit Entry — 2026-06-25T02:25|Audit Entry — 2026-06-25T02:25]]
+- [[2026/2026-W26/Audit Entry — 2026-06-24T23:25|Audit Entry — 2026-06-24T23:25]]
+- [[2026/2026-W26/Audit Entry — 2026-06-24T23:25|Audit Entry — 2026-06-24T23:25]]
+- [[2026/2026-W26/Audit Entry — 2026-06-25T01:25|Audit Entry — 2026-06-25T01:25]]
 
 ## Intents (what was asked for)
 - Close doc mirror gap (ensure all 65 registered MCP tools have `.md` mirrors)
@@ -28,4 +31,4 @@
 - KRONOS trigger: JSTM → JHTM fold automation (14-day cron)
 - Bounded autonomy guard: session close scans JSTM, writes HOLD if uncommitted items
 - Operating manual modularization: CLAUDE.md too monolithic, split detail into focused ref
-_Generated 2026-06-25 01:40 UTC · `scripts/audit_digest.py`_
+_Generated 2026-06-25 02:04 UTC · `scripts/audit_digest.py`_

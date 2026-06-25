@@ -19,8 +19,38 @@ from pathlib import Path
 
 ROOT = Path(__file__).parent.parent
 AUDIT_LOG = ROOT / "audit" / "audit_log"
-WEEK_ROOT = ROOT / "audit"          # year/week folders live here
-MONTH_ROOT = ROOT / "audit"         # year/month folders live here
+WEEK_ROOT = ROOT / "audit"
+MONTH_ROOT = ROOT / "audit"
+
+
+def _all_audit_files():
+    """Yield all .md audit session entries from all known locations.
+    Skips digest files (WEEKLY-DIGEST, MONTHLY-DIGEST).
+    """
+    seen = set()
+    DIGEST_RE = re.compile(r"WEEKLY-DIGEST|MONTHLY-DIGEST")
+    # Flat audit_log dir
+    if AUDIT_LOG.is_dir():
+        for f in sorted(AUDIT_LOG.glob("*.md")):
+            if DIGEST_RE.search(f.name):
+                continue
+            if f.name not in seen:
+                seen.add(f.name)
+                yield f
+    # Year/week folders: audit/YYYY/*.md + audit/YYYY/Www/*.md
+    if WEEK_ROOT.is_dir():
+        for f in sorted(WEEK_ROOT.rglob("*.md")):
+            if DIGEST_RE.search(f.name):
+                continue
+            # Skip the year-level digests (they're summaries, not entries)
+            if re.match(r"\d{4}-\d{2}-(MONTHLY|WEEKLY)-DIGEST", f.name):
+                continue
+            # Skip README and other non-entry files
+            if f.name in ("README.md",):
+                continue
+            if f.name not in seen:
+                seen.add(f.name)
+                yield f
 
 ISO_MONTH_RE = re.compile(r"^(\d{4})-(\d{2})$")  # e.g. 2026-06
 
@@ -51,10 +81,18 @@ def parse_month_label(label: str):
 
 
 def parse_audit_date(filename: str) -> date | None:
-    """Extract date from '2026-06-25T0125-session-audit-...'."""
+    """Extract date from filename OR from title line (handles flat + year/week locations)."""
+    # Try filename first
     m = re.match(r"^(\d{4}-\d{2}-\d{2})T", filename)
     if m:
         return date.fromisoformat(m.group(1))
+    # Try title: "Audit Entry — 2026-06-25T0225-session..."
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})T(\d{4})", filename)
+    if m:
+        try:
+            return date(int(m.group(1)), int(m.group(2)), int(m.group(3)))
+        except ValueError:
+            pass
     return None
 
 
@@ -78,11 +116,21 @@ def read_audit(path: Path) -> dict:
     return {"title": title, "meta": meta, "body": "\n".join(lines)}
 
 
+def _parse_title_date(title: str) -> date | None:
+    """Extract date from 'Audit Entry — YYYY-MM-DDThhmm...'"""
+    # Format: "Audit Entry — 2026-06-25T0225-session-audit-..."
+    parts = title.split("—")
+    if len(parts) >= 2:
+        datestr = parts[1].strip()[:16]  # "2026-06-25T0225-session..."
+        return parse_audit_date(datestr + ".md")
+    return None
+
+
 def scan_for_week(year: int, week: int):
     start = iso_week_start(year, week)
     end = iso_week_end(year, week)
     entries = []
-    for f in sorted(AUDIT_LOG.glob("*.md")):
+    for f in sorted(_all_audit_files()):
         d = parse_audit_date(f.name)
         if d and start <= d <= end:
             entries.append(read_audit(f))
@@ -91,13 +139,12 @@ def scan_for_week(year: int, week: int):
 
 def scan_for_month(year: int, month: int):
     start = date(year, month, 1)
-    # Last day of month
     if month == 12:
         end = date(year + 1, 1, 1) - timedelta(days=1)
     else:
         end = date(year, month + 1, 1) - timedelta(days=1)
     entries = []
-    for f in sorted(AUDIT_LOG.glob("*.md")):
+    for f in sorted(_all_audit_files()):
         d = parse_audit_date(f.name)
         if d and start <= d <= end:
             entries.append(read_audit(f))
@@ -165,7 +212,12 @@ def format_week_digest(entries, start, end, week_label, dry_run=False):
         body_lines.append("_no item records found_")
     body_lines += ["", "## Session Records"]
     for e in entries:
-        body_lines.append(f"- [[audit_log/{e['title'].split('—')[0].strip()}.md|{e['title']}]]")
+        d = _parse_title_date(e["title"])
+        if d:
+            wl = f"{d.year}-W{d.isocalendar()[1]:02d}"
+            body_lines.append(f"- [[{d.year}/{wl}/{e['title']}|{e['title']}]]")
+        else:
+            body_lines.append(f"- {e['title']}")
     body_lines += ["", "## Intents (what was asked for)"]
     body_lines += [f"- {i}" for i in intents] if intents else body_lines.append("_none extracted_")
     body_lines.append(f"_Generated {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')} · `scripts/audit_digest.py`_")
@@ -195,7 +247,7 @@ def format_month_digest(entries, start, end, month_label, dry_run=False):
     commits = all_commits(entries)
     weeks: dict[str, list] = {}
     for e in entries:
-        d = parse_audit_date(e["title"].split("—")[0].strip() + ".md")
+        d = _parse_title_date(e["title"])
         if d:
             w = d.isocalendar()[1]
             wl = f"{d.year}-W{w:02d}"
@@ -223,7 +275,11 @@ def format_month_digest(entries, start, end, month_label, dry_run=False):
     for wl in sorted(weeks.keys()):
         body_lines.append(f"### {wl} ({len(weeks[wl])} session{'s' if len(weeks[wl]) > 1 else ''})")
         for e in weeks[wl]:
-            body_lines.append(f"- [[audit_log/{e['title'].split('—')[0].strip()}.md|{e['title']}]]")
+            d = _parse_title_date(e["title"])
+            if d:
+                body_lines.append(f"- [[{d.year}/{wl}/{e['title']}|{e['title']}]]")
+            else:
+                body_lines.append(f"- {e['title']}")
     body_lines.append(f"_Generated {datetime.utcnow().strftime('%Y-%m-%d %H:%M UTC')} · `scripts/audit_digest.py`_")
 
     out = "\n".join(body_lines)
@@ -268,7 +324,7 @@ def main():
 
 
 def ingest_existing():
-    """One-time migration: move flat audit_log entries into year/week folders."""
+    """One-time migration: copy flat audit_log entries into year/week folders (idempotent)."""
     moved = 0
     for f in sorted(AUDIT_LOG.glob("*.md")):
         d = parse_audit_date(f.name)
@@ -280,7 +336,7 @@ def ingest_existing():
         dest = WEEK_ROOT / str(d.year) / wl / f.name
         dest.parent.mkdir(parents=True, exist_ok=True)
         if dest.exists():
-            print(f"SKIP (already exists): {dest}")
+            print(f"SKIP (already ingested): {f.name} → {dest.parent.name}/{dest.name}")
             continue
         import shutil
         shutil.copy2(f, dest)

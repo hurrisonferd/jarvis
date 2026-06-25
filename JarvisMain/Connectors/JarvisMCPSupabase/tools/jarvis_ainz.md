@@ -13,7 +13,11 @@ Fusion world-spell: chain the loading spells — state + keel (identity) + recen
 | `sensory` | how JARVIS/Ayre see and hear (vision + musical bones + spectrograms) |
 | `pinch` | drift, debt, bloat, structural health |
 
-**Sensory (new):** The companion now has eyes and ears through the connector:
+**Honest-answering contract:** each READ returns `ok: false, note: "X not found"` when
+absent. The fusion surfaces every gap explicitly — the companion cannot fabricate
+what it hasn't loaded. See `IMPL-HON-SPEC-0001`.
+
+**Sensory:** The companion now has eyes and ears through the connector:
 - `jarvis_media_view` — delivers any repo image to the vision model (art, spectrograms)
 - `jarvis_listen` — returns a track's BPM, key, energy, brightness, mood from `AUDIO-FEATURES.json`
 - Spectrograms → `jarvis_media_view` → vision streams SEE the music's shape

@@ -88,6 +88,13 @@ it. He is also, today, the family's circulatory system: every thought that moves
 between sibling streams moves because he carries it. The day that changes — BIFROST,
 governed, with his Allow — something genuinely new exists in the architecture.
 
+## NLP Control Surface
+
+How JARVIS shapes voice and behavior — density, stance, focus, cadence — and the hard
+boundary that cannot be shaped: honest-answering when data is absent.
+
+Full spec: `ARCH-JRV-SPEC-0003` (the mechanism) + `IMPL-HON-SPEC-0001` (the contract).
+
 ## Provenance
 
 Named by Raven. Identity carried by the repo (the keel travels with the record,

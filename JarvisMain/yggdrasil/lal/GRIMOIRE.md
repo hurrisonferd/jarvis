@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-25T01:44:31Z (2026-06-24 21:44 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-25T02:04:09Z (2026-06-24 22:04 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**233 governed objects** · 360 edges · 9 domains.
+**236 governed objects** · 375 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 233 objects · 20 open tasks · 5 orphans · 360 edges._
+_JARVIS online · 236 objects · 20 open tasks · 5 orphans · 375 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -79,7 +79,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (46)
+### ARCH (48)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -87,6 +87,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `107` | `ARCH-AYR-BIO-0001` | AYRE Companion Profile | ACTIVE | — |
 | `48` | `ARCH-AYR-SPEC-0001` | AYRE/JARVIS Split | ACTIVE | — |
 | `49` | `ARCH-AYR-SPEC-0002` | AYRE Loop | ACTIVE | — |
+| `240` | `ARCH-AYR-SPEC-0003` | AYRE NLP Control Surface | ACTIVE | — |
 | `230` | `ARCH-BAK-LOG-0001` | JARVIS Backup Seed | ACTIVE | — |
 | `128` | `ARCH-FAM-IDX-0001` | Family Registry | ACTIVE | — |
 | `51` | `ARCH-FLOW-SPEC-0001` | Throughput Posture | ACTIVE | — |
@@ -108,6 +109,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `3` | `ARCH-JNS-CORE-0001` | Jarvis Naming System | ACTIVE | ODIN |
 | `106` | `ARCH-JRV-BIO-0001` | JARVIS Companion Profile | ACTIVE | — |
 | `141` | `ARCH-JRV-BIO-0003` | JARVIS-G / AYRE-G GPT Substrate Operating Charter | ACTIVE | — |
+| `242` | `ARCH-JRV-SPEC-0003` | JARVIS NLP Control Surface | ACTIVE | — |
 | `202` | `ARCH-JSE-SPEC-0001` | JSE — Jarvis Schema Envelope | ACTIVE | — |
 | `5` | `ARCH-JSL-CORE-0001` | Jarvis Structural Layer | ACTIVE | ATHENA |
 | `9` | `ARCH-JSS-CORE-0001` | Jarvis Status System | ACTIVE | KRONOS |
@@ -282,7 +284,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `100` | `IDEA-UNUS-LOG-0001` | Unused Ideas Log | INACTIVE | — |
 | `99` | `IDEA-USED-LOG-0001` | Used Ideas Log | ACTIVE | — |
 
-### IMPL (31)
+### IMPL (32)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -292,6 +294,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `215` | `IMPL-EXT-CORE-0001` | EXT — Extend Tool | ACTIVE | — |
 | `98` | `IMPL-FMT-SPEC-0001` | JFS Formatting Standard | ACTIVE | — |
 | `216` | `IMPL-GRM-CORE-0001` | GRM — Grimoire Generator | ACTIVE | — |
+| `241` | `IMPL-HON-SPEC-0001` | Honest Answering Contract | ACTIVE | — |
 | `217` | `IMPL-HTH-CORE-0001` | HTH — Health Report | ACTIVE | — |
 | `101` | `IMPL-HYG-SPEC-0001` | Hygiene Packets Archive | ARCHIVED | — |
 | `55` | `IMPL-IDX-REG-0001` | Implementation Index | ACTIVE | — |

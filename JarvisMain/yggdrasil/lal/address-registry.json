@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 233,
+  "count": 236,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -85,6 +85,31 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "ARCH-AYR-SPEC-0003",
+      "name": "AYRE NLP Control Surface",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-AYR-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/ayre/AYRE-SPEC-0003-062525-NLP.md",
+      "tags": [
+        "nlp",
+        "voice",
+        "behavior",
+        "ayre",
+        "stream",
+        "control",
+        "personality"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
     },
     {
       "jnl": "ARCH-BAK-LOG-0001",
@@ -552,6 +577,31 @@
       "state": "active",
       "created": "2026-06-14",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "ARCH-JRV-SPEC-0003",
+      "name": "JARVIS NLP Control Surface",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-JRV-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/jarvis/JARVIS-SPEC-0003-062525-NLP.md",
+      "tags": [
+        "nlp",
+        "voice",
+        "behavior",
+        "jarvis",
+        "stream",
+        "control",
+        "personality"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
     },
     {
       "jnl": "ARCH-JSE-SPEC-0001",
@@ -3867,6 +3917,31 @@
       "state": "active",
       "created": "2026-06-24",
       "updated": "2026-06-24"
+    },
+    {
+      "jnl": "IMPL-HON-SPEC-0001",
+      "name": "Honest Answering Contract",
+      "type": "SPEC",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JCS Pipeline",
+      "steward": null,
+      "parent": "ARCH-JRV-BIO-0001",
+      "location": "JarvisMain/Architecture/specs/IMPL-HON-SPEC-0001.md",
+      "tags": [
+        "honest",
+        "answering",
+        "data",
+        "gap",
+        "missing",
+        "contract",
+        "governance"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
     },
     {
       "jnl": "IMPL-HTH-CORE-0001",

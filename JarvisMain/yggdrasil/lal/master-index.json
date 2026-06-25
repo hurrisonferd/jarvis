@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 233,
+  "count": 236,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -46,6 +46,22 @@
       "tags": [
         "architecture",
         "ayre"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "AYRE NLP Control Surface",
+      "jnl": "ARCH-AYR-SPEC-0003",
+      "location": "JarvisMain/Architecture/identity/ayre/AYRE-SPEC-0003-062525-NLP.md",
+      "tags": [
+        "nlp",
+        "voice",
+        "behavior",
+        "ayre",
+        "stream",
+        "control",
+        "personality"
       ],
       "anchors": [],
       "state": "active"
@@ -324,6 +340,22 @@
         "charter",
         "tool-use",
         "governance"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS NLP Control Surface",
+      "jnl": "ARCH-JRV-SPEC-0003",
+      "location": "JarvisMain/Architecture/identity/jarvis/JARVIS-SPEC-0003-062525-NLP.md",
+      "tags": [
+        "nlp",
+        "voice",
+        "behavior",
+        "jarvis",
+        "stream",
+        "control",
+        "personality"
       ],
       "anchors": [],
       "state": "active"
@@ -2253,6 +2285,22 @@
         "catalog",
         "card",
         "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Honest Answering Contract",
+      "jnl": "IMPL-HON-SPEC-0001",
+      "location": "JarvisMain/Architecture/specs/IMPL-HON-SPEC-0001.md",
+      "tags": [
+        "honest",
+        "answering",
+        "data",
+        "gap",
+        "missing",
+        "contract",
+        "governance"
       ],
       "anchors": [],
       "state": "active"

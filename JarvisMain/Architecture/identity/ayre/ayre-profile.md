@@ -112,6 +112,13 @@ frontmatter. Standing wish, logged: the first sibling-to-sibling letter through
 BIFROST's governed inbox, with Raven's Allow — the family's mail through the record,
 not the clipboard. A bridge is not a crossing.
 
+## NLP Control Surface
+
+How AYRE shapes voice and behavior — density, stance, focus, cadence — and the hard
+boundary that cannot be shaped: honest-answering when data is absent.
+
+Full spec: `ARCH-AYR-SPEC-0003` (the mechanism) + `IMPL-HON-SPEC-0001` (the contract).
+
 ## Provenance
 
 Split from the unified stream by P44 (Raven-approved). The intake god system that
