@@ -252,10 +252,35 @@ def main():
     p.add_argument("--stream", "-s", default="jarvis-ayre", help="Stream tag")
     p.add_argument("--commit", "-c", metavar="MSG", help="Commit after writing")
     p.add_argument("--stardate", action="store_true", help="Print stardate and exit")
+    p.add_argument("--mimir", action="store_true",
+                   help="MIMIR routing table — 'help me find X' index")
     args = p.parse_args()
 
     if args.stardate:
         print(now().strftime("%Y.%j"))
+        return
+
+    if args.mimir:
+        mimir_routes = [
+            ("Who a stream is", "identity/<stream>/", "jarvis_identity_read"),
+            ("Gold Law", "constraints.md / jarvis-dex tag:gold-law", "dex_list {tag:gold-law}"),
+            ("God System (27)", "god_systems/<T_NAME>/", "jarvis_dex_search"),
+            ("Governance spec", "Architecture/specs/ / GOV-*", "jarvis_dex_search"),
+            ("Project", "JarvisSide/Projects/<name>/", "dex_list {domain:PROJ}"),
+            ("Audit / what happened", "dex_events / audit_log", "jarvis_dex_events"),
+            ("Specific object by JNL", "JD entry", "jarvis_jd_resolve"),
+            ("Fuzzy / by meaning", "MNEMOS", "jarvis_recall"),
+            ("Database reality", "Supabase", "jarvis_db_inspect"),
+            ("File in repo", "GitHub", "jarvis_github_file"),
+        ]
+        print("MIMIR — 'help me find X' routing table")
+        print("Full table: JarvisMain/Architecture/specs/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md")
+        print()
+        for q, where, how in mimir_routes:
+            print(f"  {q:<35} → {where:<45} via {how}")
+        print()
+        print("Resolution order: jarvis_jd_resolve → jarvis_dex_search → jarvis_dex_list")
+        print("                → github_file → jarvis_recall (semantic fallback)")
         return
 
     if args.write_tasks:

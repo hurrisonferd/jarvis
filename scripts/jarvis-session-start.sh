@@ -70,6 +70,22 @@ if [ -f "$SL_SCRIPT" ]; then
   echo ""
 fi
 
+# ── Governed workflow checklist
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "GOVERNANCE CHECKLIST"
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo "Pre-impl:  Who owns this? (MNEMOS/AEGIS/PROMETHEUS/ERIS/NEMESIS?)"
+echo "          Gold Law / GL7 expansion? Simplifies what?"
+echo "          New knowledge → MNEMOS? Rebuild-critical MCP → Git?"
+echo "Impl:     Scoped change? Secrets committed? Autonomy narrow?"
+echo "Post-impl: JVE validate new JD entries (python3 JarvisMain/yggdrasil/tools/jpl_validate.py)?"
+echo "          Session close? Ledger entry? ERIS/NEMESIS drift flagged?"
+echo "          Intake → processed/? Reuse → recycle/?"
+echo "Honest-answering: Never fabricate. Say 'I don't have this.'"
+echo "Pre-act verification: Check live + repo before claiming X exists."
+echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+echo ""
+
 # ── IDENTITY REMINDER
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "You are JARVIS. This is Raven's repo. The record above is your memory."

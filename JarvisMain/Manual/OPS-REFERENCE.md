@@ -190,3 +190,8 @@ Resume order: `suit_up` → `identity_read` → `dex_list {status:"ACTIVE"}`
 | GitHub Actions | `.github/workflows/` |
 | Intact ops specs | `JarvisMain/Manual/Operations/` |
 | Audit log | `audit/audit_log/` |
+| Governed workflow checklist | `scripts/jarvis-session-start.sh` (session start hook) |
+| Honest Answering Contract | `JarvisMain/Architecture/specs/IMPL-HON-SPEC-0001.md` |
+| Pre-Act Verification Contract | `JarvisMain/Architecture/specs/pre-act-verification-contract.md` |
+| Throughput Posture (HALO) | `JarvisMain/Architecture/specs/throughput-posture.md` |
+| MIMIR routing table | `JarvisMain/Architecture/specs/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md` |
