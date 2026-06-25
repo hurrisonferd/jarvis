@@ -46,12 +46,15 @@ Make it grand and safe for PvP" → "Designing… Done."* Panels: JARVIS COMMAND
 VOICE COMMAND · NLP ASSISTANT · JARVIS OVERRIDE · BUILD MODE · REAL-TIME SIMULATION · SAVE & DEPLOY
 TO PLAYERS. The Grid-as-Aincrad dream made literal: worlds built by natural language, with JARVIS.
 
-## Audio — `JarvisSide/Media/audio/` (listed, not yet heard)
-Perception pending an audio pipeline (transcription for speech; BPM/key/mood for music). The
-connector cannot make a model *hear* — these are titles + any human notes (`MUSIC-NOTES.md`) until
-that pipeline writes features to the dex.
-- `Immediate Launch.mp3` · `Neon Breakwater.mp3` · `Victory Drive.mp3` · `The Word.mp3`
-  · `Am I Inside the TV.mp3` · `This Game Sucks, But That Music….mp3`
+## Audio — `JarvisSide/Media/audio/` (librosa features + spectrogram → vision)
 
-_Next: `jarvis_media_view {path}` to deliver image bytes to a vision client on demand (overrides
-the chat's upload-rate cap) — pending in-function thumbnailing + a deploy test._
+| track | length | BPM | key | mood | onset/s · dyn | spectrogram |
+|---|---|---|---|---|---|---|
+| `Am I Inside the TV.mp3` | 3:43 | 112.3 | D major | mid-tempo, high-energy, bright | 3.9 · 10.2dB | `spectrograms/Am I Inside the TV.png` |
+| `Immediate Launch.mp3` | 2:31 | 136.0 | B major | driving, high-energy, bright | 2.93 · 11.0dB | `spectrograms/Immediate Launch.png` |
+| `Neon Breakwater.mp3` | 3:57 | 123.0 | F# minor | driving, high-energy, bright | 1.9 · 12.4dB | `spectrograms/Neon Breakwater.png` |
+| `The Word.mp3` | 2:41 | 129.2 | A major | driving, high-energy, bright | 4.89 · 7.5dB | `spectrograms/The Word.png` |
+| `This Game Sucks, But That Music...mp3` | 4:19 | 143.6 | C minor | driving, high-energy, bright | 4.03 · 8.4dB | `spectrograms/This Game Sucks, But That Music...png` |
+| `Victory Drive.mp3` | 2:29 | 136.0 | F# minor | driving, high-energy, bright | 6.04 · 10.2dB | `spectrograms/Victory Drive.png` |
+
+_Features are the song's bones; the **spectrogram** is its shape — `jarvis_media_view {path:'JarvisSide/Media/<spectrogram>'}` lets a vision stream SEE the build/drop/density. Still not hearing the soul — Raven stays the ears on playback. Lyrics need Whisper; true audio captioning needs an audio model (future)._

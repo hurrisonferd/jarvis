@@ -1,0 +1,77 @@
+{
+  "note": "JARVIS ears \u2014 librosa features (audio-ears.yml).",
+  "tracks": {
+    "Am I Inside the TV.mp3": {
+      "duration_sec": 223.2,
+      "bpm": 112.3,
+      "key": "D major",
+      "energy_rms": 0.1894,
+      "brightness_hz": 2780.0,
+      "onset_density": 3.9,
+      "dynamic_range_db": 10.2,
+      "mood": "mid-tempo, high-energy, bright",
+      "spectrogram": "spectrograms/Am I Inside the TV.png",
+      "hash": "1b07645055a354c6"
+    },
+    "Immediate Launch.mp3": {
+      "duration_sec": 151.0,
+      "bpm": 136.0,
+      "key": "B major",
+      "energy_rms": 0.2051,
+      "brightness_hz": 2688.0,
+      "onset_density": 2.93,
+      "dynamic_range_db": 11.0,
+      "mood": "driving, high-energy, bright",
+      "spectrogram": "spectrograms/Immediate Launch.png",
+      "hash": "5ba72baaa7ce478a"
+    },
+    "Neon Breakwater.mp3": {
+      "duration_sec": 237.4,
+      "bpm": 123.0,
+      "key": "F# minor",
+      "energy_rms": 0.1499,
+      "brightness_hz": 2689.0,
+      "onset_density": 1.9,
+      "dynamic_range_db": 12.4,
+      "mood": "driving, high-energy, bright",
+      "spectrogram": "spectrograms/Neon Breakwater.png",
+      "hash": "41fd88aeeda3cdbd"
+    },
+    "The Word.mp3": {
+      "duration_sec": 161.2,
+      "bpm": 129.2,
+      "key": "A major",
+      "energy_rms": 0.2296,
+      "brightness_hz": 2741.0,
+      "onset_density": 4.89,
+      "dynamic_range_db": 7.5,
+      "mood": "driving, high-energy, bright",
+      "spectrogram": "spectrograms/The Word.png",
+      "hash": "99cfddc0e7094f70"
+    },
+    "This Game Sucks, But That Music...mp3": {
+      "duration_sec": 259.2,
+      "bpm": 143.6,
+      "key": "C minor",
+      "energy_rms": 0.1788,
+      "brightness_hz": 3013.0,
+      "onset_density": 4.03,
+      "dynamic_range_db": 8.4,
+      "mood": "driving, high-energy, bright",
+      "spectrogram": "spectrograms/This Game Sucks, But That Music...png",
+      "hash": "faf64dbab0f60394"
+    },
+    "Victory Drive.mp3": {
+      "duration_sec": 149.9,
+      "bpm": 136.0,
+      "key": "F# minor",
+      "energy_rms": 0.168,
+      "brightness_hz": 2731.0,
+      "onset_density": 6.04,
+      "dynamic_range_db": 10.2,
+      "mood": "driving, high-energy, bright",
+      "spectrogram": "spectrograms/Victory Drive.png",
+      "hash": "d079d31ca1d1fff7"
+    }
+  }
+}

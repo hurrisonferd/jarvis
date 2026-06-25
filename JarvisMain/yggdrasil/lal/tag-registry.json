@@ -303,7 +303,6 @@
       "ARCH-SYS-LOG-0001",
       "GOV-LOO-SPEC-0001",
       "GOV-RES-CORE-0001",
-      "GOV-RES-SPEC-0002",
       "GOV-VRF-SPEC-0001",
       "IMPL-CNT-SPEC-0001",
       "PROJ-TST-JGPP-0001"
@@ -573,7 +572,6 @@
       "GOV-PLS-SPEC-0001",
       "GOV-PROC-CORE-0001",
       "GOV-RES-CORE-0001",
-      "GOV-RES-SPEC-0002",
       "GOV-VRF-SPEC-0001",
       "GS-ARG-CORE-0001",
       "GS-ATL-CORE-0001",
@@ -630,6 +628,9 @@
       "AUD-REQM-REVW-0001",
       "IMPL-HTH-CORE-0001"
     ],
+    "hearing": [
+      "ARCH-SEN-BIO-0001"
+    ],
     "heartbeat": [
       "GOV-PLS-SPEC-0001"
     ],
@@ -664,7 +665,6 @@
       "ARCH-REL-BIO-0001",
       "ARCH-SYS-LOG-0001",
       "GOV-RES-CORE-0001",
-      "GOV-RES-SPEC-0002",
       "IDEA-PAN-INS-0001",
       "PROJ-MOSC-JD-0001",
       "PROJ-NMX-JGPP-0001"
@@ -908,6 +908,7 @@
       "IMPL-TLR-SPEC-0001"
     ],
     "media": [
+      "ARCH-SEN-BIO-0001",
       "LOG-MED-LOG-0001"
     ],
     "memory": [
@@ -922,8 +923,7 @@
       "ARCH-MEM-LOG-0002",
       "ARCH-MEM-LOG-0003",
       "ARCH-MEM-LOG-0004",
-      "GOV-RES-CORE-0001",
-      "GOV-RES-SPEC-0002"
+      "GOV-RES-CORE-0001"
     ],
     "milestone": [
       "ARCH-MEM-LOG-0003",
@@ -1034,6 +1034,7 @@
       "GOV-PROC-CORE-0001"
     ],
     "perception": [
+      "ARCH-SEN-BIO-0001",
       "PROJ-MMOD-JGPP-0001"
     ],
     "pinch": [
@@ -1139,8 +1140,7 @@
     "resumability": [
       "ARCH-REF-IDX-0001",
       "GOV-LOO-SPEC-0001",
-      "GOV-RES-CORE-0001",
-      "GOV-RES-SPEC-0002"
+      "GOV-RES-CORE-0001"
     ],
     "retention": [
       "GOV-LOO-SPEC-0001"
@@ -1206,6 +1206,12 @@
     ],
     "semantics": [
       "ARCH-FAM-IDX-0001"
+    ],
+    "senses": [
+      "ARCH-SEN-BIO-0001"
+    ],
+    "sensory": [
+      "ARCH-SEN-BIO-0001"
     ],
     "serial": [
       "ARCH-JD-JIP-0001"
@@ -1414,6 +1420,9 @@
     ],
     "verification": [
       "GOV-VRF-SPEC-0001"
+    ],
+    "vision": [
+      "ARCH-SEN-BIO-0001"
     ],
     "visualizer": [
       "IMPL-YVG-CORE-0001",

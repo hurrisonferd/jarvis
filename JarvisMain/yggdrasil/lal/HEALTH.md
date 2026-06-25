@@ -1,16 +1,15 @@
 # JD Health — vitality of the governed record
 
-_233 governed objects, 361 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._
+_233 governed objects, 360 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._
 
-## Orphans (no parent — should join the family tree) (5)
+## Orphans (no parent — should join the family tree) (4)
 - ARCH-FAM-IDX-0001
 - ARCH-GS-IDX-0001
 - CONN-MSB-CORE-0001
 - GOV-CAN-CORE-0001
-- IMPL-HYG-SPEC-0001
 
-## Isolated (no parent, nothing references them — dead-ends) (1)
-- ARCH-FAM-IDX-0001
+## Isolated (no parent, nothing references them — dead-ends) (0)
+- ✓ none
 
 ## Ruleless JIPs (a rule attached to nothing) (0)
 - ✓ none
@@ -40,4 +39,4 @@ _233 governed objects, 361 edges · health WARNS, never blocks (validate.py is t
 - `PROJ-TRN-JGPP-0001` UI Rework — outdated GameBoy page and the control surface
 - `PROJ-TST-JGPP-0001` JarvisTST — Temporal Task System
 
-**VITALITY:** 6 structural flag(s) + 20 open task(s).
+**VITALITY:** 4 structural flag(s) + 20 open task(s).

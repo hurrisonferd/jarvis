@@ -1,20 +1,20 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-25T00:52:42Z (2026-06-24 20:52 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-25T01:44:31Z (2026-06-24 21:44 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**233 governed objects** · 361 edges · 9 domains.
+**233 governed objects** · 360 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 233 objects · 20 open tasks · 6 orphans · 361 edges._
+_JARVIS online · 233 objects · 20 open tasks · 5 orphans · 360 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
 1. **System health** → `jarvis_eyes` (state + wiring + vitality)
 2. **Open tasks** → `jarvis_dex_list {status:'TASK'}` — 20 in flight
-3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 6 unparented
+3. **Orphan debt** → the Orphan lens (`jarvis_grimoire {page:'catalog'}` / `ORPHAN-LENS.md`) — 5 unparented
 4. **What happened** → `jarvis_timeline` (recent events + commits)
 5. **Summon a card** → `jarvis_jd_resolve` ('jid 1', a name, or a JNL)
 6. **The lenses** → `jarvis_grimoire {page:'lenses'}` (the fusion chapters)
@@ -79,7 +79,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (45)
+### ARCH (46)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -124,6 +124,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `45` | `ARCH-RT-SPEC-0001` | Event Contract | ACTIVE | — |
 | `46` | `ARCH-RT-SPEC-0002` | Execution Model | ACTIVE | — |
 | `47` | `ARCH-RT-SPEC-0003` | World Kernel | ACTIVE | — |
+| `239` | `ARCH-SEN-BIO-0001` | Sensory Perception — How JARVIS Sees and Hears | ACTIVE | — |
 | `126` | `ARCH-SL-JIP-0001` | Star Logs | TASK | — |
 | `143` | `ARCH-SYS-LOG-0001` | Continuity Through the Connector | ACTIVE | — |
 | `142` | `ARCH-SYS-SPEC-0001` | JARVIS System Manual | ACTIVE | — |
@@ -219,7 +220,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `67` | `CONN-MSB-CORE-0001` | MCP-Supabase Connector | ACTIVE | — |
 | `68` | `CONN-OTH-LOG-0001` | Other Connectors | ACTIVE | — |
 
-### GOV (17)
+### GOV (16)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -238,7 +239,6 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `137` | `GOV-PLS-SPEC-0001` | The Pulse — Companion Heartbeat | TASK | — |
 | `44` | `GOV-PROC-CORE-0001` | Patch Process | ACTIVE | — |
 | `226` | `GOV-RES-CORE-0001` | Resumability Definition | ACTIVE | — |
-| `233` | `GOV-RES-SPEC-0002` | Resumability Definition | ACTIVE | — |
 | `234` | `GOV-VRF-SPEC-0001` | Pre-Act Verification Contract | ACTIVE | — |
 
 ### GS (27)
@@ -378,13 +378,13 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 **Lineage**
 - parent ↑ `—`
-- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-BAK-LOG-0001` `ARCH-IMPL-INS-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-LED-LOG-0001` `ARCH-REF-IDX-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-CFG-REVW-0001` `AUD-IDX-REG-0001` `GOV-AUT-SPEC-0001` `GOV-LOO-SPEC-0001` `GOV-RES-CORE-0001` `GOV-RES-SPEC-0002` `GOV-VRF-SPEC-0001` `IDEA-IDX-REG-0001` `LOG-MED-LOG-0001` `PROJ-IDX-REG-0001`
+- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-BAK-LOG-0001` `ARCH-IMPL-INS-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-LED-LOG-0001` `ARCH-REF-IDX-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-CFG-REVW-0001` `AUD-IDX-REG-0001` `GOV-AUT-SPEC-0001` `GOV-LOO-SPEC-0001` `GOV-RES-CORE-0001` `GOV-VRF-SPEC-0001` `IDEA-IDX-REG-0001` `LOG-MED-LOG-0001` `PROJ-IDX-REG-0001`
 - siblings ↔ —
 - related → `ARCH-JFS-CORE-0001`
 
 **Neighbors (graph edges)**
 - out → `ARCH-JFS-CORE-0001`(related)
-- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-BAK-LOG-0001`(parent) `ARCH-IMPL-INS-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-LED-LOG-0001`(parent) `ARCH-REF-IDX-0001`(related) `ARCH-REF-IDX-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-CFG-REVW-0001`(parent) `AUD-IDX-REG-0001`(parent) `GOV-AUT-SPEC-0001`(parent) `GOV-LOO-SPEC-0001`(parent) `GOV-RES-CORE-0001`(parent) `GOV-RES-SPEC-0002`(parent) `GOV-VRF-SPEC-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
+- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-BAK-LOG-0001`(parent) `ARCH-IMPL-INS-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-LED-LOG-0001`(parent) `ARCH-REF-IDX-0001`(related) `ARCH-REF-IDX-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-CFG-REVW-0001`(parent) `AUD-IDX-REG-0001`(parent) `GOV-AUT-SPEC-0001`(parent) `GOV-LOO-SPEC-0001`(parent) `GOV-RES-CORE-0001`(parent) `GOV-VRF-SPEC-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
 
 **Tags.** `root` `core` `architecture` · **aliases:** ygg, yggdrasil
 

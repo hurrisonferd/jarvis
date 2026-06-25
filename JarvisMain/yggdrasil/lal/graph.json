@@ -2,7 +2,7 @@
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
     "nodes": 233,
-    "edges": 361,
+    "edges": 360,
     "main": 200,
     "side": 33
   },
@@ -370,6 +370,15 @@
     {
       "id": "ARCH-RT-SPEC-0003",
       "name": "World Kernel",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-SEN-BIO-0001",
+      "name": "Sensory Perception \u2014 How JARVIS Sees and Hears",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -1260,15 +1269,6 @@
     },
     {
       "id": "GOV-RES-CORE-0001",
-      "name": "Resumability Definition",
-      "domain": "GOV",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "status": "ACTIVE",
-      "owner": "Governance"
-    },
-    {
-      "id": "GOV-RES-SPEC-0002",
       "name": "Resumability Definition",
       "domain": "GOV",
       "class": "SPEC",
@@ -2552,6 +2552,11 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-SEN-BIO-0001",
+      "target": "ARCH-FAM-IDX-0001",
+      "type": "parent"
+    },
+    {
       "source": "ARCH-SL-JIP-0001",
       "target": "ARCH-JMMS-CORE-0001",
       "type": "parent"
@@ -3152,21 +3157,6 @@
       "type": "parent"
     },
     {
-      "source": "GOV-RES-SPEC-0002",
-      "target": "ARCH-JMMS-CORE-0001",
-      "type": "related"
-    },
-    {
-      "source": "GOV-RES-SPEC-0002",
-      "target": "ARCH-JMS-CORE-0001",
-      "type": "related"
-    },
-    {
-      "source": "GOV-RES-SPEC-0002",
-      "target": "ARCH-YGG-CORE-0001",
-      "type": "parent"
-    },
-    {
       "source": "GOV-VRF-SPEC-0001",
       "target": "ARCH-JSS-CORE-0001",
       "type": "related"
@@ -3545,6 +3535,11 @@
       "source": "IMPL-HYG-SPEC-0001",
       "target": "IMPL-FMT-SPEC-0001",
       "type": "related"
+    },
+    {
+      "source": "IMPL-HYG-SPEC-0001",
+      "target": "IMPL-FMT-SPEC-0001",
+      "type": "parent"
     },
     {
       "source": "IMPL-IDX-REG-0001",

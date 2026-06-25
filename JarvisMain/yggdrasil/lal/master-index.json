@@ -543,6 +543,21 @@
       "state": "active"
     },
     {
+      "object": "Sensory Perception \u2014 How JARVIS Sees and Hears",
+      "jnl": "ARCH-SEN-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/sensory/SENSORY-0001-062525-THE-SENSES.md",
+      "tags": [
+        "sensory",
+        "vision",
+        "hearing",
+        "media",
+        "perception",
+        "senses"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "Star Logs",
       "jnl": "ARCH-SL-JIP-0001",
       "location": "JarvisMain/Implementation/task/ARCHSLJIP-061126-0001-STAR-LOGS.md",
@@ -1760,20 +1775,6 @@
       "object": "Resumability Definition",
       "jnl": "GOV-RES-CORE-0001",
       "location": "JarvisMain/Manual/Operations/GOV-RES-CORE-0001-062426.md",
-      "tags": [
-        "continuity",
-        "resumability",
-        "identity",
-        "memory",
-        "governance"
-      ],
-      "anchors": [],
-      "state": "active"
-    },
-    {
-      "object": "Resumability Definition",
-      "jnl": "GOV-RES-SPEC-0002",
-      "location": "JarvisMain/Architecture/specs/resumability-definition.md",
       "tags": [
         "continuity",
         "resumability",

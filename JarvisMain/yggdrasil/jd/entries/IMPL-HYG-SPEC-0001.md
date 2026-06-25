@@ -6,7 +6,7 @@ tier: SIDE
 authority: CANON
 owner: JCS Pipeline
 steward: 
-parent: IMPL-IDX-REG-0001 
+parent: IMPL-FMT-SPEC-0001
 jnl: IMPL-HYG-SPEC-0001
 seq: 101
 status: ARCHIVED

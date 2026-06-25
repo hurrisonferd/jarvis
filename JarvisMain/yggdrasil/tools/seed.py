@@ -598,6 +598,8 @@ PARENT = {
     "IMPL-JIP-SPEC-0608": "IMPL-IDX-REG-0001",
     "IMPL-IMP-LOG-0001": "IMPL-IDX-REG-0001",
     "IMPL-INA-LOG-0001": "IMPL-IDX-REG-0001",
+    "IMPL-HYG-SPEC-0001": "IMPL-FMT-SPEC-0001",
+    "ARCH-SEN-BIO-0001": "ARCH-FAM-IDX-0001",
     # Orphan-lens reorg (Raven 2026-06-16): domain-index roots adopt their families.
     "AUD-IDX-REG-0001": "ARCH-YGG-CORE-0001",
     "IDEA-IDX-REG-0001": "ARCH-YGG-CORE-0001",

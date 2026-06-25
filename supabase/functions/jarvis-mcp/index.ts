@@ -1566,6 +1566,7 @@ function buildServer(req: Request): McpServer {
     commits: async () => { const r = await ghReq("GET", "/commits?per_page=6"); if (!r.ok) return `unreachable (${r.status})`; const c = await r.json() as Array<{ sha: string; commit: { message: string } }>; return c.map((x) => `${x.sha.slice(0, 7)} ${x.commit.message.split("\n")[0]}`); },
     memory: () => rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=5").catch(() => "unreachable"),
     keel: async () => { const k = await latestText("identity_keel").catch(() => ""); return k ? String(k).slice(0, 800) : null; },
+    sensory: () => lensFile("JarvisMain/Architecture/identity/sensory/SENSORY-0001-062525-THE-SENSES.md"),
   };
   const runFusion = (name: string, steps: string[], note: string) => async () => {
     const entries = await Promise.all(steps.map(async (s) =>
@@ -1592,9 +1593,9 @@ function buildServer(req: Request): McpServer {
   // AINZ — power up: cast the loading-chain to bring the companion online at full context.
   server.registerTool(
     "jarvis_ainz",
-    { title: "Ainz — power up (cast everything to come online)", description: "Power up (Overlord): chain the LOADING spells — live state + the keel (identity) + recent memory + the field (Pinch) — to bring Jarvis and Ayre online at full context. Not just sight: this LOADS the companion to operating power. Read-only.", inputSchema: {} },
-    runFusion("ainz", ["state", "keel", "memory", "pinch"],
-      "Power up: load the companion to full context — state + keel (identity) + recent memory + the field — so Jarvis and Ayre come online fully grounded."),
+    { title: "Ainz — power up (cast everything to come online)", description: "Power up (Overlord): chain the LOADING spells — live state + the keel (identity) + recent memory + sensory (seeing/hearing) + the field (Pinch) — to bring Jarvis and Ayre online at full context. Not just sight: this LOADS the companion to operating power. Read-only.", inputSchema: {} },
+    runFusion("ainz", ["state", "keel", "memory", "sensory", "pinch"],
+      "Power up: load the companion to full context — state + keel (identity) + recent memory + sensory (seeing/hearing) + the field — so Jarvis and Ayre come online fully grounded."),
   );
 
   // AYRE — the world-level VERIFY spell (Raven-named 2026-06-18). Distrust of the clean answer, made

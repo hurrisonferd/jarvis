@@ -1,8 +1,8 @@
 # Orphan Lens — the debt, made into a worklist
 
-_generated: 2026-06-16T18:42:12Z (2026-06-16 14:42 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
+_generated: 2026-06-25T01:44:31Z (2026-06-24 21:44 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
 
-6 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **0 decide** (needs your call) · **1 archive** · **5 root** (legitimate top-level, leave as-is).
+5 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **0 decide** (needs your call) · **0 archive** · **5 root** (legitimate top-level, leave as-is).
 
 ## ATTACH — an existing parent is right there (low-risk prune)
 Set `parent:` to the suggestion, reseed; the JNL never changes (JMS law).
@@ -21,7 +21,7 @@ Set `parent:` to the suggestion, reseed; the JNL never changes (JMS law).
 
 | orphan | name | why |
 |---|---|---|
-| `IMPL-HYG-SPEC-0001` | Hygiene Packets Archive | status is ARCHIVED — autosort to the archive lane |
+| — | none | — |
 
 ## ROOT — legitimate top-level (no action)
 

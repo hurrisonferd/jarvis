@@ -1,8 +1,8 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-25T00:52:42Z",
-    "generated_at_eastern": "2026-06-24 20:52 EDT",
-    "source_commit": "55ac81e",
+    "generated_at_utc": "2026-06-25T01:44:31Z",
+    "generated_at_eastern": "2026-06-24 21:44 EDT",
+    "source_commit": "e9e1779",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
@@ -16,10 +16,10 @@
       "TASK": 20
     },
     "by_domain": {
-      "ARCH": 45,
+      "ARCH": 46,
       "AUD": 10,
       "CONN": 70,
-      "GOV": 17,
+      "GOV": 16,
       "GS": 27,
       "IDEA": 4,
       "IMPL": 31,
@@ -1622,7 +1622,7 @@
       "class": "SPEC",
       "tier": "SIDE",
       "status": "ARCHIVED",
-      "parent": "",
+      "parent": "IMPL-FMT-SPEC-0001",
       "tags": [
         "hygiene",
         "archive",
@@ -3821,27 +3821,9 @@
       ]
     },
     {
-      "jnl": "GOV-RES-SPEC-0002",
-      "jid": 233,
-      "jidd": "gov-16",
-      "name": "Resumability Definition",
-      "type": "SPEC",
-      "class": "SPEC",
-      "tier": "MAIN",
-      "status": "ACTIVE",
-      "parent": "ARCH-YGG-CORE-0001",
-      "tags": [
-        "continuity",
-        "resumability",
-        "identity",
-        "memory",
-        "governance"
-      ]
-    },
-    {
       "jnl": "GOV-VRF-SPEC-0001",
       "jid": 234,
-      "jidd": "gov-17",
+      "jidd": "gov-16",
       "name": "Pre-Act Verification Contract",
       "type": "SPEC",
       "class": "SPEC",
@@ -3908,6 +3890,25 @@
         "bounded-autonomy",
         "loop",
         "tools"
+      ]
+    },
+    {
+      "jnl": "ARCH-SEN-BIO-0001",
+      "jid": 239,
+      "jidd": "arch-46",
+      "name": "Sensory Perception — How JARVIS Sees and Hears",
+      "type": "BIO",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-FAM-IDX-0001",
+      "tags": [
+        "sensory",
+        "vision",
+        "hearing",
+        "media",
+        "perception",
+        "senses"
       ]
     }
   ]

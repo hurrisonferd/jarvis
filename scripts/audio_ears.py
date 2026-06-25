@@ -64,7 +64,7 @@ def render_spectrogram(y, sr, out: Path) -> None:
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
-    import librosa, librosa.display, numpy as np
+    import librosa.display, numpy as np
     S = librosa.power_to_db(librosa.feature.melspectrogram(y=y, sr=sr), ref=np.max)
     plt.figure(figsize=(7, 3))
     librosa.display.specshow(S, sr=sr, x_axis="time", y_axis="mel", cmap="magma")
@@ -79,7 +79,8 @@ def analyze(path: Path) -> dict:
     import numpy as np
     y, sr = librosa.load(str(path), mono=True)
     dur = float(librosa.get_duration(y=y, sr=sr))
-    tempo = float(librosa.beat.beat_track(y=y, sr=sr)[0])
+    bt = librosa.beat.beat_track(y=y, sr=sr)
+    tempo = float(bt[0].item())  # librosa 0.11+: shape (1,) array, not scalar
     chroma = librosa.feature.chroma_cqt(y=y, sr=sr)
     chroma_mean = [float(x) for x in np.mean(chroma, axis=1)]
     rms_series = librosa.feature.rms(y=y)[0]
@@ -91,7 +92,7 @@ def analyze(path: Path) -> dict:
     dyn_range = round(float(20 * np.log10((np.max(rms_series) + 1e-6) / (np.percentile(rms_series, 10) + 1e-6))), 1)
     spec_rel = f"spectrograms/{path.stem}.png"
     try:
-        render_spectrogram(y, sr, MEDIA / spec_rel)
+        render_spectrogram(y, sr, AUDIO.parent / spec_rel)
     except Exception as e:
         print(f"  (spectrogram failed for {path.name}: {e})")
         spec_rel = ""
