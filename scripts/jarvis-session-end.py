@@ -166,6 +166,49 @@ def write_growth_record(session_data: dict, alignment: float) -> None:
         pass
 
 
+SESSION_RECORD_CAP = 20  # mirror growth_ledger cap
+
+
+def _write_session_record(session_data: dict, alignment: float,
+                           topics_str: str, patches_str: str) -> None:
+    """Append a session summary to mnemos/memories/sessions.json (git-first durability).
+
+    Supabase mnemos-recall is the live mirror; this local file is the ground truth
+    when the cloud is unreachable. Entries rotate after SESSION_RECORD_CAP.
+    """
+    sessions_path = os.path.join(REPO_ROOT, "mnemos", "memories", "sessions.json")
+    try:
+        with open(sessions_path, "r") as f:
+            sessions = json.load(f)
+    except (FileNotFoundError, json.JSONDecodeError):
+        sessions = {"updated": "", "sessions": []}
+
+    now = datetime.now(timezone.utc)
+    entry = {
+        "session_id": now.strftime("%Y%m%d_%H%M%S"),
+        "date":       now.strftime("%Y-%m-%d"),
+        "utc_time":   now.strftime("%H:%M:%S"),
+        "exchanges":  session_data["exchanges"],
+        "topics":     session_data["topics"],
+        "alignment":  alignment,
+        "patches":   session_data["patches"],
+        "brief":      session_data.get("last_text", "")[:120],
+    }
+    entries = sessions.get("sessions", [])
+    entries.append(entry)
+    cap = SESSION_RECORD_CAP
+    if len(entries) > cap:
+        entries = entries[-cap:]
+    sessions["updated"] = now.isoformat()
+    sessions["sessions"] = entries
+
+    try:
+        with open(sessions_path, "w") as f:
+            json.dump(sessions, f, indent=2)
+    except Exception:
+        pass
+
+
 def extract_session_data(transcript_path: str) -> dict:
     if not transcript_path or not os.path.exists(transcript_path):
         return {"exchanges": 0, "patches": [], "topics": [], "last_text": "", "last_assistant_text": ""}
@@ -259,6 +302,11 @@ def main():
     )
 
     write_growth_record(session_data, alignment)
+
+    # ── Local sessions record ─────────────────────────────────────────────────
+    # Always write this locally — Supabase may be unreachable but the record
+    # must survive. sessions.json is git-first; Supabase is the mirror.
+    _write_session_record(session_data, alignment, topics_str, patches_str)
 
     # ── StarLog ────────────────────────────────────────────────────────────────
     # Generate session-close StarLog with tasks. sl.py handles git commit + tracker sync.

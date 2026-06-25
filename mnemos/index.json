@@ -1,25 +1,63 @@
 {
-  "version": "1.0",
-  "last_updated": "2026-05-29",
-  "total_memories": 39,
-  "by_type": {
-    "raven_profile": 24,
-    "decision": 11,
-    "jarvis_identity": 4,
-    "github_commit": 0,
-    "speak_input": 0,
-    "speak_output": 0,
-    "session_summary": 0,
-    "monitor": 0
-  },
-  "domains": [
-    "architecture", "identity", "governance", "mission",
-    "gaming", "development", "memory", "emotional",
-    "family", "projects", "music", "spirituality", "health", "financial"
+  "version": "2.1",
+  "updated": "2026-06-25T17:44:07Z",
+  "node": "node-001-raven",
+  "description": "JARVIS memory and context store. GitHub is the read layer — no credentials needed.",
+  "read_order": [
+    "1. mnemos/context/system.json — architecture, Gold Laws, agents (read first)",
+    "2. mnemos/memories/recent.json — last 50 memories or git log (Supabase optional)",
+    "3. mnemos/memories/decisions.json — approved governance decisions",
+    "4. mnemos/memories/sessions.json — session summaries + pipeline observations",
+    "5. mnemos/context/patches.json — patch status",
+    "6. mnemos/memories/events.jsonl — github issues/PRs",
+    "7. mnemos/domains/ — identity profiles (Raven, JARVIS)"
   ],
-  "supabase_project": "oexghfsvhnggddllgvrt",
-  "recall_fn": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/mnemos-recall",
-  "store_fn": "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/mnemos-store",
-  "tags": 18,
-  "note": "Supabase = hot/searchable. This file = cold/versioned snapshot. Session brief reads this when Supabase unreachable."
+  "files": {
+    "memories/recent.json": {
+      "desc": "Last 50 memories (Supabase) or git commits (fallback)",
+      "count": 0
+    },
+    "memories/decisions.json": {
+      "desc": "PROMETHEUS governance decisions",
+      "count": 0
+    },
+    "memories/sessions.json": {
+      "desc": "Session summaries + pipeline observations",
+      "count": 0
+    },
+    "memories/events.jsonl": {
+      "desc": "GitHub issues and PRs (append log)"
+    },
+    "context/system.json": {
+      "desc": "Gold Laws, pipeline, God Systems, agent trust scores"
+    },
+    "context/patches.json": {
+      "desc": "Patch ledger — active and pending only"
+    },
+    "domains/identity.json": {
+      "desc": "JARVIS + Raven identity domain profiles"
+    }
+  },
+  "pipeline": {
+    "workflow": "jarvis-pipeline.yml",
+    "jobs": "AYRE → AEGIS → MNEMOS → HUGINN",
+    "triggers": [
+      "push:main",
+      "schedule:06:00UTC",
+      "workflow_dispatch"
+    ],
+    "supabase": "optional — git log fallback active when unavailable"
+  },
+  "tags": [
+    "jarvis",
+    "raven",
+    "mission",
+    "architecture",
+    "governance",
+    "memory",
+    "grid",
+    "gaming",
+    "development",
+    "emotional"
+  ]
 }

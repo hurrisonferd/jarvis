@@ -1,6 +1,21 @@
 {
-  "updated": "2026-05-29T00:00:00Z",
+  "updated": "2026-06-25T17:48:35.460651+00:00",
   "count": 0,
-  "note": "Populated daily by GitHub Action. Last 20 session summaries from Supabase (source_type=session_summary).",
-  "sessions": []
+  "sessions": [
+    {
+      "session_id": "20260625_174835",
+      "date": "2026-06-25",
+      "utc_time": "17:48:35",
+      "exchanges": 5,
+      "topics": [
+        "architecture",
+        "mission"
+      ],
+      "alignment": 0.85,
+      "patches": [
+        "P44"
+      ],
+      "brief": "test session"
+    }
+  ]
 }

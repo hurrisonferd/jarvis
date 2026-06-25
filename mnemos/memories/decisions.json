@@ -1,6 +1,5 @@
 {
-  "updated": "2026-05-29T00:00:00Z",
+  "updated": "2026-06-25T17:44:07Z",
   "count": 0,
-  "note": "Populated daily by GitHub Action. PROMETHEUS governance decisions (raven_approved=true, ordered by eris_weight desc).",
   "decisions": []
 }
