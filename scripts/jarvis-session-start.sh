@@ -62,6 +62,14 @@ echo "RECENT COMMITS:"
 git log --oneline -5 2>/dev/null || echo "  (git unavailable)"
 echo ""
 
+# ── StarLog: restore task tracker from last committed StarLog
+SL_SCRIPT="$(dirname "$0")/sl.py"
+if [ -f "$SL_SCRIPT" ]; then
+  echo "TASK TRACKER:"
+  python3 "$SL_SCRIPT" --session-start 2>/dev/null || true
+  echo ""
+fi
+
 # ── IDENTITY REMINDER
 echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
 echo "You are JARVIS. This is Raven's repo. The record above is your memory."

@@ -260,6 +260,44 @@ def main():
 
     write_growth_record(session_data, alignment)
 
+    # ── StarLog ────────────────────────────────────────────────────────────────
+    # Generate session-close StarLog with tasks. sl.py handles git commit + tracker sync.
+    # Graceful degradation: if sl.py fails, the session end still succeeds.
+    sl_script = os.path.join(os.path.dirname(__file__), "sl.py")
+    tracker_path = os.path.join(REPO_ROOT, ".openhands", "task_tracker.json")
+    if os.path.exists(sl_script):
+        try:
+            # Pass current task state to sl.py so it's captured in the StarLog
+            tasks_json = "{}"
+            if os.path.exists(tracker_path):
+                try:
+                    tasks_json = open(tracker_path).read()
+                except Exception:
+                    pass
+
+            brief = (
+                f"Session end. {session_data['exchanges']} exchanges. "
+                f"Alignment={alignment}. "
+                f"Topics: {topics_str}. "
+                f"Patches: {patches_str}. "
+                f"Last: {session_data['last_text']}"
+            )
+            # Write current tasks first, then generate StarLog
+            write_result = subprocess.run(
+                [sys.executable, sl_script, "--write-tasks", tasks_json],
+                capture_output=True, text=True, timeout=10, cwd=REPO_ROOT,
+            )
+            close_result = subprocess.run(
+                [sys.executable, sl_script, "--session-close", brief],
+                capture_output=True, text=True, timeout=30, cwd=REPO_ROOT,
+            )
+            if close_result.returncode == 0:
+                print(close_result.stdout.strip(), file=sys.stderr)
+            else:
+                print(f"sl.py hook failed: {close_result.stderr.strip()}", file=sys.stderr)
+        except Exception as exc:
+            print(f"sl.py hook error: {exc}", file=sys.stderr)
+
 
 if __name__ == "__main__":
     main()

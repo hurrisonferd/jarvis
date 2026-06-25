@@ -18,7 +18,7 @@ Cross-session persistence:
   --session-close: write + commit final StarLog, then re-sync tracker for next session.
 """
 from __future__ import annotations
-import argparse, json, re, subprocess
+import argparse, json, re, subprocess, sys
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -64,19 +64,17 @@ def last_star_log(prefer_with_tasks=True):
 
 def parse_tasks(path):
     text = path.read_text()
-    # Match the task fence: opening ```, content, closing ```
-    # Use greedy .* between fences so we capture the full block
-    # (non-greedy .*? would stop at first ``` inside the content)
-    m = re.search(r"```\n(.*)\n```", text, re.DOTALL)
+    # Non-greedy .*? to match the FIRST fence pair — avoids swallowing content after the block
+    m = re.search(r"```\n(.*?)\n```", text, re.DOTALL)
     if not m:
         return []
     icon_map = {"●": "done", "◐": "in_progress", "○": "todo"}
+    STATUS_VALUES = {"DONE", "DEFERRED", "OPEN", "TODO", "IN_PROGRESS"}
     tasks = []
     for line in m.group(1).strip().splitlines():
         line = line.strip()
         if not line or line.startswith("*"):
             continue
-        # Guard: line must be long enough and start with a known icon
         if len(line) < 3 or line[0] not in icon_map:
             continue
         icon = line[0]
@@ -84,9 +82,12 @@ def parse_tasks(path):
         tokens = rest.split()
         if not tokens:
             continue
-        # Last token is status (strip trailing period)
+        # Only treat last token as status if it's a known status word
+        if tokens[-1].upper().rstrip(".").replace("_", "") in STATUS_VALUES:
+            title = " ".join(tokens[:-1]) if len(tokens) > 1 else tokens[0]
+        else:
+            title = rest
         status = icon_map.get(icon, "todo")
-        title = " ".join(tokens[:-1]) if len(tokens) > 1 else tokens[0]
         tasks.append({"title": title, "status": status, "notes": ""})
     return tasks
 
@@ -158,20 +159,39 @@ def commit(paths, msg):
 
 def main():
     p = argparse.ArgumentParser(description="SL — Star Log generator")
-    p.add_argument("--session-start", action="store_true")
-    p.add_argument("--session-close", "-x", metavar="TEXT")
-    p.add_argument("--sync-tasks", action="store_true")
-    p.add_argument("--brief", "-b", metavar="TEXT")
-    p.add_argument("--type", "-t", default="SESSION_SNAPSHOT", choices=LOG_TYPES)
-    p.add_argument("--no-tasks", action="store_true")
-    p.add_argument("--stream", "-s", default="jarvis-ayre")
-    p.add_argument("--commit", "-c", metavar="MSG")
-    p.add_argument("--stardate", action="store_true")
+    p.add_argument("--session-start", action="store_true",
+                   help="Session open: sync tracker from last committed StarLog")
+    p.add_argument("--session-close", "-x", metavar="TEXT",
+                   help="Session close: snapshot + commit + restore tracker")
+    p.add_argument("--sync-tasks", action="store_true",
+                   help="Force-sync .openhands/task_tracker.json from last StarLog")
+    p.add_argument("--write-tasks", metavar="JSON",
+                   help="Write task JSON to tracker (called by session-end hook)")
+    p.add_argument("--brief", "-b", metavar="TEXT",
+                   help="Brief summary")
+    p.add_argument("--type", "-t", default="SESSION_SNAPSHOT", choices=LOG_TYPES,
+                   help="Log type (default: SESSION_SNAPSHOT)")
+    p.add_argument("--no-tasks", action="store_true", help="Skip task summary")
+    p.add_argument("--stream", "-s", default="jarvis-ayre", help="Stream tag")
+    p.add_argument("--commit", "-c", metavar="MSG", help="Commit after writing")
+    p.add_argument("--stardate", action="store_true", help="Print stardate and exit")
     args = p.parse_args()
 
     if args.stardate:
         print(now().strftime("%Y.%j"))
         return
+
+    # --write-tasks: session-end hook passes current task state
+    if args.write_tasks:
+        try:
+            tasks_data = json.loads(args.write_tasks)
+            write_tracker(tasks_data.get("tasks", []))
+            print(f"Wrote {len(tasks_data.get('tasks', []))} tasks to tracker")
+        except json.JSONDecodeError as e:
+            print(f"Invalid task JSON: {e}", file=sys.stderr)
+            sys.exit(1)
+        return
+
     if args.session_start or args.sync_tasks:
         sync_tasks()
         return
