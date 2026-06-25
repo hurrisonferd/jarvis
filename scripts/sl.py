@@ -47,31 +47,62 @@ def make_filename(ts, log_type, stream, title):
     suff = f"-{slug(title)}" if title else ""
     return f"STARLOG-{date}-{time}-{log_type}-{stream}{suff}.md"
 
-def last_star_log(prefer_with_tasks=True):
-    """Return most recent StarLog. If prefer_with_tasks=True (default), prefer
-    the most recent log that actually contains tasks over the newest file."""
-    logs = sorted(STARS_DIR.glob("STARLOG-*.md"), reverse=True)
-    if not logs:
-        return None
-    if not prefer_with_tasks:
-        return logs[0]
-    # Try newest first, fall back to older ones that have task content
-    for log in logs:
-        tasks = parse_tasks(log)
-        if tasks:
-            return log
-    return logs[0]  # all empty, return newest anyway
+def get_daily_log_path(stream="jarvis-ayre"):
+    """Return path for today's daily StarLog."""
+    today = now().strftime("%Y-%m-%d")
+    return STARS_DIR / f"STARLOG-{today}-DAILY-{stream}.md"
 
-def parse_tasks(path):
+def daily_log_exists(stream="jarvis-ayre"):
+    return get_daily_log_path(stream).exists()
+
+def read_daily_log(stream="jarvis-ayre"):
+    """Read today's daily log if it exists. Returns (header, blocks) where header is
+    the opening section (before first Decision block) and blocks is a list of
+    (timestamp, summary, decisions, task_block) tuples."""
+    path = get_daily_log_path(stream)
+    if not path.exists():
+        return None, []
     text = path.read_text()
-    # Non-greedy .*? to match the FIRST fence pair — avoids swallowing content after the block
-    m = re.search(r"```\n(.*?)\n```", text, re.DOTALL)
-    if not m:
-        return []
+    return text, _parse_daily_blocks(text)
+
+def _parse_daily_blocks(text):
+    """Parse all decision blocks from a daily log. Returns list of
+    (timestamp, summary, decisions_text, task_list) tuples."""
+    blocks = []
+    # Split on ## Decision — boundaries
+    pattern = r"(## Decision — .*?)(?=\n## Decision — |\Z)"
+    for m in re.finditer(pattern, text, re.DOTALL):
+        header = m.group(1)
+        # Extract timestamp from first line: ## Decision — 2026-06-25T19:17:07.829351+00:00
+        time_m = re.search(r"## Decision — ([\d\-T:.]+)", header)
+        ts = time_m.group(1) if time_m else ""
+        # Extract summary: first non-metadata line after the ## Decision header
+        lines = header.splitlines()
+        summary = ""
+        for i, line in enumerate(lines[1:], 1):
+            line_stripped = line.strip()
+            if not line_stripped:
+                continue
+            # Skip metadata lines (start with ** or ###)
+            if line_stripped.startswith("**") or line_stripped.startswith("###"):
+                continue
+            summary = line_stripped
+            break
+        # Extract decisions (between ### Decisions made and ### Tasks)
+        decisions_m = re.search(r"### Decisions made\s*\n(.*?)\n### Tasks", header, re.DOTALL)
+        decisions = decisions_m.group(1).strip() if decisions_m else ""
+        # Extract tasks
+        tasks_m = re.search(r"```\n(.*?)\n```", header, re.DOTALL)
+        tasks = _parse_task_block(tasks_m.group(1)) if tasks_m else []
+        blocks.append((ts, summary, decisions, tasks))
+    return blocks
+
+def _parse_task_block(block_text):
+    """Parse a task code block into task dicts."""
     icon_map = {"●": "done", "◐": "in_progress", "○": "todo"}
     STATUS_VALUES = {"DONE", "DEFERRED", "OPEN", "TODO", "IN_PROGRESS"}
     tasks = []
-    for line in m.group(1).strip().splitlines():
+    for line in block_text.strip().splitlines():
         line = line.strip()
         if not line or line.startswith("*"):
             continue
@@ -82,14 +113,45 @@ def parse_tasks(path):
         tokens = rest.split()
         if not tokens:
             continue
-        # Only treat last token as status if it's a known status word
         if tokens[-1].upper().rstrip(".").replace("_", "") in STATUS_VALUES:
             title = " ".join(tokens[:-1]) if len(tokens) > 1 else tokens[0]
         else:
             title = rest
-        status = icon_map.get(icon, "todo")
-        tasks.append({"title": title, "status": status, "notes": ""})
+        tasks.append({"title": title, "status": icon_map.get(icon, "todo"), "notes": ""})
     return tasks
+
+def parse_tasks(path):
+    """Parse tasks from a StarLog file. Handles both single-block (old format)
+    and daily-block (new format) files."""
+    text = path.read_text()
+    # Check if it's a DAILY log (has multiple ## Decision blocks)
+    if "## Decision —" in text:
+        blocks = _parse_daily_blocks(text)
+        # Collect all tasks from all blocks, deduplicate by title (prefer last seen)
+        seen = {}
+        for _, _, _, tasks in blocks:
+            for t in tasks:
+                seen[t["title"]] = t
+        return list(seen.values())
+    # Old single-block format
+    m = re.search(r"```\n(.*?)\n```", text, re.DOTALL)
+    if not m:
+        return []
+    return _parse_task_block(m.group(1))
+
+def last_star_log(prefer_with_tasks=True):
+    """Return most recent StarLog. If prefer_with_tasks=True (default), prefer
+    the most recent log that actually contains tasks over the newest file."""
+    logs = sorted(STARS_DIR.glob("STARLOG-*.md"), reverse=True)
+    if not logs:
+        return None
+    if not prefer_with_tasks:
+        return logs[0]
+    for log in logs:
+        tasks = parse_tasks(log)
+        if tasks:
+            return log
+    return logs[0]
 
 def write_tracker(tasks):
     TRACKER_PATH.write_text(json.dumps({"tasks": tasks}, indent=2))
@@ -121,14 +183,75 @@ def task_summary():
         lines.append(f"{icon} {title} {note}")
     return "\n".join(lines)
 
-def task_count():
-    tasks = read_tracker()
+def task_count(tasks=None):
+    if tasks is None:
+        tasks = read_tracker()
     if not tasks:
         return "0 tasks"
     done = sum(1 for t in tasks if t.get("status") == "done")
     wip  = sum(1 for t in tasks if t.get("status") == "in_progress")
     todo = sum(1 for t in tasks if t.get("status") == "todo")
     return f"● {done} done · ◐ {wip} in_progress · ○ {todo} open"
+
+def _format_tasks(tasks):
+    icon_map = {"done": "●", "in_progress": "◐", "todo": "○"}
+    lines = []
+    for t in tasks:
+        icon = icon_map.get(t.get("status", "todo"), "○")
+        title = t.get("title", "")
+        note = t.get("notes", "")
+        lines.append(f"{icon} {title}  {note}".rstrip())
+    return "\n".join(lines)
+
+def build_decision_block(summary, decisions_text, tasks, ts=None):
+    """Build a decision block for a daily StarLog."""
+    if ts is None:
+        ts = now()
+    ts_str = ts.isoformat()
+    stardate = ts.strftime("%Y.%j")
+    task_lines = _format_tasks(tasks)
+    nav = task_count(tasks)
+    return f"""## Decision — {ts_str}
+**Stardate:** {stardate}
+
+### Summary
+{summary}
+
+### Decisions made
+{decisions_text}
+
+### Tasks
+*{nav}*
+
+```
+{task_lines}
+```"""
+
+def build_daily_log_header(stardate, stream):
+    """Build the opening header for a new daily StarLog."""
+    return f"""## Star Log — Daily — {now().strftime("%Y-%m-%d")}
+**Stardate:** {stardate}  ·  **Stream:** {stream}
+*One file per day. Decisions accumulate. `--session-start` resumes from here.*
+
+---"""
+
+def append_decision_to_daily(summary, decisions_text, tasks, stream="jarvis-ayre"):
+    """Append a decision block to today's daily StarLog. Creates the log if it doesn't exist."""
+    path = get_daily_log_path(stream)
+    stardate = now().strftime("%Y.%j")
+    block = build_decision_block(summary, decisions_text, tasks)
+    if path.exists():
+        existing = path.read_text()
+        # Strip trailing --- and newline before appending
+        if existing.rstrip().endswith("---"):
+            content = existing.rstrip() + "\n" + block + "\n"
+        else:
+            content = existing.rstrip() + "\n" + block + "\n"
+    else:
+        header = build_daily_log_header(stardate, stream)
+        content = header + "\n" + block + "\n"
+    path.write_text(content + "\n")
+    return path
 
 def build_log(brief, log_type, title, tasks_summary, stream):
     ts = now()
@@ -235,31 +358,87 @@ def parse_retro_tasks(text: str) -> list[dict]:
 def main():
     p = argparse.ArgumentParser(description="SL — Star Log generator")
     p.add_argument("--session-start", action="store_true",
-                   help="Session open: sync tracker from last committed StarLog")
+                   help="Session open: sync tracker from today's daily StarLog")
     p.add_argument("--session-close", "-x", metavar="TEXT",
-                   help="Session close: snapshot + commit + restore tracker")
+                   help="Session close: commit today's daily StarLog + sync tracker")
     p.add_argument("--sync-tasks", action="store_true",
                    help="Force-sync .openhands/task_tracker.json from last StarLog")
     p.add_argument("--write-tasks", metavar="JSON",
                    help="Write task JSON to tracker (called by session-end hook)")
     p.add_argument("--import-tasks", metavar="TEXT",
                    help="Import tasks from Raven's table format (markdown | icon line)")
-    p.add_argument("--brief", "-b", metavar="TEXT",
-                   help="Brief summary")
+    p.add_argument("--decision", "-d", nargs=2, metavar=("SUMMARY", "DECISIONS"),
+                   help="Log a decision point: --decision 'summary text' 'decisions text'. "
+                        "Appends to today's daily StarLog. Include task updates with --tasks.")
+    p.add_argument("--brief", "-b", metavar="TEXT", help="Brief summary")
     p.add_argument("--type", "-t", default="SESSION_SNAPSHOT", choices=LOG_TYPES,
                    help="Log type (default: SESSION_SNAPSHOT)")
-    p.add_argument("--no-tasks", action="store_true", help="Skip task summary")
+    p.add_argument("--no-tasks", action="store_true",
+                   help="Suppress task section in this log")
+    p.add_argument("--tasks", metavar="TEXT",
+                   help="Inline task list (compact icon format). Merges into tracker.")
     p.add_argument("--stream", "-s", default="jarvis-ayre", help="Stream tag")
     p.add_argument("--commit", "-c", metavar="MSG", help="Commit after writing")
     p.add_argument("--stardate", action="store_true", help="Print stardate and exit")
     p.add_argument("--mimir", action="store_true",
                    help="MIMIR routing table — 'help me find X' index")
+    p.add_argument("--list", action="store_true",
+                   help="Show today's daily StarLog decisions on screen")
     args = p.parse_args()
 
     if args.stardate:
         print(now().strftime("%Y.%j"))
         return
 
+    # Handle inline --tasks merge first (used by --decision)
+    if args.tasks:
+        inline = parse_retro_tasks(args.tasks)
+        if inline:
+            current = {t["title"]: t for t in read_tracker()}
+            for t in inline:
+                current[t["title"]] = t
+            write_tracker(list(current.values()))
+
+    # --decision: append to today's daily StarLog
+    if args.decision:
+        summary, decisions_text = args.decision
+        tasks = read_tracker()
+        path = append_decision_to_daily(summary, decisions_text, tasks, args.stream)
+        print(f"Appended decision to: {path.name}")
+        commit([path], f"chore(audit): SL — {now().date()} — decision: {summary[:60]}")
+        sync_tasks()
+        return
+
+    # --list: show today's decisions
+    if args.list:
+        _, blocks = read_daily_log(args.stream)
+        if not blocks:
+            print(f"No decisions yet today. Use --decision 'summary' 'decisions' to log one.")
+        else:
+            print(f"Today's decisions ({len(blocks)}):")
+            print()
+            for i, (ts, summary, _, tasks) in enumerate(blocks, 1):
+                done = sum(1 for t in tasks if t["status"] == "done")
+                todo = sum(1 for t in tasks if t["status"] == "todo")
+                print(f"  {i}. {ts[:19]} — {summary}")
+                print(f"     ● {done} done · ○ {todo} open")
+            print()
+            nav = task_count()
+            print(f"  Overall: {nav}")
+        return
+
+    # --session-start: sync from today's daily log
+    if args.session_start:
+        log = get_daily_log_path(args.stream)
+        if log.exists():
+            tasks = parse_tasks(log)
+            write_tracker(tasks)
+            print(f"Synced {len(tasks)} tasks from {log.name}")
+        else:
+            sync_tasks()  # fall back to last StarLog
+        return
+
+    # --mimir routing table
     if args.mimir:
         mimir_routes = [
             ("Who a stream is", "identity/<stream>/", "jarvis_identity_read"),
@@ -313,15 +492,17 @@ def main():
     brief = args.brief or ""
 
     if args.session_close:
-        path = STARS_DIR / make_filename(ts, args.type, args.stream, args.session_close)
-        path.write_text(build_log(args.session_close, args.type, args.session_close,
-                                  not args.no_tasks, args.stream))
-        print(f"Wrote: {path}")
-        sha = commit([path], f"chore(audit): SL — session close {ts.date()}")
-        print(f"Committed: {sha.strip()}")
+        # Commit today's daily StarLog (don't overwrite)
+        path = get_daily_log_path(args.stream)
+        if path.exists():
+            sha = commit([path], f"chore(audit): SL — session close {ts.date()}")
+            print(f"Committed: {path.name}")
+        else:
+            print("No daily StarLog to commit today.")
         sync_tasks()
         return
 
+    # Generic log (legacy)
     path = STARS_DIR / make_filename(ts, args.type, args.stream, brief)
     path.write_text(build_log(brief, args.type, brief, not args.no_tasks, args.stream))
     print(f"Wrote: {path}")
