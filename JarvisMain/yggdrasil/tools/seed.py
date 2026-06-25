@@ -64,6 +64,7 @@ SCAN_ROOTS = ("JarvisSide/Projects", "JarvisMain/Implementation",
               "JarvisMain/Architecture/identity",  # identity tree
               "JarvisMain/Manual",  # canonical manual
               "JarvisMain/Architecture/specs",  # architecture specs
+              "JarvisMain/Architecture/canon",  # canon index + sections
               "JarvisMain/Architecture/rebuild",  # rebuild artifacts
               "JarvisMain/Architecture/audits")  # audit records
 _FM_RE = re.compile(r"^---\n(.*?)\n---", re.DOTALL)

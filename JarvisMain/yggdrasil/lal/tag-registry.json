@@ -34,6 +34,7 @@
       "GOV-PD-SPEC-0001"
     ],
     "architecture": [
+      "ARCH-ARCH-IDX-0001",
       "ARCH-AYR-SPEC-0001",
       "ARCH-AYR-SPEC-0002",
       "ARCH-FLOW-SPEC-0001",
@@ -142,6 +143,7 @@
       "IMPL-BRF-CORE-0001"
     ],
     "canon": [
+      "ARCH-ARCH-IDX-0001",
       "ARCH-REF-IDX-0001",
       "GOV-CAN-CORE-0001",
       "GS-AEG-CORE-0001",
@@ -173,6 +175,7 @@
       "GS-ZEU-CORE-0001"
     ],
     "canonical": [
+      "ARCH-ARCH-SPEC-0006",
       "ARCH-BAK-LOG-0001"
     ],
     "capstone": [
@@ -205,9 +208,11 @@
       "PROJ-JPL-JGPP-0001"
     ],
     "codeos": [
+      "ARCH-ARCH-SPEC-0005",
       "PROJ-COS-BIO-0001"
     ],
     "companion": [
+      "ARCH-ARCH-SPEC-0002",
       "ARCH-ARGT-BIO-0001",
       "ARCH-AYR-BIO-0001",
       "ARCH-JRV-BIO-0001",
@@ -387,6 +392,9 @@
       "PROJ-DEO-BIO-0001",
       "PROJ-DEO-JGPP-0001"
     ],
+    "deployment": [
+      "ARCH-ARCH-SPEC-0003"
+    ],
     "deprecated": [
       "GOV-BRF-CORE-0001"
     ],
@@ -417,6 +425,9 @@
     "drift": [
       "IMPL-CNT-SPEC-0001",
       "IMPL-PCH-CORE-0001"
+    ],
+    "edge-functions": [
+      "ARCH-ARCH-SPEC-0003"
     ],
     "envelope": [
       "ARCH-JSE-SPEC-0001"
@@ -467,6 +478,9 @@
     ],
     "filesystem": [
       "ARCH-JFS-CORE-0001"
+    ],
+    "flag01": [
+      "ARCH-ARCH-SPEC-0005"
     ],
     "fold": [
       "ARCH-JHTM-CORE-0001"
@@ -629,6 +643,7 @@
       "IMPL-YVG-CORE-0001"
     ],
     "grid": [
+      "ARCH-ARCH-SPEC-0002",
       "PROJ-GRD-BIO-0001"
     ],
     "grimoire": [
@@ -678,6 +693,7 @@
       "IDEA-IDX-REG-0001"
     ],
     "identity": [
+      "ARCH-ARCH-SPEC-0002",
       "ARCH-ARGT-BIO-0001",
       "ARCH-AYR-BIO-0001",
       "ARCH-JD-JIP-0001",
@@ -711,6 +727,7 @@
       "IMPL-JIP-SPEC-0608"
     ],
     "index": [
+      "ARCH-ARCH-IDX-0001",
       "ARCH-FAM-IDX-0001",
       "ARCH-GS-IDX-0001",
       "ARCH-LAL-CORE-0001",
@@ -724,6 +741,7 @@
       "IMPL-JCSG-SPEC-0001"
     ],
     "jarvis": [
+      "ARCH-ARCH-SPEC-0005",
       "ARCH-JRV-BIO-0001",
       "ARCH-JRV-SPEC-0003",
       "ARCH-REL-BIO-0001",
@@ -735,6 +753,12 @@
     "jarvis-c": [
       "ARCH-MEM-LOG-0003",
       "ARCH-MEM-LOG-0004"
+    ],
+    "jarvis-private": [
+      "ARCH-ARCH-SPEC-0006"
+    ],
+    "jatm": [
+      "ARCH-ARCH-SPEC-0004"
     ],
     "jcs": [
       "ARCH-IMPL-INS-0001",
@@ -765,6 +789,9 @@
       "PROJ-GDS-JGPP-0002",
       "PROJ-TST-JGPP-0001"
     ],
+    "jhtm": [
+      "ARCH-ARCH-SPEC-0004"
+    ],
     "jid": [
       "ARCH-JD-JIP-0001"
     ],
@@ -779,7 +806,11 @@
     "jitm": [
       "IMPL-CNT-SPEC-0001"
     ],
+    "jltm": [
+      "ARCH-ARCH-SPEC-0004"
+    ],
     "jmms": [
+      "ARCH-ARCH-SPEC-0004",
       "ARCH-IMPL-INS-0001",
       "ARCH-MEM-LOG-0001"
     ],
@@ -804,6 +835,9 @@
     ],
     "jss": [
       "IMPL-SRT-CORE-0001"
+    ],
+    "jstm": [
+      "ARCH-ARCH-SPEC-0004"
     ],
     "jve": [
       "IMPL-VLD-CORE-0001"
@@ -863,6 +897,7 @@
       "ARCH-SYS-SPEC-0001"
     ],
     "mcp": [
+      "ARCH-ARCH-SPEC-0003",
       "CONN-MCP-RT-0001",
       "CONN-MCP-RT-0002",
       "CONN-MCP-RT-0003",
@@ -936,6 +971,7 @@
       "LOG-MED-LOG-0001"
     ],
     "memory": [
+      "ARCH-ARCH-SPEC-0004",
       "ARCH-JATM-CORE-0001",
       "ARCH-JC-JIP-0001",
       "ARCH-JHTM-CORE-0001",
@@ -971,6 +1007,7 @@
       "IMPL-HON-SPEC-0001"
     ],
     "mnemos": [
+      "ARCH-ARCH-SPEC-0004",
       "LOG-MNE-LOG-0001"
     ],
     "modular": [
@@ -1046,6 +1083,7 @@
       "IMPL-CNT-SPEC-0001"
     ],
     "pachinko": [
+      "ARCH-ARCH-SPEC-0005",
       "PROJ-PAC-BIO-0001"
     ],
     "pages": [
@@ -1124,6 +1162,7 @@
       "PROJ-TST-BIO-0001"
     ],
     "projects": [
+      "ARCH-ARCH-SPEC-0005",
       "PROJ-IDX-REG-0001"
     ],
     "protocol": [
@@ -1137,6 +1176,9 @@
       "GOV-PLS-SPEC-0001",
       "IMPL-CNT-SPEC-0001"
     ],
+    "purpose": [
+      "ARCH-ARCH-SPEC-0002"
+    ],
     "query": [
       "IMPL-JCSE-SPEC-0001",
       "IMPL-JQL-CORE-0001"
@@ -1148,8 +1190,14 @@
       "ARCH-JMS-SPEC-0001"
     ],
     "rebuild": [
+      "ARCH-ARCH-IDX-0001",
+      "ARCH-ARCH-SPEC-0006",
       "ARCH-BAK-LOG-0001",
       "ARCH-REF-IDX-0001"
+    ],
+    "recovery": [
+      "ARCH-ARCH-IDX-0001",
+      "ARCH-ARCH-SPEC-0006"
     ],
     "reference": [
       "ARCH-IMPL-INS-0001",
@@ -1229,6 +1277,9 @@
     "scope": [
       "GOV-AUT-SPEC-0001"
     ],
+    "secrets": [
+      "ARCH-ARCH-SPEC-0006"
+    ],
     "security": [
       "AUD-GATE-REVW-0001",
       "PROJ-JPL-JGPP-0001"
@@ -1250,6 +1301,9 @@
     ],
     "serial": [
       "ARCH-JD-JIP-0001"
+    ],
+    "services": [
+      "ARCH-ARCH-SPEC-0003"
     ],
     "session": [
       "ARCH-MEM-LOG-0003",
@@ -1318,6 +1372,8 @@
       "PROJ-MOSC-JD-0001"
     ],
     "supabase": [
+      "ARCH-ARCH-SPEC-0003",
+      "ARCH-ARCH-SPEC-0004",
       "CONN-MSB-CORE-0001",
       "IMPL-MIR-CORE-0001",
       "IMPL-SUP-CORE-0001"
@@ -1349,6 +1405,9 @@
     ],
     "terminology": [
       "ARCH-FAM-IDX-0001"
+    ],
+    "the-two-dreams": [
+      "ARCH-ARCH-SPEC-0002"
     ],
     "three-js": [
       "PROJ-RTO-JGPP-0001"

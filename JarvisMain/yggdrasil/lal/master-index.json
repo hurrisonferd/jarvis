@@ -1,7 +1,94 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 236,
+  "count": 242,
   "index": [
+    {
+      "object": "JARVIS Canon Index",
+      "jnl": "ARCH-ARCH-IDX-0001",
+      "location": "JarvisMain/Architecture/canon/INDEX.md",
+      "tags": [
+        "canon",
+        "architecture",
+        "rebuild",
+        "recovery",
+        "index"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "What is JARVIS",
+      "jnl": "ARCH-ARCH-SPEC-0002",
+      "location": "JarvisMain/Architecture/canon/JARVIS-0001.md",
+      "tags": [
+        "identity",
+        "purpose",
+        "companion",
+        "grid",
+        "the-two-dreams"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Services \u2014 Edge Functions",
+      "jnl": "ARCH-ARCH-SPEC-0003",
+      "location": "JarvisMain/Architecture/canon/services/SERVICES-0001.md",
+      "tags": [
+        "services",
+        "edge-functions",
+        "supabase",
+        "mcp",
+        "deployment"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Memory \u2014 MNEMOS + JMMS",
+      "jnl": "ARCH-ARCH-SPEC-0004",
+      "location": "JarvisMain/Architecture/canon/memory/MEMORY-0001.md",
+      "tags": [
+        "memory",
+        "mnemos",
+        "jmms",
+        "jstm",
+        "jhtm",
+        "jltm",
+        "jatm",
+        "supabase"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Active Projects",
+      "jnl": "ARCH-ARCH-SPEC-0005",
+      "location": "JarvisMain/Architecture/canon/projects/PROJECTS-0001.md",
+      "tags": [
+        "projects",
+        "pachinko",
+        "codeos",
+        "flag01",
+        "jarvis"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "JARVIS Rebuild Reference",
+      "jnl": "ARCH-ARCH-SPEC-0006",
+      "location": "JarvisMain/Architecture/canon/rebuild/REBUILD-0001.md",
+      "tags": [
+        "rebuild",
+        "recovery",
+        "secrets",
+        "canonical",
+        "jarvis-private"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
     {
       "object": "ARGENT Companion Profile",
       "jnl": "ARCH-ARGT-BIO-0001",

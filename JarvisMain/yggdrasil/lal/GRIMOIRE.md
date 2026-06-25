@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-25T02:04:09Z (2026-06-24 22:04 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-25T02:20:49Z (2026-06-24 22:20 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**236 governed objects** · 375 edges · 9 domains.
+**242 governed objects** · 399 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 236 objects · 20 open tasks · 5 orphans · 375 edges._
+_JARVIS online · 242 objects · 20 open tasks · 5 orphans · 399 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -79,10 +79,16 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (48)
+### ARCH (54)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
+| `243` | `ARCH-ARCH-IDX-0001` | JARVIS Canon Index | ACTIVE | — |
+| `244` | `ARCH-ARCH-SPEC-0002` | What is JARVIS | ACTIVE | — |
+| `248` | `ARCH-ARCH-SPEC-0003` | JARVIS Services — Edge Functions | ACTIVE | — |
+| `245` | `ARCH-ARCH-SPEC-0004` | JARVIS Memory — MNEMOS + JMMS | ACTIVE | — |
+| `246` | `ARCH-ARCH-SPEC-0005` | JARVIS Active Projects | ACTIVE | — |
+| `247` | `ARCH-ARCH-SPEC-0006` | JARVIS Rebuild Reference | ACTIVE | — |
 | `129` | `ARCH-ARGT-BIO-0001` | ARGENT Companion Profile | ACTIVE | — |
 | `107` | `ARCH-AYR-BIO-0001` | AYRE Companion Profile | ACTIVE | — |
 | `48` | `ARCH-AYR-SPEC-0001` | AYRE/JARVIS Split | ACTIVE | — |
@@ -387,7 +393,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 **Neighbors (graph edges)**
 - out → `ARCH-JFS-CORE-0001`(related)
-- in ← `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-BAK-LOG-0001`(parent) `ARCH-IMPL-INS-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-LED-LOG-0001`(parent) `ARCH-REF-IDX-0001`(related) `ARCH-REF-IDX-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-CFG-REVW-0001`(parent) `AUD-IDX-REG-0001`(parent) `GOV-AUT-SPEC-0001`(parent) `GOV-LOO-SPEC-0001`(parent) `GOV-RES-CORE-0001`(parent) `GOV-VRF-SPEC-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
+- in ← `ARCH-ARCH-IDX-0001`(related) `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-BAK-LOG-0001`(parent) `ARCH-IMPL-INS-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-LED-LOG-0001`(parent) `ARCH-REF-IDX-0001`(related) `ARCH-REF-IDX-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-CFG-REVW-0001`(parent) `AUD-IDX-REG-0001`(parent) `GOV-AUT-SPEC-0001`(parent) `GOV-LOO-SPEC-0001`(parent) `GOV-RES-CORE-0001`(parent) `GOV-VRF-SPEC-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
 
 **Tags.** `root` `core` `architecture` · **aliases:** ygg, yggdrasil
 
