@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>PachinkoBounce</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a0a0f;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    overflow: hidden;
+    font-family: 'Courier New', monospace;
+    color: #e0e0e0;
+    user-select: none;
+  }
+  canvas {
+    display: block;
+    image-rendering: pixelated;
+    border: 1px solid #222;
+  }
+  #hud {
+    display: flex;
+    gap: 24px;
+    margin-bottom: 8px;
+    font-size: 14px;
+    letter-spacing: 1px;
+  }
+  #hud span { color: #888; }
+  #hud .val { color: #e0e0e0; font-weight: bold; }
+  #hud .r { color: #ff4444; }
+  #hud .g { color: #44ff44; }
+  #hud .b { color: #4488ff; }
+  #ball-info {
+    margin-top: 8px;
+    font-size: 12px;
+    color: #666;
+    text-align: center;
+    min-height: 18px;
+  }
+</style>
+</head>
+<body>
+<div id="hud">
+  <span>BALLS <span class="val" id="h-balls">0</span></span>
+  <span>SCORE <span class="val" id="h-score">0</span></span>
+  <span><span class="r">R</span><span class="val" id="h-r">0</span></span>
+  <span><span class="g">G</span><span class="val" id="h-g">0</span></span>
+  <span><span class="b">B</span><span class="val" id="h-b">0</span></span>
+  <span>COMBO <span class="val" id="h-combo">0</span></span>
+</div>
+<canvas id="game"></canvas>
+<div id="ball-info">TAP TO SPAWN · COLLECT RGB ORBS · SURVIVE</div>
+
+<script>
+// ── CONFIG ────────────────────────────────────────────────────────────────────
+const W = 400, H = 700;
+const BALL_R = 8;
+const ORB_R = 12;
+const SPAWNER_Y = 40;
+const TRENCH_Y = H - 120;
+const PADDLE_W = 80, PADDLE_H = 12;
+const BRICK_H = 20;
+const BRICK_ROWS = 5;
+
+// Dark Souls stats
+const STATS = ['VIG', 'END', 'STR', 'DEX', 'INT', 'ARC'];
+
+
+
+// ── EXTREME BALL TYPES ──────────────────────────────────
+function spawnExtreme(type,x){
+  if(aliveBalls()>=MAX_BALLS)return;
+  const ball={
+    id:ballId++,x,y:SPAWNER_Y,vx:(Math.random()-0.5)*3,vy:2.5,r:BALL_R_BASE+10,stats:{},
+    dominant:'rgb',colors:{main:'#fff',sec:'#fff',glow:'#aaddff'},strDom:'rgb',teqDom:'rgb',
+    rarity:RARITIES[5],abilities:{},texture:'solid',pattern:'halo',
+    bounces:0,kills:0,alive:true,name:'',phase:Math.random()*Math.PI*2,trail:[],lastTrail:0,chaos:true,
+  };
+  for(const s of STATS)ball.stats[s]=Math.floor(30*2.3);
+  if(type==='biggest'){ball.stats.STR=55;ball.stats.VIG=40;ball.name='TITAN '+['BREAKER','FORGE','CORE'][Math.floor(Math.random()*3)];ball.r=BALL_R_BASE+20;}
+  else if(type==='fastest'){ball.stats.DEX=55;ball.stats.END=40;ball.name='PHANTOM '+['STRIKE','WARP','EDGE'][Math.floor(Math.random()*3)];}
+  else if(type==='multi'){ball.stats.TEQ=55;ball.stats.INT=40;ball.abilities.MULTI=1.5;ball.name='SWARM '+['ENGINE','NEXUS','WAVE'][Math.floor(Math.random()*3)];}
+  else if(type==='tank'){ball.stats.VIG=55;ball.stats.END=40;ball.abilities.SHIELD=1.5;ball.name='FORTRESS '+['CORE','WALL','HOLD'][Math.floor(Math.random()*3)];}
+  else if(type==='explosive'){ball.stats.ARC=55;ball.stats.STR=40;ball.abilities.EXPLODE=1.5;ball.name='DETONATOR '+['CORE','WAVE','STRIKE'][Math.floor(Math.random()*3)];}
+  else if(type==='chain'){ball.stats.INT=55;ball.stats.DEX=40;ball.abilities.CHAIN=1.5;ball.name='LINK '+['NEXUS','ENGINE','WAVE'][Math.floor(Math.random()*3)];}
+  else {ball.name='ULTIMATE '+['PRISM','FORGE','NEXUS'][Math.floor(Math.random()*3)];}
+  for(const ab of Object.keys(ABILITIES))if(!ball.abilities[ab])ball.abilities[ab]=0.6+Math.random()*0.4;
+  balls.push(ball);totalBallsSpawned++;
+  addToCollection(ball);
+  floatingText(x,SPAWNER_Y-30,'★ '+type.toUpperCase()+' BALL!',ball.rarity.color,12);
+  floatingText(x,SPAWNER_Y-44,ball.name,ball.rarity.glow,11);
+  shake(15,0.5);combo=Math.max(combo,20);score+=1000;
+  return ball;
+}
+
+// ── COLLECTION GALLERY ─────────────────────────────────
+function showCollection(){
+  const gal=document.getElementById('gallery');
+  const ballsList=Object.entries(collection).sort((a,b)=>{
+    const order={M:0,L:1,E:2,R:3,UC:4,C:5};
+    return(order[a[1].rarity.abbr]||9)-(order[b[1].rarity.abbr]||9);
+  });
+  let html='<div class="gal-title" style="display:flex;justify-content:space-between;align-items:center"><span>★ COLLECTION '+ballsList.length+'</span><span class="gal-close" onclick="document.getElementById(\'gallery\').style.display=\'none\'">[CLOSE]</span></div>';
+  if(ballsList.length===0)html+='<div style="color:#444;font-size:11px;text-align:center;margin-top:20px">No balls collected yet.<br>Play to find some!</div>';
+  for(const[key,data]of ballsList){
+    const r=data.rarity;
+    const col={r:'#f44',g:'#4f4',b:'#48f',rg:'#fa2',rb:'#f4f',gb:'#4ff',rgb:'#fff'}[data.dominant]||'#fff';
+    html+=`<div class="gal-ball">
+      <div class="gal-rarity" style="color:${r.color}">${r.abbr} ${data.count>1?'x'+data.count:''}</div>
+      <div class="gal-name" style="color:${r.color}">★ ${data.name}</div>
+      <div class="gal-stats">${data.texture} · ${data.pattern} · ${data.dominant.toUpperCase()}</div>
+    </div>`;
+  }
+  gal.innerHTML=html;
+  gal.style.display='block';
+}
+
+// ── CHAOS MODE ─────────────────────────────────────────────
+let chaosMeter=0,lastTap=0,tapCount=0;
+const CHAOS_METER_MAX=8,CHAOS_WINDOW=1.5;
+
+function addChaos(amount){chaosMeter=Math.min(chaosMeter+amount,CHAOS_METER_MAX);updateChaosBar();}
+function updateChaosBar(){
+  const cb=document.getElementById('chaos-bar');
+  const cc=document.getElementById('chaos-canvas');
+  if(!cb||!cc)return;
+  cb.style.display='flex';
+  const cctx=cc.getContext('2d');
+  cctx.clearRect(0,0,50,6);
+  cctx.fillStyle='#1a1a1a';cctx.fillRect(0,0,50,6);
+  cctx.fillStyle=chaosMeter>=CHAOS_METER_MAX?'#fff':'#ffaa00';
+  cctx.fillRect(0,0,50*(chaosMeter/CHAOS_METER_MAX),6);
+}
+function spawnChaosBall(x){
+  if(aliveBalls()>=MAX_BALLS)return;
+  const dominant='rgb',template=RGB_STAT_TEMPLATES[rgb];
+  const rarity=RARITIES[5]; // Mythic guaranteed
+  const stats={};
+  for(const s of STATS){stats[s]=Math.floor((template[s]||20)*2.3*(0.85+Math.random()*0.3));}
+  const abilities={};
+  for(const ab of Object.keys(ABILITIES))abilities[ab]=0.7+Math.random()*0.3;
+  const colors={main:'#ffffff',sec:'#ffffff',glow:'#ff88ff'};
+  const r=BALL_R_BASE+stats.STR/15;
+  const ball={
+    id:ballId++,x,y:SPAWNER_Y,vx:(Math.random()-0.5)*4,vy:2.5,r,stats,dominant,colors,
+    strDom:'rgb',teqDom:'rgb',
+    rarity,abilities,texture:'solid',pattern:'halo',
+    bounces:0,kills:0,alive:true,
+    name:'CHAOS '+['CORE','NEXUS','ENGINE','WAVE','SURGE','PRISM','FORGE','STORM','BREAKER','WARP'][Math.floor(Math.random()*10)],
+    phase:Math.random()*Math.PI*2,trail:[],lastTrail:0,chaos:true,
+  };
+  balls.push(ball);totalBallsSpawned++;
+  addToCollection(ball);
+  floatingText(x,SPAWNER_Y-30,'★ CHAOS BALL!','#ffffff',14);
+  floatingText(x,SPAWNER_Y-44,ball.name,'#ffaa00',10);
+  shake(14,0.5);combo=Math.max(combo,15);score+=500;
+  chaosMeter=0;updateChaosBar();
+  return ball;
+}
+
+// ── PATCH: spawnBall → call addChaos on tap ──────────────
+// ── CANVAS ────────────────────────────────────────────────────────────────────
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+canvas.width = W; canvas.height = H;
+
+// DPR fix for mobile
+const dpr = Math.min(window.devicePixelRatio || 1, 2);
+canvas.style.width = W + 'px';
+canvas.style.height = H + 'px';
+canvas.getContext('2d').scale(dpr, dpr);
+
+// ── STATE ─────────────────────────────────────────────────────────────────────
+let score = 0, combo = 0, comboTimer = 0;
+let rgb = { r: 0, g: 0, b: 0 };
+let balls = [];
+let orbs = [];
+let bricks = [];
+let particles = [];
+let paddle = { x: W / 2, y: TRENCH_Y, w: PADDLE_W, h: PADDLE_H, vx: 0 };
+let gameOver = false;
+let lastTime = 0;
+let ballsSpawned = 0;
+
+// ── DARK SOULS STAT → RGB AFFINITY ───────────────────────────────────────────
+const STAT_RGB = {
+  VIG: 'r',   // health bonus
+  END: 'g',   // stamina/speed
+  STR: 'r',   // damage/knockback
+  DEX: 'g',   // speed/timing
+  INT: 'b',   // area/range
+  ARC: 'b',   // special effects
+};
+
+// Base stats by dominant RGB
+const RGB_STAT_TEMPLATES = {
+  r: { VIG: 18, END: 8,  STR: 20, DEX: 5,  INT: 3,  ARC: 3  },
+  g: { VIG: 8,  END: 20, STR: 5,  DEX: 18, INT: 8,  ARC: 8  },
+  b: { VIG: 8,  END: 8,  STR: 3,  DEX: 5,  INT: 18, ARC: 18 },
+  rg: { VIG: 14, END: 14, STR: 15, DEX: 10, INT: 5,  ARC: 5  },
+  rb: { VIG: 14, END: 6,  STR: 16, DEX: 4,  INT: 14, ARC: 12 },
+  gb: { VIG: 6,  END: 14, STR: 4,  DEX: 14, INT: 14, ARC: 12 },
+  rgb: { VIG: 12, END: 12, STR: 10, DEX: 10, INT: 12, ARC: 10 },
+};
+
+// ── BALL FACTORY ───────────────────────────────────────────────────────────────
+let ballIdCounter = 0;
+function spawnBall(x, vx = 0, vy = 2) {
+  const id = ballIdCounter++;
+  // Determine dominant RGB from collected orbs
+  const dominant = dominantRGB();
+  const template = RGB_STAT_TEMPLATES[dominant] || RGB_STAT_TEMPLATES.rgb;
+  const stats = { ...template };
+  // Add variance
+  for (const s of STATS) stats[s] += Math.floor(Math.random() * 5) - 2;
+
+  // Ball color based on dominant RGB
+  const colors = {
+    r:   '#ff4444',
+    g:   '#44ff44',
+    b:   '#4488ff',
+    rg:  '#ffaa22',
+    rb:  '#ff44ff',
+    gb:  '#44ffff',
+    rgb: '#ffffff',
+  };
+
+  const ball = {
+    id, x, y: SPAWNER_Y, vx: vx + (Math.random() - 0.5) * 1.5, vy,
+    r: BALL_R + (stats.STR / 10),
+    color: colors[dominant] || '#ffffff',
+    rgb: dominant,
+    stats,
+    bounces: 0,
+    kills: 0,
+    alive: true,
+  };
+  balls.push(ball);
+  ballsSpawned++;
+  return ball;
+}
+
+function dominantRGB() {
+  const { r, g, b } = rgb;
+  if (r === 0 && g === 0 && b === 0) return 'rgb';
+  if (r >= g && r >= b) return g >= b ? 'rg' : 'rb';
+  if (g >= r && g >= b) return r >= b ? 'rg' : 'gb';
+  return r >= g ? 'rb' : 'gb';
+}
+
+// ── BRICKS ─────────────────────────────────────────────────────────────────────
+function initBricks() {
+  bricks = [];
+  const cols = 6;
+  const bw = (W - 40) / cols;
+  for (let row = 0; row < BRICK_ROWS; row++) {
+    for (let col = 0; col < cols; col++) {
+      const hp = 1 + Math.floor(Math.random() * 3);
+      bricks.push({
+        x: 20 + col * bw,
+        y: 80 + row * (BRICK_H + 6),
+        w: bw - 4,
+        h: BRICK_H,
+        hp, maxHp: hp,
+        color: `hsl(${200 + row * 20}, 60%, ${50 - row * 5}%)`,
+      });
+    }
+  }
+}
+
+// ── ORBS ──────────────────────────────────────────────────────────────────────
+function spawnOrb(x, y) {
+  const types = ['r', 'g', 'b'];
+  const type = types[Math.floor(Math.random() * 3)];
+  orbs.push({ x, y, type, r: ORB_R, vy: 1.5 + Math.random() * 0.5, alive: true });
+}
+
+function spawnOrbsAt(x, y, count = 3) {
+  for (let i = 0; i < count; i++) {
+    spawnOrb(x + (Math.random() - 0.5) * 40, y + (Math.random() - 0.5) * 20);
+  }
+}
+
+// ── PARTICLES ─────────────────────────────────────────────────────────────────
+function burst(x, y, color, count = 8) {
+  for (let i = 0; i < count; i++) {
+    const angle = (Math.PI * 2 * i) / count + Math.random() * 0.3;
+    const speed = 2 + Math.random() * 3;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed,
+      life: 1,
+      color,
+      r: 2 + Math.random() * 3,
+    });
+  }
+}
+
+// ── COLLISION ─────────────────────────────────────────────────────────────────
+function dist(ax, ay, bx, by) {
+  return Math.hypot(ax - bx, ay - by);
+}
+
+function hitBrick(ball, brick) {
+  const cx = Math.max(brick.x, Math.min(ball.x, brick.x + brick.w));
+  const cy = Math.max(brick.y, Math.min(ball.y, brick.y + brick.h));
+  const d = dist(ball.x, ball.y, cx, cy);
+  if (d < ball.r) {
+    // Determine which side was hit
+    const ox = ball.x - (brick.x + brick.w / 2);
+    const oy = ball.y - (brick.y + brick.h / 2);
+    if (Math.abs(ox / brick.w) > Math.abs(oy / brick.h)) {
+      ball.vx *= -1;
+      ball.x += ox > 0 ? 2 : -2;
+    } else {
+      ball.vy *= -1;
+      ball.y += oy > 0 ? 2 : -2;
+    }
+    return true;
+  }
+  return false;
+}
+
+// ── PHYSICS UPDATE ────────────────────────────────────────────────────────────
+function update(dt) {
+  if (gameOver) return;
+
+  // Combo decay
+  if (combo > 0) {
+    comboTimer -= dt;
+    if (comboTimer <= 0) {
+      combo = 0;
+    }
+  }
+
+  // Paddle drift
+  paddle.x += paddle.vx;
+  paddle.vx *= 0.92;
+  paddle.x = Math.max(paddle.w / 2, Math.min(W - paddle.w / 2, paddle.x));
+
+  // Balls
+  for (const ball of balls) {
+    if (!ball.alive) continue;
+
+    // Apply stats
+    const vigScale = 1 + ball.stats.VIG / 100;
+    const endScale = 1 + ball.stats.END / 20 * 0.02;
+    const dexScale = 1 + ball.stats.DEX / 100 * 0.5;
+    const strBonus = ball.stats.STR / 20;
+    const intBonus = ball.stats.INT / 10;
+    const arcBonus = ball.stats.ARC / 20;
+
+    // RGB gravity
+    if (ball.rgb === 'b' || ball.rgb === 'gb' || ball.rgb === 'rb' || ball.rgb === 'rgb') {
+      ball.vy += 0.03 * intBonus; // Range → stronger gravity
+    }
+    if (ball.rgb === 'r' || ball.rgb === 'rg' || ball.rgb === 'rb' || ball.rgb === 'rgb') {
+      ball.r = BALL_R + strBonus; // Power → bigger ball
+    }
+
+    // Move
+    ball.x += ball.vx * dexScale;
+    ball.y += ball.vy * endScale;
+
+    // Gravity
+    ball.vy += 0.15;
+
+    // Speed cap
+    const speed = Math.hypot(ball.vx, ball.vy);
+    if (speed > 15) {
+      ball.vx = ball.vx / speed * 15;
+      ball.vy = ball.vy / speed * 15;
+    }
+
+    // Wall bounce
+    if (ball.x - ball.r < 0) { ball.x = ball.r; ball.vx = Math.abs(ball.vx); ball.bounces++; }
+    if (ball.x + ball.r > W) { ball.x = W - ball.r; ball.vx = -Math.abs(ball.vx); ball.bounces++; }
+    if (ball.y - ball.r < 0) { ball.y = ball.r; ball.vy = Math.abs(ball.vy); ball.bounces++; }
+
+    // Paddle bounce
+    if (ball.vy > 0 &&
+        ball.y + ball.r >= paddle.y - paddle.h / 2 &&
+        ball.y + ball.r <= paddle.y + paddle.h &&
+        ball.x >= paddle.x - paddle.w / 2 &&
+        ball.x <= paddle.x + paddle.w / 2) {
+      ball.vy = -Math.abs(ball.vy) * 0.9;
+      ball.y = paddle.y - paddle.h / 2 - ball.r;
+      const hitPos = (ball.x - paddle.x) / (paddle.w / 2);
+      ball.vx += hitPos * 3 + paddle.vx * 0.3;
+      ball.bounces++;
+      score += combo > 0 ? combo * 2 : 1;
+      burst(ball.x, ball.y, ball.color, 4);
+    }
+
+    // Brick collision
+    for (const brick of bricks) {
+      if (brick.hp <= 0) continue;
+      if (hitBrick(ball, brick)) {
+        const damage = 1 + Math.floor(strBonus);
+        brick.hp -= damage;
+        ball.bounces++;
+
+        // Knockback scales with STR
+        const kb = 1 + strBonus * 0.1;
+        ball.vx *= kb;
+        ball.vy *= kb;
+
+        const mult = 1 + combo * 0.1;
+        score += Math.floor(10 * mult);
+        combo = Math.min(combo + 1, 99);
+        comboTimer = 2.0;
+
+        if (brick.hp <= 0) {
+          ball.kills++;
+          score += 50 * mult;
+          burst(brick.x + brick.w / 2, brick.y + brick.h / 2, brick.color, 12);
+          spawnOrbs(brick.x + brick.w / 2, brick.y + brick.h / 2, 2 + Math.floor(arcBonus));
+          // Spawn new ball on kill (combo bonus)
+          if (combo >= 5) spawnBall(ball.x, (Math.random() - 0.5) * 4);
+        }
+      }
+    }
+
+    // Floor — ball lost
+    if (ball.y > H + 20) {
+      ball.alive = false;
+    }
+  }
+
+  // Orbs
+  for (const orb of orbs) {
+    if (!orb.alive) continue;
+    orb.y += orb.vy;
+
+    for (const ball of balls) {
+      if (!ball.alive) continue;
+      if (dist(orb.x, orb.y, ball.x, ball.y) < ball.r + orb.r) {
+        orb.alive = false;
+        rgb[orb.type] = Math.min(rgb[orb.type] + 1, 99);
+        score += 5;
+        burst(orb.x, orb.y, orb.type === 'r' ? '#ff4444' : orb.type === 'g' ? '#44ff44' : '#4488ff', 6);
+      }
+    }
+
+    if (orb.y > H + 20) orb.alive = false;
+  }
+
+  // Particles
+  for (const p of particles) {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.1;
+    p.life -= 0.03;
+  }
+
+  // Cleanup
+  balls = balls.filter(b => b.alive);
+  orbs = orbs.filter(o => o.alive);
+  particles = particles.filter(p => p.life > 0);
+
+  // Game over check — if all balls gone
+  if (balls.length === 0 && ballsSpawned > 0) {
+    gameOver = true;
+  }
+
+  // Respawn balls slowly
+  if (!gameOver && balls.length === 0) {
+    spawnBall(W / 2);
+  }
+
+  updateHUD();
+}
+
+function updateHUD() {
+  document.getElementById('h-balls').textContent = balls.length;
+  document.getElementById('h-score').textContent = score.toLocaleString();
+  document.getElementById('h-r').textContent = rgb.r;
+  document.getElementById('h-g').textContent = rgb.g;
+  document.getElementById('h-b').textContent = rgb.b;
+  document.getElementById('h-combo').textContent = combo > 0 ? combo + 'x' : '-';
+
+  // Ball info — show active ball stats
+  const active = balls[0];
+  if (active) {
+    const d = dominantRGB();
+    document.getElementById('ball-info').textContent =
+      `${d.toUpperCase()} · ${active.stats.VIG}/${active.stats.END}/${active.stats.STR}/${active.stats.DEX}/${active.stats.INT}/${active.stats.ARC} · BOUNCES:${active.bounces} KILLS:${active.kills}`;
+  } else if (gameOver) {
+    document.getElementById('ball-info').textContent = 'GAME OVER — TAP TO RESTART';
+  }
+}
+
+// ── RENDER ────────────────────────────────────────────────────────────────────
+function draw() {
+  ctx.fillStyle = '#0a0a0f';
+  ctx.fillRect(0, 0, W, H);
+
+  // Walls
+  ctx.strokeStyle = '#333';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(1, 1, W - 2, H - 2);
+
+  // Trench lines
+  ctx.strokeStyle = '#1a1a2e';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(10, TRENCH_Y - 40); ctx.lineTo(W - 10, TRENCH_Y - 40);
+  ctx.stroke();
+
+  // Bricks
+  for (const brick of bricks) {
+    if (brick.hp <= 0) continue;
+    const alpha = brick.hp / brick.maxHp;
+    ctx.globalAlpha = 0.5 + alpha * 0.5;
+    ctx.fillStyle = brick.color;
+    ctx.fillRect(brick.x, brick.y, brick.w, brick.h);
+    ctx.strokeStyle = '#fff3';
+    ctx.strokeRect(brick.x, brick.y, brick.w, brick.h);
+    // HP bar
+    ctx.globalAlpha = 1;
+    const bw = brick.w * (brick.hp / brick.maxHp);
+    ctx.fillStyle = '#fff2';
+    ctx.fillRect(brick.x, brick.y + brick.h - 3, bw, 3);
+  }
+  ctx.globalAlpha = 1;
+
+  // Orbs
+  for (const orb of orbs) {
+    const colors = { r: '#ff4444', g: '#44ff44', b: '#4488ff' };
+    ctx.shadowColor = colors[orb.type];
+    ctx.shadowBlur = 10;
+    ctx.fillStyle = colors[orb.type];
+    ctx.beginPath();
+    ctx.arc(orb.x, orb.y, orb.r, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.shadowBlur = 0;
+  }
+
+  // Balls
+  for (const ball of balls) {
+    if (!ball.alive) continue;
+    ctx.shadowColor = ball.color;
+    ctx.shadowBlur = 15;
+    ctx.fillStyle = ball.color;
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.r, 0, Math.PI * 2);
+    ctx.fill();
+
+    // RGB tint ring
+    ctx.strokeStyle = ball.color;
+    ctx.lineWidth = 2;
+    ctx.globalAlpha = 0.6;
+    ctx.beginPath();
+    ctx.arc(ball.x, ball.y, ball.r + 3, 0, Math.PI * 2);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+    ctx.shadowBlur = 0;
+
+    // Trail
+    ctx.globalAlpha = 0.15;
+    ctx.fillStyle = ball.color;
+    ctx.beginPath();
+    ctx.arc(ball.x - ball.vx * 2, ball.y - ball.vy * 2, ball.r * 0.8, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.globalAlpha = 1;
+  }
+
+  // Paddle
+  const pgrad = ctx.createLinearGradient(paddle.x - paddle.w / 2, 0, paddle.x + paddle.w / 2, 0);
+  pgrad.addColorStop(0, '#ff4444');
+  pgrad.addColorStop(0.5, '#ffffff');
+  pgrad.addColorStop(1, '#4488ff');
+  ctx.fillStyle = pgrad;
+  ctx.shadowColor = '#ffffff';
+  ctx.shadowBlur = 8;
+  ctx.fillRect(paddle.x - paddle.w / 2, paddle.y - paddle.h / 2, paddle.w, paddle.h);
+  ctx.shadowBlur = 0;
+
+  // Particles
+  for (const p of particles) {
+    ctx.globalAlpha = p.life;
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.r * p.life, 0, Math.PI * 2);
+    ctx.fill();
+  }
+  ctx.globalAlpha = 1;
+
+  // Combo indicator
+  if (combo > 0) {
+    ctx.fillStyle = `rgba(255,255,255,${Math.min(combo / 20, 0.8)})`;
+    ctx.font = `bold ${24 + combo}px 'Courier New'`;
+    ctx.textAlign = 'center';
+    ctx.fillText(`${combo}x`, W / 2, H / 2 - 60);
+  }
+
+  // Game over
+  if (gameOver) {
+    ctx.fillStyle = 'rgba(0,0,0,0.7)';
+    ctx.fillRect(0, 0, W, H);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 28px Courier New';
+    ctx.textAlign = 'center';
+    ctx.fillText('GAME OVER', W / 2, H / 2 - 30);
+    ctx.font = '16px Courier New';
+    ctx.fillStyle = '#aaa';
+    ctx.fillText(`SCORE: ${score.toLocaleString()}`, W / 2, H / 2 + 10);
+    ctx.fillText('TAP TO RESTART', W / 2, H / 2 + 40);
+  }
+
+  // RGB collected — bottom bar
+  ctx.fillStyle = '#1a1a1a';
+  ctx.fillRect(0, H - 40, W, 40);
+  const bw = W / 3;
+  const maxRgb = Math.max(rgb.r, rgb.g, rgb.b, 1);
+  if (rgb.r > 0) { ctx.fillStyle = '#ff4444'; ctx.fillRect(0, H - 40, bw * rgb.r / maxRgb, 40); }
+  if (rgb.g > 0) { ctx.fillStyle = '#44ff44'; ctx.fillRect(bw, H - 40, bw * rgb.g / maxRgb, 40); }
+  if (rgb.b > 0) { ctx.fillStyle = '#4488ff'; ctx.fillRect(bw * 2, H - 40, bw * rgb.b / maxRgb, 40); }
+}
+
+// ── INPUT ─────────────────────────────────────────────────────────────────────
+function handleTap(clientX, clientY) {
+  if (gameOver) {
+    resetGame();
+    return;
+  }
+  const rect = canvas.getBoundingClientRect();
+  const x = (clientX - rect.left);
+  spawnBall(x, 0, 2);
+}
+
+canvas.addEventListener('click', e => handleTap(e.clientX, e.clientY));
+canvas.addEventListener('touchstart', e => {
+  e.preventDefault();
+  handleTap(e.touches[0].clientX, e.touches[0].clientY);
+}, { passive: false });
+
+// Keyboard paddle control
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowLeft' || e.key === 'a') paddle.vx -= 3;
+  if (e.key === 'ArrowRight' || e.key === 'd') paddle.vx += 3;
+  if (e.key === ' ') spawnBall(paddle.x, 0, 2);
+  if (e.key === 'r') resetGame();
+});
+
+// ── GAME LOOP ─────────────────────────────────────────────────────────────────
+function loop(ts) {
+  const dt = Math.min((ts - lastTime) / 1000, 0.05);
+  lastTime = ts;
+  update(dt);
+  draw();
+  requestAnimationFrame(loop);
+}
+
+function resetGame() {
+  balls = []; orbs = []; particles = [];
+  score = 0; combo = 0; comboTimer = 0;
+  rgb = { r: 0, g: 0, b: 0 };
+  gameOver = false;
+  ballsSpawned = 0;
+  initBricks();
+  spawnBall(W / 2);
+}
+
+// Init
+initBricks();
+resetGame();
+requestAnimationFrame(ts => { lastTime = ts; requestAnimationFrame(loop); });
+</script>
+</body>
+</html>
