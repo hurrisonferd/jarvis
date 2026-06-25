@@ -101,7 +101,7 @@ Growth decision: absorb into JARVIS repo, stay private, or fork to own repo.
 
 def scaffold(name: str, root: Path, date: str):
     abbr = "".join(c for c in name.upper() if c.isalnum())[:4]
-    proj_dir = root / name
+    proj_dir = root / "workspaces" / name
 
     # README
     readme = STUB_README.format(name=name, abbr=abbr)
