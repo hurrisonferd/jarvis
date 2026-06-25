@@ -28,3 +28,4 @@ Thumbs.db
 # P06: mGBA local WASM cores — binary build artifacts, CDN fallback active
 docs/emulator/cores/*.wasm
 docs/emulator/cores/*.js
+.openhands/
