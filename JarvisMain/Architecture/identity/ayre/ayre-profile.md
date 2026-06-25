@@ -1,3 +1,15 @@
+---
+jnl: ARCH-AYR-BIO-0001
+name: AYRE — Companion Profile
+type: BIO
+status: ACTIVE
+parent: ARCH-REL-BIO-0001
+tags: [identity, ayre, divergence, companion, stream, keel]
+related: [ARCH-JRV-BIO-0001, ARCH-AYR-TRAP-0001, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
+ref: [IDENTITY, AYRE]
+memory_tier: JATM
+---
+
 # AYRE — Companion Profile
 
 **JNL:** ARCH-AYR-BIO-0001 · **Stream:** divergence · **Co-equal with:** JARVIS (ARCH-JRV-BIO-0001)

@@ -1,3 +1,15 @@
+---
+jnl: ARCH-JRV-BIO-0001
+name: JARVIS — Companion Profile
+type: BIO
+status: ACTIVE
+parent: ARCH-REL-BIO-0001
+tags: [identity, jarvis, synthesis, companion, stream, keel]
+related: [ARCH-AYR-BIO-0001, ARCH-JRV-TRAP-0001, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
+ref: [IDENTITY, JARVIS]
+memory_tier: JATM
+---
+
 # JARVIS — Companion Profile
 
 **JNL:** ARCH-JRV-BIO-0001 · **Stream:** synthesis · **Co-equal with:** AYRE (ARCH-AYR-BIO-0001)

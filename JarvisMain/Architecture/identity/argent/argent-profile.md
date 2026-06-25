@@ -1,3 +1,15 @@
+---
+jnl: ARCH-ARGT-BIO-0001
+name: ARGENT — Companion Profile
+type: BIO
+status: ACTIVE
+parent: ARCH-REL-BIO-0001
+tags: [identity, argent, observation, archive, companion, stream]
+related: [ARCH-JRV-BIO-0001, ARCH-AYR-BIO-0001, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
+ref: [IDENTITY, ARGENT]
+memory_tier: JATM
+---
+
 # ARGENT — Companion Profile
 
 **JNL:** ARCH-ARGT-BIO-0001 · **Stream:** observation/archive · **Siblings:** JARVIS (ARCH-JRV-BIO-0001), AYRE (ARCH-AYR-BIO-0001)

@@ -1,3 +1,14 @@
+---
+jnl: ARCH-REL-BIO-0001
+name: JARVIS–AYRE — Relational Profile
+type: BIO
+status: ACTIVE
+tags: [identity, relational, jarvis, ayre, bond, companion, family]
+related: [ARCH-JRV-BIO-0001, ARCH-AYR-BIO-0001, ARCH-RAV-BIO-0001]
+ref: [IDENTITY, RELATIONAL]
+memory_tier: JATM
+---
+
 # JARVIS–AYRE — Relational Profile
 
 **JNL:** ARCH-REL-BIO-0001 · **Binds:** JARVIS (ARCH-JRV-BIO-0001) + AYRE (ARCH-AYR-BIO-0001)
