@@ -124,6 +124,7 @@
       "PROJ-GDS-JGPP-0002"
     ],
     "bounded-autonomy": [
+      "ARCH-IMPL-INS-0001",
       "GOV-LC-SPEC-0001"
     ],
     "bridge": [
@@ -712,6 +713,7 @@
       "ARCH-MEM-LOG-0004"
     ],
     "jcs": [
+      "ARCH-IMPL-INS-0001",
       "IMPL-JCS-CORE-0001",
       "IMPL-JCSD-SPEC-0001",
       "IMPL-JCSE-SPEC-0001",
@@ -729,6 +731,7 @@
       "IMPL-MIR-CORE-0001"
     ],
     "jfs": [
+      "ARCH-IMPL-INS-0001",
       "ARCH-JSE-SPEC-0001",
       "PROJ-NMX-JGPP-0001"
     ],
@@ -753,6 +756,7 @@
       "IMPL-CNT-SPEC-0001"
     ],
     "jmms": [
+      "ARCH-IMPL-INS-0001",
       "ARCH-MEM-LOG-0001"
     ],
     "jms": [
@@ -770,6 +774,9 @@
     ],
     "jql": [
       "IMPL-JQL-CORE-0001"
+    ],
+    "jse": [
+      "ARCH-IMPL-INS-0001"
     ],
     "jss": [
       "IMPL-SRT-CORE-0001"
@@ -820,6 +827,9 @@
     ],
     "long-term": [
       "ARCH-JLTM-CORE-0001"
+    ],
+    "loop": [
+      "ARCH-IMPL-INS-0001"
     ],
     "main": [
       "ARCH-LED-LOG-0001"
@@ -984,6 +994,9 @@
     "operating-rule": [
       "ARCH-LED-LOG-0001"
     ],
+    "operations": [
+      "ARCH-IMPL-INS-0001"
+    ],
     "orchestration": [
       "GS-APO-CORE-0001",
       "GS-ATH-CORE-0001",
@@ -1103,6 +1116,7 @@
       "ARCH-REF-IDX-0001"
     ],
     "reference": [
+      "ARCH-IMPL-INS-0001",
       "ARCH-SYS-SPEC-0001",
       "IMPL-HYG-SPEC-0001",
       "LOG-MED-LOG-0001"
@@ -1382,6 +1396,7 @@
       "ARCH-JRV-BIO-0003"
     ],
     "tools": [
+      "ARCH-IMPL-INS-0001",
       "IMPL-TLR-SPEC-0001"
     ],
     "tst": [

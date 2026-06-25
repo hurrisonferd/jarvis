@@ -11,14 +11,14 @@ jnl: GS-CHA-CORE-0001
 seq: 21
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-25
 source: JarvisMain/god_systems/T0_CHAOS/contract.json
 related: [GS-AYR-CORE-0001]
 references: []
 tags: [core, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
+memory_tier: JATM
 ---
 
 **Definition:** Entropy + system drift generator / seed-state controller.

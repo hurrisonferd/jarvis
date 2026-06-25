@@ -11,14 +11,14 @@ jnl: GS-HAD-CORE-0001
 seq: 39
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-25
 source: JarvisMain/god_systems/T0_HADES/contract.json
 related: [ARCH-JATM-CORE-0001]
 references: []
 tags: [cosmic, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
+memory_tier: JATM
 ---
 
 **Definition:** Immutable event spine + chronological truth layer.

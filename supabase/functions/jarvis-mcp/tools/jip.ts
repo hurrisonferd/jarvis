@@ -33,27 +33,40 @@ const JD_PATCHABLE = ["definition", "purpose", "tags", "status", "owner", "stewa
 export function registerJipTools(server: McpServer, req: Request): void {
   server.registerTool(
     "jarvis_jip_create",
-    { title: "JIP — create", description: "Create a JIP — a versioned metadata container for a JD (audit trail + reversible state). Supply target JD (jnl), the metadata delta, and a note. AEGIS-gated. Backed by the jip_entries table.", inputSchema: { target_jd: z.string().min(5).max(40), delta: z.record(z.string(), z.unknown()).optional().default({}), note: z.string().max(500).optional().default(""), stream: z.enum(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]).optional() } },
+    { title: "JIP — create", description: "Create a JIP — a versioned metadata container for a JD (audit trail + reversible state). Supply target JD (jnl), the metadata delta, and a note. JNL is derived: JIP-{target}-{next_version}. memory_tier defaults to JLTM. AEGIS-gated. Backed by the jip_entries table.", inputSchema: { target_jd: z.string().min(5).max(40), delta: z.record(z.string(), z.unknown()).optional().default({}), note: z.string().max(500).optional().default(""), stream: z.enum(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]).optional() } },
     async ({ target_jd, delta, note, stream }) => {
       if (!writeAuthorized(req)) return heldForApproval("jip.create", { target_jd, note }, req);
       try {
+        // Derive next version number
+        const existing = (await rest(`jip_entries?target_jd=eq.${target_jd}&select=version&order=version.desc&limit=1`)) as any[];
+        const nextVersion = (existing?.[0]?.version ?? 0) + 1;
+        const jnl = `JIP-${target_jd}-${String(nextVersion).padStart(3, "0")}`;
         const res = await fetch(`${SUPABASE_URL}/rest/v1/jip_entries`, {
           method: "POST",
           headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=representation" },
-          body: JSON.stringify({ target_jd, delta, note, author: stream ?? "jarvis", status: "proposed" }),
+          body: JSON.stringify({ target_jd, delta, note, author: stream ?? "jarvis", status: "proposed", jnl }),
         });
         if (!res.ok) return text({ ok: false, status: res.status, note: "jip_entries write failed — does the table exist? (run the migration)" });
-        return text({ ok: true, created: await res.json() });
+        return text({ ok: true, created: await res.json(), jnl, version: nextVersion });
       } catch (e) { return text({ ok: false, error: String(e).slice(0, 200) }); }
     },
   );
   server.registerTool(
     "jarvis_jip_list",
-    { title: "JIP — list", description: "List JIPs (version history of metadata changes), optionally for one target JD. Read-only.", inputSchema: { target_jd: z.string().max(40).optional(), status: z.string().max(20).optional(), limit: z.number().int().min(1).max(50).optional().default(20) } },
-    async ({ target_jd, status, limit }) => {
-      let q = `jip_entries?select=*&order=created_at.desc&limit=${limit}`;
-      if (target_jd) q += `&target_jd=eq.${target_jd}`;
-      if (status) q += `&status=eq.${status}`;
+    { title: "JIP — list", description: "List JIPs (version history of metadata changes), optionally for one target JD. Filters by JMMS tier and JSS status. Returns jnl (JIP-{target}-{v}), memory_tier (JLTM=consolidated), and jss_status alongside the JIP fields. Read-only.", inputSchema: {
+        target_jd: z.string().max(40).optional(),
+        tier: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional(),
+        jss_status: z.string().max(20).optional(),
+        limit: z.number().int().min(1).max(50).optional().default(20),
+      } },
+    async ({ target_jd, tier, jss_status, limit }) => {
+      const cols = "jip,target_jd,version,status,jss_status,memory_tier,jnl,note,parent_jip,author,created_at";
+      const filter: string[] = [];
+      if (target_jd) filter.push(`target_jd=eq.${target_jd}`);
+      if (tier) filter.push(`memory_tier.eq.${tier}`);
+      if (jss_status) filter.push(`jss_status.eq.${jss_status}`);
+      const filterStr = filter.length ? `&${filter.join("&")}` : "";
+      const q = `jip_entries?select=${cols}${filterStr}&order=created_at.desc&limit=${limit}`;
       try { return text({ ok: true, jips: await rest(q) }); }
       catch (e) { return text({ ok: false, error: String(e).slice(0, 200), note: "jip_entries may not exist yet" }); }
     },

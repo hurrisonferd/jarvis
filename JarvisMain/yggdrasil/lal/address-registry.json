@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 232,
+  "count": 233,
   "records": [
     {
       "jnl": "ARCH-ARGT-BIO-0001",
@@ -189,6 +189,33 @@
       "state": "active",
       "created": "2026-06-09",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "ARCH-IMPL-INS-0001",
+      "name": "Operations Reference",
+      "type": "INS",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisMain/Manual/OPS-REFERENCE.md",
+      "tags": [
+        "operations",
+        "reference",
+        "jfs",
+        "jmms",
+        "jse",
+        "jcs",
+        "bounded-autonomy",
+        "loop",
+        "tools"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-25",
+      "updated": "2026-06-25"
     },
     {
       "jnl": "ARCH-JATM-CORE-0001",

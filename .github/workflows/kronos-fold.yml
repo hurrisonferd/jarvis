@@ -1,0 +1,60 @@
+# KRONOS fold — JSTM → JHTM automation (Raven-directed 2026-06-24).
+# Fires every day at 03:00 UTC. Queries JSTM rows older than FOLD_DAYS (default 14),
+# compresses to digest form, writes the fold receipt, promotes the tier tag.
+# dex_events captures the fold proof (P5 closure by proof).
+#
+# One-way promotion: JSTM → JHTM. JC session containers also generate SL digests.
+# Runs via cron because Supabase's cron cannot call external edge functions directly.
+
+name: KRONOS — fold JSTM → JHTM
+
+on:
+  schedule:
+    - cron: "0 3 * * *"   # daily 03:00 UTC
+  workflow_dispatch:
+    inputs:
+      dry:
+        description: "Dry run — preview what would fold without committing changes"
+        required: false
+        default: "false"
+        type: boolean
+
+permissions:
+  contents: read
+
+jobs:
+  fold:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Invoke kronos-fold edge function
+        env:
+          SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+          CRON_SECRET:          ${{ secrets.CRON_SECRET }}
+          FOLD_DAYS:            ${{ vars.KRONOS_FOLD_DAYS || '14' }}
+        run: |
+          DRY=${{ github.event.inputs.dry || 'false' }}
+          URL="${{ env.SUPABASE_URL }}/functions/v1/kronos-fold?dry=$(echo "$DRY" | tr '[:upper:]' '[:lower:]')"
+          echo "Triggering kronos-fold${DRY:+ (dry run)}"
+          STATUS=$(curl -s -o /tmp/resp.json -w "%{http_code}" \
+            -X POST "$URL" \
+            -H "Authorization: Bearer ${{ env.SUPABASE_SERVICE_KEY }}" \
+            -H "x-cron-secret: ${{ env.CRON_SECRET }}" \
+            -H "Content-Type: application/json")
+          echo "HTTP $STATUS"
+          python3 -c "
+import json
+try:
+    r = json.load(open('/tmp/resp.json'))
+    total = r.get('total', 0)
+    print('Fold: %s rows promoted (cutoff %s, %s days)' % (total, r.get('cutoff','?')[:10], r.get('days','?')))
+    for res in r.get('results', []):
+        print('  %s: %s promoted' % (res['table'], res['promoted']))
+    if r.get('errors'):
+        for e in r['errors']: print('ERROR:', e)
+except: print('Response:', open('/tmp/resp.json').read()[:200])
+"
+          if [ "$STATUS" -ge 400 ]; then
+            echo "kronos-fold HTTP $STATUS"
+            exit 1
+          fi

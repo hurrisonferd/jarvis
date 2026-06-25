@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 232,
+  "count": 233,
   "index": [
     {
       "object": "ARGENT Companion Profile",
@@ -105,6 +105,24 @@
       "tags": [
         "god-system",
         "index"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Operations Reference",
+      "jnl": "ARCH-IMPL-INS-0001",
+      "location": "JarvisMain/Manual/OPS-REFERENCE.md",
+      "tags": [
+        "operations",
+        "reference",
+        "jfs",
+        "jmms",
+        "jse",
+        "jcs",
+        "bounded-autonomy",
+        "loop",
+        "tools"
       ],
       "anchors": [],
       "state": "active"

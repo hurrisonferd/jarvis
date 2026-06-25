@@ -11,12 +11,12 @@ jnl: ARCH-JHTM-CORE-0001
 seq: 222
 status: ACTIVE
 created: 2026-06-24
-updated: 2026-06-24
+updated: 2026-06-25
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
 references: []
 tags: [memory, historical, fold, architecture]
-aliases: []
+aliases: [jhtm, historical memory]
 ref: [PRI, SPEC, IDX]
 memory_tier: JLTM
 ---

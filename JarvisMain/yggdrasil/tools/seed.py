@@ -968,6 +968,7 @@ ALIASES: dict[str, list[str]] = {
     "ARCH-JSS-CORE-0001": ["jss", "jarvis status system"],
     "ARCH-JMMS-CORE-0001": ["jmms", "multimemory", "memory system"],
     "ARCH-JSTM-CORE-0001": ["jstm", "short-term memory"],
+    "ARCH-JHTM-CORE-0001": ["jhtm", "historical memory"],
     "ARCH-JLTM-CORE-0001": ["jltm", "long-term memory"],
     "ARCH-JATM-CORE-0001": ["jatm", "ancestral memory"],
     "IMPL-DEX-SPEC-0001": ["jarvis-dex"],
@@ -998,6 +999,11 @@ def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, r
         if "related" in _p: related = _p["related"]
         if "aliases" in _p: aliases = _p["aliases"]
         if "owner" in _p: own = _p["owner"]
+    # JMMS tier derivation from JSS status (2026-06-24):
+    # ARCHIVED / DEPRECATED / INACTIVE → JATM (settled, immutable ancestral record)
+    # ACTIVE / PROPOSED              → JLTM (consolidated, durable — the default)
+    # DRAFT                          → JSTM (working/in-progress, high churn)
+    _mt = "JATM" if status in ("ARCHIVED", "DEPRECATED", "INACTIVE") else ("JSTM" if status == "DRAFT" else "JLTM")
     fm = [
         "---",
         f"name: {name}",
@@ -1019,7 +1025,7 @@ def jd_entry_md(name, typ, authority, jnl, definition, purpose, tags, related, r
         f"tags: [{', '.join(tags)}]",
         f"aliases: [{', '.join(aliases if aliases is not None else ALIASES.get(jnl, []))}]",
         f"ref: [{', '.join(ref)}]",
-        f"memory_tier: JLTM",
+        f"memory_tier: {_mt}",
         "---",
         "",
         f"**Definition:** {definition}",

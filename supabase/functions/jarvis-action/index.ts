@@ -33,7 +33,9 @@ const SERVICE_KEY =
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
   "";
 // Same write token jarvis-mcp uses — one AEGIS gate across both transports.
-const MCP_TOKEN = Deno.env.get("JARVIS_MCP_TOKEN") ?? "";
+const MCP_TOKEN     = Deno.env.get("JARVIS_MCP_TOKEN") ?? "";
+// GitHub token for HOLD artifact writes (bounded autonomy: session-close guard).
+const GITHUB_TOKEN = Deno.env.get("GITHUB_TOKEN") ?? "";
 // Public-repo raw reads for the grimoire (no GitHub token needed — the book is public truth).
 const RAW = "https://raw.githubusercontent.com/hurrisonferd/jarvis/main";
 // Anon JWT for the keyless voice path (same as jarvis-mcp's jarvis_query).
@@ -245,17 +247,107 @@ async function runResolve(query: string): Promise<Json> {
   };
 }
 
-// ── jc_recall — shared relationship memory (JC containers + SL digests) ──
-async function runJcRecall(term: string | undefined, limit = 5): Promise<Json> {
-  const cols = "jnl,alias,session_date,subject,participants,tags,summary,raven_input,keystones,decisions,open,profiles,metrics,status";
+// ── jc_recall — shared relationship memory (JC containers + SL digests, JMMS-tiered) ──
+// JMMS: JSTM (session-born) → JHTM (14-day fold, compressed digest) → JLTM (durable).
+// JC defaults JSTM; SL defaults JHTM. Both carry jss_status and memory_tier.
+async function runJcRecall(term: string | undefined, tier: string | undefined, jss_status: string | undefined, limit = 5): Promise<Json> {
+  const jcCols = "jnl,alias,session_date,subject,participants,tags,summary,keystones,decisions,open,profiles,metrics,memory_tier,jss_status,status";
+  const slCols = "jnl,alias,session_date,digest,events,memory_tier,jss_status,status";
+  const filter: string[] = [];
+  if (tier) filter.push(`memory_tier.eq.${tier}`);
+  if (jss_status) filter.push(`jss_status.eq.${jss_status}`);
+  const filterStr = filter.length ? `&${filter.join("&")}` : "";
   const q = term
-    ? `jc_objects?select=${cols}&or=(alias.eq.${term},jnl.eq.${term},subject.ilike.*${term}*)&limit=${limit}`
-    : `jc_objects?select=${cols}&order=session_date.desc&limit=${limit}`;
+    ? `jc_objects?select=${jcCols}&or=(alias.eq.${term},jnl.eq.${term},subject.ilike.*${term}*)${filterStr}&limit=${limit}`
+    : `jc_objects?select=${jcCols}${filterStr}&order=session_date.desc&limit=${limit}`;
   const [jcs, sls] = await Promise.all([
     rest(q).catch(() => []),
-    rest(`sl_objects?select=jnl,alias,session_date,digest,events,status&order=session_date.desc&limit=${limit}`).catch(() => []),
+    rest(`sl_objects?select=${slCols}${filterStr}&order=session_date.desc&limit=${limit}`).catch(() => []),
   ]);
-  return { ok: true, jc: jcs, sl: sls, law: "JC records; it never rules — decisions cite the spine (P-C)." };
+  return {
+    ok: true, tier: tier ?? "all", jc: jcs, sl: sls,
+    law: "JC records; it never rules — decisions cite the spine (P-C).",
+    jmms: "JSTM (session-born) → JHTM (14-day fold, compressed digest) → JLTM (durable). Promotion is one-way.",
+  };
+}
+
+// ── session_close — bounded autonomy JSTM commit guard ─────────────────────────
+// GL6: no silent state mutation. Before a session dies (context ceiling or explicit close),
+// scan JSTM memories for items that were never committed above JLTM. If any exist, write
+// a HOLD artifact to JarvisMain/Implementation/tasks/ so the next session knows what was
+// interrupted. DEX events captures the full audit. GL2: never autonomous self-modification.
+async function runSessionClose(actor: string): Promise<Json> {
+  const now = new Date().toISOString();
+
+  // Find JSTM memories that lack a fold receipt (never promoted)
+  const jstmMemories = (await rest(
+    `mnemos_memories?select=id,text,tags,source,created_at&memory_tier=eq.jstm&tags=not.cs.@>{"fold:"}`,
+  )) as any[];
+
+  const needsAttention = jstmMemories.filter((m: any) =>
+    !((m.tags ?? []).some((t: string) => t.startsWith("fold:") || t === "jatm"))
+  );
+
+  if (needsAttention.length === 0) {
+    return { ok: true, closed: true, held: 0, note: "no JSTM items need attention — session clean" };
+  }
+
+  // Write HOLD artifact
+  const holdId = `HOLD-${new Date().toISOString().slice(0, 10)}-${needsAttention.length}u`;
+  const holdBody = [
+    `**JSTM HOLD — bounded autonomy session close**`,
+    `**Actor:** ${actor} | **Time:** ${now} | **Hold ID:** ${holdId}`,
+    ``,
+    `## Situation`,
+    `Session is closing with ${needsAttention.length} JSTM memory item(s) that have not been committed above JLTM and lack fold receipts. Per the Governed Autonomy Contract (GOV-AUT-SPEC-0001): *any node operating under a governed autonomy contract MUST write a handoff artifact if it does not reach completion.*`,
+    ``,
+    `## JSTM items at risk`,
+    ...needsAttention.map((m: any) =>
+      `- **${m.id}** (${m.source ?? "?"}) · created ${m.created_at}: ${(m.text ?? "").slice(0, 200)}`
+    ),
+    ``,
+    `## Decision needed`,
+    `Before the next session can resume: confirm these items were handled (committed, promoted, or dismissed). Do not lose in-flight state silently.`,
+    ``,
+    `*Bounded autonomy: no silent exits. — GL6 + GOV-AUT-SPEC-0001*`,
+  ].join("\n");
+
+  // Write to GitHub via API
+  const owner = "hurrisonferd";
+  const repo  = "jarvis";
+  const path  = `JarvisMain/Implementation/tasks/${holdId}.md`;
+  const ghUrl = `https://api.github.com/repos/${owner}/${repo}/contents/${encodeURIComponent(path)}`;
+
+  let ghWriteOk = false;
+  if (GITHUB_TOKEN) {
+    try {
+      // Check if file exists
+      const existing = await fetch(ghUrl, { headers: { Authorization: `Bearer ${GITHUB_TOKEN}` } });
+      const sha = existing.ok ? ((await existing.json()) as any).sha : undefined;
+      const method = sha ? "PUT" : "POST";
+      const wres = await fetch(ghUrl, {
+        method,
+        headers: { Authorization: `Bearer ${GITHUB_TOKEN}`, "Content-Type": "application/json" },
+        body: JSON.stringify({ message: `HOLD: JSTM session close ${holdId} [GL6]`, content: btoa(unescape(encodeURIComponent(holdBody))), ...(sha ? { sha } : {}) }),
+      });
+      ghWriteOk = wres.ok;
+    } catch { /* ghWriteOk stays false */ }
+  }
+
+  // Emit dex event (P5: closure by proof)
+  fetch(`${SUPABASE_URL}/rest/v1/dex_events`, {
+    method: "POST",
+    headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}`, "Content-Type": "application/json" },
+    body: JSON.stringify({ type: "bounded_autonomy.session_close", intent: `session_close.${actor}`, payload: { holdId, jstmHeld: needsAttention.length, ghWritten: ghWriteOk, actor }, source: "jarvis-action" }),
+  }).catch(() => {});
+
+  return {
+    ok: true, closed: false, held: needsAttention.length,
+    holdId, holdBody: ghWriteOk ? holdBody : undefined,
+    note: ghWriteOk
+      ? `HOLD ${holdId} written to GitHub. ${needsAttention.length} JSTM item(s) need attention before next session.`
+      : `GITHUB_TOKEN not set — HOLD artifact not written. ${needsAttention.length} JSTM item(s) need attention: ${needsAttention.map((m: any) => m.id).join(", ")}`,
+  };
 }
 
 // ── grimoire — the system's table of contents to itself (public raw reads) ──
@@ -393,7 +485,12 @@ async function dispatch(tool: string, args: Json, req: Request): Promise<Json> {
     case "jd_resolve":
       return await runResolve(String(a.query ?? ""));
     case "jc_recall":
-      return await runJcRecall(a.term as string | undefined, (a.limit as number) ?? 5);
+      return await runJcRecall(
+        a.term as string | undefined,
+        a.tier as string | undefined,
+        a.jss_status as string | undefined,
+        (a.limit as number) ?? 5,
+      );
     case "grimoire":
       return await runGrimoire(a.page as string | undefined);
     // writes — AEGIS-gated (same token as jarvis-mcp)
@@ -410,8 +507,11 @@ async function dispatch(tool: string, args: Json, req: Request): Promise<Json> {
     // propose — rides the dex's own PROPOSE-tier ladder (stages for Raven, never commits)
     case "dex_propose":
       return await callDex("jd_propose", a, true) as Json;
+    // bounded autonomy — scan JSTM for uncommitted items; write HOLD if any found
+    case "session_close":
+      return await runSessionClose(String(a.actor ?? "unknown"));
     default:
-      return { ok: false, error: `unknown tool: ${tool}`, hint: "tools: status, now, query, recall, remember, event, jmms, dex_list, dex_search, dex_graph, dex_events, dex_propose, jd_resolve, jc_recall, grimoire" };
+      return { ok: false, error: `unknown tool: ${tool}`, hint: "tools: status, now, query, recall, remember, event, jmms, dex_list, dex_search, dex_graph, dex_events, dex_propose, jd_resolve, jc_recall, grimoire, session_close" };
   }
 }
 
@@ -424,7 +524,7 @@ app.get("/*", (c) =>
     version: "0.2.0",
     transport: "OpenAPI Action (REST) — the GPT stream's surface",
     note: "POST { tool, args } here. Reads open; writes carry JARVIS_MCP_TOKEN (x-jarvis-token); propose rides the dex PROPOSE tier.",
-    tools: ["status", "now", "query", "recall", "remember", "event", "jmms", "dex_list", "dex_search", "dex_graph", "dex_events", "dex_propose", "jd_resolve", "jc_recall", "grimoire"],
+    tools: ["status", "now", "query", "recall", "remember", "event", "jmms", "dex_list", "dex_search", "dex_graph", "dex_events", "dex_propose", "jd_resolve", "jc_recall", "grimoire", "session_close"],
   }));
 
 app.post("/*", async (c) => {

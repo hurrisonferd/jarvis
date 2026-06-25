@@ -1,22 +1,22 @@
 {
   "freshness": {
-    "generated_at_utc": "2026-06-25T00:10:23Z",
-    "generated_at_eastern": "2026-06-24 20:10 EDT",
-    "source_commit": "559f125",
+    "generated_at_utc": "2026-06-25T00:52:42Z",
+    "generated_at_eastern": "2026-06-24 20:52 EDT",
+    "source_commit": "55ac81e",
     "authoritative": false,
     "law": "JMS: this mirror points at truth (files + dex + spine); it is never truth. Stale stamp -> fall back to source."
   },
   "summary": {
-    "object_count": 232,
+    "object_count": 233,
     "by_status": {
-      "ACTIVE": 204,
+      "ACTIVE": 205,
       "ARCHIVED": 2,
       "DEPRECATED": 1,
       "INACTIVE": 5,
       "TASK": 20
     },
     "by_domain": {
-      "ARCH": 44,
+      "ARCH": 45,
       "AUD": 10,
       "CONN": 70,
       "GOV": 17,
@@ -27,7 +27,7 @@
       "PROJ": 27
     },
     "by_tier": {
-      "MAIN": 198,
+      "MAIN": 199,
       "SIDE": 34
     }
   },
@@ -3886,6 +3886,28 @@
         "connector",
         "mcp",
         "tool"
+      ]
+    },
+    {
+      "jnl": "ARCH-IMPL-INS-0001",
+      "jid": 238,
+      "jidd": "arch-45",
+      "name": "Operations Reference",
+      "type": "INS",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "parent": "ARCH-YGG-CORE-0001",
+      "tags": [
+        "operations",
+        "reference",
+        "jfs",
+        "jmms",
+        "jse",
+        "jcs",
+        "bounded-autonomy",
+        "loop",
+        "tools"
       ]
     }
   ]

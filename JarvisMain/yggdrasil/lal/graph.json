@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 232,
-    "edges": 353,
-    "main": 199,
+    "nodes": 233,
+    "edges": 361,
+    "main": 200,
     "side": 33
   },
   "nodes": [
@@ -82,6 +82,15 @@
     {
       "id": "ARCH-GS-IDX-0001",
       "name": "God Systems Index",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-IMPL-INS-0001",
+      "name": "Operations Reference",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -2176,6 +2185,46 @@
       "source": "ARCH-GS-IDX-0001",
       "target": "GS-ODN-CORE-0001",
       "type": "related"
+    },
+    {
+      "source": "ARCH-IMPL-INS-0001",
+      "target": "ARCH-JFS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-IMPL-INS-0001",
+      "target": "ARCH-JMMS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-IMPL-INS-0001",
+      "target": "ARCH-JSS-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-IMPL-INS-0001",
+      "target": "ARCH-JD-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-IMPL-INS-0001",
+      "target": "IMPL-DEX-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-IMPL-INS-0001",
+      "target": "GOV-AUT-SPEC-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-IMPL-INS-0001",
+      "target": "GOV-RES-CORE-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-IMPL-INS-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
     },
     {
       "source": "ARCH-JATM-CORE-0001",

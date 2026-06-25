@@ -135,104 +135,41 @@ Forbidden edges: `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADE
 
 ## Yggdrasil — Addressing & Hierarchy Substrate
 
-The 27 God Systems are *cognition*. **Yggdrasil** is the *ground they stand on* — the
-filesystem/addressing/hierarchy layer that lets the repo grow without naming or path
-chaos. It is separate from the 27 and adds no god systems.
+The 27 God Systems are *cognition*. **Yggdrasil** is the *ground they stand on* — filesystem/addressing/hierarchy. It adds no god systems.
 
 ```
-Yggdrasil (truth / world-tree)
-└── JFS — Jarvis File System (umbrella for the J* family)
-     ├── JNS  — naming      (what it's called)    → semantic filenames
-     ├── JNL  — navigation  (what + where)        → global address/identity
-     ├── JSL  — structure   (how it's organized)  → folder/format invariants
-     ├── JMS  — mirror       (reflect, not duplicate)
-     ├── JSS  — status       (TASK/EXPANSION/ACTIVE/INACTIVE/ARCHIVED/DEPRECATED) → drives auto-sort
-     └── JMMS — memory tiers (JSTM working · JLTM consolidated · JATM ancestral/immutable)
+JFS (Jarvis File System — umbrella for J* family)
+├── JNL  — navigation  (what + where)   → global address (e.g. ARCH-JFS-CORE-0001)
+├── JNS  — naming      (what it's called) → semantic filenames
+├── JSL  — structure   (how it's org'd)   → JarvisMain/ / JarvisSide/
+├── JMS  — mirror      (git ↔ Supabase; move refs, never copies)
+├── JSS  — status      (ACTIVE/DRAFT/ARCHIVED…) → drives autosort
+└── JMMS — memory tiers (JITM → JSTM → JHTM → JLTM → JATM)
 JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stores
 ```
 
-- **JNL address grammar:** `[Domain]-[System]-[Type]-[Log]-[Patch]-[Block]`
-  (e.g. `ARCH-JFS-CORE-0001`, `GS-ODN-RT-0001-P005-B002`). Full tables in
-  `JarvisMain/yggdrasil/jfs/jnl-grammar.md`.
-- **JD = semantic DNS, the one registry.** Canonical name: **JD (Jarvis Dictionary)**; **"the Dex"**
-  is its sanctioned nickname (the Pokédex-facing view) — *not a separate system*. Thin entries
-  (definition + JNL + tags + timestamps), one file per object in `JarvisMain/yggdrasil/jd/entries/`.
-  JD explains and points; it never duplicates content. One dictionary under many faces: truth =
-  `yggdrasil/jd/entries` · discovery = LAL · query surface = the `jarvis-dex` function +
-  `jarvis_dex_*`/`jarvis_jd_resolve` tools · live mirror = Supabase `jd_entries` (the one dex table;
-  `jnl_registry` is a **view** over it — unified 2026-06-18). There is never a second registry — every "dex" is this JD.
-- **LAL = discovery.** Derived registries (`address` / `master-index` / `tag`) that resolve
-  a JNL to a real location. Pointers only (JMS law: move references, never truth).
-- **GL12 — Canonical Addressability:** every persistent object must have a JNL address,
-  location, tags, anchors, and index reference, or it is **non-governed** (invisible to the loop).
-- **"Yggdrasil-compliant"** is the precise term for "follows the rules" (supersedes the looser
-  "Jarvis-compliant"): an object obeys **every applicable** JFS-family subsystem rule —
-  **JNS** filename grammar · **JNL** address grammar · **JSL** structure/format · **JD** dictionary
-  entry · **LAL** index reference · **JMS** mirror law (move references, never copies) · **JSS**
-  status (+ autosort placement) · **JMMS** memory tier · **JPL** where language applies · and
-  **GL12** closure. It is what `validate.py` (JVE) checks. Yggdrasil defines the rules; everything
-  else complies. "Apply all applicable subsystem rules" is the standard — JMS included.
-- **JSS (status) + JMMS (memory):** every object carries a JSS `status`; for status-managed
-  roots (`Ideas/ Implementation/ Breakthroughs/`) the status decides the subfolder. JMMS tiers
-  memory by time horizon (JSTM/JLTM/JATM) beside MNEMOS. Specs: `JarvisMain/yggdrasil/jss/`, `JarvisMain/yggdrasil/jmms/`.
-- **Tools:** `JarvisMain/yggdrasil/tools/seed.py` regenerates entries + registries;
-  `JarvisMain/yggdrasil/tools/validate.py` enforces JNL grammar, JNS filenames (FMT §3), GL12 closure (zero ungoverned files under the umbrellas), status + mirror consistency (run before commit);
-  `JarvisMain/yggdrasil/tools/autosort.py` relocates files to match their status (JNL preserved — JMS law);
-  `JarvisMain/yggdrasil/tools/new.py` mints a new governed object (JNL + formatted file + reseed) in one command.
-- **Intake (how objects are born):** `new.py --project <P> --type JGPP|JIP|JD|BIO --name "..."`
-  mints everything; or drop a `.md` with self-describing frontmatter (`jnl/name/type/status/tags/definition/purpose`)
-  under a `SCAN_ROOT` (Projects/Implementation/Ideas/Breakthroughs/Archive) and run `seed.py` — the file is its
-  own manifest. Project codes: `JarvisMain/yggdrasil/jfs/project-codes.json`. Each project node carries
-  `{JGPP,JIP,JD,BIO}/`; folders stay flat, status lives in frontmatter, ARCHIVED/DEPRECATED auto-sort to
-  `JarvisSide/Archive/<Project>/`. Filename grammar: `<PROJECT><TYPE>-<MMDDYY>-<NNNN>-<SUBJECT>.md` (FMT spec §3).
-- **Runtime cognition pipeline:** `JGPP → JIP → JCS → JD` (spec → evolving impl → runtime → truth).
-  **JCS** (Jarvis Cognitive Stack) is the runtime reasoning/simulation engine over JIP structures +
-  JD truth; layers JCS-D (temporal) / -E (query) / -F (simulation) / -G (interface). Addressed under
-  the `IMPL` domain; specs in `Implementation/Active/JIP-0608-*`.
-- **Rosetta (legacy → canon):** MIDAS→AEGIS · SENTINEL→ARGUS+IRIS+HUGINN · GRAVEYARD→HADES ·
-  FATES→KRONOS · JORMUNGANDR=codec · HELP→MIMIR · AYRE(god)→ORACLE (2026-06-14; address GS-AYR
-  held) · CHAOS stays entropy (raw ingestion is ORACLE→HADES).
+- **JNL grammar:** `[Domain]-[System]-[Type]-[Log]-[Patch]-[Block]` · full tables in `JarvisMain/yggdrasil/jfs/jnl-grammar.md`
+- **JD = the one registry.** "the Dex" = the Pokédex-facing nickname — not a separate system. One dictionary: `yggdrasil/jd/entries/` + `jd_entries` Supabase (unified 2026-06-18). Every "dex" is this JD.
+- **LAL = discovery** — resolves JNL → location. Pointers only (JMS law).
+- **JMMS:** 5 memory tiers. Full spec + tools: `JarvisMain/Manual/OPS-REFERENCE.md`
+- **JSE (JIP + JD + JGLF + JCS + DEX):** full ops reference → `JarvisMain/Manual/OPS-REFERENCE.md`
+- **GL12 — Canonical Addressability:** every governed object needs JNL + location + tags + JSS status + memory_tier, or it is invisible to the loop. `validate.py` (JVE) enforces this.
+- **Tool aliases:** JVE = validate.py · ISS = master-index.json · YVG = graph.json · JQL-lite = dex.py
+- **Intake:** `new.py --project <P> --type JGPP|JIP|JD|BIO --name "..."` or drop a self-describing `.md` into a SCAN_ROOT and run `seed.py`
+- **CI gate:** `yggdrasil-validate.yml` fails PRs on GL12 violations or registry drift
 
-> **Portability is the point.** Any node — JARVIS-core or a `Projects/` repo — mounts the
-> same JFS kernel and inherits the same guarantees. That is what makes JARVIS a standard
-> for governance and growth: stable, auditable, explainable.
+> Deep ops reference (Yggdrasil subsystems, JMMS tiers, JSE, JCS, bounded autonomy, the loop): **`JarvisMain/Manual/OPS-REFERENCE.md`**
 
 ### Repo hierarchy rule (JSL)
 
-Two top-level umbrellas, plus the live runtime.
+| Root | Contents |
+|------|----------|
+| `JarvisMain/` | Canonical core: god systems + Architecture + Implementation + Connectors (65 tools) + yggdrasil kernel |
+| `JarvisSide/` | Periphery: Projects/ + Ideas/ + Breakthroughs/ + Archive/ |
+| `JarvisMain/yggdrasil/` | The JFS substrate kernel (moved 2026-06-09) |
+| Root runtime | `supabase/` · `.github/` · `scripts/` · `audit/` · `chaos/` · `mnemos/` · `intake/` |
 
-**`JarvisMain/` — the canonical core (MAIN tier).** What JARVIS *is*: the 27 god-system
-contracts (`JarvisMain/god_systems/`) + the canonical knowledge (`JarvisMain/Architecture/`,
-`Audit/`, `Implementation/`, `Patches/`, `Connectors/`).
-
-**`JarvisSide/` — the periphery (SIDE tier).** `JarvisSide/Projects/` (each a node) ·
-`Ideas/` · `Breakthroughs/` · `Archive/` · `Deprecated/`. Anything `ARCHIVED`/`DEPRECATED`
-or a project/idea/breakthrough is SIDE.
-
-**`JarvisMain/yggdrasil/` — the substrate kernel** that *addresses* JarvisMain and
-JarvisSide. Moved into the core 2026-06-09 (substrate belongs with what JARVIS *is*);
-tooling resolves the repo root from its own location, so run it from anywhere.
-
-**Live runtime stays at root** (cannot relocate without breaking deploys/CI/Pages):
-`supabase/` (functions + migrations) · `docs/` (GitHub Pages) · `.github/` (CI) · `scripts/`
-· `chaos/ mnemos/ grid/ emulator/ intake/ audit/` (operational state) · root configs.
-
-Every object carries `class` (SYSTEM/SPEC/MODULE/ENTITY/EVENT/REGISTRY), `tier` (MAIN/SIDE),
-`owner`, `parent` (the family tree: a system code names its whole subtree — "JFS-compliant"
-= JFS + all descendants; resolve with `dex.py family <JNL>`; project artifacts auto-parent
-to their project bio), and a JNL + JD entry. Domains: `GS ARCH GOV IMPL PROJ GRID CONN AUD IDEA BRK LOG`.
-New knowledge → add it under `JarvisMain/` or `JarvisSide/`, run `seed.py`, commit; CI
-(`yggdrasil-validate.yml`) fails the PR if anything is un-addressed, mis-tiered, or the
-registries drift. Don't re-introduce lowercase doc folders — those folded into the tree.
-
-**Tool aliases (hygiene packets):** `validate.py` = **JVE** (validator engine);
-`lal/master-index.json` = **ISS** (index summary); `graph_export.py` = **YVG** data layer
-(`lal/graph.json`, nodes+edges for the visualizer); `lal/version.json` = **YGG manifest**
-(derived version snapshot — object counts + grammar fingerprint; JVE fails if `jnl.py`
-and `jarvis-dex/jfs.ts` token tables drift); `tools/dex.py` = **JQL-lite** (query CLI:
-`find` / `show` / `related` / `stats` over the dex). Mirror job in `yggdrasil-validate.yml`
-pushes the dex (the one `jd_entries` table) to Supabase on every merge to main (JMS); the connector's
-freshness assertion flags any mirror that falls behind, so stale can't pass as current.
+Every object: `class` (SYSTEM/SPEC/MODULE…) + `tier` (MAIN/SIDE) + `owner` + `parent` + JNL + JD entry.
 
 ---
 
@@ -283,41 +220,17 @@ See `requirements.txt`.
 
 ## Governed Workflow
 
-**No repair exemption (Raven-directed 2026-06-11):** even obvious fixes are proposed
-with a recommendation first — Raven verdicts before execution. Live-tier writes included.
-"Repair" is not a word that bypasses the gate.
+**No repair exemption (Raven 2026-06-11):** even obvious fixes are proposed with a recommendation first — Raven verdicts before execution. "Repair" is not a word that bypasses the gate.
 
-**Event discipline (P-B, Raven-approved 2026-06-11):** one `dex_events` event per fact,
-written when the fact lands — never batched with implementation events. The spine records
-authority time, not narration time.
+**Event discipline (P-B):** one `dex_events` event per fact, written when it lands — never batched. The spine records authority time, not narration time.
 
-**Closure by proof (P-C, Raven-approved 2026-06-11):** a claim is *closed* only when it
-cites a `dex_events` id or commit hash; otherwise it is *open*. Streams verify via the
-`events_list` READ tool — no stream takes another's word for system state.
+**Closure by proof (P-C):** a claim is *closed* only on a `dex_events` id or commit hash; otherwise it is *open*. Verify via `events_list` — no stream takes another's word for system state.
 
-**Git-First Canon (Raven-verdicted 2026-06-15):** every *canonical* write — a JD object,
-its `jd_entries` row (the one dex table; `jnl_registry` is a view over it), any change to definition/parent/status — lands in
-**git first** (file → `seed.py` → commit/PR → merge), then the mirror syncs git → Supabase.
-**Supabase never originates canon.** It is the READ/runtime mirror plus its own native live
-tables (`dex_events`, `mnemos_memories`, `jd_proposals` — events/memory/staging, which live
-only there). A connector "approve"/"apply" must *propose a git change*, never patch Supabase
-canon directly. Audit + remediation: `AUD-SYNC-REVW-0001`. (`jd_approve` new objects reconcile to
-git via `dex_reconcile.py` → PR. `jip_apply`/`jip_revert` are now **git-first** — they propose a
-field override into `jd/patches.json` as a PR; `seed.py` applies it at its write choke-points on
-merge, then the mirror syncs Supabase. The Sync lens flags any residual git↔Supabase drift.)
+**Git-First Canon (Raven 2026-06-15):** canonical writes (JD objects, definition/parent/status changes, JIP overlays) land in git first (`seed.py` → commit/PR → merge), then the mirror syncs to Supabase. Supabase never originates canon — it is the READ/runtime mirror. JIP apply/revert ride this: propose field override into `jd/patches.json` as a PR; `seed.py` applies on merge.
 
-All changes follow this loop:
+**Change loop:** intake → context → implement → verify → log → commit → sync → recycle
 
-```
-1. intake/     — add request or handoff
-2. context     — check JARVIS status, relevant God Systems, Gold Law
-3. implement   — scoped changes only, no unrelated cleanup
-4. verify      — syntax check, tests if applicable
-5. log         — jarvis_log for significant decisions (PROMETHEUS)
-6. commit      — clean commit to main
-7. sync        — verify cloud-visible GitHub state and redeploy Edge Functions when connector code or baked secrets change
-8. recycle     — move processed intake; copy reusable patterns to recycle/
-```
+**JMMS + resumability:** JSTM dies with the session. Before session end, scan for uncommitted JSTM items — the `session_close` tool writes a HOLD artifact if anything is at risk. Bounded autonomy: no silent exits (GL6 + GOV-AUT-SPEC-0001).
 
 ---
 

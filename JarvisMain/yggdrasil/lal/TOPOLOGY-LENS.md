@@ -1,24 +1,24 @@
 # Topology Lens — the shape of the system
 
-_generated: 2026-06-25T00:09:17Z (2026-06-24 20:09 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
+_generated: 2026-06-25T00:52:42Z (2026-06-24 20:52 EDT) · projected from `graph.json` (the canonical graph that already exists). GPT's 'Omni-Map' is this graph; this lens is the query over it — hubs, leaves, isolation, edges._
 
-**232 nodes · 353 edges · 1 isolated · avg degree 3.04.**
+**233 nodes · 361 edges · 1 isolated · avg degree 3.1.**
 
 ## Hubs — the most-connected nodes (the system's load-bearing spine)
 | node | degree | in | out | domain |
 |---|---|---|---|---|
 | `CONN-MSB-CORE-0001` MCP-Supabase Connector | 73 | 73 | 0 | CONN |
 | `ARCH-GS-IDX-0001` God Systems Index | 28 | 27 | 1 | ARCH |
-| `ARCH-YGG-CORE-0001` Yggdrasil | 23 | 22 | 1 | ARCH |
-| `ARCH-JMMS-CORE-0001` Jarvis MultiMemory System | 21 | 16 | 5 | ARCH |
+| `ARCH-YGG-CORE-0001` Yggdrasil | 24 | 23 | 1 | ARCH |
+| `ARCH-JMMS-CORE-0001` Jarvis MultiMemory System | 22 | 17 | 5 | ARCH |
 | `IMPL-IDX-REG-0001` Implementation Index | 20 | 18 | 2 | IMPL |
-| `ARCH-JFS-CORE-0001` Jarvis File System | 17 | 12 | 5 | ARCH |
+| `ARCH-JFS-CORE-0001` Jarvis File System | 18 | 13 | 5 | ARCH |
 | `GOV-CAN-CORE-0001` Canon | 17 | 17 | 0 | GOV |
 | `PROJ-IDX-REG-0001` Projects Registry | 17 | 16 | 1 | PROJ |
 | `ARCH-AYR-BIO-0001` AYRE Companion Profile | 11 | 8 | 3 | ARCH |
 | `IMPL-JCS-CORE-0001` JCS - Jarvis Cognitive Stack | 11 | 9 | 2 | IMPL |
+| `ARCH-JD-CORE-0001` Jarvis Dictionary | 10 | 7 | 3 | ARCH |
 | `GS-SKD-CORE-0001` SKADI | 10 | 8 | 2 | GS |
-| `ARCH-JD-CORE-0001` Jarvis Dictionary | 9 | 6 | 3 | ARCH |
 
 ## Isolated — nodes with NO edges (in or out): unreachable, invisible to the loop
 `ARCH-FAM-IDX-0001`
@@ -26,13 +26,13 @@ _generated: 2026-06-25T00:09:17Z (2026-06-24 20:09 EDT) · projected from `graph
 ## Edge types (the relationships that bind the graph)
 | type | count |
 |---|---|
-| parent | 226 |
-| related | 127 |
+| parent | 227 |
+| related | 134 |
 
 ## Nodes by domain
 | domain | nodes |
 |---|---|
-| ARCH | 44 |
+| ARCH | 45 |
 | AUD | 10 |
 | CONN | 70 |
 | GOV | 17 |
