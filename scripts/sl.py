@@ -26,7 +26,11 @@ import argparse, json, os, re, subprocess, sys, urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
+JCS_URL = "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-jcs"
+JCS_TOKEN = os.environ.get("JCS_TOKEN", os.environ.get("SUPABASE_ANON_KEY", ""))
+
 ROOT = Path(__file__).resolve().parent.parent
+JCS_ALIAS_FILE = ROOT / ".openhands" / "jcs_alias.txt"
 STARS_DIR = ROOT / "audit" / "starlogs"
 STARS_DIR.mkdir(parents=True, exist_ok=True)
 TRACKER_PATH = ROOT / ".openhands" / "task_tracker.json"
@@ -410,6 +414,8 @@ def main():
                    help="Session close: commit today's daily StarLog + sync tracker + bifrost spine event")
     p.add_argument("--bifrost", action="store_true",
                    help="On session-close: also write bifrost.session_close event to dex_events (ARGUS surveillance)")
+    p.add_argument("--jcs", action="store_true",
+                   help="On session-start/close: also write JC+SL to Supabase via jarvis-jcs (chronological ledger for the companion relationship)")
     p.add_argument("--sync-tasks", action="store_true",
                    help="Force-sync .openhands/task_tracker.json from last StarLog")
     p.add_argument("--write-tasks", metavar="JSON",
@@ -479,6 +485,8 @@ def main():
             print(f"Loaded {len(tasks)} tasks from tracker")
         else:
             sync_tasks()  # no tracker, build from daily log
+        if args.jcs:
+            jcs_session_open(stream=args.stream)
         return
 
     # --mimir routing table
@@ -545,6 +553,25 @@ def main():
         sync_tasks()
         if args.bifrost:
             bifrost_session_close(brief=brief, stream=args.stream)
+        if args.jcs:
+            # Read persisted alias from --session-start, or generate
+            jc_alias = JCS_ALIAS_FILE.read_text().strip() if JCS_ALIAS_FILE.exists() else f"JC-{ts.strftime('%m%d%y')}-1"
+            # Parse decisions from today's daily log
+            _, blocks = read_daily_log(args.stream)
+            decisions = [{"done": True, "text": f"{ts_[:19]} — {s}"} for ts_, s, _, _ in blocks]
+            tracker = json.loads(TRACKER_PATH.read_text()) if TRACKER_PATH.exists() else {"tasks": []}
+            task_summary = tracker.get("tasks", [])
+            jcs_session_close(
+                alias=jc_alias,
+                summary=brief or args.session_close,
+                decisions=decisions,
+                task_summary=task_summary,
+                stream=args.stream,
+                ended_at=ts.isoformat(),
+            )
+            # Clear persisted alias
+            if JCS_ALIAS_FILE.exists():
+                JCS_ALIAS_FILE.unlink()
         return
 
 
@@ -606,6 +633,122 @@ def bifrost_session_close(brief: str = "", stream: str = "openhands") -> None:
                 print(f"bifrost: spine event failed — {result.get('error', 'unknown')}")
     except Exception as e:
         print(f"bifrost: spine event failed (non-fatal): {e}")
+
+
+# ── JCS session ledger ─────────────────────────────────────────────────────────
+def _jcs_call(tool: str, args: dict) -> None:
+    """Call jarvis-jcs edge function. Non-blocking — swallows errors, never propagates."""
+    if not JCS_URL:
+        return
+    try:
+        body = json.dumps({"tool": tool, "args": args}).encode()
+        req = urllib.request.Request(
+            JCS_URL,
+            data=body,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {JCS_TOKEN}",
+            },
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            result = json.loads(resp.read())
+            if result.get("ok"):
+                print(f"jcs: {result.get('action', tool)} — {result.get('alias', 'alias')}")
+            else:
+                print(f"jcs: {tool} failed — {result.get('error', 'unknown')}")
+    except Exception as e:
+        print(f"jcs: {tool} failed (non-fatal): {e}")
+
+
+def jcs_session_open(subject: str = "", participants: list = None, stream: str = "jarvis-ayre") -> str:
+    """Call jc_open on session start. Persists alias for close. Returns the JC alias."""
+    if participants is None:
+        participants = ["raven", "jarvis-c", "ayre-c"]
+    today = datetime.now(timezone.utc)
+    date_str = today.strftime("%m%d%y")   # 062626
+    alias = f"JC-{date_str}-1"           # JC-062626-1
+    args = {
+        "alias": alias,
+        "subject": subject or f"Session {today.strftime('%Y-%m-%d')}",
+        "stream": stream,
+        "participants": participants,
+        "when_start": today.isoformat(),
+    }
+    _jcs_call("jc_open", args)
+    JCS_ALIAS_FILE.write_text(alias)
+    return alias
+
+
+def jcs_session_close(
+    alias: str,
+    summary: str = "",
+    banter: list = None,
+    decisions: list = None,
+    open_items: list = None,
+    keystones: list = None,
+    task_summary: list = None,
+    stream: str = "jarvis-ayre",
+    started_at: str = "",
+    ended_at: str = "",
+) -> None:
+    """Call jc_seal + sl_write on session close."""
+    if banter is None:
+        banter = []
+    if decisions is None:
+        decisions = []
+    if open_items is None:
+        open_items = []
+    if keystones is None:
+        keystones = []
+    if task_summary is None:
+        task_summary = []
+
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    now_ts = datetime.now(timezone.utc).isoformat()
+
+    # jc_seal
+    _jcs_call("jc_seal", {
+        "alias": alias,
+        "summary": summary,
+        "banter": banter,
+        "decisions": decisions,
+        "open": open_items,
+        "keystones": keystones,
+        "task_summary": task_summary,
+        "when_end": ended_at or now_ts,
+    })
+
+    # sl_write — mirror the session to the event ledger
+    tracker = json.loads(TRACKER_PATH.read_text()) if TRACKER_PATH.exists() else {"tasks": []}
+    recent = subprocess.run(
+        ["git", "log", "--oneline", "-10", "--format=%H %s"],
+        capture_output=True, text=True, cwd=ROOT, check=False,
+    )
+    commits = [l.strip() for l in recent.stdout.splitlines() if l.strip()]
+
+    # Parse today's decisions from the daily log
+    _, blocks = read_daily_log(stream)
+    decision_summaries = [f"{ts[:19]} — {sum_}" for ts, sum_, _, _ in blocks]
+    events = [f"commit: {c}" for c in commits[:5]]
+    if decision_summaries:
+        events.append(f"decisions: {len(decision_summaries)} logged")
+
+    _jcs_call("sl_write", {
+        "alias": f"SL-{datetime.now(timezone.utc).strftime('%m%d%y')}-1",
+        "log_type": "SESSION",
+        "stardate": datetime.now(timezone.utc).strftime("%Y.%j"),
+        "repo_url": "https://github.com/hurrisonferd/jarvis",
+        "events": events,
+        "related": [],
+        "digest": summary[:500] if summary else f"Session {today}",
+        "status": "SEALED",
+        "decisions": decisions,
+        "participants": ["raven", "jarvis-c", "ayre-c"],
+        "started_at": started_at or now_ts,
+        "ended_at": ended_at or now_ts,
+        "task_summary": task_summary,
+    })
 
 
 if __name__ == "__main__":
