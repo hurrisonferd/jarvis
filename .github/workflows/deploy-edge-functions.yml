@@ -64,32 +64,67 @@ jobs:
               except:
                   return r.stdout
 
+          def split_sql(content):
+              """Split SQL on semicolons, but preserve $$..$$ quoted strings (DO blocks, function bodies)."""
+              stmts, buf, in_dollar = [], "", False
+              for line in content.split("\n"):
+                  stripped = line.rstrip()
+                  # Track $$ quoting
+                  count = stripped.count("$$")
+                  if count == 1:
+                      in_dollar = not in_dollar
+                  elif count >= 2:
+                      # Both markers on same line — toggle twice (net no change unless odd)
+                      if count % 2 == 1:
+                          in_dollar = not in_dollar
+                  if not in_dollar and stripped.endswith(";"):
+                      if buf.strip():
+                          stmts.append(buf.strip() + "\n" + stripped[:-1])
+                      else:
+                          stmts.append(stripped[:-1])
+                      buf = ""
+                  else:
+                      if buf or stripped:
+                          buf += "\n" + line
+              if buf.strip():
+                  stmts.append(buf.strip())
+              return stmts
+
           for f in sorted(glob.glob("supabase/migrations/*.sql")):
               name = os.path.basename(f[:-4])
               sql_content = open(f).read()
               check = api_query("SELECT 1 FROM supabase_migrations.schema_migrations WHERE version='{}' LIMIT 1".format(name))
+              # SELECT returns [{"?column?":1}] on success, [] on not-found — len>0 means found
               if isinstance(check, list) and len(check) > 0:
                   print(f"✓ {name} already applied")
                   continue
-              result = api_query(sql_content)
-              if isinstance(result, list) and len(result) > 0 and result[0].get("code"):
-                  msg = result[0].get("message", str(result))[:100]
-                  print(f"⚠ {name}: {msg}")
-              else:
-                  print(f"✓ {name} applied")
+              stmts = split_sql(sql_content)
+              all_ok = True
+              for stmt in stmts:
+                  if not stmt.strip() or stmt.strip().startswith("--"):
+                      continue
+                  result = api_query(stmt)
+                  # Success: empty list [], or list with no 'code' key
+                  if isinstance(result, list) and len(result) > 0 and isinstance(result[0], dict) and result[0].get("code"):
+                      msg = result[0].get("message", str(result))[:100]
+                      print(f"⚠ {name}: {msg}")
+                      all_ok = False
+              if all_ok:
+                  print(f"✓ {name} applied ({len(stmts)} statement(s))")
           PYEOF
       - name: Deploy edge functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           REF: oexghfsvhnggddllgvrt
+          DEPLOY_SHA: ${{ github.sha }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt
+            supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt --secret DEPLOY_SHA="$DEPLOY_SHA"
           else
             # Deploy all functions — new ones deploy automatically
             for fn in supabase/functions/*/; do
               NAME=$(basename "$fn")
-              echo "→ deploying $NAME"
-              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt
+              echo "→ deploying $NAME @ $DEPLOY_SHA"
+              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt --secret DEPLOY_SHA="$DEPLOY_SHA"
             done
           fi
