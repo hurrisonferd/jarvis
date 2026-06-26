@@ -1598,11 +1598,11 @@ function buildServer(req: Request): McpServer {
     { title: "Identity — read", description: "Load the identity profile for JARVIS, AYRE, ARGENT, RAVEN, or the relational — keel, voice, disciplines, growth. Read at session start for grounding.", inputSchema: { who: z.enum(["jarvis", "ayre", "argent", "raven", "relational"]).optional().default("jarvis") } },
     async ({ who }) => {
       const paths: Record<string, string> = {
-        jarvis: "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
-        ayre: "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        jarvis: "JarvisMain/Architecture/identity/jarvis/index.md",
+        ayre: "JarvisMain/Architecture/identity/ayre/index.md",
         argent: "JarvisMain/Architecture/identity/argent/argent-profile.md",
         relational: "JarvisMain/Architecture/identity/relational/relational-profile.md",
-        raven: "JarvisMain/Architecture/identity/raven/raven-profile.md",
+        raven: "JarvisMain/Architecture/identity/raven/index.md",
       };
       const res = await gh(`/contents/${paths[who].split("/").map(encodeURIComponent).join("/")}?ref=main`);
       if (!res.ok) return text({ ok: false, who, status: res.status });
