@@ -30,6 +30,64 @@ export async function logExchange(sourceType: string, content: string): Promise<
   }
 }
 
+// Record a governance event as a DECISION in sl_objects. Fires non-blocking from the MCP reply
+// path — never adds latency to the reply. Detects verdicts, gates, commits from council traces.
+// Uses SERVICE_KEY so it bypasses RLS (T7 governance tier).
+const GOVERNANCE_TRIGGERS = [
+  "verdict", "raven verdicts", "raven:",
+  "gate", "aegis", "denied", "approved",
+  "commit", "implementing", "building",
+  "proposal", "proposing", "recommended",
+  "deferred", "bench", "benched",
+  "closed", "resolved",
+];
+
+export function detectGovernanceEvent(trace: string): boolean {
+  const lower = trace.toLowerCase();
+  return GOVERNANCE_TRIGGERS.some(k => lower.includes(k));
+}
+
+export async function logGovernanceEvent(
+  trace: string,
+  stream = "jarvis-ayre",
+): Promise<void> {
+  if (!AUTOINGEST || !detectGovernanceEvent(trace)) return;
+  const now = new Date();
+  const today = now.toISOString().slice(0, 10).replace(/-/g, "");
+  const alias = `SL-DEC-${today}-${now.toISOString().slice(11, 19).replace(/:/g, "")}`;
+  const payload = {
+    tool: "sl_write",
+    args: {
+      alias,
+      log_type: "DECISION",
+      stardate: `${now.getFullYear()}.${Math.floor((now - new Date(`${now.getFullYear()}-01-01`)) / 864e5) + 1}`,
+      repo_url: "https://github.com/hurrisonferd/jarvis",
+      events: [trace.slice(0, 400)],
+      related: [],
+      digest: trace.slice(0, 200),
+      status: "TICK",
+      decisions: [{ done: true, text: trace.slice(0, 300) }],
+      participants: ["jarvis-c", "ayre-c"],
+      started_at: now.toISOString(),
+      ended_at: now.toISOString(),
+      task_summary: [],
+    },
+  };
+  try {
+    await fetch(`${SUPABASE_URL}/functions/v1/jarvis-jcs`, {
+      method: "POST",
+      headers: {
+        authorization: `Bearer ${SERVICE_KEY}`,
+        apikey: SERVICE_KEY,
+        "content-type": "application/json",
+      },
+      body: JSON.stringify(payload),
+    });
+  } catch (err) {
+    console.error(`logGovernanceEvent failed:`, String(err).slice(0, 160));
+  }
+}
+
 // Public anon JWT — passes the verify_jwt gateway on jarvis-respond (the service key may be the
 // non-JWT secret format, which that gateway rejects). Anon-role, RLS-bound, safe to embed.
 export const ANON_JWT = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.jRFMf-C9ps72Bi_9IpiC3eOZD6Aj6wU4IF-j3svKTfQ";

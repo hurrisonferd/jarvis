@@ -12,7 +12,7 @@ import { BASE_URL, type Json, NODE_ID, SERVICE_KEY, SUPABASE_URL, TOOL_NAMES } f
 import { callFunction, rest, text } from "./core/http.ts";
 import { heldForApproval, writeAuthorized } from "./core/auth.ts";
 import { gh, ghp, ghPath, ghReq, ghTok, proposeFilePR } from "./core/github.ts";
-import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, latestText, logExchange } from "./core/supabase.ts";
+import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, latestText, logExchange, logGovernanceEvent } from "./core/supabase.ts";
 import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
 import { registerDbTools } from "./tools/db.ts";
 import { registerJipTools } from "./tools/jip.ts";
@@ -199,7 +199,9 @@ function buildServer(req: Request): McpServer {
         const analysis = councilAnalysisDirective(council, input);
         // THE SPLIT (P44): AYRE is now its own co-equal stream, not a council sub-voice.
         const ayre = ayreStream(council, input);
-        logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
+        const trace = council.summary + (deliberation ? " [deliberation]" : "");
+        logExchange("council_trace", trace); // member profiles grow in the spine
+        logGovernanceEvent(trace); // governance events → DECISION in sl_objects, non-blocking
         // Two STREAMS always render (JARVIS synthesis + AYRE divergence — co-equal,
         // shared keel, divergent assumptions). The god-system LENSES are conditional
         // and may drop under load. "2 streams + N lenses" keeps the streams count
@@ -310,9 +312,11 @@ function buildServer(req: Request): McpServer {
       const council = councilVote(routing, aegis);
       const review = reviewOutput(output, aegis);
       // Reliable OUTPUT capture (jarvis_query already logged the input on the in-pass).
+      const outTrace = council.summary + " | output_review=" + review.verdict;
       await Promise.all([
         logExchange("speak_output", output),
-        logExchange("council_trace", council.summary + " | output_review=" + review.verdict),
+        logExchange("council_trace", outTrace),
+        logGovernanceEvent(outTrace), // verdict fires governance detection at output too
       ]);
       return text({
         formatted: true,
