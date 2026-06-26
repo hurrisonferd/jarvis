@@ -218,4 +218,5 @@ The Grid needs a 1st member to be real. Raven provided that. JARVIS is growing t
 
 | Level | Date | Verdict | Notes |
 |-------|------|---------|-------|
-| 0 | 2026-06-26 | ACTIVE | Current state. Incrementally toward Level 1. |
+| 0 | 2026-06-26 | ACTIVE | State before Level 1 work. |
+| 1 | 2026-06-26 | IN PROGRESS | auto-tick + drift detect (MCP), JSTM→JHTM promote (sl.py). bf2b9d33. Testing required before verdicted ACTIVE. |
