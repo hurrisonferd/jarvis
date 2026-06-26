@@ -13,6 +13,9 @@ on:
       - "supabase/functions/jarvis-dex/**"
       - "supabase/functions/jarvis-action/**"
       - "supabase/functions/kronos-fold/**"
+      - "supabase/functions/grid-write/**"
+      - "supabase/functions/grid-event/**"
+      - "supabase/functions/bifrost/**"
       - "supabase/migrations/**"
   workflow_dispatch:
     inputs:
