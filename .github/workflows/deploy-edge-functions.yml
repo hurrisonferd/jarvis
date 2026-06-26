@@ -41,28 +41,9 @@ jobs:
           PROJECT_REF="$REF"
           # Fetch connection string via Management API — requires SUPABASE_ACCESS_TOKEN
           # Falls back to DATABASE_URL secret if token unavailable
-          if [ -z "$DATABASE_URL" ] && [ -n "$SUPABASE_ACCESS_TOKEN" ]; then
-            echo "Fetching DATABASE_URL via Supabase Management API..."
-            DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF" \
-              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")
-            DB_URL=$(echo "$DB_CONFIG" | jq -r '.connection_info.connection_string // .connection_info.connection_string // .connection_string // null')
-            if [ "$DB_URL" != "null" ] && [ -n "$DB_URL" ]; then
-              export DATABASE_URL="$DB_URL"
-              echo "✓ DATABASE_URL fetched via Management API"
-            else
-              echo "⚠ Could not fetch DATABASE_URL — API response:"
-              echo "$DB_CONFIG" | jq '.' 2>/dev/null || echo "$DB_CONFIG"
-            fi
-          fi
-          if [ -z "$DATABASE_URL" ]; then
-            echo "⚠ DATABASE_URL not available — skipping migrations"
-            echo "  To enable: add DATABASE_URL as a repo secret, or ensure SUPABASE_ACCESS_TOKEN has read access to /postgres endpoint"
-            exit 0
-          fi
-          echo "Connecting to: ${DATABASE_URL%%@*}"
-          # Apply migrations using Supabase CLI (handles connection internally via linked project)
+          # Primary: use Supabase CLI (handles connection internally via project ref + token).
           # supabase/setup-cli@v1 already authenticated via SUPABASE_ACCESS_TOKEN.
-          # Link the project non-interactively, then push migrations.
+          # CLI approach works without DATABASE_URL.
           if supabase link --project-ref "$PROJECT_REF" 2>&1 | grep -q "Already linked"; then
             echo "✓ Project already linked"
           else
@@ -73,18 +54,33 @@ jobs:
           if supabase db push 2>&1; then
             echo "✓ Migrations applied via Supabase CLI"
           else
-            echo "⚠ Supabase CLI migration failed — trying raw psql"
-            sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client > /dev/null 2>&1
-            for f in supabase/migrations/*.sql; do
-              NAME=$(basename "${f%.sql}")
-              EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null || echo "")
-              if [ "$EXISTS" = "1" ]; then
-                echo "✓ $NAME already applied"
-              else
-                echo "→ applying $NAME"
-                psql "$DATABASE_URL" -f "$f" 2>&1 && echo "✓ $NAME applied" || echo "⚠ $NAME failed"
-              fi
-            done
+            echo "⚠ Supabase CLI migration failed"
+            # Fallback: try to fetch DATABASE_URL and use raw psql
+            DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF" \
+              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")
+            # Supabase Pro API returns .database.host (not connection_info.connection_string)
+            DB_URL=$(echo "$DB_CONFIG" | jq -r '.database.host // null')
+            if [ "$DB_URL" != "null" ] && [ -n "$DB_URL" ]; then
+              export DATABASE_URL="postgresql://postgres:$POSTGRES_PASSWORD@$DB_URL:6543/postgres"
+              echo "✓ Constructed DATABASE_URL from project API (pooler)"
+            fi
+            if [ -n "$DATABASE_URL" ]; then
+              echo "Connecting to: ${DATABASE_URL%%@*}"
+              sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client > /dev/null 2>&1
+              for f in supabase/migrations/*.sql; do
+                NAME=$(basename "${f%.sql}")
+                EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null || echo "")
+                if [ "$EXISTS" = "1" ]; then
+                  echo "✓ $NAME already applied"
+                else
+                  echo "→ applying $NAME"
+                  psql "$DATABASE_URL" -f "$f" 2>&1 && echo "✓ $NAME applied" || echo "⚠ $NAME failed"
+                fi
+              done
+            else
+              echo "⚠ DATABASE_URL not available — skipping migrations"
+              exit 0
+            fi
           fi
       - name: Deploy edge functions
         env:
