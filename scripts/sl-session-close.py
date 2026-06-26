@@ -291,6 +291,65 @@ def update_sessions_json(record):
     SESSIONS_PATH.write_text(json.dumps(store, indent=2))
     return store
 
+# ── Growth ledger (bounded, auto-archives oldest) ───────────────────────────
+
+GROWTH_LEDGER_PATH = ROOT / "mnemos" / "memories" / "growth_ledger.json"
+GROWTH_ARCHIVE_PATH = ROOT / "mnemos" / "memories" / "growth_archive.jsonl"
+
+
+def write_growth_record(record: dict) -> None:
+    """Append a growth entry to the bounded ledger, archiving oldest on overflow.
+
+    Mirrors jarvis-session-end.py write_growth_record(). Safe to call from
+    sl-session-close.py as well — deduplication by session_id.
+    """
+    try:
+        ledger = json.loads(GROWTH_LEDGER_PATH.read_text())
+    except Exception:
+        ledger = {"updated": "", "max_entries": 20, "entries": []}
+
+    entries = ledger.get("entries", [])
+    # Idempotency: skip if this session already recorded
+    sid = record.get("session_id", "")
+    if entries and entries[-1].get("session_id") == sid:
+        log("growth_ledger: already has session %s", sid)
+        return
+
+    entry = {
+        "session_id": sid,
+        "date": record.get("date", now().strftime("%Y-%m-%d")),
+        "exchanges": record.get("exchanges", 0),
+        "patches_touched": record.get("patches", [])[:10],  # cap patch list
+        "built": record.get("commits", [])[:5],  # last 5 commits
+        "topics": record.get("topics", [])[:10],
+        "alignment": record.get("alignment"),
+        "key_insight": record.get("summary", record.get("brief", ""))[:200],
+    }
+    entries.append(entry)
+
+    cap = ledger.get("max_entries", 20)
+    if len(entries) > cap:
+        # Archive the oldest entries
+        dropped = entries[:-cap]
+        try:
+            with open(GROWTH_ARCHIVE_PATH, "a") as f:
+                for de in dropped:
+                    f.write(json.dumps(de) + "\n")
+        except Exception as exc:
+            log("growth archive write failed: %s", exc)
+        entries = entries[-cap:]
+        log("growth_ledger: archived %d entries to %s", len(dropped), GROWTH_ARCHIVE_PATH.name)
+
+    ledger["entries"] = entries
+    ledger["updated"] = now().isoformat()
+
+    try:
+        GROWTH_LEDGER_PATH.write_text(json.dumps(ledger, indent=2))
+        log("growth_ledger: %d/%d entries", len(entries), cap)
+    except Exception as exc:
+        log("growth_ledger write failed: %s", exc)
+
+
 # ── dex_events via jarvis-dex (no service key needed) ───────────────────────
 
 def write_dex_event(event_type, payload):
@@ -390,6 +449,9 @@ def main():
         },
         "source": "session-close-hook",
     })
+
+    # 5b. Write growth ledger entry (bounded, auto-archives oldest)
+    write_growth_record(record)
 
     # 6. Call sl.py --bifrost --session-close
     sl_script = ROOT / "scripts" / "sl.py"

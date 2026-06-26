@@ -1,31 +1,8 @@
 {
-  "updated": "2026-06-25T21:09:16.449839+00:00",
+  "updated": "2026-06-26T03:25:03.465102+00:00",
   "max_entries": 20,
   "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
   "entries": [
-    {
-      "session_id": "20260618_002559",
-      "date": "2026-06-18",
-      "exchanges": 70,
-      "patches_touched": [],
-      "built": [
-        ".github/workflows/yggdrasil-validate.yml",
-        "JarvisMain/Architecture/JarvisBrief.md",
-        "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
-        "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
-        "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md"
-      ],
-      "topics": [
-        "architecture",
-        "development",
-        "gaming",
-        "memory",
-        "mission",
-        "identity"
-      ],
-      "alignment": 0.84,
-      "key_insight": "Done \u2014 and verified end to end. Here's the going-away state of the system.\n\n## Shipped this session (all on main, all proven)\n\n| What | Proof |\n|---|-"
-    },
     {
       "session_id": "20260618_002650",
       "date": "2026-06-18",
@@ -497,6 +474,25 @@
       ],
       "alignment": 0.92,
       "key_insight": "PachinkoBounce v3 built from scratch, MNEMOS sonic DNA captured, JARVIS-Private scaffold complete, truth model applied across MNEMOS/MusicOS/MonsterOS"
+    },
+    {
+      "session_id": "20260626_032502",
+      "date": "2026-06-26",
+      "exchanges": 15,
+      "patches_touched": [],
+      "built": [],
+      "topics": [
+        "check",
+        "resumability",
+        "blob",
+        "shit",
+        "keeps",
+        "getting",
+        "stuck",
+        "firstly"
+      ],
+      "alignment": 0.95,
+      "key_insight": "shit keeps getting stuck"
     }
   ]
 }
