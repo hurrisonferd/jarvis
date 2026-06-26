@@ -60,17 +60,32 @@ jobs:
             exit 0
           fi
           echo "Connecting to: ${DATABASE_URL%%@*}"
-          sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client > /dev/null 2>&1
-          for f in supabase/migrations/*.sql; do
-            NAME=$(basename "${f%.sql}")
-            EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null || echo "")
-            if [ "$EXISTS" = "1" ]; then
-              echo "✓ $NAME already applied"
-            else
-              echo "→ applying $NAME"
-              psql "$DATABASE_URL" -f "$f" 2>&1 && echo "✓ $NAME applied" || echo "⚠ $NAME failed"
-            fi
-          done
+          # Apply migrations using Supabase CLI (handles connection internally via linked project)
+          # supabase/setup-cli@v1 already authenticated via SUPABASE_ACCESS_TOKEN.
+          # Link the project non-interactively, then push migrations.
+          if supabase link --project-ref "$PROJECT_REF" 2>&1 | grep -q "Already linked"; then
+            echo "✓ Project already linked"
+          else
+            echo "→ Linking project..."
+            supabase link --project-ref "$PROJECT_REF" 2>&1 || echo "⚠ link failed"
+          fi
+          echo "→ Applying migrations via Supabase CLI..."
+          if supabase db push 2>&1; then
+            echo "✓ Migrations applied via Supabase CLI"
+          else
+            echo "⚠ Supabase CLI migration failed — trying raw psql"
+            sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client > /dev/null 2>&1
+            for f in supabase/migrations/*.sql; do
+              NAME=$(basename "${f%.sql}")
+              EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null || echo "")
+              if [ "$EXISTS" = "1" ]; then
+                echo "✓ $NAME already applied"
+              else
+                echo "→ applying $NAME"
+                psql "$DATABASE_URL" -f "$f" 2>&1 && echo "✓ $NAME applied" || echo "⚠ $NAME failed"
+              fi
+            done
+          fi
       - name: Deploy edge functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
