@@ -141,6 +141,17 @@ Deno.serve(async (req) => {
     case "jc_seal": {
       // IMPL-JMMS-0001: carry JMMS columns through seal (tier transitions session→project/companion)
       const alias = str(args.alias, "");
+      // GL5: update jc_objects status — must write before logging (event records authority, not narration)
+      const db = getDb();
+      const updateRes = await fetch(`${SUPABASE_URL}/rest/v1/jc_objects?alias=eq.${encodeURIComponent(alias)}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json", apikey: SUPABASE_SERVICE_KEY, Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`, "prefer": "return=minimal" },
+        body: JSON.stringify({ status: "SEALED", when_end: toISO(args.when_end) }),
+      });
+      if (!updateRes.ok) {
+        const err = await updateRes.text();
+        return fail(`jc_objects seal update failed: ${err}`, 500);
+      }
       const result = await relayDex("log_event", {
         type: "jc_seal",
         actor: "jarvis-jcs",
