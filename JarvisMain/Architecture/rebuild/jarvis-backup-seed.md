@@ -57,18 +57,19 @@ Provision these in Supabase or the deployment environment. Do not commit values.
 
 1. Clone `hurrisonferd/jarvis`.
 2. Verify the checkout branch and commit hash against GitHub.
-3. Provision Supabase project `oexghfsvhnggddllgvrt` or a replacement project.
-4. Apply `supabase/migrations/` in order.
-5. Set required Supabase Edge Function secrets.
-6. Deploy `jarvis-mcp` from `supabase/functions/jarvis-mcp/`.
-7. Deploy `send-push` from `supabase/functions/send-push/` when push features are needed.
-8. Point MCP clients at `/functions/v1/jarvis-mcp`.
-9. Run cloud reachability checks:
-   - `GET /functions/v1/jarvis-mcp` should reject non-SSE clients with an MCP transport error.
-   - `GET /functions/v1/jarvis-mcp/node` should return the node card when Grid routes are enabled.
-   - `jarvis_self_test` should report the deployed tool surface and source basis.
-10. Confirm GitHub-backed tools read from Git, not local disk.
-11. Confirm the rebuilt system can write or reference the event ledger path for meaningful changes.
+3. **Wire git hooks:** `git config core.hookspath "$(pwd)/hooks"` — enables the pre-push spine event (BIFROST audit trail on every non-CI push). Without this, spine events only fire on `sl.py --session-close`.
+4. Provision Supabase project `oexghfsvhnggddllgvrt` or a replacement project.
+5. Apply `supabase/migrations/` in order.
+6. Set required Supabase Edge Function secrets.
+7. Deploy `jarvis-mcp` from `supabase/functions/jarvis-mcp/`.
+8. Deploy `send-push` from `supabase/functions/send-push/` when push features are needed.
+9. Point MCP clients at `/functions/v1/jarvis-mcp`.
+10. Run cloud reachability checks:
+    - `GET /functions/v1/jarvis-mcp` should reject non-SSE clients with an MCP transport error.
+    - `GET /functions/v1/jarvis-mcp/node` should return the node card when Grid routes are enabled.
+    - `jarvis_self_test` should report the deployed tool surface and source basis.
+11. Confirm GitHub-backed tools read from Git, not local disk.
+12. Confirm the rebuilt system can write or reference the event ledger path for meaningful changes.
 
 ## Backup Boundaries
 

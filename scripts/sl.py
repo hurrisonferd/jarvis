@@ -16,6 +16,9 @@ Cross-session persistence:
   .openhands/task_tracker.json is session-local (not committed).
   --session-start: sync tracker from last committed StarLog.
   --session-close: write + commit final StarLog + bifrost spine event + sync tracker.
+  --tick: mid-session pulse — writes lightweight state snapshot to sl_objects so the
+    record is live, not just end-of-session. Fire on significant turns, commits,
+    or periodically during long sessions.
 
 --bifrost: on session-close, writes a bifrost.session event to dex_events so ARGUS
 has the spine record of what was committed this session. Uses SUPABASE_URL +
@@ -38,6 +41,7 @@ TRACKER_PATH.parent.mkdir(parents=True, exist_ok=True)
 LOG_TYPES = [
     "SESSION_SNAPSHOT", "DECISION", "RESEARCH", "BUILD",
     "GOVERNANCE", "ARCHITECTURAL_CHANGE", "IDENTITY_EVENT", "IDEA", "CONVERSATION",
+    "SL_TICK",  # mid-session pulse — lightweight, non-committed state snapshot
 ]
 
 def now():
@@ -437,6 +441,10 @@ def main():
     p.add_argument("--stardate", action="store_true", help="Print stardate and exit")
     p.add_argument("--mimir", action="store_true",
                    help="MIMIR routing table — 'help me find X' index")
+    p.add_argument("--tick", action="store_true",
+                   help="Mid-session pulse: write lightweight state to sl_objects. "
+                        "Records: task counts, decision count, last commits, stream. "
+                        "Does NOT commit. Does NOT overwrite. Call at significant moments.")
     p.add_argument("--list", action="store_true",
                    help="Show today's daily StarLog decisions on screen")
     args = p.parse_args()
@@ -511,6 +519,11 @@ def main():
         print()
         print("Resolution order: jarvis_jd_resolve → jarvis_dex_search → jarvis_dex_list")
         print("                → github_file → jarvis_recall (semantic fallback)")
+        return
+
+    # --tick: mid-session pulse — lightweight, live state to sl_objects
+    if args.tick:
+        sl_tick(stream=args.stream)
         return
 
     if args.write_tasks:
@@ -633,6 +646,98 @@ def bifrost_session_close(brief: str = "", stream: str = "openhands") -> None:
                 print(f"bifrost: spine event failed — {result.get('error', 'unknown')}")
     except Exception as e:
         print(f"bifrost: spine event failed (non-fatal): {e}")
+
+
+# ── SL mid-session tick ────────────────────────────────────────────────────────
+def sl_tick(stream: str = "openhands") -> None:
+    """Mid-session pulse — lightweight state snapshot to sl_objects.
+
+    Call at significant moments: after commits, verdicts, or periodically during
+    long sessions. Writes to sl_objects so the record is live throughout the session,
+    not just at close. Does NOT commit to git. Does NOT overwrite previous ticks.
+
+    Writes: stream, task counts (done/total), decision count from today's daily log,
+    last 3 commits, current status. Non-blocking — never fails the caller's turn.
+    """
+    url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    key = os.environ.get("SUPABASE_ANON_KEY", "")
+    if not url or not key:
+        print("sl_tick: SUPABASE_URL/SUPABASE_ANON_KEY not set — skipping")
+        return
+
+    ts = datetime.now(timezone.utc)
+    today = ts.strftime("%Y-%m-%d")
+
+    # Task counts from tracker
+    tracker_tasks = []
+    if TRACKER_PATH.exists():
+        tracker = json.loads(TRACKER_PATH.read_text())
+        tracker_tasks = tracker.get("tasks", [])
+    done = sum(1 for t in tracker_tasks if t.get("status") == "done")
+    in_progress = sum(1 for t in tracker_tasks if t.get("status") == "in_progress")
+
+    # Decision count from today's daily log
+    _, blocks = read_daily_log(stream)
+    decision_count = len(blocks)
+
+    # Last 3 commits this session
+    recent = subprocess.run(
+        ["git", "log", "--oneline", "-3", "--format=%H %s"],
+        capture_output=True, text=True, cwd=ROOT, check=False,
+    )
+    commits = [l.strip() for l in recent.stdout.splitlines() if l.strip()]
+
+    # Current session duration estimate (from sessions.json if available)
+    sessions_file = ROOT / "audit" / "sessions.json"
+    duration_note = ""
+    if sessions_file.exists():
+        try:
+            sessions = json.loads(sessions_file.read_text())
+            today_sessions = [s for s in sessions if s.get("date", "").startswith(today)]
+            if today_sessions:
+                duration_note = f"{len(today_sessions)} session(s) today"
+        except Exception:
+            pass
+
+    payload = {
+        "alias": f"SL-TICK-{ts.strftime('%m%d%y-%H%M%S')}",
+        "log_type": "SL_TICK",
+        "stardate": ts.strftime("%Y.%j"),
+        "repo_url": "https://github.com/hurrisonferd/jarvis",
+        "events": [
+            f"tasks: {done} done / {in_progress} in_progress / {len(tracker_tasks)} total",
+            f"decisions: {decision_count} today",
+            f"commits: {', '.join(c.split()[1] if ' ' in c else c for c in commits[:3]) if commits else 'none yet'}",
+        ] + ([duration_note] if duration_note else []),
+        "related": [],
+        "digest": f"SL_TICK {ts.isoformat()} | {done}● {in_progress}◐ {len(tracker_tasks)} tasks | {decision_count} decisions | stream={stream}",
+        "status": "TICK",
+        "decisions": [],
+        "participants": ["jarvis-c", "ayre-c"],
+        "started_at": ts.isoformat(),
+        "ended_at": ts.isoformat(),
+        "task_summary": tracker_tasks[-5:] if tracker_tasks else [],
+    }
+
+    try:
+        body = json.dumps({"tool": "sl_write", "args": payload}).encode()
+        req = urllib.request.Request(
+            JCS_URL,
+            data=body,
+            headers={
+                "Content-Type": "application/json",
+                "Authorization": f"Bearer {JCS_TOKEN}",
+            },
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            result = json.loads(resp.read())
+            if result.get("ok"):
+                print(f"sl_tick: pulse logged — {done}● {in_progress}◐ {len(tracker_tasks)} tasks | {decision_count} decisions")
+            else:
+                print(f"sl_tick: failed — {result.get('error', 'unknown')}")
+    except Exception as e:
+        print(f"sl_tick: failed (non-fatal): {e}")
 
 
 # ── JCS session ledger ─────────────────────────────────────────────────────────
