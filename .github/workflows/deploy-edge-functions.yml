@@ -98,3 +98,4 @@ else:
               supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt
             done
           fi
+# trigger
