@@ -112,6 +112,15 @@ jobs:
               if all_ok:
                   print(f"✓ {name} applied ({len(stmts)} statement(s))")
           PYEOF
+      - name: Set DEPLOY_SHA secret
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          REF: oexghfsvhnggddllgvrt
+          DEPLOY_SHA: ${{ github.sha }}
+        run: |
+          echo "DEPLOY_SHA=$DEPLOY_SHA"
+          echo "Setting DEPLOY_SHA secret..."
+          supabase secrets set DEPLOY_SHA="$DEPLOY_SHA" --project-ref "$REF"
       - name: Deploy edge functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -119,12 +128,12 @@ jobs:
           DEPLOY_SHA: ${{ github.sha }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt --secret DEPLOY_SHA="$DEPLOY_SHA"
+            supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt
           else
             # Deploy all functions — new ones deploy automatically
             for fn in supabase/functions/*/; do
               NAME=$(basename "$fn")
               echo "→ deploying $NAME @ $DEPLOY_SHA"
-              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt --secret DEPLOY_SHA="$DEPLOY_SHA"
+              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt
             done
           fi
