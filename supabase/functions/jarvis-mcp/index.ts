@@ -1816,9 +1816,16 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ carry_key }) => {
-      const rows: any[] = await rest(
-        `cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false&select=carry_data,stream,companion_key,written_at,written_by_session`
-      ).catch(() => []);
+      let rows: any[] = [];
+      let queryError: string | undefined;
+      try {
+        rows = await rest(
+          `cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false&select=carry_data,stream,companion_key,written_at,written_by_session`
+        ) as any[];
+      } catch (e) {
+        queryError = String(e);
+      }
+      if (queryError) return text({ ok: false, note: `query failed: ${queryError}` });
       if (!rows?.length) return text({ ok: false, note: "no slate found for this key" });
 
       const row = rows[0];
