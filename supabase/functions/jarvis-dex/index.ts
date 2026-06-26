@@ -102,6 +102,8 @@ const TOOL_TIER: Record<string, Tier> = {
   jd_propose: "PROPOSE", jd_draft: "DRAFT",
   jd_approve: "COMMIT", jd_reject: "COMMIT", jd_archive: "COMMIT", jd_deprecate: "COMMIT",
   dex_halt: "OVERRIDE", dex_resume: "OVERRIDE",
+  // GL5 event bus — open to all callers; always logs regardless of tier
+  log_event: "PROPOSE",
 };
 
 async function isHalted(): Promise<boolean> {
@@ -314,6 +316,26 @@ Deno.serve(async (req) => {
         await logEvent(tool, tier, jnl, "raven", { status });
         return json({ ok: true, jnl, status });
       }
+
+      // ---------- GL5 EVENT BUS ----------
+      // Universal spine writer — open to any caller (PROPOSE tier). Sl-session-close.py,
+      // AEGIS gates, ERIS challenges, and bifrost all emit here. Always succeeds.
+      case "log_event": {
+        const etype = String(args.type ?? "dex_log");
+        const eactor = String(args.actor ?? actor ?? "unknown");
+        const ejnl = args.jnl ? String(args.jnl) : null;
+        const edetail = (args.detail ?? {}) as Record<string, unknown>;
+        await db.from("dex_events").insert({
+          type: etype,
+          tool: "log_event",
+          tier: "PROPOSE",
+          jnl: ejnl,
+          actor: eactor,
+          detail: edetail,
+        });
+        return json({ ok: true, type: etype, logged: true });
+      }
+
       default:
         return fail(`unhandled tool '${tool}'`, 500);
     }

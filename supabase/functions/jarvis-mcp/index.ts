@@ -547,6 +547,40 @@ function buildServer(req: Request): McpServer {
   );
 
   server.registerTool(
+    "jarvis_dex_log",
+    {
+      title: "Dex — write to spine (ARGUS, bifrost, session events)",
+      description:
+        "Write an event to dex_events — the immutable ARGUS/bifrost spine. Every state-changing action emits here (GL5). Callers: sl-session-close.py (session end), jarvis-respond (AEGIS gates), ERIS (bridgekeeper challenges). This tool IS the GL5 event bus — it never blocks, never retries, never fails the caller.",
+      inputSchema: {
+        type: z.string().max(80).describe("Event type — e.g. bifrost.session_close, aegis.gate, eris.challenge"),
+        actor: z.string().max(80).optional().describe("Who/what triggered the event"),
+        jnl: z.string().max(80).optional().describe("JNL address if this references a governed object"),
+        detail: z.record(z.any()).optional().describe("Payload — arbitrary structured data"),
+      },
+    },
+    async ({ type, actor, jnl, detail }) => {
+      const payload = {
+        type: type ?? "dex_log",
+        tool: "mcp",
+        actor: actor ?? "openhands",
+        jnl: jnl ?? null,
+        detail: detail ?? {},
+      };
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/dex_events`, {
+          method: "POST",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify(payload),
+        });
+        return text({ ok: res.ok, status: res.status, type, id: "written" });
+      } catch (e) {
+        return text({ ok: false, error: String(e).slice(0, 200), type });
+      }
+    },
+  );
+
+  server.registerTool(
     "jarvis_jc_recall",
     {
       title: "Memory lane — JC/SL objects",
