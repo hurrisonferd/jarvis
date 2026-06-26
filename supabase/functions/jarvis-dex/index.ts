@@ -328,14 +328,16 @@ Deno.serve(async (req) => {
         const eactor = String(args.actor ?? actor ?? "unknown");
         const ejnl = args.jnl ? String(args.jnl) : null;
         const edetail = (args.detail ?? {}) as Record<string, unknown>;
-        await db.from("dex_events").insert({
-          type: etype,
+        // type column may not exist until migration runs — omit it gracefully
+        const { error } = await db.from("dex_events").insert({
           tool: "log_event",
           tier: "PROPOSE",
           jnl: ejnl,
           actor: eactor,
           detail: edetail,
+          ...(etype !== "dex_log" ? { type: etype } : {}),
         });
+        if (error) return fail(`dex_events insert failed: ${error.message}`, 500);
         return json({ ok: true, type: etype, logged: true });
       }
 
