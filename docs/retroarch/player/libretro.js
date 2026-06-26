@@ -2,7 +2,11 @@
  * RetroArch Web Player
  */
 
-const BUNDLE_URL = "https://github.com/hurrisonferd/jarvis/releases/download/retroarch-v1/bundle.zip";
+const BUNDLE_CHUNKS = [
+  "bundle-chunks/chunk_aa",
+  "bundle-chunks/chunk_ab",
+  "bundle-chunks/chunk_ac"
+];
 const defaultCore = "gambatte";
 var autoStart = false;
 
@@ -91,25 +95,27 @@ function idbfsInit() {
 }
 
 function zipfsInit() {
-   // P09: fetch bundle from GitHub Releases (LFS not resolved by Pages, so we serve from a Release)
-   fetch(BUNDLE_URL).then(function(resp) {
-      if (!resp.ok) {
-         console.error("WEBPLAYER: failed to fetch bundle: " + resp.status);
+   // P09: fetch bundle from Pages-served chunks (LFS not resolved by Pages/CDN)
+   Promise.all(BUNDLE_CHUNKS.map(function(u) { return fetch(u).then(function(r) { return r.ok ? r.arrayBuffer() : null; }); }))
+   .then(function(buffers) {
+      if (!buffers[0]) {
+         console.error("WEBPLAYER: failed to fetch bundle chunks");
          zipfs = new BrowserFS.FileSystem.InMemory();
          appInitialized();
          return;
       }
-      return resp.arrayBuffer();
-   }).then(function(buf) {
-      if (!buf) return;
-      BrowserFS.FileSystem.ZipFS.Create({zipData: BrowserFS.BFSRequire('buffer').Buffer(new Uint8Array(buf))}, function(e, fs) {
+      var totalLen = buffers.reduce(function(s, b) { return s + b.byteLength; }, 0);
+      var combined = new Uint8Array(totalLen);
+      var off = 0;
+      buffers.forEach(function(b) { combined.set(new Uint8Array(b), off); off += b.byteLength; });
+      BrowserFS.FileSystem.ZipFS.Create({zipData: BrowserFS.BFSRequire('buffer').Buffer(combined)}, function(e, fs) {
          if (e) {
             zipfs = new BrowserFS.FileSystem.InMemory();
             console.error("WEBPLAYER: error (zipfs): " + e);
             appInitialized();
          } else {
             zipfs = fs;
-            console.log("WEBPLAYER: zipfs setup successful");
+            console.log("WEBPLAYER: zipfs setup successful (" + buffers.length + " chunks)");
             appInitialized();
          }
       });
