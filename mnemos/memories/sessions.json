@@ -1,22 +1,7 @@
 {
-  "updated": "2026-06-25T21:08:43.366231+00:00",
-  "count": 0,
+  "updated": "2026-06-26T02:55:05.269883+00:00",
+  "count": 4,
   "sessions": [
-    {
-      "session_id": "20260625_174835",
-      "date": "2026-06-25",
-      "utc_time": "17:48:35",
-      "exchanges": 5,
-      "topics": [
-        "architecture",
-        "mission"
-      ],
-      "alignment": 0.85,
-      "patches": [
-        "P44"
-      ],
-      "brief": "test session"
-    },
     {
       "session_id": "20260625_174835",
       "date": "2026-06-25",
@@ -59,6 +44,28 @@
         "#6 intake watchdog"
       ],
       "summary": "Governance audit patches: GL12 body validation, AEGIS TTL auth, intake watchdog. RetroArch CDN cores."
+    },
+    {
+      "session_id": "20260626_025430",
+      "date": "2026-06-26",
+      "utc_time": "02:54:30",
+      "exchanges": 0,
+      "topics": [],
+      "alignment": 0.95,
+      "patches": [],
+      "brief": "\ud83d\udc1b Fix things getting stuck",
+      "updated": "2026-06-26T02:54:30.843687+00:00"
+    },
+    {
+      "session_id": "20260626_025505",
+      "date": "2026-06-26",
+      "utc_time": "02:55:05",
+      "exchanges": 0,
+      "topics": [],
+      "alignment": 0.95,
+      "patches": [],
+      "brief": "\ud83d\udc1b Fix things getting stuck",
+      "updated": "2026-06-26T02:55:05.269601+00:00"
     }
   ]
 }
