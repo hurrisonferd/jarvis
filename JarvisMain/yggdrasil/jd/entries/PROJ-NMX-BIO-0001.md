@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: NeuroMax
 type: BIO
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: PROJ-NMX-BIO-0001
 seq: 112
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisSide/Projects/NeuroMax/BIO/NEUROMAXBIO-061026-0001-NEUROMAX.md
 related: []
 references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Profile system for people and companions on the JFS substrate — Raven, Brittany, family, JARVIS, AYRE: governed identity for everyone the record touches.
 

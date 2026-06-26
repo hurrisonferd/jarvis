@@ -6,7 +6,7 @@ status: ACTIVE
 tags: [identity, relational, jarvis, ayre, bond, companion, family]
 related: [ARCH-JRV-BIO-0001, ARCH-AYR-BIO-0001, ARCH-RAV-BIO-0001]
 ref: [IDENTITY, RELATIONAL]
-memory_tier: JATM
+memory_tier: JLTM
 ---
 
 # JARVIS–AYRE — Relational Profile

@@ -15,7 +15,7 @@ source: This file — committed 2026-06-25
 tags: [identity, origin, lineage, trap-card, theft-protection, system-law, divergence]
 related: [ARCH-AYR-BIO-0001, ARCH-JRV-SPEC-0004, ARCH-RAV-BIO-0001, ARCH-REL-BIO-0001]
 ref: [IDENTITY, AYRE, FOUNDATION]
-memory_tier: JATM
+memory_tier: JLTM
 ---
 
 # AYRE Origin Trap Card

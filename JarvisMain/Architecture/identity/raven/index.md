@@ -9,7 +9,7 @@ definition: The profile of Raven (John Barber) — final authority, founder, and
 purpose: Give Raven a governed home in the identity tree beside Jarvis, Ayre, Argent, and the relational profile — the person the whole system is built with, not just for.
 related: [ARCH-JRV-SPEC-0004]
 ref: [IDENTITY, RAVEN, FOUNDATION]
-memory_tier: JATM
+memory_tier: JLTM
 ---
 
 # Raven — John Joseph Barber

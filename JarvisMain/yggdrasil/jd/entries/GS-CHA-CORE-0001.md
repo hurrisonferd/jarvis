@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: CHAOS
 type: CORE
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: GS-CHA-CORE-0001
 seq: 21
 status: INACTIVE
 created: 2026-06-09
-updated: 2026-06-25
+updated: 2026-06-26
 source: JarvisMain/god_systems/T0_CHAOS/contract.json
 related: [GS-AYR-CORE-0001]
 references: []
 tags: [core, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Entropy + system drift generator / seed-state controller.
 

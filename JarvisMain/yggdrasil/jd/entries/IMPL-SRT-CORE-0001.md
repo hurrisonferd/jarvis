@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: SRT — Autosort Tool
 type: CORE
 class: SPEC
@@ -13,15 +11,15 @@ jnl: IMPL-SRT-CORE-0001
 seq: 211
 status: ACTIVE
 created: 2026-06-24
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/yggdrasil/tools/autosort.py
 related: []
 references: []
 tags: [autosort, jss, status, placement, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Relocates files to match their JSS status. ACTIVE→parent dir; INACTIVE→inactive/; ARCHIVED→JarvisSide/Archive; DEPRECATED→Deprecated/.
 

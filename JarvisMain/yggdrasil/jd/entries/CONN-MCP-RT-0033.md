@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Repo Search — grep file contents
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0033
 seq: 171
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_repo_search.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Search file contents across the repo (code search on main) — the eyes that find every reference before an edit.
 

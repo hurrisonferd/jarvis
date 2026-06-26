@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: JIP-0608 Series
 type: SPEC
 class: SPEC
@@ -13,15 +11,15 @@ jnl: IMPL-JIP-SPEC-0608
 seq: 52
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-25
+updated: 2026-06-26
 source: JarvisMain/Implementation/IndexSummary
 related: [IMPL-JGPP-CORE-0001]
 references: []
 tags: [implementation, jip]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** JGPP v3 implementation packet series (JIP-0608-*).
 

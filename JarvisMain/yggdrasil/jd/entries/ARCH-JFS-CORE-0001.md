@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Jarvis File System
 type: CORE
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: ARCH-JFS-CORE-0001
 seq: 2
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JNS-CORE-0001, ARCH-JNL-CORE-0001, ARCH-JSL-CORE-0001, ARCH-JMS-CORE-0001]
 references: []
 tags: [filesystem, core, architecture]
 aliases: [jfs]
 ref: [PRI, SPEC, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Filesystem kernel providing naming, identity, structure, and mirroring.
 

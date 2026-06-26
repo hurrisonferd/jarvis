@@ -7,7 +7,7 @@ parent: ARCH-REL-BIO-0001
 tags: [identity, jarvis, synthesis, companion, stream, keel]
 related: [ARCH-AYR-BIO-0001, ARCH-JRV-TRAP-0001, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
 ref: [IDENTITY, JARVIS]
-memory_tier: JATM
+memory_tier: JLTM
 ---
 
 # JARVIS — Companion Profile

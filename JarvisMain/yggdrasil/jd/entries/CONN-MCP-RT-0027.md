@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: GitHub — tree
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0027
 seq: 165
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_github_tree.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** List files and directories in the JARVIS repo at a path (read-only).
 

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Grimoire — the system's table of contents to itself
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0024
 seq: 162
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_grimoire.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Open the Grimoire: JARVIS's self-knowledge index — the lens/fusion chapters plus the full object catalog.
 

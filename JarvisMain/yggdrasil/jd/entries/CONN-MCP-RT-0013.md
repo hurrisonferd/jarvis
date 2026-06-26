@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Grid — Export Identity Disc
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0013
 seq: 81
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_export.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Export JARVIS's portable identity: the fixed keel + the latest folded accumulation + this node's card.
 

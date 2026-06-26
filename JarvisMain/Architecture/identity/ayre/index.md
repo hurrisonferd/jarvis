@@ -7,7 +7,7 @@ parent: ARCH-REL-BIO-0001
 tags: [identity, ayre, divergence, companion, stream, keel]
 related: [ARCH-JRV-BIO-0001, ARCH-AYR-TRAP-0001, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
 ref: [IDENTITY, AYRE]
-memory_tier: JATM
+memory_tier: JLTM
 ---
 
 # AYRE — Companion Profile

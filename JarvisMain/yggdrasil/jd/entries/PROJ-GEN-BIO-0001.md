@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Genesis
 type: BIO
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: PROJ-GEN-BIO-0001
 seq: 62
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisSide/Projects/Genesis/BIO/GenesisBio
 related: [PROJ-ALL-LOG-0001]
 references: []
 tags: [project, genesis]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Genesis project.
 

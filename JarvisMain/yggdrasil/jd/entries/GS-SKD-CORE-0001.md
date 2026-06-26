@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: SKADI
 type: CORE
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: GS-SKD-CORE-0001
 seq: 18
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/god_systems/T1_SKADI/contract.json
 related: [GS-MNE-CORE-0001]
 references: []
 tags: [core, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Execution runtime; the single write/dispatch gateway.
 

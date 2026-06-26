@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: JFS Formatting Standard
 type: SPEC
 class: SPEC
@@ -13,15 +11,15 @@ jnl: IMPL-FMT-SPEC-0001
 seq: 98
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-25
+updated: 2026-06-26
 source: JarvisMain/Architecture/specs/JIP-FMT-0001-FormattingStandard-060926.md
 related: [ARCH-JNS-CORE-0001, ARCH-JNL-CORE-0001, ARCH-JSS-CORE-0001]
 references: []
 tags: [format, ids, jnl, governance, spec]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Canonical model for IDs/tags/status/routing; one identity (JNL), JGPP/JIP/JD pipeline types.
 

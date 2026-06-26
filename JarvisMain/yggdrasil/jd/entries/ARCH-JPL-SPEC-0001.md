@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: JPL — Jarvis Programming Language
 type: SPEC
 class: SPEC
@@ -13,15 +11,15 @@ jnl: ARCH-JPL-SPEC-0001
 seq: 253
 status: ACTIVE
 created: 2026-06-25
-updated: 2026-06-25
+updated: 2026-06-26
 source: JarvisMain/Architecture/JPL-0001.md
 related: []
 references: []
 tags: [jpl, codec, validation]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** JPL codec: pre-semantic validation layer, @INSTANCE/@DOMAIN/@GOVERNANCE block grammar.
 

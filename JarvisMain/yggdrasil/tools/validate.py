@@ -366,6 +366,12 @@ def main() -> int:
                 continue  # the substrate kernel governs itself (entries/registries/tools)
             if rel in locations or any(rel.startswith(d + "/") for d in governed_dirs):
                 continue
+            # INDEX.md files are structural navigation (not governed objects) — exempt from GL12
+            if f.name == "INDEX.md":
+                continue
+            # JSON data files (node-identity, world-kernel, etc.) are runtime state, not governed objects
+            if f.suffix == ".json":
+                continue
             errors.append(f"{rel}: ungoverned — no JNL covers it (GL12)")
 
     # Grammar lockstep (YGG manifest law): jarvis-dex/jfs.ts mirrors jnl.py by hand.

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Jarvis Short-Term Memory
 type: CORE
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: ARCH-JSTM-CORE-0001
 seq: 11
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/yggdrasil/jfs/JFS-SPEC.md
 related: [ARCH-JMMS-CORE-0001]
 references: []
 tags: [memory, short-term, architecture]
 aliases: [jstm, short-term memory]
 ref: [PRI, SPEC, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Short-term context tier — the live working set for an active project (coding, music, a build): current context and recent events, held while the work is in focus; high-churn.
 

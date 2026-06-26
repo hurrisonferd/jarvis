@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Profile architecture — privacy-first identity on JFS
 type: JGPP
 class: ENTITY
@@ -13,15 +11,15 @@ jnl: PROJ-NMX-JGPP-0001
 seq: 113
 status: TASK
 created: 2026-06-10
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisSide/Projects/NeuroMax/JGPP/NEUROMAXJGPP-061026-0001-PROFILE-ARCHITECTURE-PRIVACY-FIRST-IDENTITY-ON-JFS.md
 related: []
 references: []
 tags: [identity, privacy, profiles, jfs]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Exploration of the NeuroMax profile architecture: governed identity for humans (Raven, Brittany, family) and companions, with a hard privacy boundary — the repo is PUBLIC, so personal substance never lives in it.
 

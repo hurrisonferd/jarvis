@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: JARVIS Format — same-turn close (optional)
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0006
 seq: 74
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_format.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Optional same-turn close: call with Raven's input and your drafted JARVIS answer to review + log THIS turn's output immediately, instead of the normal close (passing prior_reply on your next jarvis_query).
 

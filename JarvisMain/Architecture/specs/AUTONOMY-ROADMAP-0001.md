@@ -1,7 +1,7 @@
 ---
-jnl: ARCH-AUT-ROAD-0001
+jnl: ARCH-AUT-ROUTE-0001
 name: JARVIS Autonomy Roadmap
-type: ROADMAP
+type: ROUTE
 class: SPEC
 tier: MAIN
 authority: CANON

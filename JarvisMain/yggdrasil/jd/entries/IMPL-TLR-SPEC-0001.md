@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: MCP Tool Roadmap & Auto-Tracking Pipeline
 type: SPEC
 class: SPEC
@@ -13,15 +11,15 @@ jnl: IMPL-TLR-SPEC-0001
 seq: 139
 status: TASK
 created: 2026-06-13
-updated: 2026-06-25
+updated: 2026-06-26
 source: JarvisMain/Architecture/specs/IMPLTLRSPEC-061326-0001-MCP-TOOL-ROADMAP.md
 related: []
 references: []
 tags: [mcp, tools, roadmap, pipeline, starlog, dex, jip, jd, auto-tracking, council, index]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** The single grounded index of the MCP tool surface — what is LIVE, what is GATED on connector/Supabase deploy, and what is PROPOSED — organized by the cognition pipeline (Star Log -> Dex -> JIP -> JD). Plus the auto-tracking model (what flows automatically vs what stops at Raven's gate) and the underutilization map (dormant god systems, AYRE, council employed by the Pulse).
 

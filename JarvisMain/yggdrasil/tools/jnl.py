@@ -14,7 +14,7 @@ from dataclasses import dataclass
 DOMAINS = {"GS", "ARCH", "GOV", "IMPL", "PROJ", "GRID", "CONN", "AUD", "IDEA", "BRK", "LOG"}
 # JGPP/JIP/JD: the cognition-pipeline artifact types (exploration / commit / truth),
 # usable per project, e.g. PROJ-DEO-JGPP-0001, PROJ-DEO-JIP-0001, PROJ-DEO-JD-0001.
-TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW", "JGPP", "JIP", "JD", "JC", "SL", "INS"}
+TYPES = {"CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW", "JGPP", "JIP", "JD", "JC", "SL", "INS", "PERS", "ROUTE"}
 
 # Substrate + the 27 fixed God Systems. Do not add god systems (GL constraint).
 # JFS family: kernel primitives (JNS/JNL/JSL/JMS) + status (JSS) + memory (JMMS/tiers)

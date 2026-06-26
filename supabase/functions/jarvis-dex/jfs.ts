@@ -8,6 +8,7 @@ export const TYPES = new Set([
   "CORE", "SPEC", "PATCH", "RT", "IDX", "REG", "BIO", "LOG", "REVW",
   "JGPP", "JIP", "JD", // cognition-pipeline artifact types (exploration / commit / truth)
   "JC", "SL", "INS", // memory-lane objects: conversations + star logs + insights
+  "PERS", "ROUTE", // personality + roadmap types (GL13 open extension)
 ]);
 export const STATUSES = new Set([
   "TASK", "EXPANSION", "ACTIVE", "INACTIVE", "ARCHIVED", "DEPRECATED",

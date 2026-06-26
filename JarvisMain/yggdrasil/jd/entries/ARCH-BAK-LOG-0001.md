@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: JARVIS Backup Seed
 type: LOG
 class: SPEC
@@ -13,15 +11,15 @@ jnl: ARCH-BAK-LOG-0001
 seq: 230
 status: ACTIVE
 created: 2026-06-24
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Architecture/rebuild/jarvis-backup-seed.md
 related: []
 references: []
 tags: [backup, rebuild, canonical]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** 
 

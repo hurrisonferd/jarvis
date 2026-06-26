@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Dex — events (the spine)
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0021
 seq: 159
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_dex_events.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Read the arbitration spine (dex_events) — closure by proof: verify any ruling, deploy, or correction from the source of record.
 

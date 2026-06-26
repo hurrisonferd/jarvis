@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: ATLAS
 type: CORE
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: GS-ATL-CORE-0001
 seq: 30
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/god_systems/T8_ATLAS/contract.json
 related: [ARCH-JSL-CORE-0001]
 references: []
 tags: [governance, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Infrastructure + system topology map.
 

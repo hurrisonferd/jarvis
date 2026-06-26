@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: MNEMOS Store
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0007
 seq: 75
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_remember.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Write a durable memory through MNEMOS.
 

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: UI Rework — outdated GameBoy page and the control surface
 type: JGPP
 class: ENTITY
@@ -13,15 +11,15 @@ jnl: PROJ-TRN-JGPP-0001
 seq: 109
 status: TASK
 created: 2026-06-10
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisSide/Projects/TronUI/JGPP/TRONUIJGPP-061026-0001-UI-REWORK-OUTDATED-GAMEBOY-PAGE-AND-THE-CONTROL-SURFACE.md
 related: []
 references: []
 tags: [ui, rework, control-surface, free-tier]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Exploration of the TRON UI rework: the GameBoy page is outdated post-cloud-migration; the UI's next role is the free-tier control surface — dex browser, proposal queue with Allow/Deny carrying Raven's COMMIT token, dex_events audit feed, live spine views.
 

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: GRM — Grimoire Generator
 type: CORE
 class: SPEC
@@ -13,15 +11,15 @@ jnl: IMPL-GRM-CORE-0001
 seq: 216
 status: ACTIVE
 created: 2026-06-24
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/yggdrasil/tools/grimoire.py
 related: []
 references: []
 tags: [grimoire, catalog, card, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Generates the grimoire — a catalog card for every governed object in the tree.
 

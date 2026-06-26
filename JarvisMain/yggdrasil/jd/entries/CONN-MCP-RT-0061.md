@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Mint — git-first one-shot governed object
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0061
 seq: 203
 status: ACTIVE
 created: 2026-06-17
-updated: 2026-06-25
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Create a governed object in one step: derive the next JNL from the registry, write the entry file, open a PR. The friction-free alternative to dex_propose's Supabase staging; same GL2 gate (your merge). AEGIS-gated.
 

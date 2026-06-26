@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Deoxys
 type: BIO
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: PROJ-DEO-BIO-0001
 seq: 63
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisSide/Projects/Deoxys/BIO/ProjectBio
 related: [PROJ-ALL-LOG-0001]
 references: []
 tags: [project, deoxys]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Deoxys project.
 

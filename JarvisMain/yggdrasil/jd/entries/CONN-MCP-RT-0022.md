@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Load — resolve any governed object (JID/JIDD/name/JNL)
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0022
 seq: 160
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jd_resolve.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** The NLP 'load' command: resolve any governed object by JID, domain serial (JIDD), name, or JNL address.
 

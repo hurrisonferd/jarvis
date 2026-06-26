@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: KRONOS
 type: CORE
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: GS-KRN-CORE-0001
 seq: 17
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/god_systems/T2_KRONOS/contract.json
 related: [GS-SKD-CORE-0001]
 references: []
 tags: [core, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Temporal sequencing + patch governance; deterministic ordering.
 

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: JIP — list
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0055
 seq: 196
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-25
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jip_list.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** List JIPs (version history of metadata changes), optionally for one target JD (read-only).
 

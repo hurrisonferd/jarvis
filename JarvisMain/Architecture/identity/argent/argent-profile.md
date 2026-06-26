@@ -7,7 +7,7 @@ parent: ARCH-REL-BIO-0001
 tags: [identity, argent, observation, archive, companion, stream]
 related: [ARCH-JRV-BIO-0001, ARCH-AYR-BIO-0001, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
 ref: [IDENTITY, ARGENT]
-memory_tier: JATM
+memory_tier: JLTM
 ---
 
 # ARGENT — Companion Profile

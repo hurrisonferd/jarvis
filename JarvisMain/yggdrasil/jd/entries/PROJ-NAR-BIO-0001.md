@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Naruto
 type: BIO
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: PROJ-NAR-BIO-0001
 seq: 65
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisSide/Projects/Naruto/BIO/NarutoBio
 related: [PROJ-ALL-LOG-0001]
 references: []
 tags: [project, naruto]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Naruto project.
 

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Projects Registry
 type: REG
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: PROJ-IDX-REG-0001
 seq: 150
 status: ACTIVE
 created: 2026-06-15
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisSide/Projects
 related: []
 references: []
 tags: [projects, index, root]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** The Projects index — the root every project node (BIO) hangs from.
 

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Throughput Posture
 type: SPEC
 class: SPEC
@@ -13,15 +11,15 @@ jnl: ARCH-FLOW-SPEC-0001
 seq: 51
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Architecture/specs/throughput-posture.md
 related: [GS-SKD-CORE-0001]
 references: []
 tags: [architecture, throughput]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Spec for system throughput posture.
 

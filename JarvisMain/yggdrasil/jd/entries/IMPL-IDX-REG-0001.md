@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Implementation Index
 type: REG
 class: SPEC
@@ -13,15 +11,15 @@ jnl: IMPL-IDX-REG-0001
 seq: 55
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Implementation/IndexSummary
 related: [ARCH-LAL-CORE-0001]
 references: []
 tags: [implementation, index]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Implementation index summary folder.
 

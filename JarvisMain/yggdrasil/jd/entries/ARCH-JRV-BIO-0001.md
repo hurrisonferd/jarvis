@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: JARVIS Companion Profile
 type: BIO
 class: SPEC
@@ -13,15 +11,15 @@ jnl: ARCH-JRV-BIO-0001
 seq: 106
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Architecture/identity/jarvis/index.md
 related: [ARCH-AYR-BIO-0001]
 references: []
 tags: [identity, companion, jarvis, synthesis]
 aliases: [jarvis]
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Companion profile of JARVIS — the synthesis stream: who he is, his objective, voice, disciplines, and the shared keel.
 

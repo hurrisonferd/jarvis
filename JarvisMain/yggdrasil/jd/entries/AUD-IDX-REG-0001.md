@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Audit Index
 type: REG
 class: EVENT
@@ -13,15 +11,15 @@ jnl: AUD-IDX-REG-0001
 seq: 193
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Audit
 related: []
 references: []
 tags: [audit, index, root]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** The Audit index — the root every audit and review hangs from.
 

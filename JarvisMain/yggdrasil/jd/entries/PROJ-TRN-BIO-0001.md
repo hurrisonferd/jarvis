@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: TronUI
 type: BIO
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: PROJ-TRN-BIO-0001
 seq: 108
 status: ACTIVE
 created: 2026-06-10
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisSide/Projects/TronUI/BIO/TRONUIBIO-061026-0001-TRONUI.md
 related: []
 references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** The TRON web UI and GameBoy emulator visualizer — JARVIS's primary browser-facing shell (docs/ on GitHub Pages). The shell, never the intelligence (the companion is not the renderer).
 

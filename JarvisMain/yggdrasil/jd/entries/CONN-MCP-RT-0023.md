@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Memory Lane — JC/SL relationship memory
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0023
 seq: 161
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jc_recall.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Read conversation containers (JC) and star-log digests (SL) — the relationship memory every stream shares.
 

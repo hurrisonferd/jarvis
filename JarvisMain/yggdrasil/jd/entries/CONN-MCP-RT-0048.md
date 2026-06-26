@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Muster — the roll call (every sight in one cast)
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0048
 seq: 186
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_muster.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Fusion world-spell: fire the full sight-chain at once — state + Pinch + health + wiring + recent commits. The whole live picture in a single cast.
 

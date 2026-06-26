@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: RLU — Rollup Generator
 type: CORE
 class: SPEC
@@ -13,15 +11,15 @@ jnl: IMPL-RLU-CORE-0001
 seq: 221
 status: ACTIVE
 created: 2026-06-24
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/yggdrasil/tools/rollup.py
 related: []
 references: []
 tags: [rollup, session, handoff, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Generates session rollups: summary of what was done, decisions made, and open items.
 

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: ATHENA
 type: CORE
 class: SYSTEM
@@ -13,15 +11,15 @@ jnl: GS-ATH-CORE-0001
 seq: 24
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/god_systems/T5_ATHENA/contract.json
 related: [GS-ODN-CORE-0001]
 references: []
 tags: [orchestration, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Planning + decomposition engine.
 

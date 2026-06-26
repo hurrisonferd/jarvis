@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Jarvis System Review
 type: REVW
 class: EVENT
@@ -13,15 +11,15 @@ jnl: AUD-SYS-REVW-0001
 seq: 87
 status: ACTIVE
 created: 2026-06-09
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Audit/JarvisSystemReview-0001-060826
 related: [GOV-CAN-CORE-0001]
 references: []
 tags: [audit, review]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** System review (2026-06-08).
 

@@ -1,6 +1,4 @@
 ---
-memory_tier: JLTM
-grade: system
 name: Timeline — what happened
 type: RT
 class: MODULE
@@ -13,15 +11,15 @@ jnl: CONN-MCP-RT-0042
 seq: 180
 status: ACTIVE
 created: 2026-06-16
-updated: 2026-06-24
+updated: 2026-06-26
 source: JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_timeline.md
 related: []
 references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
+memory_tier: JLTM
 ---
-
 
 **Definition:** Unified chronological view across dex_events and execution_trace — the single 'what happened' across systems (read-only).
 
