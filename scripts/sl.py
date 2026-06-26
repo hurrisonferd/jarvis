@@ -550,15 +550,13 @@ def main():
 
 # ── BIFROST spine event ────────────────────────────────────────────────────────
 def bifrost_session_close(brief: str = "", stream: str = "openhands") -> None:
-    """Log session close to dex_events so ARGUS has the spine record (#9).
+    """Log session close to dex_events via jarvis-dex log_event route. No service key needed.
 
-    Non-blocking: swallows errors, never propagates. Falls back silently if
-    SUPABASE_URL / SUPABASE_SERVICE_KEY are not set.
+    Non-blocking: swallows errors, never propagates.
     """
     url = os.environ.get("SUPABASE_URL", "").rstrip("/")
-    key = os.environ.get("SUPABASE_SERVICE_KEY", "")
-    if not url or not key:
-        print("bifrost: SUPABASE_URL/SUPABASE_SERVICE_KEY not set — skipping spine event")
+    if not url:
+        print("bifrost: SUPABASE_URL not set — skipping spine event")
         return
 
     # Collect what was committed this session from the tracker + recent commits
@@ -583,23 +581,29 @@ def bifrost_session_close(brief: str = "", stream: str = "openhands") -> None:
     }
 
     try:
-        data = json.dumps(payload).encode()
+        body = json.dumps({
+            "tool": "log_event",
+            "args": {
+                "type": "bifrost.session_close",
+                "actor": stream,
+                "detail": payload,
+            },
+        }).encode()
         req = urllib.request.Request(
-            f"{url}/rest/v1/dex_events",
-            data=data,
+            f"{url}/functions/v1/jarvis-dex",
+            data=body,
             headers={
-                "apikey": key,
-                "Authorization": f"Bearer {key}",
                 "Content-Type": "application/json",
-                "Prefer": "return=minimal",
+                "Authorization": "Bearer placeholder",
             },
             method="POST",
         )
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            if resp.status in (200, 201, 204):
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            result = json.loads(resp.read())
+            if result.get("ok"):
                 print("bifrost: spine event logged to dex_events")
             else:
-                print(f"bifrost: unexpected status {resp.status}")
+                print(f"bifrost: spine event failed — {result.get('error', 'unknown')}")
     except Exception as e:
         print(f"bifrost: spine event failed (non-fatal): {e}")
 

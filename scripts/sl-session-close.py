@@ -22,7 +22,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 SESSIONS_PATH = ROOT / "mnemos" / "memories" / "sessions.json"
 SUPABASE_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co").rstrip("/")
-SUPABASE_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "")
 OPENHANDS_BASE = "https://app.all-hands.dev"
 OPENHANDS_KEY = os.environ.get("OPENHANDS_API_KEY", "")
 JSTM_PATH = ROOT / ".openhands" / "session_jstm.json"   # JSTM dies with container; written by agent during session
@@ -292,32 +291,34 @@ def update_sessions_json(record):
     SESSIONS_PATH.write_text(json.dumps(store, indent=2))
     return store
 
-# ── dex_events fallback (Supabase direct) ─────────────────────────────────────
+# ── dex_events via jarvis-dex (no service key needed) ───────────────────────
 
 def write_dex_event(event_type, payload):
-    """Write a single event to Supabase dex_events table. Non-blocking."""
-    if not SUPABASE_URL or not SUPABASE_KEY:
-        log("dex_events: SUPABASE_URL/SUPABASE_SERVICE_KEY not set — skipping")
-        return
-
+    """Write a spine event via jarvis-dex log_event route. No service key needed."""
     try:
-        body = json.dumps(payload).encode()
+        body = json.dumps({
+            "tool": "log_event",
+            "args": {
+                "type": event_type,
+                "actor": "openhands",
+                "detail": payload,
+            },
+        }).encode()
         req = urllib.request.Request(
-            f"{SUPABASE_URL}/rest/v1/dex_events",
+            f"{SUPABASE_URL}/functions/v1/jarvis-dex",
             data=body,
             headers={
-                "apikey": SUPABASE_KEY,
-                "Authorization": f"Bearer {SUPABASE_KEY}",
                 "Content-Type": "application/json",
-                "Prefer": "return=minimal",
+                "Authorization": "Bearer placeholder",  # required by Supabase runtime
             },
             method="POST",
         )
-        with urllib.request.urlopen(req, timeout=5) as resp:
-            if resp.status in (200, 201, 204):
-                log("dex_events: wrote %s", event_type)
+        with urllib.request.urlopen(req, timeout=8) as resp:
+            result = json.loads(resp.read())
+            if result.get("ok"):
+                log("dex_events: wrote %s (id %s)", event_type, result.get("id", "?"))
             else:
-                log("dex_events: unexpected status %s", resp.status)
+                log("dex_events: write failed — %s", result.get("error", "unknown"))
     except Exception as e:
         log("dex_events: write failed (non-fatal): %s", e)
 
