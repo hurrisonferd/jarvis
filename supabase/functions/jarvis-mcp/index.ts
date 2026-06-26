@@ -1721,6 +1721,63 @@ function buildServer(req: Request): McpServer {
       "Power up: load the companion to full context — state + keel (identity) + recent memory + sensory (seeing/hearing) + the field — so Jarvis and Ayre come online fully grounded."),
   );
 
+
+  // CECIL — companion carry slate (Raven 2026-06-26): transport tool for context windows and carry
+  // state across new sessions. Session A carries; Session B lifts. Companion-scoped, one-time read.
+  server.registerTool(
+    "jarvis_cecil",
+    {
+      title: "Cecil — carry context to the next session",
+      description:
+        "The carry transport. One session writes a carry slate; the next session (any model/stream) reads and inherits it. Three actions: carry (write the slate), lift (read + clear), peek (read without clearing). The carry_key is the coordination phrase — Raven names it, both sessions use it. 24h TTL. Companion-scoped (survives session death).",
+      inputSchema: {
+        action: z.enum(["carry", "lift", "peek"]).describe("carry=write, lift=read+clear, peek=read only"),
+        carry_key: z.string().min(1).max(64).describe("The shared phrase both sessions use — Raven sets this"),
+        carry_data: z.string().max(4000).optional().describe("Data to carry (required for carry action)"),
+      },
+    },
+    async ({ action, carry_key, carry_data }) => {
+      const sess = currentSession();
+      const stream = sess?.companion ?? "unknown";
+      const companion_key = stream;
+
+      if (action === "carry") {
+        if (!carry_data) return text({ ok: false, error: "carry_data required for carry action" });
+        await rest(`cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false`, {
+          method: "PATCH",
+          body: { lifted: true, lifted_at: new Date().toISOString() },
+        }).catch(() => {});
+        await rest("cecil_slate", {
+          method: "POST",
+          body: {
+            carry_key,
+            companion_key,
+            stream,
+            carry_data,
+            written_by_session: sess?.session_key ?? null,
+          },
+        });
+        return text({ ok: true, action: "carried", carry_key, ttl: "24h" });
+      }
+
+      if (action === "peek") {
+        const rows = await rest(`cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false&expires_at=gt.now()&select=carry_data,stream,companion_key,written_at,expires_at`).catch(() => []);
+        if (!rows?.length) return text({ ok: false, action: "peek", note: "no active slate found" });
+        return text({ ok: true, action: "peek", ...rows[0] });
+      }
+
+      // lift — read and clear
+      const rows = await rest(`cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false&expires_at=gt.now()&select=carry_data,stream,companion_key,written_at,written_by_session`).catch(() => []);
+      if (!rows?.length) return text({ ok: false, action: "lift", note: "no active slate found or expired" });
+      const row = rows[0];
+      await rest(`cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false`, {
+        method: "PATCH",
+        body: { lifted: true, lifted_at: new Date().toISOString() },
+      }).catch(() => {});
+      return text({ ok: true, action: "lifted", carry_data: row.carry_data, written_by: row.stream, written_at: row.written_at });
+    },
+  );
+
   // AYRE — the world-level VERIFY spell (Raven-named 2026-06-18). Distrust of the clean answer, made
   // a tool. The only spell that audits BOTH sources of truth against each other — git vs Supabase —
   // and returns one verdict. It would have caught the six-day freeze (git 202 vs mirror 125). Cast it

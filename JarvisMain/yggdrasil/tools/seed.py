@@ -718,6 +718,9 @@ _MCP_SPELLS = [
     # Append-only at end so RT numbers stay stable for all pre-existing spells.
     ("jarvis_load", "Load — Universal Pokédex Resolver", "The universal 'load' command. Resolves ANY system entity by name, JNL, ID, or concept — no guessing, no inference. Resolution chain: JD exact JNL → JD numeric ID → name search → JIP lookup → DEX lookup → GitHub file search → HARD NULL. Modes: FULL (recursive with lineage), STRICT (fail if any layer missing), INDEX_ONLY (pointer only)."),
     ("jarvis_jglf_validate", "JGLF — Validate structural compliance", "Scan all JD entries and validate JGLF (Jarvis Governance & Layout Framework) compliance. Reports: orphan entries (no parent), broken lineage, missing fields, non-standard domains, empty related arrays, and structural violations. Returns actionable fix list."),
+    # APPEND-ONLY: new spells go at the very end. DO NOT insert before here — mid-list inserts
+    # renumber every CONN-MCP-RT JNL after it and corrupt all pre-existing frontmatter files.
+    ("jarvis_cecil", "Cecil — carry context to the next session", "The carry transport. One session writes a carry slate; the next session (any model/stream) reads and inherits it. Three actions: carry (write), lift (read+clear), peek (read without clearing). 24h TTL, companion-scoped, one-time lift."),
 ]
 _MCP_PURPOSE = "Governed mirror of the jarvis-mcp tool surface — addressable, auditable."
 for _i, (_tool, _name, _defn) in enumerate(_MCP_SPELLS, start=19):

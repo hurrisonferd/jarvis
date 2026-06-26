@@ -1,10 +1,10 @@
 # The Pinch — the whole tree in one squeeze
 
-_generated 2026-06-26 22:39 UTC · the world-spell (P3): drift + debt + bloat, telling structure from debt (GL13/GL7). Proposals only (GL2); not authoritative — the source is the tree._
+_generated 2026-06-26 22:48 UTC · the world-spell (P3): drift + debt + bloat, telling structure from debt (GL13/GL7). Proposals only (GL2); not authoritative — the source is the tree._
 
 ## 1. Drift — mirror vs the live tree
-- mirror commit `61949080` · git HEAD `b44ee3b0` · **BEHIND by 16 commits** — reseed + let the mirror job push
-- mirror stamp age: 2.8 h · Supabase re-syncs every merge (data is current; the stamp trails its own commit by one — expected, not drift).
+- mirror commit `f631f34b` · git HEAD `f631f34b` · **IN SYNC**
+- mirror stamp age: 2 min · Supabase re-syncs every merge (data is current; the stamp trails its own commit by one — expected, not drift).
 
 ## 2. Structure — healthy, NOT debt (3)
 _parentless but anchoring children — these are the trunk; leave them._
@@ -26,8 +26,8 @@ _high name overlap across families. Most are legitimately distinct — this is a
 - `ARCH-AYR-SPEC-0004` ~ `ARCH-JRV-SPEC-0004` (AYRE Origin Trap Card / JARVIS Origin Trap Card) — 75% name overlap
 
 ## 5. Load
-- 247 governed objects · 20 open tasks · 9 domains
+- 248 governed objects · 20 open tasks · 9 domains
 
 ## Verdict
-- structure: 3 roots (coherent) · debt: 0 item(s) · drift: behind · bloat candidates: 2
-- **DRIFT** — see Debt + Drift above; bloat is review-only (GL7) and most candidates are fine.
+- structure: 3 roots (coherent) · debt: 0 item(s) · drift: in sync · bloat candidates: 2
+- **HEALTHY** — the tree is rooted, mirrored, and lean.

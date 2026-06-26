@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 247,
-    "edges": 433,
-    "main": 214,
+    "nodes": 249,
+    "edges": 438,
+    "main": 216,
     "side": 33
   },
   "nodes": [
@@ -638,6 +638,15 @@
       "owner": "Audit"
     },
     {
+      "id": "CONN-CEP-0001",
+      "name": "Cecil \u2014 Companion Carry Slate",
+      "domain": "CONN",
+      "class": "JIDD",
+      "tier": "MAIN",
+      "status": "",
+      "owner": ""
+    },
+    {
       "id": "CONN-DEX-SPEC-0001",
       "name": "Jarvis Dex Action",
       "domain": "CONN",
@@ -1243,6 +1252,15 @@
     {
       "id": "CONN-MCP-RT-0065",
       "name": "JGLF \u2014 Validate structural compliance",
+      "domain": "CONN",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "Connectors"
+    },
+    {
+      "id": "CONN-MCP-RT-0066",
+      "name": "Cecil \u2014 carry context to the next session",
       "domain": "CONN",
       "class": "MODULE",
       "tier": "MAIN",
@@ -3118,6 +3136,26 @@
       "type": "parent"
     },
     {
+      "source": "CONN-CEP-0001",
+      "target": "CONN-MCP-RT-0001",
+      "type": "related"
+    },
+    {
+      "source": "CONN-CEP-0001",
+      "target": "ARCH-JC-JIP-0001",
+      "type": "related"
+    },
+    {
+      "source": "CONN-CEP-0001",
+      "target": "ARCH-SL-JIP-0001",
+      "type": "related"
+    },
+    {
+      "source": "CONN-CEP-0001",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
       "source": "CONN-DEX-SPEC-0001",
       "target": "IMPL-DEX-SPEC-0001",
       "type": "related"
@@ -3474,6 +3512,11 @@
     },
     {
       "source": "CONN-MCP-RT-0065",
+      "target": "CONN-MSB-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "CONN-MCP-RT-0066",
       "target": "CONN-MSB-CORE-0001",
       "type": "parent"
     },

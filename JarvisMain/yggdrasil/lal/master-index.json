@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 247,
+  "count": 248,
   "index": [
     {
       "object": "JARVIS Canon Index",
@@ -1753,6 +1753,18 @@
       "object": "JGLF \u2014 Validate structural compliance",
       "jnl": "CONN-MCP-RT-0065",
       "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_jglf_validate.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Cecil \u2014 carry context to the next session",
+      "jnl": "CONN-MCP-RT-0066",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_cecil.md",
       "tags": [
         "connector",
         "mcp",

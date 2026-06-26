@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 247,
+  "count": 248,
   "records": [
     {
       "jnl": "ARCH-ARCH-IDX-0001",
@@ -2686,7 +2686,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0051",
@@ -2707,7 +2707,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0052",
@@ -2728,7 +2728,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0053",
@@ -2749,7 +2749,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0054",
@@ -2770,7 +2770,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0055",
@@ -2791,7 +2791,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0056",
@@ -2812,7 +2812,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0057",
@@ -2833,7 +2833,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0058",
@@ -2854,7 +2854,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0059",
@@ -2875,7 +2875,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0060",
@@ -2896,7 +2896,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-16",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0061",
@@ -2917,7 +2917,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-17",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0062",
@@ -2938,7 +2938,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-18",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0063",
@@ -2959,7 +2959,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-18",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0064",
@@ -2980,7 +2980,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-25",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MCP-RT-0065",
@@ -3001,7 +3001,28 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-25",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
+    },
+    {
+      "jnl": "CONN-MCP-RT-0066",
+      "name": "Cecil \u2014 carry context to the next session",
+      "type": "RT",
+      "class": "MODULE",
+      "tier": "MAIN",
+      "owner": "Connectors",
+      "steward": null,
+      "parent": "CONN-MSB-CORE-0001",
+      "location": "JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_cecil.md",
+      "tags": [
+        "connector",
+        "mcp",
+        "tool"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-26",
+      "updated": "2026-06-26"
     },
     {
       "jnl": "CONN-MSB-CORE-0001",

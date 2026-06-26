@@ -1,14 +1,14 @@
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-26T19:58:39Z (2026-06-26 15:58 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-26T22:47:01Z (2026-06-26 18:47 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**247 governed objects** · 433 edges · 9 domains.
+**249 governed objects** · 438 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 247 objects · 20 open tasks · 4 orphans · 433 edges._
+_JARVIS online · 249 objects · 20 open tasks · 4 orphans · 438 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -159,10 +159,11 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `151` | `AUD-SYNC-REVW-0001` | TUSK Act 4 — Git/Supabase Sync Audit | ACTIVE | — |
 | `87` | `AUD-SYS-REVW-0001` | Jarvis System Review | ACTIVE | — |
 
-### CONN (70)
+### CONN (72)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
+| `—` | `CONN-CEP-0001` | Cecil — Companion Carry Slate | — | — |
 | `86` | `CONN-DEX-SPEC-0001` | Jarvis Dex Action | ACTIVE | — |
 | `154` | `CONN-GAC-CORE-0001` | Jarvis GPT Action Connector | ACTIVE | HERMES |
 | `155` | `CONN-GAC-SPEC-0001` | Jarvis GPT Action - OpenAPI schema | ACTIVE | — |
@@ -231,6 +232,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `206` | `CONN-MCP-RT-0063` | Raven — the pilot's seat (who you serve + what awaits your word) | ACTIVE | — |
 | `236` | `CONN-MCP-RT-0064` | Load — Universal Pokédex Resolver | ACTIVE | — |
 | `237` | `CONN-MCP-RT-0065` | JGLF — Validate structural compliance | ACTIVE | — |
+| `268` | `CONN-MCP-RT-0066` | Cecil — carry context to the next session | ACTIVE | — |
 | `67` | `CONN-MSB-CORE-0001` | MCP-Supabase Connector | ACTIVE | — |
 | `68` | `CONN-OTH-LOG-0001` | Other Connectors | ACTIVE | — |
 
