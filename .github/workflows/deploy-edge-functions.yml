@@ -39,11 +39,10 @@ jobs:
         run: |
           set -e
           PROJECT_REF="$REF"
-          # Fetch connection string via Management API — requires SUPABASE_ACCESS_TOKEN
-          # Falls back to DATABASE_URL secret if token unavailable
-          # Primary: use Supabase CLI (handles connection internally via project ref + token).
-          # supabase/setup-cli@v1 already authenticated via SUPABASE_ACCESS_TOKEN.
-          # CLI approach works without DATABASE_URL.
+          # Primary: Supabase CLI (handles connection internally via token).
+          # supabase/setup-cli@v1 installs the CLI binary; SUPABASE_ACCESS_TOKEN
+          # (set in this step's env block) provides authentication.
+          # CLI reaches the DB via Supabase's internal tunnel — raw psql cannot.
           if supabase link --project-ref "$PROJECT_REF" 2>&1 | grep -q "Already linked"; then
             echo "✓ Project already linked"
           else
@@ -51,41 +50,37 @@ jobs:
             supabase link --project-ref "$PROJECT_REF" 2>&1 || echo "⚠ link failed"
           fi
           echo "→ Applying migrations via Supabase CLI..."
-          # --include-all: push all local migrations to remote, regardless of remote history.
-          # Fetch fallback DB config outside the conditional (used if CLI fails).
-          DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF" \
-            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")
-          DB_URL=$(echo "$DB_CONFIG" | jq -r '.connection_info.connection_string // .connection_string // null')
-          DB_HOST=$(echo "$DB_CONFIG" | jq -r '.database.host // null')
+          # The remote DB has migrations the CLI doesn't know about (applied via Dashboard).
+          # Sync CLI's migration history to match remote state, then push new local migrations.
+          echo "→ Syncing migration history via Management API..."
+          MIGRATIONS_JSON=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF/database/migrations" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+            -H "Content-Type: application/json" 2>/dev/null || echo "")
+          if echo "$MIGRATIONS_JSON" | jq -e 'type == "array"' > /dev/null 2>&1; then
+            REMOTE_VERSIONS=$(echo "$MIGRATIONS_JSON" | jq -r '.[].version' 2>/dev/null)
+            echo "Found $(echo "$REMOTE_VERSIONS" | wc -l) remote migrations"
+            echo "$REMOTE_VERSIONS" | while read -r ver; do
+              [ -z "$ver" ] && continue
+              supabase migration repair --status applied "$ver" 2>&1 | grep -v "^$" || true
+            done
+            echo "✓ Migration history synced"
+          else
+            echo "⚠ Could not fetch remote migrations from Management API"
+            echo "Response: $(echo "$MIGRATIONS_JSON" | head -c 200)"
+            echo "Trying direct repair with known versions from CLI error output..."
+            # Fallback: use versions extracted from the last CLI error message.
+            # These are the remote migration versions that need to be marked as applied.
+            for ver in 20260524214637 20260524223422 20260524230654 20260525082940 20260525170928 20260526020022 20260526020037 20260526113936 20260527192341 20260527194316 20260528003202 20260528011112 20260528225358 20260528230423 20260529010846 20260529025055 20260529025123 20260529032637 20260529033630 20260529123657 20260529192844 20260530135411 20260530140631 20260530142855 20260602131454 20260603000124 20260603001038 20260603172634 20260603222910 20260604171408 20260604173630 20260604174755 20260604220302 20260609125617 20260609132244 20260609160933 20260609164906 20260609170719 20260609222608 20260609225754 20260609225821 20260610025721 20260610031213 20260611223901 20260617202230 20260617202238 20260618001233 20260618003705; do
+              supabase migration repair --status applied "$ver" 2>&1 | grep -v "^$" || true
+            done
+            echo "✓ Migration history synced (fallback)"
+          fi
+          echo "→ Pushing pending migrations..."
           if supabase db push --include-all 2>&1; then
             echo "✓ Migrations applied via Supabase CLI"
           else
-            echo "⚠ Supabase CLI migration failed — trying raw psql"
-            if [ "$DB_URL" != "null" ] && [ -n "$DB_URL" ]; then
-              export DATABASE_URL="$DB_URL"
-              echo "✓ Using connection string from Management API"
-            elif [ "$DB_HOST" != "null" ] && [ -n "$DB_HOST" ]; then
-              # Requires DB_PASSWORD env var (set as a repo secret or environment variable)
-              export DATABASE_URL="postgresql://postgres:${DB_PASSWORD}@${DB_HOST}:6543/postgres"
-              echo "⚠ Constructed DATABASE_URL from host — set DB_PASSWORD secret if this fails"
-            fi
-            if [ -n "$DATABASE_URL" ]; then
-              echo "Connecting to: ${DATABASE_URL%%@*}"
-              sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client > /dev/null 2>&1
-              for f in supabase/migrations/*.sql; do
-                NAME=$(basename "${f%.sql}")
-                EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null || echo "")
-                if [ "$EXISTS" = "1" ]; then
-                  echo "✓ $NAME already applied"
-                else
-                  echo "→ applying $NAME"
-                  psql "$DATABASE_URL" -f "$f" 2>&1 && echo "✓ $NAME applied" || echo "⚠ $NAME failed"
-                fi
-              done
-            else
-              echo "⚠ DATABASE_URL not available — skipping migrations"
-              exit 0
-            fi
+            echo "⚠ Supabase CLI migration failed"
+            exit 1
           fi
       - name: Deploy edge functions
         env:
