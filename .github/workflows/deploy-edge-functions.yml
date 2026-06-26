@@ -11,6 +11,7 @@ on:
       - ".github/workflows/deploy-edge-functions.yml"
       - "supabase/functions/jarvis-mcp/**"
       - "supabase/functions/jarvis-dex/**"
+      - "supabase/functions/jarvis-jcs/**"
       - "supabase/functions/jarvis-action/**"
       - "supabase/functions/kronos-fold/**"
       - "supabase/functions/grid-write/**"
