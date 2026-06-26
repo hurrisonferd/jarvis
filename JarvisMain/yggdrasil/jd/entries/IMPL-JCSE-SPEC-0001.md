@@ -20,8 +20,8 @@ references: []
 tags: [jcs, layer, query]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JCS layer E: JD query and traversal engine.
 

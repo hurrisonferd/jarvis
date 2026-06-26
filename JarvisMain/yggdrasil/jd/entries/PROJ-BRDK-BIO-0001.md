@@ -20,8 +20,8 @@ references: []
 tags: [project, security, governance, github]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** GitHub PR challenge gate for external contributors — Bridgekeeper asks questions before PRs can merge.
 

@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Unified chronological view across dex_events and execution_trace — the single 'what happened' across systems (read-only).
 

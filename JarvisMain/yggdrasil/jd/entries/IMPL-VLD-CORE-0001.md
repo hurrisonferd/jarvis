@@ -20,8 +20,8 @@ references: []
 tags: [validate, jve, gl12, governance, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JVE — enforces GL12 closure: every governed file has a JNL, valid JSE frontmatter, no dangling edges, zero ungoverned files.
 

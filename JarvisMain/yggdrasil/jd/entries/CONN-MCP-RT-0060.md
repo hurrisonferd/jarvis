@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Write one or many files directly to main of the private storage repo (Jarvis-Private) in one commit — scaffold and store projects (not canon). AEGIS-gated.
 

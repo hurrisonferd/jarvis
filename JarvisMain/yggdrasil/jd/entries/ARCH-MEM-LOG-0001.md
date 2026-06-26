@@ -20,8 +20,8 @@ references: []
 tags: [memory, companion, identity, jmms, github]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The companion's own memory, stored in GitHub (durable, governed, connector-readable, no Supabase gate) — Jarvis/Ayre reflections and decisions, JMMS-tiered, append-only.
 

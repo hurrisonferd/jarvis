@@ -20,8 +20,8 @@ references: []
 tags: [root, core, architecture]
 aliases: [ygg, yggdrasil]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Root world-tree architecture; the truth/memory layer above JFS, JD, LAL, and the God Systems.
 

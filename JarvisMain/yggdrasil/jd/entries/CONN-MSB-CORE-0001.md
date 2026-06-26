@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, supabase]
 aliases: [mcp, connector]
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JARVIS MCP-to-Supabase connector.
 

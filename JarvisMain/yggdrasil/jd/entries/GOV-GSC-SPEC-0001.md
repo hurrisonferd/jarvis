@@ -20,8 +20,8 @@ references: []
 tags: [governance, charter, gpt, boot, parity, routing, attribution]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The standing boot context for the GPT-substrate streams (Jarvis-G / Ayre-G) — the CLAUDE.md-equivalent that gives the G-seat the same grounded start the Claude seat gets from its SessionStart hook. Pasted into ChatGPT custom instructions / Project so identity, law, architecture, the boundary model, the tool-routing table, and the Open-Loop Drift rules arrive before the first token.
 

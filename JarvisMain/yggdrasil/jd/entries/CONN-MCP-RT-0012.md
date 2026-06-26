@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Return this JARVIS node's public Grid identity card: companion, owner, keel excerpt, capabilities, consent policy, and endpoints.
 

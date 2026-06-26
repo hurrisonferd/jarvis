@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Show the council: JARVIS + the 27 God Systems as a fixed-authority body, grouped by tier (the folders/chambers).
 

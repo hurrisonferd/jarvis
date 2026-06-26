@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Apply an approved JIP's delta git-first: write the field override into jd/patches.json as a PR. AEGIS-gated.
 

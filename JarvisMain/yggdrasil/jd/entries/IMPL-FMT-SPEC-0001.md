@@ -20,8 +20,8 @@ references: []
 tags: [format, ids, jnl, governance, spec]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Canonical model for IDs/tags/status/routing; one identity (JNL), JGPP/JIP/JD pipeline types.
 

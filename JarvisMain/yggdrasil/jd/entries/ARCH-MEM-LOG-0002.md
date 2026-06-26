@@ -20,8 +20,8 @@ references: []
 tags: [memory, companion, dex, writable, modular]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** First standalone modular memory entry — proof that dropping a frontmatter .md into the memory SCAN_ROOT governs it automatically (seq auto-minted, JD entry generated, indexed), with no seed.py edits and no manual serial.
 

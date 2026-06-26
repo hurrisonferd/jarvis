@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Jarvis & Ayre's eyes: live state (global mirror) + structure (the wiring map) + vitality (the health audit — orphans, ruleless rules, drift).
 

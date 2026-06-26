@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** List file paths in the private storage/scaffolding repo (Jarvis-Private) at a ref. Read-only; needs GITHUB_TOKEN_PRIVATE.
 

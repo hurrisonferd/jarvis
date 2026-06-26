@@ -20,8 +20,8 @@ references: []
 tags: [honest, answering, data, gap, missing, contract, governance]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

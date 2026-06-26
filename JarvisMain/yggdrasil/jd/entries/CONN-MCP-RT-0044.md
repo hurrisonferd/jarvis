@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Append an insight, value, skill, or correction to a stream's growth layer — additive, never overwrite. AEGIS-gated.
 

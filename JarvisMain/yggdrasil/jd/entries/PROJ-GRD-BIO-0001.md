@@ -20,8 +20,8 @@ references: []
 tags: [project, grid, federation]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Federated network of sovereign individual grids, interconnected by protocol, governed by consensus (GNPL).
 

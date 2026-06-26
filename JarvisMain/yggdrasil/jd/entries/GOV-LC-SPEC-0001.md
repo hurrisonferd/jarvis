@@ -20,8 +20,8 @@ references: []
 tags: [governance, layers, overlay, contract, bounded-autonomy]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The boundary between operational primitives (Layer A) and meta-architectural overlays (Layer B). A = the dex primitives — JD entries, registries, JNL grammar, connector, Gold Law. B = overlays that observe, name, index, and summarize A — SL, JC, coral-frame tag axes, future CMVP. B may annotate A; B may never redefine A. Promotion from B-observation to A-change walks propose → Raven, always.
 

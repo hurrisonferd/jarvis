@@ -20,8 +20,8 @@ references: []
 tags: [audit, review]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Full system audit (2026-06-04).
 

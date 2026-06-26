@@ -20,8 +20,8 @@ references: []
 tags: [new, mint, create, governed, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Mints a new governed object in one command: JNL + formatted file + seq-registry update.
 

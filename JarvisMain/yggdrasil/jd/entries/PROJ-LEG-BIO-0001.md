@@ -20,8 +20,8 @@ references: []
 tags: [project, legion]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Legion project.
 

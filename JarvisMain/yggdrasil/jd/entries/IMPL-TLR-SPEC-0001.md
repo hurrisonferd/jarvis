@@ -20,8 +20,8 @@ references: []
 tags: [mcp, tools, roadmap, pipeline, starlog, dex, jip, jd, auto-tracking, council, index]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The single grounded index of the MCP tool surface — what is LIVE, what is GATED on connector/Supabase deploy, and what is PROPOSED — organized by the cognition pipeline (Star Log -> Dex -> JIP -> JD). Plus the auto-tracking model (what flows automatically vs what stops at Raven's gate) and the underutilization map (dormant god systems, AYRE, council employed by the Pulse).
 

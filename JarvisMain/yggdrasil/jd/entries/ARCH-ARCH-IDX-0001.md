@@ -20,8 +20,8 @@ references: []
 tags: [canon, architecture, rebuild, recovery, index]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

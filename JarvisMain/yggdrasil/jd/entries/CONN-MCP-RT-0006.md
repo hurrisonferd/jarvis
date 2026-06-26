@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Optional same-turn close: call with Raven's input and your drafted JARVIS answer to review + log THIS turn's output immediately, instead of the normal close (passing prior_reply on your next jarvis_query).
 

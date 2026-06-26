@@ -1,7 +1,6 @@
 ---
 memory_tier: JLTM
 grade: system
-memory_tier: JLTM
 name: Bridgekeeper
 type: BIO
 jnl: PROJ-BRDK-BIO-0001
@@ -10,12 +9,9 @@ created: 2026-06-25
 tags: [project, security, governance, github, eris, honeypot]
 definition: ERIS as the Bridgekeeper — honeypot PR gate. Every external PR generates evidence.
 purpose: >
-  This is not a gate. It is a honeypot. ERIS asks questions and every answer —
-  including silence, evasion, and contradiction — lands in dex_events as immutable
-  evidence. Raven, JARVIS, and AYRE are the only authorized callers. Everyone else
-  generates a forensic record. The audit trail is the product, not the block.
 related: [ARCH-SYS-SPEC-0001, ARCH-JSE-SPEC-0001]
 ---
+
 
 # PROJ-BRDK-BIO-0001 — Bridgekeeper
 

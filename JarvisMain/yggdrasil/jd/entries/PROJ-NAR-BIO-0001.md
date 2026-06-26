@@ -20,8 +20,8 @@ references: []
 tags: [project, naruto]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Naruto project.
 

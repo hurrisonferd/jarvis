@@ -20,8 +20,8 @@ references: []
 tags: [jpl, follin, research]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JPL research: Tim Follin's work as a compression system — doing more with less.
 

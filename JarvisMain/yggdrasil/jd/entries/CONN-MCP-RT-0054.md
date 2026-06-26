@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Create a JIP: a versioned metadata container for a JD (audit trail + reversible state). AEGIS-gated.
 

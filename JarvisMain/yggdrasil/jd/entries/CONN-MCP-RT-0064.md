@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The universal 'load' command. Resolves ANY system entity by name, JNL, ID, or concept — no guessing, no inference. Resolution chain: JD exact JNL → JD numeric ID → name search → JIP lookup → DEX lookup → GitHub file search → HARD NULL. Modes: FULL (recursive with lineage), STRICT (fail if any layer missing), INDEX_ONLY (pointer only).
 

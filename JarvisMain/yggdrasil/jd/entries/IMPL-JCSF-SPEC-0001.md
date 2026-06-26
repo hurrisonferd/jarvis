@@ -20,8 +20,8 @@ references: []
 tags: [jcs, layer, simulation]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JCS layer F: runtime simulation over JD state.
 

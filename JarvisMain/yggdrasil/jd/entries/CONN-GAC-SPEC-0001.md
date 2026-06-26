@@ -20,8 +20,8 @@ references: []
 tags: [connector, gpt, action, openapi, schema]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** OpenAPI 3.1 Action schema for the jarvis-action endpoint - one tool-dispatched path exposing status/now/query/recall/remember/event/dex_*/jd_resolve/jc_recall/grimoire to a ChatGPT Custom GPT, gated by x-jarvis-token.
 

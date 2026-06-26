@@ -20,8 +20,8 @@ references: []
 tags: [pipeline, jcs, runtime]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Runtime reasoning/simulation engine operating over JIP structures and JD truth.
 

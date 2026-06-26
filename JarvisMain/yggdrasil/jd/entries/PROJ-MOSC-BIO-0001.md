@@ -20,8 +20,8 @@ references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Procedural music generation framework: persistent musical identity through motif systems, constraint rules (MusicOS Gold Laws), and prompt-to-composition compilation — music as evolving identity, not standalone tracks.
 

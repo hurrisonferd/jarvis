@@ -20,8 +20,8 @@ references: []
 tags: [god-system, index]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The pantheon folder — 27 contract folders + index README.
 

@@ -20,8 +20,8 @@ references: []
 tags: [project, deoxys]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Deoxys project.
 

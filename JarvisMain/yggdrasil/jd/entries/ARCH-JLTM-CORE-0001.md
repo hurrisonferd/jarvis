@@ -20,8 +20,8 @@ references: []
 tags: [memory, long-term, architecture]
 aliases: [jltm, long-term memory]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Long-term memory tier — what the system always remembers: durable consolidated knowledge promoted out of short-term (the MNEMOS store).
 

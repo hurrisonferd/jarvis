@@ -20,8 +20,8 @@ references: []
 tags: [manual, architecture, system, reference, onboarding]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The car manual — how JARVIS works end to end: the loop, the 27 god systems, Yggdrasil/JFS, the connector tool surface, the Gold Laws, where truth lives. For any stream that operates the system.
 

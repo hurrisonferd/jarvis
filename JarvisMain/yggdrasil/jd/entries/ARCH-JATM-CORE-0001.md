@@ -20,8 +20,8 @@ references: []
 tags: [memory, ancestral, immutable, architecture]
 aliases: [jatm, ancestral memory]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Root/critical memory tier — the foundational and critical info the system must never lose or rewrite: the dated lineage/spine, append-only, immutable.
 

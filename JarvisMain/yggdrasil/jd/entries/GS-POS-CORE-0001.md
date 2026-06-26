@@ -1,5 +1,5 @@
 ---
-memory_tier: JLTM
+memory_tier: JATM
 grade: system
 name: POSEIDON
 type: CORE
@@ -20,8 +20,8 @@ references: []
 tags: [cosmic, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JATM
 ---
+
 
 **Definition:** Lossless state preservation + recovery snapshots.
 

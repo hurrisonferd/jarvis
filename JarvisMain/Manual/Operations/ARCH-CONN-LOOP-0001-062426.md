@@ -20,8 +20,8 @@ references: []
 tags: [continuity, resumability, autonomy, event-log, session-open, retention]
 aliases: []
 ref: [SPEC]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Names the minimum ladder for continuity to stay real across restarts, model swaps, and handoffs. Continuity is not just recall — it is a loop. Each layer has a distinct write frequency and audience.
 

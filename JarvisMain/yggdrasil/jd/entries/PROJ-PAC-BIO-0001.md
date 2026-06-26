@@ -20,8 +20,8 @@ references: []
 tags: [project, pachinko, game]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Pachinko Bounce game (Godot, RGB encoding).
 

@@ -20,8 +20,8 @@ references: []
 tags: [core, god-system, canon]
 aliases: [oracle]
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Intake / intent-routing god system; first contact with all inputs — normalizes, classifies, routes to AEGIS (renamed from AYRE 2026-06-14; address GS-AYR-CORE-0001 held stable per JMS).
 

@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Call first on a substantive turn: returns raw material to audit — routing pointers plus raw recall and recent execution, not a pre-formed read.
 

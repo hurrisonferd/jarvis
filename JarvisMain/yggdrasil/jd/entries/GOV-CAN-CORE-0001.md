@@ -20,8 +20,8 @@ references: []
 tags: [governance, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Canonical architecture statement for JARVIS.
 

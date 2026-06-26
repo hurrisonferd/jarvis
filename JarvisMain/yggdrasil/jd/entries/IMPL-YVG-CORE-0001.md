@@ -20,8 +20,8 @@ references: []
 tags: [graph, export, tool, visualizer, yggdrasil]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Exports the governed graph as a navigable JSON object graph. Feeds the visualizer and YGG version snapshot.
 

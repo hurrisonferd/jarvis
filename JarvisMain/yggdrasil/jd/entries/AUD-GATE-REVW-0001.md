@@ -20,8 +20,8 @@ references: []
 tags: [audit, governance, aegis, security]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Maps every state-mutation path and its gate; finds + closes the two ungated seams (github_write, pr_merge).
 

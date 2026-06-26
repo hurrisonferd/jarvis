@@ -20,8 +20,8 @@ references: []
 tags: [audit, index, root]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The Audit index — the root every audit and review hangs from.
 

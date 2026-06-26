@@ -20,8 +20,8 @@ references: []
 tags: [pinch, drift, schema, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Checks for schema drift: JNL grammar, JSE envelope, and YGG manifest fingerprints must stay in sync.
 

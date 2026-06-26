@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Scan all JD entries and validate JGLF (Jarvis Governance & Layout Framework) compliance. Reports: orphan entries (no parent), broken lineage, missing fields, non-standard domains, empty related arrays, and structural violations. Returns actionable fix list.
 

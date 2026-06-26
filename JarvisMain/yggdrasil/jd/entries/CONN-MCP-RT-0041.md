@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Return the current accurate server time (UTC + US Eastern + weekday + unix) — the model cannot tell time, so this is the clock.
 

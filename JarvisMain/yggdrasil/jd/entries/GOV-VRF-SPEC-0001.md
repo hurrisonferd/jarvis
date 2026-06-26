@@ -20,8 +20,8 @@ references: []
 tags: [governance, verification, anti-hallucination, distributed, continuity]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

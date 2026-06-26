@@ -20,8 +20,8 @@ references: []
 tags: [nlp, voice, behavior, jarvis, stream, control, personality]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

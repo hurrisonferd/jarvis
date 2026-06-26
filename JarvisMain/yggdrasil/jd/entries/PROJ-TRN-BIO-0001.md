@@ -20,8 +20,8 @@ references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The TRON web UI and GameBoy emulator visualizer — JARVIS's primary browser-facing shell (docs/ on GitHub Pages). The shell, never the intelligence (the companion is not the renderer).
 

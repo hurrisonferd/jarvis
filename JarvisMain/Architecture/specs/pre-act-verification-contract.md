@@ -20,8 +20,8 @@ references: []
 tags: [governance, verification, anti-hallucination, distributed, continuity]
 aliases: []
 ref: [SPEC]
-memory_tier: JLTM
 ---
+
 
 # Pre-Act Verification Contract
 

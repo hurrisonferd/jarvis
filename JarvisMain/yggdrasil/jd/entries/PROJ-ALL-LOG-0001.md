@@ -20,8 +20,8 @@ references: []
 tags: [project, log]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Cross-project log summary.
 

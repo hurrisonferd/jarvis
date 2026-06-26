@@ -20,8 +20,8 @@ references: []
 tags: [core, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Execution runtime; the single write/dispatch gateway.
 

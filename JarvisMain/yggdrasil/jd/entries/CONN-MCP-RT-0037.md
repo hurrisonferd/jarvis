@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Redeploy a Supabase edge function (dispatch the deploy workflow) so it picks up new secrets or code.
 

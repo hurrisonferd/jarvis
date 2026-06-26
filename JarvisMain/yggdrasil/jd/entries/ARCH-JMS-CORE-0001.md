@@ -20,8 +20,8 @@ references: []
 tags: [mirror, core, architecture]
 aliases: [jms, jarvis mirror system]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Reflects and synchronizes information without duplication — move references, never truth.
 

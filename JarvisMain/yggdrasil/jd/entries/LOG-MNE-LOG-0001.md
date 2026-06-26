@@ -20,8 +20,8 @@ references: []
 tags: [backup, mnemos, spine, log]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Durable repo snapshot of the irreplaceable cloud tables (memory spine, dex events, proposals, Grid keys and mail) — weekly, committed only when changed.
 

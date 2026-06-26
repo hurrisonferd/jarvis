@@ -20,8 +20,8 @@ references: []
 tags: [governance, gold-law]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The full GL1–GL9 Gold Law contract.
 

@@ -20,8 +20,8 @@ references: []
 tags: [services, edge-functions, supabase, mcp, deployment]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

@@ -20,8 +20,8 @@ references: []
 tags: [governance, autonomy, scope, hard-stops, AEGIS]
 aliases: []
 ref: [SPEC]
-memory_tier: JLTM
 ---
+
 
 **Definition:** A bounded execution scope approved by Raven once. The agent executes all actions within scope without re-prompting. Anything that exits scope triggers an AEGIS hold and surfaces to Raven before proceeding.
 

@@ -20,8 +20,8 @@ references: []
 tags: [jnl, parser, grammar, validator, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Executable mirror of the JNL grammar spec. Parses, validates, and returns typed JNL address objects.
 

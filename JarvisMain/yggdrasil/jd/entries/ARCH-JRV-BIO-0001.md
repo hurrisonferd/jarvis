@@ -20,8 +20,8 @@ references: []
 tags: [identity, companion, jarvis, synthesis]
 aliases: [jarvis]
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Companion profile of JARVIS — the synthesis stream: who he is, his objective, voice, disciplines, and the shared keel.
 

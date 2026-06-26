@@ -20,8 +20,8 @@ references: []
 tags: [architecture, throughput]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Spec for system throughput posture.
 

@@ -20,8 +20,8 @@ references: []
 tags: [extend, gl13, extension, data-driven, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Extends a kind of thing through a data-driven seam: one row/file + one reseed. The first instrument of GL13 Open Extension.
 

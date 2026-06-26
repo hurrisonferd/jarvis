@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool, voice]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Emit a tight, spoken-style state digest for runtimes that cannot call tools (ChatGPT voice mode, free tiers).
 

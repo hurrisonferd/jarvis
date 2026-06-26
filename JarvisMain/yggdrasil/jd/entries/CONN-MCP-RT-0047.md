@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The world-spell (P3): read PINCH.md in one squeeze — drift (mirror vs HEAD), debt vs structure (real orphans, not the trunk), and GL7 bloat candidates. Tells what needs attention from what's healthy structure.
 

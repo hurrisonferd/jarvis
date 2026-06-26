@@ -20,8 +20,8 @@ references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** God-system Design Spec project: explorations mapping the existing council (the fixed 27) into epistemic functions — truth, deliberation, execution, memory arbitration. GSRL maps; it never redefines.
 

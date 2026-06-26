@@ -20,8 +20,8 @@ references: []
 tags: [schema, envelope, jfs, format, architecture]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The umbrella that guarantees every JD entry carries the same complete 19-field frontmatter envelope — no missing fields, ever. Not a new store; the named contract seed.jd_entry_md writes and validate.py enforces.
 

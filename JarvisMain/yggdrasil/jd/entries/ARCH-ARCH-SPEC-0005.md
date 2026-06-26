@@ -20,8 +20,8 @@ references: []
 tags: [projects, pachinko, codeos, flag01, jarvis]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

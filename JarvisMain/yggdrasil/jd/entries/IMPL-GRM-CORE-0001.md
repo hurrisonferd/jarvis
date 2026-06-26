@@ -20,8 +20,8 @@ references: []
 tags: [grimoire, catalog, card, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Generates the grimoire — a catalog card for every governed object in the tree.
 

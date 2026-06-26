@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Read the global mirror: a freshness-stamped single-read snapshot of every governed object with by-status/domain/tier summary.
 

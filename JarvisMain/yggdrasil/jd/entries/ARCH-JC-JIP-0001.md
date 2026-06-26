@@ -20,8 +20,8 @@ references: []
 tags: [memory, continuity, sync, conversation, profiling]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JC — governed conversation containers. One object per significant conversation or session, holding a moderately-compressed summary, extracted insights, decisions, and participant profile notes, with full JFS metadata (JNL, timestamps, subject tags, participants, related objects) so retrieval is structural, not interpretive.
 

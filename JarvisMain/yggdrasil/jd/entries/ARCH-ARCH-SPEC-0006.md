@@ -20,8 +20,8 @@ references: []
 tags: [rebuild, recovery, secrets, canonical, jarvis-private]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

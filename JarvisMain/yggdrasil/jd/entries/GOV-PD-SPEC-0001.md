@@ -20,8 +20,8 @@ references: []
 tags: [governance, contradiction, arbitration, federation, epistemics]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** P-D — the preserved-contradiction object class. When two streams produce valid but incompatible interpretations, the conflict is stored as a first-class object — both readings, both authors, the stakes, and the evidence each cites — rather than resolved by force or dissolved by politeness. Arbitration input, never arbitration trigger.
 

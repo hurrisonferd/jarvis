@@ -20,8 +20,8 @@ references: []
 tags: [pipeline, jgpp, spec]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Generation/specification ruleset; pre-implementation compiler logic.
 

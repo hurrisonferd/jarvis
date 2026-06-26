@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Roll a JD back git-first: remove its entry from jd/patches.json as a PR so seed restores the source value. AEGIS-gated.
 

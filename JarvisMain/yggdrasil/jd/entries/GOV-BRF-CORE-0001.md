@@ -1,5 +1,5 @@
 ---
-memory_tier: JLTM
+memory_tier: JATM
 grade: system
 name: Jarvis Brief
 type: CORE
@@ -20,8 +20,8 @@ references: []
 tags: [governance, deprecated, superseded, ghost]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JATM
 ---
+
 
 **Definition:** [DEPRECATED 2026-06-17] An early CLAUDE.md draft (v3.0) that contradicted current canon (it cast Claude as AYRE). Superseded by the System Manual (ARCH-SYS-SPEC-0001) + CLAUDE.md. Retained as a dated address (JMS); content stubbed.
 

@@ -20,8 +20,8 @@ references: []
 tags: [multimodal, perception, event-ledger, tst, jpl, streams]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Event-sourced multimodal layer that converts non-text inputs into structured perceptual events compatible with EL and TST. Produces timestamped segments and normalized feature representations with strict separation between raw input, interpretation, and state mutation.
 

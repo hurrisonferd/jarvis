@@ -20,8 +20,8 @@ references: []
 tags: [architecture, runtime]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The runtime execution model.
 

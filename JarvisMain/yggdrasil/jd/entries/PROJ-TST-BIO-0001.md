@@ -20,8 +20,8 @@ references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Temporal task and event coordination layer: the Event Ledger (EL, immutable append-only causality record) and the Task State Table (TST, state derived only from EL events). Causality and state, formally separated.
 

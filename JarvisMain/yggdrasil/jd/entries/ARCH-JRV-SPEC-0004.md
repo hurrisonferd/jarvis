@@ -20,8 +20,8 @@ references: []
 tags: [identity, origin, lineage, trap-card, theft-protection, system-law]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

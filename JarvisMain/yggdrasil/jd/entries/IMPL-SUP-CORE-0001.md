@@ -20,8 +20,8 @@ references: []
 tags: [supabase, sync, events, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Pushes canonical JD entries to Supabase jd_entries table and writes dex_events on canonical changes.
 

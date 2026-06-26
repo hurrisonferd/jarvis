@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Read the arbitration spine (dex_events) — closure by proof: verify any ruling, deploy, or correction from the source of record.
 

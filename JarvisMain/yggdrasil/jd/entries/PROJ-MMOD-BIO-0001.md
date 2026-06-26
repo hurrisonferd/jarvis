@@ -20,8 +20,8 @@ references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Event-sourced multimodal perception: non-text inputs converted to structured, timestamped perceptual events compatible with EL/TST — raw input, interpretation, and state mutation strictly separated.
 

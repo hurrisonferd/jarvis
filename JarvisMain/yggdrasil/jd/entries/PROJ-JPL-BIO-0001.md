@@ -20,8 +20,8 @@ references: []
 tags: [project, jpl]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JPL project (JARVIS Programming Language).
 

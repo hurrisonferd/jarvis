@@ -20,8 +20,8 @@ references: []
 tags: [core, god-system, canon]
 aliases: [aegis]
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Permission + safety gating; validates before execution (GL6).
 

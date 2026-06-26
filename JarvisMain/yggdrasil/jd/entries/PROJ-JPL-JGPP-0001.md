@@ -20,8 +20,8 @@ references: []
 tags: [jpl, codec, revival, compression, security, bifrost, delta, protocol]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Revive the JPL codec with a minimal executable slice: packet schema v0.1 in canonical transport form, a stdlib encoder/decoder reference, and the Δ4 symbol-consistency check. Includes initial adversarial corpus hooks and first cross-node usage via sibling letters over BIFROST.
 

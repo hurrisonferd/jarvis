@@ -20,8 +20,8 @@ references: []
 tags: [audit, cloud-first, config, stale]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

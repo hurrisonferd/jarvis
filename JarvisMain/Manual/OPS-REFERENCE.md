@@ -8,7 +8,7 @@ class: SPEC
 tier: MAIN
 authority: CANON
 owner: JARVIS
-steward:
+steward: 
 parent: ARCH-YGG-CORE-0001
 seq: 235
 status: ACTIVE
@@ -20,8 +20,8 @@ references: [ARCH-JNL-CORE-0001, ARCH-JNS-CORE-0001, ARCH-JSL-CORE-0001, ARCH-JM
 tags: [operations, reference, jfs, jmms, jse, jcs, bounded-autonomy, loop, tools]
 aliases: [ops, operations, ops-ref, manual]
 ref: [OPS]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Canonical operations reference for any JARVIS stream. This is the detailed companion to the lean CLAUDE.md entry point. All governed ops docs live here; CLAUDE.md imports from it.
 

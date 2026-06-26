@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Fetch an image from the repo and return its pixels to see (vision clients) — art, screenshots, dither source.
 

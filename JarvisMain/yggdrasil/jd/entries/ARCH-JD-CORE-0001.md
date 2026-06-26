@@ -20,8 +20,8 @@ references: []
 tags: [dictionary, semantic, core, architecture, dex]
 aliases: [dex, jd, jarvis dictionary]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** THE one registry of every governed object (definition + JNL + tags + relationships) — a semantic DNS. Canonical name: JD (Jarvis Dictionary); 'the Dex' is its sanctioned nickname (the Pokedex-facing view). Same thing under every face: truth = JarvisMain/yggdrasil/jd/entries; discovery = LAL; query surface = the jarvis-dex function + jarvis_dex_*/jarvis_jd_resolve tools; live mirror = Supabase jd_entries (one table; jnl_registry is a view over it, unified 2026-06-18). One dictionary, one home, many faces — never a second registry.
 

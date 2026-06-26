@@ -20,8 +20,8 @@ references: []
 tags: [idea, log]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Log of ideas that were adopted.
 

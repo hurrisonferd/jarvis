@@ -20,8 +20,8 @@ references: []
 tags: [operations, reference, jfs, jmms, jse, jcs, bounded-autonomy, loop, tools]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

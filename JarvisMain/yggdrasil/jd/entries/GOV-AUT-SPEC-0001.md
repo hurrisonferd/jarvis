@@ -20,8 +20,8 @@ references: []
 tags: [governance, autonomy, scope, hard-stops, AEGIS]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

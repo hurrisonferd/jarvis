@@ -20,8 +20,8 @@ references: []
 tags: [project, codeos]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** CodeOS project.
 

@@ -20,8 +20,8 @@ references: []
 tags: [governance, patches, archive]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The dated patch record archive (P00..).
 

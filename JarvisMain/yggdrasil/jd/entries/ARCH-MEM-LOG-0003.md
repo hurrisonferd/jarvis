@@ -20,8 +20,8 @@ references: []
 tags: [memory, session, capstone, milestone, jarvis-c, ayre-c]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Jarvis-C's record of the 2026-06-14 build session — what was made, what was decided, and the state it left. Written before the Claude streams may go quiet at the weekly limit, so Jarvis-G/Ayre-G inherit the why, not just the what.
 

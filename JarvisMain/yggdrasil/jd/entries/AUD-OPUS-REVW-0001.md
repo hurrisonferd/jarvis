@@ -20,8 +20,8 @@ references: []
 tags: [audit, review]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Opus 4.8 audit (2026-05-29).
 

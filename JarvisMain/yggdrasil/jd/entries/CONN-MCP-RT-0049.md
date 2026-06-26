@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Fusion world-spell: the strategist's field-read — state + the Pinch's drift/debt/bloat + recent moves, curated to answer 'what's the next move?'. Lighter than Muster, planning-oriented.
 

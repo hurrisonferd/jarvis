@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Restructure the repo in one atomic PR: create, modify, move (bytes preserved), or delete many files. AEGIS-gated.
 

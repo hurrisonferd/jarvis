@@ -20,8 +20,8 @@ references: []
 tags: [core, god-system, canon]
 aliases: [odin]
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Intent routing + classification; single routing plane.
 

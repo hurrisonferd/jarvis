@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JARVIS's ONE-CALL LOOP — call this on EVERY user message, before you reason or reply.
 

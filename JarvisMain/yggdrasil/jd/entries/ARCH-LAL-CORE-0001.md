@@ -20,8 +20,8 @@ references: []
 tags: [discovery, index, core, architecture]
 aliases: [lal, library authority layer]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Discovery layer — the map of all maps; resolves JNL addresses to locations. Pure mirror.
 

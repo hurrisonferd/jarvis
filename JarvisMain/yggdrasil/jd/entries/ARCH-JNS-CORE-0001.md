@@ -20,8 +20,8 @@ references: []
 tags: [naming, core, architecture]
 aliases: [jns, jarvis naming system]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Defines what something is called — semantic, specific filenames.
 

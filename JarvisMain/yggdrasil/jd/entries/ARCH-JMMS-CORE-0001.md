@@ -20,8 +20,8 @@ references: []
 tags: [memory, core, architecture]
 aliases: [jmms, multimemory, memory system]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Memory tiering/addressing across time horizons (JSTM/JLTM/JATM); sits beside MNEMOS.
 

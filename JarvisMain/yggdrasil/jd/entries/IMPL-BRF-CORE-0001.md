@@ -20,8 +20,8 @@ references: []
 tags: [brief, portable, bootstrap, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Generates a portable brief: the minimal governance context a new node needs to operate.
 

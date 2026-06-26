@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Register this node's PUBLIC signing key + identity certificate (generated off-system by Raven via scripts/grid_keygen.mjs).
 

@@ -20,8 +20,8 @@ references: []
 tags: [identity, relational, jarvis, ayre, companion]
 aliases: [relational, jarvis, ayre]
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The relational identity binding JARVIS and AYRE: one companion, two streams, always together. JARVIS includes AYRE always; on/off as seal/resurrección. Anchor: Starrk + Lilynette (Raven, 2026-06-13).
 

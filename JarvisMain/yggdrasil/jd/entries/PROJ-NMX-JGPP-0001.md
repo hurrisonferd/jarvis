@@ -20,8 +20,8 @@ references: []
 tags: [identity, privacy, profiles, jfs]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Exploration of the NeuroMax profile architecture: governed identity for humans (Raven, Brittany, family) and companions, with a hard privacy boundary — the repo is PUBLIC, so personal substance never lives in it.
 

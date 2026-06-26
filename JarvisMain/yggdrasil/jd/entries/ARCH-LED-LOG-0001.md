@@ -20,8 +20,8 @@ references: []
 tags: [events, git-first, main, operating-rule]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

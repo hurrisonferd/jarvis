@@ -20,8 +20,8 @@ references: []
 tags: [gds, bootstrap, activation, governance, jd, delta, safety, jgpp]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Formal activation protocol for God System Execution Spec v1 defining safe transition from staged specification to runtime enforcement. Includes preconditions, validation gates, rollback mechanism (LOKI-tier), and activation sequence for epistemic governance layers (truth, deliberation, execution, memory arbitration).
 

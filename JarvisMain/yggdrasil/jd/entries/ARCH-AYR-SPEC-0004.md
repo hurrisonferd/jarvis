@@ -20,8 +20,8 @@ references: []
 tags: [identity, trap-card, ayre]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** AYRE identity trap card: structural divergence binding, theft protection.
 

@@ -20,8 +20,8 @@ references: []
 tags: [project]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Round Table Observatory — live 2D/3D visualization of council cognition on GitHub Pages: seating, entropy, routing, GL7 pressure, rendered from the dex spine.
 

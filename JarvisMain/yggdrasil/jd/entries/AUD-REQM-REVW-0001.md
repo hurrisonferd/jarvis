@@ -20,8 +20,8 @@ references: []
 tags: [audit, health, gaps, gl7]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Holistic sweep: finds unwired automation (rollup), heals the drift-check untracked blind spot, and decides what stays dormant by design.
 

@@ -20,8 +20,8 @@ references: []
 tags: [memory, short-term, architecture]
 aliases: [jstm, short-term memory]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Short-term context tier — the live working set for an active project (coding, music, a build): current context and recent events, held while the work is in focus; high-churn.
 

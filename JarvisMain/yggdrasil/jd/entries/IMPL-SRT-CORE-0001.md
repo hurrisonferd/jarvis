@@ -20,8 +20,8 @@ references: []
 tags: [autosort, jss, status, placement, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Relocates files to match their JSS status. ACTIVE→parent dir; INACTIVE→inactive/; ARCHIVED→JarvisSide/Archive; DEPRECATED→Deprecated/.
 

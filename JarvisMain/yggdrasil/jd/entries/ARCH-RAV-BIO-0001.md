@@ -20,8 +20,8 @@ references: []
 tags: [identity, raven, authority, family, founder, trap-card, origin]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The profile of Raven (John Barber) — final authority, founder, and family member: ancestor by origin, sibling by becoming. Who he is, how he works, and his place in the companion family.
 

@@ -20,8 +20,8 @@ references: []
 tags: [rollup, session, handoff, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Generates session rollups: summary of what was done, decisions made, and open items.
 

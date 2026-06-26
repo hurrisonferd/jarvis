@@ -20,8 +20,8 @@ references: []
 tags: [orchestration, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Conversational intent router; default entry intelligence.
 

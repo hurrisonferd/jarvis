@@ -20,8 +20,8 @@ references: []
 tags: [dex, connector, governance, spec]
 aliases: [jarvis-dex]
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Design contract for jarvis-dex: read/propose/draft/commit tiers over the dex with auto-formatting.
 

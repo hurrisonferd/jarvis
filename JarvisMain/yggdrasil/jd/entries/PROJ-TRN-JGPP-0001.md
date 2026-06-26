@@ -20,8 +20,8 @@ references: []
 tags: [ui, rework, control-surface, free-tier]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Exploration of the TRON UI rework: the GameBoy page is outdated post-cloud-migration; the UI's next role is the free-tier control surface — dex browser, proposal queue with Allow/Deny carrying Raven's COMMIT token, dex_events audit feed, live spine views.
 

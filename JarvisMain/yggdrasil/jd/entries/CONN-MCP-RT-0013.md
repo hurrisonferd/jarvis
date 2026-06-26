@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Export JARVIS's portable identity: the fixed keel + the latest folded accumulation + this node's card.
 

@@ -20,8 +20,8 @@ references: []
 tags: [jpl, codec, validation]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JPL codec: pre-semantic validation layer, @INSTANCE/@DOMAIN/@GOVERNANCE block grammar.
 

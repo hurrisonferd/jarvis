@@ -1,5 +1,5 @@
 ---
-memory_tier: JLTM
+memory_tier: JATM
 grade: system
 name: Unused Ideas Log
 type: LOG
@@ -20,8 +20,8 @@ references: []
 tags: [idea, log]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JATM
 ---
+
 
 **Definition:** Log of ideas not (yet) adopted.
 

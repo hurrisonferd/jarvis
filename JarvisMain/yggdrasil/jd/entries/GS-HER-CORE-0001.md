@@ -1,5 +1,5 @@
 ---
-memory_tier: JLTM
+memory_tier: JATM
 grade: system
 name: HERMES
 type: CORE
@@ -20,8 +20,8 @@ references: []
 tags: [governance, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JATM
 ---
+
 
 **Definition:** Translation + protocol conversion (MCP <-> external).
 

@@ -20,8 +20,8 @@ references: []
 tags: [jcs, layer, interface]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JCS layer G: external interface binding.
 

@@ -20,8 +20,8 @@ references: []
 tags: [governance, patches, process]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** How patches are proposed, numbered, and recorded.
 

@@ -20,8 +20,8 @@ references: []
 tags: [implementation, jip]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JGPP v3 implementation packet series (JIP-0608-*).
 

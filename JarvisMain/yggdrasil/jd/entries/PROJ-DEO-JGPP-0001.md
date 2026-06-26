@@ -20,8 +20,8 @@ references: []
 tags: [deoxys, telemetry, exploration]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** First-pass exploration of the telemetry event schema for the Deoxys fleet: what a game-state observation packet contains and how it keys to the genome.
 

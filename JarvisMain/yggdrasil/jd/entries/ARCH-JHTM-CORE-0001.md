@@ -20,8 +20,8 @@ references: []
 tags: [memory, historical, fold, architecture]
 aliases: [jhtm, historical memory]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Historical term memory tier — compressed JLTM summaries that have been folded once. One-way promotion toward JATM.
 

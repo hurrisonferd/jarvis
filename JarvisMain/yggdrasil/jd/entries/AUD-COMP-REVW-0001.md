@@ -1,5 +1,5 @@
 ---
-memory_tier: JLTM
+memory_tier: JATM
 grade: system
 name: Companion Research
 type: REVW
@@ -20,8 +20,8 @@ references: []
 tags: [research, companion, archive]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JATM
 ---
+
 
 **Definition:** Archived research note on the full-companion direction (2026-05-30).
 

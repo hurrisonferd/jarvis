@@ -20,8 +20,8 @@ references: []
 tags: [knowledge, routing, mimir, help, retrieval, navigation]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The "help-me" index — a routing map from what you're looking for to where it lives and which tool retrieves it. Operationalizes MIMIR (GS-MIM-CORE-0001, contextual knowledge; Rosetta HELP→MIMIR) as a queryable lookup so no stream — or Raven — has to remember whether a thing lives in JD, the dex, identity, governance, or a project. Names matter more than locations; this is the table that makes retrieval feel locationless.
 

@@ -20,8 +20,8 @@ references: []
 tags: [structure, core, architecture]
 aliases: [jsl, jarvis structural layer]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Defines how information is organized — folder hierarchy and structural invariants.
 

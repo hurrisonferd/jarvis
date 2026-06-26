@@ -20,8 +20,8 @@ references: []
 tags: [observatory, visualizer, council, pages, three-js]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 2D/3D web UI (GitHub Pages, like the gameboy page) rendering live council state: god-system seating, entropy field, ODIN routing, GL7 cost, STAR LOG stream. Data source: the EXISTING dex_events spine + registries mirrored to Supabase — no new table, no second spine (NEMESIS).
 

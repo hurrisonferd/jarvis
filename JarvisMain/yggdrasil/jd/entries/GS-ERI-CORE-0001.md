@@ -20,8 +20,8 @@ references: []
 tags: [cosmic, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Entropy balancing + unpredictability shaping (simulation).
 

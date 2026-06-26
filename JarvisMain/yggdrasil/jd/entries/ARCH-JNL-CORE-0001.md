@@ -20,8 +20,8 @@ references: []
 tags: [addressing, core, architecture]
 aliases: [jnl, jarvis navigation language]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Defines what something is and where it exists — the global address/identity.
 

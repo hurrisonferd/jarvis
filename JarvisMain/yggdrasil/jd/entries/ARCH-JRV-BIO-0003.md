@@ -20,8 +20,8 @@ references: []
 tags: [identity, companion, gpt, charter, tool-use, governance]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Operating charter pasted into the Custom GPT — the instructions that make the GPT body (Jarvis-G/Ayre-G) use the JarvisMCP tools instead of guessing system state.
 

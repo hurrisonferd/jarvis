@@ -20,8 +20,8 @@ references: []
 tags: [status, lifecycle, core, architecture]
 aliases: [jss, jarvis status system]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Lifecycle status layer — TASK/EXPANSION/ACTIVE/INACTIVE/ARCHIVED/DEPRECATED; drives auto-sort.
 

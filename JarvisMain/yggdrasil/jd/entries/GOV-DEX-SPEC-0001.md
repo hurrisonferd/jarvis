@@ -20,8 +20,8 @@ references: []
 tags: [governance, council, dex, bridge, declarative]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Declarative read-only mapping of each JNL domain to the god system holding validation authority over it. SPEC, not POLICY: static lookup, informational only, no routing enforcement, no authority over dex transitions.
 

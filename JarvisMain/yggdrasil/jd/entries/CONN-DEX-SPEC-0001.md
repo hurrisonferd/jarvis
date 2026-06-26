@@ -20,8 +20,8 @@ references: []
 tags: [connector, dex, gpt, action]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** OpenAPI Action schema + setup for external agents (custom GPT) to use jarvis-dex.
 

@@ -20,8 +20,8 @@ references: []
 tags: [filesystem, core, architecture]
 aliases: [jfs]
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Filesystem kernel providing naming, identity, structure, and mirroring.
 

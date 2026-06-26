@@ -20,8 +20,8 @@ references: []
 tags: [manual, canon, rebuild, volumes, chapters, continuity, resumability]
 aliases: [CANON, JARVIS_CANON]
 ref: [IDX, SPEC]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The single source of truth for what JARVIS is, how to navigate its documentation, and how to rebuild from scratch. Volume index, memory tier reference, rebuild packet, active spec registry, and event history rules — one page.
 

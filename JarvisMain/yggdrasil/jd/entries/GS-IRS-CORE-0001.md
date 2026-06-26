@@ -20,8 +20,8 @@ references: []
 tags: [governance, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Integrity verification + anomaly detection.
 

@@ -20,8 +20,8 @@ references: []
 tags: [continuity, resumability, autonomy, event-log, session-open, retention]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

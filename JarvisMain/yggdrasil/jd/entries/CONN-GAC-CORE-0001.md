@@ -20,8 +20,8 @@ references: []
 tags: [connector, gpt, action, rest, companion]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The GPT stream's hands: a governed REST tool-dispatch surface (jarvis-action) so ChatGPT Custom GPTs — which cannot speak MCP Streamable HTTP — reach the companion tools (query/recall/remember/event), the full dex/JD browse, and the grimoire over OpenAPI Actions. Same governed core as jarvis-mcp, different transport; same JARVIS_MCP_TOKEN write gate; isolated so a bug cannot touch Claude's connector.
 

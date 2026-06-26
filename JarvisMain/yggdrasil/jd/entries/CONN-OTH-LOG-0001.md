@@ -20,8 +20,8 @@ references: []
 tags: [connector]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Log of other/auxiliary connectors.
 

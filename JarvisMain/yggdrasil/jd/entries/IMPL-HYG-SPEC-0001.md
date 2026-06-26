@@ -1,5 +1,5 @@
 ---
-memory_tier: JLTM
+memory_tier: JATM
 grade: system
 name: Hygiene Packets Archive
 type: SPEC
@@ -20,8 +20,8 @@ references: []
 tags: [hygiene, archive, reference]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JATM
 ---
+
 
 **Definition:** Eight archived GPT hygiene packets with per-packet governance verdicts.
 

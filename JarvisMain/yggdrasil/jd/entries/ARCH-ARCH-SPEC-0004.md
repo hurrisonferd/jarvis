@@ -20,8 +20,8 @@ references: []
 tags: [memory, mnemos, jmms, jstm, jhtm, jltm, jatm, supabase]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

@@ -20,8 +20,8 @@ references: []
 tags: [jcs, layer, temporal]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** JCS layer D: rebuilds historical JD states from JIP + logs.
 

@@ -20,8 +20,8 @@ references: []
 tags: [seed, registry, jd, lal, graph, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Rebuilds all derived registries (JD entries, LAL index, address-registry, graph) from source manifests + scan roots.
 

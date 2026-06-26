@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Load the identity profile for JARVIS, AYRE, ARGENT, RAVEN, or the relational keel — voice, disciplines, growth.
 

@@ -20,8 +20,8 @@ references: []
 tags: [modularity, extensibility, gold-law, yggdrasil, governance, roadmap, gl7, gl12, automation, routing, mirroring]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The governed Field Plan for making JARVIS self-extending — adding a spell, a domain, a JID-card field, or a lens must cost one data row plus one reseed, never a structural rewrite. Carries (1) a proposed new Gold Law elevating modularity/extensibility to a hard constraint and part of Yggdrasil compliance, (2) the concrete compliance criteria Raven named (formatting, pointing, mirroring, data organization, automation, routing), (3) the best-order build roadmap, and (4) a Gold Law enforcement audit (which laws are mechanically vs manually enforced).
 

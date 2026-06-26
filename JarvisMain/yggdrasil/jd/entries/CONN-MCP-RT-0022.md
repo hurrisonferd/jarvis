@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The NLP 'load' command: resolve any governed object by JID, domain serial (JIDD), name, or JNL address.
 

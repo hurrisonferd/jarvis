@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Tier and recall live memory by horizon: JSTM (working/session) -> JLTM (consolidated) -> JATM (ancestral/immutable).
 

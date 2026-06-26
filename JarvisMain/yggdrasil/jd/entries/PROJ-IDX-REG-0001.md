@@ -20,8 +20,8 @@ references: []
 tags: [projects, index, root]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** The Projects index — the root every project node (BIO) hangs from.
 

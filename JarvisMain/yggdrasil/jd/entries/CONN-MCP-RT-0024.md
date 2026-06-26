@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Open the Grimoire: JARVIS's self-knowledge index — the lens/fusion chapters plus the full object catalog.
 

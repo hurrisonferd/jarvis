@@ -20,8 +20,8 @@ references: []
 tags: [core, god-system, canon]
 aliases: [mnemos, memory]
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Semantic memory; the meaning layer.
 

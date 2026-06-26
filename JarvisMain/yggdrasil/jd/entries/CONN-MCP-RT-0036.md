@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Fetch a PR and its diffs for a Jarvis+Ayre summary, then merge on Raven's word — never blind. AEGIS-gated.
 

@@ -20,8 +20,8 @@ references: []
 tags: [architecture, ayre]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Spec for the AYRE reflection loop.
 

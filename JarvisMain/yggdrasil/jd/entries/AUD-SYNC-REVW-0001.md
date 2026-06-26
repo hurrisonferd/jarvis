@@ -20,8 +20,8 @@ references: []
 tags: [audit, sync, governance, git-first]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Penetrating audit of git<->Supabase sync; finds the connector-first canon-write paths (jd_approve, jip_apply/revert) that bypass git.
 

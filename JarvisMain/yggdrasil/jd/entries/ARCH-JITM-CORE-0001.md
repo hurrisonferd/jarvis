@@ -20,8 +20,8 @@ references: []
 tags: [memory, immediate, always-on, architecture]
 aliases: []
 ref: [PRI, SPEC, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** System-context tier — the always-on briefing that helps Jarvis and Ayre RUN: identity, charter, and must-know pointers injected every turn (capped; pointers, not content).
 

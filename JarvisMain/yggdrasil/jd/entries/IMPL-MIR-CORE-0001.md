@@ -20,8 +20,8 @@ references: []
 tags: [mirror, sync, supabase, jd_entries, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Syncs governed objects between git (canonical) and Supabase (runtime mirror). Reads jd_entries, updates Supabase.
 

@@ -20,8 +20,8 @@ references: []
 tags: [manual, canon, rebuild, volumes, chapters, continuity, resumability]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** 
 

@@ -20,8 +20,8 @@ references: []
 tags: [health, diagnostic, orphans, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Generates JD health — orphan analysis, edge integrity, ruleless JIPs. Read-only, never blocks.
 

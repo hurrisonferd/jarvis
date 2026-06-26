@@ -20,8 +20,8 @@ references: []
 tags: [audit, ci]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Branch-protection / required-checks setup notes.
 

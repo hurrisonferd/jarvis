@@ -20,8 +20,8 @@ references: []
 tags: [connector, mcp, tool]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
 ---
+
 
 **Definition:** Exercise the connector's own subsystems and report a health matrix in one call: GitHub, Supabase, the dex, code search, and the deployed version.
 
