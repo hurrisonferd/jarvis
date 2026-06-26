@@ -51,18 +51,23 @@ jobs:
             supabase link --project-ref "$PROJECT_REF" 2>&1 || echo "⚠ link failed"
           fi
           echo "→ Applying migrations via Supabase CLI..."
-          if supabase db push 2>&1; then
+          # --include-all: push all local migrations to remote, regardless of remote history.
+          # Fetch fallback DB config outside the conditional (used if CLI fails).
+          DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF" \
+            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")
+          DB_URL=$(echo "$DB_CONFIG" | jq -r '.connection_info.connection_string // .connection_string // null')
+          DB_HOST=$(echo "$DB_CONFIG" | jq -r '.database.host // null')
+          if supabase db push --include-all 2>&1; then
             echo "✓ Migrations applied via Supabase CLI"
           else
-            echo "⚠ Supabase CLI migration failed"
-            # Fallback: try to fetch DATABASE_URL and use raw psql
-            DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF" \
-              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")
-            # Supabase Pro API returns .database.host (not connection_info.connection_string)
-            DB_URL=$(echo "$DB_CONFIG" | jq -r '.database.host // null')
+            echo "⚠ Supabase CLI migration failed — trying raw psql"
             if [ "$DB_URL" != "null" ] && [ -n "$DB_URL" ]; then
-              export DATABASE_URL="postgresql://postgres:$POSTGRES_PASSWORD@$DB_URL:6543/postgres"
-              echo "✓ Constructed DATABASE_URL from project API (pooler)"
+              export DATABASE_URL="$DB_URL"
+              echo "✓ Using connection string from Management API"
+            elif [ "$DB_HOST" != "null" ] && [ -n "$DB_HOST" ]; then
+              # Requires DB_PASSWORD env var (set as a repo secret or environment variable)
+              export DATABASE_URL="postgresql://postgres:${DB_PASSWORD}@${DB_HOST}:6543/postgres"
+              echo "⚠ Constructed DATABASE_URL from host — set DB_PASSWORD secret if this fails"
             fi
             if [ -n "$DATABASE_URL" ]; then
               echo "Connecting to: ${DATABASE_URL%%@*}"
