@@ -49,36 +49,31 @@ jobs:
             echo "→ Linking project..."
             supabase link --project-ref "$PROJECT_REF" 2>&1 || echo "⚠ link failed"
           fi
-          echo "→ Applying migrations via Supabase CLI..."
-          # The remote DB has migrations the CLI doesn't know about (applied via Dashboard).
-          # Sync CLI's migration history to match remote state, then push new local migrations.
-          echo "→ Syncing migration history..."
-          # The CLI has 1 version locally; remote has 49.
-          # Mark ALL remote versions as reverted so CLI thinks they don't exist.
-          # This lets db push apply only the new local migration without conflict.
-          echo "→ Running db pull to discover remote version list..."
-          DB_PULL_OUTPUT=$(supabase db pull 2>&1 || true)
-          echo "$DB_PULL_OUTPUT"
-          # Extract all remote versions from db pull error output
-          echo "$DB_PULL_OUTPUT" | grep -oE '(20[0-9]{12})' | sort -u > /tmp/remote_versions.txt
-          REMOTE_COUNT=$(wc -l < /tmp/remote_versions.txt || echo 0)
-          if [ "$REMOTE_COUNT" -gt 0 ] 2>/dev/null; then
-            echo "→ Marking $REMOTE_COUNT remote versions as reverted in CLI history..."
-            while read -r ver; do
-              supabase migration repair --status reverted "$ver" 2>&1 | grep -v "^$" || true
-            done < /tmp/remote_versions.txt
-            echo "✓ CLI history synced to remote"
-          else
-            echo "⚠ Could not extract remote versions"
-            exit 1
-          fi
-          echo "→ Pushing pending migrations..."
-          if supabase db push --include-all 2>&1; then
-            echo "✓ Migrations applied via Supabase CLI"
-          else
-            echo "⚠ Supabase CLI migration failed"
-            exit 1
-          fi
+          echo "→ Applying migrations via Management API..."
+          # Apply pending migration SQLs via Management API POST /v1/projects/{ref}/database/migrations.
+          # This bypasses CLI entirely — no version reconciliation needed.
+          for f in supabase/migrations/*.sql; do
+            NAME=$(basename "${f%.sql}")
+            # Check if already applied
+            EXISTS=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF/database/migrations/$NAME" \
+              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+              -H "Content-Type: application/json" | jq -e '.version' >/dev/null 2>&1 && echo "1" || echo "")
+            if [ "$EXISTS" = "1" ]; then
+              echo "✓ $NAME already applied"
+            else
+              echo "→ Applying $NAME..."
+              SQL=$(cat "$f" | jq -Rs '{name: env.NAME, sql: .}')
+              RESPONSE=$(curl -s -X POST "https://api.supabase.com/v1/projects/$PROJECT_REF/database/migrations" \
+                -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+                -H "Content-Type: application/json" \
+                -d "$SQL")
+              if echo "$RESPONSE" | jq -e '.version' >/dev/null 2>&1; then
+                echo "✓ $NAME applied"
+              else
+                echo "⚠ $NAME failed: $(echo "$RESPONSE" | jq -r '.message // .error // .' | head -c 100)"
+              fi
+            fi
+          done
       - name: Deploy edge functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
