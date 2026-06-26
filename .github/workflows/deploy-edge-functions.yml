@@ -50,8 +50,8 @@ jobs:
             supabase link --project-ref "$PROJECT_REF" 2>&1 || echo "⚠ link failed"
           fi
           echo "→ Applying migrations via Management API..."
-          # Apply pending migration SQLs via Management API POST /v1/projects/{ref}/database/migrations.
-          # This bypasses CLI entirely — no version reconciliation needed.
+          # Management API POST /v1/projects/{ref}/database/migrations applies SQL by version name.
+          # Body: {"query": "<sql>", "name": "<version>"}. Bypasses CLI entirely.
           for f in supabase/migrations/*.sql; do
             NAME=$(basename "${f%.sql}")
             # Check if already applied
@@ -62,11 +62,11 @@ jobs:
               echo "✓ $NAME already applied"
             else
               echo "→ Applying $NAME..."
-              SQL=$(cat "$f" | jq -Rs '{name: env.NAME, sql: .}')
+              PAYLOAD=$(python3 -c "import sys,json; name=sys.argv[1]; sql=open(sys.argv[2]).read(); print(json.dumps({'query': sql, 'name': name}))" "$NAME" "$f")
               RESPONSE=$(curl -s -X POST "https://api.supabase.com/v1/projects/$PROJECT_REF/database/migrations" \
                 -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
                 -H "Content-Type: application/json" \
-                -d "$SQL")
+                -d "$PAYLOAD")
               if echo "$RESPONSE" | jq -e '.version' >/dev/null 2>&1; then
                 echo "✓ $NAME applied"
               else
