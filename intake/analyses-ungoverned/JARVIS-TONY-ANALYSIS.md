@@ -1,7 +1,6 @@
 ---
-jnl: IDE-ANA-JAR-0001
 name: JARVIS × Tony Stark Analysis
-type: ANALYSIS
+type: SPEC
 class: SPEC
 tier: SIDE
 authority: CANON

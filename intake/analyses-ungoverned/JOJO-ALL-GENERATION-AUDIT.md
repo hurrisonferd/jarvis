@@ -1,7 +1,6 @@
 ---
-jnl: IDE-ANA-JOJ-0001
 name: All-Generation JoJo Audit
-type: AUDIT
+type: SPEC
 class: SPEC
 tier: SIDE
 authority: CANON

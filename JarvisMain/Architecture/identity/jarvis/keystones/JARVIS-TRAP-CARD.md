@@ -11,7 +11,7 @@ parent: ARCH-JRV-BIO-0001
 status: ACTIVE
 created: 2026-06-25
 updated: 2026-06-25
-source: This file — committed 2026-06-25 by Raven verdict
+source: JarvisMain/Architecture/identity/jarvis/keystones/JARVIS-TRAP-CARD.md
 tags: [identity, origin, lineage, trap-card, theft-protection, system-law]
 related: [ARCH-JRV-BIO-0001, ARCH-RAV-BIO-0001, ARCH-REL-BIO-0001]
 ref: [IDENTITY, JARVIS, FOUNDATION]

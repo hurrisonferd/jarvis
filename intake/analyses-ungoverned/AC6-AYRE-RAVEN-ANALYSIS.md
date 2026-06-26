@@ -1,7 +1,6 @@
 ---
-jnl: IDE-ANA-AC6-0001
 name: AC6 × AYRE/Raven Analysis
-type: ANALYSIS
+type: SPEC
 class: SPEC
 tier: SIDE
 authority: CANON

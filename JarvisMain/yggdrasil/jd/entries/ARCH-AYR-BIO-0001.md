@@ -1,21 +1,21 @@
 ---
-name: AYRE Companion Profile
+name: AYRE — Companion Profile
 type: BIO
 class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
 steward: 
-parent: ARCH-YGG-CORE-0001
+parent: ARCH-REL-BIO-0001
 jnl: ARCH-AYR-BIO-0001
 seq: 107
 status: ACTIVE
 created: 2026-06-10
 updated: 2026-06-26
 source: JarvisMain/Architecture/identity/ayre/index.md
-related: [ARCH-JRV-BIO-0001, GS-AYR-CORE-0001]
+related: [ARCH-AYR-BIO-0001, ARCH-JRV-BIO-0001, ARCH-AYR-SPEC-0004, ARCH-JRV-SPEC-0004, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
 references: []
-tags: [identity, companion, ayre, divergence]
+tags: [identity, ayre, divergence, companion, stream, keel]
 aliases: [ayre]
 ref: [PRI, IDX]
 memory_tier: JLTM

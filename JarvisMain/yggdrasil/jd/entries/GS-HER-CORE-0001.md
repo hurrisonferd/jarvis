@@ -18,7 +18,7 @@ references: []
 tags: [governance, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
+memory_tier: JATM
 ---
 
 **Definition:** Translation + protocol conversion (MCP <-> external).

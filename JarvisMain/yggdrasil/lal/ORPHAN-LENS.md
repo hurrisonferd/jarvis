@@ -1,11 +1,6 @@
----
-memory_tier: JLTM
-grade: system
----
-
 # Orphan Lens — the debt, made into a worklist
 
-_generated: 2026-06-25T22:22:32Z (2026-06-25 18:22 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
+_generated: 2026-06-26T19:53:19Z (2026-06-26 15:53 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_
 
 4 orphan(s) with no parent. Verdicts: **0 attach** (obvious parent exists) · **0 decide** (needs your call) · **0 archive** · **4 root** (legitimate top-level, leave as-is).
 

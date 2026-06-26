@@ -1,11 +1,6 @@
----
-memory_tier: JLTM
-grade: system
----
-
 # Wiring Map — how Jarvis, Ayre, and the god systems connect
 
-_generated: 2026-06-24T21:30:23Z (2026-06-24 17:30 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
+_generated: 2026-06-26T19:53:19Z (2026-06-26 15:53 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._
 
 Read at session start (after `suit_up` / `identity_read`). This is the route guide:
 what tends what, what runs in what order, which tool wakes which god.

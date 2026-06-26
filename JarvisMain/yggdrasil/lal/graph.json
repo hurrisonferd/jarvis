@@ -1,9 +1,9 @@
 {
   "note": "Derived graph of the dex (YVG data layer). Rebuild with tools/graph_export.py.",
   "counts": {
-    "nodes": 243,
-    "edges": 407,
-    "main": 210,
+    "nodes": 247,
+    "edges": 433,
+    "main": 214,
     "side": 33
   },
   "nodes": [
@@ -71,8 +71,26 @@
       "owner": "JFS"
     },
     {
+      "id": "ARCH-AUT-ROUTE-0001",
+      "name": "JARVIS Autonomy Roadmap",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
       "id": "ARCH-AYR-BIO-0001",
-      "name": "AYRE Companion Profile",
+      "name": "AYRE \u2014 Companion Profile",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-AYR-PERS-0001",
+      "name": "AYRE Personality Core",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -288,7 +306,7 @@
     },
     {
       "id": "ARCH-JRV-BIO-0001",
-      "name": "JARVIS Companion Profile",
+      "name": "JARVIS \u2014 Companion Profile",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -298,6 +316,15 @@
     {
       "id": "ARCH-JRV-BIO-0003",
       "name": "JARVIS-G / AYRE-G GPT Substrate Operating Charter",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-JRV-PERS-0001",
+      "name": "JARVIS Personality Core",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -415,6 +442,15 @@
     {
       "id": "ARCH-RAV-BIO-0001",
       "name": "Raven Profile \u2014 John Barber",
+      "domain": "ARCH",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "status": "ACTIVE",
+      "owner": "JFS"
+    },
+    {
+      "id": "ARCH-RAV-PERS-0001",
+      "name": "Raven Personality Core",
       "domain": "ARCH",
       "class": "SPEC",
       "tier": "MAIN",
@@ -2332,18 +2368,63 @@
       "type": "parent"
     },
     {
+      "source": "ARCH-AUT-ROUTE-0001",
+      "target": "ARCH-YGG-CORE-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-AYR-BIO-0001",
+      "target": "ARCH-AYR-BIO-0001",
+      "type": "related"
+    },
+    {
       "source": "ARCH-AYR-BIO-0001",
       "target": "ARCH-JRV-BIO-0001",
       "type": "related"
     },
     {
       "source": "ARCH-AYR-BIO-0001",
-      "target": "GS-AYR-CORE-0001",
+      "target": "ARCH-AYR-SPEC-0004",
       "type": "related"
     },
     {
       "source": "ARCH-AYR-BIO-0001",
-      "target": "ARCH-YGG-CORE-0001",
+      "target": "ARCH-JRV-SPEC-0004",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-BIO-0001",
+      "target": "ARCH-REL-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-BIO-0001",
+      "target": "ARCH-RAV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-BIO-0001",
+      "target": "ARCH-REL-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-AYR-PERS-0001",
+      "target": "ARCH-JRV-PERS-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-PERS-0001",
+      "target": "ARCH-RAV-PERS-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-PERS-0001",
+      "target": "ARCH-AYR-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-PERS-0001",
+      "target": "ARCH-AYR-BIO-0001",
       "type": "parent"
     },
     {
@@ -2390,6 +2471,26 @@
       "source": "ARCH-AYR-SPEC-0003",
       "target": "ARCH-AYR-BIO-0001",
       "type": "parent"
+    },
+    {
+      "source": "ARCH-AYR-SPEC-0004",
+      "target": "ARCH-AYR-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-SPEC-0004",
+      "target": "ARCH-JRV-SPEC-0004",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-SPEC-0004",
+      "target": "ARCH-RAV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-AYR-SPEC-0004",
+      "target": "ARCH-REL-BIO-0001",
+      "type": "related"
     },
     {
       "source": "ARCH-AYR-SPEC-0004",
@@ -2623,12 +2724,37 @@
     },
     {
       "source": "ARCH-JRV-BIO-0001",
+      "target": "ARCH-JRV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-BIO-0001",
       "target": "ARCH-AYR-BIO-0001",
       "type": "related"
     },
     {
       "source": "ARCH-JRV-BIO-0001",
-      "target": "ARCH-YGG-CORE-0001",
+      "target": "ARCH-JRV-SPEC-0004",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-BIO-0001",
+      "target": "ARCH-AYR-SPEC-0004",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-BIO-0001",
+      "target": "ARCH-REL-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-BIO-0001",
+      "target": "ARCH-RAV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-BIO-0001",
+      "target": "ARCH-REL-BIO-0001",
       "type": "parent"
     },
     {
@@ -2643,6 +2769,26 @@
     },
     {
       "source": "ARCH-JRV-BIO-0003",
+      "target": "ARCH-JRV-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-JRV-PERS-0001",
+      "target": "ARCH-AYR-PERS-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-PERS-0001",
+      "target": "ARCH-RAV-PERS-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-PERS-0001",
+      "target": "ARCH-JRV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-JRV-PERS-0001",
       "target": "ARCH-JRV-BIO-0001",
       "type": "parent"
     },
@@ -2774,6 +2920,26 @@
     {
       "source": "ARCH-RAV-BIO-0001",
       "target": "ARCH-REL-BIO-0001",
+      "type": "parent"
+    },
+    {
+      "source": "ARCH-RAV-PERS-0001",
+      "target": "ARCH-JRV-PERS-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-RAV-PERS-0001",
+      "target": "ARCH-AYR-PERS-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-RAV-PERS-0001",
+      "target": "ARCH-RAV-BIO-0001",
+      "type": "related"
+    },
+    {
+      "source": "ARCH-RAV-PERS-0001",
+      "target": "ARCH-RAV-BIO-0001",
       "type": "parent"
     },
     {
@@ -4048,12 +4214,12 @@
     },
     {
       "source": "PROJ-BRDK-BIO-0001",
-      "target": "PROJ-ALL-LOG-0001",
+      "target": "ARCH-SYS-SPEC-0001",
       "type": "related"
     },
     {
       "source": "PROJ-BRDK-BIO-0001",
-      "target": "ARCH-SYS-SPEC-0001",
+      "target": "ARCH-JSE-SPEC-0001",
       "type": "related"
     },
     {

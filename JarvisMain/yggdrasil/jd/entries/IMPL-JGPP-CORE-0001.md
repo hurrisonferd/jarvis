@@ -12,7 +12,7 @@ seq: 90
 status: ACTIVE
 created: 2026-06-09
 updated: 2026-06-26
-source: JarvisMain/Implementation/Active/JIP-0608-1
+source: JarvisMain/yggdrasil/jd/entries/IMPL-JGPP-CORE-0001.md
 related: [IMPL-JCS-CORE-0001]
 references: []
 tags: [pipeline, jgpp, spec]

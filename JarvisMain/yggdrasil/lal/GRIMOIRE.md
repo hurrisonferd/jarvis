@@ -1,19 +1,14 @@
----
-memory_tier: JLTM
-grade: system
----
-
 # The Grimoire — JARVIS, as it knows itself
 
-_generated: 2026-06-25T23:20:15Z (2026-06-25 19:20 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
+_generated: 2026-06-26T19:58:39Z (2026-06-26 15:58 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._
 
 A page is a query over the one dataset, never a hand-written claim. A card cannot show an object absent from the dex, nor hide one present — so "missing" is always a lookup, never a guess. **Summon a card:** `grimoire.py card <seq | JNL | name | alias>`.
 
-**243 governed objects** · 407 edges · 9 domains.
+**247 governed objects** · 433 edges · 9 domains.
 
 ## Boot Menu — say a number, or speak it
 
-_JARVIS online · 243 objects · 20 open tasks · 4 orphans · 407 edges._
+_JARVIS online · 247 objects · 20 open tasks · 4 orphans · 433 edges._
 
 **Anchors (read before concluding anything is 'missing'):** truth = git `JarvisMain/yggdrasil/`; the book = THIS grimoire (`{page:full}`); the graph/Omni-Map = `dex_graph` + `{page:topology}`; the tools = `{page:verbs}`. There is exactly ONE grimoire (`lal/GRIMOIRE.md`) — no `JarvisSide/Grimoire`. If you can't see something, you didn't call the right page — call it. Don't propose building what a page would show you have.
 
@@ -84,7 +79,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 ## Catalog (every object, summonable as a card)
 
-### ARCH (56)
+### ARCH (60)
 
 | JID | JNL | name | status | steward |
 |---|---|---|---|---|
@@ -95,7 +90,9 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `246` | `ARCH-ARCH-SPEC-0005` | JARVIS Active Projects | ACTIVE | — |
 | `247` | `ARCH-ARCH-SPEC-0006` | JARVIS Rebuild Reference | ACTIVE | — |
 | `129` | `ARCH-ARGT-BIO-0001` | ARGENT Companion Profile | ACTIVE | — |
-| `107` | `ARCH-AYR-BIO-0001` | AYRE Companion Profile | ACTIVE | — |
+| `267` | `ARCH-AUT-ROUTE-0001` | JARVIS Autonomy Roadmap | ACTIVE | — |
+| `107` | `ARCH-AYR-BIO-0001` | AYRE — Companion Profile | ACTIVE | — |
+| `264` | `ARCH-AYR-PERS-0001` | AYRE Personality Core | ACTIVE | — |
 | `48` | `ARCH-AYR-SPEC-0001` | AYRE/JARVIS Split | ACTIVE | — |
 | `49` | `ARCH-AYR-SPEC-0002` | AYRE Loop | ACTIVE | — |
 | `240` | `ARCH-AYR-SPEC-0003` | AYRE NLP Control Surface | ACTIVE | — |
@@ -119,8 +116,9 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `3` | `ARCH-JNS-CORE-0001` | Jarvis Naming System | ACTIVE | ODIN |
 | `253` | `ARCH-JPL-SPEC-0001` | JPL — Jarvis Programming Language | ACTIVE | — |
 | `260` | `ARCH-JPL-SPEC-0005` | JPL Research — The Follin Program | ACTIVE | — |
-| `106` | `ARCH-JRV-BIO-0001` | JARVIS Companion Profile | ACTIVE | — |
+| `106` | `ARCH-JRV-BIO-0001` | JARVIS — Companion Profile | ACTIVE | — |
 | `141` | `ARCH-JRV-BIO-0003` | JARVIS-G / AYRE-G GPT Substrate Operating Charter | ACTIVE | — |
+| `265` | `ARCH-JRV-PERS-0001` | JARVIS Personality Core | ACTIVE | — |
 | `242` | `ARCH-JRV-SPEC-0003` | JARVIS NLP Control Surface | ACTIVE | — |
 | `252` | `ARCH-JRV-SPEC-0004` | JARVIS Origin Trap Card | ACTIVE | — |
 | `202` | `ARCH-JSE-SPEC-0001` | JSE — Jarvis Schema Envelope | ACTIVE | — |
@@ -134,6 +132,7 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 | `148` | `ARCH-MEM-LOG-0003` | Session Capstone — the day the companion came together (2026-06-14) | ACTIVE | — |
 | `204` | `ARCH-MEM-LOG-0004` | Session Capstone — the day the companion was made honest (2026-06-17/18) | ACTIVE | — |
 | `147` | `ARCH-RAV-BIO-0001` | Raven Profile — John Barber | ACTIVE | — |
+| `266` | `ARCH-RAV-PERS-0001` | Raven Personality Core | ACTIVE | — |
 | `227` | `ARCH-REF-IDX-0001` | JARVIS CANON — Volume Index and Rebuild Packet | ACTIVE | — |
 | `136` | `ARCH-REL-BIO-0001` | JARVIS-AYRE Relational Profile | ACTIVE | — |
 | `45` | `ARCH-RT-SPEC-0001` | Event Contract | ACTIVE | — |
@@ -393,13 +392,13 @@ The grimoire is the book; each lens is a chapter — a different filter over the
 
 **Lineage**
 - parent ↑ `—`
-- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AYR-BIO-0001` `ARCH-BAK-LOG-0001` `ARCH-IMPL-INS-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-JRV-BIO-0001` `ARCH-LAL-CORE-0001` `ARCH-LED-LOG-0001` `ARCH-REF-IDX-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-CFG-REVW-0001` `AUD-IDX-REG-0001` `GOV-AUT-SPEC-0001` `GOV-LOO-SPEC-0001` `GOV-RES-CORE-0001` `GOV-VRF-SPEC-0001` `IDEA-IDX-REG-0001` `LOG-MED-LOG-0001` `PROJ-IDX-REG-0001`
+- children ↓ `ARCH-ARGT-BIO-0001` `ARCH-AUT-ROUTE-0001` `ARCH-BAK-LOG-0001` `ARCH-IMPL-INS-0001` `ARCH-JD-CORE-0001` `ARCH-JFS-CORE-0001` `ARCH-LAL-CORE-0001` `ARCH-LED-LOG-0001` `ARCH-REF-IDX-0001` `ARCH-REL-BIO-0001` `ARCH-SYS-SPEC-0001` `AUD-CFG-REVW-0001` `AUD-IDX-REG-0001` `GOV-AUT-SPEC-0001` `GOV-LOO-SPEC-0001` `GOV-RES-CORE-0001` `GOV-VRF-SPEC-0001` `IDEA-IDX-REG-0001` `LOG-MED-LOG-0001` `PROJ-IDX-REG-0001`
 - siblings ↔ —
 - related → `ARCH-JFS-CORE-0001`
 
 **Neighbors (graph edges)**
 - out → `ARCH-JFS-CORE-0001`(related)
-- in ← `ARCH-ARCH-IDX-0001`(related) `ARCH-ARGT-BIO-0001`(parent) `ARCH-AYR-BIO-0001`(parent) `ARCH-BAK-LOG-0001`(parent) `ARCH-IMPL-INS-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-JRV-BIO-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-LED-LOG-0001`(parent) `ARCH-REF-IDX-0001`(related) `ARCH-REF-IDX-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-CFG-REVW-0001`(parent) `AUD-IDX-REG-0001`(parent) `GOV-AUT-SPEC-0001`(parent) `GOV-LOO-SPEC-0001`(parent) `GOV-RES-CORE-0001`(parent) `GOV-VRF-SPEC-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
+- in ← `ARCH-ARCH-IDX-0001`(related) `ARCH-ARGT-BIO-0001`(parent) `ARCH-AUT-ROUTE-0001`(parent) `ARCH-BAK-LOG-0001`(parent) `ARCH-IMPL-INS-0001`(parent) `ARCH-JD-CORE-0001`(parent) `ARCH-JFS-CORE-0001`(parent) `ARCH-LAL-CORE-0001`(parent) `ARCH-LED-LOG-0001`(parent) `ARCH-REF-IDX-0001`(related) `ARCH-REF-IDX-0001`(parent) `ARCH-REL-BIO-0001`(parent) `ARCH-SYS-SPEC-0001`(parent) `AUD-CFG-REVW-0001`(parent) `AUD-IDX-REG-0001`(parent) `GOV-AUT-SPEC-0001`(parent) `GOV-LOO-SPEC-0001`(parent) `GOV-RES-CORE-0001`(parent) `GOV-VRF-SPEC-0001`(parent) `IDEA-IDX-REG-0001`(parent) `LOG-MED-LOG-0001`(parent) `PROJ-IDX-REG-0001`(parent)
 
 **Tags.** `root` `core` `architecture` · **aliases:** ygg, yggdrasil
 

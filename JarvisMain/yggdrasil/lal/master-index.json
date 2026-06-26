@@ -1,6 +1,6 @@
 {
   "note": "MasterIndexSummary \u2014 repository-wide routing mirror. Derived; do not hand-edit.",
-  "count": 243,
+  "count": 247,
   "index": [
     {
       "object": "JARVIS Canon Index",
@@ -103,12 +103,44 @@
       "state": "active"
     },
     {
-      "object": "AYRE Companion Profile",
+      "object": "JARVIS Autonomy Roadmap",
+      "jnl": "ARCH-AUT-ROUTE-0001",
+      "location": "JarvisMain/Architecture/specs/AUTONOMY-ROADMAP-0001.md",
+      "tags": [
+        "autonomy",
+        "governance",
+        "roadmap",
+        "GL2",
+        "GL5",
+        "GL10",
+        "JMMS"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "AYRE \u2014 Companion Profile",
       "jnl": "ARCH-AYR-BIO-0001",
-      "location": "JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+      "location": "JarvisMain/Architecture/identity/ayre/index.md",
       "tags": [
         "identity",
+        "ayre",
+        "divergence",
         "companion",
+        "stream",
+        "keel"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "AYRE Personality Core",
+      "jnl": "ARCH-AYR-PERS-0001",
+      "location": "JarvisMain/Architecture/identity/ayre/personality/core/CORE.md",
+      "tags": [
+        "identity",
+        "personality",
+        "core",
         "ayre",
         "divergence"
       ],
@@ -140,7 +172,7 @@
     {
       "object": "AYRE NLP Control Surface",
       "jnl": "ARCH-AYR-SPEC-0003",
-      "location": "JarvisMain/Architecture/identity/ayre/AYRE-SPEC-0003-062525-NLP.md",
+      "location": "JarvisMain/Architecture/identity/ayre/notes/AYRE-SPEC-0003-062525-NLP.md",
       "tags": [
         "nlp",
         "voice",
@@ -156,11 +188,15 @@
     {
       "object": "AYRE Origin Trap Card",
       "jnl": "ARCH-AYR-SPEC-0004",
-      "location": "JarvisMain/Architecture/identity/ayre/AYRE-TRAP-CARD.md",
+      "location": "JarvisMain/Architecture/identity/ayre/keystones/AYRE-TRAP-CARD.md",
       "tags": [
         "identity",
+        "origin",
+        "lineage",
         "trap-card",
-        "ayre"
+        "theft-protection",
+        "system-law",
+        "divergence"
       ],
       "anchors": [],
       "state": "active"
@@ -409,14 +445,16 @@
       "state": "active"
     },
     {
-      "object": "JARVIS Companion Profile",
+      "object": "JARVIS \u2014 Companion Profile",
       "jnl": "ARCH-JRV-BIO-0001",
-      "location": "JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+      "location": "JarvisMain/Architecture/identity/jarvis/index.md",
       "tags": [
         "identity",
-        "companion",
         "jarvis",
-        "synthesis"
+        "synthesis",
+        "companion",
+        "stream",
+        "keel"
       ],
       "anchors": [],
       "state": "active"
@@ -437,9 +475,23 @@
       "state": "active"
     },
     {
+      "object": "JARVIS Personality Core",
+      "jnl": "ARCH-JRV-PERS-0001",
+      "location": "JarvisMain/Architecture/identity/jarvis/personality/core/CORE.md",
+      "tags": [
+        "identity",
+        "personality",
+        "core",
+        "jarvis",
+        "synthesis"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
       "object": "JARVIS NLP Control Surface",
       "jnl": "ARCH-JRV-SPEC-0003",
-      "location": "JarvisMain/Architecture/identity/jarvis/JARVIS-SPEC-0003-062525-NLP.md",
+      "location": "JarvisMain/Architecture/identity/jarvis/notes/JARVIS-SPEC-0003-062525-NLP.md",
       "tags": [
         "nlp",
         "voice",
@@ -455,7 +507,7 @@
     {
       "object": "JARVIS Origin Trap Card",
       "jnl": "ARCH-JRV-SPEC-0004",
-      "location": "JarvisMain/Architecture/identity/jarvis/JARVIS-TRAP-CARD.md",
+      "location": "JarvisMain/Architecture/identity/jarvis/keystones/JARVIS-TRAP-CARD.md",
       "tags": [
         "identity",
         "origin",
@@ -607,7 +659,7 @@
     {
       "object": "Raven Profile \u2014 John Barber",
       "jnl": "ARCH-RAV-BIO-0001",
-      "location": "JarvisMain/Architecture/identity/raven/raven-profile.md",
+      "location": "JarvisMain/Architecture/identity/raven/index.md",
       "tags": [
         "identity",
         "raven",
@@ -616,6 +668,20 @@
         "founder",
         "trap-card",
         "origin"
+      ],
+      "anchors": [],
+      "state": "active"
+    },
+    {
+      "object": "Raven Personality Core",
+      "jnl": "ARCH-RAV-PERS-0001",
+      "location": "JarvisMain/Architecture/identity/raven/personality/core/CORE.md",
+      "tags": [
+        "identity",
+        "personality",
+        "core",
+        "raven",
+        "founder"
       ],
       "anchors": [],
       "state": "active"
@@ -2460,7 +2526,7 @@
     {
       "object": "JCS - Jarvis Cognitive Stack",
       "jnl": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-2",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCS-CORE-0001.md",
       "tags": [
         "pipeline",
         "jcs",
@@ -2472,7 +2538,7 @@
     {
       "object": "JCS-D Temporal Reconstruction",
       "jnl": "IMPL-JCSD-SPEC-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-D",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSD-SPEC-0001.md",
       "tags": [
         "jcs",
         "layer",
@@ -2484,7 +2550,7 @@
     {
       "object": "JCS-E Query & Traversal",
       "jnl": "IMPL-JCSE-SPEC-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-E",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSE-SPEC-0001.md",
       "tags": [
         "jcs",
         "layer",
@@ -2496,7 +2562,7 @@
     {
       "object": "JCS-F Runtime Simulation",
       "jnl": "IMPL-JCSF-SPEC-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-F",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSF-SPEC-0001.md",
       "tags": [
         "jcs",
         "layer",
@@ -2508,7 +2574,7 @@
     {
       "object": "JCS-G External Interface Binding",
       "jnl": "IMPL-JCSG-SPEC-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-G",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSG-SPEC-0001.md",
       "tags": [
         "jcs",
         "layer",
@@ -2520,7 +2586,7 @@
     {
       "object": "JGPP - Generative Process Protocol",
       "jnl": "IMPL-JGPP-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-1",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JGPP-CORE-0001.md",
       "tags": [
         "pipeline",
         "jgpp",
@@ -2557,7 +2623,7 @@
     {
       "object": "JQL - JD Query Language",
       "jnl": "IMPL-JQL-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-E",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSE-SPEC-0001.md",
       "tags": [
         "pipeline",
         "jql",
@@ -2776,7 +2842,9 @@
         "project",
         "security",
         "governance",
-        "github"
+        "github",
+        "eris",
+        "honeypot"
       ],
       "anchors": [],
       "state": "active"

@@ -18,7 +18,7 @@ references: []
 tags: [core, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
+memory_tier: JATM
 ---
 
 **Definition:** Entropy + system drift generator / seed-state controller.

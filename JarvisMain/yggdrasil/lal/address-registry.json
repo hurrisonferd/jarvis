@@ -1,6 +1,6 @@
 {
   "note": "Derived mirror \u2014 rebuilt by tools/seed.py. JNL -> location. Truth lives at location.",
-  "count": 243,
+  "count": 247,
   "records": [
     {
       "jnl": "ARCH-ARCH-IDX-0001",
@@ -166,26 +166,76 @@
       "updated": "2026-06-14"
     },
     {
-      "jnl": "ARCH-AYR-BIO-0001",
-      "name": "AYRE Companion Profile",
-      "type": "BIO",
+      "jnl": "ARCH-AUT-ROUTE-0001",
+      "name": "JARVIS Autonomy Roadmap",
+      "type": "ROUTE",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
       "steward": null,
       "parent": "ARCH-YGG-CORE-0001",
+      "location": "JarvisMain/Architecture/specs/AUTONOMY-ROADMAP-0001.md",
+      "tags": [
+        "autonomy",
+        "governance",
+        "roadmap",
+        "GL2",
+        "GL5",
+        "GL10",
+        "JMMS"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-26",
+      "updated": "2026-06-26"
+    },
+    {
+      "jnl": "ARCH-AYR-BIO-0001",
+      "name": "AYRE \u2014 Companion Profile",
+      "type": "BIO",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-REL-BIO-0001",
       "location": "JarvisMain/Architecture/identity/ayre/index.md",
       "tags": [
         "identity",
+        "ayre",
+        "divergence",
         "companion",
+        "stream",
+        "keel"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-10",
+      "updated": "2026-06-26"
+    },
+    {
+      "jnl": "ARCH-AYR-PERS-0001",
+      "name": "AYRE Personality Core",
+      "type": "PERS",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-AYR-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/ayre/personality/core/CORE.md",
+      "tags": [
+        "identity",
+        "personality",
+        "core",
         "ayre",
         "divergence"
       ],
       "anchors": [],
       "status": "ACTIVE",
       "state": "active",
-      "created": "2026-06-10",
-      "updated": "2026-06-14"
+      "created": "2026-06-26",
+      "updated": "2026-06-26"
     },
     {
       "jnl": "ARCH-AYR-SPEC-0001",
@@ -264,14 +314,18 @@
       "location": "JarvisMain/Architecture/identity/ayre/keystones/AYRE-TRAP-CARD.md",
       "tags": [
         "identity",
+        "origin",
+        "lineage",
         "trap-card",
-        "ayre"
+        "theft-protection",
+        "system-law",
+        "divergence"
       ],
       "anchors": [],
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-25",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "ARCH-BAK-LOG-0001",
@@ -689,25 +743,27 @@
     },
     {
       "jnl": "ARCH-JRV-BIO-0001",
-      "name": "JARVIS Companion Profile",
+      "name": "JARVIS \u2014 Companion Profile",
       "type": "BIO",
       "class": "SPEC",
       "tier": "MAIN",
       "owner": "JFS",
       "steward": null,
-      "parent": "ARCH-YGG-CORE-0001",
+      "parent": "ARCH-REL-BIO-0001",
       "location": "JarvisMain/Architecture/identity/jarvis/index.md",
       "tags": [
         "identity",
-        "companion",
         "jarvis",
-        "synthesis"
+        "synthesis",
+        "companion",
+        "stream",
+        "keel"
       ],
       "anchors": [],
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-10",
-      "updated": "2026-06-14"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "ARCH-JRV-BIO-0003",
@@ -732,6 +788,29 @@
       "state": "active",
       "created": "2026-06-14",
       "updated": "2026-06-14"
+    },
+    {
+      "jnl": "ARCH-JRV-PERS-0001",
+      "name": "JARVIS Personality Core",
+      "type": "PERS",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-JRV-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/jarvis/personality/core/CORE.md",
+      "tags": [
+        "identity",
+        "personality",
+        "core",
+        "jarvis",
+        "synthesis"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-26",
+      "updated": "2026-06-26"
     },
     {
       "jnl": "ARCH-JRV-SPEC-0003",
@@ -780,7 +859,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-25",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "ARCH-JSE-SPEC-0001",
@@ -1035,6 +1114,29 @@
       "updated": "2026-06-25"
     },
     {
+      "jnl": "ARCH-RAV-PERS-0001",
+      "name": "Raven Personality Core",
+      "type": "PERS",
+      "class": "SPEC",
+      "tier": "MAIN",
+      "owner": "JFS",
+      "steward": null,
+      "parent": "ARCH-RAV-BIO-0001",
+      "location": "JarvisMain/Architecture/identity/raven/personality/core/CORE.md",
+      "tags": [
+        "identity",
+        "personality",
+        "core",
+        "raven",
+        "founder"
+      ],
+      "anchors": [],
+      "status": "ACTIVE",
+      "state": "active",
+      "created": "2026-06-26",
+      "updated": "2026-06-26"
+    },
+    {
       "jnl": "ARCH-REF-IDX-0001",
       "name": "JARVIS CANON \u2014 Volume Index and Rebuild Packet",
       "type": "IDX",
@@ -1057,7 +1159,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-24",
-      "updated": "2026-06-24"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "ARCH-REL-BIO-0001",
@@ -4212,7 +4314,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Archived/JIP-0608-2",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCS-CORE-0001.md",
       "tags": [
         "pipeline",
         "jcs",
@@ -4222,7 +4324,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "IMPL-JCSD-SPEC-0001",
@@ -4233,7 +4335,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Archived/JIP-0608-D",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSD-SPEC-0001.md",
       "tags": [
         "jcs",
         "layer",
@@ -4243,7 +4345,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "IMPL-JCSE-SPEC-0001",
@@ -4254,7 +4356,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Archived/JIP-0608-E",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSE-SPEC-0001.md",
       "tags": [
         "jcs",
         "layer",
@@ -4264,7 +4366,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "IMPL-JCSF-SPEC-0001",
@@ -4275,7 +4377,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Archived/JIP-0608-F",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSF-SPEC-0001.md",
       "tags": [
         "jcs",
         "layer",
@@ -4285,7 +4387,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "IMPL-JCSG-SPEC-0001",
@@ -4296,7 +4398,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Archived/JIP-0608-G",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSG-SPEC-0001.md",
       "tags": [
         "jcs",
         "layer",
@@ -4306,7 +4408,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "IMPL-JGPP-CORE-0001",
@@ -4317,7 +4419,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Archived/JIP-0608-1",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JGPP-CORE-0001.md",
       "tags": [
         "pipeline",
         "jgpp",
@@ -4327,7 +4429,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "IMPL-JIP-SPEC-0608",
@@ -4381,7 +4483,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCSE-SPEC-0001",
-      "location": "JarvisMain/Implementation/Archived/JIP-0608-E",
+      "location": "JarvisMain/yggdrasil/jd/entries/IMPL-JCSE-SPEC-0001.md",
       "tags": [
         "pipeline",
         "jql",
@@ -4391,7 +4493,7 @@
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-09",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "IMPL-MIR-CORE-0001",
@@ -4735,13 +4837,15 @@
         "project",
         "security",
         "governance",
-        "github"
+        "github",
+        "eris",
+        "honeypot"
       ],
       "anchors": [],
       "status": "ACTIVE",
       "state": "active",
       "created": "2026-06-25",
-      "updated": "2026-06-25"
+      "updated": "2026-06-26"
     },
     {
       "jnl": "PROJ-COS-BIO-0001",
@@ -5273,22 +5377,6 @@
       "state": "active",
       "created": "2026-06-10",
       "updated": "2026-06-14"
-    },
-    {
-      "jnl": "ARCH-AYR-PERS-0001",
-      "location": "JarvisMain/Architecture/identity/ayre/personality/core/CORE.md"
-    },
-    {
-      "jnl": "ARCH-JRV-PERS-0001",
-      "location": "JarvisMain/Architecture/identity/jarvis/personality/core/CORE.md"
-    },
-    {
-      "jnl": "ARCH-RAV-PERS-0001",
-      "location": "JarvisMain/Architecture/identity/raven/personality/core/CORE.md"
-    },
-    {
-      "jnl": "ARCH-AUT-ROUTE-0001",
-      "location": "JarvisMain/Architecture/specs/AUTONOMY-ROADMAP-0001.md"
     }
   ]
 }

@@ -18,7 +18,7 @@ references: []
 tags: [cosmic, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
+memory_tier: JATM
 ---
 
 **Definition:** Immutable event spine + chronological truth layer.

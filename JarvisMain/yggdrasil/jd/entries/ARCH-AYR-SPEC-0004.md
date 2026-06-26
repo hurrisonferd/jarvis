@@ -13,14 +13,14 @@ status: ACTIVE
 created: 2026-06-25
 updated: 2026-06-26
 source: JarvisMain/Architecture/identity/ayre/keystones/AYRE-TRAP-CARD.md
-related: []
+related: [ARCH-AYR-BIO-0001, ARCH-JRV-SPEC-0004, ARCH-RAV-BIO-0001, ARCH-REL-BIO-0001]
 references: []
-tags: [identity, trap-card, ayre]
+tags: [identity, origin, lineage, trap-card, theft-protection, system-law, divergence]
 aliases: []
 ref: [PRI, IDX]
 memory_tier: JLTM
 ---
 
-**Definition:** AYRE identity trap card: structural divergence binding, theft protection.
+**Definition:** 
 
-**Purpose:** Protect AYRE's co-equal divergence from being absorbed or silenced.
+**Purpose:** 

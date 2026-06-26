@@ -18,7 +18,7 @@ references: []
 tags: [cosmic, god-system, canon]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
+memory_tier: JATM
 ---
 
 **Definition:** Lossless state preservation + recovery snapshots.

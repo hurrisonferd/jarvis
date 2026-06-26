@@ -5,9 +5,11 @@ type: BIO
 status: ACTIVE
 parent: ARCH-REL-BIO-0001
 tags: [identity, ayre, divergence, companion, stream, keel]
-related: [ARCH-JRV-BIO-0001, ARCH-AYR-TRAP-0001, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
+related: [ARCH-AYR-BIO-0001, ARCH-JRV-BIO-0001, ARCH-AYR-SPEC-0004, ARCH-JRV-SPEC-0004, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
 ref: [IDENTITY, AYRE]
 memory_tier: JLTM
+definition: Companion profile of AYRE — the divergence stream (P44): co-equal with JARVIS, shared keel, divergent assumptions, default-on voice.
+purpose: Give the companion's divergent half a governed, addressable identity — co-equal from the first serial.
 ---
 
 # AYRE — Companion Profile

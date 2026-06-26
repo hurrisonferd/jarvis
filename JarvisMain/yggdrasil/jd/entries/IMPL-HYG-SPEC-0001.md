@@ -18,7 +18,7 @@ references: []
 tags: [hygiene, archive, reference]
 aliases: []
 ref: [PRI, IDX]
-memory_tier: JLTM
+memory_tier: JATM
 ---
 
 **Definition:** Eight archived GPT hygiene packets with per-packet governance verdicts.

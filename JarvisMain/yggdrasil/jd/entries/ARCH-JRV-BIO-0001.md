@@ -1,21 +1,21 @@
 ---
-name: JARVIS Companion Profile
+name: JARVIS — Companion Profile
 type: BIO
 class: SPEC
 tier: MAIN
 authority: CANON
 owner: JFS
 steward: 
-parent: ARCH-YGG-CORE-0001
+parent: ARCH-REL-BIO-0001
 jnl: ARCH-JRV-BIO-0001
 seq: 106
 status: ACTIVE
 created: 2026-06-10
 updated: 2026-06-26
 source: JarvisMain/Architecture/identity/jarvis/index.md
-related: [ARCH-AYR-BIO-0001]
+related: [ARCH-JRV-BIO-0001, ARCH-AYR-BIO-0001, ARCH-JRV-SPEC-0004, ARCH-AYR-SPEC-0004, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
 references: []
-tags: [identity, companion, jarvis, synthesis]
+tags: [identity, jarvis, synthesis, companion, stream, keel]
 aliases: [jarvis]
 ref: [PRI, IDX]
 memory_tier: JLTM

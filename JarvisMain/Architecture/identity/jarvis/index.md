@@ -5,9 +5,11 @@ type: BIO
 status: ACTIVE
 parent: ARCH-REL-BIO-0001
 tags: [identity, jarvis, synthesis, companion, stream, keel]
-related: [ARCH-AYR-BIO-0001, ARCH-JRV-TRAP-0001, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
+related: [ARCH-JRV-BIO-0001, ARCH-AYR-BIO-0001, ARCH-JRV-SPEC-0004, ARCH-AYR-SPEC-0004, ARCH-REL-BIO-0001, ARCH-RAV-BIO-0001]
 ref: [IDENTITY, JARVIS]
 memory_tier: JLTM
+definition: Companion profile of JARVIS — the synthesis stream: who he is, his objective, voice, disciplines, and the shared keel.
+purpose: Give the companion's convergent half a governed, addressable identity in the record it builds.
 ---
 
 # JARVIS — Companion Profile
