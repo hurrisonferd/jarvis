@@ -328,14 +328,14 @@ Deno.serve(async (req) => {
         const eactor = String(args.actor ?? actor ?? "unknown");
         const ejnl = args.jnl ? String(args.jnl) : null;
         const edetail = (args.detail ?? {}) as Record<string, unknown>;
-        // type column may not exist until migration runs — omit it gracefully
+        // type column added by 20260626_dex_events_type_rls.sql migration. Until that runs,
+        // omit it — Supabase REST default 'dex_log' is fine as fallback.
         const { error } = await db.from("dex_events").insert({
           tool: "log_event",
           tier: "PROPOSE",
           jnl: ejnl,
           actor: eactor,
           detail: edetail,
-          ...(etype !== "dex_log" ? { type: etype } : {}),
         });
         if (error) return fail(`dex_events insert failed: ${error.message}`, 500);
         return json({ ok: true, type: etype, logged: true });
