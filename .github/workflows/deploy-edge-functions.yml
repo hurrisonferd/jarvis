@@ -53,10 +53,14 @@ jobs:
           # The remote DB has migrations the CLI doesn't know about (applied via Dashboard).
           # Sync CLI's migration history to match remote state, then push new local migrations.
           echo "→ Syncing migration history..."
-          # Capture db push error (lists all remote versions the CLI doesn't know).
+          # The CLI needs local migration files to run repair (it verifies file existence).
+          # Pull current remote schema to create local migration files first.
+          echo "→ Pulling remote schema to create local migration files..."
+          supabase db pull 2>&1 || echo "⚠ db pull failed (continuing)"
+          # Now repair can work since migration files exist locally.
+          # Capture db push error to get the list of remote-only version numbers.
           DB_PUSH_OUTPUT=$(supabase db push --include-all 2>&1 || true)
           echo "$DB_PUSH_OUTPUT"
-          # The repair command with all versions may span multiple log lines.
           # Extract all 14-digit timestamps from the full captured output.
           echo "$DB_PUSH_OUTPUT" | grep -oE '(20[0-9]{12})' | sort -u > /tmp/missing_versions.txt
           MISSING_COUNT=$(wc -l < /tmp/missing_versions.txt || echo 0)
@@ -67,9 +71,7 @@ jobs:
             done < /tmp/missing_versions.txt
             echo "✓ Migration history synced"
           else
-            echo "⚠ Could not extract version list from repair command"
-            echo "CLI output:"
-            echo "$DB_PUSH_OUTPUT"
+            echo "⚠ Could not extract version list"
             exit 1
           fi
           echo "→ Pushing pending migrations..."
