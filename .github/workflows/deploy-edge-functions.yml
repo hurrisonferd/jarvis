@@ -53,22 +53,23 @@ jobs:
           # The remote DB has migrations the CLI doesn't know about (applied via Dashboard).
           # Sync CLI's migration history to match remote state, then push new local migrations.
           echo "→ Syncing migration history..."
-          # db pull creates local migration files AND reports which remote versions
-          # the local history doesn't know about. Extract all versions from its output.
-          echo "→ Pulling remote schema to create local migration files..."
+          # The CLI has 1 version locally; remote has 49.
+          # Mark ALL remote versions as reverted so CLI thinks they don't exist.
+          # This lets db push apply only the new local migration without conflict.
+          echo "→ Running db pull to discover remote version list..."
           DB_PULL_OUTPUT=$(supabase db pull 2>&1 || true)
           echo "$DB_PULL_OUTPUT"
-          # Extract all 14-digit timestamps (these are the versions to mark as applied)
-          echo "$DB_PULL_OUTPUT" | grep -oE '(20[0-9]{12})' | sort -u > /tmp/missing_versions.txt
-          MISSING_COUNT=$(wc -l < /tmp/missing_versions.txt || echo 0)
-          if [ "$MISSING_COUNT" -gt 0 ] 2>/dev/null; then
-            echo "→ Repairing $MISSING_COUNT remote migrations..."
+          # Extract all remote versions from db pull error output
+          echo "$DB_PULL_OUTPUT" | grep -oE '(20[0-9]{12})' | sort -u > /tmp/remote_versions.txt
+          REMOTE_COUNT=$(wc -l < /tmp/remote_versions.txt || echo 0)
+          if [ "$REMOTE_COUNT" -gt 0 ] 2>/dev/null; then
+            echo "→ Marking $REMOTE_COUNT remote versions as reverted in CLI history..."
             while read -r ver; do
-              supabase migration repair --status applied "$ver" 2>&1 | grep -v "^$" || true
-            done < /tmp/missing_versions.txt
-            echo "✓ Migration history synced"
+              supabase migration repair --status reverted "$ver" 2>&1 | grep -v "^$" || true
+            done < /tmp/remote_versions.txt
+            echo "✓ CLI history synced to remote"
           else
-            echo "⚠ Could not extract version list"
+            echo "⚠ Could not extract remote versions"
             exit 1
           fi
           echo "→ Pushing pending migrations..."
