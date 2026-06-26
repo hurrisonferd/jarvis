@@ -156,12 +156,24 @@ html, body {
   </div>
   <div class="brand">JARVIS</div>
   <div class="ctrl-row">
-    <div class="dpad">
-      <div class="dph"></div><div class="dpv"></div><div class="dpc"></div>
-      <button class="dpb up" onclick="nav(-1)">&#9650;</button>
-      <button class="dpb dn" onclick="nav(1)">&#9660;</button>
-      <button class="dpb lf" onclick="emuDir('left')||back()">&#9664;</button>
-      <button class="dpb rt" onclick="emuDir('right')||ok()">&#9654;</button>
+    <!-- P09: D-pad / virtual joystick — toggled by MODE button -->
+    <div id="joystick-toggle" onclick="toggleJoystick()" style="position:absolute;left:0;top:0;width:30px;height:30px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:10">
+      <span id="joy-mode-icon" style="font-size:9px;color:#444;letter-spacing:1px">DPAD</span>
+    </div>
+    <div id="ctrl-dpad">
+      <div class="dpad">
+        <div class="dph"></div><div class="dpv"></div><div class="dpc"></div>
+        <button class="dpb up" onclick="nav(-1)">&#9650;</button>
+        <button class="dpb dn" onclick="nav(1)">&#9660;</button>
+        <button class="dpb lf" onclick="emuDir('left')||back()">&#9664;</button>
+        <button class="dpb rt" onclick="emuDir('right')||ok()">&#9654;</button>
+      </div>
+    </div>
+    <div id="ctrl-joystick" style="display:none">
+      <div id="joystick-zone" style="position:relative;width:110px;height:110px;cursor:pointer;touch-action:none">
+        <div id="joy-base" style="position:absolute;inset:10px;border-radius:50%;background:#111;border:2px solid #222;pointer-events:none"></div>
+        <div id="joy-stick" style="position:absolute;width:36px;height:36px;border-radius:50%;background:#1a1a1a;border:2px solid #333;left:37px;top:37px;pointer-events:none;transition:none;box-shadow:0 2px 6px rgba(0,0,0,.5)"></div>
+      </div>
     </div>
     <div class="face">
       <span class="fbl b">B</span><span class="fbl a">A</span>
@@ -2243,6 +2255,96 @@ function nav(d){
   if(S==='ghIssue') return;
   if(mx>0){ cur=((cur+d)%mx+mx)%mx; draw(); beep(d>0?440:400,40); }
 }
+
+// P09: virtual joystick toggle + touch controls
+let joystickMode = false;
+let joyActive = false, joyX = 0, joyY = 0;
+const JOY_DEAD = 0.3, JOY_MAX = 35; // pixels from center
+
+function toggleJoystick(){
+  joystickMode = !joystickMode;
+  const icon = document.getElementById('joy-mode-icon');
+  const dpad = document.getElementById('ctrl-dpad');
+  const joy = document.getElementById('ctrl-joystick');
+  if(joystickMode){
+    icon.textContent = 'JOY'; icon.style.color = '#00ff88';
+    dpad.style.display = 'none'; joy.style.display = 'block';
+  } else {
+    icon.textContent = 'DPAD'; icon.style.color = '#444';
+    dpad.style.display = 'block'; joy.style.display = 'none';
+    resetJoy();
+  }
+}
+
+function joyDir(nx, ny){
+  // cardinal direction from joystick position (threshold from center)
+  if(Math.abs(nx) < JOY_DEAD && Math.abs(ny) < JOY_DEAD) return null;
+  // pick dominant axis
+  if(Math.abs(nx) >= Math.abs(ny)) return nx > 0 ? 'right' : 'left';
+  return ny > 0 ? 'down' : 'up';
+}
+
+function applyJoyInput(nx, ny){
+  const d = joyDir(nx, ny);
+  const keys = {};
+  if(nx > JOY_DEAD) keys.RIGHT = true;
+  else if(nx < -JOY_DEAD) keys.LEFT = true;
+  if(ny > JOY_DEAD) keys.DOWN = true;
+  else if(ny < -JOY_DEAD) keys.UP = true;
+  if(activeCore && emuState === 'running'){
+    activeCore.setInput(keys);
+  }
+}
+
+function resetJoy(){
+  const stick = document.getElementById('joy-stick');
+  if(stick) { stick.style.left = '37px'; stick.style.top = '37px'; }
+  joyActive = false; joyX = 0; joyY = 0;
+  if(activeCore && emuState === 'running') activeCore.setInput({});
+}
+
+function _joyCenter(){ return 55; } // joystick-zone is 110px, center = 55px
+
+document.addEventListener('DOMContentLoaded', function(){
+  const zone = document.getElementById('joystick-zone');
+  if(!zone) return;
+  const stick = document.getElementById('joy-stick');
+  const cx = 55, cy = 55;
+
+  function joyMove(cx, cy, tx, ty){
+    tx -= zone.getBoundingClientRect().left;
+    ty -= zone.getBoundingClientRect().top;
+    let dx = tx - cx, dy = ty - cy;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if(dist > JOY_MAX){ dx = dx/dist*JOY_MAX; dy = dy/dist*JOY_MAX; }
+    const sx = cx + dx - 18, sy = cy + dy - 18;
+    stick.style.left = sx + 'px';
+    stick.style.top = sy + 'px';
+    joyX = dx/JOY_MAX; joyY = dy/JOY_MAX;
+    applyJoyInput(joyX, joyY);
+  }
+
+  zone.addEventListener('touchstart', function(e){
+    e.preventDefault(); joyActive = true;
+    const t = e.touches[0]; joyMove(cx, cy, t.clientX, t.clientY);
+  }, {passive:false});
+  zone.addEventListener('touchmove', function(e){
+    e.preventDefault();
+    if(!joyActive) return;
+    const t = e.touches[0]; joyMove(cx, cy, t.clientX, t.clientY);
+  }, {passive:false});
+  zone.addEventListener('touchend', function(e){ e.preventDefault(); resetJoy(); }, {passive:false});
+  zone.addEventListener('touchcancel', function(e){ e.preventDefault(); resetJoy(); }, {passive:false});
+  // mouse fallback
+  zone.addEventListener('mousedown', function(e){
+    joyActive = true; joyMove(cx, cy, e.clientX, e.clientY);
+  });
+  zone.addEventListener('mousemove', function(e){
+    if(!joyActive) return; joyMove(cx, cy, e.clientX, e.clientY);
+  });
+  zone.addEventListener('mouseup', function(){ if(joyActive) resetJoy(); });
+  zone.addEventListener('mouseleave', function(){ if(joyActive) resetJoy(); });
+});
 
 function emuDir(dir){
   if(emuState==='running'&&activeCore){

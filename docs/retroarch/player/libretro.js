@@ -1,9 +1,8 @@
 /**
  * RetroArch Web Player
- *
- * This provides the basic JavaScript for the RetroArch web player.
  */
 
+const BUNDLE_URL = "https://github.com/hurrisonferd/jarvis/releases/download/retroarch-v1/bundle.zip";
 const defaultCore = "gambatte";
 var autoStart = false;
 
@@ -92,38 +91,32 @@ function idbfsInit() {
 }
 
 function zipfsInit() {
-   // 256 MB max bundle size
-   let buffer = new ArrayBuffer(256 * 1024 * 1024);
-   let bufferView = new Uint8Array(buffer);
-   let idx = 0;
-   // bundle should be in five parts (this can be changed later)
-   Promise.all([fetch("assets/frontend/bundle.zip.aa"),
-      fetch("assets/frontend/bundle.zip.ab"),
-      fetch("assets/frontend/bundle.zip.ac"),
-      fetch("assets/frontend/bundle.zip.ad"),
-      fetch("assets/frontend/bundle.zip.ae")
-   ]).then(function(resps) {
-      Promise.all(resps.map((r) => r.arrayBuffer())).then(function(buffers) {
-         for (let buf of buffers) {
-            if (idx + buf.byteLength > buffer.maxByteLength) {
-               console.error("WEBPLAYER: error: bundle.zip is too large");
-            }
-            bufferView.set(new Uint8Array(buf), idx, buf.byteLength);
-            idx += buf.byteLength;
+   // P09: fetch bundle from GitHub Releases (LFS not resolved by Pages, so we serve from a Release)
+   fetch(BUNDLE_URL).then(function(resp) {
+      if (!resp.ok) {
+         console.error("WEBPLAYER: failed to fetch bundle: " + resp.status);
+         zipfs = new BrowserFS.FileSystem.InMemory();
+         appInitialized();
+         return;
+      }
+      return resp.arrayBuffer();
+   }).then(function(buf) {
+      if (!buf) return;
+      BrowserFS.FileSystem.ZipFS.Create({zipData: BrowserFS.BFSRequire('buffer').Buffer(new Uint8Array(buf))}, function(e, fs) {
+         if (e) {
+            zipfs = new BrowserFS.FileSystem.InMemory();
+            console.error("WEBPLAYER: error (zipfs): " + e);
+            appInitialized();
+         } else {
+            zipfs = fs;
+            console.log("WEBPLAYER: zipfs setup successful");
+            appInitialized();
          }
-         // create a ZipFS filesystem for the bundled data
-         BrowserFS.FileSystem.ZipFS.Create({zipData: BrowserFS.BFSRequire('buffer').Buffer(new Uint8Array(buffer, 0, idx))}, function(e, fs) {
-            if (e) {
-               zipfs = new BrowserFS.FileSystem.InMemory();
-               console.error("WEBPLAYER: error (zipfs): " + e + " falling back to in-memory filesystem");
-               appInitialized();
-            } else {
-               zipfs = fs;
-               console.log("WEBPLAYER: zipfs setup successful");
-               appInitialized();
-            }
-         });
-      })
+      });
+   }).catch(function(err) {
+      console.error("WEBPLAYER: bundle fetch error: " + err);
+      zipfs = new BrowserFS.FileSystem.InMemory();
+      appInitialized();
    });
 }
 
