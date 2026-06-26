@@ -1,5 +1,5 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { createClient } from "jsr:@supabase/supabase-js@2";
 import { type Op, validateWrite } from "./validate.ts";
 
 // P34 phase 2: governed write proxy.
