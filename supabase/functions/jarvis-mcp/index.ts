@@ -587,24 +587,22 @@ function buildServer(req: Request): McpServer {
     {
       title: "Memory lane — JC/SL objects",
       description:
-        "Read conversation containers (JC) and star-log digests (SL) — the relationship memory every stream shares (ARCH-JC-JIP-0001). No term: recent sessions. Term: alias (JC-061126-1), JNL, or subject fragment. Tier filter narrows to a JMMS horizon: jstm (recent/live), jhtm (historical folds), jltm (durable). Read-only; JC records, it never rules — decisions cite the spine.",
+        "Read conversation containers (JC) and star-log digests (SL) — the relationship memory every stream shares (ARCH-JC-JIP-0001). No term: recent sessions. Term: alias (JC-061126-1), JNL, or subject fragment. Status filter: OPEN (live sessions) or SEALED (closed). Read-only; JC records, it never rules — decisions cite the spine.",
       inputSchema: {
         term: z.string().max(120).optional(),
-        tier: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional(),
-        jss_status: z.string().optional(),
+        status: z.enum(["OPEN", "SEALED"]).optional(),
         limit: z.number().int().min(1).max(20).optional().default(5),
       },
     },
-    async ({ term, tier, jss_status, limit }) => {
+    async ({ term, status, limit }) => {
       // Build JC query with tier + status filters
-      const jcCols = "jnl,alias,session_date,subject,participants,tags,summary,keystones,decisions,open,profiles,metrics,memory_tier,jss_status,status";
-      const slCols = "jnl,alias,session_date,digest,events,memory_tier,jss_status,status";
+      const jcCols = "jnl,alias,session_date,when_start,when_end,subject,participants,tags,summary,stream,repo_url,keystones,decisions,open,profiles,metrics,status,task_summary,banter,agents";
+      const slCols = "jnl,alias,session_date,started_at,ended_at,digest,events,status,log_type,stardate,participants,task_summary,decisions";
       const filter: string[] = [];
-      if (tier) filter.push(`memory_tier.eq.${tier}`);
-      if (jss_status) filter.push(`jss_status.eq.${jss_status}`);
+      if (status) filter.push(`status.eq.${status}`);
       const filterStr = filter.length ? `&${filter.join("&")}` : "";
       const q = term
-        ? `jc_objects?select=${jcCols}&or=(alias.eq.${term},jnl.eq.${term},subject.ilike.*${term}*)${filterStr}&limit=${limit}`
+        ? `jc_objects?select=${jcCols}&or=(alias.ilike.*${term}*,jnl.ilike.*${term}*,subject.ilike.*${term}*)${filterStr}&limit=${limit}`
         : `jc_objects?select=${jcCols}${filterStr}&order=session_date.desc&limit=${limit}`;
       const slFilterStr = filter.length ? `&${filter.join("&")}` : "";
       const [jcs, sls] = await Promise.all([
@@ -612,7 +610,7 @@ function buildServer(req: Request): McpServer {
         rest(`sl_objects?select=${slCols}${slFilterStr}&order=session_date.desc&limit=${limit}`).catch(() => []),
       ]);
       return text({
-        ok: true, tier: tier ?? "all", jc: jcs, sl: sls,
+        ok: true, filter: status ?? "all", jc: jcs, sl: sls,
         law: "JC records; it never rules — decisions cite the spine (P-C).",
         jmms: "JSTM (session-born) → JHTM (14-day fold, compressed digest) → JLTM (durable). Promotion is one-way.",
       });
