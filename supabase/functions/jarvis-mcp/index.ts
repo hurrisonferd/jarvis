@@ -1753,8 +1753,10 @@ function buildServer(req: Request): McpServer {
         ``,
         `## Open Conversations`,
         ...(Array.isArray(openJCs) && openJCs.length
-          ? openJCs.map((j: any) => `- \`${j.alias ?? j.jnl}\` ${j.subject ?? ""} [\`${j.status}\`]${j.task_summary ? "
-  " + j.task_summary.slice(0, 120) : ""}`)
+          ? openJCs.map((j: any) => {
+            const ts = j.task_summary ? "\n  " + j.task_summary.slice(0, 120) : "";
+            return `- \`${j.alias ?? j.jnl}\` ${j.subject ?? ""} [\`${j.status}\`]${ts}\`;
+          })
           : ["_none_"]),
         ``,
         `## Recent Star Logs`,
