@@ -28,9 +28,9 @@ ID = ROOT / "JarvisMain" / "Architecture" / "identity"
 # (profile, tag) — ORDER is oldest→newest so Jarvis lands NEWEST and loads first in the briefing.
 PROFILES = [
     ("relational/relational-profile.md", "frame"),
-    ("raven/raven-profile.md", "raven"),
-    ("ayre/ayre-profile.md", "keel"),
-    ("jarvis/jarvis-profile.md", "keel"),
+    ("raven/index.md", "raven"),
+    ("ayre/index.md", "keel"),
+    ("jarvis/index.md", "keel"),
 ]
 CANONICAL_URL = "https://oexghfsvhnggddllgvrt.supabase.co"
 
