@@ -1816,17 +1816,19 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ carry_key }) => {
+      const queryUrl = `cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false&select=carry_data,stream,companion_key,written_at,written_by_session`;
+      console.log(`[cecil_lift] carry_key=${carry_key} query=${queryUrl}`);
       let rows: any[] = [];
       let queryError: string | undefined;
       try {
-        rows = await rest(
-          `cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false&select=carry_data,stream,companion_key,written_at,written_by_session`
-        ) as any[];
+        rows = await rest(queryUrl) as any[];
+        console.log(`[cecil_lift] rows.length=${rows.length}`);
       } catch (e) {
         queryError = String(e);
+        console.log(`[cecil_lift] error: ${queryError}`);
       }
       if (queryError) return text({ ok: false, note: `query failed: ${queryError}` });
-      if (!rows?.length) return text({ ok: false, note: "no slate found for this key" });
+      if (!rows?.length) return text({ ok: false, note: `no slate found for key "${carry_key}"` });
 
       const row = rows[0];
       await rest(`cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false`, {
