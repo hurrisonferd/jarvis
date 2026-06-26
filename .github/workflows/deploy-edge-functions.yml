@@ -40,9 +40,25 @@ jobs:
           # Falls back to DATABASE_URL secret if token unavailable
           if [ -z "$DATABASE_URL" ] && [ -n "$SUPABASE_ACCESS_TOKEN" ]; then
             echo "Fetching DATABASE_URL via Supabase Management API..."
-            DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF/postgres" \
-              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")
-            DB_URL=$(echo "$DB_CONFIG" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('connection_string',''))")
+            # GET /v1/projects/{ref} returns project details including connection_info
+            DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF" \
+              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
+              -H "Content-Type: application/json")
+            # connection_info contains the full connection string
+            DB_URL=$(echo "$DB_CONFIG" | python3 -c "
+import sys,json
+d=json.load(sys.stdin)
+conn=d.get('connection_info',{})
+# Try direct connection_string or construct from parts
+cs=conn.get('connection_string','')
+if cs:
+    print(cs)
+else:
+    h=conn.get('host',''); p=conn.get('port',''); db=conn.get('database','')
+    u=conn.get('user',''); pw=conn.get('password','')
+    if h and db:
+        print(f'postgresql://{u}:{pw}@{h}:{p}/{db}')
+" 2>/dev/null)
             if [ -n "$DB_URL" ]; then
               export DATABASE_URL="$DB_URL"
               echo "✓ DATABASE_URL fetched via Management API"
