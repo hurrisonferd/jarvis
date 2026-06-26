@@ -1816,40 +1816,32 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ carry_key }) => {
-      const queryUrl = `cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false&select=carry_data,stream,companion_key,written_at,written_by_session`;
+      // Use direct fetch — rest() silently returns [] from the persistent process for this query
+      const queryUrl = `carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false&select=carry_data,stream,companion_key,written_at,written_by_session`;
       let rows: any[] = [];
-      let queryError: string | undefined;
-      let rawResult: unknown = null;
+      let fetchError: string | undefined;
       try {
-        rawResult = await rest(queryUrl);
-        rows = Array.isArray(rawResult) ? rawResult : [];
-      } catch (e) {
-        queryError = String(e);
-      }
-      if (queryError) return text({ ok: false, note: `query failed: ${queryError}`, raw: rawResult });
-      if (!rows?.length) {
-        // Ponytail: try direct fetch as a workaround — the PostgREST path may differ from the service-key path
-        try {
-          const r = await fetch(`${SUPABASE_URL}/rest/v1/${queryUrl}`, {
-            headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json" }
-          });
-          const direct = await r.json();
-          if (Array.isArray(direct) && direct.length > 0) {
-            rows = direct;
-            rawResult = direct;
-          } else {
-            rawResult = { via_rest: rawResult, via_direct: direct };
-          }
-        } catch (e2) {
-          rawResult = { via_rest: rawResult, direct_error: String(e2) };
+        const r = await fetch(`${SUPABASE_URL}/rest/v1/cecil_slate?${queryUrl}`, {
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", accept: "application/json" }
+        });
+        if (!r.ok) {
+          const err = await r.json().catch(() => ({}));
+          fetchError = `${r.status}: ${JSON.stringify(err)}`;
+        } else {
+          rows = await r.json() as any[];
         }
+      } catch (e) {
+        fetchError = String(e);
       }
-      if (!rows?.length) return text({ ok: false, note: `no slate found for key "${carry_key}"`, raw: rawResult });
+      if (fetchError) return text({ ok: false, note: `query failed: ${fetchError}` });
+      if (!rows?.length) return text({ ok: false, note: `no slate found for key "${carry_key}"` });
 
       const row = rows[0];
-      await rest(`cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false`, {
+      // Mark lifted via direct fetch (same workaround)
+      await fetch(`${SUPABASE_URL}/rest/v1/cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false`, {
         method: "PATCH",
-        body: { lifted: true, lifted_at: new Date().toISOString() },
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", prefer: "return=minimal" },
+        body: JSON.stringify({ lifted: true, lifted_at: new Date().toISOString() }),
       }).catch(() => {});
 
       return text({ ok: true, action: "lifted", written_by: row.stream, written_at: row.written_at, carry_data: row.carry_data });
