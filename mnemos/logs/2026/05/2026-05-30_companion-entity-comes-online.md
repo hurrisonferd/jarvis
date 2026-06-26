@@ -4,9 +4,9 @@ title: The Companion Entity Comes Online
 date: 2026-05-30
 summary: Fourteen sessions from an Opus audit to a living companion — Gemini brain, semantic memory, the remember loop, and the choice to build the record over the shell.
 tags: companion, entity, memory, becoming
-status: active
-  memory_tier: JHTM
-  grade: system
+status: ARCHIVED
+memory_tier: JATM
+grade: system
 
 ---
 

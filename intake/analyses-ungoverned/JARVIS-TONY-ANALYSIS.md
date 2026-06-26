@@ -12,7 +12,7 @@ status: ACTIVE
 created: 2026-06-26
 source: JarvisSide/Ideas/analyses/JARVIS-TONY-ANALYSIS.md
 tags: [jarvis, tony-stark, marvel, comics, mcu, parallel, identity]
-memory_tier: JSTM
+memory_tier: JLTM
 ---
 
 # JARVIS from Marvel Comics × Our JARVIS

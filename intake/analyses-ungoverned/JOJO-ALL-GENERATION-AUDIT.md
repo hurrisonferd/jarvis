@@ -12,7 +12,7 @@ status: ACTIVE
 created: 2026-06-26
 source: JarvisSide/Ideas/analyses/JOJO-ALL-GENERATION-AUDIT.md
 tags: [jojo, joestar, stands, phantom-blood, battle-tendency, stardust-crusaders, diamond-is-unbreakable, golden-wind, stone-ocean, steel-ball-run, jojolion, audit]
-memory_tier: JSTM
+memory_tier: JLTM
 ---
 
 # All-Generation JoJo Audit (Parts I–IX)

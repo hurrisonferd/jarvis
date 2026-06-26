@@ -48,11 +48,13 @@ TIER_GRADE_PATHS = {
 def validate_memory_frontmatter(path: str, frontmatter: dict) -> list[str]:
     """Check that memory_tier and grade in frontmatter match path-derived expectations.
 
+    Priority order:
+      1. JSS→JMMS status mapping (ARCHIVED/DEPRECATED → JATM, ACTIVE/DRAFT → JLTM, etc.)
+         — this is the JMMS ground truth; path-based rules are secondary fallbacks.
+      2. Path-derived tier from TIER_GRADE_PATHS prefix matching.
+      3. Special path cases (canon/, starlogs/, Archive/).
+
     Returns a list of warning messages (empty list if all is well).
-    Special cases:
-      - 'canon/' in path   → expect JATM tier
-      - 'starlogs/' in path → expect JHTM tier
-      - 'Archive/' in path  → expect JHTM tier
     """
     warnings = []
     rel_path = str(path)
@@ -60,41 +62,64 @@ def validate_memory_frontmatter(path: str, frontmatter: dict) -> list[str]:
     # Extract declared values (case-insensitive keys)
     declared_tier = None
     declared_grade = None
+    status_val = None
     for k, v in frontmatter.items():
         kl = k.lower()
         if kl == "memory_tier":
             declared_tier = v.strip() if isinstance(v, str) else str(v)
         elif kl == "grade":
             declared_grade = v.strip() if isinstance(v, str) else str(v)
+        elif kl == "status":
+            status_val = v.strip().upper() if isinstance(v, str) else str(v).upper()
 
-    # Determine expected tier+grade from path
     expected_tier = None
     expected_grade = None
 
-    # Special cases first (most specific)
+    # 1. Status-based JSS→JMMS mapping — status is the authoritative signal
+    # ARCHIVED, DEPRECATED, INACTIVE → JATM (settled/retired)
+    # ACTIVE, DRAFT, PROPOSED → JLTM (active governance)
+    # PENDING, OPEN → JSTM (in-flight)
+    status_tier_map = {
+        "ARCHIVED": "JATM",
+        "DEPRECATED": "JATM",
+        "INACTIVE": "JATM",
+        "ACTIVE": "JLTM",
+        "DRAFT": "JLTM",
+        "PROPOSED": "JLTM",
+        "PENDING": "JSTM",
+        "OPEN": "JSTM",
+    }
+    expected_tier = status_tier_map.get(status_val) if status_val else None
+    expected_grade = "system" if expected_tier else None
+
+    # 2. Path-based rules — always override status
+    # canon/ = settled law = JATM (canonical reference documents — immutably JATM)
+    # starlogs/, Archive/ = historical record = JHTM
+    # TIER_GRADE_PATHS prefix = path-structured system tiers
     if "canon/" in rel_path:
         expected_tier = "JATM"
-    elif "starlogs/" in rel_path or "Archive/" in rel_path:
-        expected_tier = "JHTM"
-
-    # Fall back to TIER_GRADE_PATHS prefix matching
-    if expected_tier is None:
-        for prefix, (tier, grade) in TIER_GRADE_PATHS.items():
-            if rel_path.startswith(prefix):
-                expected_tier = tier
-                expected_grade = grade
-                break
+        expected_grade = "system"
+    elif expected_tier is None:
+        if "starlogs/" in rel_path or "Archive/" in rel_path:
+            expected_tier = "JHTM"
+            expected_grade = "system"
+        else:
+            for prefix, (tier, grade) in TIER_GRADE_PATHS.items():
+                if rel_path.startswith(prefix):
+                    expected_tier = tier
+                    expected_grade = grade
+                    break
 
     # Compare declared vs expected
     if expected_tier and declared_tier and declared_tier != expected_tier:
         warnings.append(
-            f"memory_tier '{declared_tier}' != path-derived tier '{expected_tier}' "
-            f"(path suggests this should be {expected_tier})"
+            f"{rel_path}: memory_tier '{declared_tier}' != expected '{expected_tier}' "
+            f"(path+status suggests {expected_tier})"
         )
     if expected_grade and declared_grade and declared_grade != expected_grade:
         warnings.append(
-            f"grade '{declared_grade}' != path-derived grade '{expected_grade}' "
-            f"(path suggests this should be {expected_grade})"
+            f"{rel_path}: grade '{declared_grade}' != expected '{expected_grade}' "
+            f"(path suggests {expected_grade})"
         )
 
     return warnings

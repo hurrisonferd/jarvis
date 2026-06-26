@@ -12,7 +12,7 @@ status: ACTIVE
 created: 2026-06-26
 source: JarvisSide/Ideas/analyses/AC6-AYRE-RAVEN-ANALYSIS.md
 tags: [ac6, ayre, raven, identity, coral, parallel, theme]
-memory_tier: JSTM
+memory_tier: JLTM
 ---
 
 # ARMORED CORE VI: FIRES OF RUBICON × AYRE/Raven
