@@ -53,7 +53,7 @@ Raven had Claude Code and Copilot audit JARVIS's security surface. Copilot ident
 - Gameboy still not loading — cores/CDN unreachable from this server; browser test needed
 
 ## Pending
-- #9 OpenHands BIFROST routing (blocked: needs design)
+- [#9 → #287](https://github.com/hurrisonferd/jarvis/issues/287): OpenHands BIFROST routing — BENCHED, needs Raven design verdict (Option A: BIFROST as MCP tool, Option B: OpenHands MCP server, Option C: park it)
 - retroarch-bundle-v1 tag deletion (Raven manual: github.com/.../settings/tags)
 - 96 pending proposals in jd_proposals
 
