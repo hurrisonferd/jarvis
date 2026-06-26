@@ -605,10 +605,7 @@ def promote_session_memories() -> None:
         return
 
     try:
-        from datetime import datetime, timezone
-        cutoff = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
-        # 7 days ago
-        from datetime import timedelta
+        from datetime import datetime, timezone, timedelta
         cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
 
         # Find candidates: JSTM, session-born, older than cutoff, oldest first
