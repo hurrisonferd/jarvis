@@ -1817,7 +1817,6 @@ function buildServer(req: Request): McpServer {
     },
     async ({ carry_key }) => {
       const queryUrl = `cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false&select=carry_data,stream,companion_key,written_at,written_by_session`;
-      console.log(`[cecil_lift] carry_key=${carry_key} query=${queryUrl}`);
       let rows: any[] = [];
       let queryError: string | undefined;
       let rawResult: unknown = null;
@@ -1828,6 +1827,23 @@ function buildServer(req: Request): McpServer {
         queryError = String(e);
       }
       if (queryError) return text({ ok: false, note: `query failed: ${queryError}`, raw: rawResult });
+      if (!rows?.length) {
+        // Ponytail: try direct fetch as a workaround — the PostgREST path may differ from the service-key path
+        try {
+          const r = await fetch(`${SUPABASE_URL}/rest/v1/${queryUrl}`, {
+            headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json" }
+          });
+          const direct = await r.json();
+          if (Array.isArray(direct) && direct.length > 0) {
+            rows = direct;
+            rawResult = direct;
+          } else {
+            rawResult = { via_rest: rawResult, via_direct: direct };
+          }
+        } catch (e2) {
+          rawResult = { via_rest: rawResult, direct_error: String(e2) };
+        }
+      }
       if (!rows?.length) return text({ ok: false, note: `no slate found for key "${carry_key}"`, raw: rawResult });
 
       const row = rows[0];
