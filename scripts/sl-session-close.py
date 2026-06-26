@@ -2,13 +2,13 @@
 """
 sl-session-close.py — JARVIS session-end hook.
 
-Runs at the close of every OpenHands session. Does three things:
+Runs at the close of every OpenHands session. Does five things:
 
-1. Pulls conversation events from the OpenHands API (this session's exchanges,
-   topics, exchange count) using OPENHANDS_API_KEY.
+1. Pulls conversation events from the OpenHands API (exchanges, topics, count).
 2. Updates mnemos/memories/sessions.json with this session's record + commits.
-3. Calls sl.py --bifrost --session-close so ARGUS gets the spine event
-   and today's daily StarLog is committed.
+3. Writes a per-session StarLog (audit/starlogs/) — mirrors jarvis-ayre format.
+4. Writes growth_ledger entry (bounded, auto-archives oldest).
+5. Calls sl.py --bifrost --session-close for bifrost spine event.
 
 Safe to run multiple times — idempotent per session_id.
 Non-blocking on all external calls — never fails the session close.
@@ -291,6 +291,187 @@ def update_sessions_json(record):
     SESSIONS_PATH.write_text(json.dumps(store, indent=2))
     return store
 
+# ── Session StarLog writer ─────────────────────────────────────────────────────
+
+STARLOG_DIR = ROOT / "audit" / "starlogs"
+
+
+def stardate(dt: datetime) -> str:
+    """Year.decimal_day — JARVIS's stardate convention."""
+    start = dt.replace(month=1, day=1, hour=0, minute=0, second=0, microsecond=0)
+    days = (dt - start).total_seconds() / 86400
+    return f"{dt.year}.{days:.3f}"
+
+
+def write_session_starlog(record: dict, brief: str) -> Path | None:
+    """
+    Write a SESSION StarLog for this session, mirroring jarvis-ayre daily format.
+    Committed separately from the session JSON commit — separate artifact, separate record.
+    """
+    try:
+        STARLOG_DIR.mkdir(parents=True, exist_ok=True)
+    except Exception:
+        return None
+
+    now = datetime.now(timezone.utc)
+    sid = record.get("session_id", now.strftime("%Y%m%d_%H%M%S"))
+    date_str = now.strftime("%Y-%m-%d")
+    stream = "openhands"
+
+    # Stardate
+    sd = stardate(now)
+
+    # Recent commits this session
+    commits = _get_recent_commits()[:8]
+
+    # Topics
+    topics = record.get("topics", [])
+    topic_tags = ", ".join(topics[:6]) if topics else "governance"
+
+    # Decision blocks — one per meaningful action group
+    # Group commits by theme (rough heuristic from commit messages)
+    decision_blocks = _group_commits_as_decisions(commits)
+
+    # Pending
+    pending = _extract_pending_from_jstm()
+
+    lines = [
+        f"## Star Log — {now.isoformat()}",
+        f"**Stardate:** {sd}  ·  **Type:** SESSION  ·  **Stream:** {stream}",
+        "",
+        "System lives in JARVIS repo — every commit, decision, and event is a dated record.",
+        "",
+        f"## Session — {date_str} (OpenHands)",
+        "",
+        "## What happened",
+        "",
+        _format_what_happened(record, brief, topics),
+        "",
+        "## Decisions logged",
+        "",
+    ]
+
+    if decision_blocks:
+        lines.extend(decision_blocks)
+    else:
+        lines.append("*No decisions this session.*")
+
+    if pending:
+        lines.extend(["", "## Pending", "", *[f"○ {p}" for p in pending]])
+
+    lines.extend([
+        "",
+        "## JMMS state",
+        "",
+        f"- **JSTM:** this session's working memory",
+        f"- **JLTM:** StarLog written ({sid})",
+        f"- **JATM:** sessions.json updated ({sid})",
+        f"- **Bifrost:** spine event written to dex_events",
+        f"- **Growth:** growth_ledger entry written",
+        "",
+    ])
+
+    body = "\n".join(lines)
+
+    # Build filename
+    topic_slug = "-".join(topics[:3]) if topics else "session"
+    slug = f"STARLOG-{date_str}-SESSION-{stream}-{topic_slug}"
+    path = STARLOG_DIR / f"{slug}.md"
+
+    # Idempotency: don't overwrite if already exists with same content
+    if path.exists():
+        existing = path.read_text()
+        if existing == body:
+            log("session StarLog: already exists at %s", path.name)
+            return path
+
+    # Avoid filename collision
+    counter = 2
+    while path.exists():
+        path = STARLOG_DIR / f"{slug}-{counter}.md"
+        counter += 1
+
+    try:
+        path.write_text(body)
+        log("session StarLog: wrote %s", path.name)
+        return path
+    except Exception as exc:
+        log("session StarLog write failed: %s", exc)
+        return None
+
+
+def _group_commits_as_decisions(commits: list[str]) -> list[str]:
+    """Rough grouping of commits into decision blocks, jarvis-ayre style."""
+    if not commits:
+        return []
+
+    blocks = []
+    current_block = []
+    current_summary = ""
+
+    for commit in commits:
+        msg = commit.split(" ", 1)[1] if " " in commit else commit
+        msg_lower = msg.lower()
+
+        # Detect decision type from commit message
+        if any(k in msg_lower for k in ["feat(", "fix(", "feat:", "fix:"]):
+            if current_block:
+                blocks.append(_make_decision_block(current_summary, current_block))
+            current_summary = msg[:60]
+            current_block = [commit]
+        elif any(k in msg_lower for k in ["chore(", "chore:", "docs(", "refactor(", "style("]):
+            current_block.append(commit)
+            if not current_summary:
+                current_summary = msg[:60]
+        else:
+            current_block.append(commit)
+            if not current_summary:
+                current_summary = msg[:60]
+
+    if current_block:
+        blocks.append(_make_decision_block(current_summary, current_block))
+
+    return blocks
+
+
+def _make_decision_block(summary: str, commits: list[str]) -> str:
+    heading = summary.strip() or "Session commits"
+    lines = [f"### {heading}", "", "```"]
+    for c in commits:
+        parts = c.split(" ", 1)
+        sha = parts[0][:8] if parts else ""
+        msg = parts[1] if len(parts) > 1 else ""
+        lines.append(f"● `{sha}` {msg}")
+    lines.append("```")
+    return "\n".join(lines)
+
+
+def _format_what_happened(record: dict, brief: str, topics: list[str]) -> str:
+    parts = []
+    if brief:
+        parts.append(brief[:200])
+    exchanges = record.get("exchanges", 0)
+    patches = record.get("patches", [])
+    commits = record.get("commits", [])
+    if exchanges:
+        parts.append(f"{exchanges} exchanges this session.")
+    if topics:
+        parts.append(f"Topics: {', '.join(topics[:5])}.")
+    if commits:
+        parts.append(f"{len(commits)} commits pushed.")
+    return parts[0] if parts else "Session closed normally."
+
+
+def _extract_pending_from_jstm() -> list[str]:
+    """Pull pending items from JSTM if available."""
+    try:
+        jstm = json.loads(JSTM_PATH.read_text())
+        pending = jstm.get("pending", [])
+        return [str(p)[:80] for p in pending[:5]]
+    except Exception:
+        return []
+
+
 # ── Growth ledger (bounded, auto-archives oldest) ───────────────────────────
 
 GROWTH_LEDGER_PATH = ROOT / "mnemos" / "memories" / "growth_ledger.json"
@@ -452,6 +633,11 @@ def main():
 
     # 5b. Write growth ledger entry (bounded, auto-archives oldest)
     write_growth_record(record)
+
+    # 5c. Write session StarLog — the per-session decision record
+    starlog_path = write_session_starlog(record, brief)
+    if starlog_path:
+        git_add_commit([starlog_path], f"chore(audit): SL — {record['session_id']}")
 
     # 6. Call sl.py --bifrost --session-close
     sl_script = ROOT / "scripts" / "sl.py"
