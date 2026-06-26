@@ -36,7 +36,7 @@ check("[DECISION] marker forces capture", extract_decision("y", "chore: pick clo
 check("chore skipped", extract_decision("z", "chore(mnemos): session ledger [skip ci]", TS) is None)
 check("docs skipped", extract_decision("z", "docs: update readme", TS) is None)
 check("ci skipped", extract_decision("z", "ci: add workflow", TS) is None)
-check("plain fix skipped", extract_decision("z", "fix: typo", TS) is None)
+check("plain fix captured", extract_decision("z", "fix: typo", TS) is not None)
 
 # empty / malformed
 check("empty message -> None", extract_decision("z", "", TS) is None)
