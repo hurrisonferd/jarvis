@@ -52,28 +52,22 @@ jobs:
           echo "→ Applying migrations via Supabase CLI..."
           # The remote DB has migrations the CLI doesn't know about (applied via Dashboard).
           # Sync CLI's migration history to match remote state, then push new local migrations.
-          echo "→ Syncing migration history via Management API..."
-          MIGRATIONS_JSON=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF/database/migrations" \
-            -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN" \
-            -H "Content-Type: application/json" 2>/dev/null || echo "")
-          if echo "$MIGRATIONS_JSON" | jq -e 'type == "array"' > /dev/null 2>&1; then
-            REMOTE_VERSIONS=$(echo "$MIGRATIONS_JSON" | jq -r '.[].version' 2>/dev/null)
-            echo "Found $(echo "$REMOTE_VERSIONS" | wc -l) remote migrations"
-            echo "$REMOTE_VERSIONS" | while read -r ver; do
+          echo "→ Syncing migration history..."
+          # Capture the error output from db push --include-all (which fails when
+          # remote has migrations the CLI doesn't know). The error message lists
+          # all missing version numbers. Extract and repair them all, then push.
+          DB_PUSH_OUTPUT=$(supabase db push --include-all 2>&1 || true)
+          echo "$DB_PUSH_OUTPUT"
+          # Extract 14-digit version timestamps from the error message
+          MISSING_VERSIONS=$(echo "$DB_PUSH_OUTPUT" | grep -oE '(20[0-9]{12})' | sort -u)
+          if [ -n "$MISSING_VERSIONS" ]; then
+            VER_COUNT=$(echo "$MISSING_VERSIONS" | grep -c . || echo 0)
+            echo "→ Repairing $VER_COUNT remote migrations..."
+            echo "$MISSING_VERSIONS" | while read -r ver; do
               [ -z "$ver" ] && continue
               supabase migration repair --status applied "$ver" 2>&1 | grep -v "^$" || true
             done
             echo "✓ Migration history synced"
-          else
-            echo "⚠ Could not fetch remote migrations from Management API"
-            echo "Response: $(echo "$MIGRATIONS_JSON" | head -c 200)"
-            echo "Trying direct repair with known versions from CLI error output..."
-            # Fallback: use versions extracted from the last CLI error message.
-            # These are the remote migration versions that need to be marked as applied.
-            for ver in 20260524214637 20260524223422 20260524230654 20260525082940 20260525170928 20260526020022 20260526020037 20260526113936 20260527192341 20260527194316 20260528003202 20260528011112 20260528225358 20260528230423 20260529010846 20260529025055 20260529025123 20260529032637 20260529033630 20260529123657 20260529192844 20260530135411 20260530140631 20260530142855 20260602131454 20260603000124 20260603001038 20260603172634 20260603222910 20260604171408 20260604173630 20260604174755 20260604220302 20260609125617 20260609132244 20260609160933 20260609164906 20260609170719 20260609222608 20260609225754 20260609225821 20260610025721 20260610031213 20260611223901 20260617202230 20260617202238 20260618001233 20260618003705; do
-              supabase migration repair --status applied "$ver" 2>&1 | grep -v "^$" || true
-            done
-            echo "✓ Migration history synced (fallback)"
           fi
           echo "→ Pushing pending migrations..."
           if supabase db push --include-all 2>&1; then
