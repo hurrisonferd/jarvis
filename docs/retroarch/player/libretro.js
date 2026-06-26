@@ -127,8 +127,8 @@ function zipfsInit() {
 }
 
 function xhrfsInit() {
-   // create an XmlHttpRequest filesystem for core assets
-   BrowserFS.FileSystem.XmlHttpRequest.Create({baseUrl: "assets/cores/", index: "assets/cores/.index-xhr"}, function(e, fs) {
+   // cores loaded from libretro.com CDN (not from Pages LFS)
+   BrowserFS.FileSystem.XmlHttpRequest.Create({baseUrl: "https://cdn.libretro.com/assets/cores/", index: ""}, function(e, fs) {
       if (e) {
          xhrfs = new BrowserFS.FileSystem.InMemory();
          console.error("WEBPLAYER: error (xhrfs): " + e + " falling back to in-memory filesystem");
