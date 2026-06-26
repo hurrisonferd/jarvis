@@ -1,7 +1,8 @@
-# RetroArch web player goes here
+# RetroArch player — fully vendored (2026-06-25)
 
-Vendor the official bundle from https://web.libretro.com/ (or cores from
-https://buildbot.libretro.com/web/) into this folder so that
-`docs/retroarch/player/index.html` exists. See ../MANIFEST.md.
+The RetroArch web player is committed in this directory via GitHub LFS.
+Full bundle (~289MB): assets, themes (XMB, Ozone, RGUI), overlays, shaders,
+autoconfig, filters, database (305 cores, 145 ROM DBs). Cores load on-demand.
 
-ROMs are NOT stored here — RetroArch loads them locally into IDBFS.
+**Live:** https://hurrisonferd.github.io/jarvis/retroarch/
+**Launcher:** docs/retroarch/index.html — opens as full-window overlay from GameBoy mode.
