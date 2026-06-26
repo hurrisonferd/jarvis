@@ -1779,13 +1779,19 @@ function buildServer(req: Request): McpServer {
         method: "PATCH",
         body: { lifted: true, lifted_at: now },
       }).catch(() => {});
-      await rest("cecil_slate", {
-        method: "POST",
-        body: { carry_key, companion_key: stream, stream, carry_data, written_by_session: sess?.session_key ?? null },
-      });
+      let postError: string | undefined;
+      try {
+        await rest("cecil_slate", {
+          method: "POST",
+          body: { carry_key, companion_key: stream, stream, carry_data, written_by_session: sess?.session_key ?? null },
+        });
+      } catch (e) {
+        postError = String(e);
+      }
 
       return text({
-        ok: true, action: "carried", carry_key, ttl: "24h",
+        ok: !postError, action: "carried", carry_key, ttl: "24h",
+        ...(postError ? { error: postError } : {}),
         stats: {
           openJCs: Array.isArray(openJCs) ? openJCs.length : 0,
           recentSLs: Array.isArray(recentSLs) ? recentSLs.length : 0,
