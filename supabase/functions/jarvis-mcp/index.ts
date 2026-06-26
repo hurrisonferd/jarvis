@@ -174,22 +174,17 @@ function buildServer(req: Request): McpServer {
       },
     },
     async ({ input, prior_reply, context }) => {
-      // Auto-ingest the turn into the event spine (telemetry; best-effort).
-      await Promise.all([
-        logExchange("speak_input", input),
-        prior_reply ? logExchange("speak_output", prior_reply) : Promise.resolve(),
-      ]);
-      // JMMS / JITM — the always-on briefing: the newest 5 jitm pins, injected EVERY turn.
-      // Capped by recency, so it can never bloat (extra pins simply stop loading). Pointers
-      // to the manual/brief/fusions + current focus — the streams hold these before answering.
-      // Best-effort; a miss never blocks the reply.
-      // IMPL-JMMS-0001: JITM briefing is system-grade only (JARVIS's keel — personal memories
-      // are Raven's private context, never auto-injected without explicit request).
-      const jitm = await rest("mnemos_memories?select=text,tags,timestamp&tags=cs.{jitm}&grade=eq.system&order=timestamp.desc&limit=5").catch(() => []);
+      // Fire all independent I/O simultaneously — telemetry, JITM fetch, and jarvis-respond.
+      // await jitmReq inside try so failures are caught; jarvis-respond failure is the
+      // primary gate (if it fails we degrade to recall).
+      const [r, jitm] = await Promise.all([
+        callFunctionAs("jarvis-respond", { input, context: { ...(context ?? {}), no_generate: true } }, ANON_JWT),
+        rest("mnemos_memories?select=text,tags,timestamp&tags=cs.{jitm}&grade=eq.system&order=timestamp.desc&limit=5").catch(() => []),
+      ]).then(([r, jitm]) => [r as Record<string, unknown>, jitm]);
+      // Telemetry runs fire-and-forget (internal try-catch, never throws).
+      logExchange("speak_input", input);
+      if (prior_reply) logExchange("speak_output", prior_reply);
       try {
-        // Keyless voice path: full God-System pipeline (ODIN/AEGIS/MNEMOS),
-        // NO language model. Returns JARVIS's briefing for the connector to speak.
-        const r = await callFunctionAs("jarvis-respond", { input, context: { ...(context ?? {}), no_generate: true } }, ANON_JWT) as Record<string, unknown>;
         // The council convenes — fixed-authority vote on this turn's routing/gating.
         const council = councilVote(r.routing, r.aegis as any[]);
         // Conditional deliberation — god-system lenses fire only on heavy intents

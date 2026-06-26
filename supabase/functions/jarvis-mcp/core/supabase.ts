@@ -31,17 +31,19 @@ export async function logExchange(sourceType: string, content: string): Promise<
 }
 
 // Record a governance event as a DECISION in sl_objects. Fires non-blocking from the MCP reply
-// path — never adds latency to the reply. Detects verdicts from output_review traces only.
+// path — never adds latency to the reply. Detects governance-significant outputs.
+// review.verdict is only "FLAG" or "PASS"; the signal is in council.summary keywords.
 // Uses SERVICE_KEY so it bypasses RLS (T7 governance tier).
 const GOVERNANCE_VERDICTS = [
-  "verdict", "gate", "aegis", "denied", "approved",
+  "gate", "aegis", "denied", "approved",
   "commit", "implementing", "deferred", "bench", "benched",
-  "closed", "resolved",
+  "closed", "resolved", "flag",
 ];
 
 export function detectGovernanceEvent(trace: string): boolean {
-  // Only fire on output_review traces — verdict lines, not deliberation noise
+  // Only fire on output_review traces that flag or show real governance action
   if (!trace.includes("output_review")) return false;
+  if (trace.includes("output_review=PASS")) return false; // clean pass — skip
   const lower = trace.toLowerCase();
   return GOVERNANCE_VERDICTS.some(k => lower.includes(k));
 }
