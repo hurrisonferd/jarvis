@@ -42,12 +42,13 @@ jobs:
             echo "Fetching DATABASE_URL via Supabase Management API..."
             DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF" \
               -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")
-            DB_URL=$(echo "$DB_CONFIG" | jq -r '.connection_info.connection_string // null')
+            DB_URL=$(echo "$DB_CONFIG" | jq -r '.connection_info.connection_string // .connection_info.connection_string // .connection_string // null')
             if [ "$DB_URL" != "null" ] && [ -n "$DB_URL" ]; then
               export DATABASE_URL="$DB_URL"
               echo "✓ DATABASE_URL fetched via Management API"
             else
-              echo "⚠ Could not fetch DATABASE_URL: $(echo "$DB_CONFIG" | jq -r '.message // .error // "unknown error"' 2>/dev/null)"
+              echo "⚠ Could not fetch DATABASE_URL — API response:"
+              echo "$DB_CONFIG" | jq '.' 2>/dev/null || echo "$DB_CONFIG"
             fi
           fi
           if [ -z "$DATABASE_URL" ]; then
