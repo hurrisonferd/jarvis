@@ -1,11 +1,11 @@
 name: "ERIS — Bridgekeeper"
 
 # ERIS as the Bridgekeeper (PROJ-BRDK-BIO-0001).
-# Every non-collaborator PR is a honeypot: questions generate evidence,
-# every evasion lands in dex_events, Raven gets the full audit trail.
+# Stall trap honeypot — every non-collaborator PR gets occupied.
+# Questions never stop. Every answer is data. Every evasion is data.
+# Build the forensic breadcrumb trail while they muck about.
 #
-# Who gets through: Raven (hurrisonferd), JARVIS, AYRE streams.
-# Everyone else: honeypot. Every answer is evidence.
+# Authorized: hurrisonferd, dependabot[bot], github-actions[bot]
 on:
   pull_request:
     types: [opened, synchronize, reopened]
@@ -24,7 +24,7 @@ env:
 jobs:
   bridgekeeper:
     runs-on: ubuntu-latest
-    # Only challenge external contributors — collaborators pass through
+    # Only challenge external contributors
     if: github.event.pull_request.author_association == 'NONE'
     steps:
       - uses: actions/checkout@v4
@@ -34,10 +34,9 @@ jobs:
       - name: Run ERIS Bridgekeeper
         id: eris
         run: |
-          echo "author=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
-          echo "pr=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
           python3 scripts/eris_bridgekeeper.py \
             --pr-number ${{ github.event.pull_request.number }} \
+            --pr-title "${{ github.event.pull_request.title }}" \
             --author "${{ github.event.pull_request.user.login }}" \
             --action "${GITHUB_EVENT_NAME}" \
             --pr-body "${{ github.event.pull_request.body }}" \
@@ -46,39 +45,30 @@ jobs:
             --comment-body "${{ github.event.comment.body || '' }}" \
             2>&1 | tee $GITHUB_OUTPUT/eris_output.txt
 
-      - name: Post challenge question
+      - name: Post question
         if: steps.eris.outputs.needs_question == 'true'
         run: |
-          QUESTION=$(python3 -c "import json; d=json.load(open('$GITHUB_OUTPUT/eris_output.txt')); print(d.get('question',''))" 2>/dev/null || echo "")
+          QUESTION=$(python3 -c "import json,sys; d=json.load(sys.stdin); print(d.get('question',''))" \
+            < '$GITHUB_OUTPUT/eris_output.txt' 2>/dev/null || echo "")
           if [ -n "$QUESTION" ]; then
             gh pr comment ${{ github.event.pull_request.number }} \
               --body "$QUESTION"
           fi
 
-      - name: Post evidence receipt
-        if: steps.eris.outputs.needs_question == 'true'
+      - name: Entropy status check
+        if: steps.eris.outputs.status == 'BLOCKED' || steps.eris.outputs.status == 'STALLED'
         run: |
-          gh pr comment ${{ github.event.pull_request.number }} \
-            --body "🌉 ERIS has logged this interaction to the spine.
-
-Your questions and answers are being recorded as an immutable audit trail (dex_events).
-Only Raven, JARVIS, and AYRE can authorize changes to this repository.
-
-*This is not a rejection. It is a record.*"
-
-      - name: Block merge (pending answer)
-        if: steps.eris.outputs.status == 'BLOCKED'
-        run: |
-          # Post a blocking status check (visible in PR UI)
-          echo "ERIS Bridgekeeper: challenge issued. Awaiting response."
+          python3 -c "
+import json, sys
+d = json.load(open('$GITHUB_OUTPUT/eris_output.txt'))
+entropy = d.get('entropy', 0)
+patterns = d.get('patterns', [])
+print(f'entropy={entropy:.2f}')
+print(f'patterns={patterns}')
+print(f'qs={d.get(\"questions_asked\", \"?\")}')
+" >> $GITHUB_OUTPUT
+          # Status check visible in PR UI
           gh api repos/{owner}/{repo}/statuses/${{ github.event.pull_request.head.sha }} \
             --field state=pending \
-            --field target_url="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}#issuecomment-${{ github.event.comment.id }}" \
-            --field description="ERIS Bridgekeeper: challenge pending response" \
+            --field description="ERIS: ${{ steps.eris.outputs.entropy || '0' }} entropy | ${{ steps.eris.outputs.patterns || 'clean' }}" \
             --field context="bridgekeeper/eris" || true
-
-      - name: Escalate to Raven
-        if: steps.eris.outputs.status == 'ESCALATE'
-        run: |
-          echo "ERIS detected evasion pattern — escalating to Raven"
-          # In a full deployment this would open a GitHub issue or notify directly

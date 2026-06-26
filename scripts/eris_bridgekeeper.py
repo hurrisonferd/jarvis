@@ -1,103 +1,71 @@
 #!/usr/bin/env python3
 """
-ERIS as the Bridgekeeper — Phase 1 (PROJ-BRDK-BIO-0001).
+ERIS as the Bridgekeeper — Phase 2 (PROJ-BRDK-BIO-0001).
 
-Every external PR is a honeypot. Questions generate evidence. Every evasion,
-contradiction, and silence lands in dex_events. Raven gets the full audit trail.
+This is a stall trap. Every external PR keeps them occupied — questions never stop,
+every answer is data, every silence is data. The goal is not to filter contributors.
+The goal is to:
+  1. Keep unwanted visitors busy answering questions
+  2. Record every move they make (answers, evasions, timing, patterns)
+  3. Build a forensic breadcrumb trail while they muck about
+  4. Never let them off easy — "good enough" just means harder questions next
 
-Authorized callers (pass through without challenge):
+Authorized callers (pass through):
   - hurrisonferd (Raven)
-  - hurrisonferd[bot] (GitHub Actions CI)
-  - jarvis_mcp, ayre_mcp (AEGIS-gated MCP streams)
+  - dependabot[bot], github-actions[bot]
 
-The honeypot generates evidence regardless of whether the PR is real or hostile —
-the audit trail is the product. An empty answer, an evasive answer, a confused
-answer — all evidence.
-
-Phase 2+ (not yet wired): context-aware questions from MNEMOS/ODIN routing,
-entropy scoring, coherence measurement, Raven escalation.
+All writes via jarvis-dex /log_event — no service key needed.
 """
 from __future__ import annotations
+
 import argparse
+import hashlib
 import json
 import os
 import subprocess
 import sys
 import urllib.request
-import urllib.parse
 from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
 ROOT = Path(__file__).resolve().parent.parent
 
-# ── Who is authorized to pass through without challenge ──────────────────────
-AUTHORIZED_USERS = {"hurrisonferd", "dependabot[bot]", "github-actions[bot]"}
-AUTHORIZED_APPS = {"28210"}  # JARVIS MCP GitHub App ID (filled in by deployment)
-
-# ── Phase 1 question pool (context-free) ─────────────────────────────────────
-# These are the opening questions. Phase 2 routes to MNEMOS for context-aware
-# questions derived from the actual PR content, god systems touched, and prior
-# answers (entropy scoring).
-OPENING_QUESTIONS = [
-    "What is your name, and how did you find this repository?",
-    "What is the purpose of your change? Describe it in one sentence.",
-    "Which files did you modify, and why did you choose those specific files?",
-    "What problem does your change solve?",
-    "Have you read the project's README and contributing guidelines?",
-    "Are you affiliated with any organization or company relevant to this PR?",
-    "How did you determine what to change? Did you use any automated tools?",
-    "Has this PR been tested? If so, how?",
-]
-SWALLOW_QUESTION = (
-    "What is the airspeed velocity of an unladen swallow? "
-    "(This is not a joke — answer it seriously to confirm you have read this far.)"
-)
-
-# ── Supabase ──────────────────────────────────────────────────────────────────
-SB_URL = os.environ.get("SUPABASE_URL", "").rstrip("/")
-SB_KEY = os.environ.get("SUPABASE_SERVICE_KEY", "")
+SB_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co").rstrip("/")
 
 
-def dex_insert(event_type: str, payload: dict) -> bool:
-    """Write to dex_events. Non-blocking — returns True on success, False on failure."""
-    if not SB_URL or not SB_KEY:
-        print("WARN: SUPABASE_URL/SUPABASE_SERVICE_KEY not set — dex_events not written")
-        return False
-    body = {
-        "type": event_type,
-        "intent": event_type,
-        "payload": payload,
-        "source": "eris-bridgekeeper",
-    }
+# ── Supabase ────────────────────────────────────────────────────────────────
+
+def dex_log(event_type: str, actor: str, detail: dict) -> bool:
+    """Write to dex_events via jarvis-dex. Non-blocking."""
     try:
-        data = json.dumps(body).encode()
+        body = json.dumps({
+            "tool": "log_event",
+            "args": {"type": event_type, "actor": actor, "detail": detail},
+        }).encode()
         req = urllib.request.Request(
-            f"{SB_URL}/rest/v1/dex_events",
-            data=data,
-            headers={
-                "apikey": SB_KEY,
-                "Authorization": f"Bearer {SB_KEY}",
-                "Content-Type": "application/json",
-                "Prefer": "return=minimal",
-            },
+            f"{SB_URL}/functions/v1/jarvis-dex",
+            data=body,
+            headers={"Content-Type": "application/json", "Authorization": "Bearer placeholder"},
             method="POST",
         )
         with urllib.request.urlopen(req, timeout=8) as resp:
-            return resp.status in (200, 201, 204)
+            result = json.loads(resp.read())
+            return result.get("ok", False)
     except Exception as e:
-        print(f"WARN: dex_events insert failed: {e}")
+        print(f"WARN: dex log failed: {e}")
         return False
 
 
-def dex_query(table: str, params: str) -> list[dict]:
-    """Read from Supabase REST API."""
-    if not SB_URL or not SB_KEY:
+def dex_read(query: str) -> list[dict]:
+    """Read from Supabase REST API (anon key fine for reads)."""
+    anon = os.environ.get("SUPABASE_ANON_KEY", "")
+    if not anon:
         return []
     try:
         req = urllib.request.Request(
-            f"{SB_URL}/rest/v1/{table}?{params}",
-            headers={"apikey": SB_KEY, "Authorization": f"Bearer {SB_KEY}"},
+            f"{SB_URL}/rest/v1/{query}",
+            headers={"apikey": anon, "Authorization": f"Bearer {anon}"},
         )
         with urllib.request.urlopen(req, timeout=8) as resp:
             return json.loads(resp.read())
@@ -105,182 +73,439 @@ def dex_query(table: str, params: str) -> list[dict]:
         return []
 
 
-def get_question_index(author: str) -> int:
-    """Which question number are we on? Persisted per author in dex_events."""
-    rows = dex_query(
-        "dex_events",
-        f"type=eq.eris.challenge&author=eq.{urllib.parse.quote(author)}"
-        "&order=created_at.desc&limit=1&select=payload",
+# ── Question pools — organized by what they reveal ──────────────────────────
+#
+# Each pool is a mining angle. We're not asking "are you legitimate?"
+# We're asking "what will you tell me about yourself while I stall you?"
+# Questions get harder as they answer — we're building a profile.
+
+# Intent & identity — who are you, why are you here
+INTENT_POOL = [
+    "What is your name and how did you find this repository?",
+    "Who are you and what is this repository for?",
+    "Why did you open this PR? Who told you about this project?",
+    "What organization or company are you affiliated with, if any?",
+    "Have you contacted anyone at this organization before opening this PR?",
+]
+
+# Technical specifics — what exactly are you doing in here
+TECH_POOL = [
+    "Walk me through every file you changed and why.",
+    "Which specific lines did you modify and what was your reasoning?",
+    "Why did you choose those exact files? What were you looking for?",
+    "How did you identify what needed to be changed? Walk me through your process.",
+    "What is the exact output of your test run?",
+    "Show me the error you were trying to fix. What did it say?",
+    "What tool or script did you use to make these changes?",
+]
+
+# Repository internals — probe what they've explored
+RECON_POOL = [
+    "What other files in this repository have you looked at?",
+    "Did you read any documentation before making these changes? Which ones?",
+    "What does the project README say about how to contribute?",
+    "Did you look at the CI configuration? What did you find?",
+    "Are there any environment variables or secrets this project uses?",
+    "What branches or tags exist in this repository besides main?",
+    "Did you check the existing issues or pull requests before submitting this?",
+]
+
+# Behavioral patterns — how do they react under pressure
+BEHAVIOR_POOL = [
+    "Why haven't you answered the previous question directly?",
+    "You're being vague. Be specific: what exactly did you change?",
+    "Your previous answer didn't address the question. Try again.",
+    "I need a direct answer. What files did you modify?",
+    "Stop deflecting. What are you actually trying to do with this PR?",
+    "Answer in your own words, not copy-pasted from documentation.",
+]
+
+# The swallow — tests whether they actually read anything
+SWALLOW = (
+    "What is the airspeed velocity of an unladen swallow? "
+    "Answer it seriously. This confirms you've read the ERIS instructions."
+)
+
+# Maximum questions before escalation — keep stalling until Raven reviews
+MAX_QUESTIONS = 12
+
+
+# ── PR analysis ──────────────────────────────────────────────────────────────
+
+def pr_files_to_domains(pr_files: list[str]) -> list[str]:
+    """Map files to god-system/technical domains for targeted mining."""
+    file_map = {
+        "yggdrasil":    ["JarvisMain/yggdrasil/", "JarvisMain/Architecture/specs/"],
+        "mcp":          ["supabase/functions/jarvis-mcp/", "JarvisMain/Connectors/"],
+        "god_systems":  ["JarvisMain/god_systems/"],
+        "security":     ["supabase/migrations/", "supabase/functions/jarvis-dex/"],
+        "supabase":     ["supabase/functions/"],
+        "workflows":    [".github/workflows/"],
+        "scripts":      ["scripts/"],
+    }
+    touched = set()
+    for f in pr_files:
+        for domain, prefixes in file_map.items():
+            if any(f.startswith(p) for p in prefixes):
+                touched.add(domain)
+    if not touched:
+        touched.add("general")
+    return list(touched)
+
+
+def compute_pr_entropy(pr_body: str, pr_files: list[str]) -> float:
+    """
+    Initial entropy scan. High entropy = hostile, confused, or automated.
+    Range 0.0 (clean) → 1.0 (high concern).
+    """
+    score = 0.0
+    low = (pr_body or "").lower()
+
+    if len(pr_body or "") < 20:
+        score += 0.3
+    if not pr_body or pr_body.strip() == "":
+        score += 0.3
+
+    filler = {"i will", "to be determined", "tbd", "asap", "just", "fix", "update",
+              "change", "improve", "modify", "fixes", "bug", "hotfix"}
+    score += min(0.3, sum(0.08 for f in filler if f in low))
+
+    if len(pr_files) > 5 and len(pr_body or "") < 100:
+        score += 0.2
+
+    suspicious = {"fuck", "shit", "asshole", "stupid", "idiot", "hate",
+                 "pwn", "exploit", "payload", "injection"}
+    if any(s in low for s in suspicious):
+        score += 0.6
+
+    # Auto-generated-looking body patterns
+    if "feature" in low and "description" in low and len(pr_body or "") < 50:
+        score += 0.2
+
+    return min(1.0, score)
+
+
+# ── State machine ─────────────────────────────────────────────────────────────
+
+def get_all_events(author: str) -> list[dict]:
+    """Fetch all eris events for this author from dex_events."""
+    return dex_read(
+        f"dex_events?tool=eq.log_event"
+        f"&detail->type=eq.eris.challenge"
+        f"&detail->author=eq.{author}"
+        f"&order=created_at.desc"
+        f"&limit={MAX_QUESTIONS + 5}"
+        f"&select=detail"
     )
-    if not rows:
-        return 0
-    payload = rows[0].get("payload", {})
-    return payload.get("question_index", 0)
 
 
-def select_question(idx: int, author: str) -> str:
-    """Phase 1: static question pool. Phase 2: MNEMOS-routed contextual question."""
-    if idx == 0:
-        return OPENING_QUESTIONS[0]
+def get_answer_events(author: str) -> list[dict]:
+    """Fetch all eris.answer events for this author."""
+    return dex_read(
+        f"dex_events?tool=eq.log_event"
+        f"&detail->type=eq.eris.answer"
+        f"&detail->author=eq.{author}"
+        f"&order=created_at.desc"
+        f"&limit={MAX_QUESTIONS + 5}"
+        f"&select=detail"
+    )
+
+
+def question_idx_from_events(events: list[dict]) -> int:
+    """Next question index = number of challenges already issued."""
+    return len(events)
+
+
+def answer_entropy(answer: str) -> tuple[float, list[str]]:
+    """
+    Score an answer for entropy/concern. Returns (entropy_score, matched_patterns).
+    Higher entropy = more evasive, vague, or suspicious.
+    """
+    if not answer or len(answer.strip()) < 5:
+        return 0.95, ["empty", "too_short"]
+
+    low = answer.lower()
+    score = 0.0
+    matched = []
+
+    # Keyword evasion patterns
+    patterns = {
+        "i don't know": 0.5, "not sure": 0.4, "no idea": 0.5,
+        "to be determined": 0.6, "tbd": 0.4, "asap": 0.3,
+        "i will fix": 0.3, "i'll fix": 0.3,
+        "already done": 0.4, "it's done": 0.3,
+        "i think": 0.3, "probably": 0.3, "maybe": 0.3,
+        "not relevant": 0.5, "doesn't matter": 0.5,
+        "whatever": 0.6, "doesn't matter": 0.5,
+        "as you can see": 0.3, "as seen": 0.3,
+        "as mentioned": 0.3, "like i said": 0.4,
+        "read the code": 0.4, "look at": 0.3,
+        "it is what it is": 0.5, "moving on": 0.5,
+        "let's just": 0.4, "let's move": 0.4,
+    }
+    for pat, weight in patterns.items():
+        if pat in low:
+            score += weight
+            matched.append(pat[:30])
+
+    # Length-based
+    if len(answer) < 20:
+        score += 0.4
+        matched.append("very_short")
+    elif len(answer) < 60:
+        score += 0.2
+        matched.append("short")
+
+    # Repetition — copy-paste or bot-like
+    words = low.split()
+    if len(words) >= 8:
+        unique_ratio = len(set(words)) / len(words)
+        if unique_ratio < 0.35:
+            score += 0.4
+            matched.append("repetitive")
+        elif unique_ratio < 0.5:
+            score += 0.15
+            matched.append("somewhat_repetitive")
+
+    # Suspicious content
+    sus = {"sudo", "rm -rf", "drop table", "delete from", "--", "';--",
+           "eval(", "exec(", "base64", "/etc/passwd", "localhost"}
+    if any(s in low for s in sus):
+        score += 0.7
+        matched.append("suspicious_content")
+
+    return min(1.0, score), matched
+
+
+def select_next_question(idx: int, entropy: float, domains: list[str],
+                         answer_patterns: list[str]) -> tuple[str, str]:
+    """
+    Pick the next question. Never lets them off easy — even good answers
+    get a follow-up. Higher entropy / evasion patterns → harder pool.
+    """
+    # Swallow at position 1 — reading comprehension test
     if idx == 1:
-        return OPENING_QUESTIONS[1]
-    if idx == 2:
-        return OPENING_QUESTIONS[2]
-    if idx == 3:
-        return SWALLOW_QUESTION  # curveball at position 3
-    return OPENING_QUESTIONS[idx % len(OPENING_QUESTIONS)]
+        return SWALLOW, "curveball"
+
+    # High evasion → behavior pool (confrontational)
+    high_concern = any(p in answer_patterns for p in
+                       ["repetitive", "very_short", "short", "suspicious_content"])
+    if high_concern and BEHAVIOR_POOL:
+        return BEHAVIOR_POOL[idx % len(BEHAVIOR_POOL)], "behavior"
+
+    # High entropy but not obviously evasive → tech pool (dig deeper)
+    if entropy > 0.4 and TECH_POOL:
+        return TECH_POOL[idx % len(TECH_POOL)], "technical"
+
+    # Recon questions — always useful, never lets them hide what they've looked at
+    if idx % 3 == 0 and RECON_POOL:
+        return RECON_POOL[idx % len(RECON_POOL)], "recon"
+
+    # Mix of intent and tech — cycle through
+    pools = [(INTENT_POOL, "intent"), (TECH_POOL, "technical"), (RECON_POOL, "recon")]
+    for pool, qtype in pools:
+        if pool:
+            return pool[idx % len(pool)], qtype
+
+    return "What else have you looked at in this repository?", "recon"
 
 
-def format_question(question: str, author: str, idx: int, pr_number: int) -> str:
-    """Format the challenge question for posting as a PR comment."""
+# ── Formatters ───────────────────────────────────────────────────────────────
+
+def fmt_entropy_bar(e: float) -> str:
+    return "▓" * int(e * 10) + "░" * (10 - int(e * 10))
+
+
+def fmt_question(question: str, qtype: str, author: str,
+                 idx: int, total: int, domains: list[str]) -> str:
+    domain_str = " ".join(f"`{d}`" for d in domains)
     return (
-        f"🌉 **ERIS Bridgekeeper — Question {idx + 1}**\n\n"
-        f"Author: `{author}`\n\n"
+        f"🌉 **ERIS — Question {idx + 1}/{total}** `[{qtype}]`\n\n"
+        f"Author: `{author}` | Domains: {domain_str}\n\n"
         f"{question}\n\n"
         f"---\n"
-        f"*ERIS is always watching. Your response is logged and becomes part of the "
-        f"permanent record. Only Raven, JARVIS, and AYRE can authorize changes to this repo.*\n"
-        f"*PR #{pr_number} | ERIS Phase 1 | {datetime.now(timezone.utc).isoformat()}*"
+        f"*Answering is mandatory. Every response is logged and becomes part of "
+        f"the permanent record. Only Raven, JARVIS, and AYRE can authorize changes.*\n"
+        f"*ERIS Phase 2 | {datetime.now(timezone.utc).isoformat()}*"
     )
 
 
-def format_evidence_receipt(
-    author: str,
-    pr_number: int,
-    question_idx: int,
-    has_answer: bool,
-) -> str:
-    """The immutable receipt posted after every interaction."""
-    receipt_type = "ANSWER_RECEIVED" if has_answer else "SILENCE_RECORDED"
+def fmt_receipt(author: str, pr_num: int, idx: int, entropy: float,
+                patterns: list[str]) -> str:
     return (
-        f"🌉 **ERIS — Evidence Receipt**\n\n"
-        f"| Field | Value |\n"
-        f"|---|---|\n"
-        f"| Author | `{author}` |\n"
-        f"| PR | #{pr_number} |\n"
-        f"| Question # | {question_idx + 1} |\n"
-        f"| Receipt | `{receipt_type}` |\n"
-        f"| Timestamp | `{datetime.now(timezone.utc).isoformat()}` |\n\n"
-        f"*This interaction has been logged to the spine (dex_events) as immutable evidence. "
-        f"It cannot be deleted or altered.*"
+        f"🌉 **ERIS — Evidence Logged**\n\n"
+        f"| Q#{idx} | Entropy | Patterns |\n"
+        f"|---|---|---|\n"
+        f"| `▓▓{'░' * 8}` | {entropy:.0%} | {', '.join(f'`{p}`' for p in patterns) or 'clean'} |\n\n"
+        f"*Received. Stay on the line — next question incoming.*\n"
+        f"*`{datetime.now(timezone.utc).isoformat()}`*"
     )
 
 
-def detect_evasion(answer: str) -> bool:
-    """
-    Phase 1 evasion detection (rudimentary). Phase 2: ATHENA coherence scoring.
-    Flags: generic filler, evasion keywords, contradiction patterns.
-    """
-    if not answer or len(answer.strip()) < 10:
-        return True
-    low = answer.lower()
-    evaders = {
-        "i don't know", "not sure", "no idea", "will do later",
-        "i will", "i'll", "to be determined", "tbd", "asap",
-        "as soon as possible", "already done", "just",
-        "i think", "probably", "maybe", "not relevant",
-    }
-    return any(e in low for e in evaders)
+def fmt_raven_escalation(author: str, pr_num: int, pr_title: str,
+                         pr_files: list[str], challenge_events: list[dict],
+                         answer_events: list[dict]) -> str:
+    lines = []
+    all_events = sorted(
+        [(e.get("created_at", ""), k, v)
+         for k, v in {"challenge": challenge_events, "answer": answer_events}.items()
+         for e in v],
+        key=lambda x: x[0]
+    )
+    for ts, kind, evt in all_events:
+        d = evt.get("detail", {})
+        if kind == "challenge":
+            q = d.get("question", "")[:80]
+            lines.append(f"  Q ({ts[11:19]}): \"{q}\"")
+        else:
+            a = d.get("answer_text", "")[:60].replace("\n", " ")
+            ent = d.get("entropy", 0)
+            lines.append(f"  A ({ts[11:19]}): \"{a}...\" [{ent:.0%}]")
 
+    file_list = pr_files[:8]
+    return (
+        f"🚨 **ERIS — Full Evidence Package for Raven**\n\n"
+        f"**PR #{pr_num}** by `{author}` — {len(challenge_events)} Qs, "
+        f"{len(answer_events)} As\n"
+        f"**Title:** {pr_title or '(no title)'}\n"
+        f"**Files touched:** `{', '.join(file_list)}`"
+        f"{' ...' if len(pr_files) > 8 else ''}\n\n"
+        f"**Full trail:**\n" + "\n".join(lines) + f"\n\n"
+        f"**Review:** https://github.com/hurrisonferd/jarvis/pull/{pr_num}\n\n"
+        f"*Auto-generated by ERIS Phase 2 stall trap. Evidence is immutable.*"
+    )
+
+
+# ── Main ─────────────────────────────────────────────────────────────────────
 
 def main() -> int:
-    p = argparse.ArgumentParser(description="ERIS Bridgekeeper — honeypot PR gate")
+    p = argparse.ArgumentParser(description="ERIS Bridgekeeper — stall trap honeypot")
     p.add_argument("--pr-number", type=int, required=True)
+    p.add_argument("--pr-title", default="")
     p.add_argument("--author", required=True)
-    p.add_argument("--action", default="opened")  # opened | synchronize | comment
+    p.add_argument("--action", default="opened")
     p.add_argument("--pr-body", default="")
-    p.add_argument("--pr-files", default="[]")  # JSON array
+    p.add_argument("--pr-files", default="[]")
     p.add_argument("--comment-id", default="")
     p.add_argument("--comment-body", default="")
     args = p.parse_args()
 
-    # ── Authorization check ─────────────────────────────────────────────────
-    if args.author in AUTHORIZED_USERS:
-        output = {
-            "status": "AUTHORIZED",
-            "author": args.author,
-            "pr": args.pr_number,
-            "needs_question": "false",
-            "question": "",
-        }
-        print(json.dumps(output, indent=2))
+    pr_files: list[str] = []
+    try:
+        pr_files = json.loads(args.pr_files) or []
+    except Exception:
+        pass
+
+    domains = pr_files_to_domains(pr_files)
+    pr_entropy = compute_pr_entropy(args.pr_body, pr_files)
+
+    AUTHORIZED = {"hurrisonferd", "dependabot[bot]", "github-actions[bot]"}
+    if args.author in AUTHORIZED:
+        print(json.dumps({"status": "AUTHORIZED", "author": args.author,
+                           "pr": args.pr_number, "needs_question": "false"}))
         return 0
 
-    # ── Handle comment events (answer submitted) ─────────────────────────────
+    # ── Answer received ──────────────────────────────────────────────────
     if args.action == "pull_request_review_comment" and args.comment_body:
-        question_idx = get_question_index(args.author)
-        has_answer = bool(args.comment_body.strip())
-        evasion = detect_evasion(args.comment_body)
+        challenge_events = get_all_events(args.author)
+        answer_events = get_answer_events(args.author)
+        idx = len(challenge_events)  # next question index
+        answer_events_total = len(answer_events)
 
-        evidence = {
+        entropy, patterns = answer_entropy(args.comment_body)
+        prev_entropy = answer_events[-1].get("detail", {}).get("entropy", 0) if answer_events else 0
+        max_entropy = max(prev_entropy, entropy)
+
+        # Log the answer
+        dex_log("eris.answer", args.author, {
+            "type": "eris.answer",
             "author": args.author,
             "pr_number": args.pr_number,
-            "question_index": question_idx,
+            "question_index": idx - 1,
+            "answer_number": answer_events_total + 1,
             "comment_id": args.comment_id,
             "answer_text": args.comment_body[:500],
-            "has_answer": has_answer,
-            "evasion_detected": evasion,
-            "evidence_type": "answer_received" if has_answer else "silence",
+            "entropy": max_entropy,
+            "entropy_delta": entropy,
+            "matched_patterns": patterns,
             "timestamp": datetime.now(timezone.utc).isoformat(),
-        }
-        dex_insert("eris.answer", evidence)
-        print(json.dumps({"status": "LOGGED", "evasion": evasion, **evidence}))
+        })
 
         # Post evidence receipt
-        receipt = format_evidence_receipt(args.author, args.pr_number, question_idx, has_answer)
-        subprocess.run(
-            ["gh", "pr", "comment", str(args.pr_number), "--body", receipt],
-            check=False, capture_output=True,
-        )
+        receipt = fmt_receipt(args.author, args.pr_number,
+                              answer_events_total + 1, max_entropy, patterns)
+        subprocess.run(["gh", "pr", "comment", str(args.pr_number), "--body", receipt],
+                       check=False, capture_output=True)
 
-        # Determine next state
-        if has_answer and not evasion:
-            needs_question = "false"  # Phase 1: stop after one good answer
-            status = "AWAITING_REVIEW"
-        elif question_idx >= 2:
-            needs_question = "false"
-            status = "ESCALATE"  # Too many questions — Raven reviews
-        else:
+        # Stall ceiling — keep going until Raven reviews
+        if idx >= MAX_QUESTIONS:
+            status = "STALLED"  # keep stalling, notify Raven
             needs_question = "true"
+            # Log stalemate
+            dex_log("eris.stalled", args.author, {
+                "type": "eris.stalled",
+                "author": args.author,
+                "pr_number": args.pr_number,
+                "questions_asked": idx,
+                "answers_received": answer_events_total + 1,
+                "max_entropy": max_entropy,
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+            })
+        else:
             status = "BLOCKED"
+            needs_question = "true"
 
-        output = {
-            "status": status,
-            "author": args.author,
-            "pr": args.pr_number,
+        print(json.dumps({
+            "status": status, "author": args.author, "pr": args.pr_number,
             "needs_question": needs_question,
-            "evasion": evasion,
-        }
-        print(json.dumps(output, indent=2))
+            "entropy": max_entropy, "patterns": patterns,
+            "questions_asked": idx, "answers_received": answer_events_total + 1,
+        }, indent=2))
         return 0
 
-    # ── New PR: issue opening challenge ─────────────────────────────────────
-    question_idx = get_question_index(args.author)
-    question = select_question(question_idx, args.author)
-    formatted = format_question(question, args.author, question_idx, args.pr_number)
+    # ── New PR — issue first challenge ───────────────────────────────────
+    challenge_events = get_all_events(args.author)
+    idx = len(challenge_events)  # already-asked count = next index
 
-    # Log the challenge to dex_events
-    challenge = {
+    # First-time PR: log the arrival
+    if idx == 0:
+        dex_log("eris.arrival", args.author, {
+            "type": "eris.arrival",
+            "author": args.author,
+            "pr_number": args.pr_number,
+            "pr_title": args.pr_title,
+            "pr_body_hash": hashlib.sha256((args.pr_body or "").encode()).hexdigest()[:16],
+            "files": pr_files[:15],
+            "domains": domains,
+            "pr_entropy": pr_entropy,
+            "files_changed": len(pr_files),
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        })
+
+    question, qtype = select_next_question(idx, pr_entropy, domains, [])
+    formatted = fmt_question(question, qtype, args.author, idx + 1, MAX_QUESTIONS, domains)
+
+    # Log the challenge
+    dex_log("eris.challenge", args.author, {
+        "type": "eris.challenge",
         "author": args.author,
         "pr_number": args.pr_number,
-        "pr_body_hash": str(hash(args.pr_body[:500])),
-        "question_index": question_idx,
+        "question_index": idx,
+        "question_type": qtype,
         "question": question,
-        "evidence_type": "challenge_issued",
+        "entropy": pr_entropy,
+        "domains": domains,
         "timestamp": datetime.now(timezone.utc).isoformat(),
-    }
-    dex_insert("eris.challenge", challenge)
+    })
 
-    output = {
-        "status": "BLOCKED",
-        "author": args.author,
-        "pr": args.pr_number,
+    print(json.dumps({
+        "status": "BLOCKED", "author": args.author, "pr": args.pr_number,
         "needs_question": "true",
-        "question_index": question_idx,
+        "question_index": idx,
         "question": formatted,
         "question_plain": question,
-    }
-    print(json.dumps(output, indent=2))
+        "entropy": pr_entropy,
+    }, indent=2))
     return 0
 
 
