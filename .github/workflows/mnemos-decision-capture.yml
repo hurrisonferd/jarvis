@@ -28,6 +28,13 @@ jobs:
         run: |
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add mnemos/memories/decisions.jsonl
-          git diff --staged --quiet || git commit -m "chore(mnemos): decision ledger [skip ci]"
-          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
+          LEDGER="mnemos/memories/decisions.jsonl"
+          if [ -f "$LEDGER" ]; then
+            git add "$LEDGER"
+            git diff --staged --quiet || {
+              git commit -m "chore(mnemos): decision ledger [skip ci]"
+              git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
+            }
+          else
+            echo "No decision ledger to commit — skipping."
+          fi

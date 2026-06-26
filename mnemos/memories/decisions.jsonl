@@ -1,0 +1,4 @@
+{"ts": "2026-06-26T03:42:36Z", "sha": "3f42a96", "text": "feat(eris): Phase 2 \u2014 stall trap honeypot", "tags": ["eris", "audit"], "source_type": "decision"}
+{"ts": "2026-06-26T03:46:13Z", "sha": "c897c77", "text": "feat(eris): Raven escalation \u2014 GitHub issue + full evidence package on ceiling hit", "tags": ["eris", "audit"], "source_type": "decision"}
+{"ts": "2026-06-26T03:50:46Z", "sha": "912f6d8", "text": "fix(aegis): now is already a number", "tags": ["eris", "audit"], "source_type": "decision"}
+{"ts": "2026-06-26T03:57:46Z", "sha": "00cb1fd", "text": "feat(audit): session StarLog written directly from sl-session-close.py", "tags": ["eris", "audit"], "source_type": "decision"}

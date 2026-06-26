@@ -22,7 +22,7 @@ from pathlib import Path
 LEDGER = Path(__file__).resolve().parent.parent / "mnemos" / "memories" / "decisions.jsonl"
 
 # Conventional types that count as decisions (capability / structure shifts).
-DECISION_TYPES = {"feat", "refactor"}
+DECISION_TYPES = {"feat", "fix", "refactor"}
 MARKER = re.compile(r"\[(DECISION|GL7-OK)\]", re.IGNORECASE)
 HEADER = re.compile(r"^(?P<type>\w+)(?:\((?P<scope>[^)]+)\))?(?P<bang>!)?:\s*(?P<subject>.+)$")
 
