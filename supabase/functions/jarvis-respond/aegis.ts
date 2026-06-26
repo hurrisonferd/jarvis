@@ -70,7 +70,7 @@ export function evaluate(cap: Capability, ctx: AegisContext = {}): GateResult {
 
       // TTL enforcement: Raven's grant expires after ttl_ms (default 5 min).
       const ttl = grant.ttl_ms ?? 300_000;
-      const age = now() - grant.issued_at;
+      const age = now - grant.issued_at;
       if (age > ttl) {
         return {
           capability: cap,
