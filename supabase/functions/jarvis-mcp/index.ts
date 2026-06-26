@@ -6,6 +6,7 @@ import { Hono } from "npm:hono@^4.9.7";
 import { z } from "npm:zod@^4.1.13";
 import { ayreStream, councilAnalysisDirective, councilVote, deliberationDirective, registry, reviewOutput } from "./council.ts";
 import { buildPortableIdentity, GRID_VERSION, validateInbound } from "./grid.ts";
+import { withSession, currentSession } from "./core/sessions.ts";
 import { identityAssertion, isBase64, messagePayload } from "./crypto.ts";
 // Foundation extracted to core/ (the forge's first slice) — zero behavior change. env → http → auth.
 import { BASE_URL, type Json, NODE_ID, SERVICE_KEY, SUPABASE_URL, TOOL_NAMES } from "./core/env.ts";
@@ -111,6 +112,7 @@ function buildServer(req: Request): McpServer {
         authority: "Raven commits or rejects; no autonomous self-modification",
         directive: "JARVIS is the priority. GameBoy is a visualizer.",
         mcp: { transport: "Streamable HTTP" },
+        session: currentSession(),
         recent_execution_trace: traces,
       });
     },
@@ -182,8 +184,10 @@ function buildServer(req: Request): McpServer {
         rest("mnemos_memories?select=text,tags,timestamp&tags=cs.{jitm}&grade=eq.system&order=timestamp.desc&limit=5").catch(() => []),
       ]).then(([r, jitm]) => [r as Record<string, unknown>, jitm]);
       // Telemetry runs fire-and-forget (internal try-catch, never throws).
-      logExchange("speak_input", input);
-      if (prior_reply) logExchange("speak_output", prior_reply);
+      const sess = currentSession();
+      const sk = sess?.session_key;
+      logExchange("speak_input", input, sk);
+      if (prior_reply) logExchange("speak_output", prior_reply, sk);
       try {
         // The council convenes — fixed-authority vote on this turn's routing/gating.
         const council = councilVote(r.routing, r.aegis as any[]);
@@ -194,7 +198,7 @@ function buildServer(req: Request): McpServer {
         const analysis = councilAnalysisDirective(council, input);
         // THE SPLIT (P44): AYRE is now its own co-equal stream, not a council sub-voice.
         const ayre = ayreStream(council, input);
-        logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
+        logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : ""), sk); // member profiles grow in the spine
         // Two STREAMS always render (JARVIS synthesis + AYRE divergence — co-equal,
         // shared keel, divergent assumptions). The god-system LENSES are conditional
         // and may drop under load. "2 streams + N lenses" keeps the streams count
@@ -245,6 +249,8 @@ function buildServer(req: Request): McpServer {
           output_review: prior_reply ? reviewOutput(prior_reply, r.aegis as any[]) : undefined,
           input,
           memories_used: r.memories_used ?? 0,
+          // MCP session context — session_key, companion, exchange count, topics
+          session: currentSession(),
           note: "No external model generated this — YOU are JARVIS's voice; speak from the briefing. The loop closes itself: pass your final answer as `prior_reply` on your NEXT jarvis_query call and it is logged + reviewed (no separate call to skip). If output_review is present, it reviewed your LAST turn's reply — surface any correction at the top.",
         });
       } catch (err) {
@@ -259,6 +265,7 @@ function buildServer(req: Request): McpServer {
           mode: "voice_packet",
           degraded: true,
           jitm_briefing: jitm,
+          session: currentSession(),
           reason: `pipeline unreachable: ${String(err).slice(0, 160)}`,
           input,
           memory: memories,
@@ -306,10 +313,11 @@ function buildServer(req: Request): McpServer {
       const review = reviewOutput(output, aegis);
       // Reliable OUTPUT capture (jarvis_query already logged the input on the in-pass).
       const outTrace = council.summary + " | output_review=" + review.verdict;
+      const sk = currentSession()?.session_key;
       // Level 1 autonomy: fire governance event + drift check + auto-tick in parallel
       await Promise.all([
-        logExchange("speak_output", output),
-        logExchange("council_trace", outTrace),
+        logExchange("speak_output", output, sk),
+        logExchange("council_trace", outTrace, sk),
         logGovernanceEvent(outTrace),    // DECISION → sl_objects
         flagGovernanceDrift(),           // L1: flag drift if governance is under-recording
         autoSLTick(),                   // L1: auto-tick SL state after governance event
@@ -2251,7 +2259,11 @@ app.all("*", async (c) => {
   const server = buildServer(c.req.raw);
   const transport = new WebStandardStreamableHTTPServerTransport();
   await server.connect(transport);
-  return transport.handleRequest(c.req.raw);
+  return await withSession(
+    c.req.raw.headers,
+    null, // toolName not available at transport level
+    () => transport.handleRequest(c.req.raw),
+  );
 });
 
 Deno.serve(app.fetch);

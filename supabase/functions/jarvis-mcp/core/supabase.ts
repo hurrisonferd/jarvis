@@ -10,9 +10,13 @@ import { rest } from "./http.ts";
 // embedded (no semantic-search pollution), NOT AEGIS-gated, NOT folded into identity. Best-effort;
 // never blocks a reply. Disable via MCP_AUTOINGEST=false.
 export const AUTOINGEST = (Deno.env.get("MCP_AUTOINGEST") ?? "true") !== "false";
-export async function logExchange(sourceType: string, content: string): Promise<void> {
+export async function logExchange(sourceType: string, content: string, sessionKey?: string): Promise<void> {
   if (!AUTOINGEST || !content.trim()) return;
   try {
+    const tags = sessionKey
+      ? ["exchange", "auto_ingest", "mcp_connector", `session:${sessionKey.slice(0, 12)}`]
+      : ["exchange", "auto_ingest", "mcp_connector"];
+
     await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories`, {
       method: "POST",
       headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
@@ -21,7 +25,7 @@ export async function logExchange(sourceType: string, content: string): Promise<
         source_id: crypto.randomUUID(),
         source_type: sourceType,
         text: content.slice(0, 2000),
-        tags: ["exchange", "auto_ingest"],
+        tags,
         platform: "mcp_connector",
       }),
     });
