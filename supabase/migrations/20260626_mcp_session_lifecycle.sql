@@ -39,15 +39,21 @@ CREATE POLICY "mcp_sessions_update" ON public.mcp_sessions FOR UPDATE USING (tru
 -- ============================================================
 -- 2. pg_cron: close stale sessions every 5 min
 -- Sessions with last_call > 30 min ago are closed automatically.
--- The session_close() stored proc handles the SL + JC + BIFROST writes.
+-- Graceful: silently skips if pg_cron is not available (e.g. Free plan).
 -- ============================================================
-SELECT cron.schedule(
-  'mcp-session-close',
-  '*/5 * * * *',
-  $$
-  SELECT public.mcp_session_close_stale();
-  $$
-);
+DO $$
+BEGIN
+  PERFORM cron.schedule(
+    'mcp-session-close',
+    '*/5 * * * *',
+    $$
+    SELECT public.mcp_session_close_stale();
+    $$
+  );
+EXCEPTION WHEN OTHERS THEN
+  RAISE NOTICE 'pg_cron not available — mcp-session-close cron not scheduled. Upgrade to Pro or call mcp_session_close() manually.';
+END;
+$$;
 
 -- ============================================================
 -- 3. Function: mcp_session_open
@@ -321,13 +327,4 @@ BEGIN
 END;
 $$;
 
--- ============================================================
--- 7. Seed: apply pg_cron extension if not exists
--- ============================================================
-DO $$
-BEGIN
-  CREATE EXTENSION IF NOT EXISTS pg_cron;
-EXCEPTION WHEN OTHERS THEN
-  RAISE NOTICE 'pg_cron extension not available — session close cron will not be scheduled. Enable in Supabase dashboard: Database > Extensions > pg_cron.';
-END;
-$$;
+
