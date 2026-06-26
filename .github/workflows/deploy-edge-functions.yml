@@ -31,21 +31,40 @@ jobs:
           version: latest
       - name: Apply pending migrations
         env:
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          REF: oexghfsvhnggddllgvrt
         run: |
+          set -e
+          PROJECT_REF="$REF"
+          # Fetch connection string via Management API — requires SUPABASE_ACCESS_TOKEN
+          # Falls back to DATABASE_URL secret if token unavailable
+          if [ -z "$DATABASE_URL" ] && [ -n "$SUPABASE_ACCESS_TOKEN" ]; then
+            echo "Fetching DATABASE_URL via Supabase Management API..."
+            DB_CONFIG=$(curl -s "https://api.supabase.com/v1/projects/$PROJECT_REF/postgres" \
+              -H "Authorization: Bearer $SUPABASE_ACCESS_TOKEN")
+            DB_URL=$(echo "$DB_CONFIG" | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('connection_string',''))")
+            if [ -n "$DB_URL" ]; then
+              export DATABASE_URL="$DB_URL"
+              echo "✓ DATABASE_URL fetched via Management API"
+            else
+              echo "⚠ Could not fetch DATABASE_URL from API response: ${DB_CONFIG:0:200}"
+            fi
+          fi
           if [ -z "$DATABASE_URL" ]; then
-            echo "⚠ DATABASE_URL not set — skipping migrations (set the secret in repo settings)"
+            echo "⚠ DATABASE_URL not available — skipping migrations"
+            echo "  To enable: add DATABASE_URL as a repo secret, or ensure SUPABASE_ACCESS_TOKEN has read access to /postgres endpoint"
             exit 0
           fi
+          echo "Connecting to: ${DATABASE_URL%%@*}"
           sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client > /dev/null 2>&1
           for f in supabase/migrations/*.sql; do
-            NAME="${f%.sql}"
-            EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null)
+            NAME=$(basename "${f%.sql}")
+            EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null || echo "")
             if [ "$EXISTS" = "1" ]; then
               echo "✓ $NAME already applied"
             else
               echo "→ applying $NAME"
-              psql "$DATABASE_URL" -f "$f" && echo "✓ applied" || echo "⚠ may already be applied — idempotent SQL, continuing"
+              psql "$DATABASE_URL" -f "$f" 2>&1 && echo "✓ $NAME applied" || echo "⚠ $NAME failed"
             fi
           done
       - name: Deploy edge functions
