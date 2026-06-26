@@ -124,7 +124,9 @@ Deno.serve(async (req) => {
   if (!need) return fail(`unknown tool '${tool}'`, 404);
 
   const tier = tierOfToken(req.headers.get("x-jarvis-token") ?? "");
-  if (RANK[tier] < RANK[need]) {
+  // log_event is the GL5 event bus — always open (no tier check)
+  const isOpenEventBus = tool === "log_event";
+  if (!isOpenEventBus && RANK[tier] < RANK[need]) {
     return fail(`tool '${tool}' requires ${need} tier (you have ${tier})`, 403);
   }
   // Attribution (Raven-verdicted 2026-06-11, desk item 4): actor carries the AUTHOR,
@@ -134,7 +136,8 @@ Deno.serve(async (req) => {
   const actor = STREAM_TAGS.has(claimed) ? claimed : tier.toLowerCase();
 
   // ZEUS halt: when halted, only READ + OVERRIDE pass. Break-glass refuses all writes.
-  if (RANK[need] >= RANK["PROPOSE"] && tier !== "OVERRIDE" && (await isHalted())) {
+  // log_event is always open — the spine must record even during a halt (GL5).
+  if (!isOpenEventBus && RANK[need] >= RANK["PROPOSE"] && tier !== "OVERRIDE" && (await isHalted())) {
     return fail("dex is HALTED (emergency override). Writes are frozen until resumed.", 423);
   }
 
