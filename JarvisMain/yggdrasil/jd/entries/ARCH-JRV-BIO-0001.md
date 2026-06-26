@@ -14,7 +14,7 @@ seq: 106
 status: ACTIVE
 created: 2026-06-10
 updated: 2026-06-24
-source: JarvisMain/Architecture/identity/jarvis/jarvis-profile.md
+source: JarvisMain/Architecture/identity/jarvis/index.md
 related: [ARCH-AYR-BIO-0001]
 references: []
 tags: [identity, companion, jarvis, synthesis]

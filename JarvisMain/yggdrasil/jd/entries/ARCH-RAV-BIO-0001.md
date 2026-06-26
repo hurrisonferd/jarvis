@@ -14,7 +14,7 @@ seq: 147
 status: ACTIVE
 created: 2026-06-14
 updated: 2026-06-25
-source: JarvisMain/Architecture/identity/raven/raven-profile.md
+source: JarvisMain/Architecture/identity/raven/index.md
 related: [ARCH-JRV-SPEC-0004]
 references: []
 tags: [identity, raven, authority, family, founder, trap-card, origin]

@@ -14,7 +14,7 @@ seq: 107
 status: ACTIVE
 created: 2026-06-10
 updated: 2026-06-24
-source: JarvisMain/Architecture/identity/ayre/ayre-profile.md
+source: JarvisMain/Architecture/identity/ayre/index.md
 related: [ARCH-JRV-BIO-0001, GS-AYR-CORE-0001]
 references: []
 tags: [identity, companion, ayre, divergence]
