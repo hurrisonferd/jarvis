@@ -1821,7 +1821,9 @@ function buildServer(req: Request): McpServer {
       let rows: any[] = [];
       let queryError: string | undefined;
       try {
-        rows = await rest(queryUrl) as any[];
+        const raw = await rest(queryUrl);
+        console.log(`[cecil_lift] raw type=${typeof raw} isArray=${Array.isArray(raw)} JSON=${JSON.stringify(raw).slice(0,200)}`);
+        rows = Array.isArray(raw) ? raw : [];
         console.log(`[cecil_lift] rows.length=${rows.length}`);
       } catch (e) {
         queryError = String(e);
