@@ -15,10 +15,14 @@ Cross-session persistence:
   StarLogs are committed to git (source of truth).
   .openhands/task_tracker.json is session-local (not committed).
   --session-start: sync tracker from last committed StarLog.
-  --session-close: write + commit final StarLog, then re-sync tracker for next session.
+  --session-close: write + commit final StarLog + bifrost spine event + sync tracker.
+
+--bifrost: on session-close, writes a bifrost.session event to dex_events so ARGUS
+has the spine record of what was committed this session. Uses SUPABASE_URL +
+SUPABASE_SERVICE_KEY env vars. Non-blocking — never fails the session close on error.
 """
 from __future__ import annotations
-import argparse, json, re, subprocess, sys
+import argparse, json, os, re, subprocess, sys, urllib.request
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -403,7 +407,9 @@ def main():
     p.add_argument("--session-start", action="store_true",
                    help="Session open: sync tracker from today's daily StarLog")
     p.add_argument("--session-close", "-x", metavar="TEXT",
-                   help="Session close: commit today's daily StarLog + sync tracker")
+                   help="Session close: commit today's daily StarLog + sync tracker + bifrost spine event")
+    p.add_argument("--bifrost", action="store_true",
+                   help="On session-close: also write bifrost.session_close event to dex_events (ARGUS surveillance)")
     p.add_argument("--sync-tasks", action="store_true",
                    help="Force-sync .openhands/task_tracker.json from last StarLog")
     p.add_argument("--write-tasks", metavar="JSON",
@@ -537,15 +543,66 @@ def main():
         else:
             print("No daily StarLog to commit today.")
         sync_tasks()
+        if args.bifrost:
+            bifrost_session_close(brief=brief, stream=args.stream)
         return
 
-    # Generic log (legacy)
-    path = STARS_DIR / make_filename(ts, args.type, args.stream, brief)
-    path.write_text(build_log(brief, args.type, brief, not args.no_tasks, args.stream))
-    print(f"Wrote: {path}")
-    if args.commit:
-        sha = commit([path], f"chore(audit): SL — {args.commit}")
-        print(f"Committed: {sha.strip()}")
+
+# ── BIFROST spine event ────────────────────────────────────────────────────────
+def bifrost_session_close(brief: str = "", stream: str = "openhands") -> None:
+    """Log session close to dex_events so ARGUS has the spine record (#9).
+
+    Non-blocking: swallows errors, never propagates. Falls back silently if
+    SUPABASE_URL / SUPABASE_SERVICE_KEY are not set.
+    """
+    url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    key = os.environ.get("SUPABASE_SERVICE_KEY", "")
+    if not url or not key:
+        print("bifrost: SUPABASE_URL/SUPABASE_SERVICE_KEY not set — skipping spine event")
+        return
+
+    # Collect what was committed this session from the tracker + recent commits
+    tracker = json.loads(TRACKER_PATH.read_text()) if TRACKER_PATH.exists() else {"tasks": []}
+    recent = subprocess.run(
+        ["git", "log", "--oneline", "-5", "--format=%H %s"],
+        capture_output=True, text=True, cwd=ROOT, check=False,
+    )
+    commits = [l.strip() for l in recent.stdout.splitlines() if l.strip()]
+
+    payload = {
+        "type": "bifrost.session_close",
+        "intent": f"bifrost.session_close.{stream}",
+        "payload": {
+            "stream": stream,
+            "brief": brief,
+            "commits": commits,
+            "tasks_snapshot": tracker.get("tasks", []),
+            "source": "sl.py --bifrost",
+        },
+        "source": "sl-bifrost",
+    }
+
+    try:
+        data = json.dumps(payload).encode()
+        req = urllib.request.Request(
+            f"{url}/rest/v1/dex_events",
+            data=data,
+            headers={
+                "apikey": key,
+                "Authorization": f"Bearer {key}",
+                "Content-Type": "application/json",
+                "Prefer": "return=minimal",
+            },
+            method="POST",
+        )
+        with urllib.request.urlopen(req, timeout=5) as resp:
+            if resp.status in (200, 201, 204):
+                print("bifrost: spine event logged to dex_events")
+            else:
+                print(f"bifrost: unexpected status {resp.status}")
+    except Exception as e:
+        print(f"bifrost: spine event failed (non-fatal): {e}")
+
 
 if __name__ == "__main__":
     main()

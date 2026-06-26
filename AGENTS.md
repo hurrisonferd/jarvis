@@ -32,7 +32,7 @@ a new subsystem, name the concrete capability it unblocks — "cleaner" is not a
   - **Personal** (Jarvis-Private, private): `companion_core.md`, `knowledge/raven.md`, `knowledge/jarvis.md`, `knowledge/relationship.md`, `knowledge/mission.md`, `knowledge/projects/`
   - See `mnemos/README.md` for full truth model map.
   - 13 stores, ~500KB. Key: decisions.json (341 gov decisions), sessions.json, growth_archive (329KB JATM).
-- **StarLogs**: `audit/starlogs/`, auto-generated via `scripts/sl.py --session-close`.
+- **StarLogs**: `audit/starlogs/`, auto-generated via `scripts/sl.py --session-close --bifrost` (always use `--bifrost` — it writes the spine event to dex_events so ARGUS has the record of what was committed).
 - **MusicOS**: 47 tracks, MID-0001–0047, 3 series. **Truth: Jarvis-Private/MusicOS/registry/**
   JARVIS repo: reference pointer only (`MusicOS/JD/MUSIC-REFERENCE.md`).
 - **MonsterOS**: 26 monsters, MOS-0001–0026. **Truth: Jarvis-Private/MonsterOS/registry/**
