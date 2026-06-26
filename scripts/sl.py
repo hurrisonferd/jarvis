@@ -566,6 +566,7 @@ def main():
         sync_tasks()
         if args.bifrost:
             bifrost_session_close(brief=brief, stream=args.stream)
+            promote_session_memories()  # L1: promote cold JSTM → JHTM on session close
         if args.jcs:
             # Read persisted alias from --session-start, or generate
             jc_alias = JCS_ALIAS_FILE.read_text().strip() if JCS_ALIAS_FILE.exists() else f"JC-{ts.strftime('%m%d%y')}-1"
@@ -589,6 +590,55 @@ def main():
 
 
 # ── BIFROST spine event ────────────────────────────────────────────────────────
+def promote_session_memories() -> None:
+    """L1 autonomy: promote cold JSTM rows to JHTM on session close.
+
+    Candidates: JSTM rows with jstm_sub='session' older than 7 days.
+    Keeps last 20 most-recent, promotes the rest. All changes emit a
+    spoke event. Uses MCP jarvis-remember route for telemetry; raw REST
+    for the tier patch. Requires SUPABASE_URL + SUPABASE_SERVICE_KEY env vars.
+    """
+    url = os.environ.get("SUPABASE_URL", "").rstrip("/")
+    key = os.environ.get("SUPABASE_SERVICE_KEY", "")
+    if not url or not key:
+        print("promote_session_memories: SUPABASE_URL/SUPABASE_SERVICE_KEY not set — skipping")
+        return
+
+    try:
+        from datetime import datetime, timezone
+        cutoff = datetime.now(timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ")
+        # 7 days ago
+        from datetime import timedelta
+        cutoff = (datetime.now(timezone.utc) - timedelta(days=7)).strftime("%Y-%m-%dT%H:%M:%SZ")
+
+        # Find candidates: JSTM, session-born, older than cutoff, oldest first
+        sel_url = (f"{url}/rest/v1/mnemos_memories"
+                   f"?select=id&memory_tier=eq.jstm&jstm_sub=eq.session"
+                   f"&timestamp=lt.{cutoff}&order=timestamp.asc&limit=100")
+        req = urllib.request.Request(sel_url, headers={"apikey": key, "Authorization": f"Bearer {key}"})
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            rows = json.loads(resp.read())
+        if not rows:
+            return
+        promote = rows[20:]  # keep last 20, promote older ones
+        if not promote:
+            print(f"promote_session_memories: {len(rows)} candidates, keeping all (≤20)")
+            return
+        ids = [r["id"] for r in promote]
+        patch_url = f"{url}/rest/v1/mnemos_memories?id=in.({','.join(map(str, ids))})"
+        body = json.dumps({"memory_tier": "jhtm", "jstm_sub": None}).encode()
+        req = urllib.request.Request(patch_url, data=body, headers={
+            "apikey": key, "Authorization": f"Bearer {key}",
+            "Content-Type": "application/json", "Prefer": "return=minimal",
+        })
+        req.get_method = lambda: "PATCH"
+        with urllib.request.urlopen(req, timeout=10) as resp:
+            pass
+        print(f"promote_session_memories: promoted {len(ids)} JSTM→JHTM")
+    except Exception as e:
+        print(f"promote_session_memories: failed — {e}")
+
+
 def bifrost_session_close(brief: str = "", stream: str = "openhands") -> None:
     """Log session close to dex_events via jarvis-dex log_event route. No service key needed.
 

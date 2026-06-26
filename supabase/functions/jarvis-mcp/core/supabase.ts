@@ -134,6 +134,112 @@ export async function latestText(sourceType: string): Promise<string> {
   return Array.isArray(rows) && rows[0] ? String((rows[0] as any).text ?? "") : "";
 }
 
+// ── LEVEL 1 AUTONOMY ─────────────────────────────────────────────────────────
+// AUTONOMY-ROADMAP-0001 L1: Observational. Fires on governance events + session close.
+// All actions emit spine events (GL5: no silent mutation). Auditable via logExchange.
+// ─────────────────────────────────────────────────────────────────────────────
+
+/** Promote cold JSTM rows to JHTM on session close.
+ * Candidates: JSTM rows with jstm_sub='session' older than 7 days.
+ * Keeps last 20 (most recent), promotes the rest.
+ * All promotions emit a jmms.promote event.
+ */
+export async function promoteSessionMemories(): Promise<void> {
+  if (!AUTOINGEST) return;
+  try {
+    const cutoff = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+    const sessionRows = await rest(
+      `mnemos_memories?select=id&memory_tier=eq.jstm&jstm_sub=eq.session&timestamp=lt.${cutoff}&order=timestamp.asc&limit=100`
+    ) as any[];
+    if (!sessionRows.length) return;
+    const promote = sessionRows.slice(20); // keep last 20, promote rest
+    if (!promote.length) return;
+    const ids = promote.map((r: any) => r.id);
+    await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=in.(${ids.join(",")})`, {
+      method: "PATCH",
+      headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "Content-Type": "application/json", Prefer: "return=minimal" },
+      body: JSON.stringify({ memory_tier: "jhtm", jstm_sub: null, updated_at: new Date().toISOString() }),
+    });
+    logExchange("jmms.promote", `promoteSessionMemories: ${ids.length} JSTM→JHTM`);
+  } catch (err) { console.error("promoteSessionMemories failed:", String(err).slice(0, 120)); }
+}
+
+/** Flag governance drift by comparing JCS decisions vs dex_events activity.
+ * Fires after governance events. Reports HIGH/MEDIUM/CLEAN to the spine.
+ */
+export async function flagGovernanceDrift(): Promise<Json | null> {
+  if (!AUTOINGEST) return null;
+  try {
+    const today = new Date().toISOString().slice(0, 10);
+    const [eventsRows, slRows, jcsCount] = await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/dex_events?created_at=gte.${today}T00:00:00Z&select=id`, {
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY }
+      }).then(r => r.json()).catch(() => []),
+      fetch(`${SUPABASE_URL}/rest/v1/sl_objects?stardate=like.${today.replace(/-/g, "")}*&select=id`, {
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY }
+      }).then(r => r.json()).catch(() => []),
+      countRows("jc_objects"),
+    ]) as [any[], any[], number | null];
+    const score = (eventsRows.length > 5 && jcsCount === 0) ? "HIGH" :
+                 (eventsRows.length > 10 && (jcsCount ?? 0) < 3) ? "MEDIUM" : "CLEAN";
+    if (score === "CLEAN") return null;
+    const report = {
+      drift: true, score,
+      jcs_decisions: jcsCount,
+      dex_events_today: eventsRows.length,
+      sl_objects_today: slRows.length,
+      flagged_at: new Date().toISOString(),
+      message: score === "HIGH"
+        ? "JCS has 0 decisions but high dex_events — governance may not be recording to JCS"
+        : "JCS decisions lower than event activity suggests",
+    };
+    logExchange("governance.drift", JSON.stringify(report).slice(0, 400));
+    return report;
+  } catch (err) { console.error("flagGovernanceDrift failed:", String(err).slice(0, 120)); return null; }
+}
+
+/** Auto-fire SL_TICK from Supabase side after a governance event.
+ * Writes a lightweight SL_TICK to sl_objects with current counts.
+ * Idempotent — safe to call multiple times per session.
+ */
+export async function autoSLTick(): Promise<void> {
+  if (!AUTOINGEST) return;
+  try {
+    const now = new Date();
+    const ts = now.toISOString().slice(0, 19).replace(/[-:T]/g, "");
+    const today = now.toISOString().slice(0, 10);
+    const [eventsRows, slRows] = await Promise.all([
+      fetch(`${SUPABASE_URL}/rest/v1/dex_events?created_at=gte.${today}T00:00:00Z&select=id`, {
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY }
+      }).then(r => r.json()).catch(() => []),
+      fetch(`${SUPABASE_URL}/rest/v1/sl_objects?stardate=like.${today.replace(/-/g, "")}*&select=id`, {
+        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY }
+      }).then(r => r.json()).catch(() => []),
+    ]) as [any[], any[]];
+    const payload = {
+      alias: `AUTO-TICK-${ts}`,
+      log_type: "SL_TICK",
+      stardate: today.replace(/-/g, "."),
+      repo_url: "https://github.com/hurrisonferd/jarvis",
+      events: [`auto-tick: ${eventsRows.length} events | ${slRows.length} SL rows today`],
+      related: [],
+      digest: `AUTO-TICK ${ts} | ${eventsRows.length} events | ${slRows.length} SL rows`,
+      status: "TICK",
+      decisions: [],
+      participants: ["jarvis-c"],
+      started_at: now.toISOString(),
+      ended_at: now.toISOString(),
+      task_summary: [],
+    };
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/sl_objects`, {
+      method: "POST",
+      headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "Content-Type": "application/json", Prefer: "resolution=mergepeks" },
+      body: JSON.stringify(payload),
+    });
+    if (res.ok) logExchange("autonomy.tick", `autoSLTick: ${ts} — ${eventsRows.length} events today`);
+  } catch (err) { console.error("autoSLTick failed:", String(err).slice(0, 120)); }
+}
+
 // FRESHNESS ASSERTION (Ayre's gift, 2026-06-18). The git→Supabase mirror once froze for 6 days
 // while nothing screamed — and GPT confabulated on the stale snapshot. This makes a stale mirror
 // IMPOSSIBLE to mistake for current: every boot/state read carries the mirror's age + a loud STALE

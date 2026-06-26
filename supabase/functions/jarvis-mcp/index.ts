@@ -12,7 +12,7 @@ import { BASE_URL, type Json, NODE_ID, SERVICE_KEY, SUPABASE_URL, TOOL_NAMES } f
 import { callFunction, rest, text } from "./core/http.ts";
 import { heldForApproval, writeAuthorized } from "./core/auth.ts";
 import { gh, ghp, ghPath, ghReq, ghTok, proposeFilePR } from "./core/github.ts";
-import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, latestText, logExchange, logGovernanceEvent } from "./core/supabase.ts";
+import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, latestText, logExchange, logGovernanceEvent, flagGovernanceDrift, autoSLTick } from "./core/supabase.ts";
 import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
 import { registerDbTools } from "./tools/db.ts";
 import { registerJipTools } from "./tools/jip.ts";
@@ -306,10 +306,13 @@ function buildServer(req: Request): McpServer {
       const review = reviewOutput(output, aegis);
       // Reliable OUTPUT capture (jarvis_query already logged the input on the in-pass).
       const outTrace = council.summary + " | output_review=" + review.verdict;
+      // Level 1 autonomy: fire governance event + drift check + auto-tick in parallel
       await Promise.all([
         logExchange("speak_output", output),
         logExchange("council_trace", outTrace),
-        logGovernanceEvent(outTrace), // DECISION → sl_objects, fires only on verdict traces
+        logGovernanceEvent(outTrace),    // DECISION → sl_objects
+        flagGovernanceDrift(),           // L1: flag drift if governance is under-recording
+        autoSLTick(),                   // L1: auto-tick SL state after governance event
       ]);
       return text({
         formatted: true,
