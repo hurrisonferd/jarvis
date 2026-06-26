@@ -1,11 +1,11 @@
-# Git LFS — RetroArch bundle (full 289MB vendored in-repo)
-docs/retroarch/player/assets/**   filter=lfs diff=lfs merge=lfs -text
+# Git LFS — RetroArch bundle (289MB, 6349 files)
+docs/retroarch/player/assets/**    filter=lfs diff=lfs merge=lfs -text
 docs/retroarch/player/database/**  filter=lfs diff=lfs merge=lfs -text
 docs/retroarch/player/overlays/** filter=lfs diff=lfs merge=lfs -text
-docs/retroarch/player/shaders/**  filter=lfs diff=lfs merge=lfs -text
+docs/retroarch/player/shaders/**   filter=lfs diff=lfs merge=lfs -text
 docs/retroarch/player/autoconfig/** filter=lfs diff=lfs merge=lfs -text
-docs/retroarch/player/filters/**   filter=lfs diff=lfs merge=lfs -text
-docs/retroarch/player/info/**      filter=lfs diff=lfs merge=lfs -text
-# JS/HTML stay in regular git (small, versionable)
-docs/retroarch/player/*.js          filter=lfs diff=lfs merge=lfs -text
-docs/retroarch/player/*.html        filter=lfs diff=lfs merge=lfs -text
+docs/retroarch/player/filters/**  filter=lfs diff=lfs merge=lfs -text
+docs/retroarch/player/info/**     filter=lfs diff=lfs merge=lfs -text
+# JS/HTML served directly by Pages (LFS not needed for small text files)
+docs/retroarch/player/*.js
+docs/retroarch/player/*.html

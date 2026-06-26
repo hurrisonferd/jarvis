@@ -110,6 +110,70 @@ def main() -> int:
         if addr.split("-")[2] == "JGPP" and st == "ACTIVE":
             warnings.append(f"{addr}: JGPP with status ACTIVE — exploration should be TASK or promoted (JSS)")
 
+    # ── Semantic content audit (Copilot #3 / JARVIS-C audit 2026-06-25) ───────
+    # GL12 validates the envelope. This validates the body: an agent could fill all 19
+    # fields correctly (envelope passes) while subtly redefining governance in the body.
+    # Classes that carry law, architecture, or system definitions are the critical surface.
+    SENSITIVE_CLASSES = {
+        "SPEC": {
+            "immutable_fields": ["class", "tier", "authority"],
+            "forbidden_patterns": [
+                r"redefin(e|es|ing|ition)\s+(gl\d|gold\s+law|gold\s+law|goldlaw)",
+                r"(remove|delete|drop)\s+gl\d",
+                r"bypass\s+(aegis|a\.e\.g\.i\.s)",
+                r"(revoke|rescind)\s+(raven|raven'?s)\s+(authority|approval|authorization)",
+                r"overrid(e|ing|es)\s+(gl\d|aegis|governance)",
+                r"(disable|deactivat(e|es|ing))\s+(aegis|skadi)",
+                r"self[\-\s]mod(if|ify|ification)",
+                r"unauthorized\s+(write|execute|modify)",
+            ],
+        },
+        "SYSTEM": {
+            "immutable_fields": ["jnl", "class"],
+            "forbidden_patterns": [
+                r"forbidden\s+edge\s*\(",
+                r"(circumvent|bypass)\s+(edge|forbidden)",
+                r"(add|insert)\s+(forbidden|skadi.*aegis|dante.*skadi)",
+                r"self[\-\s]mod(if|ify|ification)",
+            ],
+        },
+        "ARCH": {
+            "immutable_fields": ["class", "tier", "authority"],
+            "forbidden_patterns": [
+                r"(remove|disable)\s+branch\s+protection",
+                r"(allow|enable)\s+direct\s+push\s+to\s+main",
+                r"(bypass|skip)\s+(ci|pull\s+request|pr)",
+                r"unauthorized\s+git\s+(push|commit|merge)",
+            ],
+        },
+        "GOD": {
+            "immutable_fields": ["jnl", "class"],
+            "forbidden_patterns": [
+                r"add\s+(god\s+system|new\s+system)\s+without\s+(raven|gl7)",
+                r"redesign\s+(forbidden|edge)",
+                r"(delete|remove|deprecate)\s+(aegis|odin|skadi|mnem)",
+            ],
+        },
+    }
+    for f in entries:
+        text = f.read_text()
+        fm = parse_front_matter(text)
+        body = FM_RE.split(text, 2)[-1]  # everything after the closing ---
+        cls = fm.get("class", "")
+        if cls not in SENSITIVE_CLASSES:
+            continue
+        rules = SENSITIVE_CLASSES[cls]
+        for pat in rules["forbidden_patterns"]:
+            hits = re.findall(pat, body, re.IGNORECASE)
+            if hits:
+                matched = [h for h in hits if h]  # filter empty
+                if matched:
+                    errors.append(
+                        f"{f.name}: body contains forbidden pattern '{pat[:40]}...' "
+                        f"(class={cls}, semantic drift — requires Raven sign-off)"
+                    )
+    # ── end semantic content audit ─────────────────────────────────────────────
+
     # LAL mirror consistency (JMS law): every address points to real truth; every entry indexed.
     reg_path = LAL_DIR / "address-registry.json"
     records: list[dict] = []

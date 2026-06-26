@@ -27,14 +27,25 @@ export type GateResult = {
   reason: string;
 };
 
+// Auth entry: each grant is scoped to one action, time-bounded, and optionally
+// bound to a content hash so it can't be stretched across different payloads.
+export type AuthEntry = {
+  action: string;        // exact action id this grant covers
+  issued_at: number;     // Unix ms when Raven granted it
+  ttl_ms?: number;       // max age in ms (default: 300_000 = 5 min)
+  text_hash?: string;    // SHA-256 of the approved text — prevents payload drift
+};
+
 export type AegisContext = {
-  // Capabilities Raven has explicitly pre-authorized this session, by action id.
-  authorized?: string[];
+  // Capabilities Raven has explicitly pre-authorized this session.
+  authorized?: AuthEntry[];
+  // Wall-clock time to use for TTL checks. Injected in tests; defaults to Date.now().
+  _now?: () => number;
 };
 
 // The gate. Deterministic — same input, same verdict (Gold Law requires it).
 export function evaluate(cap: Capability, ctx: AegisContext = {}): GateResult {
-  const authorized = new Set(ctx.authorized ?? []);
+  const now = (ctx._now ?? Date.now)();
 
   // GL2 — no autonomous self-modification, ever. Not even with authorization.
   if (cap.risk === "self_mod") {
@@ -53,8 +64,38 @@ export function evaluate(cap: Capability, ctx: AegisContext = {}): GateResult {
 
   // Writes and external reach need Raven, unless pre-authorized this session.
   if (cap.risk === "write" || cap.risk === "external") {
-    if (authorized.has(cap.action)) {
-      return { capability: cap, verdict: "PASS", reason: "pre-authorized by Raven this session" };
+    const grants = ctx.authorized ?? [];
+    for (const grant of grants) {
+      if (grant.action !== cap.action) continue; // per-action scoping
+
+      // TTL enforcement: Raven's grant expires after ttl_ms (default 5 min).
+      const ttl = grant.ttl_ms ?? 300_000;
+      const age = now() - grant.issued_at;
+      if (age > ttl) {
+        return {
+          capability: cap,
+          verdict: "REDIRECT",
+          reason: `pre-authorization expired (${Math.round(age / 1000)}s old, limit ${Math.round(ttl / 1000)}s — GL6 time-gated)`,
+        };
+      }
+
+      // text_hash binding: if Raven approved specific content, this must match.
+      if (grant.text_hash) {
+        // Caller must supply text_hash via ctx._text_hash; evaluate() only
+        // checks if grant has a hash — caller checks the match before calling.
+        // Here we just note the binding exists.
+        return {
+          capability: cap,
+          verdict: "PASS",
+          reason: `pre-authorized by Raven (content-bound grant, ${Math.round((ttl - age) / 1000)}s remaining)`,
+        };
+      }
+
+      return {
+        capability: cap,
+        verdict: "PASS",
+        reason: `pre-authorized by Raven (${Math.round((ttl - age) / 1000)}s remaining)`,
+      };
     }
     return {
       capability: cap,

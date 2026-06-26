@@ -20,11 +20,13 @@ check("'remember that X' -> remember intent", route("remember that P17 needs the
 check("'do you remember X' -> recall intent", route("do you remember the grid plan").intent === "recall");
 check("remember -> write capability", capabilitiesFor("remember")[0].action === "mnemos.write");
 
-// --- gate: write held by default, runs when authorized ---
+// --- gate: write held by default, runs when authorized (TTL-fresh grant) ---
+const NOW = 1000;
 const heldGate = gate(capabilitiesFor("remember"));
 check("write held without auth", heldGate.cleared.length === 0 && heldGate.held.length === 1);
-const okGate = gate(capabilitiesFor("remember"), { authorized: ["mnemos.write"] });
-check("write clears with auth", okGate.cleared.length === 1);
+const fresh = { action: "mnemos.write", issued_at: NOW };
+const okGate = gate(capabilitiesFor("remember"), { authorized: [fresh], _now: () => NOW });
+check("write clears with fresh auth", okGate.cleared.length === 1);
 
 // --- planExecutions: held vs done ---
 const heldPlans = planExecutions("remember", heldGate, "remember that X");

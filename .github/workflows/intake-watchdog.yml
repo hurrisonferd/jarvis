@@ -1,0 +1,23 @@
+name: "INTake watchdog"
+
+# Run daily at 07:00 UTC — after the 06:17 ARGUS sweep.
+# Escalates if intake/ backlog exceeds 3 unreviewed items.
+on:
+  schedule:
+    - cron: "0 7 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+jobs:
+  watchdog:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+
+      - name: Run intake watchdog
+        run: python3 scripts/intake_watchdog.py

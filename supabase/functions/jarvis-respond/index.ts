@@ -8,7 +8,7 @@ import {
   type Turn,
 } from "./guard.ts";
 import { route, routeSummary } from "./router.ts";
-import { gate, capabilitiesFor, gateSummary } from "./aegis.ts";
+import { gate, capabilitiesFor, gateSummary, type AuthEntry } from "./aegis.ts";
 import { buildRecallBlock, type Scoped } from "./recall.ts";
 import { planExecutions, execSummary, type ExecPlan } from "./execute.ts";
 
@@ -217,8 +217,33 @@ Deno.serve(async (req: Request) => {
   // and runs (e.g. MNEMOS recall happens below); write/external are held for
   // Raven; destructive / self-mod are refused (GL2/GL6). Nothing here executes
   // a side-effect — AEGIS only judges, and the cleared set is read-only today.
-  const authorized = (ctx.authorized as string[]) ?? [];
+  const authorized = (ctx.authorized as AuthEntry[]) ?? [];
   const aegis = gate(capabilitiesFor(routing.intent), { authorized });
+
+  // DEX AUDIT (#5 auth trail — JARVIS-C audit 2026-06-25): every AEGIS gate result
+  // is written to dex_events. This closes the blind spot where a grant could be used
+  // in a turn without any record of it. Auth use and denials are both logged.
+  const sb = createClient(
+    Deno.env.get("SUPABASE_URL") ?? "",
+    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
+  );
+  const now = Date.now();
+  const authAudit = aegis.results.map((r) => ({
+    action: r.capability.action,
+    system: r.capability.system,
+    risk: r.capability.risk,
+    verdict: r.verdict,
+    reason: r.reason,
+    active_grants: authorized
+      .filter((g) => g.action === r.capability.action)
+      .map((g) => ({ issued_age_ms: now - g.issued_at, ttl_ms: g.ttl_ms ?? 300_000 })),
+  }));
+  sb.from("dex_events").insert({
+    type: "aegis.gate",
+    intent: `aegis.${routing.intent}`,
+    payload: { auth_audit: authAudit, input_hash: input.slice(0, 120) },
+    source: "jarvis-respond",
+  }).then(() => {}).catch(() => {});
 
   // Circuit breaker (GL6): if JARVIS is looping or Raven is re-sending, hand
   // the thread back instead of burning a model call.
@@ -230,11 +255,6 @@ Deno.serve(async (req: Request) => {
       { headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*" } },
     );
   }
-
-  const sb = createClient(
-    Deno.env.get("SUPABASE_URL") ?? "",
-    Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? ""
-  );
 
   let memoryBlock = "(memory ledger still building)";
   let memoriesUsed = 0;
