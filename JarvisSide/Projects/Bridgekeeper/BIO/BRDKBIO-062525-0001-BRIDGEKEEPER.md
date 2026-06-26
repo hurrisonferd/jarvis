@@ -5,43 +5,99 @@ type: BIO
 jnl: PROJ-BRDK-BIO-0001
 status: ACTIVE
 created: 2026-06-25
-tags: [project, security, governance, github]
-definition: GitHub PR challenge gate for external contributors — Bridgekeeper asks questions before PRs can merge.
+tags: [project, security, governance, github, eris, honeypot]
+definition: ERIS as the Bridgekeeper — honeypot PR gate. Every external PR generates evidence.
 purpose: >
-  Firewall for JARVIS repo. Any PR from a non-collaborator must pass Bridgekeeper's
-  gauntlet before it can merge. Questions are context-aware and non-trivial — the goal
-  is to slow down drive-by noise and signal real intent.
-related: [PROJ-ALL-LOG-0001, ARCH-SYS-SPEC-0001]
+  This is not a gate. It is a honeypot. ERIS asks questions and every answer —
+  including silence, evasion, and contradiction — lands in dex_events as immutable
+  evidence. Raven, JARVIS, and AYRE are the only authorized callers. Everyone else
+  generates a forensic record. The audit trail is the product, not the block.
+related: [ARCH-SYS-SPEC-0001, ARCH-JSE-SPEC-0001]
 ---
 
 # PROJ-BRDK-BIO-0001 — Bridgekeeper
 
 ## What it is
 
-A GitHub Action or App that intercepts PRs from outside collaborators and challenges them.
-Inspired by the Bridgekeeper from Monty Python and the Holy Grail — three questions before
-crossing.
+ERIS as the Bridgekeeper. The inversion of a security gate.
+
+**Old model:** a gate keeps attackers out. It's binary. Pass/fail.
+
+**This model:** a honeypot that converts every attempt — hostile, confused, or curious — into
+signed, timestamped evidence. The audit trail is the product. Blocking is secondary.
 
 ## Core concept
 
-"Stop! Who would cross the Bridge of Death must answer me these questions three,
-ere the other side they see."
+"Stop! Who would cross the Bridge of Death must answer me these questions three."
 
-- Questions are non-trivial and context-aware (not just "what is your name")
-- PR is blocked until answered satisfactorily or admin approves
-- Creates friction for noise, signals intent for real contributors
-- Scales with JARVIS's ability to generate interesting questions
+Every non-collaborator PR activates ERIS. Questions are context-aware, stateful,
+and escalate on evasion. The goal is not to keep people out — it's to make
+everyone who tries leave fingerprints.
 
-## Questions (Phase 1)
+## Who gets through
 
-1. "What is your name?" — identity
-2. "What is your quest?" — intent
-3. "What is the airspeed velocity of an unladen swallow?" — the curveball
+Binary and small:
 
-## Implementation path
+- **Raven** (hurrisonferd) — always passes
+- **JARVIS / AYRE streams** (hurrisonferd[bot]) — AEGIS-gated MCP calls
+- **GitHub Actions CI** (github-actions[bot]) — workflow deployments
 
-1. GitHub Action triggered on `pull_request` events from outside collaborators
-2. Posts a comment with questions
-3. Fails the PR status check
-4. Admin (Raven) can approve → merges through
-5. Phase 2: context-aware questions based on PR content
+Everyone else: honeypot. Every answer is evidence.
+
+## How it works
+
+```
+External PR lands
+       ↓
+ERIS activates (entropy monitor, always-on)
+       ↓
+Question issued — posted as PR comment
+       ↓
+Answer (or silence) logged to dex_events
+       ↓
+Evasion detection: contradiction / generic filler / no answer
+       ↓
+If evasion → harder question, Raven alerted
+If coherent answer → AWAITING_REVIEW (human gate next)
+       ↓
+Raven reviews full audit trail → approves or blocks
+```
+
+Every question/answer pair → `dex_events` as `eris.challenge` / `eris.answer` type.
+Signed. Timestamped. Immutable.
+
+## Phase 1 (deployed)
+
+- GitHub Action: `bridgekeeper.yml`
+- Script: `scripts/eris_bridgekeeper.py`
+- Static question pool (opening questions)
+- Rudimentary evasion detection
+- Evidence receipts posted to PR
+
+## Phase 2 (pending)
+
+- MNEMOS-routed contextual questions (questions derived from god systems touched)
+- ATHENA coherence scoring (entropy measurement on answer quality)
+- Stateful difficulty curve (harder questions on evasion)
+- Raven escalation with full evidence package
+
+## Evidence types logged to dex_events
+
+| type | when |
+|---|---|
+| `eris.challenge` | question issued to external PR |
+| `eris.answer` | answer received or silence recorded |
+| `eris.evasion` | evasion pattern detected |
+| `eris.escalate` | Raven alerted |
+
+## Why this is ERIS
+
+ERIS is the entropy monitor — Gold Law guardian, always-on.
+ERIS doesn't just block. ERIS measures coherence. A lie is entropy with a story.
+Every evasion increases entropy. ERIS keeps asking until entropy resolves or
+Raven steps in.
+
+*"Stop! Who would cross the Bridge of Death must answer me these questions three,
+ere the other side they see."*
+
+And every question they fail to answer coherently is evidence.

@@ -4212,7 +4212,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-2",
+      "location": "JarvisMain/Implementation/Archived/JIP-0608-2",
       "tags": [
         "pipeline",
         "jcs",
@@ -4233,7 +4233,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-D",
+      "location": "JarvisMain/Implementation/Archived/JIP-0608-D",
       "tags": [
         "jcs",
         "layer",
@@ -4254,7 +4254,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-E",
+      "location": "JarvisMain/Implementation/Archived/JIP-0608-E",
       "tags": [
         "jcs",
         "layer",
@@ -4275,7 +4275,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-F",
+      "location": "JarvisMain/Implementation/Archived/JIP-0608-F",
       "tags": [
         "jcs",
         "layer",
@@ -4296,7 +4296,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCS-CORE-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-G",
+      "location": "JarvisMain/Implementation/Archived/JIP-0608-G",
       "tags": [
         "jcs",
         "layer",
@@ -4317,7 +4317,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JIP-SPEC-0608",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-1",
+      "location": "JarvisMain/Implementation/Archived/JIP-0608-1",
       "tags": [
         "pipeline",
         "jgpp",
@@ -4381,7 +4381,7 @@
       "owner": "JCS Pipeline",
       "steward": null,
       "parent": "IMPL-JCSE-SPEC-0001",
-      "location": "JarvisMain/Implementation/Active/JIP-0608-E",
+      "location": "JarvisMain/Implementation/Archived/JIP-0608-E",
       "tags": [
         "pipeline",
         "jql",

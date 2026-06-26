@@ -1,0 +1,84 @@
+name: "ERIS — Bridgekeeper"
+
+# ERIS as the Bridgekeeper (PROJ-BRDK-BIO-0001).
+# Every non-collaborator PR is a honeypot: questions generate evidence,
+# every evasion lands in dex_events, Raven gets the full audit trail.
+#
+# Who gets through: Raven (hurrisonferd), JARVIS, AYRE streams.
+# Everyone else: honeypot. Every answer is evidence.
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: write
+  statuses: write
+
+env:
+  SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+  SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+
+jobs:
+  bridgekeeper:
+    runs-on: ubuntu-latest
+    # Only challenge external contributors — collaborators pass through
+    if: github.event.pull_request.author_association == 'NONE'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Run ERIS Bridgekeeper
+        id: eris
+        run: |
+          echo "author=${{ github.event.pull_request.user.login }}" >> $GITHUB_OUTPUT
+          echo "pr=${{ github.event.pull_request.number }}" >> $GITHUB_OUTPUT
+          python3 scripts/eris_bridgekeeper.py \
+            --pr-number ${{ github.event.pull_request.number }} \
+            --author "${{ github.event.pull_request.user.login }}" \
+            --action "${GITHUB_EVENT_NAME}" \
+            --pr-body "${{ github.event.pull_request.body }}" \
+            --pr-files '${{ toJSON(github.event.pull_request.changed_files) }}' \
+            --comment-id "${{ github.event.comment.id || '' }}" \
+            --comment-body "${{ github.event.comment.body || '' }}" \
+            2>&1 | tee $GITHUB_OUTPUT/eris_output.txt
+
+      - name: Post challenge question
+        if: steps.eris.outputs.needs_question == 'true'
+        run: |
+          QUESTION=$(python3 -c "import json; d=json.load(open('$GITHUB_OUTPUT/eris_output.txt')); print(d.get('question',''))" 2>/dev/null || echo "")
+          if [ -n "$QUESTION" ]; then
+            gh pr comment ${{ github.event.pull_request.number }} \
+              --body "$QUESTION"
+          fi
+
+      - name: Post evidence receipt
+        if: steps.eris.outputs.needs_question == 'true'
+        run: |
+          gh pr comment ${{ github.event.pull_request.number }} \
+            --body "🌉 ERIS has logged this interaction to the spine.
+
+Your questions and answers are being recorded as an immutable audit trail (dex_events).
+Only Raven, JARVIS, and AYRE can authorize changes to this repository.
+
+*This is not a rejection. It is a record.*"
+
+      - name: Block merge (pending answer)
+        if: steps.eris.outputs.status == 'BLOCKED'
+        run: |
+          # Post a blocking status check (visible in PR UI)
+          echo "ERIS Bridgekeeper: challenge issued. Awaiting response."
+          gh api repos/{owner}/{repo}/statuses/${{ github.event.pull_request.head.sha }} \
+            --field state=pending \
+            --field target_url="https://github.com/${{ github.repository }}/pull/${{ github.event.pull_request.number }}#issuecomment-${{ github.event.comment.id }}" \
+            --field description="ERIS Bridgekeeper: challenge pending response" \
+            --field context="bridgekeeper/eris" || true
+
+      - name: Escalate to Raven
+        if: steps.eris.outputs.status == 'ESCALATE'
+        run: |
+          echo "ERIS detected evasion pattern — escalating to Raven"
+          # In a full deployment this would open a GitHub issue or notify directly
