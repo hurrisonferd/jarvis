@@ -553,29 +553,31 @@ function buildServer(req: Request): McpServer {
       description:
         "Write an event to dex_events — the immutable ARGUS/bifrost spine. Every state-changing action emits here (GL5). Callers: sl-session-close.py (session end), jarvis-respond (AEGIS gates), ERIS (bridgekeeper challenges). This tool IS the GL5 event bus — it never blocks, never retries, never fails the caller.",
       inputSchema: {
-        type: z.string().max(80).describe("Event type — e.g. bifrost.session_close, aegis.gate, eris.challenge"),
+        type: z.string().max(80).optional().describe("Event type — e.g. bifrost.session_close, aegis.gate. Defaults to dex_log."),
         actor: z.string().max(80).optional().describe("Who/what triggered the event"),
         jnl: z.string().max(80).optional().describe("JNL address if this references a governed object"),
         detail: z.record(z.any()).optional().describe("Payload — arbitrary structured data"),
       },
     },
     async ({ type, actor, jnl, detail }) => {
-      const payload = {
-        type: type ?? "dex_log",
-        tool: "mcp",
-        actor: actor ?? "openhands",
-        jnl: jnl ?? null,
-        detail: detail ?? {},
-      };
+      const etype = type ?? "dex_log";
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/dex_events`, {
+        const res = await fetch(`${SUPABASE_URL}/functions/v1/jarvis-dex`, {
           method: "POST",
-          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
-          body: JSON.stringify(payload),
+          headers: {
+            "content-type": "application/json",
+            "Authorization": "Bearer placeholder",
+          },
+          body: JSON.stringify({
+            tool: "log_event",
+            args: { type: etype, actor: actor ?? "mcp", jnl, detail: detail ?? {} },
+          }),
         });
-        return text({ ok: res.ok, status: res.status, type, id: "written" });
+        const data = await res.json() as Record<string, unknown>;
+        if (!res.ok || !data.ok) return text({ ok: false, error: String(data.error ?? res.status), type: etype });
+        return text({ ok: true, type: etype, logged: true });
       } catch (e) {
-        return text({ ok: false, error: String(e).slice(0, 200), type });
+        return text({ ok: false, error: String(e).slice(0, 200), type: etype });
       }
     },
   );
