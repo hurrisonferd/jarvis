@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JCS-D Temporal Reconstruction
 type: SPEC
 class: MODULE

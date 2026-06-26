@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # MNEMOS Store
 
 **JNL:** CONN-MCP-RT-0007 · **Tool:** `jarvis_remember` · **Connector:** jarvis-mcp

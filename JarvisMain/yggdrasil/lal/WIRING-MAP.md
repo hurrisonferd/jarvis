@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Wiring Map — how Jarvis, Ayre, and the god systems connect
 
 _generated: 2026-06-24T21:30:23Z (2026-06-24 17:30 EDT) · from the live registry — do not hand-edit; run `wiring_map.py` (auto at seed tail)._

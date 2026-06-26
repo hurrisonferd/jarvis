@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Grid — Register Signing Key
 type: RT
 class: MODULE

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Media View — see a repo image (vision)
 
 **JNL:** CONN-MCP-RT-0029 · **Tool:** `jarvis_media_view` · **Connector:** jarvis-mcp

@@ -1,5 +1,6 @@
 ---
 memory_tier: JLTM
+grade: system
 name: Deoxys Telemetry Schema — first exploration
 type: JGPP
 jnl: PROJ-DEO-JGPP-0001

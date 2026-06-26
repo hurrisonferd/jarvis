@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JarvisTST
 type: BIO
 class: SYSTEM

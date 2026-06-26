@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JARVIS Format — same-turn close (optional)
 
 **JNL:** CONN-MCP-RT-0006 · **Tool:** `jarvis_format` · **Connector:** jarvis-mcp

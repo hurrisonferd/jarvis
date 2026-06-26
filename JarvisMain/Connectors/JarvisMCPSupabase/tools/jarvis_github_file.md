@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # GitHub — read file
 
 **JNL:** CONN-MCP-RT-0028 · **Tool:** `jarvis_github_file` · **Connector:** jarvis-mcp

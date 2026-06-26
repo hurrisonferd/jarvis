@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Media Lens — media linked into the graph
 
 _generated: 2026-06-25T22:07:57Z (2026-06-25 18:07 EDT) · from `media-links.json` (declared, git-first) + `AUDIO-FEATURES.json`. Every link is validated against the registry — dangling links are flagged, never silent._

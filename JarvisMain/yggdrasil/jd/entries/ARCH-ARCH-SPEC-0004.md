@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Memory — MNEMOS + JMMS
 type: SPEC
 class: SPEC

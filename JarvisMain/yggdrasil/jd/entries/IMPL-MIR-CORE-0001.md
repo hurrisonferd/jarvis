@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: MIR — Mirror Tool
 type: CORE
 class: SPEC

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # AYRE / JARVIS Split — v1 (P44)
 
 **Decision (Raven, 2026-06-04):** split AYRE from JARVIS. Two external reads — the

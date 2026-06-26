@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: ARCH-SL-JIP-0001
 name: Star Logs
 type: JIP

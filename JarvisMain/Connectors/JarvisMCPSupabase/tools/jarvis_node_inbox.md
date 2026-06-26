@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Grid — Inbox
 
 **JNL:** CONN-MCP-RT-0014 · **Tool:** `jarvis_node_inbox` · **Connector:** jarvis-mcp

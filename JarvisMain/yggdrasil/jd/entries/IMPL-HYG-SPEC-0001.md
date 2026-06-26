@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Hygiene Packets Archive
 type: SPEC
 class: SPEC

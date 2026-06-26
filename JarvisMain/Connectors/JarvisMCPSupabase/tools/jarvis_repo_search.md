@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Repo Search — grep file contents
 
 **JNL:** CONN-MCP-RT-0033 · **Tool:** `jarvis_repo_search` · **Connector:** jarvis-mcp

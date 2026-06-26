@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: IMPL-TLR-SPEC-0001
 name: MCP Tool Roadmap & Auto-Tracking Pipeline
 type: SPEC

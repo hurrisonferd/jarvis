@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Dex-Council Validation Bridge
 type: SPEC
 class: SPEC

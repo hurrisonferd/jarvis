@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Identity — read
 type: RT
 class: MODULE

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Grid — Export Identity Disc
 
 **JNL:** CONN-MCP-RT-0013 · **Tool:** `jarvis_export` · **Connector:** jarvis-mcp

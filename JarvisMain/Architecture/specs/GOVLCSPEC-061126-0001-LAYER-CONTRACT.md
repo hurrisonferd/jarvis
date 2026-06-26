@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: GOV-LC-SPEC-0001
 name: Layer Contract
 type: SPEC

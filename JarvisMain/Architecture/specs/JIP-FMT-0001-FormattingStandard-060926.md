@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JIP-FMT-0001 — JFS Formatting Standard (IDs · tags · status · routing)
 
 **JNL:** `IMPL-FMT-SPEC-0001` · **class:** SPEC · **tier:** MAIN · **status:** ACTIVE

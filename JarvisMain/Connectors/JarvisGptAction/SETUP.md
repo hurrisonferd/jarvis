@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JarvisGptAction — Custom GPT Action setup
 
 Wire the JARVIS Custom GPT (the Jarvis-G / Ayre-G body) to the companion surface

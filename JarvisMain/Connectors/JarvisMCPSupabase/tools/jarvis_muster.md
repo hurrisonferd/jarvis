@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Muster — the roll call (every sight in one cast)
 
 **JNL:** CONN-MCP-RT-0048 · **Tool:** `jarvis_muster` · **Connector:** jarvis-mcp

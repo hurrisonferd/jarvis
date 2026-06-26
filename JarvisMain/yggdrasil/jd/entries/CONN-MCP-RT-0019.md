@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JMMS — memory tiering (JSTM/JLTM/JATM)
 type: RT
 class: MODULE

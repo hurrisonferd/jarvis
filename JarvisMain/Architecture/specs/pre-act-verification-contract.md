@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: GOV-VRF-SPEC-0001
 name: Pre-Act Verification Contract
 type: SPEC

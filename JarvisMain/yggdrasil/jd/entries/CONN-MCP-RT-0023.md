@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Memory Lane — JC/SL relationship memory
 type: RT
 class: MODULE

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Council — registry
 type: RT
 class: MODULE

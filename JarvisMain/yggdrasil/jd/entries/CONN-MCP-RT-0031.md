@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: GitHub Write — propose file(s) as one PR
 type: RT
 class: MODULE

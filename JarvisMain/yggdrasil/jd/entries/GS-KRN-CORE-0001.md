@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: KRONOS
 type: CORE
 class: SYSTEM

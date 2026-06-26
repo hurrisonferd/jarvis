@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: GitHub — commits
 type: RT
 class: MODULE

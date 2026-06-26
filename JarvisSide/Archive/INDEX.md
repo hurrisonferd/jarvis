@@ -1,3 +1,8 @@
+---
+memory_tier: JHTM
+grade: system
+---
+
 # Archive — Closed Work
 
 Completed or deprecated projects and ideas. No longer active but kept for reference.

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Identity — read
 
 **JNL:** CONN-MCP-RT-0043 · **Tool:** `jarvis_identity_read` · **Connector:** jarvis-mcp

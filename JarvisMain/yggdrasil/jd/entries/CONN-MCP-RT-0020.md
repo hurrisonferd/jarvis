@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Dex — graph (node + full neighborhood)
 type: RT
 class: MODULE

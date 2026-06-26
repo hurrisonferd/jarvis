@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Grid — Send to Node
 
 **JNL:** CONN-MCP-RT-0015 · **Tool:** `jarvis_node_send` · **Connector:** jarvis-mcp

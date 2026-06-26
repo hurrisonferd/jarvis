@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: RoundTable
 type: BIO
 class: SYSTEM

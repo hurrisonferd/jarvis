@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JPL revival — first executable slice
 type: JGPP
 class: ENTITY

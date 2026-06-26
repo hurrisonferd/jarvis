@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Timeline — what happened
 type: RT
 class: MODULE

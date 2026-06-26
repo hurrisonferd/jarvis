@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JFS Formatting Standard
 type: SPEC
 class: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JPL Research — The Follin Program
 type: SPEC
 class: SPEC

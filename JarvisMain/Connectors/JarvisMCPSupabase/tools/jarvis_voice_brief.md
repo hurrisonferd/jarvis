@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Voice Brief — pre-warm a sealed session
 
 **JNL:** CONN-MCP-RT-0018 · **Tool:** `jarvis_voice_brief` · **Connector:** jarvis-mcp

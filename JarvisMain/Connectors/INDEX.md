@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Connectors — MCP, Dex, GPT
 
 External integrations and protocol connectors. Each connector is a self-contained module.

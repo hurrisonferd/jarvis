@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Ainz — power up (cast everything to come online)
 type: RT
 class: MODULE

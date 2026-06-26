@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: DB — read
 type: RT
 class: MODULE

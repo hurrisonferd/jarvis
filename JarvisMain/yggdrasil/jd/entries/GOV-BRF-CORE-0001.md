@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Jarvis Brief
 type: CORE
 class: SPEC

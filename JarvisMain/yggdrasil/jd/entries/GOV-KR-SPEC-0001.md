@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Knowledge Routing Index (MIMIR)
 type: SPEC
 class: SPEC

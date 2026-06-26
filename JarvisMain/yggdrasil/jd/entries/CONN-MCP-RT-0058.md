@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Private — tree (Jarvis-Private)
 type: RT
 class: MODULE

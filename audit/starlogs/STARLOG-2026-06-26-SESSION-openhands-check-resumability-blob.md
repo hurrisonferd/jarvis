@@ -1,3 +1,8 @@
+---
+memory_tier: JHTM
+grade: system
+---
+
 ## Star Log — 2026-06-26T03:57:03.743254+00:00
 **Stardate:** 2026.176.165  ·  **Type:** SESSION  ·  **Stream:** openhands
 

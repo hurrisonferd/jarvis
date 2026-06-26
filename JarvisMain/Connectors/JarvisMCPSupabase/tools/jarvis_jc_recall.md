@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Memory Lane — JC/SL relationship memory
 
 **JNL:** CONN-MCP-RT-0023 · **Tool:** `jarvis_jc_recall` · **Connector:** jarvis-mcp

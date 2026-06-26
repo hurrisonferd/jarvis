@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Dex — propose entry (JGPP/JIP/JD/BIO)
 type: RT
 class: MODULE

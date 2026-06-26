@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JMMS — memory tiering (JSTM/JLTM/JATM)
 
 **JNL:** CONN-MCP-RT-0019 · **Tool:** `jarvis_jmms` · **Connector:** jarvis-mcp

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # BIFROST — T4 Observability (Parallel)
 
 **Tier:** 4 — Observability  

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Multimodal
 type: BIO
 class: SYSTEM

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # HALO — T3 Memory (Parallel)
 
 **Tier:** 3 — Memory  

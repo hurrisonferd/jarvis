@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: PRs — open pull requests awaiting Raven
 type: RT
 class: MODULE

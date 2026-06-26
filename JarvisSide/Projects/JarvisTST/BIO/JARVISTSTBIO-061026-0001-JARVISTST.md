@@ -1,5 +1,6 @@
 ---
 memory_tier: JLTM
+grade: system
 name: JarvisTST
 type: BIO
 jnl: PROJ-TST-BIO-0001

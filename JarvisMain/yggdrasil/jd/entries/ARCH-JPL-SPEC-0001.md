@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JPL — Jarvis Programming Language
 type: SPEC
 class: SPEC

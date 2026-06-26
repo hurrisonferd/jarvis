@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Dex — propose entry (JGPP/JIP/JD/BIO)
 
 **JNL:** CONN-MCP-RT-0011 · **Tool:** `jarvis_dex_propose` · **Connector:** jarvis-mcp

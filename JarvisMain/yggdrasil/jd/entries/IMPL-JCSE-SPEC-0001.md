@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JCS-E Query & Traversal
 type: SPEC
 class: MODULE

@@ -1,4 +1,6 @@
 ---
+memory_tier: JHTM
+grade: system
 type: GOVERNANCE
 stream: Jarvis-C
 session: 2026-06-25-late

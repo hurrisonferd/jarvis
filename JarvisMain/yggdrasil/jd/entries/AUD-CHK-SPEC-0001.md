@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Required Checks Setup
 type: SPEC
 class: EVENT

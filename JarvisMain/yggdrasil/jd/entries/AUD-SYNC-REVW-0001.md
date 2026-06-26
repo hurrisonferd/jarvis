@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: TUSK Act 4 — Git/Supabase Sync Audit
 type: REVW
 class: EVENT

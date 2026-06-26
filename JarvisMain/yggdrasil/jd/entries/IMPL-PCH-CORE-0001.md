@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: PCH — Pinch Check
 type: CORE
 class: SPEC

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # MERIDIAN — T6 Integrity
 
 **Tier:** 6 — Integrity  

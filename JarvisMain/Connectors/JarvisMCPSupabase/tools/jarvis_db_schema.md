@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # DB — schema
 
 **JNL:** CONN-MCP-RT-0040 · **Tool:** `jarvis_db_schema` · **Connector:** jarvis-mcp

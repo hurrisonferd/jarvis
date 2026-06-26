@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Companion Memory — Jarvis & Ayre
 type: LOG
 class: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Query — governed reasoning
 type: RT
 class: MODULE

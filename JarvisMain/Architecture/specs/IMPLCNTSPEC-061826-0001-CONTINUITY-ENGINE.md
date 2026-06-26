@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: IMPL-CNT-SPEC-0001
 name: Continuity Engine — the Pulse's brain (P43 implementation)
 type: SPEC

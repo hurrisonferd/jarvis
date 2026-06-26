@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Origin Trap Card
 type: SPEC
 class: SPEC

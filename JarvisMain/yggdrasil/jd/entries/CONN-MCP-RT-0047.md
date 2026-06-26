@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: The Pinch — squeeze the whole tree (drift, debt, bloat)
 type: RT
 class: MODULE

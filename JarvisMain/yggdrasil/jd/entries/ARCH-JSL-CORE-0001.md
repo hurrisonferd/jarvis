@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Jarvis Structural Layer
 type: CORE
 class: SYSTEM

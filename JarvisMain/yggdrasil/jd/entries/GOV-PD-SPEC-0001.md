@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Preserved Contradiction Objects (P-D)
 type: SPEC
 class: SPEC

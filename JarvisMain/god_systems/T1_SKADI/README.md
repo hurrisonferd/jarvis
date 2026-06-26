@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # SKADI — T1 Execution
 
 **Tier:** 1 — Execution  

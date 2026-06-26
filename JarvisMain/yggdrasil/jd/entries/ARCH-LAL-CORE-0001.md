@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Library Authority Layer
 type: CORE
 class: SYSTEM

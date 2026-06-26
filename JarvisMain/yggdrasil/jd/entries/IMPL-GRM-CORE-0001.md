@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: GRM — Grimoire Generator
 type: CORE
 class: SPEC

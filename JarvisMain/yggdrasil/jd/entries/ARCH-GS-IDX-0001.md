@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: God Systems Index
 type: IDX
 class: SPEC

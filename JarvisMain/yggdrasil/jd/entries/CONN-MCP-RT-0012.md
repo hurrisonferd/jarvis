@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Grid — Node Card
 type: RT
 class: MODULE

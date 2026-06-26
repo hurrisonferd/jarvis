@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # The Grimoire — JARVIS, as it knows itself
 
 _generated: 2026-06-25T23:20:15Z (2026-06-25 19:20 EDT) · projected from `jd/entries` + `graph.json` (truth) — do not hand-edit; run `grimoire.py` (auto at seed tail)._

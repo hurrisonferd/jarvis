@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: EXT — Extend Tool
 type: CORE
 class: SPEC

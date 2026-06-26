@@ -183,7 +183,9 @@ function buildServer(req: Request): McpServer {
       // Capped by recency, so it can never bloat (extra pins simply stop loading). Pointers
       // to the manual/brief/fusions + current focus — the streams hold these before answering.
       // Best-effort; a miss never blocks the reply.
-      const jitm = await rest("mnemos_memories?select=text,tags,timestamp&tags=cs.{jitm}&order=timestamp.desc&limit=5").catch(() => []);
+      // IMPL-JMMS-0001: JITM briefing is system-grade only (JARVIS's keel — personal memories
+      // are Raven's private context, never auto-injected without explicit request).
+      const jitm = await rest("mnemos_memories?select=text,tags,timestamp&tags=cs.{jitm}&grade=eq.system&order=timestamp.desc&limit=5").catch(() => []);
       try {
         // Keyless voice path: full God-System pipeline (ODIN/AEGIS/MNEMOS),
         // NO language model. Returns JARVIS's briefing for the connector to speak.
@@ -239,7 +241,7 @@ function buildServer(req: Request): McpServer {
           jarvis_briefing: r.jarvis_briefing,
           // JITM — always-on briefing (capped at 5, newest first). Hold these every turn.
           jitm_briefing: jitm,
-          jitm_note: "JITM = your always-on briefing (immediate memory). Keep these in mind before answering; they point to the manual/brief/fusions and the current focus.",
+          jitm_note: "JITM = your always-on briefing (immediate memory, system-grade only). Keep these in mind before answering; they point to the manual/brief/fusions and the current focus.",
           // THE COUNCIL — fixed-authority vote, auditable: who weighed in, with what weight.
           council: { resolved: council.resolved, summary: council.summary, votes: council.votes },
           // CONDITIONAL DELIBERATION — present only on heavy turns; the lens-stack directive.
@@ -334,21 +336,33 @@ function buildServer(req: Request): McpServer {
         source_type: z.string().optional().default("mcp_memory"),
         tags: z.array(z.string()).optional().default([]),
         platform: z.string().optional().default("mcp_connector"),
-        tier: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional().describe("JMMS horizon: jitm (always-on briefing — pointers only) · jstm (working/session) · jhtm (historical/compressed summary) · jltm (consolidated, default) · jatm (ancestral/immutable). Promotion: jstm→jhtm→jltm→jatm (one-way)."),
+        tier: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional().describe("JMMS horizon: jitm (always-on briefing) · jstm (working/session, default) · jhtm (compressed) · jltm (consolidated) · jatm (ancestral). Default: jstm. Promotion: jstm→jhtm→jltm→jatm (one-way)."),
+        scope: z.enum(["session", "project", "companion"]).optional().default("project").describe("What survives session close: session=dies, project=survives for this domain, companion=survives all sessions."),
+        domain: z.string().max(40).optional().describe("JDMS domain scope: codeos, musicos, flag-01, jarvis, grid, etc."),
+        jstm_sub: z.enum(["hot", "warm", "cold"]).optional().describe("JSTM sub-tier: hot (active this turn) · warm (recent, loaded on resume) · cold (fold candidate)."),
+        temperature: z.enum(["hot", "warm", "cool", "cold"]).optional().describe("Relevance signal: hot (referenced this turn) · warm (recent) · cool (not referenced) · cold (fold gate open)."),
+        activation_score: z.number().int().min(0).max(100).optional().describe("Activation score 0-100. Default 80. Boosted on reference (+10). Decays per turn (-1)."),
+        grade: z.enum(["system", "personal"]).optional().default("system").describe("Grade: system (JARVIS's knowledge) or personal (Raven's private memories)."),
       },
     },
     async (args) => {
       if (!writeAuthorized(req)) {
         return heldForApproval("mnemos.write", { text: args.text, source_type: args.source_type, tags: args.tags }, req);
       }
-      // JMMS: stamp the memory's tier tag (default jltm — the consolidated store).
       const tier = tierTag(args.tier);
       const tagged = {
-        ...args,
-        tags: withTier(args.tags, tier),
-        memory_tier: tier, // REWORK 1: column-level tier (not just tag)
+        text:       args.text,
+        source_type: args.source_type,
+        tags:       withTier(args.tags, tier),
+        memory_tier:  tier,
+        jstm_sub:    args.jstm_sub ?? null,
+        memory_scope: args.scope ?? "project",
+        temperature:  args.temperature ?? "warm",
+        activation_score: args.activation_score ?? 80,
+        domain: args.domain ?? null,
+        platform: args.platform,
+        grade: args.grade ?? "system",
       };
-      delete (tagged as Record<string, unknown>).tier;
       return text(await callFunction("mnemos-store", tagged));
     },
   );
@@ -364,6 +378,7 @@ function buildServer(req: Request): McpServer {
         source: z.enum(["jarvis", "raven", "codex", "gpt", "gemini"]),
         intent: z.string().optional().default(""),
         patch_id: z.string().optional(),
+        grade: z.enum(["system", "personal"]).optional().default("system"),
         payload: z.record(z.string(), z.unknown()).optional().default({}),
       },
     },
@@ -371,7 +386,7 @@ function buildServer(req: Request): McpServer {
       if (!writeAuthorized(req)) {
         return heldForApproval("grid.event", { type: args.type, source: args.source, intent: args.intent, patch_id: args.patch_id }, req);
       }
-      return text(await callFunction("grid-event", args));
+      return text(await callFunction("grid-event", { ...args, grade: args.grade ?? "system" }));
     },
   );
 
@@ -383,51 +398,110 @@ function buildServer(req: Request): McpServer {
     {
       title: "JMMS — memory tiering (JSTM/JLTM/JATM)",
       description:
-        "The Jarvis MultiMemory System over live memory. `action:list` reads a tier's working set (tier:jstm is the project context-window — mark notes jstm via jarvis_remember to keep them in view). `action:promote`/`tag` move a memory up the horizon (id + to) — AEGIS-gated, ONE-WAY jstm→jhtm→jltm→jatm, JATM immutable. `domain:` scopes the working set to a side-project (JDMS — e.g. domain:musicos), partitioning memory so CodeOS context and MusicOS context don't bleed. Works like JSS does for files, but for memory rows.",
+        "The Jarvis MultiMemory System over live memory. `action:list` reads a tier's working set with JDMS domain scoping and JSTM sub-tier filtering. `action:promote` moves a memory up the horizon (AEGIS-gated, ONE-WAY). `action:scope_change` changes session/project/companion scope. `action:activate` boosts activation score (+20). `action:temperature` sets the relevance temperature.",
       inputSchema: {
-        action: z.enum(["list", "promote", "tag"]).optional().default("list"),
+        action: z.enum(["list", "promote", "scope_change", "activate", "temperature"]).optional().default("list"),
         tier: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional(),
         id: z.string().optional(),
         to: z.enum(["jitm", "jstm", "jhtm", "jltm", "jatm"]).optional(),
+        scope: z.enum(["session", "project", "companion"]).optional(),
+        jstm_sub: z.enum(["hot", "warm", "cold"]).optional(),
+        temperature: z.enum(["hot", "warm", "cool", "cold"]).optional(),
         domain: z.string().max(40).optional(),
+        activation_score: z.number().int().min(0).max(100).optional(),
+        grade: z.enum(["system", "personal"]).optional(),
         limit: z.number().int().min(1).max(100).optional().default(20),
       },
     },
-    async ({ action, tier, id, to, limit, domain }) => {
+    async ({ action, tier, id, to, scope, jstm_sub, temperature, domain, activation_score, limit, grade }) => {
       const act = action ?? "list";
       if (act === "list") {
         const t = tierTag(tier);
-        const dom = domain ? `,${domain.toLowerCase()}` : "";
-        const rows = await rest(`mnemos_memories?select=id,source_type,text,tags,timestamp&tags=cs.{${t}${dom}}&order=timestamp.desc&limit=${limit}`).catch(() => []);
+        // Build filter: tier + domain + optional jstm_sub + grade
+        const filters: string[] = [`memory_tier=eq.${t}`];
+        if (domain)   filters.push(`domain=eq.${domain.toLowerCase()}`);
+        if (jstm_sub) filters.push(`jstm_sub=eq.${jstm_sub}`);
+        if (grade) filters.push(`grade=eq.${grade}`);
+        const filterStr = filters.map(f => `&${f}`).join("");
+        const cols = "id,source_type,text,tags,timestamp,memory_scope,temperature,activation_score,domain,jstm_sub,grade";
+        const rows = await rest(
+          `mnemos_memories?select=${cols}${filterStr}&order=activation_score.desc,timestamp.desc&limit=${limit}`
+        ).catch(() => []);
+        const count = Array.isArray(rows) ? rows.length : 0;
         return text({
-          ok: true, tier: t, domain: domain ?? null, count: Array.isArray(rows) ? rows.length : 0, working_set: rows,
+          ok: true, tier: t, domain: domain ?? null, jstm_sub: jstm_sub ?? null, grade: grade ?? null,
+          count, working_set: rows,
           note: domain
-            ? `JDMS — the '${domain}' working set within the ${t} tier (domain-scoped partition).`
+            ? `JDMS — '${domain}' working set within ${t} tier (domain-scoped partition).`
             : t === "jstm"
-            ? "JSTM = the live context-window. Mark notes jstm; promote to jltm when they consolidate."
-            : `JMMS ${t} tier (${t === "jltm" ? "consolidated/durable" : "ancestral/immutable"}).`,
+            ? "JSTM = the live context-window. HOT is implicit (active this turn). WARM loads on resume. COLD is fold candidate."
+            : `JMMS ${t} tier${t === "jltm" ? " — consolidated/durable" : t === "jatm" ? " — ancestral/immutable" : ""}.`,
         });
       }
-      // promote / tag — gated writes.
-      if (!writeAuthorized(req)) return heldForApproval(`jmms.${act}`, { id, to: to ?? tier }, req);
+      // All write actions are AEGIS-gated
+      if (!writeAuthorized(req)) return heldForApproval(`jmms.${act}`, { id, tier: to ?? tier }, req);
       if (!id) return text({ ok: false, error: `jmms ${act} needs an id` });
-      const cur = await rest(`mnemos_memories?id=eq.${id}&select=tags`).catch(() => []) as any[];
+
+      // Read current state
+      const cur = await rest(
+        `mnemos_memories?id=eq.${id}&select=memory_tier,tags,memory_scope,activation_score,temperature,grade`
+      ).catch(() => []) as any[];
       if (!Array.isArray(cur) || !cur.length) return text({ ok: false, error: `no memory ${id}` });
-      const curTier = (cur[0].tags ?? []).map((x: string) => String(x).toLowerCase())
-        .find((x: string) => (JMMS_TIERS as readonly string[]).includes(x)) ?? "jltm";
-      const dest = tierTag(to ?? tier);
-      if (curTier === "jatm") return text({ ok: false, error: "JATM is ancestral/immutable — settled lineage is never retagged out." });
-      if (act === "promote" && JMMS_TIERS.indexOf(dest) < JMMS_TIERS.indexOf(curTier as Tier)) {
-        return text({ ok: false, error: `JMMS promotion is one-way: cannot demote ${curTier} → ${dest}.` });
+      const curRow = cur[0];
+      const curTier = curRow.memory_tier ?? "jltm";
+
+      if (act === "promote") {
+        const dest = tierTag(to ?? tier);
+        if (curTier === "jatm") return text({ ok: false, error: "JATM is ancestral/immutable — settled lineage is never retagged out." });
+        if (JMMS_TIERS.indexOf(dest) < JMMS_TIERS.indexOf(curTier as Tier)) {
+          return text({ ok: false, error: `JMMS promotion is one-way: cannot demote ${curTier} → ${dest}.` });
+        }
+        const newTags = withTier(curRow.tags ?? [], dest);
+        const r = await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${id}`, {
+          method: "PATCH",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify({ tags: newTags, memory_tier: dest, activation_score: 40, grade: grade ?? curRow.grade ?? "system" }),
+        });
+        if (!r.ok) return text({ ok: false, status: r.status, error: (await r.text().catch(() => "")).slice(0, 160) });
+        return text({ ok: true, id, moved: `${curTier} → ${dest}`, tags: newTags });
       }
-      const newTags = withTier(cur[0].tags, dest);
-      const r = await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${id}`, {
-        method: "PATCH",
-        headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
-        body: JSON.stringify({ tags: newTags }),
-      });
-      if (!r.ok) return text({ ok: false, status: r.status, error: (await r.text().catch(() => "")).slice(0, 160) });
-      return text({ ok: true, id, moved: `${curTier} → ${dest}`, tags: newTags });
+
+      if (act === "scope_change") {
+        const newScope = scope ?? "project";
+        const r = await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${id}`, {
+          method: "PATCH",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify({ memory_scope: newScope }),
+        });
+        if (!r.ok) return text({ ok: false, status: r.status, error: (await r.text().catch(() => "")).slice(0, 160) });
+        return text({ ok: true, id, scope_changed: `${curRow.memory_scope} → ${newScope}` });
+      }
+
+      if (act === "activate") {
+        const newScore = Math.min(100, (curRow.activation_score ?? 80) + 20);
+        const tempMap: Record<number, string> = { hot: 70, warm: 40, cool: 10, cold: 0 };
+        const newTemp = Object.entries(tempMap).find(([_, thresh]) => newScore >= thresh)?.[0] ?? "cold";
+        const r = await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${id}`, {
+          method: "PATCH",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify({ activation_score: newScore, temperature: newTemp }),
+        });
+        if (!r.ok) return text({ ok: false, status: r.status, error: (await r.text().catch(() => "")).slice(0, 160) });
+        return text({ ok: true, id, activation_score: newScore, temperature: newTemp });
+      }
+
+      if (act === "temperature") {
+        const newTemp = temperature ?? "warm";
+        const r = await fetch(`${SUPABASE_URL}/rest/v1/mnemos_memories?id=eq.${id}`, {
+          method: "PATCH",
+          headers: { authorization: `Bearer ${SERVICE_KEY}`, apikey: SERVICE_KEY, "content-type": "application/json", Prefer: "return=minimal" },
+          body: JSON.stringify({ temperature: newTemp }),
+        });
+        if (!r.ok) return text({ ok: false, status: r.status, error: (await r.text().catch(() => "")).slice(0, 160) });
+        return text({ ok: true, id, temperature: newTemp });
+      }
+
+      return text({ ok: false, error: `unknown action: ${act}` });
     },
   );
 
@@ -592,14 +666,16 @@ function buildServer(req: Request): McpServer {
         term: z.string().max(120).optional(),
         status: z.enum(["OPEN", "SEALED"]).optional(),
         limit: z.number().int().min(1).max(20).optional().default(5),
+        grade: z.enum(["system", "personal"]).optional(),
       },
     },
-    async ({ term, status, limit }) => {
-      // Build JC query with tier + status filters
-      const jcCols = "jnl,alias,session_date,when_start,when_end,subject,participants,tags,summary,stream,repo_url,keystones,decisions,open,profiles,metrics,status,task_summary,banter,agents";
-      const slCols = "jnl,alias,session_date,started_at,ended_at,digest,events,status,log_type,stardate,participants,task_summary,decisions";
+    async ({ term, status, limit, grade }) => {
+      // Build JC query with tier + status filters + grade
+      const jcCols = "jnl,alias,session_date,when_start,when_end,subject,participants,tags,summary,stream,repo_url,keystones,decisions,open,profiles,metrics,status,task_summary,banter,agents,memory_tier,memory_scope,grade,temperature,activation_score";
+      const slCols = "jnl,alias,session_date,started_at,ended_at,digest,events,status,log_type,stardate,participants,task_summary,decisions,memory_tier,memory_scope,grade,temperature,activation_score";
       const filter: string[] = [];
       if (status) filter.push(`status.eq.${status}`);
+      if (grade) filter.push(`grade.eq.${grade}`);
       const filterStr = filter.length ? `&${filter.join("&")}` : "";
       const q = term
         ? `jc_objects?select=${jcCols}&or=(alias.ilike.*${term}*,jnl.ilike.*${term}*,subject.ilike.*${term}*)${filterStr}&limit=${limit}`
@@ -610,7 +686,7 @@ function buildServer(req: Request): McpServer {
         rest(`sl_objects?select=${slCols}${slFilterStr}&order=session_date.desc&limit=${limit}`).catch(() => []),
       ]);
       return text({
-        ok: true, filter: status ?? "all", jc: jcs, sl: sls,
+        ok: true, filter: status ?? "all", grade: grade ?? "all", jc: jcs, sl: sls,
         law: "JC records; it never rules — decisions cite the spine (P-C).",
         jmms: "JSTM (session-born) → JHTM (14-day fold, compressed digest) → JLTM (durable). Promotion is one-way.",
       });

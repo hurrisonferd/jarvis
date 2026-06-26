@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JARVIS Council — registry
 
 **JNL:** CONN-MCP-RT-0004 · **Tool:** `jarvis_council` · **Connector:** jarvis-mcp

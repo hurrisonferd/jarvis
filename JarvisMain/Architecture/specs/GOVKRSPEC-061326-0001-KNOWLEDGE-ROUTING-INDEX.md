@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: GOV-KR-SPEC-0001
 name: Knowledge Routing Index (MIMIR)
 type: SPEC

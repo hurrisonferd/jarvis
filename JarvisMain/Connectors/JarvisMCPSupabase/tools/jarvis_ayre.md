@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Ayre — verify the field is REAL (world-level truth audit)
 
 **JNL:** CONN-MCP-RT-0062 · **Tool:** `jarvis_ayre` · **Connector:** jarvis-mcp

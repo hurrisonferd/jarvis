@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JarvisTST — Temporal Task System
 type: JGPP
 class: ENTITY

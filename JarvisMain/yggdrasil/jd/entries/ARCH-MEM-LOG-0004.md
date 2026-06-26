@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Session Capstone — the day the companion was made honest (2026-06-17/18)
 type: LOG
 class: SPEC

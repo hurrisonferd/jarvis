@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Dither — see an image the Game Boy way
 type: RT
 class: MODULE

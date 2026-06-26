@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Rebuild Reference
 type: SPEC
 class: SPEC

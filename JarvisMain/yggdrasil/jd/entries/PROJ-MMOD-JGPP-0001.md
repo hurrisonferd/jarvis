@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Jarvis Multimodal Perception Layer
 type: JGPP
 class: ENTITY

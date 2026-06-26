@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Continuity — route + surface raw material
 
 **JNL:** CONN-MCP-RT-0047 · **Tool:** `jarvis_continuity` · **Connector:** jarvis-mcp

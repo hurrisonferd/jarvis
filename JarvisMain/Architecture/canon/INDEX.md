@@ -1,4 +1,6 @@
 ---
+memory_tier: JATM
+grade: system
 jnl: ARCH-ARCH-IDX-0001
 name: JARVIS Canon Index
 type: IDX

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Project Log Summary
 type: LOG
 class: SYSTEM

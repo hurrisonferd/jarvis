@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Pachinko Bounce
 type: BIO
 class: SYSTEM

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # ZEUS — T0 Foundational
 
 **Tier:** 0 — Foundational  

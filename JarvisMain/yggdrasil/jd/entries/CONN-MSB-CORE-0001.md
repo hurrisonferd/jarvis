@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: MCP-Supabase Connector
 type: CORE
 class: MODULE

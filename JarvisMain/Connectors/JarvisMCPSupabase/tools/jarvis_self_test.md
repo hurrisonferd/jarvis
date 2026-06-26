@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Self Test — scry the live arsenal
 
 **JNL:** CONN-MCP-RT-0034 · **Tool:** `jarvis_self_test` · **Connector:** jarvis-mcp

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Sticky Fingers — Governance-Coverage Audit
 type: REVW
 class: EVENT

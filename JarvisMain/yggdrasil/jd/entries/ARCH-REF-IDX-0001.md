@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS CANON — Volume Index and Rebuild Packet
 type: IDX
 class: SPEC

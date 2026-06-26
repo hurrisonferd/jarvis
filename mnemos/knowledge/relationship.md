@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Relationship
 
 *Partition of the companion memory. Grown by the remember loop.*

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: ARCH-JC-JIP-0001
 name: Conversational History Objects
 type: JIP

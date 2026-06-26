@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: IMPL-MOD-SPEC-0001
 name: Modularity & Extensibility — Field Plan + Gold Law Proposal
 type: SPEC

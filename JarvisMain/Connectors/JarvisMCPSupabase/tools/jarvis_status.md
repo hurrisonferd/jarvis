@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JARVIS Status
 
 **JNL:** CONN-MCP-RT-0002 · **Tool:** `jarvis_status` · **Connector:** jarvis-mcp

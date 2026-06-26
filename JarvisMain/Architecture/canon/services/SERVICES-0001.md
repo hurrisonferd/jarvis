@@ -1,4 +1,6 @@
 ---
+memory_tier: JATM
+grade: system
 jnl: ARCH-ARCH-SPEC-0003
 name: JARVIS Services — Edge Functions
 type: SPEC

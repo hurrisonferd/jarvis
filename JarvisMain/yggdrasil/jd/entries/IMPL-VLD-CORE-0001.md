@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: VLD — Validate Tool
 type: CORE
 class: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: NEW — Mint Tool
 type: CORE
 class: SPEC

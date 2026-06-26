@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Repo — read file (read-only)
 type: RT
 class: MODULE

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Eyes — the whole system in one look
 
 **JNL:** CONN-MCP-RT-0046 · **Tool:** `jarvis_eyes` · **Connector:** jarvis-mcp

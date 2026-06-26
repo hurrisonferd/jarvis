@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Continuity Through the Connector
 type: LOG
 class: SPEC

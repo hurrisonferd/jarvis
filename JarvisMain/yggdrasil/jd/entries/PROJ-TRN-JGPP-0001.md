@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: UI Rework — outdated GameBoy page and the control surface
 type: JGPP
 class: ENTITY

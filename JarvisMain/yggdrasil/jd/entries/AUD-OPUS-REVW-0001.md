@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Opus 4.8 Audit
 type: REVW
 class: EVENT

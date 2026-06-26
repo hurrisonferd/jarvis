@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # ATHENA — T5 Governance
 
 **Tier:** 5 — Governance  

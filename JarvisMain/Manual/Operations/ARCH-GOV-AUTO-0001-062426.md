@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: GOV-AUT-SPEC-0001
 name: Governed Autonomy Contract
 type: SPEC

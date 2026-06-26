@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: What is JARVIS
 type: SPEC
 class: SPEC

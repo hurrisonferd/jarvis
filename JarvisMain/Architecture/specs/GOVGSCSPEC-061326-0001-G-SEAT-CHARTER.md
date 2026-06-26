@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: GOV-GSC-SPEC-0001
 name: G-Seat Charter
 type: SPEC

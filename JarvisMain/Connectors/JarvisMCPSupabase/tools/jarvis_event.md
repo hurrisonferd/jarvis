@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # AEGIS Event
 
 **JNL:** CONN-MCP-RT-0008 · **Tool:** `jarvis_event` · **Connector:** jarvis-mcp

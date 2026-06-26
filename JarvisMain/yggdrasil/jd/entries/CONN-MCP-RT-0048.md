@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Muster — the roll call (every sight in one cast)
 type: RT
 class: MODULE

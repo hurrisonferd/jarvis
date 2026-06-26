@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # GitHub — tree
 
 **JNL:** CONN-MCP-RT-0027 · **Tool:** `jarvis_github_tree` · **Connector:** jarvis-mcp

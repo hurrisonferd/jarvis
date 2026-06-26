@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JCS-G External Interface Binding
 type: SPEC
 class: MODULE

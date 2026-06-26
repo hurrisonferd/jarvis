@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JIP-0608 Series
 type: SPEC
 class: SPEC

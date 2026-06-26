@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Media Library
 type: LOG
 class: ENTITY

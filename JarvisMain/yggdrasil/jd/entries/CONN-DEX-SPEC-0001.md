@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Jarvis Dex Action
 type: SPEC
 class: MODULE

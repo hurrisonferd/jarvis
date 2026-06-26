@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Omnivision — the whole system in one read
 
 **JNL:** CONN-MCP-RT-0045 · **Tool:** `jarvis_omnivision` · **Connector:** jarvis-mcp

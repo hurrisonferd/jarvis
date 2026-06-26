@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: BIFROST
 type: CORE
 class: SYSTEM

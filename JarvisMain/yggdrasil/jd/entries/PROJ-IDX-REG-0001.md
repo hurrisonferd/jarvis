@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Projects Registry
 type: REG
 class: SYSTEM

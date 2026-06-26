@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Throughput Posture — HALO's flag loop
 
 A governance rule made testable. As question velocity rises, structure fades — the

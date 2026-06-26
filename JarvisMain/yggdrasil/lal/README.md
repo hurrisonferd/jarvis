@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # LAL — Library Authority Layer
 
 **JNL:** `ARCH-LAL-CORE-0001`

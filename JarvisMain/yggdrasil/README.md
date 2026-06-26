@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # YGGDRASIL — The World Tree
 
 **Authority:** Canonical. Raven (John Barber) is final authority. No autonomous self-modification (GL2).

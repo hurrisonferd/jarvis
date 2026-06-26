@@ -1,3 +1,8 @@
+---
+memory_tier: JSTM
+grade: system
+---
+
 # JARVIS — Change Log
 
 All patch changes are tracked here. Each patch gets its own file.

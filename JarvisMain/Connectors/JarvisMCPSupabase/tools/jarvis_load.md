@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Load — Universal Pokédex Resolver
 
 **JNL:** CONN-MCP-RT-0064 · **Tool:** `jarvis_load` · **Connector:** jarvis-mcp

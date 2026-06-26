@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS — Suit Up
 type: RT
 class: MODULE

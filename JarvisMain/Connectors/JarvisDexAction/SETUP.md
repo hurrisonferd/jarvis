@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JarvisDexAction — Custom GPT Action setup
 
 Wire the JARVIS custom GPT to the dex connector (`jarvis-dex`, live).

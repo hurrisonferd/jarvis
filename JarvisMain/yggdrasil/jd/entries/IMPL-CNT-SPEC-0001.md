@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Continuity Engine — the Pulse's brain (P43 implementation)
 type: SPEC
 class: SPEC

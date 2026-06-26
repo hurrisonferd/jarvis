@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Grimoire — the system's table of contents to itself
 type: RT
 class: MODULE

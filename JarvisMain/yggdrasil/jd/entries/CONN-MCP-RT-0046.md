@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Eyes — the whole system in one look
 type: RT
 class: MODULE

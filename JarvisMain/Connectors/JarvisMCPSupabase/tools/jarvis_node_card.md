@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Grid — Node Card
 
 **JNL:** CONN-MCP-RT-0012 · **Tool:** `jarvis_node_card` · **Connector:** jarvis-mcp

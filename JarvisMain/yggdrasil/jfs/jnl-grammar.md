@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JNL Grammar — Jarvis Navigation Language
 
 **JNL:** `ARCH-JNL-CORE-0001`

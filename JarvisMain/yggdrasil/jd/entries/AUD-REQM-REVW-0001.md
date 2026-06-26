@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Requiem — Gaps/Heal/Life Audit
 type: REVW
 class: EVENT

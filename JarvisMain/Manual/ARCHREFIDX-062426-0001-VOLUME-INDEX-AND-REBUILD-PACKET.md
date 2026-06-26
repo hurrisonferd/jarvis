@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: ARCH-REF-IDX-0001
 name: JARVIS CANON — Volume Index and Rebuild Packet
 type: IDX

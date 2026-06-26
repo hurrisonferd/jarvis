@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JD — Jarvis Dictionary (Specification)
 
 **JNL:** `ARCH-JD-CORE-0001`

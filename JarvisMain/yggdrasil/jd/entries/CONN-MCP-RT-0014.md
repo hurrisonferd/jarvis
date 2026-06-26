@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Grid — Inbox
 type: RT
 class: MODULE

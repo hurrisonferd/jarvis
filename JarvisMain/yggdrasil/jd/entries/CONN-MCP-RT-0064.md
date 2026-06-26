@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Load — Universal Pokédex Resolver
 type: RT
 class: MODULE

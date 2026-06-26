@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JIP — create
 
 **JNL:** CONN-MCP-RT-0050 · **Tool:** `jarvis_jip_create` · **Connector:** jarvis-mcp

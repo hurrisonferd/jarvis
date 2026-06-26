@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Ayre — verify the field is REAL (world-level truth audit)
 type: RT
 class: MODULE

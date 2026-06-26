@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # DANTE — T7 Interface
 
 **Tier:** 7 — Interface  

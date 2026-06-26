@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Global Mirror — Earned Omnivision (JMS)
 type: SPEC
 class: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Patch Archive
 type: REG
 class: SPEC

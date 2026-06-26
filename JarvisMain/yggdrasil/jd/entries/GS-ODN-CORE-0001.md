@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: ODIN
 type: CORE
 class: SYSTEM

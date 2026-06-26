@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JARVIS Query — governed reasoning
 
 **JNL:** CONN-MCP-RT-0005 · **Tool:** `jarvis_query` · **Connector:** jarvis-mcp

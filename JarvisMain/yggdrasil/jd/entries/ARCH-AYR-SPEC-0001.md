@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: AYRE/JARVIS Split
 type: SPEC
 class: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Mainline Event Ledger
 type: LOG
 class: SPEC

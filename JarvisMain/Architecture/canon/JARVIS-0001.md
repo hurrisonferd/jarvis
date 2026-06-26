@@ -1,4 +1,6 @@
 ---
+memory_tier: JATM
+grade: system
 jnl: ARCH-ARCH-SPEC-0002
 name: What is JARVIS
 type: SPEC

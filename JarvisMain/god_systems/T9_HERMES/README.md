@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # HERMES — T9 Translation
 
 **Tier:** 9 — Translation  

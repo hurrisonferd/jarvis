@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Techniques — Coding & Engineering Patterns
 
 Raven-approved techniques, patterns, and practices. What JARVIS knows about

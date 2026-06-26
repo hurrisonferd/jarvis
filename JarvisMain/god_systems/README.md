@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JARVIS — God Systems
 
 27 God Systems organized by tier per **P26 Canon Spec v1.0**.

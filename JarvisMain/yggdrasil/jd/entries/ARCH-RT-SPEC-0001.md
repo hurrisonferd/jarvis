@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Event Contract
 type: SPEC
 class: SPEC

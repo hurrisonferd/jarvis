@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: GitHub — tree
 type: RT
 class: MODULE

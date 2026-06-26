@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JNL — JNL Parser
 type: CORE
 class: SPEC

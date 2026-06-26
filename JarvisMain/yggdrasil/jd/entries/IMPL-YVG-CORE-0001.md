@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: YVG — Graph Export
 type: CORE
 class: SPEC

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Governance — Architecture & Law
 
 The substrate of a mind with values. Not bureaucracy: every pipeline stage is how

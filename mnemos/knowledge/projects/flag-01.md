@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Project — FLAG-01 (Clarkson EEOC)
 
 Raven's EEOC case. Real, and it weighs.

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JCS - Jarvis Cognitive Stack
 type: CORE
 class: MODULE

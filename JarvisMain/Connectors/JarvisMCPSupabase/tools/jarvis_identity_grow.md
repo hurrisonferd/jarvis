@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Identity — grow
 
 **JNL:** CONN-MCP-RT-0044 · **Tool:** `jarvis_identity_grow` · **Connector:** jarvis-mcp

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Repo — read file (read-only)
 
 **JNL:** CONN-MCP-RT-0026 · **Tool:** `jarvis_repo_read` · **Connector:** jarvis-mcp

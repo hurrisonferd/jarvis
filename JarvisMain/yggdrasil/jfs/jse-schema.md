@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JSE — Jarvis Schema Envelope
 
 **JNL:** ARCH-JSE-SPEC-0001 · The umbrella that guarantees **every JD entry carries the same

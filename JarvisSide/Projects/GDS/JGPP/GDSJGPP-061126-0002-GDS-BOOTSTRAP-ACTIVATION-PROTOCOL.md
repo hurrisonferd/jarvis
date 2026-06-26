@@ -1,5 +1,6 @@
 ---
 memory_tier: JLTM
+grade: system
 name: GDS Bootstrap Activation Protocol
 type: JGPP
 jnl: PROJ-GDS-JGPP-0002

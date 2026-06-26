@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: GitHub — read file
 type: RT
 class: MODULE

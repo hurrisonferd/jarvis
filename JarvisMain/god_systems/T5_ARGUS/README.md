@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # ARGUS — T5 Governance
 
 **Tier:** 5 — Governance  

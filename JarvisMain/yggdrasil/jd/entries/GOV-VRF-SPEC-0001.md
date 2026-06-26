@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Pre-Act Verification Contract
 type: SPEC
 class: SPEC

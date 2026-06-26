@@ -1,5 +1,6 @@
 ---
 memory_tier: JLTM
+grade: system
 name: Round Table Observatory
 type: JGPP
 jnl: PROJ-RTO-JGPP-0001

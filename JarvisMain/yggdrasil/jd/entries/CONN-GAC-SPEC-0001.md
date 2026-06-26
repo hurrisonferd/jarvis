@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Jarvis GPT Action - OpenAPI schema
 type: SPEC
 class: MODULE

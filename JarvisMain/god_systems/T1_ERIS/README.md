@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # ERIS — T1 Governance (Gold Law Guardian)
 
 **Tier:** 1 (operational in JARVIS UI)  

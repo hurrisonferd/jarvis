@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JIP — apply (propose to git)
 
 **JNL:** CONN-MCP-RT-0052 · **Tool:** `jarvis_jip_apply` · **Connector:** jarvis-mcp

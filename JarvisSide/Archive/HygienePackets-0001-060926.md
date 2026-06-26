@@ -1,3 +1,8 @@
+---
+memory_tier: JHTM
+grade: system
+---
+
 # Hygiene Packets — Archived Reference (0001, 06/09/26)
 
 **JNL:** `IMPL-HYG-SPEC-0001` · **tier:** SIDE · **status:** ARCHIVED · **class:** SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Jarvis Historical Term Memory
 type: CORE
 class: SYSTEM

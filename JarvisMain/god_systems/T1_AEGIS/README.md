@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # AEGIS — T1 Execution
 
 **Tier:** 1 — Execution  

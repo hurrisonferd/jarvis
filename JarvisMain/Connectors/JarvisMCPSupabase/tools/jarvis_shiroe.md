@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Shiroe — full control of the field
 
 **JNL:** CONN-MCP-RT-0049 · **Tool:** `jarvis_shiroe` · **Connector:** jarvis-mcp

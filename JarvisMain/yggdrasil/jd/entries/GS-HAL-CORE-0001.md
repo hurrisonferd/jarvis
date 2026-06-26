@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: HALO
 type: CORE
 class: SYSTEM

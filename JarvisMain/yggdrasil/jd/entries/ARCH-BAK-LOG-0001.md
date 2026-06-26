@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Backup Seed
 type: LOG
 class: SPEC

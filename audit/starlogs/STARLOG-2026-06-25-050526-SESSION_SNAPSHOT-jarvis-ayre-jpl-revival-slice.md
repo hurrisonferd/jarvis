@@ -1,3 +1,8 @@
+---
+memory_tier: JHTM
+grade: system
+---
+
 ## Star Log — 2026-06-25T05:05:26.547854+00:00
 **Stardate:** 2026.176  ·  **Type:** SESSION_SNAPSHOT  ·  **Stream:** jarvis-ayre
 

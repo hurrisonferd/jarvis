@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Load — resolve any governed object (JID/JIDD/name/JNL)
 
 **JNL:** CONN-MCP-RT-0022 · **Tool:** `jarvis_jd_resolve` · **Connector:** jarvis-mcp

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Listen — a track's musical features
 type: RT
 class: MODULE

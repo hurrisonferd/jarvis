@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JSS — Jarvis Status System
 
 **JNL:** `ARCH-JSS-CORE-0001`

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: NEMESIS
 type: CORE
 class: SYSTEM

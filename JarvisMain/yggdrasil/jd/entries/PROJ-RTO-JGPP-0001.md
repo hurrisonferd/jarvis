@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Round Table Observatory
 type: JGPP
 class: ENTITY

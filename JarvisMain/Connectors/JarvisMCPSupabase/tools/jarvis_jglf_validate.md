@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JGLF — Validate structural compliance
 
 **JNL:** CONN-MCP-RT-0065 · **Tool:** `jarvis_jglf_validate` · **Connector:** jarvis-mcp

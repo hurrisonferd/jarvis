@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Mint — git-first one-shot governed object
 type: RT
 class: MODULE

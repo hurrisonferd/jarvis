@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Manual — Operations Reference
 
 Operational documentation for running and maintaining JARVIS.

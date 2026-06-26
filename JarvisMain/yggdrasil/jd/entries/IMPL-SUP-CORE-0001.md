@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: SUP — Supabase Sync
 type: CORE
 class: SPEC

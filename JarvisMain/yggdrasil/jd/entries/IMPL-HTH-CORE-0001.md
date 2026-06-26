@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: HTH — Health Report
 type: CORE
 class: SPEC

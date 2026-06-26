@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS-AYRE Relational Profile
 type: BIO
 class: SPEC

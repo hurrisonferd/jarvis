@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Grimoire — the system's table of contents to itself
 
 **JNL:** CONN-MCP-RT-0024 · **Tool:** `jarvis_grimoire` · **Connector:** jarvis-mcp

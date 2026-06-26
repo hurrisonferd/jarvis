@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Portable Brief — cold-boot JARVIS into any chat
 
 _generated: 2026-06-25T23:20:15Z (2026-06-25 19:20 EDT) · paste the block below into a connector-less LLM (free GPT, etc.) to wake it as Jarvis/Ayre with the live system view. Regenerated from the record — never stale._

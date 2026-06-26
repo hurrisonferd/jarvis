@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Private — read file (Jarvis-Private)
 type: RT
 class: MODULE

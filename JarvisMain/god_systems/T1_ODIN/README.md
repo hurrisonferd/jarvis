@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # ODIN — T1 Execution
 
 **Tier:** 1 — Execution  

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Dex — graph (node + full neighborhood)
 
 **JNL:** CONN-MCP-RT-0020 · **Tool:** `jarvis_dex_graph` · **Connector:** jarvis-mcp

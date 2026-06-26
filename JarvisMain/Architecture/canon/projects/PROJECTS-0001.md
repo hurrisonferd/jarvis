@@ -1,4 +1,6 @@
 ---
+memory_tier: JATM
+grade: system
 jnl: ARCH-ARCH-SPEC-0005
 name: JARVIS Active Projects
 type: SPEC

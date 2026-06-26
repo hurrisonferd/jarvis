@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Dither — see an image the Game Boy way
 
 **JNL:** CONN-MCP-RT-0049 · **Tool:** `jarvis_dither` · **Connector:** jarvis-mcp

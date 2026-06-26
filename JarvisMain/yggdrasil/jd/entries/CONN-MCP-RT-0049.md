@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Shiroe — full control of the field
 type: RT
 class: MODULE

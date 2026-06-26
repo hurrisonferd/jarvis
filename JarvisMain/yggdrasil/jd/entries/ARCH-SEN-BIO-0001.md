@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Sensory Perception — How JARVIS Sees and Hears
 type: BIO
 class: SPEC

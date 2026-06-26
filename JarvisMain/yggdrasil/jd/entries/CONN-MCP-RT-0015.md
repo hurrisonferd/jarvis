@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Grid — Send to Node
 type: RT
 class: MODULE

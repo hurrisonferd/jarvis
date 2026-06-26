@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: MCP Tool Roadmap & Auto-Tracking Pipeline
 type: SPEC
 class: SPEC

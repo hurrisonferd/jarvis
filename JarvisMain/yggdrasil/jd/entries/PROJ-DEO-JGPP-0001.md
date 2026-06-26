@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Deoxys Telemetry Schema — first exploration
 type: JGPP
 class: ENTITY

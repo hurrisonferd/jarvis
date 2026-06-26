@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JGPP - Generative Process Protocol
 type: CORE
 class: SPEC

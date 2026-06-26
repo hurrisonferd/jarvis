@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Project — CodeOS
 
 - Phase 1 complete — 40/40 tests passing.

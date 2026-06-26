@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # DB — inspect
 
 **JNL:** CONN-MCP-RT-0038 · **Tool:** `jarvis_db_inspect` · **Connector:** jarvis-mcp

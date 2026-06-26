@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: The Pulse — Companion Heartbeat
 type: SPEC
 class: SPEC

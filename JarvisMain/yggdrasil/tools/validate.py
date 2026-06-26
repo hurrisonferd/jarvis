@@ -26,6 +26,79 @@ JSE_ENVELOPE = ("name", "type", "class", "tier", "authority", "owner", "steward"
                 "jnl", "seq", "status", "created", "updated", "source", "related", "references",
                 "tags", "aliases", "ref", "memory_tier")
 
+# JMMS — Jarvis Memory Model Schema: path → (tier, grade) mapping for grade validation.
+# The tier/grade declared in frontmatter should match what the path implies.
+TIER_GRADE_PATHS = {
+    "JarvisMain/Architecture/canon/":     ("JATM", "system"),
+    "JarvisMain/Architecture/specs/":     ("JLTM", "system"),
+    "JarvisMain/Connectors/":            ("JLTM", "system"),
+    "JarvisMain/god_systems/":           ("JLTM", "system"),
+    "JarvisMain/yggdrasil/":            ("JLTM", "system"),
+    "JarvisSide/Projects/":             ("JLTM", "system"),
+    "JarvisSide/Ideas/":               ("JSTM", "system"),
+    "JarvisSide/Archive/":             ("JHTM", "system"),
+    "audit/starlogs/":               ("JHTM", "system"),
+    "mnemos/knowledge/":           ("JLTM", "system"),
+    "JarvisMain/Manual/":          ("JLTM", "system"),
+    "JarvisMain/Implementation/Active/": ("JSTM", "system"),
+    "JarvisMain/Patches/":         ("JSTM", "system"),
+}
+
+
+def validate_memory_frontmatter(path: str, frontmatter: dict) -> list[str]:
+    """Check that memory_tier and grade in frontmatter match path-derived expectations.
+
+    Returns a list of warning messages (empty list if all is well).
+    Special cases:
+      - 'canon/' in path   → expect JATM tier
+      - 'starlogs/' in path → expect JHTM tier
+      - 'Archive/' in path  → expect JHTM tier
+    """
+    warnings = []
+    rel_path = str(path)
+
+    # Extract declared values (case-insensitive keys)
+    declared_tier = None
+    declared_grade = None
+    for k, v in frontmatter.items():
+        kl = k.lower()
+        if kl == "memory_tier":
+            declared_tier = v.strip() if isinstance(v, str) else str(v)
+        elif kl == "grade":
+            declared_grade = v.strip() if isinstance(v, str) else str(v)
+
+    # Determine expected tier+grade from path
+    expected_tier = None
+    expected_grade = None
+
+    # Special cases first (most specific)
+    if "canon/" in rel_path:
+        expected_tier = "JATM"
+    elif "starlogs/" in rel_path or "Archive/" in rel_path:
+        expected_tier = "JHTM"
+
+    # Fall back to TIER_GRADE_PATHS prefix matching
+    if expected_tier is None:
+        for prefix, (tier, grade) in TIER_GRADE_PATHS.items():
+            if rel_path.startswith(prefix):
+                expected_tier = tier
+                expected_grade = grade
+                break
+
+    # Compare declared vs expected
+    if expected_tier and declared_tier and declared_tier != expected_tier:
+        warnings.append(
+            f"memory_tier '{declared_tier}' != path-derived tier '{expected_tier}' "
+            f"(path suggests this should be {expected_tier})"
+        )
+    if expected_grade and declared_grade and declared_grade != expected_grade:
+        warnings.append(
+            f"grade '{declared_grade}' != path-derived grade '{expected_grade}' "
+            f"(path suggests this should be {expected_grade})"
+        )
+
+    return warnings
+
 
 def parse_front_matter(text: str) -> dict:
     m = FM_RE.match(text)
@@ -59,6 +132,9 @@ def main() -> int:
     for f in entries:
         fm = parse_front_matter(f.read_text())
         addr = fm.get("jnl", "")
+        # JMMS: validate tier+grade match path-derived expectations.
+        rel_path = f.relative_to(ROOT).as_posix()
+        warnings.extend(validate_memory_frontmatter(rel_path, fm))
         # GL12: every entry needs jnl, status, class, tier, tags, ref, and resolvable location.
         for req in ("name", "type", "class", "tier", "jnl", "status", "created", "updated", "tags", "ref"):
             if not fm.get(req):
@@ -173,6 +249,26 @@ def main() -> int:
                         f"(class={cls}, semantic drift — requires Raven sign-off)"
                     )
     # ── end semantic content audit ─────────────────────────────────────────────
+
+    # JMMS: validate memory_tier+grade for all .md files (not just JD entries).
+    for base in ("JarvisMain", "JarvisSide", "mnemos", "audit"):
+        base_path = ROOT / base
+        if not base_path.exists():
+            continue
+        for f in sorted(base_path.rglob("*.md")):
+            if f.is_dir():
+                continue
+            if "yggdrasil" in f.parts:  # already validated in the JD loop above
+                continue
+            try:
+                text = f.read_text()
+            except Exception:
+                continue
+            fm = parse_front_matter(text)
+            if not fm:
+                continue  # no frontmatter, nothing to validate
+            rel_path = f.relative_to(ROOT).as_posix()
+            warnings.extend(validate_memory_frontmatter(rel_path, fm))
 
     # LAL mirror consistency (JMS law): every address points to real truth; every entry indexed.
     reg_path = LAL_DIR / "address-registry.json"

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: PR Merge — Jarvis+Ayre summary, then merge
 type: RT
 class: MODULE

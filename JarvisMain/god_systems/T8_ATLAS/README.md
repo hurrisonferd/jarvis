@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # ATLAS — T8 Infrastructure
 
 **Tier:** 8 — Infrastructure  

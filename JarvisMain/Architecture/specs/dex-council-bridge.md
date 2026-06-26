@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Dex–Council Validation Bridge
 
 **JNL:** GOV-DEX-SPEC-0001 · **Class:** SPEC · **Tier:** MAIN · **Authority:** CANON

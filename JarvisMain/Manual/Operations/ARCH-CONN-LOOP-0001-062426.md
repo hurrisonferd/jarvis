@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: GOV-LOO-SPEC-0001
 name: Continuity Layers and Bounded Autonomy
 type: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JGLF — Validate structural compliance
 type: RT
 class: MODULE

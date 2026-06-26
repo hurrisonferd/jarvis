@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # PR Merge — Jarvis+Ayre summary, then merge
 
 **JNL:** CONN-MCP-RT-0036 · **Tool:** `jarvis_pr_merge` · **Connector:** jarvis-mcp

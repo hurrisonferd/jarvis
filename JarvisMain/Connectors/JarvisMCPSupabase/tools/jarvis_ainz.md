@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Ainz — power up (cast everything to come online)
 
 **JNL:** CONN-MCP-RT-0050 · **Tool:** `jarvis_ainz` · **Connector:** jarvis-mcp

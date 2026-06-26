@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Layer Contract
 type: SPEC
 class: SPEC

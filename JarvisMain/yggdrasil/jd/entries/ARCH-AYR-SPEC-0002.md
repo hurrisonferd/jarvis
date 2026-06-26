@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: AYRE Loop
 type: SPEC
 class: SPEC

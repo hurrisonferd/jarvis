@@ -1,4 +1,6 @@
 ---
+memory_tier: JSTM
+grade: system
 jnl: IDEA-PAN-INS-0001
 name: Pantheon — god-system identity & subsystem stewardship
 type: INS

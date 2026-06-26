@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Repo — tree (read-only)
 
 **JNL:** CONN-MCP-RT-0025 · **Tool:** `jarvis_repo_tree` · **Connector:** jarvis-mcp

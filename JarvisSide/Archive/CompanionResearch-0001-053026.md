@@ -1,3 +1,8 @@
+---
+memory_tier: JHTM
+grade: system
+---
+
 # Toward a Full AI Companion — Research + Roadmap
 
 **Date:** 2026-05-30 · **Author:** JARVIS (Opus 4.8) · **For:** Raven

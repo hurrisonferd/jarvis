@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Session Capstone — the day the companion came together (2026-06-14)
 type: LOG
 class: SPEC

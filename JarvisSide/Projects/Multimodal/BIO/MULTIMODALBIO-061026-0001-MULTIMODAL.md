@@ -1,5 +1,6 @@
 ---
 memory_tier: JLTM
+grade: system
 name: Multimodal
 type: BIO
 jnl: PROJ-MMOD-BIO-0001

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JARVIS — Custom GPT Instructions (concise)
 
 **Token (writes):** add your `JARVIS_MCP_TOKEN` to the connector in any ONE of:

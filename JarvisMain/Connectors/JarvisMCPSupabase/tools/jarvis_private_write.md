@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Private — write/scaffold (Jarvis-Private)
 
 **JNL:** CONN-MCP-RT-0040 · **Tool:** `jarvis_private_write` · **Connector:** jarvis-mcp

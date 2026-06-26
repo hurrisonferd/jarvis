@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Raven
 
 Deep profile. Integrated overview in `../companion_core.md`; this is the focused

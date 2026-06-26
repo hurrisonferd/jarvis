@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Jarvis MultiMemory System
 type: CORE
 class: SYSTEM

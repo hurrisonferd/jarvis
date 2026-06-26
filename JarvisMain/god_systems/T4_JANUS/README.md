@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JANUS — T4 Observability
 
 **Tier:** 4 — Observability  

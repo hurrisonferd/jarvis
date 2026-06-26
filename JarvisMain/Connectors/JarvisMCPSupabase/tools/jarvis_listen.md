@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Listen — read music's bones (hearing via analysis)
 
 **JNL:** CONN-MCP-RT-0048 · **Tool:** `jarvis_listen` · **Connector:** jarvis-mcp

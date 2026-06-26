@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: CodeOS
 type: BIO
 class: SYSTEM

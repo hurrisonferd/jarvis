@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Active Projects
 type: SPEC
 class: SPEC

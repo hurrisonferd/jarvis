@@ -1,3 +1,8 @@
+---
+memory_tier: JSTM
+grade: system
+---
+
 # P26 — JARVIS System Model Spec (CANON v1.0)
 
 **Status:** reference (highest priority)  

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Load — resolve any governed object (JID/JIDD/name/JNL)
 type: RT
 class: MODULE

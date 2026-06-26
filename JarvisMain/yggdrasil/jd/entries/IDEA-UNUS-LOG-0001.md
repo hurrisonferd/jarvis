@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Unused Ideas Log
 type: LOG
 class: ENTITY

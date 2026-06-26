@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Resumability Definition
 type: CORE
 class: SPEC

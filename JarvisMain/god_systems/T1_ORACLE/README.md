@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # ORACLE — T1 Execution
 
 > Renamed from AYRE → ORACLE (Raven-sanctioned 2026-06-14) to end the name collision

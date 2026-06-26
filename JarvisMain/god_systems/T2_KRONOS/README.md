@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # KRONOS — T2 Timing
 
 **Tier:** 2 — Timing  

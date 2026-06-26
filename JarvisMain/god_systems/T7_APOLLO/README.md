@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # APOLLO — T7 Interface
 
 **Tier:** 7 — Interface  

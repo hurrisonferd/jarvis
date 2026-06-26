@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Implementation Index
 type: REG
 class: SPEC

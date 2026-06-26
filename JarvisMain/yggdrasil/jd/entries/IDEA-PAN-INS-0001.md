@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Pantheon — god-system identity & subsystem stewardship
 type: INS
 class: ENTITY

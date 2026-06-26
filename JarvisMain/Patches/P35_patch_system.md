@@ -1,3 +1,8 @@
+---
+memory_tier: JSTM
+grade: system
+---
+
 # P35 — Consistent Patch Register
 
 **Status:** open (built it with itself)

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Grid — Register Signing Key
 
 **JNL:** CONN-MCP-RT-0016 · **Tool:** `jarvis_node_register_key` · **Connector:** jarvis-mcp

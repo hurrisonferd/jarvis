@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # GitHub Write — propose file(s) as one PR
 
 **JNL:** CONN-MCP-RT-0031 · **Tool:** `jarvis_github_write` · **Connector:** jarvis-mcp

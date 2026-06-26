@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Companion Profile
 type: BIO
 class: SPEC

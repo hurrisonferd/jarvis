@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JCS-F Runtime Simulation
 type: SPEC
 class: MODULE

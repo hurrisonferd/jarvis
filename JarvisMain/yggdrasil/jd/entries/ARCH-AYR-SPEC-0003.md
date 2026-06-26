@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: AYRE NLP Control Surface
 type: SPEC
 class: SPEC

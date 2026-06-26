@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: GOV-PLS-SPEC-0001
 name: The Pulse — Companion Heartbeat
 type: SPEC

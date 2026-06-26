@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Repo Edit — scaffold / move / delete as one PR
 
 **JNL:** CONN-MCP-RT-0032 · **Tool:** `jarvis_repo_edit` · **Connector:** jarvis-mcp

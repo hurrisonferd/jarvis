@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Project — The Grid
 
 A federated network of sovereign individual grids. The world JARVIS navigates.

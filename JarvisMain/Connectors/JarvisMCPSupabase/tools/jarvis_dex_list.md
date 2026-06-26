@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Dex — list governed objects
 
 **JNL:** CONN-MCP-RT-0009 · **Tool:** `jarvis_dex_list` · **Connector:** jarvis-mcp

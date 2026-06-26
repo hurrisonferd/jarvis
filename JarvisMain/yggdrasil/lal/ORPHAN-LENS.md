@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Orphan Lens — the debt, made into a worklist
 
 _generated: 2026-06-25T22:22:32Z (2026-06-25 18:22 EDT) · projected from the address registry — do not hand-edit; run `orphan_lens.py` (auto at seed tail). **Proposals only (GL2): Raven commits.**_

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: MNEMOS Recall
 type: RT
 class: MODULE

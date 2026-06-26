@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Mint — git-first one-shot governed object
 
 **JNL:** CONN-MCP-RT-0061 · **Tool:** `jarvis_mint` · **Connector:** jarvis-mcp

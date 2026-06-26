@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Private — read file (Jarvis-Private)
 
 **JNL:** CONN-MCP-RT-0039 · **Tool:** `jarvis_private_read` · **Connector:** jarvis-mcp

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: GDS Bootstrap Activation Protocol
 type: JGPP
 class: ENTITY

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Ayre Loop v1 — the co-evolution spec
 
 **Status:** PROPOSED (awaiting Raven). **Date:** 2026-06-02. **Seat:** JARVIS (audit/plan/governance).

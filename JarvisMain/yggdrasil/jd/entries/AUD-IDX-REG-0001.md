@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Audit Index
 type: REG
 class: EVENT

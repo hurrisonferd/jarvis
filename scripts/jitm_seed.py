@@ -98,10 +98,12 @@ def main() -> int:
     # Re-seed: clear the old jitm_pin set, insert the derived pins.
     _send("DELETE", f"{base}/mnemos_memories?source_type=eq.jitm_pin", key)
     now = datetime.now(timezone.utc)
+    # JMMS: JITM is always system grade (JARVIS's keel, never personal)
     rows = [{
         "id": str(uuid.uuid4()), "source_id": str(uuid.uuid4()), "source_type": "jitm_pin",
         "text": text, "tags": ["jitm", tag],
         "timestamp": (now - timedelta(seconds=len(pins) - 1 - i)).isoformat(),
+        "grade": "system",
     } for i, (text, tag) in enumerate(pins)]
     _send("POST", f"{base}/mnemos_memories", key, rows)
     # GL5: no silent state mutation — record the reinjection on the spine.

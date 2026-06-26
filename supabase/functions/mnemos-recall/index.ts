@@ -57,8 +57,13 @@ Deno.serve(async (req: Request) => {
   // REWORK 2 (MEDIUM): JLTM recall path — filter by memory_tier for tier-specific retrieval.
   // Valid tiers: jitm | jstm | jhtm | jltm | jatm.
   const VALID_TIERS = ['jitm', 'jstm', 'jhtm', 'jltm', 'jatm'];
+  const VALID_GRADES = ['system', 'personal'];
   const memoryTier  = VALID_TIERS.includes((payload.memory_tier as string) ?? "")
     ? (payload.memory_tier as string)
+    : null;
+  // IMPL-JMMS-0001: grade filter — default to system (JARVIS's knowledge) unless specified.
+  const grade = VALID_GRADES.includes((payload.grade as string) ?? "")
+    ? (payload.grade as string)
     : null;
 
   const sb = createClient(
@@ -71,9 +76,11 @@ Deno.serve(async (req: Request) => {
 
     if (query.length > 0) {
       // P33: full-text ranked search via tsvector + tag overlap re-ranking
+      // IMPL-JMMS-0001: include JMMS columns in select, filter by grade if provided
       let q = sb.from("mnemos_memories")
-        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier");
+        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier, memory_scope, temperature, activation_score, domain, grade");
       if (memoryTier) q = q.eq("memory_tier", memoryTier);
+      if (grade) q = q.eq("grade", grade);
       const { data: ftData, error: ftErr } = await q
         .textSearch("tsv", query, { type: "plain", config: "english" })
         .order("timestamp", { ascending: false })
@@ -94,9 +101,11 @@ Deno.serve(async (req: Request) => {
 
     } else if (tags.length > 0) {
       // P33: tag-only search — memories with overlapping tags
+      // IMPL-JMMS-0001: include JMMS columns in select, filter by grade if provided
       let q = sb.from("mnemos_memories")
-        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier");
+        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier, memory_scope, temperature, activation_score, domain, grade");
       if (memoryTier) q = q.eq("memory_tier", memoryTier);
+      if (grade) q = q.eq("grade", grade);
       const { data: tagData, error: tagErr } = await q
         .overlaps("tags", tags)
         .order("timestamp", { ascending: false })
@@ -107,11 +116,13 @@ Deno.serve(async (req: Request) => {
 
     } else {
       // No query, no tags — recency fallback (optionally tier-filtered)
+      // IMPL-JMMS-0001: include JMMS columns in select, filter by grade if provided
       let q = sb
         .from("mnemos_memories")
-        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier")
+        .select("id, text, source_type, timestamp, metadata, entropy, tags, memory_tier, memory_scope, temperature, activation_score, domain, grade")
         .order("timestamp", { ascending: false });
       if (memoryTier) q = q.eq("memory_tier", memoryTier);
+      if (grade) q = q.eq("grade", grade);
       if (sourceType) q = q.eq("source_type", sourceType);
       const { data: recent, error: recErr } = await q.limit(limit);
       if (recErr) throw recErr;

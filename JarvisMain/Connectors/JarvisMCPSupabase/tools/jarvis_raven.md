@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Raven — the pilot's seat (who you serve + what awaits your word)
 
 **JNL:** CONN-MCP-RT-0063 · **Tool:** `jarvis_raven` · **Connector:** jarvis-mcp

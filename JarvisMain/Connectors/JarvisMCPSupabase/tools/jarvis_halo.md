@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # HALO — Throughput Posture
 
 **JNL:** CONN-MCP-RT-0017 · **Tool:** `jarvis_halo` · **Connector:** jarvis-mcp

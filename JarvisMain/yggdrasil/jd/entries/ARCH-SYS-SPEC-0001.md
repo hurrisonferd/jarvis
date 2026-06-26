@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS System Manual
 type: SPEC
 class: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Continuity — route + surface raw material
 type: RT
 class: MODULE

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Media View — see a repo image
 type: RT
 class: MODULE

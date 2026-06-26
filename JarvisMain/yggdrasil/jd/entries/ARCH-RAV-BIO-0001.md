@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Raven Profile — John Barber
 type: BIO
 class: SPEC

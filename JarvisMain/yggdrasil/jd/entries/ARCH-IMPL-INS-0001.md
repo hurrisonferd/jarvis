@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Operations Reference
 type: INS
 class: SPEC

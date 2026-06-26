@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: AEGIS Event
 type: RT
 class: MODULE

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS NLP Control Surface
 type: SPEC
 class: SPEC

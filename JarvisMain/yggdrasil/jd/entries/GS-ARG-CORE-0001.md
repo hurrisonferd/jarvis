@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: ARGUS
 type: CORE
 class: SYSTEM

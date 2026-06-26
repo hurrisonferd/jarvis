@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Dex — list governed objects
 type: RT
 class: MODULE

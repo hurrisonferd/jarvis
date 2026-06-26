@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JARVIS — Suit Up
 
 **JNL:** CONN-MCP-RT-0001 · **Tool:** `jarvis_suit_up` · **Connector:** jarvis-mcp

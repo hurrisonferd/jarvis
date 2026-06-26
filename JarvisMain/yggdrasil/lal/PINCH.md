@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # The Pinch — the whole tree in one squeeze
 
 _generated 2026-06-25 23:20 UTC · the world-spell (P3): drift + debt + bloat, telling structure from debt (GL13/GL7). Proposals only (GL2); not authoritative — the source is the tree._

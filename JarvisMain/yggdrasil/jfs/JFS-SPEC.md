@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JFS — Jarvis File System (Kernel Specification)
 
 **JNL:** `ARCH-JFS-CORE-0001`

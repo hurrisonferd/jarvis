@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Implemented Stream
 type: LOG
 class: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JSE — Jarvis Schema Envelope
 type: SPEC
 class: SPEC

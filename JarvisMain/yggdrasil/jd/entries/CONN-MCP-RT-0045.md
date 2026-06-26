@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Omnivision — the whole system in one read
 type: RT
 class: MODULE

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Mission — The Two Dreams
 
 Integrated view in `../companion_core.md`. Project detail in `projects/`.

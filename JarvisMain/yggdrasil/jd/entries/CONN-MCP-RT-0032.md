@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Repo Edit — scaffold / move / delete as one PR
 type: RT
 class: MODULE

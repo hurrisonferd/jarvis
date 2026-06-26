@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # MNEMOS Recall
 
 **JNL:** CONN-MCP-RT-0003 · **Tool:** `jarvis_recall` · **Connector:** jarvis-mcp

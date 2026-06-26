@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Grid — Export Identity Disc
 type: RT
 class: MODULE

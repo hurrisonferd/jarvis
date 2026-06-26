@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # The Pinch — squeeze the whole tree (drift, debt, bloat)
 
 **JNL:** CONN-MCP-RT-0047 · **Tool:** `jarvis_pinch` · **Connector:** jarvis-mcp

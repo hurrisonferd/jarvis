@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # IRIS — T6 Integrity
 
 **Tier:** 6 — Integrity  

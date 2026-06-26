@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Voice Brief — pre-warm a sealed session
 type: RT
 class: MODULE

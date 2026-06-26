@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Dex — search
 
 **JNL:** CONN-MCP-RT-0010 · **Tool:** `jarvis_dex_search` · **Connector:** jarvis-mcp

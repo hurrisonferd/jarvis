@@ -74,12 +74,22 @@ Deno.serve(async (req: Request) => {
     status: 400, headers: { 'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*' },
   });
 
-  // REWORK 1 (HIGH): stamp every memory with its JMMS tier.
-  // Valid tiers: jitm | jstm | jhtm | jltm | jatm. Default jltm (consolidated/durable).
+  // REWORK 1 (IMPL-JMMS-0001): stamp every memory with its JMMS tier and dimensions.
+  // Default: JSTM (session-born, working) — NOT jltm (fixes the gravity well).
   const VALID_TIERS = ['jitm', 'jstm', 'jhtm', 'jltm', 'jatm'];
-  const tier = VALID_TIERS.includes(payload.memory_tier as string)
-    ? (payload.memory_tier as string)
-    : 'jltm';
+  const VALID_SUBS  = ['hot', 'warm', 'cold'];
+  const VALID_SCOPES = ['session', 'project', 'companion'];
+  const VALID_TEMPS  = ['hot', 'warm', 'cool', 'cold'];
+  const VALID_GRADES = ['system', 'personal'];
+  const tier    = VALID_TIERS.includes(payload.memory_tier as string)   ? (payload.memory_tier as string)   : 'jstm';
+  const jstmSub = VALID_SUBS.includes(payload.jstm_sub as string)      ? (payload.jstm_sub as string)      : null;
+  const scope   = VALID_SCOPES.includes(payload.memory_scope as string) ? (payload.memory_scope as string) : 'project';
+  const temp    = VALID_TEMPS.includes(payload.temperature as string)   ? (payload.temperature as string)   : 'warm';
+  const domain  = typeof payload.domain === 'string' ? payload.domain : null;
+  const grade  = VALID_GRADES.includes(payload.grade as string) ? (payload.grade as string) : 'system';
+  const actScore = typeof payload.activation_score === 'number'
+    ? Math.max(0, Math.min(100, Math.round(payload.activation_score as number)))
+    : 80;
 
   const sb = createClient(SB_URL, SB_SVC_KEY);
   const vocab = await getVocab(sb);
@@ -100,7 +110,14 @@ Deno.serve(async (req: Request) => {
     },
     timestamp: (payload.timestamp as string) ?? new Date().toISOString(),
     tags,
-    memory_tier: tier,
+    // IMPL-JMMS-0001: all JMMS dimensions stamped on write
+    memory_tier:      tier,
+    jstm_sub:         jstmSub,
+    memory_scope:     scope,
+    temperature:      temp,
+    activation_score: actScore,
+    domain,
+    grade,
   };
 
   try {

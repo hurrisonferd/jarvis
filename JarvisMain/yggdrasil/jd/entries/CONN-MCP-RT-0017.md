@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: HALO — Throughput Posture
 type: RT
 class: MODULE

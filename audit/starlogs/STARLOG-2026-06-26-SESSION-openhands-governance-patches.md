@@ -1,4 +1,6 @@
 ---
+memory_tier: JHTM
+grade: system
 type: SESSION
 stream: Jarvis-C
 session: 2026-06-26-openhands

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Now — accurate time
 
 **JNL:** CONN-MCP-RT-0041 · **Tool:** `jarvis_now` · **Connector:** jarvis-mcp

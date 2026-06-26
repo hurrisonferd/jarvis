@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: GOV-PD-SPEC-0001
 name: Preserved Contradiction Objects (P-D)
 type: SPEC

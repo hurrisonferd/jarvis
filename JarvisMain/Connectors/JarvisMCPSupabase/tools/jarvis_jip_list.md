@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JIP — list
 
 **JNL:** CONN-MCP-RT-0051 · **Tool:** `jarvis_jip_list` · **Connector:** jarvis-mcp

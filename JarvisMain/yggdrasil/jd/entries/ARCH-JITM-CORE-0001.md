@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Jarvis Immediate Memory
 type: CORE
 class: SYSTEM

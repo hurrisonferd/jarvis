@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JQL - JD Query Language
 type: CORE
 class: SPEC

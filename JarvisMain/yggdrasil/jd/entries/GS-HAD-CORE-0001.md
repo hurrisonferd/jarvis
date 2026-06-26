@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: HADES
 type: CORE
 class: SYSTEM

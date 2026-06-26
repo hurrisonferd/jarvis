@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Patch Process
 type: CORE
 class: SPEC

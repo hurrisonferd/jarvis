@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JIP — revert (propose to git)
 
 **JNL:** CONN-MCP-RT-0053 · **Tool:** `jarvis_jip_revert` · **Connector:** jarvis-mcp

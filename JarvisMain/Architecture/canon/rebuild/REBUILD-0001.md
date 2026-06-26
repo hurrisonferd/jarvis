@@ -1,4 +1,6 @@
 ---
+memory_tier: JATM
+grade: system
 jnl: ARCH-ARCH-SPEC-0006
 name: JARVIS Rebuild Reference
 type: RT

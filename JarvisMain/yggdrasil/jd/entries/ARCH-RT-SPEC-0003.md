@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: World Kernel
 type: SPEC
 class: SPEC

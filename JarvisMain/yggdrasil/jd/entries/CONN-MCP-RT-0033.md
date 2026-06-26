@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Repo Search — grep file contents
 type: RT
 class: MODULE

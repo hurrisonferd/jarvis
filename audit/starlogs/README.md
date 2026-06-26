@@ -1,3 +1,8 @@
+---
+memory_tier: JHTM
+grade: system
+---
+
 # audit/starlogs — JARVIS Star Logs
 
 Chronological, human-legible Star Logs. SL = Star Log (Star Trek reference — captain's log,

@@ -1,5 +1,6 @@
 ---
 memory_tier: JLTM
+grade: system
 name: The Grid
 type: BIO
 jnl: PROJ-GRD-BIO-0001

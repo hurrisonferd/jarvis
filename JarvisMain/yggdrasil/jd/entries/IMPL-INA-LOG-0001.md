@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Inactive Stream
 type: LOG
 class: SPEC

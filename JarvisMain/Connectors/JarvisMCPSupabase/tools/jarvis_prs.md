@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # PRs — open pull requests awaiting Raven
 
 **JNL:** CONN-MCP-RT-0035 · **Tool:** `jarvis_prs` · **Connector:** jarvis-mcp

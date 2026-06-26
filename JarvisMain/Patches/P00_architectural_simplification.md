@@ -1,3 +1,8 @@
+---
+memory_tier: JSTM
+grade: system
+---
+
 # P00 — Architectural Simplification
 
 **Status:** reference  

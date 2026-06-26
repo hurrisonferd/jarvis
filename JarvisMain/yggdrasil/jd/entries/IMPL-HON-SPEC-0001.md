@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Honest Answering Contract
 type: SPEC
 class: SPEC

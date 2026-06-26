@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Star Logs
 type: JIP
 class: SPEC

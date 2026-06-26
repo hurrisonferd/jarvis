@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS-G / AYRE-G GPT Substrate Operating Charter
 type: BIO
 class: SPEC

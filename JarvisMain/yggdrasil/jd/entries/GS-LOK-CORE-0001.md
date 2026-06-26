@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: LOKI
 type: CORE
 class: SYSTEM

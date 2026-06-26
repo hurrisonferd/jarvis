@@ -37,19 +37,22 @@ async function embed(text: string): Promise<number[] | null> {
 }
 
 async function fulltextSearch(
-  query: string, limit: number, sourceType: string | null
+  query: string, limit: number, sourceType: string | null, grade: string | null
 ): Promise<{ results: unknown[]; method: string }> {
+  // IMPL-JMMS-0001: include JMMS columns, filter by grade
+  const cols = 'id,source_id,source_type,text,timestamp,metadata,tags,memory_tier,memory_scope,temperature,activation_score,domain,grade';
   const tsQuery = query.trim().split(/\s+/).filter(Boolean).join(' & ');
   let url = `${SB_URL}/rest/v1/mnemos_memories`
-    + `?select=id,source_id,source_type,text,timestamp,metadata,tags`
-    + `&limit=${limit}&order=timestamp.desc`;
+    + `?select=${cols}&limit=${limit}&order=timestamp.desc`;
   if (tsQuery) url += `&tsv=fts.${encodeURIComponent(tsQuery)}`;
   if (sourceType) url += `&source_type=eq.${encodeURIComponent(sourceType)}`;
+  if (grade) url += `&grade=eq.${encodeURIComponent(grade)}`;
   const r = await fetch(url, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
   const rows: Record<string, unknown>[] = await r.json().catch(() => []);
   if (!rows?.length) {
-    const fallUrl = `${SB_URL}/rest/v1/mnemos_memories?select=id,source_id,source_type,text,timestamp,metadata,tags&limit=${limit}&order=timestamp.desc`
-      + (sourceType ? `&source_type=eq.${encodeURIComponent(sourceType)}` : '');
+    const fallUrl = `${SB_URL}/rest/v1/mnemos_memories?select=${cols}&limit=${limit}&order=timestamp.desc`
+      + (sourceType ? `&source_type=eq.${encodeURIComponent(sourceType)}` : '')
+      + (grade ? `&grade=eq.${encodeURIComponent(grade)}` : '');
     const fallR = await fetch(fallUrl, { headers: { apikey: SB_KEY, Authorization: `Bearer ${SB_KEY}` } });
     const fallRows: Record<string, unknown>[] = await fallR.json().catch(() => []);
     return { results: (fallRows || []).map(row => ({ ...row, similarity: null })), method: 'recent' };
@@ -62,15 +65,17 @@ Deno.serve(async (req: Request) => {
 
   const body = await req.json().catch(() => ({}));
   const jsonH = { 'Content-Type': 'application/json', ...CORS };
-  const { query, limit = 10, source_type = null, min_similarity = 0.0 } = body;
+  // IMPL-JMMS-0001: grade param — default system; passed to RPC and fulltext fallback
+  const { query, limit = 10, source_type = null, min_similarity = 0.0, grade = null } = body;
 
   if (!query) return new Response(JSON.stringify({ error: 'query required' }), { status: 400, headers: jsonH });
 
   lastEmbedError = null;
   const vec = await embed(query);
 
+  // IMPL-JMMS-0001: pass grade to all query paths
   if (!vec) {
-    const fallback = await fulltextSearch(query, limit, source_type);
+    const fallback = await fulltextSearch(query, limit, source_type, grade);
     return new Response(JSON.stringify({ ...fallback, query, embed_error: lastEmbedError }), { headers: jsonH });
   }
 
@@ -85,19 +90,26 @@ Deno.serve(async (req: Request) => {
       match_count: limit,
       filter_source: source_type,
       min_similarity,
+      // IMPL-JMMS-0001: grade filter — RPC must support this param (graceful if not)
+      grade,
     }),
   });
 
   if (!rpcRes.ok) {
-    const fallback = await fulltextSearch(query, limit, source_type);
+    const fallback = await fulltextSearch(query, limit, source_type, grade);
     return new Response(JSON.stringify({ ...fallback, query, fallback_reason: 'rpc_error' }), { headers: jsonH });
   }
 
+  // IMPL-JMMS-0001: include JMMS columns in result mapping
   const raw: Record<string, unknown>[] = await rpcRes.json();
   const results = raw.map(r => ({
     id: r.id, source_id: r.source_id, source_type: r.source_type,
     text: r.content, timestamp: r.ts,
     metadata: r.metadata, tags: r.tags, similarity: r.similarity,
+    // IMPL-JMMS-0001: carry JMMS dimensions from RPC response
+    memory_tier: r.memory_tier, memory_scope: r.memory_scope,
+    temperature: r.temperature, activation_score: r.activation_score,
+    domain: r.domain, grade: r.grade,
   }));
   return new Response(
     JSON.stringify({ results, method: 'semantic', query, dims: vec.length }),

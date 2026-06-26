@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Dex Connector & Access Tiers
 type: SPEC
 class: SPEC

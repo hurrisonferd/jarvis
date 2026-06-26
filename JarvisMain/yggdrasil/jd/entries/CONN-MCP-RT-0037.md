@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Deploy — redeploy an edge function
 type: RT
 class: MODULE

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Format — same-turn close (optional)
 type: RT
 class: MODULE

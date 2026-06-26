@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Deploy — redeploy an edge function
 
 **JNL:** CONN-MCP-RT-0037 · **Tool:** `jarvis_deploy` · **Connector:** jarvis-mcp

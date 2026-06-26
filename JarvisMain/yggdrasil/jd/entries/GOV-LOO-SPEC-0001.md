@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Continuity Layers and Bounded Autonomy
 type: SPEC
 class: SPEC

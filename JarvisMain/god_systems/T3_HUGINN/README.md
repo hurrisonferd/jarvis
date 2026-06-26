@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # HUGINN — T3 Memory
 
 **Tier:** 3 — Memory  

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Modularity & Extensibility — Field Plan + Gold Law Proposal
 type: SPEC
 class: SPEC

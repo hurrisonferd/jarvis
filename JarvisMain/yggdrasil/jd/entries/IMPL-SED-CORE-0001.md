@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: SED — Seed Tool
 type: CORE
 class: SPEC

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Self Test — scry the live arsenal
 type: RT
 class: MODULE

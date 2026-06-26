@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # GitHub — commits
 
 **JNL:** CONN-MCP-RT-0030 · **Tool:** `jarvis_github_commits` · **Connector:** jarvis-mcp

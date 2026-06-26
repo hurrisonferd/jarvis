@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Profile architecture — privacy-first identity on JFS
 type: JGPP
 class: ENTITY

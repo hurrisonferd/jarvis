@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Project — Pachinko Bounce
 
 A game build. GDD v0.4, Godot 4.x.

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Timeline — what happened
 
 **JNL:** CONN-MCP-RT-0042 · **Tool:** `jarvis_timeline` · **Connector:** jarvis-mcp

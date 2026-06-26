@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # ML/AI — Machine Learning & Artificial Intelligence
 
 Learned knowledge about ML/DL systems, techniques, and when/how to apply them.

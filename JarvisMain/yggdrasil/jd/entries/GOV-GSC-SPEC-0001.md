@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: G-Seat Charter
 type: SPEC
 class: SPEC

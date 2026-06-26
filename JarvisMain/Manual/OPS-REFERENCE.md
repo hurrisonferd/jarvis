@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 jnl: ARCH-IMPL-INS-0001
 name: Operations Reference
 type: INS

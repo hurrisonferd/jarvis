@@ -1,5 +1,6 @@
 ---
 memory_tier: JLTM
+grade: system
 name: RoundTable
 type: BIO
 jnl: PROJ-RTO-BIO-0001

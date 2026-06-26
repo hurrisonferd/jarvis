@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JD Health — vitality of the governed record
 
 _243 governed objects, 407 edges · health WARNS, never blocks (validate.py is the hard gate). Read alongside omnivision + the wiring map._

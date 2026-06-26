@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Changes Lens — what got built lately (rehydration)
 
 _generated: 2026-06-15T13:10:18Z (2026-06-15 09:10 EDT) · from git history (ledger-rotation noise filtered). The grimoire shows the END STATE; this shows the DELTA — read both to come up to speed cold._

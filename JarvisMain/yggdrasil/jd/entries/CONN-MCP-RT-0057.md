@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JIP — revert (propose to git)
 type: RT
 class: MODULE

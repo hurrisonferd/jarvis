@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: MNEMOS Cloud Backup
 type: LOG
 class: ENTITY

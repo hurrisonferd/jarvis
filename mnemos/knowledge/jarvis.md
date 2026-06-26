@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JARVIS
 
 Identity partition. Integrated view in `../companion_core.md`.

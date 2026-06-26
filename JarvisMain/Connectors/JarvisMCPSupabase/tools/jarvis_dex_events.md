@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Dex — events (the spine)
 
 **JNL:** CONN-MCP-RT-0021 · **Tool:** `jarvis_dex_events` · **Connector:** jarvis-mcp

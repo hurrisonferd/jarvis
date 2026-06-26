@@ -1,3 +1,8 @@
+---
+memory_tier: JSTM
+grade: system
+---
+
 # JIP-DEX-0001 — Dex Connector & Access Tiers
 
 **JNL:** `IMPL-DEX-SPEC-0001` · **class:** SPEC · **tier:** MAIN · **status:** ACTIVE

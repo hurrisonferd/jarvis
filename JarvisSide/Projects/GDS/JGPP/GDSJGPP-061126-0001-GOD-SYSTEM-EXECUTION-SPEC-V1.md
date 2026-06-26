@@ -1,5 +1,6 @@
 ---
 memory_tier: JLTM
+grade: system
 name: God System Execution Spec v1
 type: JGPP
 jnl: PROJ-GDS-JGPP-0001

@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: JARVIS Services — Edge Functions
 type: SPEC
 class: SPEC

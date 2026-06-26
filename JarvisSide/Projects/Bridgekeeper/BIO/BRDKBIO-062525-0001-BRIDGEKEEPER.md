@@ -1,5 +1,7 @@
 ---
 memory_tier: JLTM
+grade: system
+memory_tier: JLTM
 name: Bridgekeeper
 type: BIO
 jnl: PROJ-BRDK-BIO-0001

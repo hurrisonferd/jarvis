@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Raven — the pilot's seat (who you serve + what awaits your word)
 type: RT
 class: MODULE

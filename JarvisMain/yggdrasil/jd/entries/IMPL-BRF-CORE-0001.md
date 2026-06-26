@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: BRF — Portable Brief
 type: CORE
 class: SPEC

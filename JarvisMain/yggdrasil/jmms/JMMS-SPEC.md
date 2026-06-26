@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # JMMS — Jarvis MultiMemory System
 
 **JNL:** `ARCH-JMMS-CORE-0001`

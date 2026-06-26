@@ -1,4 +1,6 @@
 ---
+memory_tier: JLTM
+grade: system
 name: Ideas Index
 type: REG
 class: ENTITY

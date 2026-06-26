@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # Private — tree (Jarvis-Private)
 
 **JNL:** CONN-MCP-RT-0038 · **Tool:** `jarvis_private_tree` · **Connector:** jarvis-mcp

@@ -1,3 +1,8 @@
+---
+memory_tier: JLTM
+grade: system
+---
+
 # LOKI — T5 Governance
 
 **Tier:** 5 — Governance  
