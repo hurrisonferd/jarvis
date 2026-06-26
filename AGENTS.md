@@ -24,7 +24,7 @@ a new subsystem, name the concrete capability it unblocks — "cleaner" is not a
 
 ---
 
-## JARVIS System State (2026-06-25)
+## JARVIS System State (2026-06-26)
 
 ### What's live
 - **MNEMOS**: Partitioned by truth model.

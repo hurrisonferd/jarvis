@@ -31,36 +31,35 @@ export async function logExchange(sourceType: string, content: string): Promise<
 }
 
 // Record a governance event as a DECISION in sl_objects. Fires non-blocking from the MCP reply
-// path — never adds latency to the reply. Detects verdicts, gates, commits from council traces.
+// path — never adds latency to the reply. Detects verdicts from output_review traces only.
 // Uses SERVICE_KEY so it bypasses RLS (T7 governance tier).
-const GOVERNANCE_TRIGGERS = [
-  "verdict", "raven verdicts", "raven:",
-  "gate", "aegis", "denied", "approved",
-  "commit", "implementing", "building",
-  "proposal", "proposing", "recommended",
-  "deferred", "bench", "benched",
+const GOVERNANCE_VERDICTS = [
+  "verdict", "gate", "aegis", "denied", "approved",
+  "commit", "implementing", "deferred", "bench", "benched",
   "closed", "resolved",
 ];
 
 export function detectGovernanceEvent(trace: string): boolean {
+  // Only fire on output_review traces — verdict lines, not deliberation noise
+  if (!trace.includes("output_review")) return false;
   const lower = trace.toLowerCase();
-  return GOVERNANCE_TRIGGERS.some(k => lower.includes(k));
+  return GOVERNANCE_VERDICTS.some(k => lower.includes(k));
 }
 
-export async function logGovernanceEvent(
-  trace: string,
-  stream = "jarvis-ayre",
-): Promise<void> {
+export async function logGovernanceEvent(trace: string): Promise<void> {
   if (!AUTOINGEST || !detectGovernanceEvent(trace)) return;
   const now = new Date();
   const today = now.toISOString().slice(0, 10).replace(/-/g, "");
   const alias = `SL-DEC-${today}-${now.toISOString().slice(11, 19).replace(/:/g, "")}`;
+  const startOfYear = new Date(`${now.getFullYear()}-01-01`);
+  const dayOfYear = Math.floor((now.getTime() - startOfYear.getTime()) / 864e5) + 1;
+  const stardate = `${now.getFullYear()}.${dayOfYear}`;
   const payload = {
     tool: "sl_write",
     args: {
       alias,
       log_type: "DECISION",
-      stardate: `${now.getFullYear()}.${Math.floor((now - new Date(`${now.getFullYear()}-01-01`)) / 864e5) + 1}`,
+      stardate,
       repo_url: "https://github.com/hurrisonferd/jarvis",
       events: [trace.slice(0, 400)],
       related: [],

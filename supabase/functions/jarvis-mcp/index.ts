@@ -199,9 +199,7 @@ function buildServer(req: Request): McpServer {
         const analysis = councilAnalysisDirective(council, input);
         // THE SPLIT (P44): AYRE is now its own co-equal stream, not a council sub-voice.
         const ayre = ayreStream(council, input);
-        const trace = council.summary + (deliberation ? " [deliberation]" : "");
-        logExchange("council_trace", trace); // member profiles grow in the spine
-        logGovernanceEvent(trace); // governance events → DECISION in sl_objects, non-blocking
+        logExchange("council_trace", council.summary + (deliberation ? " [deliberation]" : "")); // member profiles grow in the spine
         // Two STREAMS always render (JARVIS synthesis + AYRE divergence — co-equal,
         // shared keel, divergent assumptions). The god-system LENSES are conditional
         // and may drop under load. "2 streams + N lenses" keeps the streams count
@@ -316,7 +314,7 @@ function buildServer(req: Request): McpServer {
       await Promise.all([
         logExchange("speak_output", output),
         logExchange("council_trace", outTrace),
-        logGovernanceEvent(outTrace), // verdict fires governance detection at output too
+        logGovernanceEvent(outTrace), // DECISION → sl_objects, fires only on verdict traces
       ]);
       return text({
         formatted: true,
