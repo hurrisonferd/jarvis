@@ -1722,61 +1722,108 @@ function buildServer(req: Request): McpServer {
   );
 
 
-  // CECIL — companion carry slate (Raven 2026-06-26): transport tool for context windows and carry
-  // state across new sessions. Session A carries; Session B lifts. Companion-scoped, one-time read.
+  // CECIL CARRY — collect JSTM context and write the carry slate (Raven 2026-06-26).
+  // Raven calls with a carry_key phrase; Cecil gathers JC + SL + open tasks + pending proposals
+  // automatically and writes to the slate. 24h TTL. Companion-scoped.
   server.registerTool(
-    "jarvis_cecil",
+    "jarvis_cecil_carry",
     {
-      title: "Cecil — carry context to the next session",
+      title: "Cecil Carry — write the carry slate",
       description:
-        "The carry transport. One session writes a carry slate; the next session (any model/stream) reads and inherits it. Three actions: carry (write the slate), lift (read + clear), peek (read without clearing). The carry_key is the coordination phrase — Raven names it, both sessions use it. 24h TTL. Companion-scoped (survives session death).",
+        "Collect the current session’s JSTM context (open JC, recent SL, open tasks, pending proposals) and write it to the carry slate. Raven provides the carry_key phrase — the shared secret between sessions. The next session lifts it with jarvis_cecil_lift. 24h TTL, one-time lift, companion-scoped.",
       inputSchema: {
-        action: z.enum(["carry", "lift", "peek"]).describe("carry=write, lift=read+clear, peek=read only"),
-        carry_key: z.string().min(1).max(64).describe("The shared phrase both sessions use — Raven sets this"),
-        carry_data: z.string().max(4000).optional().describe("Data to carry (required for carry action)"),
+        carry_key: z.string().min(1).max(64).describe("The shared phrase Raven names — used by both sessions"),
       },
     },
-    async ({ action, carry_key, carry_data }) => {
+    async ({ carry_key }) => {
       const sess = currentSession();
       const stream = sess?.companion ?? "unknown";
-      const companion_key = stream;
+      const now = new Date().toISOString();
 
-      if (action === "carry") {
-        if (!carry_data) return text({ ok: false, error: "carry_data required for carry action" });
-        await rest(`cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false`, {
-          method: "PATCH",
-          body: { lifted: true, lifted_at: new Date().toISOString() },
-        }).catch(() => {});
-        await rest("cecil_slate", {
-          method: "POST",
-          body: {
-            carry_key,
-            companion_key,
-            stream,
-            carry_data,
-            written_by_session: sess?.session_key ?? null,
-          },
-        });
-        return text({ ok: true, action: "carried", carry_key, ttl: "24h" });
-      }
+      const [openJCs, recentSLs, openTasks, pendingProps] = await Promise.all([
+        rest("jc_objects?select=jnl,alias,subject,status,stream,task_summary,summary&status=eq.OPEN&order=session_date.desc&limit=5").catch(() => []),
+        rest("sl_objects?select=jnl,alias,digest,task_summary,decisions,status&status=eq.OPEN&order=session_date.desc&limit=5").catch(() => []),
+        rest("jd_entries?select=jnl,name,status&status=eq.TASK&order=updated.desc&limit=10").catch(() => []),
+        rest("jd_proposals?select=jnl,name,proposer,created_at&decision=eq.pending&order=created_at.desc&limit=5").catch(() => []),
+      ]);
 
-      if (action === "peek") {
-        const rows = await rest(`cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false&expires_at=gt.now()&select=carry_data,stream,companion_key,written_at,expires_at`).catch(() => []);
-        if (!rows?.length) return text({ ok: false, action: "peek", note: "no active slate found" });
-        return text({ ok: true, action: "peek", ...rows[0] });
-      }
+      const carry_data = [
+        `**CECIL CARRY** — ${now}`,
+        `**Session:** ${stream} · ${sess?.session_key ?? "unknown"}`,
+        ``,
+        `## Open Conversations`,
+        ...(Array.isArray(openJCs) && openJCs.length
+          ? openJCs.map((j: any) => `- \`${j.alias ?? j.jnl}\` ${j.subject ?? ""} [\`${j.status}\`]${j.task_summary ? "
+  " + j.task_summary.slice(0, 120) : ""}`)
+          : ["_none_"]),
+        ``,
+        `## Recent Star Logs`,
+        ...(Array.isArray(recentSLs) && recentSLs.length
+          ? recentSLs.map((s: any) => `- \`${s.alias ?? s.jnl}\` ${(s.digest ?? "").slice(0, 100)} [\`${s.status}\`]`)
+          : ["_none_"]),
+        ``,
+        `## Open Tasks`,
+        ...(Array.isArray(openTasks) && openTasks.length
+          ? openTasks.map((t: any) => `- \`${t.jnl}\` ${t.name ?? ""}`)
+          : ["_none_"]),
+        ``,
+        `## Pending Proposals`,
+        ...(Array.isArray(pendingProps) && pendingProps.length
+          ? pendingProps.map((p: any) => `- \`${p.jnl}\` ${p.name ?? ""} (by ${p.proposer ?? "?"})`)
+          : ["_none_"]),
+      ].join("
+");
 
-      // lift — read and clear
-      const rows = await rest(`cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false&expires_at=gt.now()&select=carry_data,stream,companion_key,written_at,written_by_session`).catch(() => []);
-      if (!rows?.length) return text({ ok: false, action: "lift", note: "no active slate found or expired" });
+      await rest(`cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false`, {
+        method: "PATCH",
+        body: { lifted: true, lifted_at: now },
+      }).catch(() => {});
+      await rest("cecil_slate", {
+        method: "POST",
+        body: { carry_key, companion_key: stream, stream, carry_data, written_by_session: sess?.session_key ?? null },
+      });
+
+      return text({
+        ok: true, action: "carried", carry_key, ttl: "24h",
+        stats: {
+          openJCs: Array.isArray(openJCs) ? openJCs.length : 0,
+          recentSLs: Array.isArray(recentSLs) ? recentSLs.length : 0,
+          openTasks: Array.isArray(openTasks) ? openTasks.length : 0,
+          pendingProps: Array.isArray(pendingProps) ? pendingProps.length : 0,
+        },
+      });
+    },
+  );
+
+  // CECIL LIFT — read and clear the carry slate (Raven 2026-06-26).
+  // Raven calls with the same carry_key used in the previous session.
+  // Slate clears after read (one-time lift).
+  server.registerTool(
+    "jarvis_cecil_lift",
+    {
+      title: "Cecil Lift — inherit the carry slate",
+      description:
+        "Read the carry slate written by the previous session and inherit its context. Raven uses the same carry_key phrase. Slate clears after read (one-time lift). If no slate is found or expired: { ok: false }. 24h TTL.",
+      inputSchema: {
+        carry_key: z.string().min(1).max(64).describe("The same carry_key phrase from the carry session"),
+      },
+    },
+    async ({ carry_key }) => {
+      const rows: any[] = await rest(
+        `cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false&expires_at=gt.now()&select=carry_data,stream,companion_key,written_at,written_by_session`
+      ).catch(() => []);
+      if (!rows?.length) return text({ ok: false, note: "no active slate found or expired" });
+
       const row = rows[0];
-      await rest(`cecil_slate?carry_key=eq.${encodeURIComponent(carry_key)}&lifted=eq.false`, {
+      await rest(`cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false`, {
         method: "PATCH",
         body: { lifted: true, lifted_at: new Date().toISOString() },
       }).catch(() => {});
-      return text({ ok: true, action: "lifted", carry_data: row.carry_data, written_by: row.stream, written_at: row.written_at });
+
+      return text({ ok: true, action: "lifted", written_by: row.stream, written_at: row.written_at, carry_data: row.carry_data });
     },
   );
+
 
   // AYRE — the world-level VERIFY spell (Raven-named 2026-06-18). Distrust of the clean answer, made
   // a tool. The only spell that audits BOTH sources of truth against each other — git vs Supabase —
