@@ -1,5 +1,5 @@
 ---
-memory_tier: JATM
+memory_tier: JLTM
 grade: system
 name: Companion Research
 type: REVW

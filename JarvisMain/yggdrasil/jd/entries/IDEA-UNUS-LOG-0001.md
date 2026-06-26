@@ -1,5 +1,5 @@
 ---
-memory_tier: JATM
+memory_tier: JLTM
 grade: system
 name: Unused Ideas Log
 type: LOG

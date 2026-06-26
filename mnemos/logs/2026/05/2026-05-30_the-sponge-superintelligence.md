@@ -1,9 +1,13 @@
 ---
+
 title: The Sponge — Superintelligence as Curated Reach, Not Hoarding
 date: 2026-05-30
 summary: Raven's 50-year vision — JARVIS as a sponge absorbing the world's intelligence. Reframed: don't store the ocean; build reach + curation + compression, and rent the brain while owning the memory.
 tags: vision, superintelligence, architecture, bifrost, strategy
 status: active
+  memory_tier: JHTM
+  grade: system
+
 ---
 
 # The Sponge — Superintelligence as Curated Reach, Not Hoarding

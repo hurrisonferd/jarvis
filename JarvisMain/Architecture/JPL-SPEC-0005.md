@@ -16,7 +16,7 @@ source: Raven (John Barber) — "Tim Follin style. Compression as creative force
 tags: [jpl, research, compression, information-theory, follin, musicos, grid, spatial]
 related: [ARCH-JPL-SPEC-0001, ARCH-JRV-TRAP-0001, ARCH-MUS-0001]
 ref: [JPL, RESEARCH, COMPRESSION]
-memory_tier: JATM
+memory_tier: JLTM
 ---
 
 # JPL Research — The Follin Program

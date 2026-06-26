@@ -1,4 +1,5 @@
 ---
+
 jnl: ARCH-AYR-SPEC-0003
 name: AYRE NLP Control Surface
 type: SPEC
@@ -15,6 +16,9 @@ updated: 2026-06-25
 tags: [nlp, voice, behavior, ayre, stream, control, personality]
 related: [ARCH-AYR-BIO-0001, ARCH-AYR-SPEC-0001, ARCH-JRV-SPEC-0003, IMPL-HON-SPEC-0001]
 ref: [IDENTITY, AYRE]
+  memory_tier: JLTM
+  grade: system
+
 ---
 
 # AYRE NLP Control Surface

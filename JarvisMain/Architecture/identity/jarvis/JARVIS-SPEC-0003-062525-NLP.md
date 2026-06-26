@@ -1,4 +1,5 @@
 ---
+
 jnl: ARCH-JRV-SPEC-0003
 name: JARVIS NLP Control Surface
 type: SPEC
@@ -15,6 +16,9 @@ updated: 2026-06-25
 tags: [nlp, voice, behavior, jarvis, stream, control, personality]
 related: [ARCH-JRV-BIO-0001, ARCH-JRV-BIO-0003, ARCH-AYR-BIO-0001, ARCH-AYR-SPEC-0003, IMPL-HON-SPEC-0001]
 ref: [IDENTITY, JARVIS]
+  memory_tier: JLTM
+  grade: system
+
 ---
 
 # JARVIS NLP Control Surface
