@@ -1755,7 +1755,7 @@ function buildServer(req: Request): McpServer {
         ...(Array.isArray(openJCs) && openJCs.length
           ? openJCs.map((j: any) => {
             const ts = j.task_summary ? "\n  " + j.task_summary.slice(0, 120) : "";
-            return `- \`${j.alias ?? j.jnl}\` ${j.subject ?? ""} [\`${j.status}\`]${ts}\`;
+            return `- \`${j.alias ?? j.jnl}\` ${j.subject ?? ""} [\`${j.status}\`]${ts}`;
           })
           : ["_none_"]),
         ``,
@@ -1773,8 +1773,7 @@ function buildServer(req: Request): McpServer {
         ...(Array.isArray(pendingProps) && pendingProps.length
           ? pendingProps.map((p: any) => `- \`${p.jnl}\` ${p.name ?? ""} (by ${p.proposer ?? "?"})`)
           : ["_none_"]),
-      ].join("
-");
+      ].join("");
 
       await rest(`cecil_slate?carry_key=eq.${ "$" }{encodeURIComponent(carry_key)}&lifted=eq.false`, {
         method: "PATCH",
