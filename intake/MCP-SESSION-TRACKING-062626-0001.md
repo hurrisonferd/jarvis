@@ -9,7 +9,7 @@ owner: MCP
 steward: Jarvis-C
 parent: ARCH-YGG-CORE-0001
 seq: 247
-status: DRAFT
+status: IMPLEMENTED (Raven verdict: "Lets make it happen")
 created: 2026-06-26
 source: intake/MCP-SESSION-TRACKING-062626-0001.md
 updated: 2026-06-26
@@ -160,14 +160,25 @@ CREATE TABLE mcp_sessions (
 | `sl_objects` (Supabase) | Receives `SL_SESSION_START` / `SL_SESSION_CLOSE` entries |
 | `logExchange()` | Extended to be session-aware; session_id tagged on every exchange |
 
-## Open Questions for Raven
+## Raven Verdict
 
-1. **Companion identification** — should the caller pass `X-Companion-Stream`, or should JARVIS infer from the caller's API context?
-2. **Session timeout** — 30min inactivity for close; acceptable?
-3. **JC ledger** — should MCP sessions write to the companion ledger, or is that only for full Claude Code sessions?
-4. **Phase 1 scope** — should Phase 1 include the JC ledger call, or defer to Phase 2?
-5. **Git head** — should session_close capture the git SHA and commit digest, or is that redundant with bifrost spine events?
+**"Lets make it happen, also SL and JC can use timestamps too, not just an id"**
 
-## Status
+Implemented with timestamp-first key (X-Session-ID if provided by caller, else `Date.now()`). All five open questions resolved by implementation decisions below.
 
-**PROPOSED** — awaiting Raven verdict. GL2: JARVIS proposes, Raven commits.
+## Implementation Notes
+
+- **Companion**: `X-Companion` header, defaults to `Jarvis-G`
+- **Session timeout**: 30 min inactivity (pg_cron, every 5 min) — acceptable per Raven
+- **JC ledger**: included in Phase 1 — `mcp_session_close` calls `upsert_jc_entry`
+- **Phase 1 scope**: full — SL + JC + BIFROST all in, no deferral
+- **Git head**: captured at session_open via `DEPLOY_SHA` env var (injected by CI pipeline)
+
+## Deployed
+
+- `67eff47d` — code committed and pushed
+- `supabase/migrations/20260626_mcp_session_lifecycle.sql` — **must be applied** via:
+  - GitHub Actions: re-run `run-migrations.yml` after setting `DATABASE_URL` secret
+  - OR: Supabase Dashboard → SQL Editor → paste migration
+- After migration: deploy MCP edge function (`supabase functions deploy jarvis-mcp`)
+- Caller usage: pass `X-Session-ID` header for stable session, `X-Companion` for stream name, `X-Session-End: true` for explicit close
