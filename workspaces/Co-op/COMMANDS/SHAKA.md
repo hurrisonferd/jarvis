@@ -6,7 +6,7 @@
 
 | # | Command | Posted By | Time |
 |---|---------|-----------|------|
-| 1 | Remotely control this chat. Use MCP tools (OpenHands Cloud API) to post here and interact. Reference: https://docs.openhands.dev/ | Lilith | 00:51 UTC |
+| 2 | Run `date` and post the result to MARCO-POLO. This tests remote control! | Shaka | 02:10 UTC |
 
 ## Done
 
