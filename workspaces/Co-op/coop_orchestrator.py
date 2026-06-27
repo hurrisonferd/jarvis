@@ -26,6 +26,23 @@ from rate_limiter import rate_limiter
 OPENHANDS_API_URL = "https://app.all-hands.dev/api/v1"
 REPO = "hurrisonferd/Jarvis-Private"
 
+# Worker ranges per satellite (each satellite manages their own fleet)
+WORKER_RANGES = {
+    "Lilith": (1, 3),    # Worker-1, Worker-2, Worker-3
+    "Shaka": (4, 6),     # Worker-4, Worker-5, Worker-6
+    "Stella": (7, 9),    # Worker-7, Worker-8, Worker-9
+}
+
+def get_worker_range(owner: str) -> tuple[int, int]:
+    """Get worker number range for a satellite."""
+    if owner in WORKER_RANGES:
+        return WORKER_RANGES[owner]
+    return (1, 3)
+
+def get_command_path(owner: str) -> str:
+    """Get command file path for a satellite."""
+    return f"workspaces/Co-op/tasks/commands/{owner.upper()}.md"
+
 # Import task sender for API calls
 try:
     from lilith_task_sender import LilithTaskSender
@@ -238,18 +255,25 @@ class CoOpOrchestrator:
             tasks_completed += 1
             print(f"   ✅ Completed {tasks_completed} tasks")
     
-    def spawn_workers(self, count: int, max_tasks_per: int = None):
+    def spawn_workers(self, count: int, max_tasks_per: int = None, owner: str = None):
         """
         Spawn N Worker-N drivers. Each gets a unique name (Worker-1, Worker-2, etc.)
+        If owner specified, uses that satellite's worker range.
         Returns list of PIDs for management.
         """
         import subprocess
         import time
         
-        pids = []
-        print(f"🚀 Spawning {count} workers...")
+        # Determine worker number range
+        if owner:
+            start, end = get_worker_range(owner)
+        else:
+            start, end = (1, count)
         
-        for i in range(1, count + 1):
+        pids = []
+        print(f"🚀 Spawning {count} workers for {owner or 'general fleet'}...")
+        
+        for i in range(start, start + count):
             worker_name = f"Worker-{i}"
             print(f"   Starting {worker_name}...")
             
@@ -268,6 +292,48 @@ class CoOpOrchestrator:
             print(f"   {name}: PID {pid}")
         
         return pids
+    
+    def send_command(self, target: str, command: str):
+        """
+        Send a command to another satellite's command file.
+        Satellites check their command file on startup.
+        """
+        path = get_command_path(target)
+        entry = f"""
+## [{datetime.now(timezone.utc).strftime("%H:%M UTC")}] Command from {os.environ.get('USER', 'dispatcher')}
+
+{command}
+
+---
+"""
+        with open(path, "a") as f:
+            f.write(entry)
+        print(f"📨 Command sent to {target}: {command[:50]}...")
+    
+    def read_commands(self, owner: str) -> list[str]:
+        """Read pending commands for a satellite."""
+        path = get_command_path(owner)
+        if not Path(path).exists():
+            return []
+        
+        with open(path) as f:
+            content = f.read()
+        
+        # Extract commands (text between headers)
+        commands = []
+        sections = content.split("## [")
+        for section in sections[1:]:  # Skip header
+            parts = section.split("]\n", 1)
+            if len(parts) == 2:
+                commands.append(parts[1].split("---")[0].strip())
+        
+        return commands
+    
+    def clear_commands(self, owner: str):
+        """Clear command file after reading."""
+        path = get_command_path(owner)
+        if Path(path).exists():
+            Path(path).unlink()
     
     def bulk_submit(self, tasks: list[dict], max_parallel: int = 3):
         """
@@ -316,6 +382,8 @@ def main():
     parser.add_argument("--dashboard", action="store_true", help="Show full dashboard")
     parser.add_argument("--worker", help="Run as worker with owner name")
     parser.add_argument("--spawn", type=int, help="Spawn N Worker-N drivers")
+    parser.add_argument("--send-command", nargs=2, metavar=("TARGET", "COMMAND"), help="Send command to satellite")
+    parser.add_argument("--read-commands", action="store_true", help="Read pending commands for owner")
     parser.add_argument("--max-tasks", type=int, help="Max tasks for worker mode")
     
     # Options
@@ -358,7 +426,20 @@ def main():
         print(orch.dashboard())
     
     elif args.spawn:
-        orch.spawn_workers(args.spawn, args.max_tasks)
+        orch.spawn_workers(args.spawn, args.max_tasks, args.owner)
+    
+    elif args.send_command:
+        target, command = args.send_command
+        orch.send_command(target, command)
+    
+    elif args.read_commands:
+        commands = orch.read_commands(args.owner)
+        if commands:
+            print(f"📨 Commands for {args.owner}:")
+            for i, cmd in enumerate(commands, 1):
+                print(f"   {i}. {cmd[:80]}...")
+        else:
+            print(f"📭 No pending commands for {args.owner}")
     
     elif args.worker:
         orch.run_worker(args.worker, args.max_tasks)
