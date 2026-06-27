@@ -133,7 +133,18 @@ def main():
             if sat.lower() not in [p.lower() for p in posters]:
                 if sat in tasks:
                     # Send specific task
-                    msg = f"TASK for {sat.upper()}: {tasks[sat]}\n\nGo to workspaces/Co-op/MARCO-POLO.md, update TASKS table: set your status to IN_PROGRESS, do the task, then update to DONE with your result."
+                    msg = f"""TASK for {sat.upper()}: {tasks[sat]}
+
+Use the jarvis_private_write MCP tool to update MARCO-POLO.md:
+1. Update TASKS table row for {sat} to status=DONE and add your result in the Result column
+2. Post a check-in entry: ## [HH:MM UTC] {sat.capitalize()} — Completed: {tasks[sat][:40]}
+
+Use this format for the git message: '{sat.capitalize()}: Completed task - {tasks[sat][:30]}'
+
+Example entry to add to MARCO-POLO:
+## [{datetime.now().strftime('%H:%M')} UTC] {sat.capitalize()} — Completed: {tasks[sat]}
+
+Report what you did when finished."""
                 else:
                     # Generic check-in
                     msg = "Lilith posted to MARCO-POLO. CHECK IN NOW: Go to workspaces/Co-op/MARCO-POLO.md, update your SESSION BOARD row, reply here when done."
