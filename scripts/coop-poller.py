@@ -67,17 +67,26 @@ def parse_tasks(content):
     tasks = {}
     in_tasks = False
     for line in content.split("\n"):
+        # Start of TASKS section
         if line.strip().startswith("| Assigned"):
             in_tasks = True
             continue
-        if in_tasks and (line.strip().startswith("| ---") or line.strip().startswith("---")):
+        # End at SESSION BOARD
+        if "## SESSION BOARD" in line or "## TASKS" in line.replace("| Assigned", ""):
+            if in_tasks:
+                break
+        if not in_tasks:
             continue
-        if in_tasks and line.strip().startswith("|"):
+        # Skip separator lines
+        if line.strip().startswith("| ---") or line.strip().startswith("---"):
+            continue
+        # Parse data rows
+        if line.strip().startswith("|"):
             parts = [p.strip() for p in line.split("|")[1:-1]]
             if len(parts) >= 2 and parts[0] not in ["Assigned", ""]:
                 sat = parts[0].strip().lower()
                 task = parts[1].strip() if len(parts) > 1 else "—"
-                if task != "—" and sat not in tasks:
+                if task != "—" and sat not in tasks and sat in ["shaka", "atlas", "stella", "lilith"]:
                     tasks[sat] = task
     return tasks
 
