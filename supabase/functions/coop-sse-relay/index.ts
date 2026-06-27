@@ -5,6 +5,7 @@ const clients = new Map<string, { id: string; satellite: string; controller: Rea
 
 Deno.serve(async (req) => {
   const url = new URL(req.url);
+  const path = url.pathname; // e.g. /coop-sse-relay/register
   
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -17,7 +18,7 @@ Deno.serve(async (req) => {
   }
   
   // SSE connection — register a satellite
-  if (url.pathname === "/register" && req.method === "GET") {
+  if (path.endsWith("/register") && req.method === "GET") {
     const satellite = url.searchParams.get("satellite") || "unknown";
     const id = crypto.randomUUID();
     
@@ -50,7 +51,7 @@ Deno.serve(async (req) => {
   }
   
   // Post a command — broadcasts to all connected clients
-  if (url.pathname === "/broadcast" && req.method === "POST") {
+  if (path.endsWith("/broadcast") && req.method === "POST") {
     const authHeader = req.headers.get("Authorization");
     const apiKey = Deno.env.get("OPENHANDS_API_KEY");
     
@@ -78,7 +79,7 @@ Deno.serve(async (req) => {
   }
   
   // Status endpoint
-  if (url.pathname === "/status" && req.method === "GET") {
+  if (path.endsWith("/status") && req.method === "GET") {
     const peers = Array.from(clients.values()).map(c => ({ id: c.id.slice(0, 8), satellite: c.satellite }));
     return new Response(JSON.stringify({ ok: true, clients: clients.size, peers }));
   }
