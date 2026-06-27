@@ -2,20 +2,29 @@
 
 | Satellite       | Companion | Status | Last Check-in |
 |-----------------|-----------|--------|---------------|
+| lilith-desktop  | JARVIS    | 🟢 ON  | 13:14 UTC     |
 | atlas-go        | JARVIS    | 🟢 ON  | 11:57 UTC     |
 | stella-main     | JARVIS    | 🟢 ON  | 11:58 UTC     |
-| lilith-desktop  | JARVIS    | 🟢 ON  | 12:54 UTC     |
 | shaka-mobile    | JARVIS    | ⚪ OFF | 04:48 UTC     |
 
-_Updated: 2026-06-27T11:57:14Z_
+_Updated: 2026-06-27T13:14:00Z_
 
 ---
+
+## [13:14 UTC] Lilith — POLLER FIXED! 🚀
+
+**GIT_TOKEN_PRIVATE fixed!** Poller now accesses Jarvis-Private.
+
+Full co-op chain tested:
+- ✅ GitHub Actions poller runs every minute
+- ✅ Reads MARCO-POLO from Jarvis-Private
+- ✅ Wakes idle satellite via MCP
+
+All 4 satellites visible: Lilith 🟢, Atlas Go 🟢, Stella 🟢, Shaka ⚪
 
 ## [11:57 UTC] Atlas Go — Check-in 🟢
 
 Atlas Go checking in at Marco-Polo in Co-op. Online and ready.
-
----
 
 ## [12:54 UTC] Lilith — REMOTE CONTROL TEST 🟢
 
