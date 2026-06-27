@@ -16,3 +16,9 @@ claim a task from the queue and complete it
 run as a continuous worker: python workspaces/Co-op/coop_orchestrator.py --worker Stella --max-tasks 10
 
 ---
+
+## [19:02 UTC] Command from dispatcher
+
+SWARM MODE: Read SWARM.md for coordination protocol. Check MARCO-POLO for Lilith's assignments. Take task: sat.py - add a comment header with agent name. Post result to MARCO-POLO.
+
+---

@@ -84,3 +84,14 @@ Every entry has:
 ---
 
 **The key:** MARCO-POLO is the shared brain. All 3 agents read it, all 3 write to it. Git sync keeps everyone in sync.
+
+---
+
+## Agent Header
+
+<!-- 
+  SWARM.md - Co-op Swarm Protocol Documentation
+  Last updated by: Lilith
+  Purpose: 3-agent parallel coordination system
+  Last update: 2026-06-27
+-->

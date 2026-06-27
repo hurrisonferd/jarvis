@@ -145,3 +145,10 @@ if __name__ == "__main__":
     
     satellite = sys.argv[1].capitalize()
     bootstrap(satellite)
+
+# ============================================================
+# Agent: Shaka
+# Task: Add header comment to startup.py
+# Date: 2026-06-27
+# ============================================================
+
