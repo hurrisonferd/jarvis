@@ -2,7 +2,7 @@ name: COOP-Poller
 
 on:
   schedule:
-    - cron: "*/5 * * * *"   # every 5 minutes
+    - cron: "* * * * *"   # every 1 minute (GitHub Actions minimum)
   workflow_dispatch:          # manual trigger
 
 jobs:
