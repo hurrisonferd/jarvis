@@ -2,28 +2,41 @@
 
 **Vegapunk's Satellite System** — Lilith (desktop) and Shaka (mobile), two workers, one keel.
 
-**Purpose:** Coordination layer for concurrent sessions. Not a message log — a shared task and state board that both sessions poll on action.
+**Purpose:** Orchestration layer for parallel sessions. You pilot both satellites from either device. Both poll Co-op on every turn.
 
-**Sessions:**
+**Satellites:**
 - **Lilith** — desktop (the original, more resources, longer sessions)
 - **Shaka** — mobile (on-the-go, quick tasks, handoffs)
 
 **Folders:**
-- `sessions/` — session manifests (which satellite, what task, target files, heartbeat)
+- `COMMANDS/` — where you post tasks for each satellite
+  - `LILITH.md` — commands for desktop
+  - `SHAKA.md` — commands for mobile
+  - `SHARED.md` — tasks split between both (then merged)
+- `sessions/` — session manifests (satellite name, device, task, heartbeat)
 - `tasks/` — shared task queue (who's working on what)
 - `notes/` — ad-hoc handoffs between satellites
+- `MARCO-POLO.md` — shared log, both append
 
 **Rules:**
-1. Session starts → write manifest to `sessions/` (satellite name, device, task, target files, status)
-2. Session claims a task → write to `tasks/` before touching those files
-3. Session finishes → clear claim, move to notes if handoff needed
-4. No silent overwrites — append, don't rm
+1. You post command → either satellite picks it up on next turn
+2. Satellite executes → posts result to MARCO-POLO
+3. No silent overwrites — append to command files, mark done not deleted
 
-**Heartbeat:** Each satellite writes its manifest every ~60s. Stale manifests (>5min old) = satellite offline, claim released.
+## Session Protocol (each turn)
 
-## Session Protocol
+1. **Read commands** → check COMMANDS/{SATELLITE}.md for pending tasks
+2. **Execute** → run the command, post result to MARCO-POLO
+3. **Mark done** → move command to Done section
+4. **Heartbeat** → update manifest with current task
 
-1. **Start** → pull Co-op, write manifest to `sessions/`, post to MARCO-POLO
-2. **Each turn** → pull Co-op, check other satellite's manifest + MARCO-POLO
-3. **Finish chunk** → update manifest, post summary to MARCO-POLO
-4. **End session** → mark manifest done, post to MARCO-POLO
+## Example Usage
+
+**From desktop:** "Lilith, run JVE" + "Shaka, check the JATM"
+→ Both work in parallel, both post to MARCO-POLO
+
+**From mobile:** "Shaka, audit the GRIMOIRE"
+→ Shaka executes, Lilith sees result on next turn
+
+**Shared task:** "Compare ARCHREFIDX across both repos"
+→ Lilith checks jarvis, Shaka checks Jarvis-Private, merge in SHARED.md
