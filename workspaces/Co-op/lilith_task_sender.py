@@ -29,7 +29,17 @@ MARCO_POLO_PATH = "workspaces/Co-op/MARCO-POLO.md"
 
 class LilithTaskSender:
     def __init__(self, api_key: str = None):
-        self.api_key = api_key or os.environ.get("OPENHANDS_CLOUD_API_KEY")
+        # Load from env file if not in environment
+        if not api_key:
+            api_key = os.environ.get("OPENHANDS_CLOUD_API_KEY")
+            if not api_key:
+                env_file = Path.home() / ".jarvis" / ".env.local"
+                if env_file.exists():
+                    for line in env_file.read_text().strip().split('\n'):
+                        if '=' in line and line.startswith('OPENHANDS_CLOUD_API_KEY'):
+                            api_key = line.split('=', 1)[1].strip()
+        
+        self.api_key = api_key
         if not self.api_key:
             raise ValueError("OPENHANDS_CLOUD_API_KEY not set. Get it from https://app.all-hands.dev/settings/api-keys")
         self.headers = {
@@ -52,7 +62,8 @@ class LilithTaskSender:
         params = {"ids": conversation_id}
         resp = requests.get(url, headers=self.headers, params=params)
         resp.raise_for_status()
-        items = resp.json().get("items", [])
+        data = resp.json()
+        items = data if isinstance(data, list) else data.get("items", [])
         return items[0] if items else None
     
     def delete_sandbox(self, sandbox_id: str):
@@ -109,6 +120,13 @@ class LilithTaskSender:
         """Build a task prompt that includes MARCO-POLO posting and self-deletion."""
         return f"""{task}
 
+## IMPORTANT: Setup Git First
+Before making any commits, configure git:
+```bash
+git config user.email "shaka@jarvis.local"
+git config user.name "Shaka"
+```
+
 ## After completing your task, you MUST do the following in order:
 
 ### Step 1: Post results to MARCO-POLO
@@ -116,7 +134,7 @@ Create a new entry in MARCO-POLO.md (workspaces/Co-op/MARCO-POLO.md) with your t
 
 Format your entry like this:
 ```
-## [HH:MM UTC] Lilith-Task — Task Summary
+## [HH:MM UTC] Shaka-Task — Task Summary
 
 **Task:** [brief description]
 **Status:** ✅ DONE / ❌ FAILED
@@ -126,21 +144,32 @@ Format your entry like this:
 ---
 ```
 
-### Step 2: Delete this conversation
-After posting to MARCO-POLO, you MUST delete this conversation to clean up the sandbox.
-
-Use curl to call the delete endpoint:
+### Step 2: Commit and push your changes
 ```bash
-curl -X DELETE "$AGENT_SERVER_URL/api/conversations/$CONVERSATION_ID" \
+cd /workspace/project/Jarvis-Private
+git add -A
+git commit -m "[Co-op] Shaka task complete"
+git push origin main
+```
+
+### Step 3: Delete this conversation
+After pushing, delete this conversation to clean up the sandbox.
+
+First, get the environment variables:
+```bash
+cat /workspace/conversations/$CONVERSATION_ID/meta.json | python3 -c "import sys,json; d=json.load(sys.stdin); print(d.get('runtime_url', 'http://127.0.0.1:60000'), d.get('session_api_key', ''))"
+```
+
+Then delete:
+```bash
+curl -X DELETE "http://127.0.0.1:60000/api/conversations/$CONVERSATION_ID" \
   -H "X-Session-API-Key: $SESSION_API_KEY"
 ```
 
-Replace the environment variables with their actual values from your sandbox.
+### Step 4: Confirm deletion
+If the delete returns {{"success": true}}, the sandbox will self-destruct. You're done!
 
-### Step 3: Confirm
-After deletion, the sandbox will be removed automatically.
-
-DO NOT stop before completing all three steps. The deletion is required for cleanup."""
+DO NOT stop before completing all steps. The commit+push ensures your work is visible in MARCO-POLO."""
 
 
 def read_task_file(filepath: str) -> str:
