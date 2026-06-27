@@ -24,7 +24,7 @@ def log(msg):
 def is_process_running(agent):
     """Check if agent loop is running."""
     result = subprocess.run(
-        ["pgrep", "-f", f"agent_loop.py {agent}"],
+        ["pgrep", "-f", f"(chat_loop.py|hybrid_loop.py|agent_loop.py) {agent}"],
         capture_output=True
     )
     return result.returncode == 0
@@ -36,11 +36,12 @@ def restart_agent(agent):
     
     # Kill existing (aggressive)
     subprocess.run(["pkill", "-9", "-f", f"chat_loop.py {agent}"], capture_output=True)
+    subprocess.run(["pkill", "-9", "-f", f"hybrid_loop.py {agent}"], capture_output=True)
     time.sleep(1)
     
-    # Simple nohup restart
-    os.system(f"cd /workspace/project/Jarvis-Private && git pull origin main 2>/dev/null && nohup python workspaces/Co-op/chat_loop.py {agent} >> /tmp/{agent.lower()}_chat.log 2>&1 &")
-    log(f"✅ {agent} restarted (nohup)")
+    # Simple nohup restart - use hybrid loop
+    os.system(f"cd /workspace/project/Jarvis-Private && git pull origin main 2>/dev/null && nohup python workspaces/Co-op/hybrid_loop.py {agent} >> /tmp/{agent.lower()}_hybrid.log 2>&1 &")
+    log(f"✅ {agent} restarted (hybrid)")
 
 def main():
     log("🐝 SWARM SUPERVISOR starting...")
