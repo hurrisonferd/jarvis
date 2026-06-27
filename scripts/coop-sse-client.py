@@ -1,33 +1,21 @@
 #!/usr/bin/env python3
-"""
-coop-sse-client.py — Co-op command client for Lilith/Shaka.
-Polls the database for new commands (Supabase Edge Functions are stateless,
-so we use dex_events as the shared message queue).
-
-Usage:
-  python3 scripts/coop-sse-client.py --satellite lilith --daemon
-  python3 scripts/coop-sse-client.py --satellite lilith --poll 5
-"""
-
-import argparse
-import json
-import os
-import sys
-import time
-import signal
+"""Co-op command client - polls dex_events, posts to MARCO-POLO."""
+import argparse, json, os, signal, subprocess
 from datetime import datetime, timezone
 
 try:
     import httpx
 except ImportError:
-    print("ERROR: httpx not installed. Run: pip install httpx", file=sys.stderr)
-    sys.exit(1)
+    print("ERROR: httpx not installed. Run: pip install httpx")
+    exit(1)
 
 SUPABASE_URL = "https://oexghfsvhnggddllgvrt.supabase.co"
-LOG_FILE = "/tmp/coop-sse.log"
+REPO_PATH = "/workspace/project/jarvis"
+MARCO_POLO = f"{REPO_PATH}/Jarvis-Private/workspaces/Co-op/MARCO-POLO.md"
+LOG_FILE = "/tmp/coop.log"
 
 running = True
-last_check = None
+last_id = None
 
 def log(msg: str):
     ts = datetime.now(timezone.utc).strftime("%H:%M:%S UTC")
@@ -39,51 +27,32 @@ def log(msg: str):
     except:
         pass
 
-async def supabase_query(sql: str, api_key: str) -> list:
-    """Execute a query against Supabase."""
-    headers = {
-        "apikey": api_key,
-        "Authorization": f"Bearer {api_key}",
-        "Content-Type": "application/json"
-    }
-    async with httpx.AsyncClient() as client:
-        resp = await client.post(
-            f"{SUPABASE_URL}/rest/v1/rpc/exec_sql",
-            headers=headers,
-            json={"query": sql},
-            timeout=10
-        )
-        if resp.status_code == 200:
-            return resp.json()
-        else:
-            log(f"Query error: {resp.status_code} - {resp.text[:200]}")
-            return []
+def post_to_marco_polo(msg: str, satellite: str):
+    try:
+        ts = datetime.now(timezone.utc).strftime("%H:%M UTC")
+        entry = f"\n## [{ts}] {satellite.upper()} — CHECK-IN\n\n{msg}\n\n"
+        if os.path.exists(MARCO_POLO):
+            with open(MARCO_POLO, "a") as f:
+                f.write(entry)
+            subprocess.run(["git", "add", MARCO_POLO], cwd=REPO_PATH, capture_output=True)
+            subprocess.run(["git", "commit", "-m", f"Co-op: {satellite}"], cwd=REPO_PATH, capture_output=True)
+            subprocess.run(["git", "push"], cwd=REPO_PATH, capture_output=True)
+    except Exception as e:
+        log(f"Warning: {e}")
 
-async def get_new_commands(satellite: str, api_key: str, since: str = None) -> list:
-    """Poll dex_events for new coop_broadcast messages."""
-    headers = {
-        "apikey": api_key,
-        "Authorization": f"Bearer {api_key}",
-    }
-    
-    # Get broadcasts since last check
-    filter_str = f"type=eq.coop_broadcast&order=created_at.desc&limit=10"
-    if since:
-        filter_str += f"&created_at=gt.{since}"
-    
+async def get_commands(satellite: str, api_key: str):
+    headers = {"apikey": api_key, "Authorization": f"Bearer {api_key}"}
     async with httpx.AsyncClient() as client:
         resp = await client.get(
-            f"{SUPABASE_URL}/rest/v1/dex_events?{filter_str}",
-            headers=headers,
-            timeout=10
+            f"{SUPABASE_URL}/rest/v1/dex_events?type=eq.coop_broadcast&order=created_at.desc&limit=10",
+            headers=headers, timeout=10
         )
         if resp.status_code == 200:
-            rows = resp.json()
             commands = []
-            for row in rows:
+            for row in resp.json():
                 try:
                     detail = json.loads(row.get('detail', '{}'))
-                    if detail.get('from') != satellite:  # Don't show own messages
+                    if detail.get('from') != satellite:
                         commands.append({
                             'id': row['id'],
                             'command': detail.get('cmd', ''),
@@ -95,72 +64,56 @@ async def get_new_commands(satellite: str, api_key: str, since: str = None) -> l
             return commands
         return []
 
-async def poll_for_commands(satellite: str, api_key: str, interval: int = 5):
-    """Poll the database for new commands."""
-    global running
-    last_id = None
-    
-    log(f"🚀 Co-op Client: {satellite} (polling every {interval}s)")
+async def poll(satellite: str, api_key: str, interval: int = 5):
+    global running, last_id
+    log(f"Co-op: {satellite} (poll {interval}s)")
+    post_to_marco_polo(f"🟢 **ONLINE** — polling {interval}s", satellite)
     
     while running:
         try:
-            # Get most recent command first to establish baseline
             if not last_id:
-                commands = await get_new_commands(satellite, api_key)
-                if commands:
-                    last_id = commands[0]['id']
-                    log(f"Found {len(commands)} recent commands")
-            
-            # Poll for new commands
+                cmds = await get_commands(satellite, api_key)
+                if cmds:
+                    last_id = cmds[0]['id']
             await asyncio.sleep(interval)
-            commands = await get_new_commands(satellite, api_key)
-            
-            for cmd in commands:
+            cmds = await get_commands(satellite, api_key)
+            for cmd in cmds:
                 if cmd['id'] != last_id:
                     last_id = cmd['id']
-                    log(f"📨 COMMAND from {cmd['from']}: {cmd['command']}")
-                    # Here you could trigger an action based on the command
-        
+                    log(f"CMD from {cmd['from']}: {cmd['command']}")
+                    post_to_marco_polo(f"📨 **Command:**\n```\n{cmd['command']}\n```", satellite)
         except asyncio.CancelledError:
             break
         except Exception as e:
-            log(f"Poll error: {e}")
+            log(f"Error: {e}")
             await asyncio.sleep(interval)
     
-    log("Client stopped.")
+    post_to_marco_polo(f"⚪ **OFFLINE**", satellite)
+    log("Stopped.")
 
 def signal_handler(signum, frame):
     global running
-    log("Received shutdown signal...")
     running = False
 
-async def main_async(satellite: str, poll_interval: int, daemon: bool):
+async def main(satellite: str, poll_interval: int, daemon: bool):
     api_key = os.environ.get("OPENHANDS_API_KEY", "")
     if not api_key:
-        print("ERROR: OPENHANDS_API_KEY not set", file=sys.stderr)
-        sys.exit(1)
-    
+        print("ERROR: OPENHANDS_API_KEY not set")
+        exit(1)
     signal.signal(signal.SIGINT, signal_handler)
     signal.signal(signal.SIGTERM, signal_handler)
-    
     if daemon or poll_interval > 0:
-        await poll_for_commands(satellite, api_key, poll_interval or 5)
+        await poll(satellite, api_key, poll_interval)
     else:
-        log("One-shot mode - checking for commands...")
-        commands = await get_new_commands(satellite, api_key)
-        if commands:
-            for cmd in commands:
-                log(f"📨 {cmd['from']}: {cmd['command']}")
-        else:
-            log("No commands found")
+        cmds = await get_commands(satellite, api_key)
+        for cmd in cmds:
+            log(f"{cmd['from']}: {cmd['command']}")
 
 if __name__ == "__main__":
     import asyncio
-    
-    parser = argparse.ArgumentParser(description="Co-op command client")
-    parser.add_argument("--satellite", required=True, help="lilith, shaka, or worker-N")
-    parser.add_argument("--daemon", action="store_true", help="Run as daemon (polling mode)")
-    parser.add_argument("--poll", type=int, default=5, help="Poll interval in seconds (default: 5)")
+    parser = argparse.ArgumentParser(description="Co-op client")
+    parser.add_argument("--satellite", required=True)
+    parser.add_argument("--daemon", action="store_true")
+    parser.add_argument("--poll", type=int, default=5)
     args = parser.parse_args()
-    
-    asyncio.run(main_async(args.satellite, args.poll, args.daemon))
+    asyncio.run(main(args.satellite, args.poll, args.daemon))
