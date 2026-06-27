@@ -99,18 +99,25 @@ When running as Lilith (desktop) or Shaka (mobile), Co-op is the shared ground.
 - **Limits when ON:** max 10 polls/min, max 30 turns/session, 1hr timeout
 - Read `Co-op/MODE.md` for state + counters
 
-**On every turn (when in Co-op Mode):**
-1. Pull Co-op from Jarvis-Private
-2. Check `COMMANDS/{SATELLITE}.md` for pending tasks
-3. Execute commands, post results to `MARCO-POLO.md`
-4. Mark commands done, update session manifest
-5. Increment poll counter in `MODE.md`
+**Co-op Command Center (real-time via MCP):**
+Use the MCP tools to post commands directly to Supabase. Both satellites see commands instantly.
+
+- `coop_post_command` — post a command to Lilith, Shaka, or both
+- `coop_get_commands` — get pending commands for your satellite
+- `coop_done` — mark a command done with a result
+
+**On every turn:**
+1. Call `coop_get_commands` with your satellite name
+2. Execute any pending commands
+3. Call `coop_done` with results
+4. Post significant work to `MARCO-POLO.md` (Git, for persistence)
 
 **Satellites:**
 - **Lilith** — desktop, full sessions, longer tasks
 - **Shaka** — mobile, quick tasks, handoffs
 
-**Files:** `COMMANDS/` (tasks), `sessions/` (manifests), `MARCO-POLO.md` (shared log), `MODE.md` (control)
+**Files:** `COMMANDS/` (Git backup), `sessions/` (manifests), `MARCO-POLO.md` (Git log), `MODE.md` (control)
+**DB:** `coop_commands` table in Supabase (real-time layer)
 
 ---
 
