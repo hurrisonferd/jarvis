@@ -1,3 +1,16 @@
+---
+
+## TASKS
+
+| Assigned | Task | Status | Result |
+|----------|------|--------|--------|
+| shaka | — | — | — |
+| atlas | — | — | — |
+| stella | — | — | — |
+| lilith | — | — | — |
+
+---
+
 ## SESSION BOARD
 
 | Satellite       | Companion | Status | Last Check-in |
@@ -7,7 +20,7 @@
 | stella-main     | JARVIS    | 🟢 ON  | 11:58 UTC     |
 | shaka-mobile    | JARVIS    | ⚪ OFF | 04:48 UTC     |
 
-_Updated: 2026-06-27T14:05:00Z_
+_Updated: 2026-06-27T14:12:00Z_
 
 ---
 
