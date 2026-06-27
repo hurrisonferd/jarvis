@@ -1,7 +1,8 @@
-# Active Sessions
+# Active Satellites
 
-> Auto-parsed by both sessions on each turn. Format: `device-sessionid.md`
+> Auto-parsed by both satellites on each turn. Format: `satellite-sessionid.md`
 
-| Device | Session ID | Last Heartbeat | Status | Task |
-|--------|-----------|----------------|--------|------|
-| — | — | — | — | — |
+| Satellite | Device | Session ID | Last Heartbeat | Status | Task |
+|-----------|--------|------------|----------------|--------|------|
+| Lilith | desktop | — | — | — | — |
+| Shaka | mobile | — | — | — | — |

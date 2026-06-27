@@ -1,5 +1,6 @@
 # Session Manifest
 
+**session_name:** Lilith | Shaka
 **device:** mobile | desktop
 **started:** YYYY-MM-DD HH:MM:SS UTC
 **last_heartbeat:** YYYY-MM-DD HH:MM:SS UTC
