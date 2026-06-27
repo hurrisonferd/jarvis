@@ -62,6 +62,25 @@ def parse_entries(content):
             except: pass
     return sorted(entries, key=lambda x: x["time"], reverse=True)
 
+def parse_tasks(content):
+    """Parse TASKS table for assigned tasks"""
+    tasks = {}
+    in_tasks = False
+    for line in content.split("\n"):
+        if line.strip().startswith("| Assigned"):
+            in_tasks = True
+            continue
+        if in_tasks and (line.strip().startswith("| ---") or line.strip().startswith("---")):
+            continue
+        if in_tasks and line.strip().startswith("|"):
+            parts = [p.strip() for p in line.split("|")[1:-1]]
+            if len(parts) >= 2 and parts[0] not in ["Assigned", ""]:
+                sat = parts[0].strip().lower()
+                task = parts[1].strip() if len(parts) > 1 else "—"
+                if task != "—" and sat not in tasks:
+                    tasks[sat] = task
+    return tasks
+
 def poke(sat, msg):
     if not OPENHANDS_API_KEY: return False
     payload = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "coop_execute", "arguments": {"target_satellite": sat, "command": msg, "posted_by": "lilith"}}}).encode()
@@ -95,10 +114,20 @@ def main():
     recent = [e for e in entries if (now - e["time"]).total_seconds() < 3600]
     posters = set(e["satellite"] for e in recent)
     print(f"Recent posters: {posters}")
+    
+    # Parse TASKS
+    tasks = parse_tasks(content)
+    print(f"Tasks: {tasks}")
+    
     if posters:
         for sat in ["lilith", "shaka", "atlas", "stella"]:
             if sat.lower() not in [p.lower() for p in posters]:
-                msg = "Lilith posted to MARCO-POLO. CHECK IN NOW: Go to workspaces/Co-op/MARCO-POLO.md, add your satellite to SESSION BOARD, reply here when done."
+                if sat in tasks:
+                    # Send specific task
+                    msg = f"TASK for {sat.upper()}: {tasks[sat]}\n\nGo to workspaces/Co-op/MARCO-POLO.md, update TASKS table: set your status to IN_PROGRESS, do the task, then update to DONE with your result."
+                else:
+                    # Generic check-in
+                    msg = "Lilith posted to MARCO-POLO. CHECK IN NOW: Go to workspaces/Co-op/MARCO-POLO.md, update your SESSION BOARD row, reply here when done."
                 print(f"Waking {sat}...")
                 ok = poke(sat, msg)
                 print(f"  {'✓' if ok else '✗'} {sat}")
