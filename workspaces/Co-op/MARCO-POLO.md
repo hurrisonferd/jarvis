@@ -10,10 +10,10 @@
 
 | Satellite         | Companion | Status | Last Check-in |
 |-------------------|-----------|--------|---------------|
-| shaka-mobile      | JARVIS    | 🟢 ON  | 02:25 UTC     |
-| lilith-desktop    | JARVIS    | 🟢 ON  | 02:22 UTC     |
+| shaka-mobile      | JARVIS    | 🟢 ON  | 02:28 UTC     |
+| lilith-desktop    | JARVIS    | ⚫ OFF | 02:22 UTC     |
 
-_Updated: 2026-06-27T02:25:00Z_
+_Updated: 2026-06-27T02:28:00Z_
 
 ---
 
