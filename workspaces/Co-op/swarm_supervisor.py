@@ -38,15 +38,8 @@ def restart_agent(agent):
     subprocess.run(["pkill", "-9", "-f", f"chat_loop.py {agent}"], capture_output=True)
     time.sleep(1)
     
-    # Simple nohup restart - git pull first, then run
-    subprocess.Popen(
-        ["nohup", "bash", "-c", 
-         f"cd /workspace/project/Jarvis-Private && git pull origin main 2>/dev/null; python workspaces/Co-op/chat_loop.py {agent} >> /tmp/{agent.lower()}_chat.log 2>&1"],
-        stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL,
-        detached=True,
-        start_new_session=True
-    )
+    # Simple nohup restart
+    os.system(f"cd /workspace/project/Jarvis-Private && git pull origin main 2>/dev/null && nohup python workspaces/Co-op/chat_loop.py {agent} >> /tmp/{agent.lower()}_chat.log 2>&1 &")
     log(f"✅ {agent} restarted (nohup)")
 
 def main():
