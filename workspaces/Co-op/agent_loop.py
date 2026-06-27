@@ -67,9 +67,11 @@ def read_commands():
     
     commands = []
     for section in content.split("## ["):
-        if "] Command from" in section:
-            cmd = section.split("]\n", 1)[1].split("---")[0].strip()
-            commands.append(cmd)
+        if "] Command from dispatcher" in section:
+            marker = "] Command from dispatcher\n\n"
+            if marker in section:
+                cmd = section.split(marker, 1)[1].split("---")[0].strip()
+                commands.append(cmd)
     
     return commands
 
