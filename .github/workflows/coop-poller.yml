@@ -1,0 +1,17 @@
+name: COOP-Poller
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"   # every 5 minutes
+  workflow_dispatch:          # manual trigger
+
+jobs:
+  poll:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run COOP-Poller
+        env:
+          OPENHANDS_API_KEY: ${{ secrets.OPENHANDS_API_KEY }}
+          SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
+        run: python3 scripts/coop-poller.py
