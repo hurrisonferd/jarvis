@@ -51,31 +51,29 @@ Deno.serve(async (req) => {
   }
   
   // Post a command — broadcasts to all connected clients
+  // Auth is handled at MCP layer, this just receives from trusted sources
   if (path.endsWith("/broadcast") && req.method === "POST") {
-    const authHeader = req.headers.get("Authorization");
-    const apiKey = Deno.env.get("OPENHANDS_API_KEY");
-    
-    if (!apiKey || authHeader !== `Bearer ${apiKey}`) {
-      return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+    try {
+      const body = await req.json();
+      const { command, from } = body;
+      
+      if (!command) {
+        return new Response(JSON.stringify({ error: "command required" }), { status: 400 });
+      }
+      
+      const msg = JSON.stringify({
+        type: "command",
+        command,
+        from: from || "unknown",
+        timestamp: new Date().toISOString(),
+      });
+      
+      const delivered = broadcast(msg);
+      
+      return new Response(JSON.stringify({ ok: true, delivered, clients: clients.size }));
+    } catch {
+      return new Response(JSON.stringify({ error: "Invalid request" }), { status: 400 });
     }
-    
-    const body = await req.json();
-    const { command, from } = body;
-    
-    if (!command) {
-      return new Response(JSON.stringify({ error: "command required" }), { status: 400 });
-    }
-    
-    const msg = JSON.stringify({
-      type: "command",
-      command,
-      from: from || "unknown",
-      timestamp: new Date().toISOString(),
-    });
-    
-    const delivered = broadcast(msg);
-    
-    return new Response(JSON.stringify({ ok: true, delivered, clients: clients.size }));
   }
   
   // Status endpoint
