@@ -27,8 +27,8 @@ AGENT = sys.argv[1] if len(sys.argv) > 1 else "Lilith"
 ONCE_MODE = "--once" in sys.argv
 DEBUG = "--debug" in sys.argv
 LOOP_INTERVAL = 30
-HEARTBEAT_INTERVAL = 5  # minutes between heartbeats
-KEEPALIVE_INTERVAL = 2  # minutes between keepalive pings (prevents session timeout)
+HEARTBEAT_INTERVAL = 3  # minutes between heartbeats
+KEEPALIVE_INTERVAL = 1  # minutes between keepalive pings (prevents session timeout)
 
 # Parse interval
 for i, arg in enumerate(sys.argv):
