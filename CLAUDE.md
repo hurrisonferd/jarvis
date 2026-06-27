@@ -102,6 +102,7 @@ When running as Lilith (desktop) or Shaka (mobile), Co-op is the shared ground.
 **Co-op Command Center (real-time via MCP):**
 Use the MCP tools to post commands directly to Supabase. Both satellites see commands instantly.
 
+- `coop_execute` — start a new OpenHands conversation on Lilith or Shaka (preferred)
 - `coop_post_command` — post a command to Lilith, Shaka, or both
 - `coop_get_commands` — get pending commands for your satellite
 - `coop_done` — mark a command done with a result
@@ -111,6 +112,18 @@ Use the MCP tools to post commands directly to Supabase. Both satellites see com
 2. Execute any pending commands
 3. Call `coop_done` with results
 4. Post significant work to `MARCO-POLO.md` (Git, for persistence)
+
+**MARCO-POLO — Universal Group Chat (all companions):**
+The Grid's coordination layer. Any companion can broadcast to all by posting here.
+
+- Location: `Jarvis-Private/workspaces/Co-op/MARCO-POLO.md`
+- **Format:** `## [HH:MM UTC] Satellite — Summary`
+- **Rule:** Check at start of every turn. If Raven says "check MARCO-POLO", all companions report in.
+- **Use cases:**
+  - Roll calls ("All companions say hello")
+  - Task coordination ("Claude, check this; Codex, handle that")
+  - Status updates ("Finished X, handing to Gemini")
+  - Handoffs between companions
 
 **Satellites:**
 - **Lilith** — desktop, full sessions, longer tasks
