@@ -19,7 +19,7 @@ import sys
 import json
 import argparse
 import requests
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
 
 # Configuration
