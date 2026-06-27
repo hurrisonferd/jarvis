@@ -1,11 +1,11 @@
 id: task-2f805747
 description: 'Another test: List files in workspaces/Co-op/'
 priority: normal
-status: queued
+status: done
 created_at: '2026-06-27T19:15:37.476589+00:00'
-started_at: null
-completed_at: null
-owner: null
-result: null
+started_at: '2026-06-27T20:34:40.737298+00:00'
+completed_at: '2026-06-27T20:34:40.738516+00:00'
+owner: Stella
+result: Completed
 error: null
 tags: []
