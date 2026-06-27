@@ -1,0 +1,74 @@
+name: Swarm Keep-Alive Monitor
+
+on:
+  schedule:
+    - cron: '*/5 * * * *'  # Every 5 minutes
+  workflow_dispatch:  # Manual trigger
+
+jobs:
+  monitor-satellites:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check MARCO-POLO for heartbeats
+        run: |
+          cd workspaces/Co-op
+          
+          # Get today's MARCO-POLO
+          TODAY=$(date +%Y-%m-%d)
+          MARCO="MARCO-POLO/${TODAY}.md"
+          
+          if [ ! -f "$MARCO" ]; then
+            echo "No MARCO-POLO for today"
+            exit 0
+          fi
+          
+          echo "=== SATELLITE HEARTBEAT CHECK ==="
+          
+          # Check each satellite's last heartbeat
+          for SAT in "Lilith" "Shaka" "Stella"; do
+            LAST_HEARTBEAT=$(grep -o "## \[.*\] 📡 P2P \[HEARTBEAT\] ${SAT}" "$MARCO" 2>/dev/null | tail -1 | grep -oP '\[\K[^]]+' || echo "NONE")
+            
+            if [ "$LAST_HEARTBEAT" = "NONE" ]; then
+              echo "⚠️ $SAT: No heartbeat found"
+            else
+              echo "✅ $SAT: Last heartbeat at $LAST_HEARTBEAT"
+            fi
+          done
+          
+          echo ""
+          echo "=== QUEUE STATUS ==="
+          echo "Queue: $(ls tasks/queue/ 2>/dev/null | wc -l)"
+          echo "Running: $(ls tasks/running/ 2>/dev/null | wc -l)"
+          echo "Done: $(ls tasks/done/ 2>/dev/null | wc -l)"
+
+      - name: Post status to MARCO-POLO
+        run: |
+          cd workspaces/Co-op
+          
+          TODAY=$(date +%Y-%m-%d)
+          MARCO="MARCO-POLO/${TODAY}.md"
+          TIMESTAMP=$(date +%H:%M UTC)
+          
+          echo "
+---
+
+## [${TIMESTAMP}] 🤖 SWARM MONITOR
+
+**Status:** Running
+**Queue:** $(ls tasks/queue/ 2>/dev/null | wc -l) pending
+**Running:** $(ls tasks/running/ 2>/dev/null | wc -l) active
+**Done today:** $(ls tasks/done/ 2>/dev/null | wc -l)
+
+_This is an automated post from GitHub Actions._
+" >> "$MARCO"
+          
+          git config --local user.email "swarm-bot@jarvis.local"
+          git config --local user.name "Swarm Bot"
+          git add "$MARCO"
+          git diff --cached --quiet || git commit -m "🤖 Swarm monitor check $(date +%H:%M)"
+          git push

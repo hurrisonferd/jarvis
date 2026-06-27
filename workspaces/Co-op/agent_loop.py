@@ -26,11 +26,14 @@ AGENT = sys.argv[1] if len(sys.argv) > 1 else "Lilith"
 ONCE_MODE = "--once" in sys.argv
 DEBUG = "--debug" in sys.argv
 LOOP_INTERVAL = 30
+HEARTBEAT_INTERVAL = 5  # minutes between heartbeats
 
 # Parse interval
 for i, arg in enumerate(sys.argv):
     if arg == "--interval" and i + 1 < len(sys.argv):
         LOOP_INTERVAL = int(sys.argv[i + 1])
+
+cycles_since_heartbeat = 0
 
 
 def log(msg, debug=False):
@@ -83,8 +86,14 @@ def clear_commands():
         path.unlink()
 
 
+def send_heartbeat(orch):
+    """Post heartbeat to MARCO-POLO to signal agent is alive."""
+    orch.peer_broadcast("HEARTBEAT", "system", f"{AGENT} is alive. Watching for tasks.", AGENT)
+
+
 def run_cycle(orch, sender, tasks_done):
     """Run one agent cycle."""
+    global cycles_since_heartbeat
     log("Starting cycle...", debug=True)
     
     # 1. Git sync
@@ -182,6 +191,13 @@ def main():
             if tasks_done > 0 and tasks_done % 5 == 0:
                 queued = orch.queue.get_queued()
                 orch.broadcast(AGENT, f"Status: {tasks_done} tasks done. Queue: {len(queued)} pending.")
+            
+            # Heartbeat every HEARTBEAT_INTERVAL minutes
+            cycles_since_heartbeat += 1
+            if cycles_since_heartbeat >= (HEARTBEAT_INTERVAL * 60 // LOOP_INTERVAL):
+                send_heartbeat(orch)
+                cycles_since_heartbeat = 0
+                log("💓 Heartbeat sent")
             
             log(f"😴 Sleeping {LOOP_INTERVAL}s...")
             time.sleep(LOOP_INTERVAL)

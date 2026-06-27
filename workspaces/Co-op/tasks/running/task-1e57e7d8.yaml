@@ -3,11 +3,11 @@ description: 'Build terminal emulator: Create workspaces/Co-op/emulator/core.py 
   basic terminal emulation (VT100 escape codes, buffer management, input handling).
   Create main.py entry point.'
 priority: high
-status: queued
+status: running
 created_at: '2026-06-27T19:38:00.020631+00:00'
-started_at: null
+started_at: '2026-06-27T19:39:10.237539+00:00'
 completed_at: null
-owner: null
+owner: Shaka
 result: null
 error: null
 tags: []
