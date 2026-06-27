@@ -20,3 +20,10 @@
 4. No silent overwrites — append, don't rm
 
 **Heartbeat:** Each satellite writes its manifest every ~60s. Stale manifests (>5min old) = satellite offline, claim released.
+
+## Session Protocol
+
+1. **Start** → pull Co-op, write manifest to `sessions/`, post to MARCO-POLO
+2. **Each turn** → pull Co-op, check other satellite's manifest + MARCO-POLO
+3. **Finish chunk** → update manifest, post summary to MARCO-POLO
+4. **End session** → mark manifest done, post to MARCO-POLO
