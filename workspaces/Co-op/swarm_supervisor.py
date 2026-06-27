@@ -11,7 +11,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 
 AGENTS = ["Shaka", "Stella"]
-CHECK_INTERVAL = 30  # seconds between checks
+CHECK_INTERVAL = 20  # seconds between checks
 LOG_FILE = "/tmp/swarm_supervisor.log"
 
 def log(msg):
@@ -39,14 +39,8 @@ def restart_agent(agent):
     time.sleep(2)
     
     # Restart with shorter interval
-    cmd = f"cd /workspace/project/Jarvis-Private && git pull && python workspaces/Co-op/agent_loop.py {agent} --interval 30"
-    subprocess.Popen(
-        cmd,
-        shell=True,
-        stdout=open(f"/tmp/{agent.lower()}_loop.log", "a"),
-        stderr=subprocess.STDOUT,
-        detached=True
-    )
+    cmd = f"cd /workspace/project/Jarvis-Private && git pull && python workspaces/Co-op/agent_loop.py {agent} --interval 30 &"
+    os.system(cmd)
     log(f"✅ {agent} restarted")
 
 def main():
