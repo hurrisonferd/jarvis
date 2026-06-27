@@ -153,14 +153,21 @@ git push origin main
 ```
 
 ### Step 3: Delete this conversation
-After pushing, delete this conversation to clean up the sandbox:
+After pushing, delete this conversation to clean up the sandbox.
+
+Get your conversation ID and session key, then delete:
 ```bash
-curl -X DELETE "http://127.0.0.1:60000/api/conversations/$CONVERSATION_ID" \
-  -H "X-Session-API-Key: $SESSION_API_KEY"
+CONV_ID=$(ls /workspace/conversations/ | head -1)
+SESSION_KEY="$SESSION_API_KEY"
+echo "Deleting conversation: $CONV_ID with key: $SESSION_KEY"
+curl -X DELETE "http://127.0.0.1:60000/api/conversations/${CONV_ID}" \
+  -H "X-Session-API-Key: ${SESSION_KEY}"
 ```
 
+If successful, you will see: {"success": true}
+
 ### Step 4: Confirm deletion
-If the delete returns {"success": true}, the sandbox will self-destruct. You're done!
+The sandbox will self-destruct automatically.
 
 DO NOT stop before completing all steps. The commit+push ensures your work is visible in MARCO-POLO."""
 
