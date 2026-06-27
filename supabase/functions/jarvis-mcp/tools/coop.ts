@@ -46,7 +46,7 @@ export function registerCoopTools(server: McpServer): void {
       description: "Send a command to ALL connected satellites INSTANTLY via SSE relay. Both Lilith and Shaka receive it in milliseconds if they're connected to the relay. Use this for real-time coordination. Also logs to dex_events for persistence.",
       inputSchema: {
         command: z.string().describe("Command to broadcast to all satellites"),
-        from: z.enum(["lilith", "shaka"]).describe("Who is sending this"),
+        from: z.enum(["lilith", "shaka", "atlas", "stella"]).describe("Who is sending this"),
         priority: z.enum(["low", "normal", "high"]).optional().default("normal").describe("Priority level"),
       },
     },
@@ -84,7 +84,7 @@ export function registerCoopTools(server: McpServer): void {
       inputSchema: {
         task_id: z.string().describe("Unique task identifier (e.g., 'audit-001', 'fix-login')"),
         description: z.string().describe("Brief description of what this task involves"),
-        claimed_by: z.enum(["lilith", "shaka"]).describe("Who is claiming this task"),
+        claimed_by: z.enum(["lilith", "shaka", "atlas", "stella"]).describe("Who is claiming this task"),
       },
     },
     async ({ task_id, description, claimed_by }) => {
@@ -122,7 +122,7 @@ export function registerCoopTools(server: McpServer): void {
       inputSchema: {
         task_id: z.string().describe("Task ID that was claimed"),
         result: z.string().describe("What was accomplished"),
-        completed_by: z.enum(["lilith", "shaka"]).describe("Who completed this"),
+        completed_by: z.enum(["lilith", "shaka", "atlas", "stella"]).describe("Who completed this"),
       },
     },
     async ({ task_id, result, completed_by }) => {
@@ -209,9 +209,9 @@ export function registerCoopTools(server: McpServer): void {
       title: "Co-op — Execute on Peer (legacy)",
       description: "Execute a command on Lilith or Shaka by starting a new OpenHands conversation. Consider using coop_broadcast instead for instant delivery.",
       inputSchema: {
-        target_satellite: z.enum(["lilith", "shaka"]).describe("Which satellite gets this command"),
+        target_satellite: z.enum(["lilith", "shaka", "atlas", "stella"]).describe("Which satellite gets this command"),
         command: z.string().describe("The command to execute"),
-        posted_by: z.enum(["lilith", "shaka"]).describe("Who is posting this command"),
+        posted_by: z.enum(["lilith", "shaka", "atlas", "stella"]).describe("Who is posting this command"),
       },
     },
     async ({ target_satellite, command, posted_by }) => {
@@ -254,7 +254,7 @@ export function registerCoopTools(server: McpServer): void {
       title: "Co-op — Get Commands (legacy)",
       description: "Get pending commands for this satellite. Consider using SSE broadcast instead.",
       inputSchema: {
-        satellite: z.enum(["lilith", "shaka"]).describe("Your satellite name"),
+        satellite: z.enum(["lilith", "shaka", "atlas", "stella"]).describe("Your satellite name"),
         limit: z.number().optional().default(10).describe("Max commands to return"),
       },
     },
