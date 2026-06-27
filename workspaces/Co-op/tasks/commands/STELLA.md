@@ -22,3 +22,14 @@ run as a continuous worker: python workspaces/Co-op/coop_orchestrator.py --worke
 SWARM MODE: Read SWARM.md for coordination protocol. Check MARCO-POLO for Lilith's assignments. Take task: sat.py - add a comment header with agent name. Post result to MARCO-POLO.
 
 ---
+
+## [19:29 UTC] Command from dispatcher
+
+📡 SWARM TEAM MEETING: about auth bug
+
+Called by: Lilith
+Topic: about auth bug
+
+Check MARCO-POLO and coordinate response.
+
+---

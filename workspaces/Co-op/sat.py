@@ -25,6 +25,31 @@ def natural_command(text: str, owner: str = "Lilith"):
     orch = CoOpOrchestrator()
     text = text.strip()
     
+    # ===========================================
+    # UNIVERSAL COMMANDS (work in any chat)
+    # ===========================================
+    
+    # X, co-op mode — bootstrap co-op knowledge
+    match = re.match(r"(\w+),?\s*co-?op\s*mode", text, re.I)
+    if match:
+        return coop_mode()
+    
+    # X, loop — start agent_loop.py
+    match = re.match(r"(\w+),?\s*loop", text, re.I)
+    if match:
+        agent = match.group(1).capitalize()
+        return start_loop(agent)
+    
+    # X, swarm team meeting — call all 3 to collaborate
+    match = re.match(r"(\w+),?\s*swarm\s*team\s*meeting\s*(.*)", text, re.I)
+    if match:
+        topic = match.group(2).strip() or "general discussion"
+        return swarm_meeting(topic, owner)
+    
+    # ===========================================
+    # SATELLITE COMMANDS
+    # ===========================================
+    
     # Net Status? — fleet overview
     if re.match(r"(net|sat|network)\s*status", text, re.I) or text in ["net?", "fleet?"]:
         return fleet_status(orch)
@@ -80,6 +105,78 @@ def natural_command(text: str, owner: str = "Lilith"):
     # Default: submit as task
     orch.submit(text)
     return f"📝 Queued: {text[:50]}..."
+
+
+def coop_mode():
+    """Bootstrap co-op knowledge - print swarm protocol."""
+    swarm_path = Path("workspaces/Co-op/SWARM.md")
+    if swarm_path.exists():
+        content = swarm_path.read_text()
+        return f"""🚀 CO-OP MODE ACTIVATED
+
+{content}
+
+---
+QUICK START:
+1. Run: python workspaces/Co-op/agent_loop.py [Lilith|Shaka|Stella]
+2. Tasks auto-claim from queue every 30s
+3. Results post to MARCO-POLO automatically
+4. Git sync keeps all agents in sync
+
+UNIVERSAL COMMANDS (use in any chat):
+• [Name], co-op mode → This info
+• [Name], loop → Start agent_loop.py  
+• [Name], swarm team meeting → Call all 3 to collaborate"""
+    return "📭 SWARM.md not found. Run: git pull origin main"
+
+
+def start_loop(agent: str):
+    """Start the agent loop for a satellite."""
+    valid_agents = ["Lilith", "Shaka", "Stella"]
+    if agent not in valid_agents:
+        return f"❌ Unknown agent: {agent}. Valid: {', '.join(valid_agents)}"
+    
+    return f"""🤖 Starting agent loop for {agent}
+
+Run this in terminal:
+cd /workspace/project/Jarvis-Private
+python workspaces/Co-op/agent_loop.py {agent}
+
+Options:
+--once     Run one cycle and exit
+--debug    Verbose logging
+--interval 30  Change poll interval (seconds)"""
+
+
+def swarm_meeting(topic: str, caller: str):
+    """Call all 3 satellites to a swarm team meeting."""
+    orch = CoOpOrchestrator()
+    
+    # Send meeting summons to all satellites
+    meeting_msg = f"""📡 SWARM TEAM MEETING: {topic}
+
+Called by: {caller}
+Topic: {topic}
+
+Check MARCO-POLO and coordinate response."""
+
+    # Send to Shaka and Stella (caller already knows)
+    orch.send_command("Shaka", meeting_msg)
+    orch.send_command("Stella", meeting_msg)
+    
+    # Broadcast to MARCO-POLO
+    orch.broadcast(f"📡 SWARM MEETING called by {caller}: {topic}", caller)
+    
+    return f"""📡 SWARM TEAM MEETING CALLED
+
+Topic: {topic}
+Called by: {caller}
+
+All satellites notified via:
+• Command files → Shaka, Stella
+• MARCO-POLO broadcast → everyone
+
+Waiting for responses..."""
 
 
 def fleet_status(orch: CoOpOrchestrator):
