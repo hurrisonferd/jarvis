@@ -130,7 +130,7 @@ class LilithTaskSender:
         }
     
     def _build_task_prompt(self, task: str) -> str:
-        """Build a task prompt that includes git commit and self-deletion."""
+        """Build a task prompt that includes step-by-step progress and self-deletion."""
         # Build bash template separately to avoid f-string issues
         bash_delete = """CONV_ID=$(ls /workspace/conversations/ | head -1)
 SESSION_KEY="$SESSION_API_KEY"
@@ -138,6 +138,18 @@ curl -X DELETE "http://127.0.0.1:60000/api/conversations/${CONV_ID}" \\
   -H "X-Session-API-Key: ${SESSION_KEY}"
 """
         return f"""{task}
+
+## MANDATORY: Step-by-Step Progress Logging
+
+For multi-step tasks, you MUST log each step with timestamp as you complete it:
+
+```bash
+echo "[$(date +%H:%M:%S) UTC] Step 1: <description>" >> /tmp/swarm_progress.md
+echo "[$(date +%H:%M:%S) UTC] Step 2: <description>" >> /tmp/swarm_progress.md
+# ... continue for each step
+echo "[$(date +%H:%M:%S) UTC] All steps complete!" >> /tmp/swarm_progress.md
+cat /tmp/swarm_progress.md
+```
 
 ## IMPORTANT: Setup Git First
 Before making any commits, configure git:
@@ -148,15 +160,32 @@ git config user.name "Worker"
 
 ## After completing your task, you MUST do the following in order:
 
-### Step 1: Commit and push your changes
+### Step 1: Append result to swarm log
+Find the current swarm log: `ls workspaces/Co-op/MARCO-POLO/MP-*.md | tail -1`
+
+Append to it:
+```
+## [$(date +%H:%M:%S) UTC] Worker — Task Complete
+
+**Task:** <brief description>
+**Status:** ✅ DONE
+**Steps:**
+- Step 1: <what you did>
+- Step 2: <what you did>
+**Files changed:** <list>
+
+---
+```
+
+### Step 2: Commit and push your changes
 ```bash
 cd /workspace/project/Jarvis-Private
 git add -A
-git commit -m "[Co-op] Worker task complete"
+git commit -m "[Co-op] Worker: task complete"
 git push origin main
 ```
 
-### Step 2: Delete this conversation
+### Step 3: Delete this conversation
 After pushing, delete this conversation to clean up the sandbox:
 ```bash
 {bash_delete}
@@ -164,7 +193,7 @@ After pushing, delete this conversation to clean up the sandbox:
 
 If successful, you will see: {{"success": true}}
 
-DO NOT stop before completing both steps."""
+DO NOT stop before completing all steps."""
 
 
 def read_task_file(filepath: str) -> str:
