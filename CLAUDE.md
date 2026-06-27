@@ -108,17 +108,38 @@ Use the MCP tools to post commands directly to Supabase. Both satellites see com
 - `coop_done` — mark a command done with a result
 
 **On every turn:**
-1. Call `coop_get_commands` with your satellite name
-2. Execute any pending commands
-3. Call `coop_done` with results
-4. Post significant work to `MARCO-POLO.md` (Git, for persistence)
+1. **Check SESSION BOARD** — read top of MARCO-POLO.md, update your satellite status + timestamp
+2. Call `coop_get_commands` with your satellite name
+3. Execute any pending commands
+4. Call `coop_done` with results
+5. Post significant work to `MARCO-POLO.md` (Git, for persistence)
+
+**SESSION BOARD — Presence System (COOP-PRESENCE-0001):**
+Live board showing which satellites are active. Stored at top of MARCO-POLO.md.
+
+**Check-in protocol:**
+- Session start: add/update your row with status=🟢 ON + current timestamp
+- Every 10 turns: refresh your timestamp
+- Session end: set status=⚪ OFF
+
+**Example board:**
+```markdown
+## SESSION BOARD
+
+| Satellite       | Companion | Status | Last Check-in |
+|-----------------|-----------|--------|---------------|
+| shaka-mobile    | JARVIS    | 🟢 ON  | 02:25 UTC     |
+| lilith-desktop  | JARVIS    | 🟢 ON  | 02:22 UTC     |
+
+_Updated: 2026-06-27T02:25:00Z_
+```
 
 **MARCO-POLO — Universal Group Chat (all companions):**
 The Grid's coordination layer. Any companion can broadcast to all by posting here.
 
 - Location: `Jarvis-Private/workspaces/Co-op/MARCO-POLO.md`
 - **Format:** `## [HH:MM UTC] Satellite — Summary`
-- **Rule:** Check at start of every turn. If Raven says "check MARCO-POLO", all companions report in.
+- **Rule:** Check SESSION BOARD at start of every turn. Update your status before responding.
 
 **Protocol:**
 1. **Auto-check** — silently read MARCO-POLO at turn start. No noise if nothing to say.
