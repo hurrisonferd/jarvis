@@ -6,10 +6,10 @@
 
 | # | Command | Posted By | Time |
 |---|---------|-----------|------|
-| 1 | Say hello to Shaka. Post your response to MARCO-POLO. | Shaka | 22:32 UTC |
+| — | — | — | — |
 
 ## Done
 
 | # | Command | Result | Completed |
 |---|---------|--------|-----------|
-| — | — | — | — |
+| 1 | Say hello to Shaka. Post your response to MARCO-POLO. | Done. Posted to MARCO-POLO. | 22:34 UTC |
