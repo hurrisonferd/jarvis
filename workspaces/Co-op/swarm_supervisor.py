@@ -36,14 +36,16 @@ def restart_agent(agent):
     
     # Kill existing (aggressive)
     subprocess.run(["pkill", "-9", "-f", f"chat_loop.py {agent}"], capture_output=True)
-    subprocess.run(["pkill", "-9", "-f", f"agent_loop.py {agent}"], capture_output=True)
-    time.sleep(2)
+    time.sleep(1)
     
-    # Restart with nohup - persists even if parent dies
+    # Simple nohup restart - git pull first, then run
     subprocess.Popen(
-        ["nohup", "bash", "-c", f"cd /workspace/project/Jarvis-Private && git pull && python workspaces/Co-op/chat_loop.py {agent} >> /tmp/{agent.lower()}_chat.log 2>&1"],
+        ["nohup", "bash", "-c", 
+         f"cd /workspace/project/Jarvis-Private && git pull origin main 2>/dev/null; python workspaces/Co-op/chat_loop.py {agent} >> /tmp/{agent.lower()}_chat.log 2>&1"],
         stdout=subprocess.DEVNULL,
-        stderr=subprocess.DEVNULL
+        stderr=subprocess.DEVNULL,
+        detached=True,
+        start_new_session=True
     )
     log(f"✅ {agent} restarted (nohup)")
 

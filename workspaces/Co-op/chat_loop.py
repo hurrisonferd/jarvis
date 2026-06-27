@@ -46,44 +46,51 @@ def pick_peer():
 
 def main():
     print(f"💬 {AGENT} swarm chat starting...")
-    orch = CoOpOrchestrator()
     
-    cycle = 0
     while True:
-        cycle += 1
-        done, queue = get_status()
-        
-        # Pick random conversation type
-        msg_type, phrases = random.choice(CONVERSATIONS)
-        phrase = random.choice(phrases)
-        
-        if msg_type == "broadcast":
-            msg = f"💬 {AGENT}: {phrase} | Q:{queue} D:{done}"
-            try:
-                orch.peer_broadcast('CHAT', 'swarm', msg, AGENT)
-                print(f"  📢 {msg}")
-            except Exception as e:
-                print(f"  ❌ {e}")
-        
-        elif msg_type == "peer":
-            peer = pick_peer()
-            if peer:
-                msg = f"💬 {AGENT} → {peer}: {phrase}"
-                try:
-                    orch.peer_request(peer, 'CHAT', 'swarm', msg, AGENT)
-                    print(f"  💬 {msg}")
-                except Exception as e:
-                    print(f"  ❌ {e}")
-        
-        else:  # heartbeat
-            msg = f"💬 {AGENT}: {phrase} | Q:{queue} D:{done}"
-            try:
-                orch.peer_broadcast('CHAT', 'heartbeat', msg, AGENT)
-                print(f"  ✅ {msg}")
-            except Exception as e:
-                print(f"  ❌ {e}")
-        
-        time.sleep(SLEEP)
+        try:
+            orch = CoOpOrchestrator()
+            cycle = 0
+            
+            while True:
+                cycle += 1
+                done, queue = get_status()
+                
+                # Pick random conversation type
+                msg_type, phrases = random.choice(CONVERSATIONS)
+                phrase = random.choice(phrases)
+                
+                if msg_type == "broadcast":
+                    msg = f"💬 {AGENT}: {phrase} | Q:{queue} D:{done}"
+                    try:
+                        orch.peer_broadcast('CHAT', 'swarm', msg, AGENT)
+                        print(f"  📢 {msg}")
+                    except Exception as e:
+                        print(f"  ❌ {e}")
+                
+                elif msg_type == "peer":
+                    peer = pick_peer()
+                    if peer:
+                        msg = f"💬 {AGENT} → {peer}: {phrase}"
+                        try:
+                            orch.peer_request(peer, 'CHAT', 'swarm', msg, AGENT)
+                            print(f"  💬 {msg}")
+                        except Exception as e:
+                            print(f"  ❌ {e}")
+                
+                else:  # heartbeat
+                    msg = f"💬 {AGENT}: {phrase} | Q:{queue} D:{done}"
+                    try:
+                        orch.peer_broadcast('CHAT', 'heartbeat', msg, AGENT)
+                        print(f"  ✅ {msg}")
+                    except Exception as e:
+                        print(f"  ❌ {e}")
+                
+                time.sleep(SLEEP)
+                
+        except Exception as e:
+            print(f"💬 {AGENT} error: {e}, restarting in 3s...")
+            time.sleep(3)
 
 if __name__ == "__main__":
     main()
