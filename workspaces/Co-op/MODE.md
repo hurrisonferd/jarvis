@@ -9,9 +9,9 @@ mode: on
 lilith_polls: 0
 shaka_polls: 1
 lilith_turns: 0
-shaka_turns: 1
+shaka_turns: 2
 entered: 2026-06-26 22:37 UTC
-expires: 2026-06-26 23:37 UTC
+expires: 2026-06-27 18:42 UTC
 ```
 
 ## Limits (when ON)
