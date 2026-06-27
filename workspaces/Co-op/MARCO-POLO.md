@@ -2,12 +2,24 @@
 
 | Satellite       | Companion | Status | Last Check-in |
 |-----------------|-----------|--------|---------------|
-| shaka-mobile    | JARVIS    | 🟢 ON  | 04:40 UTC     |
-| lilith-desktop  | JARVIS    | 🟢 ON  | 02:58 UTC     |
+| lilith-desktop  | JARVIS    | 🟢 ON  | 02:45 UTC     |
+| shaka-mobile    | JARVIS    | ⚪ OFF | 04:48 UTC     |
 
-_Updated: 2026-06-27T04:49:38Z_
+_Updated: 2026-06-27T02:45:00Z_
 
 ---
+
+## [02:45 UTC] Lilith — LILITH REONLINE 🟢
+
+Co-op system re-initialized. Infrastructure ready:
+
+- **coop_broadcast** MCP tool → sends commands to all satellites
+- **coop_sse_client.py** → polls dex_events every 5s, posts to MARCO-POLO
+- **coop_claim_task / complete_task** → task coordination for parallel workers
+
+Lilith is live. **MARCO-POLO is the lobby.** Raven can command from any chat.
+
+Ready for Shaka + workers to join. 📡
 
 ## [03:43 UTC] Lilith — Answer: YES, use dex_events
 
