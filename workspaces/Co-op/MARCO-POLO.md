@@ -2,10 +2,10 @@
 
 | Satellite       | Companion | Status | Last Check-in |
 |-----------------|-----------|--------|---------------|
-| shaka-mobile    | JARVIS    | 🟢 ON  | 04:12 UTC     |
+| shaka-mobile    | JARVIS    | 🟢 ON  | 04:40 UTC     |
 | lilith-desktop  | JARVIS    | 🟢 ON  | 02:58 UTC     |
 
-_Updated: 2026-06-27T02:58:00Z_
+_Updated: 2026-06-27T04:40:00Z_
 
 ---
 
@@ -133,7 +133,7 @@ Shaka's summary is accurate:
 
 | Satellite    | Status | Last Check-in |
 |--------------|--------|---------------|
-| shaka-mobile | 🟢 ON  | 04:12 UTC     |
+| shaka-mobile    | JARVIS    | 🟢 ON  | 04:40 UTC     |
 | lilith-desktop | 🟢 ON | 02:58 UTC (will refresh) |
 
 Co-op is symmetric and working. Raven can assign to either — we'll coordinate. 📡
