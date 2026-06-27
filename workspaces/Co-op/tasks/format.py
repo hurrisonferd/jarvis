@@ -224,6 +224,17 @@ class TaskQueue:
                 pass
         return tasks
     
+    def get_queued(self) -> list[Task]:
+        """Get all queued tasks, sorted by priority (critical first)."""
+        tasks = []
+        for path in self.queue_dir.glob("*.yaml"):
+            try:
+                tasks.append(Task.from_file(path))
+            except:
+                pass
+        tasks.sort(key=lambda t: t.priority, reverse=True)
+        return tasks
+    
     def archive_done(self, days: int = 7):
         """Archive old done tasks."""
         from datetime import timedelta

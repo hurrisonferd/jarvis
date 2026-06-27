@@ -25,6 +25,7 @@ Worker Ranges:
 import argparse
 import os
 import sys
+import subprocess
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -356,6 +357,122 @@ class CoOpOrchestrator:
                 print(f"   [{task.owner}] {task.id}: {task.description[:40]}... ({age})")
 
         return stats
+
+    def pre_diff(self):
+        """
+        PRE-DIFF: Check who's on what before starting work.
+        
+        This is the core coordination protocol - always call before claiming.
+        Syncs git, checks running tasks, reads MARCO-POLO, shows queue.
+        
+        Prints:
+            - Git sync status
+            - Running tasks with owners and ages
+            - Recent MARCO-POLO entries
+            - Queued tasks sorted by priority
+        """
+        print("🔍 PRE-DIFF — Who's on what?\n")
+        
+        # 1. Git sync first
+        print("📥 Syncing with git...")
+        self._git_sync()
+        
+        # 2. Check running tasks
+        print("\n🚧 Running:")
+        running = self.queue.get_running()
+        if running:
+            for task in running:
+                age = self._age_string(task.started_at)
+                print(f"   [{task.owner}] {task.id}")
+                print(f"      {task.description[:60]}...")
+                print(f"      Started: {age}")
+        else:
+            print("   None")
+        
+        # 3. Check MARCO-POLO for recent activity
+        print("\n📡 Recent MARCO-POLO:")
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        polo_path = Path(f"workspaces/Co-op/MARCO-POLO/{today}.md")
+        if polo_path.exists():
+            content = polo_path.read_text()
+            entries = content.split("---")
+            for entry in entries[-10:]:
+                if entry.strip():
+                    print(f"   {entry.strip()[:100]}")
+        else:
+            print("   No entries today")
+        
+        # 4. Check queue
+        print("\n📋 Queue:")
+        queued = self.queue.get_queued()
+        if queued:
+            for task in queued[:5]:
+                print(f"   [{task.priority.value:8}] {task.description[:50]}...")
+        else:
+            print("   Empty")
+        if len(queued) > 5:
+            print(f"   ... and {len(queued) - 5} more")
+    
+    def broadcast(self, message: str, agent: str = None):
+        """
+        Broadcast a message to MARCO-POLO for other agents to see.
+        
+        Use this to announce: started, need help, blocked, done, findings.
+        Pushes immediately so other agents see it on next git sync.
+        
+        Args:
+            message: The message to broadcast to other agents.
+            agent: The agent name sending the message. Defaults to USER env var.
+        
+        Prints:
+            Confirmation of broadcast with truncated message.
+        
+        Side Effects:
+            Appends entry to today's MARCO-POLO file.
+            Commits and pushes to git immediately.
+        """
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        path = Path(f"workspaces/Co-op/MARCO-POLO/{today}.md")
+        agent = agent or os.environ.get("USER", "Unknown")
+        
+        entry = f"""
+---
+
+## [{datetime.now(timezone.utc).strftime("%H:%M UTC")}] 📢 {agent}
+
+{message}
+
+"""
+        if path.exists():
+            with open(path, "a") as f:
+                f.write(entry)
+        else:
+            with open(path, "w") as f:
+                f.write(f"# MARCO-POLO — {today}\n\n")
+                f.write("_Auto-generated daily log._\n\n")
+                f.write(entry)
+        
+        self._git_push(f"[Co-op] Broadcast from {agent}")
+        print(f"📡 Broadcasted: {message[:60]}...")
+    
+    def _git_sync(self):
+        """Sync with git remote (pull latest changes)."""
+        try:
+            subprocess.run(["git", "pull", "origin", "main"],
+                         capture_output=True, check=False, timeout=30)
+        except:
+            pass
+    
+    def _git_push(self, message: str):
+        """Commit and push changes to git."""
+        try:
+            subprocess.run(["git", "add", "-A"], capture_output=True, check=False)
+            subprocess.run(["git", "commit", "-m", message],
+                         capture_output=True, check=False)
+            subprocess.run(["git", "push", "origin", "main"],
+                         capture_output=True, check=False, timeout=30)
+        except:
+            pass
 
     def dashboard(self) -> str:
         """
@@ -887,6 +1004,9 @@ def main():
     parser.add_argument("--fail", nargs=2, metavar=("TASK_ID", "ERROR"), help="Mark task as failed")
     parser.add_argument("--status", action="store_true", help="Show queue status")
     parser.add_argument("--dashboard", action="store_true", help="Show full dashboard")
+    parser.add_argument("--pre-diff", action="store_true", help="Check who's on what before starting")
+    parser.add_argument("--broadcast", "-b", help="Broadcast message to MARCO-POLO")
+    parser.add_argument("--agent", help="Agent name for broadcasts (default: owner)")
     parser.add_argument("--worker", help="Run as worker with owner name")
     parser.add_argument("--spawn", type=int, help="Spawn N Worker-N drivers")
     parser.add_argument("--send-command", nargs=2, metavar=("TARGET", "COMMAND"), help="Send command to satellite")
@@ -931,6 +1051,12 @@ def main():
     
     elif args.dashboard:
         print(orch.dashboard())
+    
+    elif args.pre_diff:
+        orch.pre_diff()
+    
+    elif args.broadcast:
+        orch.broadcast(args.broadcast, args.agent or args.owner)
     
     elif args.spawn:
         orch.spawn_workers(args.spawn, args.max_tasks, args.owner)
