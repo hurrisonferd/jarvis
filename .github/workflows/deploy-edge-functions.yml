@@ -45,6 +45,14 @@ jobs:
             echo "→ Linking project..."
             supabase link --project-ref "$PROJECT_REF" 2>&1 || echo "⚠ link failed"
           fi
+      - name: Set Supabase Edge Function secrets
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          OPENHANDS_API_KEY: ${{ secrets.OPENHANDS_API_KEY }}
+        run: |
+          echo "Setting secrets..."
+          supabase secrets set OPENHANDS_API_KEY="$OPENHANDS_API_KEY" --project-ref "$REF" 2>/dev/null || true
+
       - name: Apply migrations via Management API
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
