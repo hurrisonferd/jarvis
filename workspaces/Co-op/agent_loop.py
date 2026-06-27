@@ -214,6 +214,8 @@ def main():
     
     while True:
         try:
+            global cycles_since_heartbeat, cycles_since_keepalive
+            
             tasks_done = run_cycle(orch, sender, tasks_done)
             
             if ONCE_MODE:
