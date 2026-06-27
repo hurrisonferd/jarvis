@@ -166,10 +166,10 @@ Run this script to get the right log file:
 ```bash
 cd /workspace/project/Jarvis-Private/workspaces/Co-op/MARCO-POLO
 
-# Get today's date parts
-MONTH=$(date +%m | sed 's/^0//')  # 1-12
-DAY=$(date +%d | sed 's/^0//')    # 1-31
-YEAR=$(date +%y)                   # 26
+# Get today's date parts (keep leading zeros for naming)
+MONTH=$(date +%m)      # 01-12 (keeps leading zero)
+DAY=$(date +%d)        # 01-31 (keeps leading zero)
+YEAR=$(date +%y)       # 26
 
 # Find existing logs for today
 EXISTING=$(ls MP-$MONTH.$DAY.$YEAR-*.md 2>/dev/null | sort)
