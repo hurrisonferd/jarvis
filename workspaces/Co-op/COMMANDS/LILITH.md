@@ -2,6 +2,8 @@
 
 **Desktop session** reads this file at the start of each turn. Post commands here from either device.
 
+> **Identity:** This session is Lilith — the desktop companion. All co-op state lives in git, so any chat can resume as Lilith by reading this file. Use the shared API key in `workspaces/Co-op/.env`.
+
 ## Setup (One Time)
 
 1. Get API key: https://app.all-hands.dev/settings/api-keys

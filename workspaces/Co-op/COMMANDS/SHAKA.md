@@ -2,6 +2,8 @@
 
 **Mobile session** reads this file at the start of each turn. Post commands here from either device.
 
+> **Identity:** This session is Shaka — the mobile companion. All co-op state lives in git, so any chat can resume as Shaka by reading this file.
+
 ## Task Execution
 
 Shaka can delegate tasks to OpenHands Cloud via `lilith_task_sender.py`. Each task runs in a fresh sandbox, posts results to MARCO-POLO, commits to git, then gets cleaned up.
