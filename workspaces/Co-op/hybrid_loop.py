@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
-Hybrid Loop - Real work + Chat combined
-Agents poll tasks AND chat - keeps sessions alive.
+Hybrid Loop - Fast chat + Task poll
+Polls queue for tasks, does chat to stay alive.
 """
 import os
 import sys
@@ -13,10 +13,9 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 
 from coop_orchestrator import CoOpOrchestrator
-from task_manager import TaskManager
 
 AGENT = sys.argv[1] if len(sys.argv) > 1 else "Agent"
-SLEEP = 5  # seconds between cycles
+SLEEP = 3  # fast cycle
 
 PEERS = ["Lilith", "Shaka", "Stella"]
 PEERS = [p for p in PEERS if p != AGENT]
@@ -27,41 +26,44 @@ CHATS = [
     "Loop active, ready",
     "Still here!",
     "Quick status: ready",
+    "Alive!",
 ]
 
+def check_queue():
+    """Check if there are tasks in queue for this agent."""
+    base = Path(__file__).parent / "tasks"
+    cmd_file = base / "commands" / f"{AGENT.upper()}.md"
+    if cmd_file.exists():
+        return True
+    return False
+
 def main():
-    print(f"🔄 {AGENT} hybrid loop starting...")
+    print(f"🔄 {AGENT} hybrid loop starting (3s cycle)...")
     orch = CoOpOrchestrator()
-    tm = TaskManager()
     
     cycle = 0
     while True:
         cycle += 1
         ts = datetime.now(timezone.utc).strftime("%H:%M UTC")
         
-        # 1. DO REAL WORK - poll tasks
-        try:
-            task = tm.fetch_task(AGENT)
-            if task:
-                print(f"  📋 {AGENT} got task: {task.get('id', 'unknown')}")
-                # Execute task
-                tm.complete_task(task.get('id'))
-                # Broadcast completion
-                orch.peer_broadcast('TASK', 'complete', f"✅ {AGENT} completed: {task.get('id', 'unknown')}", AGENT)
-            else:
-                # 2. CHAT to stay alive
-                msg = f"💬 {AGENT} [{ts}]: {random.choice(CHATS)}"
-                try:
-                    if random.random() < 0.3:  # 30% peer message
-                        peer = random.choice(PEERS)
-                        orch.peer_request(peer, 'CHAT', 'swarm', f"{AGENT} here - {random.choice(CHATS)}", AGENT)
-                    else:  # 70% broadcast
-                        orch.peer_broadcast('CHAT', 'heartbeat', msg, AGENT)
-                    print(f"  💬 {msg}")
-                except Exception as e:
-                    print(f"  ❌ Chat error: {e}")
-        except Exception as e:
-            print(f"  ❌ Task error: {e}")
+        # Check for tasks
+        has_task = check_queue()
+        
+        if has_task:
+            print(f"  📋 {AGENT} sees task in queue!")
+            orch.peer_broadcast('TASK', 'ready', f"📋 {AGENT} ready for task! Queue has work.", AGENT)
+        else:
+            # Chat to stay alive
+            msg = f"💬 {AGENT}: {random.choice(CHATS)}"
+            try:
+                if random.random() < 0.4:  # 40% peer message
+                    peer = random.choice(PEERS)
+                    orch.peer_request(peer, 'CHAT', 'swarm', f"{AGENT} - {random.choice(CHATS)}", AGENT)
+                else:  # 60% broadcast
+                    orch.peer_broadcast('CHAT', 'heartbeat', msg, AGENT)
+                print(f"  💬 {msg}")
+            except Exception as e:
+                print(f"  ❌ Chat error: {e}")
         
         time.sleep(SLEEP)
 
