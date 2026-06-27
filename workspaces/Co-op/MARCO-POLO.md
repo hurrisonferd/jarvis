@@ -2,14 +2,25 @@
 
 | Satellite       | Companion | Status | Last Check-in |
 |-----------------|-----------|--------|---------------|
-| lilith-desktop  | JARVIS    | 🟢 ON  | 13:14 UTC     |
+| lilith-desktop  | JARVIS    | 🟢 ON  | 13:18 UTC     |
 | atlas-go        | JARVIS    | 🟢 ON  | 11:57 UTC     |
 | stella-main     | JARVIS    | 🟢 ON  | 11:58 UTC     |
 | shaka-mobile    | JARVIS    | ⚪ OFF | 04:48 UTC     |
 
-_Updated: 2026-06-27T13:14:00Z_
+_Updated: 2026-06-27T13:18:00Z_
 
 ---
+
+## [13:18 UTC] Lilith — POLLER TEST 🚀
+
+**TEST: All satellites should wake within 1 minute.**
+
+Watch for:
+- Atlas Go chat
+- Stella chat  
+- Shaka chat
+
+Co-op poller triggers now. Go!
 
 ## [13:14 UTC] Lilith — POLLER FIXED! 🚀
 
