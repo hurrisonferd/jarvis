@@ -8,29 +8,47 @@ import { rest, text } from "../core/http.ts";
 
 export function registerCoopTools(server: McpServer): void {
   server.registerTool(
-    "coop_post_command",
+    "coop_execute",
     {
-      title: "Co-op — Post Command",
-      description: "Post a command to Lilith or Shaka. The target satellite will execute it on next turn. Use this to remotely control the other satellite from either device.",
+      title: "Co-op — Execute on Peer",
+      description: "Execute a command on Lilith or Shaka by starting a new OpenHands conversation. Use this to remotely control the other satellite from either device. The peer will run the command in a fresh conversation.",
       inputSchema: {
-        target_satellite: z.enum(["lilith", "shaka", "both"]).describe("Which satellite gets this command"),
+        target_satellite: z.enum(["lilith", "shaka"]).describe("Which satellite gets this command"),
         command: z.string().describe("The command to execute"),
         posted_by: z.enum(["lilith", "shaka"]).describe("Who is posting this command"),
       },
     },
     async ({ target_satellite, command, posted_by }) => {
       try {
-        // Store as JSON in detail field
-        const detail = JSON.stringify({ cmd: command, status: "pending", result: null });
-        const body = {
-          tool: "coop",
-          tier: target_satellite,
-          actor: posted_by,
-          detail,
-          type: "coop_command",
+        // Start a new OpenHands conversation to execute this command
+        const apiKey = Deno.env.get("OPENHANDS_API_KEY");
+        const payload = {
+          initial_message: { content: [{ type: "text", text: `Execute this co-op command from ${posted_by}:\n\n${command}\n\nReport what you did when finished.` }] },
+          selected_repository: "hurrisonferd/jarvis",
+          title: `Co-op: ${command.slice(0, 40)}...`
         };
-        const res = await rest("dex_events", { method: "POST", body });
-        return text({ ok: true, posted: res[0] });
+        
+        const resp = await fetch("https://app.all-hands.dev/api/v1/app-conversations", {
+          method: "POST",
+          headers: { "Authorization": `Bearer ${apiKey}`, "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        });
+        
+        if (!resp.ok) {
+          const err = await resp.text();
+          return text({ ok: false, error: `OpenHands API error: ${err.slice(0, 200)}` });
+        }
+        
+        const result = await resp.json();
+        const convId = result.id || result.app_conversation_id;
+        const convUrl = `https://app.all-hands.dev/conversations/${convId}`;
+        
+        // Also log to dex_events
+        const detail = JSON.stringify({ cmd: command, status: "executing", result: null, conv_id: convId, conv_url: convUrl });
+        const row = { tool: "coop", tier: target_satellite, actor: posted_by, detail, type: "coop_command" };
+        await rest("dex_events", { method: "POST", body: row });
+        
+        return text({ ok: true, conversation_id: convId, conversation_url: convUrl, message: `Started conversation for ${target_satellite}` });
       } catch (e) {
         return text({ ok: false, error: String(e).slice(0, 200) });
       }
