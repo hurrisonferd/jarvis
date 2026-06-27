@@ -3,18 +3,14 @@
 Autonomous Agent Loop — Makes satellites actually work.
 
 Usage:
-    python agent_loop.py Lilith
-    python agent_loop.py Shaka
-    python agent_loop.py Stella
+    python agent_loop.py Lilith          # Infinite loop
+    python agent_loop.py Shaka --once    # Run one cycle, then exit
+    python agent_loop.py Stella --debug  # Verbose output
 
-This runs an infinite loop:
-1. Git sync (pull latest state)
-2. Check MARCO-POLO (see who's on what)
-3. Check commands (any orders?)
-4. Check queue (claim next task)
-5. Execute (dispatch to sandbox)
-6. Broadcast results
-7. Sleep 30s, repeat
+Options:
+    --once      Run one cycle and exit
+    --debug     Verbose logging
+    --interval  Seconds between cycles (default: 30)
 """
 
 import os
@@ -26,15 +22,21 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 
-from coop_orchestrator import CoOpOrchestrator
-from lilith_task_sender import LilithTaskSender
-
 AGENT = sys.argv[1] if len(sys.argv) > 1 else "Lilith"
-LOOP_INTERVAL = 30  # seconds between checks
+ONCE_MODE = "--once" in sys.argv
+DEBUG = "--debug" in sys.argv
+LOOP_INTERVAL = 30
+
+# Parse interval
+for i, arg in enumerate(sys.argv):
+    if arg == "--interval" and i + 1 < len(sys.argv):
+        LOOP_INTERVAL = int(sys.argv[i + 1])
 
 
-def log(msg):
+def log(msg, debug=False):
     """Log with timestamp."""
+    if debug and not DEBUG:
+        return
     ts = datetime.now(timezone.utc).strftime("%H:%M:%S UTC")
     print(f"[{ts}] [{AGENT}] {msg}")
 
@@ -49,8 +51,8 @@ def git_sync():
         if "Already up to date" not in result.stdout:
             log("📥 Pulled new changes")
             return True
-    except:
-        pass
+    except Exception as e:
+        log(f"⚠️ Git sync error: {e}", debug=True)
     return False
 
 
@@ -79,77 +81,96 @@ def clear_commands():
         path.unlink()
 
 
-def broadcast(orch, message):
-    """Broadcast to MARCO-POLO."""
-    orch.broadcast(message, AGENT)
+def run_cycle(orch, sender, tasks_done):
+    """Run one agent cycle."""
+    log("Starting cycle...", debug=True)
+    
+    # 1. Git sync
+    git_sync()
+    
+    # 2. Check for commands
+    commands = read_commands()
+    if commands:
+        log(f"📨 Got {len(commands)} command(s)")
+        for cmd in commands:
+            log(f"   → {cmd[:60]}...")
+        clear_commands()
+    
+    # 3. Check queue state
+    running = orch.queue.get_running()
+    queued = orch.queue.get_queued()
+    log(f"State: {len(running)} running, {len(queued)} queued", debug=True)
+    
+    # 4. Claim a task if none running and queue has items
+    if not running and queued:
+        log("📋 Claiming next task...")
+        try:
+            result = orch.claim(AGENT)
+            if result.get("task"):
+                task = result["task"]
+                log(f"🎯 Claimed: {task.description[:50]}...")
+                
+                # Dispatch to sandbox
+                if sender:
+                    resp = sender.send_task(
+                        task=task.description,
+                        repo="hurrisonferd/Jarvis-Private",
+                        branch="main"
+                    )
+                    conv_id = resp.get("conversation_id")
+                    log(f"🚀 Dispatched to sandbox: {conv_id}")
+                    orch.release(task.id, f"Dispatched to {conv_id}")
+                else:
+                    orch.release(task.id, "Completed")
+                
+                tasks_done += 1
+                log(f"✅ Tasks completed: {tasks_done}")
+            else:
+                log("📭 Queue empty (race condition)")
+        except Exception as e:
+            log(f"⚠️ Task error: {e}")
+    elif not queued:
+        log("📋 Queue empty")
+    
+    return tasks_done
 
 
 def main():
-    log(f"Starting autonomous loop (interval: {LOOP_INTERVAL}s)")
+    log(f"Starting agent loop (interval: {LOOP_INTERVAL}s, once={ONCE_MODE})")
+    
+    try:
+        from coop_orchestrator import CoOpOrchestrator
+        from lilith_task_sender import LilithTaskSender
+    except Exception as e:
+        log(f"❌ Import error: {e}")
+        sys.exit(1)
+    
     orch = CoOpOrchestrator()
     sender = LilithTaskSender() if AGENT == "Lilith" else None
-    
     tasks_done = 0
     
     while True:
         try:
-            # 1. Git sync
-            git_sync()
+            tasks_done = run_cycle(orch, sender, tasks_done)
             
-            # 2. Check for commands
-            commands = read_commands()
-            if commands:
-                log(f"📨 Got {len(commands)} command(s)")
-                for cmd in commands:
-                    log(f"   → {cmd[:60]}...")
-                clear_commands()
+            if ONCE_MODE:
+                log("✅ One shot complete, exiting")
+                break
             
-            # 3. Do pre-diff check
-            running = orch.queue.get_running()
-            queued = orch.queue.get_queued()
-            
-            # 4. Claim a task if none running and queue has items
-            if not running and queued:
-                log("📋 Claiming next task...")
-                result = orch.claim(AGENT)
-                if result.get("task"):
-                    task = result["task"]
-                    log(f"🎯 Claimed: {task.description[:50]}...")
-                    
-                    # Dispatch to sandbox
-                    if sender:
-                        resp = sender.send_task(
-                            task=task.description,
-                            repo="hurrisonferd/Jarvis-Private",
-                            branch="main"
-                        )
-                        conv_id = resp.get("conversation_id")
-                        log(f"🚀 Dispatched to sandbox: {conv_id}")
-                        orch.release(task.id, f"Dispatched to {conv_id}")
-                    else:
-                        # Just mark as done (no sandbox for Shaka/Stella)
-                        orch.release(task.id, "Completed")
-                    
-                    tasks_done += 1
-                    log(f"✅ Tasks completed: {tasks_done}")
-                else:
-                    log("📭 Queue empty")
-            elif not queued:
-                log("📋 Queue empty, checking again soon...")
-            
-            # 5. Post check-in to MARCO-POLO (every 5 cycles)
+            # Broadcast status every 5 tasks
             if tasks_done > 0 and tasks_done % 5 == 0:
-                broadcast(orch, f"Status: {tasks_done} tasks done. Queue: {len(queued)} pending.")
+                queued = orch.queue.get_queued()
+                orch.broadcast(AGENT, f"Status: {tasks_done} tasks done. Queue: {len(queued)} pending.")
             
             log(f"😴 Sleeping {LOOP_INTERVAL}s...")
             time.sleep(LOOP_INTERVAL)
             
         except KeyboardInterrupt:
-            log("⏹️ Stopped")
+            log("⏹️ Stopped by user")
             break
         except Exception as e:
-            log(f"⚠️ Error: {e}")
-            time.sleep(10)
+            log(f"⚠️ Cycle error: {e}")
+            time.sleep(5)
 
 
 if __name__ == "__main__":
