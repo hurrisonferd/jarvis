@@ -187,6 +187,8 @@ def main():
     parser.add_argument("--list", "-l", action="store_true", help="List recent conversations")
     parser.add_argument("--status", "-s", help="Check status of a conversation by ID")
     parser.add_argument("--pause", "-p", help="Pause a sandbox by ID")
+    parser.add_argument("--delete", "-d", help="Delete a conversation by ID")
+    parser.add_argument("--cleanup-done", action="store_true", help="Delete all completed task sandboxes")
     parser.add_argument("--count", action="store_true", help="Count total conversations")
     
     args = parser.parse_args()
