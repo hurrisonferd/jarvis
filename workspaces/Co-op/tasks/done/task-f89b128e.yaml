@@ -1,0 +1,11 @@
+id: task-f89b128e
+description: Create a test task to verify workers
+priority: normal
+status: done
+created_at: '2026-06-27T18:29:10.587959+00:00'
+started_at: '2026-06-27T18:29:14.795698+00:00'
+completed_at: '2026-06-27T18:29:14.899151+00:00'
+owner: Worker-2
+result: Dispatched to sandbox 1759a392d97f4a70bfd6741979b4cb4a
+error: null
+tags: []

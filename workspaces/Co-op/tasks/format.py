@@ -17,6 +17,7 @@ tags: [bug, auth]  # Optional categorization
 ---
 """
 
+import fcntl
 import os
 import uuid
 from dataclasses import dataclass, field, asdict
@@ -142,32 +143,43 @@ class TaskQueue:
         """
         Claim the highest priority queued task for an owner.
         Returns None if queue is empty.
+        Uses file locking to prevent race conditions.
         """
-        # Get all queued tasks, sorted by priority
-        tasks = []
-        for path in self.queue_dir.glob("*.yaml"):
+        lock_path = self.queue_dir / ".lock"
+        lock_path.touch()
+        
+        with open(lock_path, 'w') as lock_file:
+            fcntl.flock(lock_file.fileno(), fcntl.LOCK_EX)
             try:
-                task = Task.from_file(path)
-                tasks.append((task, path))
-            except:
-                pass
-        
-        if not tasks:
-            return None
-        
-        # Sort by priority (critical first)
-        tasks.sort(key=lambda x: x[0].priority, reverse=True)
-        
-        # Claim the first one
-        task, path = tasks[0]
-        task.claim(owner)
-        
-        # Move to running
-        new_path = self.running_dir / f"{task.id}.yaml"
-        task.to_file(new_path)
-        path.unlink()  # Remove from queue
-        
-        return task
+                # Get all queued tasks, sorted by priority
+                tasks = []
+                for path in self.queue_dir.glob("*.yaml"):
+                    if path.name.startswith('.'):
+                        continue
+                    try:
+                        task = Task.from_file(path)
+                        tasks.append((task, path))
+                    except:
+                        pass
+                
+                if not tasks:
+                    return None
+                
+                # Sort by priority (critical first)
+                tasks.sort(key=lambda x: x[0].priority, reverse=True)
+                
+                # Claim the first one
+                task, path = tasks[0]
+                task.claim(owner)
+                
+                # Move to running
+                new_path = self.running_dir / f"{task.id}.yaml"
+                task.to_file(new_path)
+                path.unlink()  # Remove from queue
+                
+                return task
+            finally:
+                fcntl.flock(lock_file.fileno(), fcntl.LOCK_UN)
     
     def release(self, task_id: str, result: str):
         """Mark a running task as done."""
