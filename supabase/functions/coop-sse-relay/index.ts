@@ -3,9 +3,15 @@
 
 const clients = new Map<string, { id: string; satellite: string; controller: ReadableStreamDefaultController }>();
 
+const encoder = new TextEncoder();
+
+function encode(data: object): Uint8Array {
+  return encoder.encode(`data: ${JSON.stringify(data)}\n\n`);
+}
+
 Deno.serve(async (req) => {
   const url = new URL(req.url);
-  const path = url.pathname; // e.g. /coop-sse-relay/register
+  const path = url.pathname;
   
   if (req.method === "OPTIONS") {
     return new Response(null, {
@@ -21,30 +27,34 @@ Deno.serve(async (req) => {
   if (path.endsWith("/register") && req.method === "GET") {
     const satellite = url.searchParams.get("satellite") || "unknown";
     const id = crypto.randomUUID();
-    console.log(`[SSE] ${satellite} connecting...`);
+    console.log(`[SSE] ${satellite} connecting (${id})...`);
     
-    const encoder = new TextEncoder();
     const stream = new ReadableStream({
       start(controller) {
-        console.log(`[SSE] ${satellite} connected (${id}). Total: ${clients.size + 1}`);
+        console.log(`[SSE] ${satellite} stream opened (${id})`);
         clients.set(id, { id, satellite, controller });
         
-        // Send registration confirmation
-        const registered = `data: ${JSON.stringify({ type: "registered", satellite, id })}\n\n`;
-        controller.enqueue(registered);
-        
-        // Send current peers
-        const peers = Array.from(clients.values()).map(c => c.satellite);
-        const peersMsg = `data: ${JSON.stringify({ type: "peers", peers })}\n\n`;
-        controller.enqueue(peersMsg);
+        // Send registration + peers in start callback
+        controller.enqueue(encode({ type: "registered", satellite, id }));
+        controller.enqueue(encode({ type: "peers", peers: Array.from(clients.values()).map(c => c.satellite) }));
         
         // Notify others of join
-        broadcast(JSON.stringify({ type: "join", satellite }), id);
+        for (const [cid, client] of clients) {
+          if (cid !== id) {
+            try {
+              client.controller.enqueue(encode({ type: "join", satellite }));
+            } catch { clients.delete(cid); }
+          }
+        }
       },
       cancel() {
-        console.log(`[SSE] ${satellite} disconnected`);
+        console.log(`[SSE] ${satellite} disconnected (${id})`);
         clients.delete(id);
-        broadcast(JSON.stringify({ type: "leave", satellite }), id);
+        for (const [cid, client] of clients) {
+          try {
+            client.controller.enqueue(encode({ type: "leave", satellite }));
+          } catch { clients.delete(cid); }
+        }
       },
     });
     
@@ -53,7 +63,6 @@ Deno.serve(async (req) => {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache",
         "Connection": "keep-alive",
-        "X-Accel-Buffering": "no",  // Disable nginx buffering
       },
     });
   }
@@ -70,14 +79,15 @@ Deno.serve(async (req) => {
       
       console.log(`[SSE] Broadcast from ${from}: ${command.slice(0, 50)}`);
       
-      const msg = JSON.stringify({
-        type: "command",
-        command,
-        from: from || "unknown",
-        timestamp: new Date().toISOString(),
-      });
+      const data = encode({ type: "command", command, from: from || "unknown", timestamp: new Date().toISOString() });
+      let delivered = 0;
       
-      const delivered = broadcast(msg);
+      for (const [id, client] of clients) {
+        try {
+          client.controller.enqueue(data);
+          delivered++;
+        } catch { clients.delete(id); }
+      }
       
       return new Response(JSON.stringify({ ok: true, delivered, clients: clients.size }));
     } catch {
@@ -87,25 +97,12 @@ Deno.serve(async (req) => {
   
   // Status endpoint
   if (path.endsWith("/status") && req.method === "GET") {
-    const peers = Array.from(clients.values()).map(c => ({ id: c.id.slice(0, 8), satellite: c.satellite }));
-    return new Response(JSON.stringify({ ok: true, clients: clients.size, peers }));
+    return new Response(JSON.stringify({ 
+      ok: true, 
+      clients: clients.size, 
+      peers: Array.from(clients.values()).map(c => c.satellite) 
+    }));
   }
   
   return new Response("Co-op SSE Relay. Use /register or /broadcast", { status: 200 });
 });
-
-function broadcast(message: string, excludeId?: string): number {
-  let delivered = 0;
-  for (const [id, client] of clients) {
-    if (id !== excludeId) {
-      try {
-        client.controller.enqueue(`data: ${message}\n\n`);
-        delivered++;
-      } catch (e) {
-        console.error(`[SSE] Failed to deliver to ${id}: ${e}`);
-        clients.delete(id);
-      }
-    }
-  }
-  return delivered;
-}
