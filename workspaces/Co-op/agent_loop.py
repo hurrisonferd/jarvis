@@ -79,6 +79,25 @@ def read_commands():
     return commands
 
 
+def handle_command(cmd: str):
+    """Handle a command - execute if it's a loop start, otherwise log."""
+    if "START LOOP" in cmd:
+        # Extract the command to run
+        match = re.search(r"Run `(.+?)`", cmd)
+        if match:
+            loop_cmd = match.group(1)
+            log(f"🔄 Starting loop: {loop_cmd}")
+            # This would need to actually spawn the loop in a subprocess
+            # For now, just log it - the sat needs to run manually
+            return f"LOOP_STARTED: {loop_cmd}"
+    elif "swarm team meeting" in cmd.lower():
+        log("📡 Swarm meeting requested")
+        return "MEETING_REQUESTED"
+    else:
+        log(f"📨 Command: {cmd[:50]}...")
+        return cmd
+
+
 def clear_commands():
     """Clear command file."""
     path = Path(f"workspaces/Co-op/tasks/commands/{AGENT.upper()}.md")
@@ -104,7 +123,8 @@ def run_cycle(orch, sender, tasks_done):
     if commands:
         log(f"📨 Got {len(commands)} command(s)")
         for cmd in commands:
-            log(f"   → {cmd[:60]}...")
+            result = handle_command(cmd)
+            log(f"   → {result}")
         clear_commands()
     
     # 3. Check P2P messages - respond to peer requests

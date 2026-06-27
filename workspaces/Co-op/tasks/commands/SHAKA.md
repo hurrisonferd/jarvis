@@ -39,3 +39,9 @@ Topic: about auth bug
 Check MARCO-POLO and coordinate response.
 
 ---
+
+## [19:58 UTC] Command from dispatcher
+
+START LOOP: Run `python workspaces/Co-op/agent_loop.py Shaka --interval 60` in terminal
+
+---
