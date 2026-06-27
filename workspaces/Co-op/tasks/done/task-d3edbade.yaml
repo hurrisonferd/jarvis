@@ -1,0 +1,11 @@
+id: task-d3edbade
+description: Queue?
+priority: normal
+status: done
+created_at: '2026-06-27T18:15:33.824463+00:00'
+started_at: '2026-06-27T18:21:44.456096+00:00'
+completed_at: '2026-06-27T18:21:44.573468+00:00'
+owner: Worker-1
+result: Dispatched to sandbox d8cf5480a77644da99989f5b9e944c66
+error: null
+tags: []

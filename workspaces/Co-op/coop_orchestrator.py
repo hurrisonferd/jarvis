@@ -234,20 +234,18 @@ class CoOpOrchestrator:
             conv_id = result.get("conversation_id")
             
             if conv_id:
-                # Wait for sandbox to complete (poll)
-                print(f"   Waiting for sandbox {conv_id}...")
-                import time
-                for _ in range(120):  # 2 min timeout
-                    time.sleep(5)
-                    status = SENDER.get_status(conv_id) if SENDER else {}
-                    if status.get("sandbox_status") in ["PAUSED", "COMPLETED"]:
-                        break
+                # Note: Sandbox runs asynchronously
+                # Mark task as dispatched, sandbox will complete on its own
+                print(f"   🚀 Task dispatched to sandbox {conv_id}")
+                print(f"   Sandbox will complete autonomously")
+                print(f"   Note: Manual cleanup needed after sandbox finishes")
                 
-                # Mark as done
-                self.release(task.id, f"Completed via sandbox {conv_id}")
+                # For now, just mark as done (sandbox handles its own work)
+                # In production, you'd want webhook/callback or manual confirmation
+                self.release(task.id, f"Dispatched to sandbox {conv_id}")
                 
-                # Clean up sandbox
-                SENDER.delete_conversation(conv_id)
+                # Don't delete - let sandbox finish its work first
+                # User can run --cleanup-done later
             else:
                 # No sandbox (no API key), just mark done
                 self.release(task.id, "Completed (no sandbox)")

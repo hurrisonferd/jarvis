@@ -83,12 +83,28 @@ def bootstrap(satellite: str):
     print(f"   Running: {status['running']} active")
     print(f"   Done today: {status['done_today']} completed")
     
-    # 4. Spawn workers
+    # 4. Spawn workers in background (don't block)
     worker_count = WORKER_COUNTS.get(satellite, 2)
-    print(f"\n🤖 Step 4: Spawning {worker_count} workers...")
-    # Note: Workers spawn in background - just show status
-    print(f"   Fleet ready: Worker-1 through Worker-{worker_count}")
-    print(f"   Use: python {ORCHESTRATOR} --worker {satellite} --max-tasks 5")
+    print(f"\n🤖 Step 4: Spawning {worker_count} workers in background...")
+    
+    # Get worker range for this satellite
+    from coop_orchestrator import get_worker_range
+    start, _ = get_worker_range(satellite)
+    
+    for i in range(worker_count):
+        worker_name = f"Worker-{start + i}"
+        log_file = coop_path / f"logs" / f"{worker_name}.log"
+        log_file.parent.mkdir(exist_ok=True)
+        
+        # Start worker in background, redirect output to log
+        with open(log_file, "w") as log:
+            proc = subprocess.Popen([
+                sys.executable, str(coop_path / ORCHESTRATOR),
+                "--worker", worker_name,
+                "--max-tasks", "20"  # Each worker does 20 tasks then exits
+            ], stdout=log, stderr=subprocess.STDOUT, cwd=coop_path)
+        
+        print(f"   🚀 {worker_name} started (PID {proc.pid})")
     
     # 5. Post check-in
     print("\n📡 Step 5: Posting to MARCO-POLO...")

@@ -78,7 +78,7 @@ def natural_command(text: str, owner: str = "Lilith"):
         return orch.dashboard()
     
     # Default: submit as task
-    orch.submit(text, owner=owner)
+    orch.submit(text)
     return f"📝 Queued: {text[:50]}..."
 
 
