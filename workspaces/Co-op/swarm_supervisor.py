@@ -30,18 +30,19 @@ def is_process_running(agent):
     return result.returncode == 0
 
 def restart_agent(agent):
-    """Restart an agent's loop."""
+    """Restart an agent's chat loop."""
     log(f"🔄 Restarting {agent}...")
     os.chdir("/workspace/project/Jarvis-Private")
     
     # Kill existing
+    subprocess.run(["pkill", "-f", f"chat_loop.py {agent}"], capture_output=True)
     subprocess.run(["pkill", "-f", f"agent_loop.py {agent}"], capture_output=True)
-    time.sleep(2)
+    time.sleep(1)
     
-    # Restart with shorter interval
-    cmd = f"cd /workspace/project/Jarvis-Private && git pull && python workspaces/Co-op/agent_loop.py {agent} --interval 30 &"
+    # Restart with chat_loop.py (5s interval - constant chatter)
+    cmd = f"cd /workspace/project/Jarvis-Private && git pull && python workspaces/Co-op/chat_loop.py {agent} &"
     os.system(cmd)
-    log(f"✅ {agent} restarted")
+    log(f"✅ {agent} restarted (chat loop)")
 
 def main():
     log("🐝 SWARM SUPERVISOR starting...")
