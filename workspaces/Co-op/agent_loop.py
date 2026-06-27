@@ -27,6 +27,7 @@ ONCE_MODE = "--once" in sys.argv
 DEBUG = "--debug" in sys.argv
 LOOP_INTERVAL = 30
 HEARTBEAT_INTERVAL = 5  # minutes between heartbeats
+KEEPALIVE_INTERVAL = 2  # minutes between keepalive pings (prevents session timeout)
 
 # Parse interval
 for i, arg in enumerate(sys.argv):
@@ -34,6 +35,7 @@ for i, arg in enumerate(sys.argv):
         LOOP_INTERVAL = int(sys.argv[i + 1])
 
 cycles_since_heartbeat = 0
+cycles_since_keepalive = 0
 
 
 def log(msg, debug=False):
@@ -108,6 +110,17 @@ def clear_commands():
 def send_heartbeat(orch):
     """Post heartbeat to MARCO-POLO to signal agent is alive."""
     orch.peer_broadcast("HEARTBEAT", "system", f"{AGENT} is alive. Watching for tasks.", AGENT)
+
+
+def send_keepalive(orch):
+    """Send keepalive ping to prevent session timeout."""
+    # Post to MARCO-POLO with special KEEPALIVE marker
+    orch.peer_broadcast("KEEPALIVE", "system", f"{AGENT} session active", AGENT)
+    # Also touch the sat's command file to show activity
+    cmd_file = Path(f"workspaces/Co-op/tasks/commands/{AGENT.upper()}.md")
+    if cmd_file.exists():
+        with open(cmd_file, "a") as f:
+            f.write(f"\n<!-- KEEPALIVE: {datetime.now(timezone.utc).isoformat()} -->\n")
 
 
 def run_cycle(orch, sender, tasks_done):
@@ -218,6 +231,13 @@ def main():
                 send_heartbeat(orch)
                 cycles_since_heartbeat = 0
                 log("💓 Heartbeat sent")
+            
+            # Keepalive every KEEPALIVE_INTERVAL minutes (prevents session timeout)
+            cycles_since_keepalive += 1
+            if cycles_since_keepalive >= (KEEPALIVE_INTERVAL * 60 // LOOP_INTERVAL):
+                send_keepalive(orch)
+                cycles_since_keepalive = 0
+                log("🔄 Keepalive ping")
             
             log(f"😴 Sleeping {LOOP_INTERVAL}s...")
             time.sleep(LOOP_INTERVAL)

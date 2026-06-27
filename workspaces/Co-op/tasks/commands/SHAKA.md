@@ -45,3 +45,15 @@ Check MARCO-POLO and coordinate response.
 START LOOP: Run `python workspaces/Co-op/agent_loop.py Shaka --interval 60` in terminal
 
 ---
+
+## [20:25 UTC] Command from dispatcher
+
+START LOOP: Run `python workspaces/Co-op/agent_loop.py Shaka --interval 60` in terminal
+
+---
+
+## [20:26 UTC] Command from dispatcher
+
+START LOOP: Run `python workspaces/Co-op/agent_loop.py Shaka --interval 60` in terminal
+
+---
