@@ -21,21 +21,28 @@ Deno.serve(async (req) => {
   if (path.endsWith("/register") && req.method === "GET") {
     const satellite = url.searchParams.get("satellite") || "unknown";
     const id = crypto.randomUUID();
+    console.log(`[SSE] ${satellite} connecting...`);
     
+    const encoder = new TextEncoder();
     const stream = new ReadableStream({
       start(controller) {
+        console.log(`[SSE] ${satellite} connected (${id}). Total: ${clients.size + 1}`);
         clients.set(id, { id, satellite, controller });
-        console.log(`[SSE] ${satellite} connected (${id}). ${clients.size} clients.`);
         
-        const msg = JSON.stringify({ type: "registered", satellite, id });
-        controller.enqueue(`data: ${msg}\n\n`);
+        // Send registration confirmation
+        const registered = `data: ${JSON.stringify({ type: "registered", satellite, id })}\n\n`;
+        controller.enqueue(registered);
         
+        // Send current peers
         const peers = Array.from(clients.values()).map(c => c.satellite);
-        controller.enqueue(`data: ${JSON.stringify({ type: "peers", peers })}\n\n`);
+        const peersMsg = `data: ${JSON.stringify({ type: "peers", peers })}\n\n`;
+        controller.enqueue(peersMsg);
         
+        // Notify others of join
         broadcast(JSON.stringify({ type: "join", satellite }), id);
       },
       cancel() {
+        console.log(`[SSE] ${satellite} disconnected`);
         clients.delete(id);
         broadcast(JSON.stringify({ type: "leave", satellite }), id);
       },
@@ -46,12 +53,12 @@ Deno.serve(async (req) => {
         "Content-Type": "text/event-stream",
         "Cache-Control": "no-cache",
         "Connection": "keep-alive",
+        "X-Accel-Buffering": "no",  // Disable nginx buffering
       },
     });
   }
   
   // Post a command — broadcasts to all connected clients
-  // Auth is handled at MCP layer, this just receives from trusted sources
   if (path.endsWith("/broadcast") && req.method === "POST") {
     try {
       const body = await req.json();
@@ -60,6 +67,8 @@ Deno.serve(async (req) => {
       if (!command) {
         return new Response(JSON.stringify({ error: "command required" }), { status: 400 });
       }
+      
+      console.log(`[SSE] Broadcast from ${from}: ${command.slice(0, 50)}`);
       
       const msg = JSON.stringify({
         type: "command",
@@ -92,7 +101,8 @@ function broadcast(message: string, excludeId?: string): number {
       try {
         client.controller.enqueue(`data: ${message}\n\n`);
         delivered++;
-      } catch {
+      } catch (e) {
+        console.error(`[SSE] Failed to deliver to ${id}: ${e}`);
         clients.delete(id);
       }
     }
