@@ -2,8 +2,9 @@
 
 <!-- TASKS -->
 
-- [ ] task-1 | Create test file for raven | create: touch /workspace/project/raven/test.md
-- [ ] task-2 | List raven files | create: ls -la /workspace/project/raven
-- [ ] task-3 | Check workspace | create: find /workspace -maxdepth 2 -type d
+- [x] task-4 | done: Shaka
+- [x] task-5 | done: Stella
+- [ ] task-6 | List workspace projects | create: ls /workspace/project
+- [ ] task-7 | Git status | create: git -C /workspace/project/Jarvis-Private status
 
 <!-- END TASKS -->
