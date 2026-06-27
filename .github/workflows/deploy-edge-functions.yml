@@ -17,6 +17,12 @@ on:
       - "supabase/functions/grid-write/**"
       - "supabase/functions/grid-event/**"
       - "supabase/functions/bifrost/**"
+      - "supabase/functions/coop-broadcast/**"
+      - "supabase/functions/jarvis-broadcast/**"
+      - "supabase/functions/jarvis-monitor/**"
+      - "supabase/functions/jarvis-respond/**"
+      - "supabase/functions/send-push/**"
+      - "supabase/functions/mnemos-*/**"
       - "supabase/migrations/**"
   workflow_dispatch:
     inputs:
