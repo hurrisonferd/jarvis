@@ -20,7 +20,7 @@ MARCO_POLO_PATH = "workspaces/Co-op/MARCO-POLO.md"
 STATE_FILE = "/tmp/coop-poller-state.json"
 OPENHANDS_API_KEY = os.environ.get("OPENHANDS_API_KEY", "")
 JARVIS_MCP_URL = f"{SB_URL}/functions/v1/jarvis-mcp"
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+GITHUB_TOKEN = os.environ.get("GIT_TOKEN_PRIVATE", "")
 
 
 def get_last_check() -> datetime:
