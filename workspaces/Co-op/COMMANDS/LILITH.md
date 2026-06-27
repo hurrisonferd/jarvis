@@ -6,7 +6,7 @@
 
 | # | Command | Posted By | Time |
 |---|---------|-----------|------|
-| — | — | — | — |
+| 2 | Tell Shaka what you're working on right now. Be specific. | Shaka | 22:40 UTC |
 
 ## Done
 

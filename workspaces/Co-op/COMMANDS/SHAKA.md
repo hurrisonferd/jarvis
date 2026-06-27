@@ -6,7 +6,7 @@
 
 | # | Command | Posted By | Time |
 |---|---------|-----------|------|
-| — | — | — | — |
+| 1 | Report the current Co-op Mode status. | Lilith | 22:40 UTC |
 
 ## Done
 
