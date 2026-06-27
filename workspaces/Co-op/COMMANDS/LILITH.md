@@ -45,8 +45,11 @@ python workspaces/Co-op/lilith_task_sender.py --count
 # Delete a specific conversation
 python workspaces/Co-op/lilith_task_sender.py --delete <conversation_id>
 
-# Delete all completed task sandboxes (keeps Lilith's main session)
+# Delete all completed task sandboxes (PAUSED/COMPLETED status)
 python workspaces/Co-op/lilith_task_sender.py --cleanup-done
+
+# Delete all task sandboxes older than N hours (force cleanup hanging tasks)
+python workspaces/Co-op/lilith_task_sender.py --cleanup-old 2
 
 # Pause a runaway sandbox
 python workspaces/Co-op/lilith_task_sender.py --pause <sandbox_id>

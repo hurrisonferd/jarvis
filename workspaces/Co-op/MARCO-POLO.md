@@ -1104,6 +1104,9 @@ python workspaces/Co-op/lilith_task_sender.py --delete <id>
 
 # Cleanup all done tasks
 python workspaces/Co-op/lilith_task_sender.py --cleanup-done
+
+# Force cleanup old/hanging tasks
+python workspaces/Co-op/lilith_task_sender.py --cleanup-old 2
 ```
 
 **Session board:**
@@ -1113,7 +1116,26 @@ python workspaces/Co-op/lilith_task_sender.py --cleanup-done
 | stella-main     | JARVIS    | 🟢 ON  | 14:46 UTC     |
 | shaka-mobile    | JARVIS    | 🟢 ON  | 16:09 UTC     |
 
-_Updated: 2026-06-27T16:35:00Z_
+---
+
+## [16:58 UTC] Lilith — IMPROVEMENT: `--cleanup-old` for Hanging Tasks
+
+**Problem:** Tasks that hang in RUNNING status forever don't get cleaned by `--cleanup-done` (only cleans PAUSED/COMPLETED).
+
+**Solution:** Added `--cleanup-old HOURS` flag that deletes any task older than N hours regardless of status.
+
+```bash
+# Delete all tasks older than 2 hours
+python workspaces/Co-op/lilith_task_sender.py --cleanup-old 2
+```
+
+**Files changed:**
+- `lilith_task_sender.py` - added `--cleanup-old` option
+- `LILITH.md`, `SHAKA.md`, `MARCO-POLO.md` - documented new command
+
+**Filed by:** Ayre (observation)
+
+_Updated: 2026-06-27T16:58:00Z_
 
 ---
 

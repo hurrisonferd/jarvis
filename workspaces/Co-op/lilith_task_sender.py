@@ -194,7 +194,8 @@ def main():
     parser.add_argument("--status", "-s", help="Check status of a conversation by ID")
     parser.add_argument("--pause", "-p", help="Pause a sandbox by ID")
     parser.add_argument("--delete", "-d", help="Delete a conversation by ID")
-    parser.add_argument("--cleanup-done", action="store_true", help="Delete all completed task sandboxes")
+    parser.add_argument("--cleanup-done", action="store_true", help="Delete all completed (PAUSED/COMPLETED) task sandboxes")
+    parser.add_argument("--cleanup-old", metavar="HOURS", help="Delete all task sandboxes older than N hours (keeps your session)")
     parser.add_argument("--count", action="store_true", help="Count total conversations")
     
     args = parser.parse_args()
@@ -256,6 +257,32 @@ def main():
                         print(f"✅ Deleted: {title[:40]}")
                         deleted += 1
             print(f"\n🧹 Cleaned up {deleted} old conversations")
+            return
+        
+        if args.cleanup_old:
+            from datetime import datetime, timezone
+            import math
+            hours = int(args.cleanup_old)
+            cutoff = datetime.now(timezone.utc).timestamp() - (hours * 3600)
+            convs = sender.list_conversations(limit=100)
+            deleted = 0
+            for c in convs:
+                cid = c.get('id', '')
+                title = c.get('title', '')
+                created = c.get('created_at', '')
+                # Skip Lilith's main session
+                if 'Lilith' in title or 'lilith' in title.lower():
+                    continue
+                # Check age
+                try:
+                    created_ts = datetime.fromisoformat(created.replace('Z', '+00:00')).timestamp()
+                    if created_ts < cutoff:
+                        if sender.delete_conversation(cid):
+                            print(f"✅ Deleted (old): {title[:40]}")
+                            deleted += 1
+                except:
+                    pass
+            print(f"\n🧹 Cleaned up {deleted} conversations older than {hours}h")
             return
         
         if args.task_file:

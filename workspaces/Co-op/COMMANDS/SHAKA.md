@@ -21,8 +21,11 @@ python workspaces/Co-op/lilith_task_sender.py --list
 # Delete a completed task
 python workspaces/Co-op/lilith_task_sender.py --delete <conversation_id>
 
-# Cleanup all done tasks
+# Cleanup all done tasks (PAUSED/COMPLETED)
 python workspaces/Co-op/lilith_task_sender.py --cleanup-done
+
+# Force cleanup old/hanging tasks (>2 hours)
+python workspaces/Co-op/lilith_task_sender.py --cleanup-old 2
 ```
 
 ### Task Lifecycle
