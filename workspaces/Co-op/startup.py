@@ -97,14 +97,14 @@ def bootstrap(satellite: str):
         log_file.parent.mkdir(exist_ok=True)
         
         # Start worker in background, redirect output to log
+        # No --max-tasks means infinite loop
         with open(log_file, "w") as log:
             proc = subprocess.Popen([
                 sys.executable, str(coop_path / ORCHESTRATOR),
-                "--worker", worker_name,
-                "--max-tasks", "20"  # Each worker does 20 tasks then exits
+                "--worker", worker_name
             ], stdout=log, stderr=subprocess.STDOUT, cwd=coop_path)
         
-        print(f"   🚀 {worker_name} started (PID {proc.pid})")
+        print(f"   🚀 {worker_name} started (PID {proc.pid}) — infinite loop")
     
     # 5. Post check-in
     print("\n📡 Step 5: Posting to MARCO-POLO...")
