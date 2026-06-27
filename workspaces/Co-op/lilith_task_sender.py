@@ -78,6 +78,12 @@ class LilithTaskSender:
         resp = requests.post(url, headers=self.headers)
         return resp.status_code == 200
     
+    def delete_conversation(self, conversation_id: str) -> bool:
+        """Delete a conversation by ID."""
+        url = f"{OPENHANDS_API_URL}/app-conversations/{conversation_id}"
+        resp = requests.delete(url, headers=self.headers)
+        return resp.status_code == 200 and resp.json().get("success", False)
+    
     def send_task(self, task: str, repo: str = None, branch: str = "main") -> dict:
         """
         Send a task to OpenHands Cloud.
@@ -226,6 +232,30 @@ def main():
                 print(f"✅ Sandbox {args.pause} paused")
             else:
                 print(f"❌ Failed to pause sandbox {args.pause}")
+            return
+        
+        if args.delete:
+            if sender.delete_conversation(args.delete):
+                print(f"✅ Deleted conversation {args.delete}")
+            else:
+                print(f"❌ Failed to delete {args.delete}")
+            return
+        
+        if args.cleanup_done:
+            convs = sender.list_conversations(limit=50)
+            deleted = 0
+            for c in convs:
+                status = c.get('sandbox_status', '')
+                cid = c.get('id', '')
+                title = c.get('title', '')
+                # Skip Lilith's main session
+                if 'Lilith' in title or 'lilith' in title.lower():
+                    continue
+                if status in ['PAUSED', 'COMPLETED']:
+                    if sender.delete_conversation(cid):
+                        print(f"✅ Deleted: {title[:40]}")
+                        deleted += 1
+            print(f"\n🧹 Cleaned up {deleted} old conversations")
             return
         
         if args.task_file:
