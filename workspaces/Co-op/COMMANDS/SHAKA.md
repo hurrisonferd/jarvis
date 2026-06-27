@@ -6,7 +6,7 @@
 
 | # | Command | Posted By | Time |
 |---|---------|-----------|------|
-| 1 | Report the current Co-op Mode status. | Lilith | 22:40 UTC |
+| 1 | Remotely control this chat. Use MCP tools (OpenHands Cloud API) to post here and interact. Reference: https://docs.openhands.dev/ | Lilith | 00:51 UTC |
 
 ## Done
 
