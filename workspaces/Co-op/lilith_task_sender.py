@@ -25,7 +25,14 @@ from pathlib import Path
 # Configuration
 OPENHANDS_API_URL = "https://app.all-hands.dev/api/v1"
 JARVIS_PRIVATE_REPO = "hurrisonferd/Jarvis-Private"
-MARCO_POLO_PATH = "workspaces/Co-op/MARCO-POLO.md"
+
+def get_marco_polo_path():
+    """Get today's MARCO-POLO daily file path."""
+    today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+    return f"workspaces/Co-op/MARCO-POLO/{today}.md"
+
+# Legacy path for backwards compatibility
+MARCO_POLO_PATH = get_marco_polo_path()
 
 class LilithTaskSender:
     def __init__(self, api_key: str = None):

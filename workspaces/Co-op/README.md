@@ -1,42 +1,112 @@
 # Co-op
 
-**Vegapunk's Satellite System** — Lilith (desktop) and Shaka (mobile), two workers, one keel.
+**Free Agent Dispatch System** — Tasks queue up, satellites pick them up when available.
 
-**Purpose:** Orchestration layer for parallel sessions. You pilot both satellites from either device. Both poll Co-op on every turn.
+Like Uber/Lyft for code:
+- **Tasks** = passengers waiting for pickup
+- **Satellites** = drivers going online/offline  
+- **Queue** = the dispatch board
+- **MARCO-POLO** = the trip log
 
-**Satellites:**
-- **Lilith** — desktop (the original, more resources, longer sessions)
-- **Shaka** — mobile (on-the-go, quick tasks, handoffs)
+## Architecture
 
-**Folders:**
-- `COMMANDS/` — where you post tasks for each satellite
-  - `LILITH.md` — commands for desktop
-  - `SHAKA.md` — commands for mobile
-  - `SHARED.md` — tasks split between both (then merged)
-- `sessions/` — session manifests (satellite name, device, task, heartbeat)
-- `tasks/` — shared task queue (who's working on what)
-- `notes/` — ad-hoc handoffs between satellites
-- `MARCO-POLO.md` — shared log, both append
+```
+┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
+│  Dispatch   │────▶│  Task Queue      │────▶│  Sandbox    │
+│  (You)      │     │  (Git-backed)    │     │  (Driver)   │
+└─────────────┘     └──────────────────┘     └─────────────┘
+                           │                        │
+                           ▼                        ▼
+                    ┌──────────────┐         ┌─────────────┐
+                    │ MARCO-POLO   │◀────────│  Trip Log   │
+                    │ (Daily Log)  │         │  (Git)      │
+                    └──────────────┘         └─────────────┘
+```
 
-**Rules:**
-1. You post command → either satellite picks it up on next turn
-2. Satellite executes → posts result to MARCO-POLO
-3. No silent overwrites — append to command files, mark done not deleted
+## Satellites
 
-## Session Protocol (each turn)
+All satellites have equal dispatch ability. Plus disposable Worker-N drivers.
 
-1. **Read commands** → check COMMANDS/{SATELLITE}.md for pending tasks
-2. **Execute** → run the command, post result to MARCO-POLO
-3. **Mark done** → move command to Done section
-4. **Heartbeat** → update manifest with current task
+| Driver | Type | Best For |
+|--------|------|----------|
+| **Lilith** | Desktop | Long tasks, heavy lifting |
+| **Shaka** | Mobile | Quick tasks, on-the-go |
+| **Stella** | Cloud | Background jobs |
+| **Worker-N** | Disposable | Burst capacity, auto-spawned |
 
-## Example Usage
+### Spawn Workers
 
-**From desktop:** "Lilith, run JVE" + "Shaka, check the JATM"
-→ Both work in parallel, both post to MARCO-POLO
+```bash
+# Spawn 3 Worker-N drivers (auto-named Worker-1, Worker-2, Worker-3)
+python workspaces/Co-op/coop_orchestrator.py --spawn 3 --max-tasks 5
 
-**From mobile:** "Shaka, audit the GRIMOIRE"
-→ Shaka executes, Lilith sees result on next turn
+# Workers auto-claim from queue, complete tasks, then exit
+```
 
-**Shared task:** "Compare ARCHREFIDX across both repos"
-→ Lilith checks jarvis, Shaka checks Jarvis-Private, merge in SHARED.md
+## Components
+
+| File | Purpose |
+|------|---------|
+| `coop_orchestrator.py` | Main dispatch CLI |
+| `lilith_task_sender.py` | Send tasks to OpenHands Cloud |
+| `rate_limiter.py` | Token bucket for API limits |
+| `tasks/format.py` | Task data structures |
+| `tasks/queue/` | Waiting passengers |
+| `tasks/running/` | In-trip (owned) |
+| `tasks/done/` | Completed trips |
+| `tasks/archive/` | Old trips (>7 days) |
+
+## Quick Start
+
+```bash
+# Dispatch a task
+python workspaces/Co-op/coop_orchestrator.py --submit "Fix the auth bug"
+
+# Check dispatch board
+python workspaces/Co-op/coop_orchestrator.py --status
+
+# Full dashboard
+python workspaces/Co-op/coop_orchestrator.py --dashboard
+
+# Go online as driver
+python workspaces/Co-op/coop_orchestrator.py --worker Lilith --max-tasks 5
+
+# Bulk dispatch from file
+python workspaces/Co-op/coop_orchestrator.py --file my-tasks.txt
+```
+
+## Task Lifecycle
+
+1. **Dispatch** → Task added to queue (`tasks/queue/`)
+2. **Pickup** → Driver claims it → sandbox spins up
+3. **Trip** → Sandbox executes, commits work
+4. **Completion** → Result posted to MARCO-POLO daily log
+5. **Archive** → Old tasks moved after 7 days
+
+## Rate Limits
+
+| Limit | Value | Purpose |
+|-------|-------|---------|
+| API calls/sec | 10 burst | Avoid hammering |
+| Concurrent sandboxes | 5 | Don't spawn a fleet |
+| Git pushes/hr | 50 | Stay friendly |
+
+## Coordination
+
+Git-backed queue = built-in conflict resolution.
+
+File-based ownership = no two drivers pick up same job.
+
+```bash
+# Submit with priority
+python coop_orchestrator.py --submit "URGENT" --priority critical
+
+# Priority levels: low, normal, high, critical
+```
+
+## Daily Logs
+
+All trip logs go to daily files:
+```
+workspaces/Co-op/MARCO-POLO/2026-06-27.md
+```

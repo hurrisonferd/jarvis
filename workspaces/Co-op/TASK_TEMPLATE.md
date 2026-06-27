@@ -2,6 +2,13 @@
 
 Use this template when creating tasks for Lilith to execute via OpenHands Cloud.
 
+## Daily Log
+
+MARCO-POLO entries go to today's daily file:
+```
+workspaces/Co-op/MARCO-POLO/YYYY-MM-DD.md
+```
+
 ## Template
 
 ```markdown
@@ -34,18 +41,18 @@ Then append the task ID to workspaces/Co-op/tasks/TASKS-INDEX.md
 
 ### Complex Task
 ```
-1. Read the current SESSION BOARD in MARCO-POLO.md
+1. Read the current SESSION BOARD in today's MARCO-POLO daily log
 2. Update the Lilith check-in time to the current UTC time
-3. Post your changes to MARCO-POLO
+3. Commit your changes
 4. Delete this conversation when done
 ```
 
 ## Workflow
 
 1. **Lilith sends task** → New sandbox created
-2. **Sandbox executes** → Does the work, posts to MARCO-POLO
-3. **Sandbox self-deletes** → Cleanup happens automatically
-4. **Lilith sees output** → Full audit trail in MARCO-POLO
+2. **Sandbox executes** → Does the work, commits to git
+3. **Sandbox posts** → Entry added to today's MARCO-POLO daily log
+4. **Lilith cleans up** → Deletes sandbox via API when done
 
 ## Task Queue
 

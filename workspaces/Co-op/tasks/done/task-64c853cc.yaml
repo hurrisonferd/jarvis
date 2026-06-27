@@ -1,0 +1,11 @@
+id: task-64c853cc
+description: Test task from free agent system
+priority: normal
+status: done
+created_at: '2026-06-27T17:32:41.573680+00:00'
+started_at: '2026-06-27T17:40:33.444691+00:00'
+completed_at: '2026-06-27T17:40:33.446072+00:00'
+owner: Worker-1
+result: Completed (no sandbox)
+error: null
+tags: []
