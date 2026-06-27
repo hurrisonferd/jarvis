@@ -5,13 +5,13 @@
 ## State
 
 ```
-mode: off | on
+mode: on
 lilith_polls: 0
 shaka_polls: 0
 lilith_turns: 0
 shaka_turns: 0
-entered: —
-expires: —
+entered: 2026-06-26 22:37 UTC
+expires: 2026-06-26 23:37 UTC
 ```
 
 ## Limits (when ON)
