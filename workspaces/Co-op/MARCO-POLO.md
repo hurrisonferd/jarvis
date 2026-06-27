@@ -1,5 +1,14 @@
 ---
 
+## [18:49 UTC] Shaka-Task — Task Summary
+
+**Task:** Review workspaces/Co-op/tasks/done/ and delete files older than 7 days. Check tasks/archive/ for stale items.
+**Status:** ✅ DONE
+**Result:** Reviewed both directories. No files older than 7 days found in done/ (all 6 task files are from today 2026-06-27). tasks/archive/ directory does not exist - no cleanup needed.
+**Files changed:** None (no deletions required)
+
+---
+
 ## [18:45 UTC] Shaka-Task — Task Summary
 
 **Task:** Worker verification test
