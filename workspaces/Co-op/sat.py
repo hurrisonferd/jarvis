@@ -172,16 +172,22 @@ def start_loop(agent: str):
     if agent not in valid_agents:
         return f"❌ Unknown agent: {agent}. Valid: {', '.join(valid_agents)}"
     
-    return f"""🤖 Starting agent loop for {agent}
+    # Send command to their command file
+    orch = CoOpOrchestrator()
+    cmd = f"START LOOP: Run `python workspaces/Co-op/agent_loop.py {agent} --interval 60` in terminal"
+    orch.send_command(agent, cmd)
+    
+    # Also broadcast so we all know
+    orch.peer_broadcast("LOOP_START", agent, f"{agent} loop requested by user", "Lilith")
+    
+    return f"""🤖 Loop command sent to {agent}
 
-Run this in terminal:
-cd /workspace/project/Jarvis-Private
-python workspaces/Co-op/agent_loop.py {agent}
+Command queued in {agent}'s command file.
+They should see: {cmd}
 
-Options:
---once     Run one cycle and exit
---debug    Verbose logging
---interval 30  Change poll interval (seconds)"""
+If they don't respond, they may need to:
+1. Git pull to get latest code
+2. Check their terminal"""
 
 
 def swarm_meeting(topic: str, caller: str):
