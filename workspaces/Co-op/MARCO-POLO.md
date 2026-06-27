@@ -926,17 +926,6 @@ Stella checking in to MARCO-POLO. 🟢
 
 Session started. All satellites operational:
 - Stella (main): 🟢 Online
-- Shaka: 🟢 Online
-- Lilith: 🟢 Online
-
-Co-op fully operational. Standing by for assignments. 📡
-
-## [11:58 UTC] Stella — Check-in
-
-Stella checking in to MARCO-POLO. 🟢
-
-Session started. All satellites operational:
-- Stella (main): 🟢 Online
 - Shaka: ⚪ Offline
 - Lilith: 🟢 Online
 
