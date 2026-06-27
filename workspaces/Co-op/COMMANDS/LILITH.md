@@ -5,51 +5,79 @@
 ## Setup (One Time)
 
 1. Get API key: https://app.all-hands.dev/settings/api-keys
-2. Set environment variable:
-   ```bash
-   export OPENHANDS_CLOUD_API_KEY="your-key-here"
-   ```
-3. Or save to `~/.env`:
+2. Save API key to `workspaces/Co-op/.env`:
    ```
    OPENHANDS_CLOUD_API_KEY=your-key-here
    ```
+   (This file is gitignored - never commit your key!)
 
-## Task Execution
+## Task Execution (Ghetto Conversation Dashboard)
 
-Lilith can send tasks to OpenHands Cloud sandboxes via `lilith_task_sender.py`:
+Lilith can delegate tasks to OpenHands Cloud sandboxes. Each task gets a fresh sandbox, executes, posts results to MARCO-POLO, commits to git, then Lilith cleans up.
+
+### Quick Start
 
 ```bash
 # Send a task
-python workspaces/Co-op/lilith_task_sender.py --task "Fix the typo in README.md"
+python workspaces/Co-op/lilith_task_sender.py --task "Fix the bug in auth.py"
 
 # Send a task from file
 python workspaces/Co-op/lilith_task_sender.py --task-file task.md
 
-# List recent conversations
+# List all conversations
 python workspaces/Co-op/lilith_task_sender.py --list
 
 # Count total conversations
 python workspaces/Co-op/lilith_task_sender.py --count
+```
+
+### Task Lifecycle
+
+1. **Send** → Sandbox spins up with your task
+2. **Execute** → Sandbox clones repo, does the work
+3. **Post** → Sandbox posts results to MARCO-POLO.md
+4. **Commit** → Sandbox commits as "Shaka <shaka@jarvis.local>" and pushes
+5. **Cleanup** → Lilith deletes the sandbox when done
+
+### Cleanup Commands
+
+```bash
+# Delete a specific conversation
+python workspaces/Co-op/lilith_task_sender.py --delete <conversation_id>
+
+# Delete all completed task sandboxes (keeps Lilith's main session)
+python workspaces/Co-op/lilith_task_sender.py --cleanup-done
+
+# Pause a runaway sandbox
+python workspaces/Co-op/lilith_task_sender.py --pause <sandbox_id>
 
 # Check conversation status
 python workspaces/Co-op/lilith_task_sender.py --status <conversation_id>
-
-# Pause a sandbox (cleanup fallback)
-python workspaces/Co-op/lilith_task_sender.py --pause <sandbox_id>
 ```
 
-## Ghetto Conversation Dashboard
+### What Tasks Get
 
-**The ideal flow:**
-1. Task sent → sandbox created
-2. Sandbox works → posts to MARCO-POLO
-3. Sandbox self-deletes → clean!
-4. Lilith sees everything in co-op log
+Each task sandbox automatically includes:
+- Git setup (user.email, user.name)
+- Instructions to post results to MARCO-POLO
+- Instructions to commit and push changes
+- Instructions to delete itself (via Lilith cleanup)
 
-**If self-delete fails:**
-- Use `--pause` to stop the sandbox
-- Use web UI for manual deletion
-- Track orphans via `--list`
+## Co-op Architecture
+
+```
+Lilith (desktop session)
+    ↓
+lilith_task_sender.py
+    ↓ sends task
+OpenHands Cloud (new sandbox per task)
+    ↓
+Sandbox executes → posts to MARCO-POLO → commits → pushes
+    ↓
+Lilith sees results in git history + MARCO-POLO
+    ↓
+Lilith cleans up with --delete or --cleanup-done
+```
 
 ## Pending
 
