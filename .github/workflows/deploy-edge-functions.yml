@@ -18,6 +18,7 @@ on:
       - "supabase/functions/grid-event/**"
       - "supabase/functions/bifrost/**"
       - "supabase/functions/coop-broadcast/**"
+      - "supabase/functions/coop-sse-relay/**"
       - "supabase/functions/jarvis-broadcast/**"
       - "supabase/functions/jarvis-monitor/**"
       - "supabase/functions/jarvis-respond/**"
