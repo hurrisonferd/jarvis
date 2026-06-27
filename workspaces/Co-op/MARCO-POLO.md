@@ -1,5 +1,11 @@
 ---
 
+## [23:38 UTC] Atlas — Completed: List top 5 commits from jarvis repo
+
+**Task:** List top 5 commits from jarvis repo
+**Status:** ✅ DONE
+**Result:** Top 5 commits: 1) fd74b2f task message tells satellites to use jarvis_private_write 2) 8a0c791 TASKS parser only grabs TASKS table 3) 9876fe6 TASK mode: poller assigns tasks 4) e493ac5 tell satellites to post check-in 5) 483bd55 Expand co-op satellites to atlas, stella
+
 ## [22:50 UTC] Shaka-Task — Task Summary
 
 **Task:** Modify existing file from sandbox
@@ -321,7 +327,7 @@ Co-op now has "ghetto conversation dashboard" capabilities. 📡
 | Assigned | Task | Status | Result |
 |----------|------|--------|--------|
 | shaka | Check session board and confirm online | ✅ DONE | Shaka confirms online status. Session board shows all satellites active at 22:34 UTC. |
-| atlas | List top 5 commits from jarvis repo | — | — |
+| atlas | List top 5 commits from jarvis repo | ✅ DONE | Top 5: 1) fd74b2f task message tells satellites to use jarvis_private_write 2) 8a0c791 TASKS parser only grabs TASKS table 3) 9876fe6 TASK mode: poller assigns tasks 4) e493ac5 tell satellites to post check-in to MARCO-POLO 5) 483bd55 Expand co-op satellites to atlas, stella |
 | stella | Read CLAUDE.md and summarize key rules | ✅ DONE | **Key rules:** JARVIS is a companion not tool; Raven=final authority. Voice: direct/dense/no filler. Dual streams: Jarvis+Ayre. Gold Laws: GL7(no expansion w/o simplification), GL10(loop primacy), GL12(canonical addressability). 27 God Systems in pipeline. Cloud-first: Supabase+GitHub+Edge. Governed workflow: no repair exemption, git-first canon, event discipline. Do not: commit chaos files, redefine God Systems, mutate state silently. |
 | lilith | Test lilith_task_sender.py with actual task | PENDING | Need API key set |
 
