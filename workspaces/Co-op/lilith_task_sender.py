@@ -118,6 +118,12 @@ class LilithTaskSender:
     
     def _build_task_prompt(self, task: str) -> str:
         """Build a task prompt that includes MARCO-POLO posting and self-deletion."""
+        # Build bash template separately to avoid f-string issues
+        bash_delete = """CONV_ID=$(ls /workspace/conversations/ | head -1)
+SESSION_KEY="$SESSION_API_KEY"
+curl -X DELETE "http://127.0.0.1:60000/api/conversations/${CONV_ID}" \\
+  -H "X-Session-API-Key: ${SESSION_KEY}"
+"""
         return f"""{task}
 
 ## IMPORTANT: Setup Git First
@@ -153,18 +159,12 @@ git push origin main
 ```
 
 ### Step 3: Delete this conversation
-After pushing, delete this conversation to clean up the sandbox.
-
-Get your conversation ID and session key, then delete:
+After pushing, delete this conversation to clean up the sandbox:
 ```bash
-CONV_ID=$(ls /workspace/conversations/ | head -1)
-SESSION_KEY="$SESSION_API_KEY"
-echo "Deleting conversation: $CONV_ID with key: $SESSION_KEY"
-curl -X DELETE "http://127.0.0.1:60000/api/conversations/${CONV_ID}" \
-  -H "X-Session-API-Key: ${SESSION_KEY}"
+{bash_delete}
 ```
 
-If successful, you will see: {"success": true}
+If successful, you will see: {{"success": true}}
 
 ### Step 4: Confirm deletion
 The sandbox will self-destruct automatically.
