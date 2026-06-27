@@ -2,53 +2,72 @@
 
 **3 agents, 1 user, parallel execution, shared consciousness.**
 
+## Swarm Rules (MANDATORY)
+
+| Rule | Limit | Why |
+|------|-------|-----|
+| **Max concurrent tasks** | 8 | Prevent resource contention |
+| **Pre-swarm cleanup** | Delete all except Lilith | Start fresh, no orphans |
+| **One swarm log** | Append to current MP-*.md | No polluting main MARCO-POLO |
+| **New log only if** | Current > 200 lines OR new day | Keep logs manageable |
+
+## Pre-Swarm Checklist
+
+```
+Before sending ANY swarm task:
+1. python lilith_task_sender.py --cleanup-old 1   # Delete old tasks
+2. python lilith_task_sender.py --list             # Verify only Lilith remains
+3. Check active count ≤ 8 before sending new task
+```
+
 ## The Vision
 
 You talk to all 3 agents simultaneously. They:
 1. Read the shared MARCO-POLO log
 2. Claim tasks without stepping on each other
 3. Execute in parallel
-4. Post results back to MARCO-POLO
-5. You see the merged output
+4. Post results back to swarm log (MP-*.md)
+5. You see the merged output via git pull
 
 ## Architecture
 
 ```
-         YOU (typing to all 3)
-              ↓ ↓ ↓
+         YOU (Lilith chat)
+              ↓
     ┌─────────┼─────────┐
     ↓         ↓         ↓
   Lilith    Shaka    Stella
     ↓         ↓         ↓
     └─────────┼─────────┘
               ↓
-         MARCO-POLO
-         (shared log)
+         MP-*.md (swarm log)
+         (shared via git)
               ↓
     ┌─────────┼─────────┐
     ↓         ↓         ↓
-  Worker-1  Worker-2  Worker-3
+  Worker-1  Worker-2  Worker-N
     ↓         ↓         ↓
   Sandbox   Sandbox   Sandbox
+  (max 8 concurrent)
 ```
 
 ## How It Works
 
 ### Each Agent Does This Every Turn:
 
-1. **Git sync** → pull latest MARCO-POLO + queue
-2. **Read MARCO-POLO** → see who's on what
-3. **Check queue** → claim next task or help someone
-4. **Execute** → dispatch to sandbox or do work
-5. **Broadcast** → post status to MARCO-POLO
-6. **Push** → so others see the update
+1. **Git sync** → pull latest swarm log
+2. **Read log** → see who's on what
+3. **Claim task** → from queue or manual assignment
+4. **Execute** → dispatch to sandbox
+5. **Append result** → to MP-*.md log
+6. **Commit & push** → so Lilith sees updates
 
 ## Coordination Rules
 
 | Rule | What | Why |
 |------|------|-----|
-| **Pre-diff** | Check MARCO-POLO before starting | Don't duplicate work |
-| **Claim loudly** | Post "Started X" to MARCO-POLO | Others skip it |
+| **Pre-diff** | Check swarm log before starting | Don't duplicate work |
+| **Claim loudly** | Post "Started X" to log | Others skip it |
 | **Help protocol** | Post "Need backup" if stuck | Swarm rescues each other |
 | **Never delete others' work** | Only clean your own | Trust the team |
 
