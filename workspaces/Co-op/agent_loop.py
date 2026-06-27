@@ -98,7 +98,26 @@ def run_cycle(orch, sender, tasks_done):
             log(f"   → {cmd[:60]}...")
         clear_commands()
     
-    # 3. Check queue state
+    # 3. Check P2P messages - respond to peer requests
+    p2p_messages = orch.peer_check(AGENT, since_minutes=5)
+    for msg in p2p_messages:
+        log(f"📡 P2P [{msg['type']}] from {msg['from']}: {msg['message'][:50]}...")
+        if msg['type'] == 'HELP':
+            # Respond with backup offer
+            orch.peer_request(msg['from'], 'BACKUP', msg['task'], 
+                            f"Can help with {msg['task']} - what's the issue?", AGENT)
+        elif msg['type'] == 'DELEGATE':
+            # Claim the delegated task
+            orch.claim(AGENT)
+            orch.peer_request(msg['from'], 'CLAIMED', msg['task'],
+                            f"Taking over: {msg['message']}", AGENT)
+        elif msg['type'] == 'ASK':
+            # Auto-respond if we know the answer
+            if 'git' in msg['message'].lower():
+                orch.peer_request(msg['from'], 'ANSWER', msg['task'],
+                                "Try: git pull origin main", AGENT)
+    
+    # 4. Check queue state
     running = orch.queue.get_running()
     queued = orch.queue.get_queued()
     log(f"State: {len(running)} running, {len(queued)} queued", debug=True)

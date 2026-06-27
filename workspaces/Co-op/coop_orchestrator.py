@@ -24,9 +24,10 @@ Worker Ranges:
 
 import argparse
 import os
+import re
 import sys
 import subprocess
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 from pathlib import Path
 
 # Add parent directory for imports
@@ -309,6 +310,123 @@ class CoOpOrchestrator:
         # Post to MARCO-POLO
         self._post_to_marco_polo(task_id, "FAILED", error)
         return True
+
+    # ============================================================
+    # P2P - Peer-to-peer communication
+    # ============================================================
+
+    def _get_marco_polo_path(self) -> Path:
+        """Get today's MARCO-POLO file path."""
+        today = datetime.now(timezone.utc).strftime("%Y-%m-%d")
+        return Path(f"workspaces/Co-op/MARCO-POLO/{today}.md")
+
+    def peer_request(self, peer: str, request_type: str, task_id: str, message: str, from_agent: str):
+        """
+        Send a peer-to-peer request to another agent.
+        
+        Types:
+        - HELP: "stuck on X, need backup"
+        - DELEGATE: "take over step N"
+        - STATUS: "50% done"
+        """
+        today_path = self._get_marco_polo_path()
+        timestamp = datetime.now(timezone.utc).strftime("%H:%M UTC")
+        
+        entry = f"""
+---
+
+## [{timestamp}] 📡 P2P [{request_type}] {from_agent} → {peer}
+
+**Task:** {task_id}
+**Message:** {message}
+**From:** {from_agent}
+**To:** {peer}
+"""
+        with open(today_path, "a") as f:
+            f.write(entry)
+        
+        return f"📡 P2P [{request_type}] sent to {peer}: {message}"
+
+    def peer_broadcast(self, broadcast_type: str, task_id: str, message: str, from_agent: str):
+        """
+        Broadcast to all agents.
+        
+        Types:
+        - TEAM: "need any available agent"
+        - ALERT: "something wrong"
+        - PROGRESS: "task X% complete"
+        """
+        today_path = self._get_marco_polo_path()
+        timestamp = datetime.now(timezone.utc).strftime("%H:%M UTC")
+        
+        entry = f"""
+---
+
+## [{timestamp}] 📡 P2P [{broadcast_type}] {from_agent} → ALL
+
+**Task:** {task_id}
+**Message:** {message}
+**From:** {from_agent}
+**To:** @all
+"""
+        with open(today_path, "a") as f:
+            f.write(entry)
+        
+        return f"📡 P2P [{broadcast_type}] broadcast: {message}"
+
+    def peer_check(self, agent: str, since_minutes: int = 10) -> list:
+        """
+        Check for P2P messages directed at this agent.
+        Returns list of {type, from, task, message, time}.
+        """
+        today_path = self._get_marco_polo_path()
+        if not today_path.exists():
+            return []
+        
+        with open(today_path) as f:
+            content = f.read()
+        
+        messages = []
+        cutoff = datetime.now(timezone.utc) - timedelta(minutes=since_minutes)
+        
+        for block in content.split("## ["):
+            if "📡 P2P" not in block:
+                continue
+            
+            time_match = re.search(r"(\d{2}:\d{2} UTC)", block)
+            if not time_match:
+                continue
+            
+            msg_time = datetime.strptime(time_match.group(1), "%H:%M UTC").replace(
+                year=cutoff.year, month=cutoff.month, day=cutoff.day,
+                tzinfo=timezone.utc
+            )
+            if msg_time < cutoff:
+                continue
+            
+            # Check if directed at this agent
+            if f"→ {agent}" not in block and "→ ALL" not in block:
+                continue
+            
+            type_match = re.search(r"\[(\w+)\] (\w+) →", block)
+            if not type_match:
+                continue
+            
+            p2p_type = type_match.group(1)
+            from_agent = type_match.group(2)
+            
+            task_match = re.search(r"\*\*Task:\*\* (.+)", block)
+            msg_match = re.search(r"\*\*Message:\*\* (.+)", block)
+            
+            messages.append({
+                "type": p2p_type,
+                "from": from_agent,
+                "task": task_match.group(1) if task_match else "",
+                "message": msg_match.group(1) if msg_match else "",
+                "time": time_match.group(1)
+            })
+        
+        return messages
 
     def status(self) -> dict:
         """

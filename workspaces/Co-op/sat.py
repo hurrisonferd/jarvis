@@ -46,6 +46,42 @@ def natural_command(text: str, owner: str = "Lilith"):
         topic = match.group(2).strip() or "general discussion"
         return swarm_meeting(topic, owner)
     
+    # HELP: need backup from another agent
+    match = re.match(r"help\s+(?:me\s+)?(?:on\s+)?(?:task\s+)?(\S+)?\s*[-:]\s*(.+)", text, re.I)
+    if match or "need help" in text.lower() or "stuck" in text.lower():
+        task_id = match.group(1) if match else "unknown"
+        msg = match.group(2) if match else text
+        return orch.peer_broadcast("HELP", task_id, msg, owner)
+    
+    # STATUS: progress update on a task
+    match = re.match(r"status\s+(?:on\s+)?(?:task\s+)?(\S+)?\s*[-:]\s*(.+)", text, re.I)
+    if match or re.match(r"\d+%\s*(?:done|complete)", text, re.I):
+        task_id = match.group(1) if match else "unknown"
+        msg = match.group(2) if match else text
+        return orch.peer_broadcast("PROGRESS", task_id, msg, owner)
+    
+    # ASK peer: direct question to another agent
+    match = re.match(r"ask\s+(\w+)\s*[-:]\s*(.+)", text, re.I)
+    if match:
+        peer, question = match.groups()
+        return orch.peer_request(peer.capitalize(), "ASK", "general", question, owner)
+    
+    # DELEGATE: hand off to another agent
+    match = re.match(r"delegate\s+(?:task\s+)?(\S+)\s+(?:to\s+)?(\w+)\s*[-:]\s*(.+)", text, re.I)
+    if match:
+        task_id, peer, msg = match.groups()
+        return orch.peer_request(peer.capitalize(), "DELEGATE", task_id, msg, owner)
+    
+    # CHECK inbox: see P2P messages for me
+    if re.match(r"(check\s+)?(inbox|peer\s*messages?|p2p)", text, re.I):
+        messages = orch.peer_check(owner, since_minutes=30)
+        if not messages:
+            return "📭 No P2P messages in last 30 min"
+        lines = [f"📬 {len(messages)} P2P messages:"]
+        for m in messages:
+            lines.append(f"   [{m['type']}] {m['from']}: {m['message'][:40]}...")
+        return "\n".join(lines)
+    
     # ===========================================
     # SATELLITE COMMANDS
     # ===========================================
