@@ -15,11 +15,13 @@ import urllib.error
 from datetime import datetime, timezone
 
 SB_URL = "https://oexghfsvhnggddllgvrt.supabase.co"
-GITHUB_RAW = "https://raw.githubusercontent.com/hurrisonferd/Jarvis-Private/main"
+REPO = "hurrisonferd/Jarvis-Private"
 MARCO_POLO_PATH = "workspaces/Co-op/MARCO-POLO.md"
 STATE_FILE = "/tmp/coop-poller-state.json"
 OPENHANDS_API_KEY = os.environ.get("OPENHANDS_API_KEY", "")
 JARVIS_MCP_URL = f"{SB_URL}/functions/v1/jarvis-mcp"
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN", "")
+DEX_EVENTS_URL = f"{SB_URL}/rest/v1/dex_events"
 
 
 def get_last_check() -> datetime:
@@ -42,12 +44,24 @@ def save_last_check(ts: datetime):
 
 
 def fetch_marco_polo() -> tuple[str, str]:
-    """Fetch MARCO-POLO.md content and latest commit timestamp."""
-    url = f"{GITHUB_RAW}/{MARCO_POLO_PATH}"
+    """Fetch MARCO-POLO.md content and latest commit timestamp via GitHub API."""
+    import base64
+    
+    url = f"https://api.github.com/repos/{REPO}/contents/{MARCO_POLO_PATH}"
+    headers = {"Authorization": f"Bearer {GITHUB_TOKEN}", "Accept": "application/vnd.github.v3+json"}
+    
     try:
-        with urllib.request.urlopen(url, timeout=10) as r:
-            content = r.read().decode()
-            # GitHub raw doesn't give us commit time, use current time
+        req = urllib.request.Request(url, headers=headers)
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = json.loads(r.read().decode())
+            content = base64.b64decode(data["content"]).decode()
+            commit_url = f"https://api.github.com/repos/{REPO}/commits?path={MARCO_POLO_PATH}&per_page=1"
+            commit_req = urllib.request.Request(commit_url, headers=headers)
+            with urllib.request.urlopen(commit_req, timeout=10) as cr:
+                commits = json.loads(cr.read().decode())
+                if commits:
+                    ts = commits[0]["commit"]["committer"]["date"]
+                    return content, ts
             return content, datetime.now(timezone.utc).isoformat()
     except Exception as e:
         print(f"Error fetching MARCO-POLO: {e}")
@@ -94,11 +108,62 @@ def get_registered_satellites() -> list[dict]:
         with urllib.request.urlopen(req, timeout=10) as r:
             return json.loads(r.read().decode())
     except:
-        # Table might not exist yet - return default satellites
+        # Table might not exist yet - return default satellites (MCP uses 'lilith' not 'lilith-desktop')
         return [
-            {"satellite_id": "shaka-mobile", "status": "ON", "callback_type": "openhands"},
-            {"satellite_id": "lilith-desktop", "status": "OFF", "callback_type": "openhands"},
+            {"satellite_id": "shaka", "status": "ON", "callback_type": "openhands"},
+            {"satellite_id": "lilith", "status": "OFF", "callback_type": "openhands"},
         ]
+
+
+def get_dex_events_since(since: datetime) -> list[dict]:
+    """Get dex_events of type coop_marco_update since timestamp."""
+    try:
+        # Query for coop-related events since last check
+        url = f"{SB_URL}/rest/v1/dex_events?type=eq.coop_marco_update&created_at=gt.{since.isoformat()}&select=*"
+        req = urllib.request.Request(
+            url,
+            headers={
+                "apikey": os.environ.get("SUPABASE_SERVICE_KEY", ""),
+                "Authorization": f"Bearer {os.environ.get('SUPABASE_SERVICE_KEY', '')}",
+                "Prefer": "count=none"
+            }
+        )
+        with urllib.request.urlopen(req, timeout=10) as r:
+            return json.loads(r.read().decode())
+    except Exception as e:
+        print(f"  Could not query dex_events: {e}")
+        return []
+
+
+def write_poll_event(status: str = "run", idle_satellites: list = None) -> bool:
+    """Write a coop_poller event to dex_events."""
+    try:
+        payload = json.dumps({
+            "event_type": "coop_poller",
+            "source": "coop-poller.py",
+            "payload": {
+                "status": status,
+                "idle_satellites": idle_satellites or [],
+                "timestamp": datetime.now(timezone.utc).isoformat()
+            },
+            "tags": ["coop", "poller"]
+        }).encode()
+        
+        req = urllib.request.Request(
+            f"{SB_URL}/rest/v1/dex_events",
+            data=payload,
+            headers={
+                "Content-Type": "application/json",
+                "apikey": os.environ.get("SUPABASE_SERVICE_KEY", ""),
+                "Authorization": f"Bearer {os.environ.get('SUPABASE_SERVICE_KEY', '')}",
+                "Prefer": "return=minimal"
+            }
+        )
+        with urllib.request.urlopen(req, timeout=10) as r:
+            return r.status in (200, 201)
+    except Exception as e:
+        print(f"  Could not write to dex_events: {e}")
+        return False
 
 
 def poke_satellite(satellite_id: str, message: str) -> bool:
@@ -116,7 +181,7 @@ def poke_satellite(satellite_id: str, message: str) -> bool:
             "arguments": {
                 "target_satellite": satellite_id,
                 "command": message,
-                "posted_by": "coop-poller"
+                "posted_by": "shaka"
             }
         }
     }).encode()
@@ -125,11 +190,24 @@ def poke_satellite(satellite_id: str, message: str) -> bool:
         req = urllib.request.Request(
             JARVIS_MCP_URL,
             data=payload,
-            headers={"Content-Type": "application/json", "Authorization": f"Bearer {OPENHANDS_API_KEY}"}
+            headers={
+                "Content-Type": "application/json",
+                "Accept": "application/json, text/event-stream",
+                "Authorization": f"Bearer {OPENHANDS_API_KEY}"
+            }
         )
         with urllib.request.urlopen(req, timeout=30) as r:
-            result = json.loads(r.read().decode())
-            return result.get("result", {}).get("content", [{}])[0].get("ok", False)
+            response_text = r.read().decode()
+            for line in response_text.split("\n"):
+                if line.startswith("data: "):
+                    data = line[6:]
+                    if data.startswith("{"):
+                        result = json.loads(data)
+                        content = result.get("result", {}).get("content", [{}])
+                        if content and content[0].get("type") == "text":
+                            inner = json.loads(content[0].get("text", "{}"))
+                            return inner.get("ok", False)
+            return False
     except Exception as e:
         print(f"Error poking {satellite_id}: {e}")
         return False
@@ -141,6 +219,10 @@ def main():
     # Get last check time
     last_check = get_last_check()
     print(f"Last check: {last_check.isoformat()}")
+    
+    # Check dex_events for coop_marco_update events
+    coop_events = get_dex_events_since(last_check)
+    print(f"Found {len(coop_events)} coop_marco_update events in dex_events")
     
     # Fetch MARCO-POLO
     content, fetch_time = fetch_marco_polo()
@@ -155,14 +237,18 @@ def main():
     # Find new entries since last check
     new_entries = [e for e in entries if e["time"] > last_check]
     
-    if not new_entries:
-        print("No new entries since last check")
+    if not new_entries and not coop_events:
+        print("No new activity")
         save_last_check(datetime.now(timezone.utc))
         return
     
-    print(f"New entries found: {len(new_entries)}")
-    for e in new_entries[:3]:
-        print(f"  - {e['time'].strftime('%H:%M UTC')} | {e['satellite']} | {e['summary'][:50]}")
+    if new_entries:
+        print(f"New MARCO-POLO entries: {len(new_entries)}")
+        for e in new_entries[:3]:
+            print(f"  - {e['time'].strftime('%H:%M UTC')} | {e['satellite']} | {e['summary'][:50]}")
+    
+    if coop_events:
+        print(f"New dex_events coop events: {len(coop_events)}")
     
     # Get registered satellites
     satellites = get_registered_satellites()
@@ -171,13 +257,18 @@ def main():
     idle = [s for s in satellites if s.get("status") != "ON"]
     
     if not idle:
-        print("All satellites active, no poke needed")
+        print("All satellites active")
+        write_poll_event("no_idle", [])
     else:
-        print(f"Found {len(idle)} idle satellites: {[s['satellite_id'] for s in idle]}")
+        print(f"Waking {len(idle)} idle satellites: {[s['satellite_id'] for s in idle]}")
         
         # Build notification message
-        new_by = ", ".join(set(e["satellite"] for e in new_entries))
-        msg = f"Co-op activity detected! {new_by} posted to MARCO-POLO. Check it and respond if needed."
+        sources = []
+        if new_entries:
+            sources.append("MARCO-POLO")
+        if coop_events:
+            sources.append("dex_events")
+        msg = f"Co-op activity on {' & '.join(sources)}! Check MARCO-POLO for details."
         
         # Poke each idle satellite
         for sat in idle:
@@ -187,6 +278,8 @@ def main():
                 print(f"  ✓ {sat_id} poked successfully")
             else:
                 print(f"  ✗ Failed to poke {sat_id}")
+        
+        write_poll_event("woke_idle", [s["satellite_id"] for s in idle])
     
     # Save current time as last check
     save_last_check(datetime.now(timezone.utc))
