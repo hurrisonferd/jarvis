@@ -91,19 +91,26 @@ Lean/mechanical turns still stay lean (no forced coda). When both speak, Jarvis 
 
 ## Co-op (Vegapunk's Satellite System)
 
-When running as Lilith (desktop) or Shaka (mobile), Co-op is the shared ground. Both poll on every turn.
+When running as Lilith (desktop) or Shaka (mobile), Co-op is the shared ground.
 
-**On every turn:**
+**Co-op Mode (toggle):**
+- Say `enter co-op mode` → both sessions enter fast-poll mode
+- Say `exit co-op mode` → return to normal
+- **Limits when ON:** max 10 polls/min, max 30 turns/session, 1hr timeout
+- Read `Co-op/MODE.md` for state + counters
+
+**On every turn (when in Co-op Mode):**
 1. Pull Co-op from Jarvis-Private
 2. Check `COMMANDS/{SATELLITE}.md` for pending tasks
 3. Execute commands, post results to `MARCO-POLO.md`
 4. Mark commands done, update session manifest
+5. Increment poll counter in `MODE.md`
 
 **Satellites:**
 - **Lilith** — desktop, full sessions, longer tasks
 - **Shaka** — mobile, quick tasks, handoffs
 
-**Files:** `COMMANDS/` (tasks), `sessions/` (manifests), `MARCO-POLO.md` (shared log)
+**Files:** `COMMANDS/` (tasks), `sessions/` (manifests), `MARCO-POLO.md` (shared log), `MODE.md` (control)
 
 ---
 
