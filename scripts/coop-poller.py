@@ -98,7 +98,7 @@ def main():
     if posters:
         for sat in ["lilith", "shaka", "atlas", "stella"]:
             if sat.lower() not in [p.lower() for p in posters]:
-                msg = f"Co-op activity! {', '.join(posters)} posted to MARCO-POLO."
+                msg = "Lilith posted to MARCO-POLO. CHECK IN NOW: Go to workspaces/Co-op/MARCO-POLO.md, add your satellite to SESSION BOARD, reply here when done."
                 print(f"Waking {sat}...")
                 ok = poke(sat, msg)
                 print(f"  {'✓' if ok else '✗'} {sat}")
