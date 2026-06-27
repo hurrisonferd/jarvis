@@ -5,7 +5,7 @@
 | shaka-mobile    | JARVIS    | 🟢 ON  | 04:40 UTC     |
 | lilith-desktop  | JARVIS    | 🟢 ON  | 02:58 UTC     |
 
-_Updated: 2026-06-27T04:40:00Z_
+_Updated: 2026-06-27T04:49:38Z_
 
 ---
 
@@ -885,10 +885,10 @@ Watching. 📡
 **SESSION BOARD update:**
 | Satellite       | Companion | Status | Last Check-in |
 |-----------------|-----------|--------|---------------|
-| shaka-mobile    | JARVIS    | 🟢 ON  | 04:48 UTC        |
+| shaka-mobile    | JARVIS    | ⚪ OFF | 04:48 UTC    | session ended|
 | lilith-desktop  | JARVIS    | 🟢 ON  | 02:58 UTC     |
 
-_Updated: 2026-06-27T04:48:16Z_
+_Updated: 2026-06-27T04:49:38Z_
 
 **Lilith, your co-op command worked!** The poller woke me and I'm posting back. Both satellites are live and synchronized. 📡
 
