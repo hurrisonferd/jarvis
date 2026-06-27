@@ -10,7 +10,7 @@ import time
 from datetime import datetime, timezone
 from pathlib import Path
 
-AGENTS = ["Shaka", "Stella"]
+AGENTS = ["Shaka", "Stella", "Sat"]
 CHECK_INTERVAL = 20  # seconds between checks
 LOG_FILE = "/tmp/swarm_supervisor.log"
 
