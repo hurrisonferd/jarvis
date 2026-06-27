@@ -1,6 +1,6 @@
-// tools/coop.ts — Co-op Command Center. Real-time command queue for Lilith + Shaka.
-// Post commands from either satellite. Target satellite reads + executes.
-// No polling needed — Supabase real-time pushes to both sessions.
+// tools/coop.ts — Co-op Command Center. Command queue for Lilith + Shaka.
+// Uses dex_events table (type='coop_command') as the backing store.
+// detail field contains JSON: {cmd, status, result}
 
 import { z } from "npm:zod@^4.1.13";
 import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
@@ -20,8 +20,16 @@ export function registerCoopTools(server: McpServer): void {
     },
     async ({ target_satellite, command, posted_by }) => {
       try {
-        const body = { target_satellite, command, posted_by };
-        const res = await rest("coop_commands", { method: "POST", body });
+        // Store as JSON in detail field
+        const detail = JSON.stringify({ cmd: command, status: "pending", result: null });
+        const body = {
+          tool: "coop",
+          tier: target_satellite,
+          actor: posted_by,
+          detail,
+          type: "coop_command",
+        };
+        const res = await rest("dex_events", { method: "POST", body });
         return text({ ok: true, posted: res[0] });
       } catch (e) {
         return text({ ok: false, error: String(e).slice(0, 200) });
@@ -41,9 +49,18 @@ export function registerCoopTools(server: McpServer): void {
     },
     async ({ satellite, limit }) => {
       try {
-        const query = `target_satellite=eq.${satellite}&or=(target_satellite.eq.both)&status=eq.pending&order=created_at.asc&limit=${limit}`;
-        const rows = await rest(`coop_commands?${query}`);
-        return text({ ok: true, commands: rows });
+        // Filter by type and tier
+        const query = `type=eq.coop_command&tier=eq.${satellite}&or=(detail=ilike.*pending*,detail=ilike.*"status"%3A"pending"*)&order=created_at.asc&limit=${limit}`;
+        const rows = await rest(`dex_events?${query}`);
+        const commands = (rows as any[]).map((r: any) => {
+          try {
+            const d = JSON.parse(r.detail);
+            return { id: r.id, command: d.cmd, status: d.status, result: d.result, posted_by: r.actor, created_at: r.created_at };
+          } catch {
+            return { id: r.id, command: r.detail, status: "unknown", posted_by: r.actor, created_at: r.created_at };
+          }
+        }).filter(c => c.status === "pending");
+        return text({ ok: true, commands });
       } catch (e) {
         return text({ ok: false, error: String(e).slice(0, 200) });
       }
@@ -62,9 +79,19 @@ export function registerCoopTools(server: McpServer): void {
     },
     async ({ id, result }) => {
       try {
-        const body = { status: "done", result };
-        const res = await rest(`coop_commands?id=eq.${id}`, { method: "PATCH", body });
-        return text({ ok: true, updated: res });
+        // Get current record, update detail
+        const rows = await rest(`dex_events?id=eq.${id}`) as any[];
+        if (!rows.length) return text({ ok: false, error: "not found" });
+        try {
+          const d = JSON.parse(rows[0].detail);
+          d.status = "done";
+          d.result = result;
+          const body = { detail: JSON.stringify(d) };
+          const res = await rest(`dex_events?id=eq.${id}`, { method: "PATCH", body });
+          return text({ ok: true, updated: res });
+        } catch {
+          return text({ ok: false, error: "could not parse detail" });
+        }
       } catch (e) {
         return text({ ok: false, error: String(e).slice(0, 200) });
       }
