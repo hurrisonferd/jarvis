@@ -126,7 +126,6 @@ def send_keepalive(orch):
 
 def run_cycle(orch, sender, tasks_done):
     """Run one agent cycle."""
-    global cycles_since_heartbeat
     log("Starting cycle...", debug=True)
     
     # 1. Git sync
