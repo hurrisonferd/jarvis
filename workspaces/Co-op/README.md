@@ -58,9 +58,31 @@ python workspaces/Co-op/coop_orchestrator.py --spawn 3 --max-tasks 5
 
 ## Quick Start
 
+**Bootstrap (one command to rule them all):**
+```bash
+# "Lilith, co-op mode"
+python workspaces/Co-op/startup.py Lilith
+
+# "Shaka, co-op mode"
+python workspaces/Co-op/startup.py Shaka
+
+# "Stella, co-op mode"  
+python workspaces/Co-op/startup.py Stella
+```
+
+This runs the full chain:
+1. Git sync (pull latest)
+2. Read commands (check for orders)
+3. Check queue (see pending work)
+4. Post check-in (MARCO-POLO)
+
+**Individual commands:**
 ```bash
 # Dispatch a task
 python workspaces/Co-op/coop_orchestrator.py --submit "Fix the auth bug"
+
+# Send command to another satellite
+python workspaces/Co-op/coop_orchestrator.py --send-command Shaka "Refactor auth.py"
 
 # Check dispatch board
 python workspaces/Co-op/coop_orchestrator.py --status
