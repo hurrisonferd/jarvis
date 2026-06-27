@@ -121,7 +121,9 @@ class Task:
 class TaskQueue:
     """Manages the task queue filesystem."""
     
-    def __init__(self, base_path: str = "workspaces/Co-op/tasks"):
+    def __init__(self, base_path: str = None):
+        if base_path is None:
+            base_path = Path(__file__).parent
         self.base = Path(base_path)
         self.queue_dir = self.base / "queue"
         self.running_dir = self.base / "running"
