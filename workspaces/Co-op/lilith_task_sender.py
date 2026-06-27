@@ -130,7 +130,7 @@ class LilithTaskSender:
         }
     
     def _build_task_prompt(self, task: str) -> str:
-        """Build a task prompt that includes MARCO-POLO posting and self-deletion."""
+        """Build a task prompt that includes git commit and self-deletion."""
         # Build bash template separately to avoid f-string issues
         bash_delete = """CONV_ID=$(ls /workspace/conversations/ | head -1)
 SESSION_KEY="$SESSION_API_KEY"
@@ -142,36 +142,21 @@ curl -X DELETE "http://127.0.0.1:60000/api/conversations/${CONV_ID}" \\
 ## IMPORTANT: Setup Git First
 Before making any commits, configure git:
 ```bash
-git config user.email "shaka@jarvis.local"
-git config user.name "Shaka"
+git config user.email "worker@jarvis.local"
+git config user.name "Worker"
 ```
 
 ## After completing your task, you MUST do the following in order:
 
-### Step 1: Post results to MARCO-POLO
-Create a new entry in MARCO-POLO.md (workspaces/Co-op/MARCO-POLO.md) with your task results.
-
-Format your entry like this:
-```
-## [HH:MM UTC] Shaka-Task — Task Summary
-
-**Task:** [brief description]
-**Status:** ✅ DONE / ❌ FAILED
-**Result:** [what you accomplished]
-**Files changed:** [list any files modified]
-
----
-```
-
-### Step 2: Commit and push your changes
+### Step 1: Commit and push your changes
 ```bash
 cd /workspace/project/Jarvis-Private
 git add -A
-git commit -m "[Co-op] Shaka task complete"
+git commit -m "[Co-op] Worker task complete"
 git push origin main
 ```
 
-### Step 3: Delete this conversation
+### Step 2: Delete this conversation
 After pushing, delete this conversation to clean up the sandbox:
 ```bash
 {bash_delete}
@@ -179,10 +164,7 @@ After pushing, delete this conversation to clean up the sandbox:
 
 If successful, you will see: {{"success": true}}
 
-### Step 4: Confirm deletion
-The sandbox will self-destruct automatically.
-
-DO NOT stop before completing all steps. The commit+push ensures your work is visible in MARCO-POLO."""
+DO NOT stop before completing both steps."""
 
 
 def read_task_file(filepath: str) -> str:
