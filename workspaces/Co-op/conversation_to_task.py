@@ -60,18 +60,21 @@ class TaskExtractor:
     
     def add_to_queue(self, description, source):
         """Add a task to the queue."""
-        task_id = f"chat-{datetime.now(timezone.utc).strftime('%H%M')}"
+        import uuid
+        task_id = f"chat-{uuid.uuid4().hex[:6]}"
         
         if not QUEUE_FILE.exists():
             QUEUE_FILE.write_text("# Swarm Task Queue\n\n<!-- TASKS -->\n\n<!-- END TASKS -->\n")
         
         content = QUEUE_FILE.read_text()
         
-        # Don't duplicate
-        if description[:30] in content:
+        # Don't duplicate (check first 50 chars of description)
+        if description[:50] in content:
             return None
         
-        new_line = f"- [ ] {task_id} | {description[:80]} | from: {source[:50]}...\n"
+        # Clean description - remove emoji and truncate
+        clean_desc = re.sub(r'[💬📋✅⚡🐝🔨👁️🎉]+', '', description).strip()[:70]
+        new_line = f"- [ ] {task_id} | {clean_desc}\n"
         
         if "<!-- TASKS -->" in content:
             content = content.replace("<!-- TASKS -->", f"<!-- TASKS -->\n{new_line}")
@@ -79,7 +82,7 @@ class TaskExtractor:
             content += new_line
         
         QUEUE_FILE.write_text(content)
-        print(f"📋 Task: {task_id} - {description[:50]}")
+        print(f"📋 Task: {task_id} - {clean_desc[:40]}")
         return task_id
 
 def main():
