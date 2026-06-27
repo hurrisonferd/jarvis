@@ -4,9 +4,9 @@
 
 | Assigned | Task | Status | Result |
 |----------|------|--------|--------|
-| shaka | — | — | — |
-| atlas | — | — | — |
-| stella | — | — | — |
+| shaka | Check session board and confirm online | — | — |
+| atlas | List top 5 commits from jarvis repo | — | — |
+| stella | Read CLAUDE.md and summarize key rules | — | — |
 | lilith | — | — | — |
 
 ---
