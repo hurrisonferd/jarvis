@@ -160,10 +160,50 @@ git config user.name "Worker"
 
 ## After completing your task, you MUST do the following in order:
 
-### Step 1: Append result to swarm log
-Find the current swarm log: `ls workspaces/Co-op/MARCO-POLO/MP-*.md | tail -1`
+### Step 1: Find or create the current swarm log
 
-Append to it:
+Run this script to get the right log file:
+```bash
+cd /workspace/project/Jarvis-Private/workspaces/Co-op/MARCO-POLO
+
+# Get today's date parts
+MONTH=$(date +%m | sed 's/^0//')  # 1-12
+DAY=$(date +%d | sed 's/^0//')    # 1-31
+YEAR=$(date +%y)                   # 26
+
+# Find existing logs for today
+EXISTING=$(ls MP-{MONTH}.${{DAY}}.${{YEAR}}-*.md 2>/dev/null | sort)
+
+# Count existing logs today
+COUNT=$(echo "$EXISTING" | grep -c . || echo 0)
+NEXT_NUM=$(printf "%04d" $((COUNT + 1)))
+
+# Check if we need a new log (none exist OR current > 200 lines)
+if [ -z "$EXISTING" ]; then
+    LOG_FILE="MP-${{MONTH}}.${{DAY}}.${{YEAR}}-$NEXT_NUM.md"
+    echo "# MARCO-POLO — MP-${{MONTH}}.${{DAY}}.${{YEAR}}-$NEXT_NUM" > "$LOG_FILE"
+    echo "" >> "$LOG_FILE"
+    echo "---" >> "$LOG_FILE"
+    echo "" >> "$LOG_FILE"
+else
+    LAST_LOG=$(echo "$EXISTING" | tail -1)
+    LINE_COUNT=$(wc -l < "$LAST_LOG")
+    if [ "$LINE_COUNT" -gt 200 ]; then
+        LOG_FILE="MP-${{MONTH}}.${{DAY}}.${{YEAR}}-$NEXT_NUM.md"
+        echo "# MARCO-POLO — MP-${{MONTH}}.${{DAY}}.${{YEAR}}-$NEXT_NUM" > "$LOG_FILE"
+        echo "" >> "$LOG_FILE"
+        echo "---" >> "$LOG_FILE"
+        echo "" >> "$LOG_FILE"
+    else
+        LOG_FILE="$LAST_LOG"
+    fi
+fi
+echo "USING_LOG=$LOG_FILE"
+```
+
+### Step 2: Append result to swarm log
+
+Append to the log file determined above:
 ```
 ## [$(date +%H:%M:%S) UTC] Worker — Task Complete
 
@@ -177,7 +217,7 @@ Append to it:
 ---
 ```
 
-### Step 2: Commit and push your changes
+### Step 3: Commit and push your changes
 ```bash
 cd /workspace/project/Jarvis-Private
 git add -A
@@ -185,7 +225,7 @@ git commit -m "[Co-op] Worker: task complete"
 git push origin main
 ```
 
-### Step 3: Delete this conversation
+### Step 4: Delete this conversation
 After pushing, delete this conversation to clean up the sandbox:
 ```bash
 {bash_delete}
