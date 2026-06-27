@@ -103,8 +103,8 @@ def run_cycle(orch, sender, tasks_done):
     queued = orch.queue.get_queued()
     log(f"State: {len(running)} running, {len(queued)} queued", debug=True)
     
-    # 4. Claim a task if none running and queue has items
-    if not running and queued:
+    # 4. Claim a task if queue has items
+    if queued:
         log("📋 Claiming next task...")
         try:
             result = orch.claim(AGENT)
@@ -131,7 +131,7 @@ def run_cycle(orch, sender, tasks_done):
                 log("📭 Queue empty (race condition)")
         except Exception as e:
             log(f"⚠️ Task error: {e}")
-    elif not queued:
+    else:
         log("📋 Queue empty")
     
     return tasks_done
