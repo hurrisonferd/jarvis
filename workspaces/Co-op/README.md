@@ -11,28 +11,55 @@ Like Uber/Lyft for code:
 ## Architecture
 
 ```
-┌─────────────┐     ┌──────────────────┐     ┌─────────────┐
-│  Dispatch   │────▶│  Task Queue      │────▶│  Sandbox    │
-│  (You)      │     │  (Git-backed)    │     │  (Driver)   │
-└─────────────┘     └──────────────────┘     └─────────────┘
-                           │                        │
-                           ▼                        ▼
-                    ┌──────────────┐         ┌─────────────┐
-                    │ MARCO-POLO   │◀────────│  Trip Log   │
-                    │ (Daily Log)  │         │  (Git)      │
-                    └──────────────┘         └─────────────┘
+┌─────────────────────────────────────────────────────┐
+│  Dispatcher (Raven, Jarvis, Ayre, or Satellite)     │
+│     → python sat.py "Do the thing"                  │
+└─────────────────────────────────────────────────────┘
+                         ↓
+┌─────────────────────────────────────────────────────┐
+│  TASK QUEUE (git-backed, file-locked)               │
+│     → All workers pull from SAME queue              │
+│     → Priority ordering (critical → low)            │
+│     → Race-condition safe via fcntl                 │
+└─────────────────────────────────────────────────────┘
+           ↓          ↓          ↓
+┌──────────┐  ┌──────────┐  ┌──────────┐
+│ Lilith   │  │ Shaka    │  │ Stella   │
+│ Workers  │  │ Workers  │  │ Workers  │
+│ 1, 2, 3  │  │ 4, 5, 6  │  │ 7, 8, 9  │
+└──────────┘  └──────────┘  └──────────┘
+     ↓              ↓              ↓
+┌──────────┐  ┌──────────┐  ┌──────────┐
+│Sandbox 1 │  │Sandbox 4 │  │Sandbox 7 │  ← 9 parallel
+│Sandbox 2 │  │Sandbox 5 │  │Sandbox 8 │     sandboxes
+│Sandbox 3 │  │Sandbox 6 │  │Sandbox 9 │
+└──────────┘  └──────────┘  └──────────┘
 ```
+
+## Dual Model: Shared Queue + Satellite Affinity
+
+**Shared Queue:** All workers compete for same task pool — maximum throughput.
+
+**Satellite Affinity:** Workers owned by satellite, idle if satellite down.
+
+| Satellite | Worker Pool | Parallel Sandboxes |
+|-----------|-------------|-------------------|
+| Lilith    | Worker-1, 2, 3 | 3 concurrent |
+| Shaka     | Worker-4, 5, 6 | 3 concurrent |
+| Stella    | Worker-7, 8, 9 | 3 concurrent |
+
+**Total: 9 workers, 9 parallel sandboxes**
 
 ## Satellites
 
-All satellites have equal dispatch ability. Plus disposable Worker-N drivers.
+All satellites have equal dispatch ability. Plus Worker-N drivers that auto-spawn on startup.
 
 | Driver | Type | Best For |
 |--------|------|----------|
 | **Lilith** | Desktop | Long tasks, heavy lifting |
 | **Shaka** | Mobile | Quick tasks, on-the-go |
 | **Stella** | Cloud | Background jobs |
-| **Worker-N** | Disposable | Burst capacity, auto-spawned |
+| **Worker-N** | Disposable | Parallel burst capacity |
 
 ### Spawn Workers
 
