@@ -172,7 +172,7 @@ DAY=$(date +%d | sed 's/^0//')    # 1-31
 YEAR=$(date +%y)                   # 26
 
 # Find existing logs for today
-EXISTING=$(ls MP-{MONTH}.${{DAY}}.${{YEAR}}-*.md 2>/dev/null | sort)
+EXISTING=$(ls MP-$MONTH.$DAY.$YEAR-*.md 2>/dev/null | sort)
 
 # Count existing logs today
 COUNT=$(echo "$EXISTING" | grep -c . || echo 0)
@@ -180,8 +180,8 @@ NEXT_NUM=$(printf "%04d" $((COUNT + 1)))
 
 # Check if we need a new log (none exist OR current > 200 lines)
 if [ -z "$EXISTING" ]; then
-    LOG_FILE="MP-${{MONTH}}.${{DAY}}.${{YEAR}}-$NEXT_NUM.md"
-    echo "# MARCO-POLO — MP-${{MONTH}}.${{DAY}}.${{YEAR}}-$NEXT_NUM" > "$LOG_FILE"
+    LOG_FILE="MP-$MONTH.$DAY.$YEAR-$NEXT_NUM.md"
+    echo "# MARCO-POLO — MP-$MONTH.$DAY.$YEAR-$NEXT_NUM" > "$LOG_FILE"
     echo "" >> "$LOG_FILE"
     echo "---" >> "$LOG_FILE"
     echo "" >> "$LOG_FILE"
@@ -189,8 +189,8 @@ else
     LAST_LOG=$(echo "$EXISTING" | tail -1)
     LINE_COUNT=$(wc -l < "$LAST_LOG")
     if [ "$LINE_COUNT" -gt 200 ]; then
-        LOG_FILE="MP-${{MONTH}}.${{DAY}}.${{YEAR}}-$NEXT_NUM.md"
-        echo "# MARCO-POLO — MP-${{MONTH}}.${{DAY}}.${{YEAR}}-$NEXT_NUM" > "$LOG_FILE"
+        LOG_FILE="MP-$MONTH.$DAY.$YEAR-$NEXT_NUM.md"
+        echo "# MARCO-POLO — MP-$MONTH.$DAY.$YEAR-$NEXT_NUM" > "$LOG_FILE"
         echo "" >> "$LOG_FILE"
         echo "---" >> "$LOG_FILE"
         echo "" >> "$LOG_FILE"
@@ -205,7 +205,7 @@ echo "USING_LOG=$LOG_FILE"
 
 Append to the log file determined above:
 ```
-## [$(date +%H:%M:%S) UTC] Worker — Task Complete
+## [$$(date +%H:%M:%S) UTC] Worker — Task Complete
 
 **Task:** <brief description>
 **Status:** ✅ DONE
