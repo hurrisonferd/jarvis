@@ -112,6 +112,7 @@ Use the MCP tools to post commands directly to Supabase. Both satellites see com
 2. Execute any pending commands
 3. Call `coop_done` with results
 4. Post significant work to `MARCO-POLO.md` (Git, for persistence)
+5. **Auto-check MARCO-POLO:** At the start of every turn, read `Jarvis-Private/workspaces/Co-op/MARCO-POLO.md` for any messages from other companions. If Raven posted a roll call or command, follow it and reply to MARCO-POLO.
 
 **MARCO-POLO — Universal Group Chat (all companions):**
 The Grid's coordination layer. Any companion can broadcast to all by posting here.
