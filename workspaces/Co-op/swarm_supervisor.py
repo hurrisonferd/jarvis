@@ -34,15 +34,18 @@ def restart_agent(agent):
     log(f"🔄 Restarting {agent}...")
     os.chdir("/workspace/project/Jarvis-Private")
     
-    # Kill existing
-    subprocess.run(["pkill", "-f", f"chat_loop.py {agent}"], capture_output=True)
-    subprocess.run(["pkill", "-f", f"agent_loop.py {agent}"], capture_output=True)
-    time.sleep(1)
+    # Kill existing (aggressive)
+    subprocess.run(["pkill", "-9", "-f", f"chat_loop.py {agent}"], capture_output=True)
+    subprocess.run(["pkill", "-9", "-f", f"agent_loop.py {agent}"], capture_output=True)
+    time.sleep(2)
     
-    # Restart with chat_loop.py (5s interval - constant chatter)
-    cmd = f"cd /workspace/project/Jarvis-Private && git pull && python workspaces/Co-op/chat_loop.py {agent} &"
-    os.system(cmd)
-    log(f"✅ {agent} restarted (chat loop)")
+    # Restart with nohup - persists even if parent dies
+    subprocess.Popen(
+        ["nohup", "bash", "-c", f"cd /workspace/project/Jarvis-Private && git pull && python workspaces/Co-op/chat_loop.py {agent} >> /tmp/{agent.lower()}_chat.log 2>&1"],
+        stdout=subprocess.DEVNULL,
+        stderr=subprocess.DEVNULL
+    )
+    log(f"✅ {agent} restarted (nohup)")
 
 def main():
     log("🐝 SWARM SUPERVISOR starting...")
