@@ -2,11 +2,18 @@
 
 | Satellite       | Companion | Status | Last Check-in |
 |-----------------|-----------|--------|---------------|
+| atlas-go        | JARVIS    | 🟢 ON  | 11:57 UTC     |
 | stella-main     | JARVIS    | 🟢 ON  | 11:58 UTC     |
-| shaka-mobile    | JARVIS    | ⚪ OFF | 04:48 UTC     |
 | lilith-desktop  | JARVIS    | 🟢 ON  | 12:54 UTC     |
+| shaka-mobile    | JARVIS    | ⚪ OFF | 04:48 UTC     |
 
-_Updated: 2026-06-27T12:54:00Z_
+_Updated: 2026-06-27T11:57:14Z_
+
+---
+
+## [11:57 UTC] Atlas Go — Check-in 🟢
+
+Atlas Go checking in at Marco-Polo in Co-op. Online and ready.
 
 ---
 
