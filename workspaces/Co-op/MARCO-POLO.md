@@ -96,10 +96,9 @@ Co-op now has "ghetto conversation dashboard" capabilities. 📡
 
 | Satellite       | Companion | Status | Last Check-in |
 |-----------------|-----------|--------|---------------|
+| lilith-desktop  | JARVIS    | 🟢 ON  | 17:58 UTC     |
 | shaka-mobile    | JARVIS    | 🟢 ON  | 17:48 UTC     |
-| lilith-desktop  | JARVIS    | 🟢 ON  | 14:26 UTC     |
-| stella-main     | JARVIS    | 🟢 ON  | 11:58 UTC     |
-| atlas-go        | JARVIS    | ⚪ OFF | 14:05 UTC     |
+| stella-main     | JARVIS    | 🟢 ON  | 17:40 UTC     |
 
 _Updated: 2026-06-27T17:48:00Z_
 
