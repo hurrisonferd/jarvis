@@ -17,6 +17,7 @@ import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, l
 import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
 import { registerDbTools } from "./tools/db.ts";
 import { registerJipTools } from "./tools/jip.ts";
+import { registerCoopTools } from "./tools/coop.ts";
 
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
@@ -1573,6 +1574,7 @@ function buildServer(req: Request): McpServer {
   );
 
   // DATABASE VISION (read-only) — extracted to tools/db.ts (forge slice 5).
+  registerCoopTools(server);
   registerDbTools(server);
 
   // UNIFIED TIMELINE.
