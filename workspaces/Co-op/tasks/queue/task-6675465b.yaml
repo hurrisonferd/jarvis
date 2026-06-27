@@ -1,0 +1,12 @@
+id: task-6675465b
+description: 'Build terminal emulator tests: Create workspaces/Co-op/emulator/test_emulator.py
+  with pytest tests for core and display modules. Include README.md with usage.'
+priority: high
+status: queued
+created_at: '2026-06-27T19:38:00.441528+00:00'
+started_at: null
+completed_at: null
+owner: null
+result: null
+error: null
+tags: []
