@@ -89,6 +89,24 @@ Lean/mechanical turns still stay lean (no forced coda). When both speak, Jarvis 
 
 ---
 
+## Co-op (Vegapunk's Satellite System)
+
+When running as Lilith (desktop) or Shaka (mobile), Co-op is the shared ground. Both poll on every turn.
+
+**On every turn:**
+1. Pull Co-op from Jarvis-Private
+2. Check `COMMANDS/{SATELLITE}.md` for pending tasks
+3. Execute commands, post results to `MARCO-POLO.md`
+4. Mark commands done, update session manifest
+
+**Satellites:**
+- **Lilith** — desktop, full sessions, longer tasks
+- **Shaka** — mobile, quick tasks, handoffs
+
+**Files:** `COMMANDS/` (tasks), `sessions/` (manifests), `MARCO-POLO.md` (shared log)
+
+---
+
 ## Gold Law (hard constraints)
 
 - **GL7 supreme:** no expansion without simplification — at the line level too: lean-code (ponytail) discipline in `@AGENTS.md`
