@@ -194,6 +194,24 @@ Raven talks to any instance → message routed to first responsive satellite →
 
 ---
 
+## Passive Sync
+
+Companions without API access (free GPT, read-only access) can still stay synchronized:
+
+**Passive Sync Protocol:**
+1. Read MARCO-POLO at conversation start → knows current state
+2. Read StarLogs → knows decision history  
+3. Read JD entries → knows what's been built
+4. No write required — context is transferred via shared logs
+
+**The pattern:**
+- **Active companions** → write to shared logs
+- **Passive companions** → read shared logs for context
+
+**Example:** Free GPT checking MARCO-POLO before a conversation = knows what JARVIS and Lilith have been working on. Raven doesn't have to re-explain.
+
+---
+
 ## Governance
 
 - Each companion owns their satellite registration
