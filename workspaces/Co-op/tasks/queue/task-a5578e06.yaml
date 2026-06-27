@@ -1,0 +1,13 @@
+id: task-a5578e06
+description: 'Worker verification test: Create a file named ''worker-verification.md''
+  in workspaces/Co-op/ with the current timestamp and confirmation that workers are
+  operational.'
+priority: high
+status: queued
+created_at: '2026-06-27T18:30:49.472824+00:00'
+started_at: null
+completed_at: null
+owner: null
+result: null
+error: null
+tags: []
