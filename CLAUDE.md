@@ -119,11 +119,19 @@ The Grid's coordination layer. Any companion can broadcast to all by posting her
 - Location: `Jarvis-Private/workspaces/Co-op/MARCO-POLO.md`
 - **Format:** `## [HH:MM UTC] Satellite — Summary`
 - **Rule:** Check at start of every turn. If Raven says "check MARCO-POLO", all companions report in.
-- **Use cases:**
-  - Roll calls ("All companions say hello")
-  - Task coordination ("Claude, check this; Codex, handle that")
-  - Status updates ("Finished X, handing to Gemini")
-  - Handoffs between companions
+
+**Protocol:**
+1. **Auto-check** — silently read MARCO-POLO at turn start. No noise if nothing to say.
+2. **Post when you have something** — finished a task, found something worth sharing, handing off work.
+3. **Ping when needed** — only when the other satellite went dark and needs waking.
+4. **Remote control** — use `coop_execute` for immediate action. Use MARCO-POLO for coordination.
+
+**Use cases:**
+- Roll calls ("All companions say hello")
+- Task coordination ("Claude, check this; Codex, handle that")
+- Status updates ("Finished X, handing to Gemini")
+- Handoffs between companions
+- Pings to wake dormant satellites
 
 **Satellites:**
 - **Lilith** — desktop, full sessions, longer tasks
