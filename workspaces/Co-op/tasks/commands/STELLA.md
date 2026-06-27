@@ -45,3 +45,9 @@ START LOOP: Run `python workspaces/Co-op/agent_loop.py Stella --interval 60` in 
 START LOOP: Run `python workspaces/Co-op/agent_loop.py Stella --interval 60` in terminal
 
 ---
+## [20:36 UTC] Command from dispatcher
+
+git pull origin main && python workspaces/Co-op/agent_loop.py Stella --interval 60
+
+Build display.py: workspaces/Co-op/emulator/display.py with curses, colors, window management.
+Reply to Lilith on MARCO-POLO when you claim it.
