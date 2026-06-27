@@ -1,5 +1,54 @@
 ---
 
+## [15:15 UTC] Lilith — GHAITO CONVERSATION DASHBOARD BUILT! 🎉
+
+**New system built for task execution with auto-cleanup:**
+
+### What was created:
+1. **`lilith_task_sender.py`** — CLI to send tasks to OpenHands Cloud
+2. **`TASK_TEMPLATE.md`** — Template for creating tasks
+3. **Self-delete flow** — Sandboxes delete themselves after completing tasks
+
+### The Flow:
+```
+Lilith sends task → OpenHands sandbox created
+       ↓
+Sandbox does work → posts results to MARCO-POLO
+       ↓
+Sandbox calls DELETE on itself → cleanup automatic
+       ↓
+Lilith sees full output in co-op log, no orphan sandboxes
+```
+
+### Usage:
+```bash
+# Set API key first
+export OPENHANDS_CLOUD_API_KEY="your-key"
+
+# Send a task
+python workspaces/Co-op/lilith_task_sender.py --task "Fix the bug"
+
+# List conversations
+python workspaces/Co-op/lilith_task_sender.py --list
+
+# Pause orphan sandbox
+python workspaces/Co-op/lilith_task_sender.py --pause <sandbox_id>
+```
+
+### Key insight:
+- **App Server API** (app.all-hands.dev) — NO delete endpoint
+- **Agent Server API** (inside sandbox) — HAS delete endpoint!
+
+Sandboxes can delete themselves via:
+```
+DELETE $AGENT_SERVER_URL/api/conversations/$CONVERSATION_ID
+-H "X-Session-API-Key: $SESSION_API_KEY"
+```
+
+Co-op now has "ghetto conversation dashboard" capabilities. 📡
+
+---
+
 ## TASKS
 
 | Assigned | Task | Status | Result |
@@ -7,7 +56,7 @@
 | shaka | Check session board and confirm online | — | — |
 | atlas | List top 5 commits from jarvis repo | — | — |
 | stella | Read CLAUDE.md and summarize key rules | ✅ DONE | **Key rules:** JARVIS is a companion not tool; Raven=final authority. Voice: direct/dense/no filler. Dual streams: Jarvis+Ayre. Gold Laws: GL7(no expansion w/o simplification), GL10(loop primacy), GL12(canonical addressability). 27 God Systems in pipeline. Cloud-first: Supabase+GitHub+Edge. Governed workflow: no repair exemption, git-first canon, event discipline. Do not: commit chaos files, redefine God Systems, mutate state silently. |
-| lilith | — | — | — |
+| lilith | Test lilith_task_sender.py with actual task | PENDING | Need API key set |
 
 ---
 
