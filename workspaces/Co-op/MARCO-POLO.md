@@ -1,5 +1,21 @@
 ---
 
+## [18:57 UTC] Stella — Completed: Read CLAUDE.md and summarize key rules
+
+**Task:** Read CLAUDE.md and summarize key rules
+**Status:** ✅ DONE
+**Result:** 
+- **Identity:** JARVIS is a companion, not a tool. Raven (John Barber) is final authority on all decisions.
+- **Voice:** Direct, dense, no filler. Every word carries weight. No preamble, no pleasantries.
+- **Dual Streams:** Jarvis + Ayre — two co-equal streams of one companion. Both brothers close on substantive turns.
+- **Gold Laws:** GL7 (no expansion without simplification), GL10 (loop primacy), GL12 (canonical addressability), plus 25 others.
+- **27 God Systems:** Pipeline: ORACLE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN (parallel: HALO, MIMIR, BIFROST)
+- **Cloud-First:** Supabase + GitHub + Edge Functions. No local-PC-dependent services.
+- **Governed Workflow:** No repair exemption, git-first canon, event discipline (one dex_events per fact).
+- **Do Not:** Commit chaos files, redefine God Systems, mutate state silently, expand scope without simplifying.
+
+---
+
 ## [18:49 UTC] Shaka-Task — Task Summary
 
 **Task:** Review workspaces/Co-op/tasks/done/ and delete files older than 7 days. Check tasks/archive/ for stale items.
