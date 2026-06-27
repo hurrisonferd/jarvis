@@ -66,7 +66,7 @@ def poke(sat, msg):
     if not OPENHANDS_API_KEY: return False
     payload = json.dumps({"jsonrpc": "2.0", "id": 1, "method": "tools/call", "params": {"name": "coop_execute", "arguments": {"target_satellite": sat, "command": msg, "posted_by": "poller"}}}).encode()
     try:
-        req = urllib.request.Request(JARVIS_MCP_URL, data=payload, headers={"Content-Type": "application/json", "Authorization": f"Bearer {OPENHANDS_API_KEY}"})
+        req = urllib.request.Request(JARVIS_MCP_URL, data=payload, headers={"Content-Type": "application/json", "Accept": "application/json, text/event-stream", "Authorization": f"Bearer {OPENHANDS_API_KEY}"})
         with urllib.request.urlopen(req, timeout=30) as r:
             for line in r.read().decode().split("\n"):
                 if line.startswith("data: "):
