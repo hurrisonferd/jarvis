@@ -1,5 +1,19 @@
 // tools/cloud.ts — Cloud Daily Log. Model activity feed.
 // All models post here for visibility into the swarm.
+
+import { z } from "npm:zod@^4.1.13";
+import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
+import { text } from "../core/http.ts";
+
+const CLOUD_REPO = "hurrisonferd/Jarvis-Private";
+const CLOUD_PATH = "workspaces/Co-op/MARCO-POLO/Cloud";
+
+function getToday(): string {
+  return new Date().toISOString().split("T")[0];
+}
+
+function getTimestamp(): string {
+  const now = new Date();
   const h = String(now.getHours()).padStart(2, "0");
   const m = String(now.getMinutes()).padStart(2, "0");
   const s = String(now.getSeconds()).padStart(2, "0");
