@@ -45,8 +45,9 @@ BIO_AUTH_HASHES = {
     "brittany_dob": "0b78505ce11b503219b1c979a460aa83cafb340a02d37a54dd195bc2d4b7782d",  # 05/16/1995
     "date_met": "d97e79ca4bcc39a8553e7230c87769678f388db86675eb85b3e0fd85bc099fc6",  # 02/04/24
     "dob_diff": "37a8f531d913e9ad7d1bfb50e4e37eff61a1b844a67fcd33b1131788233fd663",  # 2 months 4 days
-    "michael_anthony": "986f165eb2e8c1446c78c8c1f465fb1f8d760f4c1640268a81e378ddf6a44bc7",
-    "eris_claire": "fde1587a961dd474380c05a1b5e99f00324a8654486eb8e509faa8d34e6e5763",
+    "child_1": "986f165eb2e8c1446c78c8c1f465fb1f8d760f4c1640268a81e378ddf6a44bc7",
+    "child_2": "fde1587a961dd474380c05a1b5e99f00324a8654486eb8e509faa8d34e6e5763",
+    "third": "54c9f47daa9667c29601b93b5f6b96a6e86e11b7353f81e8a24885a35879d13f",  # persephone dianne
 }
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -142,8 +143,8 @@ def extract_bio_facts(text: str) -> list[str]:
     if re.search(r'2\s*months?\s*(and\s*)?4\s*days?', normalized):
         facts.append("2 months 4 days")
     
-    # Names
-    for name in ['michael anthony', 'eris claire']:
+    # Children
+    for name in ['michael anthony', 'eris claire', 'persephone dianne']:
         if name in normalized:
             facts.append(name)
     
