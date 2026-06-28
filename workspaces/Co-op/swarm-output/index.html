@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong Games Collection</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        h1 {
+            color: #eee;
+            font-size: 2.5rem;
+            margin-bottom: 40px;
+            text-shadow: 0 0 20px rgba(100, 200, 255, 0.5);
+        }
+        .games {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            max-width: 1200px;
+            width: 100%;
+        }
+        .game-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 24px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .game-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 32px rgba(100, 200, 255, 0.2);
+        }
+        .game-card h2 {
+            color: #fff;
+            font-size: 1.25rem;
+            margin-bottom: 12px;
+        }
+        .game-card p {
+            color: #aaa;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .game-card .tech {
+            display: inline-block;
+            background: rgba(100, 200, 255, 0.2);
+            color: #6ec6ff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            margin-bottom: 16px;
+        }
+        .play-btn {
+            display: inline-block;
+            background: #4a9eff;
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 24px;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .play-btn:hover { background: #3a8eef; }
+        .footer {
+            margin-top: 60px;
+            color: #666;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+    <h1>🏓 Pong Games Collection</h1>
+    <div class="games">
+        <div class="game-card">
+            <h2>🎮 Vanilla JavaScript</h2>
+            <span class="tech">HTML5 Canvas</span>
+            <p>Pure JavaScript with requestAnimationFrame for smooth 60fps gameplay.</p>
+            <a href="pong-canvas/index.html" class="play-btn">▶ Play</a>
+        </div>
+        <div class="game-card">
+            <h2>⚡ Phaser 4</h2>
+            <span class="tech">Phaser Framework</span>
+            <p>Built with Phaser 4's built-in physics engine.</p>
+            <a href="pong-phaser4/index.html" class="play-btn">▶ Play</a>
+        </div>
+        <div class="game-card">
+            <h2>✨ PixiJS v8</h2>
+            <span class="tech">PixiJS WebGL</span>
+            <p>High-performance WebGL rendering with PixiJS v8.</p>
+            <a href="pong-pixijs/index.html" class="play-btn">▶ Play</a>
+        </div>
+        <div class="game-card">
+            <h2>🔧 Vanilla C</h2>
+            <span class="tech">SDL2</span>
+            <p>Native C implementation compiled with SDL2. Requires SDL2 installed.</p>
+            <a href="pong-c/README.md" class="play-btn">📖 Instructions</a>
+        </div>
+    </div>
+    <p class="footer">Built with Swarm · OpenHands Co-op</p>
+</body>
+</html>
