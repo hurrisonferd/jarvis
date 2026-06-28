@@ -5,7 +5,7 @@ const config = {
     parent: 'game',
     backgroundColor: '#000',
     physics: { default: false },
-    scene: { create, update }
+    scene: { create, update, render }
 };
 
 const game = new Phaser.Game(config);
@@ -14,42 +14,23 @@ let ballVx = 5, ballVy = 3;
 const keys = {};
 let touchActive = false;
 let touchIndicator;
+let graphics;
 
 function create() {
-    const graphics = this.add.graphics();
+    graphics = this.add.graphics();
     
-    // Player paddle
-    graphics.fillStyle(0xff8800);
-    graphics.fillRect(20, 160, 10, 80);
     player = { x: 20, y: 160, width: 10, height: 80 };
-    
-    // CPU paddle
-    graphics.fillStyle(0xff8800);
-    graphics.fillRect(610, 160, 10, 80);
     cpu = { x: 610, y: 160, width: 10, height: 80 };
-    
-    // Ball
-    graphics.fillStyle(0xffffff);
-    graphics.fillRect(315, 195, 10, 10);
     ball = { x: 315, y: 195, size: 10 };
     
-    // Center line
-    graphics.lineStyle(1, 0x333333);
-    for (let y = 0; y < 400; y += 15) {
-        graphics.lineBetween(320, y, 320, y + 10);
-    }
+    scoreText = this.add.text(320, 20, '0 - 0', { fontSize: '24px', fill: '#ff8800', fontFamily: 'system-ui' }).setOrigin(0.5);
     
-    scoreText = this.add.text(320, 30, '0 - 0', { fontSize: '32px', fill: '#ff8800' }).setOrigin(0.5);
-    
-    // Touch indicator (subtle circle at touch position)
     touchIndicator = this.add.graphics();
     touchIndicator.setDepth(1);
     
-    // Keyboard
     this.input.keyboard.on('keydown', e => { keys[e.code] = true; });
     this.input.keyboard.on('keyup', e => { keys[e.code] = false; });
     
-    // FF-style touch controls: paddle follows finger position anywhere on canvas
     this.input.on('pointerdown', (pointer) => {
         touchActive = true;
         handleTouchMove(pointer);
@@ -61,31 +42,17 @@ function create() {
     
     this.input.on('pointerup', () => {
         touchActive = false;
-        touchIndicator.clear();
     });
     
     this.input.on('pointercancel', () => {
         touchActive = false;
-        touchIndicator.clear();
     });
 }
 
 function handleTouchMove(pointer) {
-    // Scale pointer Y position to game coordinates
     const scaleY = 400 / this.scale.height;
     const targetY = pointer.y * scaleY;
-    
-    // Clamp paddle position (paddle center follows finger)
     player.y = Math.max(0, Math.min(320, targetY - 40));
-    
-    // Update touch indicator
-    touchIndicator.clear();
-    if (touchActive) {
-        touchIndicator.fillStyle(0xff8800, 0.4);
-        touchIndicator.fillCircle(40, player.y + 40, 6);
-        touchIndicator.lineStyle(2, 0xff8800, 0.6);
-        touchIndicator.lineBetween(30, player.y + 40, 35, player.y + 40);
-    }
 }
 
 function resetBall(dir) {
@@ -96,7 +63,6 @@ function resetBall(dir) {
 }
 
 function update() {
-    // Keyboard controls (still supported)
     if (keys['KeyW'] || keys['ArrowUp']) player.y -= 8;
     if (keys['KeyS'] || keys['ArrowDown']) player.y += 8;
     player.y = Math.max(0, Math.min(320, player.y));
@@ -120,4 +86,26 @@ function update() {
     
     if (ball.x < 0) { cpuScore++; scoreText.setText(`${playerScore} - ${cpuScore}`); resetBall(1); }
     if (ball.x > 640) { playerScore++; scoreText.setText(`${playerScore} - ${cpuScore}`); resetBall(-1); }
+}
+
+function render() {
+    graphics.clear();
+    
+    graphics.fillStyle(0xff8800);
+    graphics.fillRect(player.x, player.y, player.width, player.height);
+    graphics.fillRect(cpu.x, cpu.y, cpu.width, cpu.height);
+    
+    graphics.fillStyle(0xffffff);
+    graphics.fillRect(ball.x - 5, ball.y - 5, 10, 10);
+    
+    graphics.lineStyle(1, 0x333333);
+    for (let y = 0; y < 400; y += 15) {
+        graphics.lineBetween(320, y, 320, y + 10);
+    }
+    
+    touchIndicator.clear();
+    if (touchActive) {
+        touchIndicator.fillStyle(0xff8800, 0.3);
+        touchIndicator.fillCircle(40, player.y + 40, 8);
+    }
 }
