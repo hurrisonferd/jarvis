@@ -2,8 +2,8 @@ const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 const scoreEl = document.getElementById('score');
 
-canvas.width = 800;
-canvas.height = 500;
+canvas.width = 640;
+canvas.height = 400;
 
 const PADDLE_W = 10, PADDLE_H = 80, BALL_SIZE = 10;
 const PADDLE_SPEED = 8, BALL_SPEED = 5;

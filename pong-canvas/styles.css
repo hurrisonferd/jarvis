@@ -12,8 +12,7 @@ body {
 }
 #game { 
     width: 100%;
-    max-width: 900px;
-    aspect-ratio: 8/5;
+    max-width: 640px;
 }
 canvas { 
     width: 100%;
