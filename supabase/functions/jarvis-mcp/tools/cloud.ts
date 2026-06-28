@@ -145,7 +145,7 @@ export function registerCloudTools(server: McpServer): void {
         if (getResp.ok) {
           const data = await getResp.json();
           sha = data.sha;
-          currentContent = await new Response(data.content, { headers: { "content-type": "text/plain" } }).text();
+          currentContent = atob(data.content);
         } else {
           // Create new file with header
           currentContent = `# ${date} — Cloud Daily Log\n\n## Models Active Today\n- ${model}\n\n---\n\n## Activity Log\n`;
