@@ -4,6 +4,7 @@
 import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
 import { rest, text } from "../core/http.ts";
 import { ANON_JWT } from "../core/supabase.ts";
+import { z } from "npm:zod@^4.1.13";
 
 const JARVIS_PRIVATE_REPO = "hurrisonferd/Jarvis-Private";
 const GITHUB_API = "https://api.github.com";
@@ -170,7 +171,4 @@ export function registerVegaPunkTools(server: McpServer): void {
     },
   );
 }
-
-import { z } from "npm:zod@^4.1.13";
-`;
 
