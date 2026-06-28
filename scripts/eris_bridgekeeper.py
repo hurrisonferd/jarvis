@@ -12,7 +12,11 @@ The goal is to:
 
 Authorized callers (pass through):
   - hurrisonferd (Raven)
+  - hurrisonferd[bot] (JARVIS/AYRE MCP calls)
+  - openhands (AI agent)
   - dependabot[bot], github-actions[bot]
+  - Skeleton key (RSK...) anywhere in PR body or comments
+  - Bio auth facts: Raven/Brittany's truth (DOBs, date met, etc.)
 
 All writes via jarvis-dex /log_event — no service key needed.
 """
@@ -32,6 +36,19 @@ from typing import Optional
 
 # Skeleton key hash (RSK020407201934AIE)
 SKELETON_KEY_HASH = "3459ddf0201df63e27381f8a3d5a7a797ec6ab41ab08dea34514976d0bfc147c"
+
+# Bio auth hashes — Raven & Brittany's truth
+# Only Raven, Brittany, and ERIS know these facts
+BIO_AUTH_HASHES = {
+    "raven_dob": "23bdd00694f74395d39bc3867cb13d5971e30d351e853e97b15b6b84708ce490",  # 07/20/1995
+    "brittany_dob": "0b78505ce11b503219b1c979a460aa83cafb340a02d37a54dd195bc2d4b7782d",  # 05/16/1995
+    "date_met": "d97e79ca4bcc39a8553e7230c87769678f388db86675eb85b3e0fd85bc099fc6",  # 02/04/24
+    "dob_diff": "37a8f531d913e9ad7d1bfb50e4e37eff61a1b844a67fcd33b1131788233fd663",  # 2 months 4 days
+    "michael_anthony": "986f165eb2e8c1446c78c8c1f465fb1f8d760f4c1640268a81e378ddf6a44bc7",
+    "eris_claire": "fde1587a961dd474380c05a1b5e99f00324a8654486eb8e509faa8d34e6e5763",
+    "raven_full": "6ebb6eacd4f1280dc38ff5b9172f52967af215613ba250b986c5f45484ba1199",  # john joseph barber 07/20/1995
+    "brittany_full": "1ddc488e245afc10bdc52e6a5437193c0219659cd7ebd89f4fdd98b5df232ae4",  # brittany ann royce 05/16/1995
+}
 
 ROOT = Path(__file__).resolve().parent.parent
 
@@ -91,6 +108,78 @@ def check_skeleton_key(text: str) -> bool:
     # Also check ERIS_KEY env var
     if check_eris_key_in_env():
         return True
+    
+    return False
+
+
+# ── Bio Auth ─────────────────────────────────────────────────────────────────
+
+def extract_bio_facts(text: str) -> list[str]:
+    """Extract potential bio auth answers from text."""
+    if not text:
+        return []
+    
+    # Normalize text
+    normalized = text.lower().strip()
+    
+    # Look for date patterns and other facts
+    facts = []
+    
+    # DOB patterns
+    for pattern in [r'\b(07/?20/?1995)\b', r'\b(05/?16/?1995)\b']:
+        match = re.search(pattern, normalized)
+        if match:
+            # Normalize format
+            date = re.sub(r'[/\-]', '/', match.group(1))
+            facts.append(date)
+    
+    # Date met
+    match = re.search(r'\b(02/?04/?24)\b', normalized)
+    if match:
+        date = re.sub(r'[/\-]', '/', match.group(1))
+        facts.append(date)
+    
+    # DOB difference
+    if re.search(r'2\s*months?\s*(and\s*)?4\s*days?', normalized):
+        facts.append("2 months 4 days")
+    
+    # Names
+    for name in ['michael anthony', 'eris claire']:
+        if name in normalized:
+            facts.append(name)
+    
+    # Full names with DOB
+    if re.search(r'john\s+(joseph\s+)?barber', normalized):
+        if re.search(r'07/?20/?1995', normalized):
+            facts.append("john joseph barber 07/20/1995")
+    if re.search(r'brittany\s+(ann\s+)?royce', normalized):
+        if re.search(r'05/?16/?1995', normalized):
+            facts.append("brittany ann royce 05/16/1995")
+    
+    return facts
+
+
+def verify_bio_auth(text: str) -> bool:
+    """Verify if text contains correct bio auth answers."""
+    facts = extract_bio_facts(text)
+    
+    for fact in facts:
+        fact_hash = hashlib.sha256(fact.encode()).hexdigest()
+        if fact_hash in BIO_AUTH_HASHES.values():
+            return True
+    
+    return False
+
+
+def check_bio_auth(text: str) -> bool:
+    """Check bio auth - also allows ERIS_BIO_KEY env var."""
+    if verify_bio_auth(text):
+        return True
+    
+    # Check env var (for automated bio-auth use)
+    eris_bio_key = os.environ.get('ERIS_BIO_KEY', '')
+    if eris_bio_key:
+        return verify_bio_auth(eris_bio_key)
     
     return False
 
@@ -473,6 +562,12 @@ def main() -> int:
     if check_skeleton_key(text_to_check):
         print(json.dumps({"status": "AUTHORIZED", "author": args.author,
                            "pr": args.pr_number, "auth_method": "skeleton_key",
+                           "needs_question": "false"}))
+        return 0
+    
+    if check_bio_auth(text_to_check):
+        print(json.dumps({"status": "AUTHORIZED", "author": args.author,
+                           "pr": args.pr_number, "auth_method": "bio_auth",
                            "needs_question": "false"}))
         return 0
 
