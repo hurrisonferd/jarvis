@@ -147,7 +147,7 @@ export function registerCloudTools(server: McpServer): void {
           },
           body: JSON.stringify({
             message: `cloud: ${model} logged activity`,
-            content: btoa(new ContentEncoder().encode(newContent).buffer ? newContent : btoa(unescape(encodeURIComponent(newContent)))),
+            content: btoa(unescape(encodeURIComponent(newContent))),
             sha: sha || undefined,
           }),
         });
