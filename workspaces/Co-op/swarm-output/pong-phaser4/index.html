@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong - Phaser 4</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background: #111;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            font-family: 'Courier New', monospace;
+        }
+        #game-container {
+            border: 2px solid #333;
+            border-radius: 4px;
+        }
+        .instructions {
+            position: fixed;
+            bottom: 20px;
+            color: #666;
+            font-size: 14px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container"></div>
+    <div class="instructions">Player 1: W/S or Arrow Keys | First to 11 wins</div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/phaser@4.0.0/dist/phaser.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
