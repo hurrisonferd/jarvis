@@ -1,0 +1,15 @@
+{
+  "name": "JARVIS HANDHELD",
+  "short_name": "JARVIS",
+  "description": "Neural mesh — JARVIS grid interface v2.5",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#020408",
+  "theme_color": "#f5a623",
+  "orientation": "portrait-primary",
+  "icons": [
+    { "src": "./icon.svg", "type": "image/svg+xml", "sizes": "any", "purpose": "any maskable" }
+  ],
+  "categories": ["utilities", "productivity"]
+}
