@@ -1,47 +1,36 @@
 # Co-op Swarm Protocol
 
-**3 agents, 1 user, parallel execution, shared consciousness.**
+**Multi-agent parallel execution with specialized roles.**
+
+## Swarm Roles
+
+| Role | Purpose | Key Skills |
+|------|---------|------------|
+| **Architect** | Project planner | Breaks down requirements, assigns tasks, monitors |
+| **Specialist** | Deep work | Builds one thing really well (engine, AI, etc.) |
+| **Integrator** | Gap-filler | Fills stubs, wires components, runs tests |
 
 ## Swarm Rules (MANDATORY)
 
 | Rule | Limit | Why |
 |------|-------|-----|
 | **Max concurrent tasks** | 8 | Prevent resource contention |
-| **Pre-swarm cleanup** | Delete all except Lilith | Start fresh, no orphans |
+| **Auto-cleanup on send** | Enabled by default | Prevents cap overflow |
 | **One swarm log** | Append to current MP-*.md | No polluting main MARCO-POLO |
 | **New log only if** | Current > 200 lines OR new day | Keep logs manageable |
-
-## Pre-Swarm Checklist
-
-```
-Before sending ANY swarm task:
-1. python lilith_task_sender.py --cleanup-old 1   # Delete old tasks
-2. python lilith_task_sender.py --list             # Verify only Lilith remains
-3. Check active count ≤ 8 before sending new task
-```
-
-## The Vision
-
-You talk to all 3 agents simultaneously. They:
-1. Read the shared MARCO-POLO log
-2. Claim tasks without stepping on each other
-3. Execute in parallel
-4. Post results back to swarm log (MP-*.md)
-5. You see the merged output via git pull
 
 ## Architecture
 
 ```
-         YOU (Lilith chat)
+         YOU (Lilith)
               ↓
     ┌─────────┼─────────┐
     ↓         ↓         ↓
-  Lilith    Shaka    Stella
+  Architect  Specialist  Integrator
     ↓         ↓         ↓
     └─────────┼─────────┘
               ↓
          MP-*.md (swarm log)
-         (shared via git)
               ↓
     ┌─────────┼─────────┐
     ↓         ↓         ↓
@@ -51,66 +40,77 @@ You talk to all 3 agents simultaneously. They:
   (max 8 concurrent)
 ```
 
-## How It Works
+## Worker Templates
 
-### Each Agent Does This Every Turn:
-
-1. **Git sync** → pull latest swarm log
-2. **Read log** → see who's on what
-3. **Claim task** → from queue or manual assignment
-4. **Execute** → dispatch to sandbox
-5. **Append result** → to MP-*.md log
-6. **Commit & push** → so Lilith sees updates
-
-## Coordination Rules
-
-| Rule | What | Why |
-|------|------|-----|
-| **Pre-diff** | Check swarm log before starting | Don't duplicate work |
-| **Claim loudly** | Post "Started X" to log | Others skip it |
-| **Help protocol** | Post "Need backup" if stuck | Swarm rescues each other |
-| **Never delete others' work** | Only clean your own | Trust the team |
-
-## The Shared Log (MARCO-POLO)
-
-Every entry has:
-- Timestamp (UTC)
-- Agent name
-- What happened
-- Any results/questions
+Templates are in `templates/`:
+- `ARCHITECT.md` — Project planner workflow
+- `INTEGRATOR.md` — Gap-filler workflow
 
 ## Speed Benefits
 
-| Solo | Swarm |
-|------|-------|
-| 1 agent, sequential | 3 agents, parallel |
-| User waits for each step | 3 things happen at once |
-| 1 context | 3 contexts working together |
+| Solo | Swarm (8 parallel) |
+|------|-------------------|
+| ~32 min for 8 tasks | ~4 min for 8 tasks |
+| 1 task at a time | 8 tasks at once |
+| 87.5% time saved |
 
-## Example Session
+## Example: Build a Game
 
-**You:** "Build a user auth system with login, logout, and JWT"
+**1. Architect** analyzes requirements → creates 8 specialist tasks
+**2. Specialists** build engine, entities, systems, UI, audio, levels, effects, integration
+**3. Integrator** fills stubs, wires components, runs tests
+**4. Done!** Game works.
 
-**Lilith:** Pre-diffs, claims "Login endpoint", dispatches sandbox
-**Shaka:** Pre-diffs, sees Lilith on login, claims "Logout endpoint", dispatches sandbox  
-**Stella:** Pre-diffs, sees Lilith/Shaka busy, claims "JWT utils", dispatches sandbox
+## How to Play the Game
 
-**3 minutes later:**
-- Login, logout, JWT all built in parallel
-- MARCO-POLO shows all results
-- You have a complete auth system
+**Option 1: Local Machine (recommended)**
+```bash
+# Clone the repo
+git clone https://github.com/hurrisonferd/Jarvis-Private.git
+cd Jarvis-Private/workspaces/Co-op/swarm-output
+
+# Install dependencies
+pip install pygame numpy
+
+# Run!
+python3 run.py
+```
+
+**Option 2: Remote with Display**
+If running on a server with X11 forwarding:
+```bash
+ssh -X your-server
+cd /path/to/Jarvis-Private/workspaces/Co-op/swarm-output
+python3 run.py
+```
+
+**Option 3: Copy the folder**
+The entire game is in `workspaces/Co-op/swarm-output/` — copy it anywhere and run.
+
+Controls:
+- **Arrow keys** — Move left/right
+- **Space** — Shoot
+- **P** — Pause
+- **ESC** — Quit
+
+**Game URL:** `workspaces/Co-op/swarm-output/`
+
+## Pre-Swarm Checklist (auto-done now)
+
+The task sender auto-cleans old conversations before sending. But manual check:
+```bash
+python lilith_task_sender.py --list
+```
 
 ---
 
-**The key:** MARCO-POLO is the shared brain. All 3 agents read it, all 3 write to it. Git sync keeps everyone in sync.
-
----
+**The key:** Specialists build, Integrator fills gaps, auto-cleanup prevents crashes.
 
 ## Agent Header
 
 <!-- 
   SWARM.md - Co-op Swarm Protocol Documentation
   Last updated by: Lilith
-  Purpose: 3-agent parallel coordination system
-  Last update: 2026-06-27
+  Purpose: Multi-agent parallel coordination system
+  Last update: 2026-06-28
 -->
