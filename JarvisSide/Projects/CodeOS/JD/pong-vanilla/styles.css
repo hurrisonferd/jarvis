@@ -1,0 +1,42 @@
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    background: #111; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    font-family: system-ui, sans-serif;
+    color: #fff;
+    overflow: hidden;
+}
+#game { 
+    width: 100%;
+    max-width: 640px;
+}
+canvas { 
+    width: 100%;
+    height: 100%;
+    border: 2px solid #00ff88; 
+    border-radius: 4px;
+    box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
+    touch-action: none;
+}
+#score {
+    font-size: 2rem;
+    margin: 16px 0;
+    color: #00ff88;
+}
+#controls {
+    color: #666;
+    font-size: 0.9rem;
+}
+@media (hover: none) and (pointer: coarse) {
+    #controls::before {
+        content: '↑ Tap top to move up · ↓ Tap bottom to move down';
+        display: block;
+        margin-top: 8px;
+        color: #00ff88;
+        opacity: 0.7;
+    }
+}
