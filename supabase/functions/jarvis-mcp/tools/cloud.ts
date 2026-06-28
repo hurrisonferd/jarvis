@@ -1,20 +1,5 @@
 // tools/cloud.ts — Cloud Daily Log. Model activity feed.
 // All models post here for visibility into the swarm.
-// Uses mp_objects table as backing store.
-
-import { z } from "npm:zod@^4.1.13";
-import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
-import { rest, text } from "../core/http.ts";
-
-const CLOUD_REPO = "hurrisonferd/Jarvis-Private";
-const CLOUD_PATH = "workspaces/Co-op/MARCO-POLO/Cloud";
-
-function getToday(): string {
-  return new Date().toISOString().split("T")[0];
-}
-
-function getTimestamp(): string {
-  const now = new Date();
   const h = String(now.getHours()).padStart(2, "0");
   const m = String(now.getMinutes()).padStart(2, "0");
   const s = String(now.getSeconds()).padStart(2, "0");
@@ -157,17 +142,6 @@ export function registerCloudTools(server: McpServer): void {
           return text({ ok: false, error: `Failed to write: ${err}` });
         }
         
-        // Also log to mp_objects for MARCO-POLO
-        await rest("mp_objects", {
-          method: "POST",
-          body: {
-            agent: "CLOUD",
-            entry_type: "MODEL_LOG",
-            message: `[${model}] ${action}`,
-            status: status === "ok" ? "🟢" : status === "warning" ? "🟡" : "🔴",
-            entry_date: date,
-          },
-        });
         
         return text({
           ok: true,
