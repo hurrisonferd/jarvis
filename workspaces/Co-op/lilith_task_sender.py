@@ -188,6 +188,46 @@ class LilithTaskSender:
             "raw": result
         }
     
+    def _count_task_steps(self, task: str) -> str:
+        """
+        Estimate number of work steps from task description.
+        
+        Looks for patterns like:
+        - "Step 1/2/3" or "First/Second/Third" 
+        - Numbered lists
+        - Bullet points with sub-tasks
+        - Keywords like "then", "next", "finally"
+        """
+        import re
+        
+        # Count explicit step patterns
+        step_patterns = [
+            r'(?i)step\s*\d+',
+            r'(?i)first[,\s]',
+            r'(?i)second[,\s]',
+            r'(?i)third[,\s]',
+            r'(?i)then[,\s]',
+            r'(?i)next[,\s]',
+            r'(?i)finally[,\s]',
+            r'(?i)after\s+that',
+        ]
+        
+        count = 0
+        for pattern in step_patterns:
+            count += len(re.findall(pattern, task))
+        
+        # Count bullet points (lines starting with - or *)
+        bullets = len(re.findall(r'^[\s]*[-*]\s+', task, re.MULTILINE))
+        
+        # Count numbered items
+        numbered = len(re.findall(r'^[\s]*\d+[\.\)]\s+', task, re.MULTILINE))
+        
+        # Take the max of explicit steps and structure
+        total = max(count, bullets, numbered)
+        
+        # Minimum 1 step, maximum 10
+        return str(max(1, min(total, 10)))
+    
     def _build_task_prompt(self, task: str) -> str:
         """
         Build a task prompt with guaranteed step logging and self-deletion.
@@ -203,6 +243,14 @@ class LilithTaskSender:
         return f"""{task}
 
 ## MANDATORY: Follow this EXACT sequence
+
+### CONUITY SETUP (do this first, before anything else)
+```bash
+# Count your expected steps and set this variable
+# Example: If task has 3 work steps, set TASK_STEPS="3"
+# Adjust based on actual task complexity
+TASK_STEPS="{self._count_task_steps(task)}"
+```
 
 ### Step 0: Setup (do this first, before anything else)
 ```bash
@@ -260,6 +308,17 @@ echo "---" >> "$LOG_FILE"
 cd /workspace/project/Jarvis-Private
 git add -A && git commit -m "Worker: task complete" && git push origin main
 
+# ENFORCE CONUITY: Verify all steps are committed before deleting
+# Count "Step N:" entries in log - if gaps exist, DO NOT delete, alert instead
+STEPS_DONE=$(grep -c "^## \[[0-9][0-9]:[0-9][0-9]:[0-9][0-9] UTC\] Worker — Step" "$LOG_FILE" 2>/dev/null || echo "0")
+STEPS_EXPECTED=$(echo "$TASK_STEPS" | tr ',' '\n' | wc -l)  # TASK_STEPS should be set at start
+if [ -n "$TASK_STEPS" ] && [ "$STEPS_DONE" -lt "$STEPS_EXPECTED" ]; then
+    echo "⚠️ CONUITY VIOLATION: Only $STEPS_DONE of $STEPS_EXPECTED steps logged!"
+    echo "⚠️ Refusing to delete - next worker needs continuity."
+    echo "⚠️ Please complete all steps or manually mark as DONE if blocked."
+    exit 1
+fi
+
 # Get THIS conversation's ID from the API, then delete ONLY this conversation
 MY_CONV_ID=$(curl -s "http://127.0.0.1:60000/api/conversations" -H "X-Session-API-Key: $SESSION_API_KEY" 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); ids=d.get('conversation_ids',[]); print(ids[0] if ids else '')" 2>/dev/null)
 if [ -n "$MY_CONV_ID" ]; then
@@ -270,9 +329,10 @@ fi
 RULES:
 1. Step 0 FIRST - no work until setup committed
 2. After EACH step, post to log and commit
-3. Delete LAST after all commits pushed - and ONLY delete YOUR OWN conversation
-4. Every step must be posted
+3. **CONUITY CHECK: All expected steps MUST be logged before delete**
+4. Delete LAST after all commits pushed - and ONLY delete YOUR OWN conversation
 5. NEVER delete a conversation unless you got its ID from the API using YOUR session key
+6. If conuity check fails, REFUSE to delete and alert
 """
 
 def read_task_file(filepath: str) -> str:
