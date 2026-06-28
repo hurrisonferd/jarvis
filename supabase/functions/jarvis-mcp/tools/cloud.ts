@@ -154,7 +154,7 @@ export function registerCloudTools(server: McpServer): void {
         // Append entry
         const newContent = currentContent + newEntry + "\n";
         
-        // Write back to GitHub
+        // Write back to GitHub (no base64 - GitHub handles it)
         const putResp = await fetch(url, {
           method: "PUT",
           headers: {
@@ -163,7 +163,7 @@ export function registerCloudTools(server: McpServer): void {
           },
           body: JSON.stringify({
             message: `cloud: ${model} logged activity`,
-            content: btoa(unescape(encodeURIComponent(newContent))),
+            content: newContent,
             sha: sha || undefined,
           }),
         });
