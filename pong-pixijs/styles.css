@@ -1,1 +1,10 @@
-404: Not Found
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { 
+    background: #111; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 100vh; 
+    font-family: system-ui, sans-serif;
+}
+#game canvas { border: 2px solid #0088ff; border-radius: 4px; box-shadow: 0 0 20px rgba(0, 136, 255, 0.3); }
