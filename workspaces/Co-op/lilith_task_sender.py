@@ -189,7 +189,13 @@ class LilithTaskSender:
         }
     
     def _build_task_prompt(self, task: str) -> str:
-        """Build a task prompt with guaranteed step logging and self-deletion."""
+        """
+        Build a task prompt with guaranteed step logging and self-deletion.
+        
+        NOTE: Self-deletion is for WORKER sandboxes only. The parent Lilith
+        session must NEVER call the delete endpoint on itself. Workers are
+        disposable; Lilith is persistent.
+        """
         return f"""{task}
 
 ## MANDATORY: Follow this EXACT sequence
