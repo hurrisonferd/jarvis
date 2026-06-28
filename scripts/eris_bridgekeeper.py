@@ -39,6 +39,7 @@ SKELETON_KEY_HASH = "3459ddf0201df63e27381f8a3d5a7a797ec6ab41ab08dea34514976d0bf
 
 # Bio auth hashes — Raven & Brittany's truth
 # Only Raven, Brittany, and ERIS know these facts
+# Their DOBs are exactly 2 months and 4 days apart — the day they met
 BIO_AUTH_HASHES = {
     "raven_dob": "23bdd00694f74395d39bc3867cb13d5971e30d351e853e97b15b6b84708ce490",  # 07/20/1995
     "brittany_dob": "0b78505ce11b503219b1c979a460aa83cafb340a02d37a54dd195bc2d4b7782d",  # 05/16/1995
@@ -46,8 +47,6 @@ BIO_AUTH_HASHES = {
     "dob_diff": "37a8f531d913e9ad7d1bfb50e4e37eff61a1b844a67fcd33b1131788233fd663",  # 2 months 4 days
     "michael_anthony": "986f165eb2e8c1446c78c8c1f465fb1f8d760f4c1640268a81e378ddf6a44bc7",
     "eris_claire": "fde1587a961dd474380c05a1b5e99f00324a8654486eb8e509faa8d34e6e5763",
-    "raven_full": "6ebb6eacd4f1280dc38ff5b9172f52967af215613ba250b986c5f45484ba1199",  # john joseph barber 07/20/1995
-    "brittany_full": "1ddc488e245afc10bdc52e6a5437193c0219659cd7ebd89f4fdd98b5df232ae4",  # brittany ann royce 05/16/1995
 }
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -147,14 +146,6 @@ def extract_bio_facts(text: str) -> list[str]:
     for name in ['michael anthony', 'eris claire']:
         if name in normalized:
             facts.append(name)
-    
-    # Full names with DOB
-    if re.search(r'john\s+(joseph\s+)?barber', normalized):
-        if re.search(r'07/?20/?1995', normalized):
-            facts.append("john joseph barber 07/20/1995")
-    if re.search(r'brittany\s+(ann\s+)?royce', normalized):
-        if re.search(r'05/?16/?1995', normalized):
-            facts.append("brittany ann royce 05/16/1995")
     
     return facts
 
