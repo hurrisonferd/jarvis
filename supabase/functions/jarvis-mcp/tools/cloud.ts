@@ -63,13 +63,25 @@ export function registerCloudTools(server: McpServer): void {
         }
         
         const content = await resp.text();
-        const lines = content.split("\n").filter(l => l.trim());
-        const entries = lines.filter(l => l.match(/^\[\d{6}\]/)).slice(-limit);
+        const lines = content.split("\n");
+        const entries: string[] = [];
+        
+        // Aggregate full entries (timestamp line + following detail lines)
+        let currentEntry = "";
+        for (const line of lines) {
+          if (line.match(/^\[\d{6}\]/)) {
+            if (currentEntry) entries.push(currentEntry.trim());
+            currentEntry = line;
+          } else if (currentEntry && line.trim()) {
+            currentEntry += "\n" + line;
+          }
+        }
+        if (currentEntry) entries.push(currentEntry.trim());
         
         return text({
           ok: true,
           date: targetDate,
-          entries,
+          entries: entries.slice(-limit),
           count: entries.length,
           message: `Found ${entries.length} entries for ${targetDate}`
         });
