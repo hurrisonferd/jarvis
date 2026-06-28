@@ -16,6 +16,7 @@ import { gh, ghp, ghPath, ghReq, ghTok, proposeFilePR } from "./core/github.ts";
 import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, latestText, logExchange, logGovernanceEvent, flagGovernanceDrift, autoSLTick } from "./core/supabase.ts";
 import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
 import { registerDbTools } from "./tools/db.ts";
+import { registerCloudTools } from "./tools/cloud.ts";
 import { registerJipTools } from "./tools/jip.ts";
 import { registerCoopTools } from "./tools/coop.ts";
 import { registerVegaPunkTools } from "./tools/jarvis_vegapunk.ts";
@@ -1578,6 +1579,7 @@ function buildServer(req: Request): McpServer {
   registerCoopTools(server);
   registerVegaPunkTools(server);
   registerDbTools(server);
+  registerCloudTools(server);
 
   // UNIFIED TIMELINE.
   server.registerTool(
