@@ -195,6 +195,10 @@ class LilithTaskSender:
         NOTE: Self-deletion is for WORKER sandboxes only. The parent Lilith
         session must NEVER call the delete endpoint on itself. Workers are
         disposable; Lilith is persistent.
+        
+        IMPORTANT: The delete command uses the SESSION_API_KEY to identify THIS
+        conversation. It queries the API to get the current conversation ID
+        rather than guessing from filesystem listing.
         """
         return f"""{task}
 
@@ -255,14 +259,20 @@ echo "" >> "$LOG_FILE"
 echo "---" >> "$LOG_FILE"
 cd /workspace/project/Jarvis-Private
 git add -A && git commit -m "Worker: task complete" && git push origin main
-curl -X DELETE "http://127.0.0.1:60000/api/conversations/$(ls /workspace/conversations/ | head -1)" -H "X-Session-API-Key: $SESSION_API_KEY"
+
+# Get THIS conversation's ID from the API, then delete ONLY this conversation
+MY_CONV_ID=$(curl -s "http://127.0.0.1:60000/api/conversations" -H "X-Session-API-Key: $SESSION_API_KEY" 2>/dev/null | python3 -c "import sys,json; d=json.load(sys.stdin); ids=d.get('conversation_ids',[]); print(ids[0] if ids else '')" 2>/dev/null)
+if [ -n "$MY_CONV_ID" ]; then
+    curl -X DELETE "http://127.0.0.1:60000/api/conversations/$MY_CONV_ID" -H "X-Session-API-Key: $SESSION_API_KEY"
+fi
 ```
 
 RULES:
 1. Step 0 FIRST - no work until setup committed
 2. After EACH step, post to log and commit
-3. Delete LAST after all commits pushed
+3. Delete LAST after all commits pushed - and ONLY delete YOUR OWN conversation
 4. Every step must be posted
+5. NEVER delete a conversation unless you got its ID from the API using YOUR session key
 """
 
 def read_task_file(filepath: str) -> str:
