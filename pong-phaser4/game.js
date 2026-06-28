@@ -12,6 +12,8 @@ const game = new Phaser.Game(config);
 let player, cpu, ball, playerScore = 0, cpuScore = 0, scoreText;
 let ballVx = 5, ballVy = 3;
 const keys = {};
+let touchActive = false;
+let touchIndicator;
 
 function create() {
     const graphics = this.add.graphics();
@@ -39,19 +41,51 @@ function create() {
     
     scoreText = this.add.text(320, 30, '0 - 0', { fontSize: '32px', fill: '#ff8800' }).setOrigin(0.5);
     
+    // Touch indicator (subtle circle at touch position)
+    touchIndicator = this.add.graphics();
+    touchIndicator.setDepth(1);
+    
     // Keyboard
     this.input.keyboard.on('keydown', e => { keys[e.code] = true; });
     this.input.keyboard.on('keyup', e => { keys[e.code] = false; });
     
-    // Touch controls
+    // FF-style touch controls: paddle follows finger position anywhere on canvas
     this.input.on('pointerdown', (pointer) => {
-        if (pointer.y < 200) keys['touchUp'] = true;
-        else keys['touchDown'] = true;
+        touchActive = true;
+        handleTouchMove(pointer);
     });
+    
+    this.input.on('pointermove', (pointer) => {
+        if (touchActive) handleTouchMove(pointer);
+    });
+    
     this.input.on('pointerup', () => {
-        keys['touchUp'] = false;
-        keys['touchDown'] = false;
+        touchActive = false;
+        touchIndicator.clear();
     });
+    
+    this.input.on('pointercancel', () => {
+        touchActive = false;
+        touchIndicator.clear();
+    });
+}
+
+function handleTouchMove(pointer) {
+    // Scale pointer Y position to game coordinates
+    const scaleY = 400 / this.scale.height;
+    const targetY = pointer.y * scaleY;
+    
+    // Clamp paddle position (paddle center follows finger)
+    player.y = Math.max(0, Math.min(320, targetY - 40));
+    
+    // Update touch indicator
+    touchIndicator.clear();
+    if (touchActive) {
+        touchIndicator.fillStyle(0xff8800, 0.4);
+        touchIndicator.fillCircle(40, player.y + 40, 6);
+        touchIndicator.lineStyle(2, 0xff8800, 0.6);
+        touchIndicator.lineBetween(30, player.y + 40, 35, player.y + 40);
+    }
 }
 
 function resetBall(dir) {
@@ -62,8 +96,9 @@ function resetBall(dir) {
 }
 
 function update() {
-    if (keys['KeyW'] || keys['ArrowUp'] || keys['touchUp']) player.y -= 8;
-    if (keys['KeyS'] || keys['ArrowDown'] || keys['touchDown']) player.y += 8;
+    // Keyboard controls (still supported)
+    if (keys['KeyW'] || keys['ArrowUp']) player.y -= 8;
+    if (keys['KeyS'] || keys['ArrowDown']) player.y += 8;
     player.y = Math.max(0, Math.min(320, player.y));
     
     cpu.y += (ball.y - cpu.y - 40) * 0.08;

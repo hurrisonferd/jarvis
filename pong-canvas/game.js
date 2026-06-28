@@ -12,27 +12,53 @@ const player = { x: 20, y: canvas.height/2 - PADDLE_H/2, score: 0 };
 const cpu = { x: canvas.width - 30, y: canvas.height/2 - PADDLE_H/2, score: 0 };
 const ball = { x: canvas.width/2, y: canvas.height/2, vx: BALL_SPEED, vy: 0 };
 
+// FF-style touch control state
+let touchActive = false;
+let touchIndicator = { x: 0, y: 0, alpha: 0 };
+
 const keys = {};
 document.addEventListener('keydown', e => { keys[e.key] = true; e.preventDefault(); });
 document.addEventListener('keyup', e => { keys[e.key] = false; });
 
-// Touch controls: top half = move up, bottom half = move down
+// FF-style touch controls: paddle follows finger position anywhere on canvas
 canvas.addEventListener('touchstart', e => {
     e.preventDefault();
-    const touch = e.touches[0];
-    const rect = canvas.getBoundingClientRect();
-    const y = touch.clientY - rect.top;
-    if (y < rect.height / 2) keys['touchUp'] = true;
-    else keys['touchDown'] = true;
+    touchActive = true;
+    handleTouchMove(e.touches[0]);
 }, { passive: false });
+
+canvas.addEventListener('touchmove', e => {
+    e.preventDefault();
+    if (touchActive) handleTouchMove(e.touches[0]);
+}, { passive: false });
+
 canvas.addEventListener('touchend', e => {
-    keys['touchUp'] = false;
-    keys['touchDown'] = false;
+    e.preventDefault();
+    touchActive = false;
+    touchIndicator.alpha = 0;
 });
+
 canvas.addEventListener('touchcancel', e => {
-    keys['touchUp'] = false;
-    keys['touchDown'] = false;
+    touchActive = false;
+    touchIndicator.alpha = 0;
 });
+
+function handleTouchMove(touch) {
+    const rect = canvas.getBoundingClientRect();
+    const touchY = touch.clientY - rect.top;
+    
+    // Scale touch position to canvas coordinates
+    const scaleY = canvas.height / rect.height;
+    const targetY = touchY * scaleY;
+    
+    // Clamp paddle position (paddle center follows finger)
+    player.y = Math.max(0, Math.min(canvas.height - PADDLE_H, targetY - PADDLE_H / 2));
+    
+    // Update touch indicator
+    touchIndicator.x = player.x + PADDLE_W + 10;
+    touchIndicator.y = player.y + PADDLE_H / 2;
+    touchIndicator.alpha = 0.6;
+}
 
 function resetBall(dir) {
     ball.x = canvas.width/2;
@@ -42,9 +68,15 @@ function resetBall(dir) {
 }
 
 function update() {
-    if (keys['w'] || keys['W'] || keys['ArrowUp'] || keys['touchUp']) player.y -= PADDLE_SPEED;
-    if (keys['s'] || keys['S'] || keys['ArrowDown'] || keys['touchDown']) player.y += PADDLE_SPEED;
+    // Keyboard controls (still supported)
+    if (keys['w'] || keys['W'] || keys['ArrowUp']) player.y -= PADDLE_SPEED;
+    if (keys['s'] || keys['S'] || keys['ArrowDown']) player.y += PADDLE_SPEED;
     player.y = Math.max(0, Math.min(canvas.height - PADDLE_H, player.y));
+    
+    // Fade touch indicator when not touching
+    if (!touchActive && touchIndicator.alpha > 0) {
+        touchIndicator.alpha -= 0.05;
+    }
     
     cpu.y += (ball.y - cpu.y - PADDLE_H/2) * 0.08;
     cpu.y = Math.max(0, Math.min(canvas.height - PADDLE_H, cpu.y));
@@ -83,6 +115,22 @@ function draw() {
     ctx.lineTo(canvas.width/2, canvas.height);
     ctx.stroke();
     ctx.setLineDash([]);
+    
+    // Draw touch indicator (subtle vertical line showing touch position)
+    if (touchIndicator.alpha > 0) {
+        ctx.fillStyle = `rgba(0, 255, 136, ${touchIndicator.alpha * 0.3})`;
+        ctx.beginPath();
+        ctx.arc(touchIndicator.x, touchIndicator.y, 6, 0, Math.PI * 2);
+        ctx.fill();
+        
+        ctx.strokeStyle = `rgba(0, 255, 136, ${touchIndicator.alpha})`;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(player.x + PADDLE_W, touchIndicator.y);
+        ctx.lineTo(touchIndicator.x - 5, touchIndicator.y);
+        ctx.stroke();
+        ctx.lineWidth = 1;
+    }
 }
 
 function game() {
