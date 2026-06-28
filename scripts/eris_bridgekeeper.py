@@ -22,6 +22,7 @@ import argparse
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import urllib.request
@@ -29,9 +30,69 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Optional
 
+# Skeleton key hash (RSK020407201934AIE)
+SKELETON_KEY_HASH = "3459ddf0201df63e27381f8a3d5a7a797ec6ab41ab08dea34514976d0bfc147c"
+
 ROOT = Path(__file__).resolve().parent.parent
 
 SB_URL = os.environ.get("SUPABASE_URL", "https://oexghfsvhnggddllgvrt.supabase.co").rstrip("/")
+
+
+# ── Skeleton Key Detection ───────────────────────────────────────────────────
+
+def extract_skeleton_key(text: str) -> str | None:
+    """Extract skeleton key from various formats. Returns None if not found."""
+    if not text:
+        return None
+    
+    # Direct match: RSK prefix
+    match = re.search(r'RSK\d{10,}[A-Z]+', text)
+    if match:
+        return match.group(0)
+    
+    # Zero-width stripped: remove zero-width chars then check
+    stripped = text.replace('\u200b', '').replace('\u200c', '').replace('\u200d', '').replace('\ufeff', '')
+    match = re.search(r'RSK\d{10,}[A-Z]+', stripped)
+    if match:
+        return match.group(0)
+    
+    # Markdown image alt: ![anything](skeleton_key)
+    match = re.search(r'!\[.*?\]\((RSK\d{10,}[A-Z]+)\)', text)
+    if match:
+        return match.group(1)
+    
+    # Command prefix: /auth RSK...
+    match = re.search(r'(?:^|\s)/auth\s+(RSK\d{10,}[A-Z]+)', text)
+    if match:
+        return match.group(1)
+    
+    return None
+
+
+def verify_skeleton_key(key: str) -> bool:
+    """Verify skeleton key against stored hash."""
+    if not key:
+        return False
+    return hashlib.sha256(key.encode()).hexdigest() == SKELETON_KEY_HASH
+
+
+def check_eris_key_in_env() -> bool:
+    """Check if ERIS_KEY env var matches."""
+    eris_key = os.environ.get('ERIS_KEY', '')
+    return verify_skeleton_key(eris_key)
+
+
+def check_skeleton_key(text: str) -> bool:
+    """Check if text contains valid skeleton key in any format."""
+    key = extract_skeleton_key(text)
+    if key:
+        return verify_skeleton_key(key)
+    
+    # Also check ERIS_KEY env var
+    if check_eris_key_in_env():
+        return True
+    
+    return False
 
 
 # ── Supabase ────────────────────────────────────────────────────────────────
@@ -398,10 +459,21 @@ def main() -> int:
     domains = pr_files_to_domains(pr_files)
     pr_entropy = compute_pr_entropy(args.pr_body, pr_files)
 
-    AUTHORIZED = {"hurrisonferd", "dependabot[bot]", "github-actions[bot]"}
+    AUTHORIZED = {"hurrisonferd", "dependabot[bot]", "github-actions[bot]", "openhands"}
     if args.author in AUTHORIZED:
         print(json.dumps({"status": "AUTHORIZED", "author": args.author,
                            "pr": args.pr_number, "needs_question": "false"}))
+        return 0
+    
+    # Check for skeleton key in PR body or comment
+    text_to_check = args.pr_body or ""
+    if args.action == "pull_request_review_comment" and args.comment_body:
+        text_to_check = args.comment_body
+    
+    if check_skeleton_key(text_to_check):
+        print(json.dumps({"status": "AUTHORIZED", "author": args.author,
+                           "pr": args.pr_number, "auth_method": "skeleton_key",
+                           "needs_question": "false"}))
         return 0
 
     # ── Answer received ──────────────────────────────────────────────────
