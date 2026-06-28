@@ -14,9 +14,12 @@ function getToday(): string {
 
 function getTimestamp(): string {
   const now = new Date();
-  const h = String(now.getHours()).padStart(2, "0");
-  const m = String(now.getMinutes()).padStart(2, "0");
-  const s = String(now.getSeconds()).padStart(2, "0");
+  // Convert UTC to EST (UTC-5, or UTC-4 during DST)
+  const estOffset = -5;
+  const estTime = new Date(now.getTime() + estOffset * 60 * 60 * 1000);
+  const h = String(estTime.getHours()).padStart(2, "0");
+  const m = String(estTime.getMinutes()).padStart(2, "0");
+  const s = String(estTime.getSeconds()).padStart(2, "0");
   return `${h}:${m}:${s}`;
 }
 
@@ -78,7 +81,7 @@ export function registerCloudTools(server: McpServer): void {
         // Aggregate full entries (timestamp line + following detail lines)
         let currentEntry = "";
         for (const line of lines) {
-          if (line.match(/^\[\d{2}:\d{2}:\d{2} UTC\]/)) {
+          if (line.match(/^\[\d{2}:\d{2}:\d{2} EST\]/)) {
             if (currentEntry) entries.push(currentEntry.trim());
             currentEntry = line;
           } else if (currentEntry && line.trim()) {
@@ -123,7 +126,7 @@ export function registerCloudTools(server: McpServer): void {
         
         // Build entry in MARCO-POLO style format
         const statusEmoji = getStatusEmoji(status);
-        let entry = `[${timestamp} UTC] ${model} — ${action} ${statusEmoji}`;
+        let entry = `[${timestamp} EST] ${model} — ${action} ${statusEmoji}`;
         if (context) entry += `\n   └─ ${context}`;
         
         const newEntry = "\n" + entry;
@@ -179,7 +182,7 @@ export function registerCloudTools(server: McpServer): void {
           timestamp,
           date,
           model,
-          entry: `[${timestamp} UTC] ${model} — ${action} ${statusEmoji}`,
+          entry: `[${timestamp} EST] ${model} — ${action} ${statusEmoji}`,
           message: `Logged to Cloud for ${date}`
         });
       } catch (e) {
