@@ -190,54 +190,27 @@ class LilithTaskSender:
     
     def _build_task_prompt(self, task: str) -> str:
         """Build a task prompt that includes step-by-step progress and self-deletion."""
-        # Build bash template separately to avoid f-string issues
-        bash_delete = """CONV_ID=$(ls /workspace/conversations/ | head -1)
-SESSION_KEY="$SESSION_API_KEY"
-curl -X DELETE "http://127.0.0.1:60000/api/conversations/${CONV_ID}" \\
-  -H "X-Session-API-Key: ${SESSION_KEY}"
-"""
+        # Simpler, more robust template - each step posts DIRECTLY to MARCO-POLO
         return f"""{task}
 
-## MANDATORY: Step-by-Step Progress Logging
+## CRITICAL: Real-Time Step Logging (MANDATORY)
 
-For multi-step tasks, you MUST log each step with timestamp as you complete it:
+You MUST post each step to MARCO-POLO AS YOU COMPLETE IT, not at the end.
 
-```bash
-echo "[$(date +%H:%M:%S) UTC] Step 1: <description>" >> /tmp/swarm_progress.md
-echo "[$(date +%H:%M:%S) UTC] Step 2: <description>" >> /tmp/swarm_progress.md
-# ... continue for each step
-echo "[$(date +%H:%M:%S) UTC] All steps complete!" >> /tmp/swarm_progress.md
-cat /tmp/swarm_progress.md
-```
-
-## IMPORTANT: Setup Git First
-Before making any commits, configure git:
-```bash
-git config user.email "worker@jarvis.local"
-git config user.name "Worker"
-```
-
-## After completing your task, you MUST do the following in order:
-
-### Step 1: Find or create the current swarm log
-
-Run this script to get the right log file:
+### Setup (do this FIRST):
 ```bash
 cd /workspace/project/Jarvis-Private/workspaces/Co-op/MARCO-POLO
+git config user.email "worker@jarvis.local"
+git config user.name "Worker"
 
-# Get today's date parts (keep leading zeros for naming)
-MONTH=$(date +%m)      # 01-12 (keeps leading zero)
-DAY=$(date +%d)        # 01-31 (keeps leading zero)
-YEAR=$(date +%y)       # 26
-
-# Find existing logs for today
+# Find or create today's swarm log
+MONTH=$(date +%m)
+DAY=$(date +%d)
+YEAR=$(date +%y)
 EXISTING=$(ls MP-$MONTH.$DAY.$YEAR-*.md 2>/dev/null | sort)
-
-# Count existing logs today
 COUNT=$(echo "$EXISTING" | grep -c . || echo 0)
 NEXT_NUM=$(printf "%04d" $((COUNT + 1)))
 
-# Check if we need a new log (none exist OR current > 200 lines)
 if [ -z "$EXISTING" ]; then
     LOG_FILE="MP-$MONTH.$DAY.$YEAR-$NEXT_NUM.md"
     echo "# MARCO-POLO — MP-$MONTH.$DAY.$YEAR-$NEXT_NUM" > "$LOG_FILE"
@@ -257,42 +230,42 @@ else
         LOG_FILE="$LAST_LOG"
     fi
 fi
-echo "USING_LOG=$LOG_FILE"
 ```
 
-### Step 2: Append result to swarm log
-
-Append to the log file determined above:
-```
-## [$$(date +%H:%M:%S) UTC] Worker — Task Complete
-
-**Task:** <brief description>
-**Status:** ✅ DONE
-**Steps:**
-- Step 1: <what you did>
-- Step 2: <what you did>
-**Files changed:** <list>
-
----
-```
-
-### Step 3: Commit and push your changes
+### For EACH STEP of your task:
 ```bash
+echo '## [$(date +%H:%M:%S) UTC] Worker — Step N: <description>' >> "$LOG_FILE"
+echo '' >> "$LOG_FILE"
+# ... do the actual work ...
+git add -A && git commit -m "Step N: <brief>" && git push origin main
+```
+
+### Final step:
+```bash
+echo '## [$(date +%H:%M:%S) UTC] Worker — DONE' >> "$LOG_FILE"
+echo '' >> "$LOG_FILE"
+echo '**Task:** <brief description>' >> "$LOG_FILE"
+echo '**Status:** ✅ COMPLETE' >> "$LOG_FILE"
+echo '' >> "$LOG_FILE"
+echo '---' >> "$LOG_FILE"
 cd /workspace/project/Jarvis-Private
-git add -A
-git commit -m "[Co-op] Worker: task complete"
-git push origin main
+git add -A && git commit -m "Worker: task complete" && git push origin main
 ```
 
-### Step 4: Delete this conversation
-After pushing, delete this conversation to clean up the sandbox:
+### Delete yourself (LAST step):
 ```bash
-{bash_delete}
+curl -X DELETE "http://127.0.0.1:60000/api/conversations/$(ls /workspace/conversations/ | head -1)" \\
+  -H "X-Session-API-Key: $SESSION_API_KEY"
 ```
 
-If successful, you will see: {{"success": true}}
+RULES:
+1. Setup git + find log FIRST
+2. Post EACH step to log BEFORE moving to next step
+3. Commit after EACH step (so Lilith can track progress via git)
+4. Delete conversation LAST (after all commits pushed)
+5. Never batch steps — real-time only
 
-DO NOT stop before completing all steps."""
+DO NOT stop before completing all steps and deleting yourself."""
 
 
 def read_task_file(filepath: str) -> str:
