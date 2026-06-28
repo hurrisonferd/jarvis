@@ -152,6 +152,14 @@ html, body {
         </div>
         <iframe id="ra-frame" title="RetroArch" style="flex:1;border:0;width:100%;background:#000" allow="cross-origin-isolated; autoplay; gamepad; fullscreen"></iframe>
       </div>
+      <!-- GAMES: JS game container -->
+      <div id="games-overlay" style="display:none;position:absolute;inset:0;z-index:150;flex-direction:column;background:#020408">
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:4px 8px;border-bottom:1px solid #1b2b3a;font-family:'Courier New',monospace;flex-shrink:0;background:#05070a">
+          <span id="games-title" style="color:#f5a623;letter-spacing:2px;font-size:7px">GAMES</span>
+          <button onclick="closeGames()" style="background:transparent;border:1px solid #ff4466;color:#ff4466;font-family:'Courier New',monospace;font-size:8px;letter-spacing:2px;padding:2px 8px;cursor:pointer;border-radius:3px">&#10005;</button>
+        </div>
+        <iframe id="games-frame" title="Game" style="flex:1;border:0;width:100%;background:#000"></iframe>
+      </div>
     </div>
   </div>
   <div class="brand">JARVIS</div>
@@ -550,7 +558,16 @@ const MENU=[
   {label:'LIVE FEED',   state:'live'},
   {label:'ALERTS',      state:'alerts'},
   {label:'GITHUB',      state:'github'},
+  {label:'GAMES',       state:'games'},
   {label:'EMULATOR',    state:'emu'},
+];
+
+// GAMES catalog — add games here
+const GAMES_CATALOG=[
+  {id:'spaceinvaders', label:'SPACE INVADERS', path:'./games/spaceinvaders/index.html'},
+  {id:'pong-phaser',   label:'PONG (PHASER)',  path:'./games/pong-phaser/index.html'},
+  {id:'pong-pixijs',   label:'PONG (PIXIJS)',  path:'./games/pong-pixijs/index.html'},
+  {id:'pong-vanilla',  label:'PONG (VANILLA)', path:'./games/pong-vanilla/index.html'},
 ];
 
 function draw(){
@@ -574,6 +591,7 @@ function draw(){
   else if(S==='ghIssue') el.innerHTML=rGhIssue();
   else if(S==='emu')    el.innerHTML=rEmulator();
   else if(S==='grimoire') el.innerHTML=rGrimoire();
+  else if(S==='games')   el.innerHTML=rGames();
 }
 
 function cursor(i,sel){ return '<span style="color:'+(sel?'var(--amber)':'var(--dim)')+'">'+( sel?'&#9658;':' ')+'</span>'; }
@@ -806,6 +824,50 @@ let romName='', romType='', romHash='', activeCore=null, emuState='idle', emuErr
 let romIndex=[];
 // P09: last confirmed save slot
 let saveStateSlot=null;
+
+// ── GAMES ──────────────────────────────────────────────────────────────────────
+let gameCur=0;
+
+function rGames(){
+  return `<div class="panel">
+    <div class="s-header"><span style="color:#f5a623">GAMES</span><span style="color:var(--dim)">${GAMES_CATALOG.length}</span></div>
+    <div class="s-body scroll">
+      ${GAMES_CATALOG.map((g,i)=>`<div class="row ${gameCur===i?'sel':''}">${cursor(i,gameCur===i)} ${g.label}</div>`).join('')}
+    </div>
+    <div class="s-footer">A:PLAY &nbsp; B:BACK</div>
+  </div>`;
+}
+
+function openGame(idx){
+  const g=GAMES_CATALOG[idx];
+  if(!g) return;
+  const frame=document.getElementById('games-frame');
+  const overlay=document.getElementById('games-overlay');
+  const title=document.getElementById('games-title');
+  if(frame&&overlay&&title){
+    title.textContent=g.label;
+    frame.src=g.path;
+    overlay.style.display='flex';
+    beep(880,100);
+  }
+}
+
+function closeGames(){
+  const overlay=document.getElementById('games-overlay');
+  const frame=document.getElementById('games-frame');
+  if(overlay) overlay.style.display='none';
+  if(frame) frame.src='about:blank';
+  gameCur=0;
+  S='games';
+  draw();
+}
+
+function sendGameInput(action){
+  const frame=document.getElementById('games-frame');
+  if(frame&&frame.contentWindow){
+    frame.contentWindow.postMessage({type:'jarvis_input',action},'*');
+  }
+}
 
 function rEmulator(){
   let body='';
@@ -2241,6 +2303,7 @@ function nav(d){
   if(S==='grimoire'&&grimoireData&&!grimoireCard) mx=grimoireData.nodes.length;
   if(S==='gold'&&gdata) mx=gdata.gold_law.length;
   if(S==='grid'&&gdata) mx=gdata.districts.length;
+  if(S==='games'){ gameCur=((gameCur+d)%GAMES_CATALOG.length+GAMES_CATALOG.length)%GAMES_CATALOG.length; draw(); beep(d>0?440:400,40); return; }
   if(S==='tron'){
     if(tronLayer===3){
       const f=['all','gb','gba'][tronSys];
@@ -2368,6 +2431,16 @@ function emuBtn(btn){
   activeCore.setInput(s); setTimeout(()=>activeCore.setInput({}),80); return true;
 }
 
+// Bridge buttons to game iframe when games overlay is active
+function bridgeGameBtn(btn){
+  const overlay=document.getElementById('games-overlay');
+  if(overlay&&overlay.style.display==='flex'){
+    sendGameInput(btn);
+    return true;
+  }
+  return false;
+}
+
 function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
@@ -2387,6 +2460,7 @@ function ok(){
   if(S==='github'){ ghOk(); return; }
   if(S==='ghIssue'){ ghSubmitIssue(); return; }
   if(S==='emu'){ openRetroArch(); return; }
+  if(S==='games'){ openGame(gameCur); return; }
   if(S==='grimoire'&&grimoireData&&!grimoireData.error){ if(!grimoireCard){ grimoireCard=grimoireData.nodes[cur]||null; draw(); } return; }
 }
 
@@ -2396,7 +2470,7 @@ function back(){
   if(S==='godD')  { S='god';  draw(); return; }
   if(S==='gridD') { S='grid'; draw(); return; }
   if(S==='grimoire'){ if(grimoireCard){ grimoireCard=null; draw(); return; } S='menu'; cur=0; draw(); return; }
-  if(['speak','companion','mnemos','prometheus','god','gold','grid','tron','live','alerts','github','emu'].includes(S)){
+  if(['speak','companion','mnemos','prometheus','god','gold','grid','tron','live','alerts','github','emu','games'].includes(S)){
     if(S==='emu'){
       // P09: auto-save to slot 99 on exit if running
       if(emuState==='running'&&activeCore) sbSaveState(99);
@@ -2449,6 +2523,14 @@ function beep(f,ms){
 document.addEventListener('keydown',e=>{
   const k=e.key;
   if(['ArrowUp','ArrowDown','ArrowLeft','ArrowRight',' '].includes(k)||k==='Enter') e.preventDefault();
+  // Bridge to game iframe if games overlay is active
+  const gamesOverlay=document.getElementById('games-overlay');
+  if(gamesOverlay&&gamesOverlay.style.display==='flex'){
+    const gmap={'ArrowUp':'up','ArrowDown':'down','ArrowLeft':'left','ArrowRight':'right','z':'a','Z':'a','Enter':'a','x':'b','X':'b','Escape':'b',' ':'start'};
+    if(gmap[k]){ sendGameInput(gmap[k]); e.preventDefault(); }
+    if(k==='Escape'){ closeGames(); }
+    return;
+  }
   // P09: save/load state keys (intercept before game input)
   if(k==='F5'&&emuState==='running'){ e.preventDefault(); sbSaveState(0); return; }
   if(k==='F9'&&emuState==='running'){ e.preventDefault(); sbLoadState(0).then(s=>{ if(s&&activeCore) activeCore.restore(s).catch(()=>{}); }); return; }
