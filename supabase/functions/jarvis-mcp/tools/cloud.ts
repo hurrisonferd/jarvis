@@ -163,7 +163,7 @@ export function registerCloudTools(server: McpServer): void {
           },
           body: JSON.stringify({
             message: `cloud: ${model} logged activity`,
-            content: btoa(new TextDecoder().decode(new TextEncoder().encode(newContent))),
+            content: btoa(Array.from(new TextEncoder().encode(newContent)).map(b => String.fromCharCode(b)).join('')),
             sha: sha || undefined,
           }),
         });
