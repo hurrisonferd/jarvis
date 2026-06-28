@@ -17,7 +17,16 @@ function getTimestamp(): string {
   const h = String(now.getHours()).padStart(2, "0");
   const m = String(now.getMinutes()).padStart(2, "0");
   const s = String(now.getSeconds()).padStart(2, "0");
-  return `${h}${m}${s}`;
+  return `${h}:${m}:${s}`;
+}
+
+function getStatusEmoji(status: string): string {
+  switch (status) {
+    case "ok": return "🟢";
+    case "warning": return "🟡";
+    case "error": return "🔴";
+    default: return "⚪";
+  }
 }
 
 export function registerCloudTools(server: McpServer): void {
@@ -112,16 +121,12 @@ export function registerCloudTools(server: McpServer): void {
         const timestamp = getTimestamp();
         const fileName = `${date}.md`;
         
-        // Build entry
-        const entryLines = [
-          "",
-          `[${timestamp}] ${model}:`,
-          `- action: ${action}`,
-        ];
-        if (context) entryLines.push(`- context: ${context}`);
-        entryLines.push(`- status: ${status}`);
+        // Build entry in MARCO-POLO style format
+        const statusEmoji = getStatusEmoji(status);
+        let entry = `[${timestamp} UTC] ${model} — ${action} ${statusEmoji}`;
+        if (context) entry += `\n   └─ ${context}`;
         
-        const newEntry = entryLines.join("\n");
+        const newEntry = "\n" + entry;
         
         // Get current content or create new
         const apiKey = Deno.env.get("JARVIS_MCP_TOKEN");
@@ -174,7 +179,7 @@ export function registerCloudTools(server: McpServer): void {
           timestamp,
           date,
           model,
-          entry: `[${timestamp}] ${model}: ${action}`,
+          entry: `[${timestamp} UTC] ${model} — ${action} ${statusEmoji}`,
           message: `Logged to Cloud for ${date}`
         });
       } catch (e) {
