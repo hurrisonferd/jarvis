@@ -8,15 +8,23 @@ body {
     height: 100vh; 
     font-family: system-ui, sans-serif;
     color: #fff;
+    overflow: hidden;
+}
+#game { 
+    width: 100%;
+    max-width: 900px;
+    aspect-ratio: 8/5;
 }
 canvas { 
+    width: 100%;
+    height: 100%;
     border: 2px solid #00ff88; 
     border-radius: 4px;
     box-shadow: 0 0 20px rgba(0, 255, 136, 0.3);
 }
 #score {
     font-size: 2rem;
-    margin: 20px 0;
+    margin: 16px 0;
     color: #00ff88;
 }
 #controls {

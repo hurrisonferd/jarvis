@@ -6,8 +6,9 @@
     <title>Phaser 4 Pong</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { background: #111; display: flex; justify-content: center; align-items: center; height: 100vh; }
-        #game canvas { border: 2px solid #ff8800; border-radius: 4px; }
+        body { background: #111; display: flex; justify-content: center; align-items: center; height: 100vh; overflow: hidden; }
+        #game { width: 100%; max-width: 900px; aspect-ratio: 8/5; }
+        #game canvas { width: 100% !important; height: 100% !important; border: 2px solid #ff8800; border-radius: 4px; }
     </style>
 </head>
 <body>
