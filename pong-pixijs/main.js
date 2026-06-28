@@ -26,11 +26,29 @@ const keys = {};
 window.addEventListener('keydown', e => { keys[e.key] = true; });
 window.addEventListener('keyup', e => { keys[e.key] = false; });
 
+// Touch controls: top half = move up, bottom half = move down
+app.view.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = app.view.getBoundingClientRect();
+    const y = touch.clientY - rect.top;
+    if (y < rect.height / 2) keys['touchUp'] = true;
+    else keys['touchDown'] = true;
+}, { passive: false });
+app.view.addEventListener('touchend', e => {
+    keys['touchUp'] = false;
+    keys['touchDown'] = false;
+});
+app.view.addEventListener('touchcancel', e => {
+    keys['touchUp'] = false;
+    keys['touchDown'] = false;
+});
+
 let playerScore = 0, cpuScore = 0, vx = 5, vy = 3;
 
 app.ticker.add(() => {
-    if (keys['w'] || keys['W']) player.y -= 8;
-    if (keys['s'] || keys['S']) player.y += 8;
+    if (keys['w'] || keys['W'] || keys['touchUp']) player.y -= 8;
+    if (keys['s'] || keys['S'] || keys['touchDown']) player.y += 8;
     player.y = Math.max(0, Math.min(320, player.y));
     
     cpu.y += (ball.y - cpu.y - 40) * 0.08;

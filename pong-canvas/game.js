@@ -16,6 +16,24 @@ const keys = {};
 document.addEventListener('keydown', e => { keys[e.key] = true; e.preventDefault(); });
 document.addEventListener('keyup', e => { keys[e.key] = false; });
 
+// Touch controls: top half = move up, bottom half = move down
+canvas.addEventListener('touchstart', e => {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const rect = canvas.getBoundingClientRect();
+    const y = touch.clientY - rect.top;
+    if (y < rect.height / 2) keys['touchUp'] = true;
+    else keys['touchDown'] = true;
+}, { passive: false });
+canvas.addEventListener('touchend', e => {
+    keys['touchUp'] = false;
+    keys['touchDown'] = false;
+});
+canvas.addEventListener('touchcancel', e => {
+    keys['touchUp'] = false;
+    keys['touchDown'] = false;
+});
+
 function resetBall(dir) {
     ball.x = canvas.width/2;
     ball.y = canvas.height/2;
@@ -24,8 +42,8 @@ function resetBall(dir) {
 }
 
 function update() {
-    if (keys['w'] || keys['W'] || keys['ArrowUp']) player.y -= PADDLE_SPEED;
-    if (keys['s'] || keys['S'] || keys['ArrowDown']) player.y += PADDLE_SPEED;
+    if (keys['w'] || keys['W'] || keys['ArrowUp'] || keys['touchUp']) player.y -= PADDLE_SPEED;
+    if (keys['s'] || keys['S'] || keys['ArrowDown'] || keys['touchDown']) player.y += PADDLE_SPEED;
     player.y = Math.max(0, Math.min(canvas.height - PADDLE_H, player.y));
     
     cpu.y += (ball.y - cpu.y - PADDLE_H/2) * 0.08;

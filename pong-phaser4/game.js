@@ -4,31 +4,85 @@ const config = {
     height: 400,
     parent: 'game',
     backgroundColor: '#000',
+    physics: { default: false },
     scene: { create, update }
 };
 
 const game = new Phaser.Game(config);
 let player, cpu, ball, playerScore = 0, cpuScore = 0, scoreText;
+let ballVx = 5, ballVy = 3;
+const keys = {};
 
 function create() {
-    player = this.add.rectangle(25, 200, 10, 80, 0xff8800);
-    cpu = this.add.rectangle(615, 200, 10, 80, 0xff8800);
-    ball = this.add.rectangle(320, 200, 10, 10, 0xffffff);
+    const graphics = this.add.graphics();
+    
+    // Player paddle
+    graphics.fillStyle(0xff8800);
+    graphics.fillRect(20, 160, 10, 80);
+    player = { x: 20, y: 160, width: 10, height: 80 };
+    
+    // CPU paddle
+    graphics.fillStyle(0xff8800);
+    graphics.fillRect(610, 160, 10, 80);
+    cpu = { x: 610, y: 160, width: 10, height: 80 };
+    
+    // Ball
+    graphics.fillStyle(0xffffff);
+    graphics.fillRect(315, 195, 10, 10);
+    ball = { x: 315, y: 195, size: 10 };
+    
+    // Center line
+    graphics.lineStyle(1, 0x333333);
+    for (let y = 0; y < 400; y += 15) {
+        graphics.lineBetween(320, y, 320, y + 10);
+    }
+    
     scoreText = this.add.text(320, 30, '0 - 0', { fontSize: '32px', fill: '#ff8800' }).setOrigin(0.5);
     
-    this.physics.add.existing(ball);
-    ball.body.setVelocity(300, 0).setBounce(1);
+    // Keyboard
+    this.input.keyboard.on('keydown', e => { keys[e.code] = true; });
+    this.input.keyboard.on('keyup', e => { keys[e.code] = false; });
+    
+    // Touch controls
+    this.input.on('pointerdown', (pointer) => {
+        if (pointer.y < 200) keys['touchUp'] = true;
+        else keys['touchDown'] = true;
+    });
+    this.input.on('pointerup', () => {
+        keys['touchUp'] = false;
+        keys['touchDown'] = false;
+    });
+}
+
+function resetBall(dir) {
+    ball.x = 315;
+    ball.y = 195;
+    ballVx = 5 * dir;
+    ballVy = (Math.random() - 0.5) * 4;
 }
 
 function update() {
-    if (this.input.keyboard.addKey('W').isDown) player.y -= 8;
-    if (this.input.keyboard.addKey('S').isDown) player.y += 8;
-    player.y = Phaser.Math.Clamp(player.y, 40, 360);
+    if (keys['KeyW'] || keys['ArrowUp'] || keys['touchUp']) player.y -= 8;
+    if (keys['KeyS'] || keys['ArrowDown'] || keys['touchDown']) player.y += 8;
+    player.y = Math.max(0, Math.min(320, player.y));
     
-    cpu.y = Phaser.Math.Linear(cpu.y, ball.y, 0.05);
+    cpu.y += (ball.y - cpu.y - 40) * 0.08;
+    cpu.y = Math.max(0, Math.min(320, cpu.y));
     
-    this.physics.world.wrap(ball, 10);
+    ball.x += ballVx;
+    ball.y += ballVy;
     
-    if (ball.x < 0) { cpuScore++; scoreText.setText(`${playerScore} - ${cpuScore}`); ball.body.reset(320, 200); }
-    if (ball.x > 640) { playerScore++; scoreText.setText(`${playerScore} - ${cpuScore}`); ball.body.reset(320, 200); }
+    if (ball.y <= 0 || ball.y >= 390) ballVy *= -1;
+    
+    if (ballVx < 0 && ball.x <= 30 && ball.y >= player.y && ball.y <= player.y + 80) {
+        ballVx = Math.abs(ballVx) * 1.05;
+        ballVy += (ball.y - player.y - 40) * 0.2;
+    }
+    if (ballVx > 0 && ball.x >= 600 && ball.y >= cpu.y && ball.y <= cpu.y + 80) {
+        ballVx = -Math.abs(ballVx) * 1.05;
+        ballVy += (ball.y - cpu.y - 40) * 0.2;
+    }
+    
+    if (ball.x < 0) { cpuScore++; scoreText.setText(`${playerScore} - ${cpuScore}`); resetBall(1); }
+    if (ball.x > 640) { playerScore++; scoreText.setText(`${playerScore} - ${cpuScore}`); resetBall(-1); }
 }
