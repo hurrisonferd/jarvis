@@ -78,7 +78,7 @@ export function registerCloudTools(server: McpServer): void {
         // Aggregate full entries (timestamp line + following detail lines)
         let currentEntry = "";
         for (const line of lines) {
-          if (line.match(/^\[\d{6}\]/)) {
+          if (line.match(/^\[\d{2}:\d{2}:\d{2} UTC\]/)) {
             if (currentEntry) entries.push(currentEntry.trim());
             currentEntry = line;
           } else if (currentEntry && line.trim()) {
