@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pong - PixiJS v8</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+        <div id="score-overlay">
+            <div class="score left" id="score-left">0</div>
+            <div class="score right" id="score-right">0</div>
+        </div>
+        <div id="win-overlay" class="hidden">
+            <div id="win-message"></div>
+            <button id="restart-btn">Play Again</button>
+        </div>
+        <div id="start-overlay">
+            <h1>PONG</h1>
+            <p>First to 11 wins!</p>
+            <p>Controls: W/S or Arrow Keys to move paddle</p>
+            <button id="start-btn">Start Game</button>
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/pixi.js@8.x/dist/pixi.min.js"></script>
+    <script src="main.js" type="module"></script>
+</body>
+</html>

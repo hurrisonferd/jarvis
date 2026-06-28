@@ -1,0 +1,107 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #0a0a0f;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+}
+
+#game-container {
+    position: relative;
+    width: 800px;
+    height: 600px;
+    background: #111;
+    border: 2px solid #333;
+    border-radius: 4px;
+    box-shadow: 0 0 40px rgba(0, 255, 136, 0.1);
+}
+
+#game-canvas {
+    display: block;
+}
+
+#score-overlay {
+    position: absolute;
+    top: 20px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-around;
+    pointer-events: none;
+}
+
+.score {
+    font-size: 72px;
+    font-weight: bold;
+    color: #00ff88;
+    text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+    opacity: 0.8;
+}
+
+#start-overlay, #win-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.85);
+    color: #fff;
+    z-index: 10;
+}
+
+#start-overlay h1 {
+    font-size: 80px;
+    color: #00ff88;
+    text-shadow: 0 0 30px rgba(0, 255, 136, 0.7);
+    margin-bottom: 20px;
+    letter-spacing: 20px;
+}
+
+#start-overlay p, #win-overlay p {
+    font-size: 18px;
+    color: #888;
+    margin: 10px 0;
+}
+
+#win-message {
+    font-size: 48px;
+    color: #00ff88;
+    text-shadow: 0 0 30px rgba(0, 255, 136, 0.7);
+    margin-bottom: 30px;
+}
+
+#start-btn, #restart-btn {
+    margin-top: 30px;
+    padding: 15px 50px;
+    font-size: 24px;
+    font-family: 'Courier New', monospace;
+    background: transparent;
+    border: 2px solid #00ff88;
+    color: #00ff88;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+#start-btn:hover, #restart-btn:hover {
+    background: #00ff88;
+    color: #0a0a0f;
+    box-shadow: 0 0 30px rgba(0, 255, 136, 0.5);
+}
+
+.hidden {
+    display: none !important;
+}
