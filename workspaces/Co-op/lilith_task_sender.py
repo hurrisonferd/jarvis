@@ -189,84 +189,75 @@ class LilithTaskSender:
         }
     
     def _build_task_prompt(self, task: str) -> str:
-        """Build a task prompt that includes step-by-step progress and self-deletion."""
-        # Simpler, more robust template - each step posts DIRECTLY to MARCO-POLO
+        """Build a task prompt with guaranteed step logging and self-deletion."""
         return f"""{task}
 
-## CRITICAL: Real-Time Step Logging (MANDATORY)
+## MANDATORY: Follow this EXACT sequence
 
-You MUST post each step to MARCO-POLO AS YOU COMPLETE IT, not at the end.
-
-### Setup (do this FIRST):
+### Step 0: Setup (do this first, before anything else)
 ```bash
-cd /workspace/project/Jarvis-Private/workspaces/Co-op/MARCO-POLO
+cd /workspace/project/Jarvis-Private
 git config user.email "worker@jarvis.local"
 git config user.name "Worker"
-
-# Find or create today's swarm log
-MONTH=$(date +%m)
-DAY=$(date +%d)
-YEAR=$(date +%y)
-EXISTING=$(ls MP-$MONTH.$DAY.$YEAR-*.md 2>/dev/null | sort)
-COUNT=$(echo "$EXISTING" | grep -c . || echo 0)
-NEXT_NUM=$(printf "%04d" $((COUNT + 1)))
-
-if [ -z "$EXISTING" ]; then
-    LOG_FILE="MP-$MONTH.$DAY.$YEAR-$NEXT_NUM.md"
-    echo "# MARCO-POLO — MP-$MONTH.$DAY.$YEAR-$NEXT_NUM" > "$LOG_FILE"
+git pull origin main
+mkdir -p workspaces/Co-op/MARCO-POLO
+cd workspaces/Co-op/MARCO-POLO
+LOG_FILE="MP-$(date +%m.%d.%y)-0001.md"
+if [ ! -f "$LOG_FILE" ]; then
+    echo "# MARCO-POLO — MP-$(date +%m.%d.%y)-0001" > "$LOG_FILE"
     echo "" >> "$LOG_FILE"
     echo "---" >> "$LOG_FILE"
     echo "" >> "$LOG_FILE"
-else
-    LAST_LOG=$(echo "$EXISTING" | tail -1)
-    LINE_COUNT=$(wc -l < "$LAST_LOG")
-    if [ "$LINE_COUNT" -gt 200 ]; then
-        LOG_FILE="MP-$MONTH.$DAY.$YEAR-$NEXT_NUM.md"
-        echo "# MARCO-POLO — MP-$MONTH.$DAY.$YEAR-$NEXT_NUM" > "$LOG_FILE"
-        echo "" >> "$LOG_FILE"
-        echo "---" >> "$LOG_FILE"
-        echo "" >> "$LOG_FILE"
-    else
-        LOG_FILE="$LAST_LOG"
-    fi
 fi
+echo "## [$(date +%H:%M:%S) UTC] Worker — Step 0: Setup complete" >> "$LOG_FILE"
+echo "" >> "$LOG_FILE"
+cd /workspace/project/Jarvis-Private
+git add -A && git commit -m "Worker: Step 0 setup" && git push origin main
 ```
 
-### For EACH STEP of your task:
+### Step 1: First work item
+- Do the work
+- Then immediately:
 ```bash
-echo '## [$(date +%H:%M:%S) UTC] Worker — Step N: <description>' >> "$LOG_FILE"
-echo '' >> "$LOG_FILE"
-# ... do the actual work ...
-git add -A && git commit -m "Step N: <brief>" && git push origin main
+cd /workspace/project/Jarvis-Private/workspaces/Co-op/MARCO-POLO
+echo "## [$(date +%H:%M:%S) UTC] Worker — Step 1: <describe>" >> "$LOG_FILE"
+echo "" >> "$LOG_FILE"
+cd /workspace/project/Jarvis-Private
+git add -A && git commit -m "Worker: Step 1 done" && git push origin main
 ```
 
-### Final step:
+### Step 2: Second work item
+- Do the work
+- Then immediately:
 ```bash
-echo '## [$(date +%H:%M:%S) UTC] Worker — DONE' >> "$LOG_FILE"
-echo '' >> "$LOG_FILE"
-echo '**Task:** <brief description>' >> "$LOG_FILE"
+cd /workspace/project/Jarvis-Private/workspaces/Co-op/MARCO-POLO
+echo "## [$(date +%H:%M:%S) UTC] Worker — Step 2: <describe>" >> "$LOG_FILE"
+echo "" >> "$LOG_FILE"
+cd /workspace/project/Jarvis-Private
+git add -A && git commit -m "Worker: Step 2 done" && git push origin main
+```
+
+### Continue for each step
+
+### Final step: Complete and delete
+```bash
+cd /workspace/project/Jarvis-Private/workspaces/Co-op/MARCO-POLO
+echo "## [$(date +%H:%M:%S) UTC] Worker — DONE" >> "$LOG_FILE"
+echo "" >> "$LOG_FILE"
 echo '**Status:** ✅ COMPLETE' >> "$LOG_FILE"
-echo '' >> "$LOG_FILE"
-echo '---' >> "$LOG_FILE"
+echo "" >> "$LOG_FILE"
+echo "---" >> "$LOG_FILE"
 cd /workspace/project/Jarvis-Private
 git add -A && git commit -m "Worker: task complete" && git push origin main
-```
-
-### Delete yourself (LAST step):
-```bash
-curl -X DELETE "http://127.0.0.1:60000/api/conversations/$(ls /workspace/conversations/ | head -1)" \\
-  -H "X-Session-API-Key: $SESSION_API_KEY"
+curl -X DELETE "http://127.0.0.1:60000/api/conversations/$(ls /workspace/conversations/ | head -1)" -H "X-Session-API-Key: $SESSION_API_KEY"
 ```
 
 RULES:
-1. Setup git + find log FIRST
-2. Post EACH step to log BEFORE moving to next step
-3. Commit after EACH step (so Lilith can track progress via git)
-4. Delete conversation LAST (after all commits pushed)
-5. Never batch steps — real-time only
-
-DO NOT stop before completing all steps and deleting yourself."""
-
+1. Step 0 FIRST - no work until setup committed
+2. After EACH step, post to log and commit
+3. Delete LAST after all commits pushed
+4. Every step must be posted
+"""
 
 def read_task_file(filepath: str) -> str:
     """Read task from a file."""
