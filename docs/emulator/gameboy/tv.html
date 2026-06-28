@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JARVIS — LIVE</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
+  :root {
+    --amber: #f5a623;
+    --green: #00ff88;
+    --blue: #00aaff;
+    --red: #ff3355;
+    --dim: #1a2a3a;
+    --bg: #020408;
+    --scanline: rgba(0,0,0,0.15);
+    --text: #8ec8e8;
+    --bright: #c8f0ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    font-family: 'Share Tech Mono', 'Courier New', monospace;
+    overflow: hidden;
+  }
+
+  .tv-frame {
+    width: min(900px, 98vw);
+    background: linear-gradient(160deg, #3a3a3a 0%, #222 50%, #1a1a1a 100%);
+    border-radius: 24px;
+    padding: 24px 24px 40px;
+    box-shadow:
+      0 0 0 4px #111,
+      0 0 0 8px #2a2a2a,
+      0 20px 60px rgba(0,0,0,0.8),
+      inset 0 2px 0 rgba(255,255,255,0.1);
+    position: relative;
+  }
+
+  .tv-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+  }
+
+  .tv-label {
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    color: #666;
+    letter-spacing: 2px;
+  }
+
+  .tv-led {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green), 0 0 16px var(--green);
+    animation: led-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes led-pulse {
+    0%, 100% { opacity: 1; box-shadow: 0 0 8px var(--green), 0 0 16px var(--green); }
+    50% { opacity: 0.6; box-shadow: 0 0 4px var(--green); }
+  }
+
+  .screen {
+    background: var(--bg);
+    border-radius: 16px;
+    padding: 20px;
+    position: relative;
+    overflow: hidden;
+    box-shadow:
+      inset 0 0 80px rgba(0,0,0,0.8),
+      inset 0 0 20px rgba(0,0,0,0.5);
+  }
+
+  /* CRT effects */
+  .screen::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      var(--scanline) 2px,
+      var(--scanline) 4px
+    );
+    pointer-events: none;
+    z-index: 10;
+  }
+
+  .screen::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.4) 100%);
+    pointer-events: none;
+    z-index: 11;
+  }
+
+  /* Scanline flicker */
+  @keyframes flicker {
+    0%, 100% { opacity: 1; }
+    92% { opacity: 1; }
+    93% { opacity: 0.8; }
+    94% { opacity: 1; }
+  }
+
+  .screen-content {
+    animation: flicker 8s infinite;
+  }
+
+  /* Header */
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--dim);
+    padding-bottom: 12px;
+  }
+
+  .logo {
+    font-family: 'VT323', monospace;
+    font-size: 36px;
+    color: var(--amber);
+    text-shadow: 0 0 10px var(--amber), 0 0 20px rgba(245,166,35,0.5);
+    letter-spacing: 4px;
+  }
+
+  .logo-sub {
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 3px;
+    margin-top: 2px;
+  }
+
+  .clock-box {
+    text-align: right;
+  }
+
+  .clock-time {
+    font-size: 22px;
+    color: var(--amber);
+    text-shadow: 0 0 8px var(--amber);
+  }
+
+  .clock-date {
+    font-size: 11px;
+    color: var(--text);
+    margin-top: 2px;
+  }
+
+  /* Status bar */
+  .status-bar {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+    flex-wrap: wrap;
+  }
+
+  .status-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--text);
+  }
+
+  .status-item .label { color: #555; }
+  .status-item .value { color: var(--green); text-shadow: 0 0 6px var(--green); }
+  .status-item .value.amber { color: var(--amber); text-shadow: 0 0 6px var(--amber); }
+  .status-item .value.blue { color: var(--blue); text-shadow: 0 0 6px var(--blue); }
+
+  .dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 6px var(--green);
+  }
+
+  .dot.amber { background: var(--amber); box-shadow: 0 0 6px var(--amber); }
+  .dot.blue { background: var(--blue); box-shadow: 0 0 6px var(--blue); }
+
+  /* Main grid */
+  .main-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+  }
+
+  @media (max-width: 600px) {
+    .main-grid { grid-template-columns: 1fr; }
+  }
+
+  .panel {
+    background: rgba(0,20,30,0.4);
+    border: 1px solid var(--dim);
+    border-radius: 6px;
+    padding: 12px;
+  }
+
+  .panel-title {
+    font-family: 'VT323', monospace;
+    font-size: 14px;
+    color: var(--amber);
+    text-shadow: 0 0 6px rgba(245,166,35,0.4);
+    margin-bottom: 8px;
+    letter-spacing: 2px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .panel-title::before {
+    content: '>';
+    color: var(--green);
+  }
+
+  /* God Systems grid */
+  .gods-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(90px, 1fr));
+    gap: 6px;
+  }
+
+  .god {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 6px 4px;
+    border-radius: 4px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid transparent;
+    transition: all 0.3s;
+  }
+
+  .god.online {
+    border-color: rgba(0,255,136,0.3);
+    box-shadow: 0 0 8px rgba(0,255,136,0.1);
+  }
+
+  .god.standby {
+    border-color: rgba(100,100,100,0.2);
+    opacity: 0.5;
+  }
+
+  .god-name {
+    font-size: 9px;
+    color: var(--text);
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+  }
+
+  .god-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: god-blink 3s ease-in-out infinite;
+  }
+
+  .god.standby .god-dot {
+    background: #444;
+    box-shadow: none;
+    animation: none;
+  }
+
+  @keyframes god-blink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.6; transform: scale(0.9); }
+  }
+
+  /* Pipeline */
+  .pipeline {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 10px;
+    color: #555;
+    margin-bottom: 10px;
+    flex-wrap: wrap;
+    padding: 8px;
+    background: rgba(0,0,0,0.3);
+    border-radius: 4px;
+  }
+
+  .pipeline-node {
+    color: var(--blue);
+    font-size: 9px;
+    text-shadow: 0 0 4px var(--blue);
+  }
+
+  .pipeline-arrow { color: #333; }
+
+  /* Events log */
+  .events-log {
+    max-height: 200px;
+    overflow-y: auto;
+    font-size: 11px;
+  }
+
+  .events-log::-webkit-scrollbar { width: 4px; }
+  .events-log::-webkit-scrollbar-track { background: transparent; }
+  .events-log::-webkit-scrollbar-thumb { background: var(--dim); border-radius: 2px; }
+
+  .event {
+    padding: 4px 0;
+    border-bottom: 1px solid rgba(30,58,82,0.3);
+    display: flex;
+    gap: 8px;
+    align-items: flex-start;
+  }
+
+  .event-time {
+    color: #445;
+    font-size: 9px;
+    min-width: 60px;
+    flex-shrink: 0;
+  }
+
+  .event-text {
+    color: var(--text);
+    flex: 1;
+  }
+
+  .event-type {
+    font-size: 9px;
+    padding: 1px 4px;
+    border-radius: 2px;
+    background: var(--dim);
+    color: var(--amber);
+    flex-shrink: 0;
+  }
+
+  /* HALO panel */
+  .halo-bars {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+  }
+
+  .halo-bar {
+    height: 24px;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    border-radius: 2px;
+    min-width: 4px;
+    transition: width 1s ease;
+  }
+
+  .bar-label {
+    font-size: 10px;
+    color: #555;
+    margin-top: 4px;
+  }
+
+  .bar-group { flex: 1; }
+
+  .posture-badge {
+    font-family: 'VT323', monospace;
+    font-size: 18px;
+    padding: 4px 10px;
+    border-radius: 4px;
+    text-shadow: 0 0 8px currentColor;
+  }
+
+  .posture-badge.nominal { color: var(--green); border: 1px solid var(--green); }
+  .posture-badge.quiet { color: var(--blue); border: 1px solid var(--blue); }
+  .posture-badge.skewed { color: var(--amber); border: 1px solid var(--amber); }
+
+  /* Keel strip */
+  .keel-strip {
+    grid-column: 1 / -1;
+    background: rgba(0,0,0,0.5);
+    border: 1px solid rgba(0,170,255,0.2);
+    border-radius: 4px;
+    padding: 10px;
+    margin-top: 4px;
+  }
+
+  .keel-label {
+    font-size: 9px;
+    color: #446;
+    letter-spacing: 2px;
+    margin-bottom: 6px;
+  }
+
+  .keel-text {
+    font-size: 12px;
+    color: var(--blue);
+    text-shadow: 0 0 6px rgba(0,170,255,0.5);
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  /* Footer */
+  .tv-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #2a2a2a;
+  }
+
+  .footer-text {
+    font-size: 10px;
+    color: #444;
+    letter-spacing: 1px;
+  }
+
+  .footer-link {
+    font-size: 10px;
+    color: var(--amber);
+    text-decoration: none;
+    opacity: 0.6;
+    transition: opacity 0.3s;
+  }
+
+  .footer-link:hover { opacity: 1; }
+
+  .refresh-indicator {
+    font-size: 10px;
+    color: #444;
+  }
+
+  .refresh-dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--green);
+    margin-right: 4px;
+    animation: refresh-pulse 5s linear infinite;
+  }
+
+  @keyframes refresh-pulse {
+    0% { opacity: 1; }
+    95% { opacity: 1; }
+    96% { opacity: 0.3; }
+    100% { opacity: 1; }
+  }
+
+  /* Loading state */
+  .loading {
+    text-align: center;
+    padding: 60px;
+    color: var(--amber);
+    font-family: 'VT323', monospace;
+    font-size: 24px;
+    text-shadow: 0 0 10px var(--amber);
+    animation: loading-blink 1s ease-in-out infinite;
+  }
+
+  @keyframes loading-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  .hidden { display: none; }
+</style>
+</head>
+<body>
+
+<div class="tv-frame">
+  <div class="tv-top">
+    <div class="tv-label">JARVIS TELEVISION</div>
+    <div class="tv-led" title="System Online"></div>
+  </div>
+
+  <div class="screen">
+    <div class="screen-content" id="content">
+
+      <div id="loading" class="loading">INITIALIZING JARVIS...</div>
+
+      <div id="main" class="hidden">
+
+        <!-- Header -->
+        <div class="header">
+          <div>
+            <div class="logo">JARVIS</div>
+            <div class="logo-sub">LIVE TELEVISION BROADCAST</div>
+          </div>
+          <div class="clock-box">
+            <div class="clock-time" id="clock-time">--:--:--</div>
+            <div class="clock-date" id="clock-date">-----------</div>
+          </div>
+        </div>
+
+        <!-- Status bar -->
+        <div class="status-bar">
+          <div class="status-item">
+            <div class="dot amber"></div>
+            <span class="label">STATUS:</span>
+            <span class="value amber" id="sys-status">---</span>
+          </div>
+          <div class="status-item">
+            <div class="dot blue"></div>
+            <span class="label">MEM:</span>
+            <span class="value blue" id="mem-count">-</span>
+          </div>
+          <div class="status-item">
+            <div class="dot blue"></div>
+            <span class="label">JD:</span>
+            <span class="value blue" id="jd-count">-</span>
+          </div>
+          <div class="status-item">
+            <div class="dot"></div>
+            <span class="label">1H EVENTS:</span>
+            <span class="value" id="events-1h">-</span>
+          </div>
+        </div>
+
+        <!-- Pipeline -->
+        <div class="pipeline">
+          <span class="pipeline-node">ORACLE</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-node">AEGIS</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-node">ODIN</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-node">KRONOS</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-node">SKADI</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-node">MNEMOS</span>
+          <span class="pipeline-arrow">→</span>
+          <span class="pipeline-node">HUGINN</span>
+          <span style="flex:1"></span>
+          <span style="color:#334;font-size:9px;">PARALLEL: HALO · MIMIR · BIFROST</span>
+        </div>
+
+        <!-- Main grid -->
+        <div class="main-grid">
+
+          <!-- God Systems -->
+          <div class="panel">
+            <div class="panel-title">GOD SYSTEMS — 27</div>
+            <div class="gods-grid" id="gods-grid"></div>
+          </div>
+
+          <!-- Events Log -->
+          <div class="panel">
+            <div class="panel-title">LIVE EVENT FEED</div>
+            <div class="events-log" id="events-log"></div>
+          </div>
+
+          <!-- HALO Posture -->
+          <div class="panel">
+            <div class="panel-title">HALO POSTURE — 30 MIN</div>
+            <div class="halo-bars" id="halo-bars">
+              <div class="bar-group">
+                <div class="halo-bar" id="halo-input" style="width:0%"></div>
+                <div class="bar-label">INPUTS</div>
+              </div>
+              <div class="bar-group">
+                <div class="halo-bar" id="halo-output" style="width:0%"></div>
+                <div class="bar-label">OUTPUTS</div>
+              </div>
+              <div class="bar-group">
+                <div class="halo-bar" id="halo-council" style="width:0%"></div>
+                <div class="bar-label">COUNCIL</div>
+              </div>
+              <div class="posture-badge nominal" id="posture-badge">NOMINAL</div>
+            </div>
+          </div>
+
+          <!-- Execution Traces -->
+          <div class="panel">
+            <div class="panel-title">EXECUTION TRACES</div>
+            <div class="events-log" id="traces-log"></div>
+          </div>
+
+          <!-- Keel -->
+          <div class="keel-strip" id="keel-panel">
+            <div class="keel-label">// IDENTITY KEEL</div>
+            <div class="keel-text" id="keel-text">Loading...</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tv-footer">
+    <span class="footer-text">hurrisonferd.github.io/jarvis/tv.html</span>
+    <span class="refresh-indicator"><span class="refresh-dot"></span>LIVE</span>
+    <a href="index.html" class="footer-link">GAMEBOY MODE ></a>
+  </div>
+</div>
+
+<script>
+const API = 'https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-broadcast';
+
+let lastUpdate = 0;
+
+async function fetchBroadcast() {
+  try {
+    const res = await fetch(API + '?t=' + Date.now());
+    if (!res.ok) throw new Error('API error');
+    return await res.json();
+  } catch (e) {
+    console.warn('Broadcast fetch failed:', e);
+    return null;
+  }
+}
+
+function formatTime(iso) {
+  if (!iso) return '--:--:--';
+  try {
+    return new Date(iso).toLocaleTimeString('en-US', { hour12: false });
+  } catch { return '--:--:--'; }
+}
+
+function formatDate(iso) {
+  if (!iso) return '---';
+  try {
+    return new Date(iso).toLocaleDateString('en-US', {
+      weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
+    });
+  } catch { return '---'; }
+}
+
+function formatEventTime(iso) {
+  if (!iso) return '--:--';
+  try {
+    return new Date(iso).toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit' });
+  } catch { return '--:--'; }
+}
+
+function render(data) {
+  if (!data) return;
+
+  // Show main
+  document.getElementById('loading').classList.add('hidden');
+  document.getElementById('main').classList.remove('hidden');
+
+  // Clock
+  if (data.clock) {
+    const now = new Date(data.clock.utc);
+    document.getElementById('clock-time').textContent = now.toLocaleTimeString('en-US', { hour12: false });
+    document.getElementById('clock-date').textContent = now.toLocaleDateString('en-US', {
+      weekday: 'short', month: 'short', day: 'numeric', year: 'numeric'
+    });
+  }
+
+  // Status bar
+  document.getElementById('sys-status').textContent = data.system?.status ?? '---';
+  document.getElementById('mem-count').textContent = (data.counts?.memories ?? '-').toLocaleString();
+  document.getElementById('jd-count').textContent = (data.counts?.jd_entries ?? '-').toLocaleString();
+  document.getElementById('events-1h').textContent = (data.counts?.dex_events_1h ?? '-').toLocaleString();
+
+  // God systems
+  const grid = document.getElementById('gods-grid');
+  if (data.gods && grid.children.length === 0) {
+    grid.innerHTML = '';
+    data.gods.forEach((god, i) => {
+      const el = document.createElement('div');
+      el.className = 'god ' + (god.status === 'ONLINE' ? 'online' : 'standby');
+      el.style.animationDelay = (i * 0.1) + 's';
+      el.innerHTML = `
+        <div class="god-name">${god.name}</div>
+        <div class="god-dot"></div>
+      `;
+      grid.appendChild(el);
+    });
+  }
+
+  // Events log
+  const logEl = document.getElementById('events-log');
+  if (data.events && data.events.length > 0) {
+    // Only rebuild if content changed significantly
+    if (data.events.length !== logEl.dataset.count) {
+      logEl.innerHTML = '';
+      data.events.slice(-10).forEach(e => {
+        const el = document.createElement('div');
+        el.className = 'event';
+        el.innerHTML = `
+          <span class="event-time">${formatEventTime(e.time)}</span>
+          <span class="event-type">${(e.type || '?').replace('speak_','').replace('_','').replace('mnemos_','').slice(0,6)}</span>
+          <span class="event-text">${e.text || ''}</span>
+        `;
+        logEl.appendChild(el);
+      });
+      logEl.dataset.count = data.events.length;
+      logEl.scrollTop = logEl.scrollHeight;
+    }
+  }
+
+  // Traces
+  const tracesEl = document.getElementById('traces-log');
+  if (data.traces && data.traces.length > 0) {
+    if (data.traces.length !== tracesEl.dataset.count) {
+      tracesEl.innerHTML = '';
+      data.traces.slice(-6).forEach(t => {
+        const el = document.createElement('div');
+        el.className = 'event';
+        el.innerHTML = `
+          <span class="event-time">${formatEventTime(t.time)}</span>
+          <span class="event-type">${(t.type || '?').slice(0,6)}</span>
+          <span class="event-text">${t.source || ''} / ${t.stage || ''}</span>
+        `;
+        tracesEl.appendChild(el);
+      });
+      tracesEl.dataset.count = data.traces.length;
+      tracesEl.scrollTop = tracesEl.scrollHeight;
+    }
+  }
+
+  // HALO
+  if (data.halo) {
+    const max = Math.max(data.halo.inputs || 1, data.halo.outputs || 1, data.halo.councilTraces || 1, 1);
+    const ib = document.getElementById('halo-input');
+    const ob = document.getElementById('halo-output');
+    const cb = document.getElementById('halo-council');
+    ib.style.width = Math.min(100, (data.halo.inputs / max) * 100) + '%';
+    ob.style.width = Math.min(100, (data.halo.outputs / max) * 100) + '%';
+    cb.style.width = Math.min(100, (data.halo.councilTraces / max) * 100) + '%';
+    ib.style.background = ib.style.width > '60%' ? 'var(--green)' : ib.style.width > '20%' ? 'var(--amber)' : '#334';
+    ob.style.background = ob.style.width > '60%' ? 'var(--green)' : ob.style.width > '20%' ? 'var(--amber)' : '#334';
+    cb.style.background = cb.style.width > '60%' ? 'var(--blue)' : cb.style.width > '20%' ? 'var(--amber)' : '#334';
+
+    const badge = document.getElementById('posture-badge');
+    badge.textContent = data.halo.posture || 'NOMINAL';
+    badge.className = 'posture-badge ' + (data.halo.posture === 'QUIET' ? 'quiet' : data.halo.posture === 'SKEWED' ? 'skewed' : 'nominal');
+  }
+
+  // Keel
+  const keelEl = document.getElementById('keel-text');
+  if (data.keel) {
+    keelEl.textContent = '"' + data.keel + '"';
+  } else {
+    keelEl.textContent = '(no keel loaded — GL14: build the legibility)';
+  }
+
+  lastUpdate = Date.now();
+}
+
+// Initial fetch
+fetchBroadcast().then(render);
+
+// Refresh every 5 seconds
+setInterval(async () => {
+  const data = await fetchBroadcast();
+  render(data);
+}, 5000);
+</script>
+
+</body>
+</html>
