@@ -91,7 +91,59 @@ class LilithTaskSender:
         resp = requests.delete(url, headers=self.headers)
         return resp.status_code == 200 and resp.json().get("success", False)
     
-    def send_task(self, task: str, repo: str = None, branch: str = "main") -> dict:
+    def _pre_flight_cleanup(self, max_age_hours: int = 1, max_active: int = 8):
+        """
+        Clean up old conversations before sending new tasks.
+        Prevents hitting the conversation cap.
+        
+        Deletes:
+        - All conversations older than max_age_hours (except Lilith)
+        - If still over max_active, deletes oldest non-Lilith conversations
+        """
+        convs = self.list_conversations(limit=100)
+        
+        # Skip Lilith's main session
+        lilith_ids = [c.get('id') for c in convs if 'Lilith' in c.get('title','') or 'lilith' in c.get('title','').lower()]
+        
+        from datetime import datetime, timezone
+        now = datetime.now(timezone.utc)
+        cutoff = now.timestamp() - (max_age_hours * 3600)
+        
+        # First pass: delete old ones
+        deleted = 0
+        for c in convs:
+            cid = c.get('id', '')
+            title = c.get('title', '')
+            created = c.get('created_at', '')
+            
+            if cid in lilith_ids:
+                continue
+            
+            try:
+                created_ts = datetime.fromisoformat(created.replace('Z', '+00:00')).timestamp()
+                if created_ts < cutoff:
+                    if self.delete_conversation(cid):
+                        deleted += 1
+            except:
+                pass
+        
+        if deleted:
+            print(f"🧹 Cleaned up {deleted} old conversations")
+        
+        # Second pass: if still over max, delete oldest workers
+        remaining = self.list_conversations(limit=100)
+        non_lilith = [c for c in remaining if c.get('id') not in lilith_ids]
+        
+        while len(non_lilith) >= max_active:
+            # Delete the oldest one
+            oldest = min(non_lilith, key=lambda c: c.get('created_at', ''))
+            if self.delete_conversation(oldest.get('id', '')):
+                print(f"🧹 Deleted oldest worker to make room")
+                non_lilith.remove(oldest)
+            else:
+                break
+    
+    def send_task(self, task: str, repo: str = None, branch: str = "main", auto_cleanup: bool = True) -> dict:
         """
         Send a task to OpenHands Cloud.
         
@@ -99,7 +151,14 @@ class LilithTaskSender:
         1. Execute the task
         2. Post results to MARCO-POLO
         3. Delete itself via Agent Server API
+        
+        Args:
+            auto_cleanup: If True, delete old conversations before sending (prevents cap issues)
         """
+        # Auto-cleanup to prevent hitting conversation cap
+        if auto_cleanup:
+            self._pre_flight_cleanup()
+        
         # Build the self-deleting task prompt
         task_prompt = self._build_task_prompt(task)
         

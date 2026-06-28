@@ -1,13 +1,12 @@
 """
-Spawn System - Handles entity spawning.
+Spawn System - Handles spawning entities.
 """
 
 class SpawnSystem:
-    """System for spawning enemies and other entities."""
-    
     def __init__(self):
-        pass
-    
-    def update(self, entities, level):
-        """Spawn entities based on level configuration."""
-        pass
+        self.spawn_timer = 0
+        self.spawn_interval = 2.0
+
+    def update(self, entities, delta_time):
+        self.spawn_timer += delta_time
+        return entities

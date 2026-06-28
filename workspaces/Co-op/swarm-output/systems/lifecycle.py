@@ -1,13 +1,20 @@
 """
-Life Cycle System - Handles entity creation and destruction.
+Lifecycle System - Handles entity creation and destruction.
 """
 
 class LifeCycleSystem:
-    """System for managing entity life cycles."""
-    
     def __init__(self):
-        pass
-    
+        self.to_remove = []
+
+    def mark_for_removal(self, entity):
+        self.to_remove.append(entity)
+
+    def cleanup(self, entities):
+        for entity in self.to_remove:
+            if entity in entities:
+                entities.remove(entity)
+        self.to_remove = []
+
     def update(self, entities):
-        """Process entity creation and destruction."""
-        pass
+        self.cleanup(entities)
+        return entities
