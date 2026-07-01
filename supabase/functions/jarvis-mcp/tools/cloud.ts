@@ -50,22 +50,22 @@ export function registerCloudTools(server: McpServer): void {
       try {
         const targetDate = date || getToday();
         const fileName = `${targetDate}.md`;
-        
+
         // Read from GitHub via raw content API
         const apiKey = Deno.env.get("JARVIS_MCP_TOKEN") || Deno.env.get("SUPABASE_ACCESS_TOKEN_OPEN");
         const url = `https://api.github.com/repos/${CLOUD_REPO}/contents/${CLOUD_PATH}/${fileName}`;
-        
+
         const resp = await fetch(url, {
           headers: {
             "Authorization": `Bearer ${apiKey}`,
             "Accept": "application/vnd.github.v3.raw",
           },
         });
-        
+
         if (!resp.ok) {
           if (resp.status === 404) {
-            return text({ 
-              ok: false, 
+            return text({
+              ok: false,
               error: `No log found for ${targetDate}. The Cloud folder exists but no entries yet.`,
               date: targetDate,
               message: "Use jarvis_cloud_write to create the first entry for today."
@@ -73,11 +73,11 @@ export function registerCloudTools(server: McpServer): void {
           }
           return text({ ok: false, error: `GitHub API error: ${resp.status}` });
         }
-        
+
         const content = await resp.text();
         const lines = content.split("\n");
         const entries: string[] = [];
-        
+
         // Aggregate full entries (timestamp line + following detail lines)
         let currentEntry = "";
         for (const line of lines) {
@@ -89,7 +89,7 @@ export function registerCloudTools(server: McpServer): void {
           }
         }
         if (currentEntry) entries.push(currentEntry.trim());
-        
+
         return text({
           ok: true,
           date: targetDate,
@@ -123,28 +123,28 @@ export function registerCloudTools(server: McpServer): void {
         const date = getToday();
         const timestamp = getTimestamp();
         const fileName = `${date}.md`;
-        
+
         // Build entry in MARCO-POLO style format
         const statusEmoji = getStatusEmoji(status);
         let entry = `[${timestamp} EST] ${model} — ${action} ${statusEmoji}`;
         if (context) entry += `\n   └─ ${context}`;
-        
+
         const newEntry = "\n" + entry;
-        
+
         // Get current content or create new
         const apiKey = Deno.env.get("JARVIS_MCP_TOKEN");
         const url = `https://api.github.com/repos/${CLOUD_REPO}/contents/${CLOUD_PATH}/${fileName}`;
-        
+
         const getResp = await fetch(url, {
           headers: {
             "Authorization": `Bearer ${apiKey}`,
             "Accept": "application/vnd.github.v3+json",
           },
         });
-        
+
         let currentContent = "";
         let sha = "";
-        
+
         if (getResp.ok) {
           const data = await getResp.json();
           sha = data.sha;
@@ -153,10 +153,10 @@ export function registerCloudTools(server: McpServer): void {
           // Create new file with header
           currentContent = `# ${date} — Cloud Daily Log\n\n## Models Active Today\n- ${model}\n\n---\n\n## Activity Log\n`;
         }
-        
+
         // Append entry
         const newContent = currentContent + newEntry + "\n";
-        
+
         // Write back to GitHub (no base64 - GitHub handles it)
         const putResp = await fetch(url, {
           method: "PUT",
@@ -170,13 +170,13 @@ export function registerCloudTools(server: McpServer): void {
             sha: sha || undefined,
           }),
         });
-        
+
         if (!putResp.ok) {
           const err = await putResp.text();
           return text({ ok: false, error: `Failed to write: ${err}` });
         }
-        
-        
+
+
         return text({
           ok: true,
           timestamp,

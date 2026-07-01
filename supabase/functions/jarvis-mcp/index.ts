@@ -17,6 +17,7 @@ import { ANON_JWT, callFunctionAs, countRows, countSince, dexQuery, freshness, l
 import { clockNow, haloPosture, nodeCard, suitUp } from "./core/builders.ts";
 import { registerDbTools } from "./tools/db.ts";
 import { registerCloudTools } from "./tools/cloud.ts";
+import { registerTrinityTools } from "./tools/trinity.ts";
 import { registerJipTools } from "./tools/jip.ts";
 import { registerCoopTools } from "./tools/coop.ts";
 import { registerVegaPunkTools } from "./tools/jarvis_vegapunk.ts";
@@ -1580,6 +1581,7 @@ function buildServer(req: Request): McpServer {
   registerVegaPunkTools(server);
   registerDbTools(server);
   registerCloudTools(server);
+  registerTrinityTools(server);
 
   // UNIFIED TIMELINE.
   server.registerTool(
