@@ -21,6 +21,7 @@ import { registerTrinityTools } from "./tools/trinity.ts";
 import { registerJipTools } from "./tools/jip.ts";
 import { registerCoopTools } from "./tools/coop.ts";
 import { registerVegaPunkTools } from "./tools/jarvis_vegapunk.ts";
+import { registerResources } from "./resources.ts";
 
 
 // THE GRID — Ed25519 verification (sovereign-key model: the node VERIFIES, never
@@ -1582,6 +1583,7 @@ function buildServer(req: Request): McpServer {
   registerDbTools(server);
   registerCloudTools(server);
   registerTrinityTools(server);
+  registerResources(server);
 
   // UNIFIED TIMELINE.
   server.registerTool(
