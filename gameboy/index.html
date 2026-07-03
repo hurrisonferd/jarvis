@@ -3316,6 +3316,10 @@ async function loadNodeFields(){
 const BOOT_LINES=['ORACLE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
 
 function runBoot(){
+  if(S !== 'boot') {
+    console.log('[+] Skipping boot - S='+S+', already booted');
+    return;
+  }
   const el=document.getElementById('screen-inner');
   el.innerHTML=`<div class="boot-panel">
     <div class="boot-logo">JARVIS</div>
