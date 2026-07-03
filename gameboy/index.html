@@ -3292,6 +3292,15 @@ if (document.readyState === 'loading') {
   bootHardwareInterface();
 }
 
+// FORCE BOOT: Direct call as absolute last resort
+setTimeout(() => {
+  const el = document.getElementById('screen-inner');
+  if (el && (!el.innerHTML || el.innerHTML.trim() === '')) {
+    console.log('[!!] FORCING BOOT PANEL RENDER');
+    el.innerHTML = '<div style="display:flex;flex-direction:column;align-items:center;justify-content:center;height:100%;padding:20px;"><div style="font-size:16px;color:#f5a623;letter-spacing:4px;margin-bottom:10px;">JARVIS</div><div style="font-size:5px;color:#1e3a52;letter-spacing:2px;">NEURAL MESH v2.5</div><div style="margin-top:15px;font-size:5px;color:#00ff88;">> SYSTEM READY</div><div style="margin-top:8px;font-size:4px;color:#1e3a52;animation:gbkblink 1s step-end infinite;">PRESS ANY KEY</div></div>';
+  }
+}, 100);
+
 setInterval(() => loadGithub(), 60000);
 
 // P22: wire BUS to LIVE FEED for real-time event visibility
