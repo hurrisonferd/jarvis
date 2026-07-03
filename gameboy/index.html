@@ -88,7 +88,7 @@
             try {
                 const { error } = await sb.from('fleet_messages').insert([{
                     target_node: targetNode,
-                    sender: "Raven",
+                    sender: "Raven",  // MUST match trigger case
                     content: payloadText,
                     response: "PENDING"
                 }]);
