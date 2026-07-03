@@ -534,6 +534,7 @@ const GRIMOIRE_URL='https://raw.githubusercontent.com/hurrisonferd/jarvis/main/J
 // SPEAK — companion exchange layer
 let speakHistory=[], speakInput='', speakThinking=false, lastRouting=null, lastAegis=null;
 let voiceOn=false, voiceListening=false, _jarvisRecog=null;
+let fleetVoiceOn=false, fleetMicOn=false, _fleetMicRecog=null;
 // MNEMOS — search + behavior
 let mnemosSearchMode=false, mnemosSearchInput='', mnemosSearchResults=null, mnemosSearching=false;
 
@@ -931,7 +932,7 @@ function rFleet() {
     : '<div style="color:var(--dim);font-size:4.5px;padding:4px">Terminal ready. Select node, type message.</div>';
   
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--green)">FLEET</span><span style="color:var(--dim)">13 NODES</span></div>
+    <div class="s-header"><span style="color:var(--green)">FLEET</span><span style="color:var(--dim)">12 NODES</span></div>
     <div class="s-body" style="padding:4px">
       <div style="color:var(--amber);font-size:5px;margin-bottom:2px">FLEET 1: SYNTHESIS</div>
       <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:4px">
@@ -969,6 +970,11 @@ function rFleet() {
           oninput="fleetInput=this.value"
           onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();fleetSend();}"
         >
+      </div>
+      <div style="margin-top:3px;display:flex;gap:3px;align-items:center">
+        <span onclick="fleetVoiceToggle()" style="cursor:pointer;font-size:5px;color:${fleetVoiceOn?'#00ff88':'#555966'}">${fleetVoiceOn?'VOX✓':'VOX'}</span>
+        <span onclick="fleetMicListen()" style="cursor:pointer;font-size:5px;color:${fleetMicOn?'#f5a623':'#555966'}">${fleetMicOn?'●REC':'MIC'}</span>
+        <span style="width:3px"></span>
       </div>
     </div>
     <div class="s-footer">TAP:TOGGLE &nbsp; ENTER:SEND &nbsp; B:BACK</div>
@@ -2000,6 +2006,37 @@ function jarvisListen(){
   _jarvisRecog.onerror=()=>{ voiceListening=false; draw(); };
   _jarvisRecog.onend=()=>{ voiceListening=false; draw(); };
   try{_jarvisRecog.start();}catch(e){ voiceListening=false; draw(); }
+}
+
+// Fleet voice + mic functions
+function fleetVoiceToggle(){
+  fleetVoiceOn=!fleetVoiceOn;
+  if(!fleetVoiceOn&&window.speechSynthesis) window.speechSynthesis.cancel();
+  draw();
+}
+function fleetMicListen(){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){ alert('Voice needs Chrome/Edge'); return; }
+  if(fleetMicOn){ try{_fleetMicRecog&&_fleetMicRecog.stop();}catch(e){} fleetMicOn=false; draw(); return; }
+  _fleetMicRecog=new SR(); _fleetMicRecog.lang='en-US'; _fleetMicRecog.interimResults=false; _fleetMicRecog.maxAlternatives=1;
+  fleetMicOn=true; draw();
+  _fleetMicRecog.onresult=(e)=>{ const t=e.results[0][0].transcript; fleetInput=t; fleetMicOn=false; draw(); if(t.trim()) fleetSend(); };
+  _fleetMicRecog.onerror=()=>{ fleetMicOn=false; draw(); };
+  _fleetMicRecog.onend=()=>{ fleetMicOn=false; draw(); };
+  try{_fleetMicRecog.start();}catch(e){ fleetMicOn=false; draw(); }
+}
+function coordinatorSpeak(nodeName, text){
+  if(!window.speechSynthesis||!text) return;
+  try{
+    window.speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(String(text).slice(0,400));
+    const voices=window.speechSynthesis.getVoices().filter(v=>v.lang.startsWith('en'));
+    const voiceMap={'LILITH':1.1,'AYRE':0.95,'JARVIS':0.85,'THOR':0.9,'NEO':1.15,'EREBUS':0.75,'VIRGIL':1.05};
+    const v=voices[voiceMap[nodeName]?voiceMap[nodeName]*10%voices.length|0:0];
+    if(v) u.voice=v;
+    u.rate=0.95; u.pitch=0.9; u.volume=1;
+    window.speechSynthesis.speak(u);
+  }catch(e){}
 }
 
 function rSpeak(){
