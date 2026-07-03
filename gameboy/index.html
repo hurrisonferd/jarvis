@@ -71,7 +71,7 @@ html, body {
   background: linear-gradient(135deg, rgba(255,255,255,.04), transparent);
   z-index: 101; pointer-events: none;
 }
-#screen-inner { position: absolute; inset: 0; overflow: hidden; font-family: var(--pixel); font-size: 7px; color: var(--text); background: var(--bg); }
+#screen-inner { position: absolute; inset: 0; overflow: hidden; font-family: var(--pixel); font-size: 7px; color: var(--text); background: var(--bg) !important; transform: translateZ(0); backface-visibility: hidden; }
 .panel { display: flex; flex-direction: column; height: 100%; }
 .s-header {
   background: var(--surface); border-bottom: 1px solid #0f2035;
@@ -3333,7 +3333,7 @@ if('serviceWorker' in navigator){
       <button onclick="ToggleEngine.broadcastFromWarRoom()" style="background:none;border:none;color:#00ffcc;padding:0 8px;font-family:var(--pixel);font-size:3.5px;cursor:pointer;">DEBATE</button>
     </div>
   </div>
-  <button id="btn_toggle_war_room" onclick="ToggleEngine.toggleSidebar(); console.log('WAR ROOM CLICKED, sidebarOpen=' + ToggleEngine.sidebarOpen);" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:10000;">[ WAR ROOM ]</button>
+  <button id="btn_toggle_war_room" onclick="event.stopPropagation(); ToggleEngine.toggleSidebar();" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:999999 !important;pointer-events:auto !important;">[ WAR ROOM ]</button>
 
 </body>
 </html>
