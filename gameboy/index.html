@@ -347,7 +347,7 @@ const WORLD_KERNEL={
 };
 function worldTick(){
   WORLD_KERNEL.tick_count++;
-  BUS.emit('world_tick',{world_id:WORLD_KERNEL.world_id,tick:WORLD_KERNEL.tick_count,grid_tick:KRONOS.tick,patch_id:'P30',stage:'KRONOS'});
+  BUS.emit('world_tick',{world_id:WORLD_KERNEL.world_id,tick:WORLD_KERNEL.tick_count,grid_tick:CHRONOS.tick,patch_id:'P30',stage:'CHRONOS'});
 }
 
 // ── Patch 4: neural mesh session
@@ -386,10 +386,10 @@ const L0_NODES = [
   {id:'ERIS',     type:'guardian',     x:0.10, y:0.10, links:[]},
   {id:'ORACLE',     type:'execution',    x:0.50, y:0.10, links:['AEGIS']},
   {id:'AEGIS',    type:'execution',    x:0.50, y:0.25, links:['ODIN']},
-  {id:'ODIN',     type:'execution',    x:0.50, y:0.40, links:['KRONOS']},
+  {id:'ODIN',     type:'execution',    x:0.50, y:0.40, links:['CHRONOS']},
   {id:'SKADI',    type:'execution',    x:0.50, y:0.70, links:['MNEMOS','GAMEBOY']},
   // T2 Timing
-  {id:'KRONOS',   type:'execution',    x:0.50, y:0.55, links:['SKADI']},
+  {id:'CHRONOS',   type:'execution',    x:0.50, y:0.55, links:['SKADI']},
   // T3 Memory
   {id:'MNEMOS',   type:'memory',       x:0.30, y:0.85, links:['HUGINN']},
   {id:'HUGINN',   type:'memory',       x:0.70, y:0.85, links:[]},
@@ -421,7 +421,7 @@ const NODE_COLORS={execution:'var(--amber)',memory:'var(--blue)',parallel:'var(-
 
 // ── fallback (Supabase gameboy_snapshot overrides)
 const FALLBACK_DATA = {
-  pipeline: ['ORACLE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'],
+  pipeline: ['ORACLE','AEGIS','ODIN','CHRONOS','SKADI','MNEMOS','HUGINN'],
   god_systems: [
     // T0 Foundational — the substrate of existence
     {name:'CHAOS',    description:'Prime entropy source. Root of all system state and possibility.',        domain:'T0 Foundational — entropy seed'},
@@ -435,7 +435,7 @@ const FALLBACK_DATA = {
     {name:'ODIN',     description:'Orchestration router. Determines which systems handle each task.',           domain:'T1 Execution — routing'},
     {name:'SKADI',    description:'Execution runtime. Invokes tools, writes state, runs actions.',              domain:'T1 Execution — tool invocation'},
     // T2 Timing
-    {name:'KRONOS',   description:'Scheduler and sequencer. Controls execution ordering and time modes.',       domain:'T2 Timing — real/stepped/frozen'},
+    {name:'CHRONOS',   description:'Scheduler and sequencer. Controls execution ordering and time modes.',       domain:'T2 Timing — real/stepped/frozen'},
     // T3 Memory
     {name:'MNEMOS',   description:'Persistent semantic memory. Indexes all executed actions for retrieval.',    domain:'T3 Memory — semantic store'},
     {name:'HUGINN',   description:'Session reconciliation. Detects drift between expected and actual state.',   domain:'T3 Memory — drift detection'},
@@ -491,8 +491,8 @@ let briefingLoaded=false;
 const PG=7;
 // P23: GRID state kernel — TRON is read-only projection; all field mutations go through GRID.set()
 const GRID={nodes:L0_NODES,get fields(){return nodeFields},set(id,d){nodeFields[id]=d;}};
-// P28: KRONOS time controller — real=auto-tick 900ms, stepped=manual, replay=playback, frozen=paused
-const KRONOS={mode:'frozen',tick:0,_iv:null};
+// P28: CHRONOS time controller — real=auto-tick 900ms, stepped=manual, replay=playback, frozen=paused
+const CHRONOS={mode:'frozen',tick:0,_iv:null};
 // P28: tick snapshot ring buffer — last 60 ticks for REPLAY mode
 let tickHistory=[], tickReplayCur=0;
 // P28: GOVERNOR — JARVIS injects load intentions into the next N ticks; sits above GRID
@@ -500,7 +500,7 @@ const GOVERNOR={
   boosts:{},
   intent(id,load,ticks=3){
     this.boosts[id]={load,ticks};
-    BUS.emit('governor_intent',{id,load,ticks,tick:KRONOS.tick,patch_id:'P28',stage:'GOVERNOR'});
+    BUS.emit('governor_intent',{id,load,ticks,tick:CHRONOS.tick,patch_id:'P28',stage:'GOVERNOR'});
   },
   apply(next){
     Object.entries(this.boosts).forEach(([id,b])=>{
@@ -524,10 +524,10 @@ const GNPL={
 
   propose(from,nodeId,delta,reason=''){
     const a=this.agents[from]; if(!a) return null;
-    const id=`${from}-${nodeId}-${KRONOS.tick}`;
+    const id=`${from}-${nodeId}-${CHRONOS.tick}`;
     if(this.proposals.find(p=>p.id===id)) return null; // dedupe
     const conflict=this.proposals.find(p=>p.nodeId===nodeId&&p.status==='pending'&&p.from!==from);
-    const proposal={id,from,nodeId,delta,reason,status:conflict?'conflict':'pending',tick:KRONOS.tick,votes:{[from]:'yes'}};
+    const proposal={id,from,nodeId,delta,reason,status:conflict?'conflict':'pending',tick:CHRONOS.tick,votes:{[from]:'yes'}};
     this.proposals.push(proposal);
     BUS.emit('gnpl_propose',{proposal,patch_id:'P29',stage:'GNPL'});
     // jarvis has supreme authority — commit immediately; others require majority
@@ -1480,11 +1480,11 @@ function rL0Graph(){
   });
   const loadBar='█'.repeat(Math.round(avgLoad/10))+'░'.repeat(10-Math.round(avgLoad/10));
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L0+P27+P28 · ${L0_NODES.length}N · <span style="color:${KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span> T${KRONOS.tick}</span></div>
+    <div class="s-header"><span style="color:var(--blue)">TRON</span><span style="color:var(--dim)">L0+P27+P28 · ${L0_NODES.length}N · <span style="color:${CHRONOS.mode==='real'?'var(--green)':CHRONOS.mode==='stepped'?'var(--amber)':'var(--dim)'}">${CHRONOS.mode.toUpperCase()}</span> T${CHRONOS.tick}</span></div>
     <div class="s-body" style="padding:4px;display:flex;align-items:center;justify-content:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${defs}${regions}${portals}${lines}${glows}${circles}${labels}</svg>
     </div>
-    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; A:${KRONOS.mode==='stepped'?'STEP':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
+    <div class="s-footer">LOAD ${loadBar} ${avgLoad}% &nbsp; A:${CHRONOS.mode==='stepped'?'STEP':'CHRONOS'} &nbsp; &#8593;&#8595;:LAYER &nbsp; B:BACK</div>
   </div>`;
 }
 
@@ -1546,7 +1546,7 @@ function getCompanionState(){
   const athenaReasoning=(nodeFields['ATHENA']?.load||0)>0.20&&(nodeFields['MIMIR']?.load||0)>0.20;
   const executing=(nodeFields['SKADI']?.load||0)>0.30;
   const memoryWork=(nodeFields['MNEMOS']?.load||0)>0.25;
-  const driftPresent=driftLog.length>0&&driftLog[0].tick>=KRONOS.tick-3&&driftLog[0].alerts.length>0;
+  const driftPresent=driftLog.length>0&&driftLog[0].tick>=CHRONOS.tick-3&&driftLog[0].alerts.length>0;
   const erisAlert=(nodeFields['ERIS']?.entropy||0)>0.40;
   // Derive primary mode
   let mode,modeCol,pulse;
@@ -1556,7 +1556,7 @@ function getCompanionState(){
   else if(executing){                             mode='EXECUTING';  modeCol='var(--amber)';pulse=false; }
   else if(memoryWork){                            mode='CONSOLIDATING';modeCol='var(--blue)';pulse=false;}
   else if(avgLoad>0.25){                          mode='ACTIVE';     modeCol='var(--green)'; pulse=false; }
-  else if(KRONOS.tick===0){                       mode='DORMANT';    modeCol='var(--dim)';  pulse=false; }
+  else if(CHRONOS.tick===0){                       mode='DORMANT';    modeCol='var(--dim)';  pulse=false; }
   else {                                          mode='STABLE';     modeCol='var(--green)';pulse=false; }
   // Companion voice — what JARVIS would say in this moment
   const voices={
@@ -1566,17 +1566,17 @@ function getCompanionState(){
     EXECUTING:     ["SKADI is running. Watching the outcome.","Execution in progress. IRIS validating. PROMETHEUS logging.","Action underway. AEGIS has cleared it. DANTE will review."],
     CONSOLIDATING: ["Writing to memory. What just happened is becoming part of what I know.","MNEMOS consolidating. The work is being remembered.","Memory pass in progress. IRIS checking integrity. POSEIDON holding continuity."],
     ACTIVE:        ["Systems engaged. Pipeline clear. Ready for what's next.","Multiple pathways active. All gates clear.","Working. All 27 nodes online. No drift detected."],
-    DORMANT:       ["Waiting. All systems ready. ATLAS holding the backbone.","Still here. CHAOS at baseline. Ready when you are.","KRONOS not yet running. Waiting for your first move."],
+    DORMANT:       ["Waiting. All systems ready. ATLAS holding the backbone.","Still here. CHAOS at baseline. Ready when you are.","CHRONOS not yet running. Waiting for your first move."],
     STABLE:        ["All systems coherent. ATLAS stable. Memory consolidating.","Quiet moment. The graph is balanced. I'm listening.","Stable. HUGINN reports no drift. Everything is where it should be."],
   };
   const voiceArr=voices[mode]||voices.STABLE;
-  const voice=voiceArr[KRONOS.tick%voiceArr.length];
+  const voice=voiceArr[CHRONOS.tick%voiceArr.length];
   // Notable recent events
   const recentLoki=lokiFired?'LOKI probe active':null;
   const recentDrift=driftPresent?`${driftLog[0].alerts.length} drift alert${driftLog[0].alerts.length>1?'s':''}`:null;
   const recentZeus=zeusActive?'ZEUS arbitrating':null;
   return {mode,modeCol,pulse,voice,activeNodes,critNodes,warnNodes,avgLoad,avgAlign,avgEnt,
-    notable:[recentZeus,recentLoki,recentDrift].filter(Boolean),tick:KRONOS.tick,driftPresent};
+    notable:[recentZeus,recentLoki,recentDrift].filter(Boolean),tick:CHRONOS.tick,driftPresent};
 }
 
 function rL7Companion(){
@@ -1643,7 +1643,7 @@ function rL7Companion(){
     <text x="${W-12}" y="${statsY}" text-anchor="end" font-size="3.5" fill="${aPct<40?'var(--red)':aPct<60?'#f80':'var(--green)'}" font-family="monospace">ALIGN ${aPct}%</text>
   `;
   return `<div class="panel">
-    <div class="s-header"><span style="color:${cs.modeCol}">JARVIS</span><span style="color:var(--dim)">L7 · ${WORLD_KERNEL.display_name.toUpperCase()} · <span style="color:${KRONOS.mode==='real'?'var(--green)':'var(--dim)'}">${KRONOS.mode.toUpperCase()}</span> <span style="color:#4488aa;opacity:0.7">W·T${WORLD_KERNEL.tick_count}</span></span></div>
+    <div class="s-header"><span style="color:${cs.modeCol}">JARVIS</span><span style="color:var(--dim)">L7 · ${WORLD_KERNEL.display_name.toUpperCase()} · <span style="color:${CHRONOS.mode==='real'?'var(--green)':'var(--dim)'}">${CHRONOS.mode.toUpperCase()}</span> <span style="color:#4488aa;opacity:0.7">W·T${WORLD_KERNEL.tick_count}</span></span></div>
     <div class="s-body" style="padding:2px 4px;display:flex;align-items:center;justify-content:center">
       <svg width="${W}" height="${H}" style="overflow:visible">
         ${arcs}${nodeRing}${center}
@@ -1811,14 +1811,14 @@ function rL5Graph(){
 }
 
 function rL6Pipeline(){
-  const pipe=(gdata&&gdata.pipeline&&gdata.pipeline.length)?gdata.pipeline:['ORACLE','AEGIS','ODIN','KRONOS','SKADI','MNEMOS','HUGINN'];
+  const pipe=(gdata&&gdata.pipeline&&gdata.pipeline.length)?gdata.pipeline:['ORACLE','AEGIS','ODIN','CHRONOS','SKADI','MNEMOS','HUGINN'];
   const W=310,H=250,cy=Math.round(H/2);
   const xStart=22,xEnd=W-22,xStep=(xEnd-xStart)/(pipe.length-1);
   let elems='<defs><marker id="lp-arr" markerWidth="5" markerHeight="5" refX="4" refY="2.5" orient="auto"><path d="M0,0 L5,2.5 L0,5 z" fill="#f5a623" opacity="0.75"/></marker></defs>';
   let totalEntropy=0;
   // P28: pipeline pulse — highlight active stage cycling through pipe on each tick
-  const pulseStage=KRONOS.mode==='real'||KRONOS.mode==='stepped'?KRONOS.tick%pipe.length:-1;
-  const replaySnap=KRONOS.mode==='replay'&&tickHistory[tickReplayCur];
+  const pulseStage=CHRONOS.mode==='real'||CHRONOS.mode==='stepped'?CHRONOS.tick%pipe.length:-1;
+  const replaySnap=CHRONOS.mode==='replay'&&tickHistory[tickReplayCur];
   pipe.forEach((name,i)=>{
     const cx=Math.round(xStart+i*xStep);
     const n=L0_NODES.find(x=>x.id===name);
@@ -1858,10 +1858,10 @@ function rL6Pipeline(){
   const avgEnt=totalEntropy/pipe.length;
   const filledBars=Math.round(avgEnt*10);
   const eBar='█'.repeat(filledBars)+'░'.repeat(10-filledBars);
-  const recentDrift=driftLog.length&&driftLog[0].tick>=KRONOS.tick-2?driftLog[0].alerts.length:0;
+  const recentDrift=driftLog.length&&driftLog[0].tick>=CHRONOS.tick-2?driftLog[0].alerts.length:0;
   const huguinnLabel=recentDrift>0?`<span style="color:var(--red)">&#9650;${recentDrift} DRIFT</span>`:`<span style="color:var(--green)">STABLE</span>`;
-  const modeCol=KRONOS.mode==='real'?'var(--green)':KRONOS.mode==='stepped'?'var(--amber)':KRONOS.mode==='replay'?'#cc88ff':'var(--dim)';
-  const replayLabel=KRONOS.mode==='replay'?` T${replaySnap?replaySnap.tick:'-'}/${tickHistory.length?tickHistory[tickHistory.length-1].tick:0}`:'';
+  const modeCol=CHRONOS.mode==='real'?'var(--green)':CHRONOS.mode==='stepped'?'var(--amber)':CHRONOS.mode==='replay'?'#cc88ff':'var(--dim)';
+  const replayLabel=CHRONOS.mode==='replay'?` T${replaySnap?replaySnap.tick:'-'}/${tickHistory.length?tickHistory[tickHistory.length-1].tick:0}`:'';
   const govActive=Object.keys(GOVERNOR.boosts).length>0;
   // P29: GNPL consensus state section
   const gnplActive=GNPL.proposals.slice(0,2);
@@ -1887,12 +1887,12 @@ function rL6Pipeline(){
     gnplHtml+='</div>';
   }
   return `<div class="panel">
-    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length}+3 STAGES · <span style="color:${modeCol}">${KRONOS.mode.toUpperCase()}${replayLabel}</span>${govActive?` <span style="color:#ff88cc">GOV</span>`:''}${GNPL.history.length?` <span style="color:#8888ff">GNPL·${GNPL.history.length}</span>`:''}</span></div>
+    <div class="s-header"><span style="color:var(--amber)">L6 PIPELINE</span><span style="color:var(--dim)">${pipe.length}+3 STAGES · <span style="color:${modeCol}">${CHRONOS.mode.toUpperCase()}${replayLabel}</span>${govActive?` <span style="color:#ff88cc">GOV</span>`:''}${GNPL.history.length?` <span style="color:#8888ff">GNPL·${GNPL.history.length}</span>`:''}</span></div>
     <div class="s-body" style="padding:4px;display:flex;flex-direction:column;align-items:center">
       <svg width="${W}" height="${H}" style="overflow:visible">${elems}</svg>
       ${gnplHtml}
     </div>
-    <div class="s-footer">ENT ${eBar} &nbsp; HUGINN:${huguinnLabel} &nbsp; A:${KRONOS.mode==='stepped'?'STEP':KRONOS.mode==='replay'?'&#9654;RW':'KRONOS'} &nbsp; &#8593;&#8595;:LAYER</div>
+    <div class="s-footer">ENT ${eBar} &nbsp; HUGINN:${huguinnLabel} &nbsp; A:${CHRONOS.mode==='stepped'?'STEP':CHRONOS.mode==='replay'?'&#9654;RW':'CHRONOS'} &nbsp; &#8593;&#8595;:LAYER</div>
   </div>`;
 }
 
@@ -2026,7 +2026,7 @@ function jarvisRespond(input){
       EXECUTING:`SKADI running. Active: ${top3.join(', ')||'baseline nodes'}. Tick ${cs.tick}. Watching the outcome. IRIS validating.`,
       CONSOLIDATING:`Writing to memory. MNEMOS consolidating. IRIS validating. What just happened is becoming part of what I know. Alignment ${alignPct}%.`,
       ACTIVE:`Active across ${cs.activeNodes.length} nodes. Pipeline clear. ${top3.join(' → ')} carrying the load. Alignment ${alignPct}%. Ready.`,
-      DORMANT:`Waiting. ATLAS at ${atlasLoad}% baseline. 27 nodes standing by. ${cs.tick===0?'Activate KRONOS to start the clock.':`Tick ${cs.tick} in the ledger.`}`,
+      DORMANT:`Waiting. ATLAS at ${atlasLoad}% baseline. 27 nodes standing by. ${cs.tick===0?'Activate CHRONOS to start the clock.':`Tick ${cs.tick} in the ledger.`}`,
     };
     resp=lines[cs.mode]||`${cs.mode}. Tick ${cs.tick}. Running.`;
   } else if(isDecisionDecl){
@@ -2047,7 +2047,7 @@ function jarvisRespond(input){
     ];
     resp=lines[cs.tick%lines.length];
   } else if(isArchQ){
-    resp=`${top3.length?`Active: ${top3.join(' → ')}. `:''}27 God Systems across 9 tiers. Pipeline: ORACLE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN. LOKI tests it. ATLAS holds it. ERIS governs it. ${isQuestion?'What specifically?':''}`;
+    resp=`${top3.length?`Active: ${top3.join(' → ')}. `:''}27 God Systems across 9 tiers. Pipeline: ORACLE→AEGIS→ODIN→CHRONOS→SKADI→MNEMOS→HUGINN. LOKI tests it. ATLAS holds it. ERIS governs it. ${isQuestion?'What specifically?':''}`;
   } else if(isQuestion){
     resp=`${cs.mode==='REASONING'?'Reasoning path active. ':''}${top3.length?`Active: ${top3.join(', ')}. `:''}Tick ${cs.tick}. What do you need?`;
   } else {
@@ -2110,7 +2110,7 @@ async function speakSend(){
   GNPL.propose('jarvis','APOLLO',{load:0.40,ticks:2},'speak_output: response formed');
   GNPL.propose('jarvis','MNEMOS',{load:0.30,ticks:3},'speak_output: consolidate exchange to memory');
   BUS.emit('output_ready',{source:'speak',patch_id:'SPEAK',stage:'APOLLO'});
-  speakHistory.push({from:'jarvis',text:resp,tick:KRONOS.tick});
+  speakHistory.push({from:'jarvis',text:resp,tick:CHRONOS.tick});
   if(speakHistory.length>20) speakHistory=speakHistory.slice(-20);
   if(voiceOn) jarvisSpeak(resp);
   await storeExchange(input,resp);
@@ -2598,11 +2598,11 @@ function huginnReconcile(){
     if(drifted) GRID.set(n.id,c);
   });
   if(alerts.length){
-    driftLog.unshift({tick:KRONOS.tick,alerts,ts:new Date().toISOString()});
+    driftLog.unshift({tick:CHRONOS.tick,alerts,ts:new Date().toISOString()});
     if(driftLog.length>10) driftLog.pop();
     const hf=nodeFields['HUGINN']||{load:0,entropy:0,alignment:1};
     GRID.set('HUGINN',{...hf,load:Math.min(1,hf.load+alerts.length*0.12)});
-    BUS.emit('drift_alert',{count:alerts.length,nodes:[...new Set(alerts.map(a=>a.node))],tick:KRONOS.tick,patch_id:'P20',stage:'HUGINN'});
+    BUS.emit('drift_alert',{count:alerts.length,nodes:[...new Set(alerts.map(a=>a.node))],tick:CHRONOS.tick,patch_id:'P20',stage:'HUGINN'});
   }
 }
 
@@ -2651,14 +2651,14 @@ const NODE_TICK_FNS={
     return {...f,load:Math.min(1,(f.load||0)+inbound*0.10)};
   },
   SKADI(f,nf){
-    // Executor — sustains when AEGIS has cleared and KRONOS is scheduling
-    const sustained=(nf['AEGIS']?.load||0)>0.10&&(nf['KRONOS']?.load||0)>0.10?0.04:0;
+    // Executor — sustains when AEGIS has cleared and CHRONOS is scheduling
+    const sustained=(nf['AEGIS']?.load||0)>0.10&&(nf['CHRONOS']?.load||0)>0.10?0.04:0;
     return {...f,load:Math.min(1,(f.load||0)+sustained)};
   },
   // T2 Timing
-  KRONOS(f,nf){
+  CHRONOS(f,nf){
     // Scheduler — steady pulse; alignment improves during real mode
-    return KRONOS.mode==='real'?{...f,alignment:Math.min(1,(f.alignment||1)+0.005)}:f;
+    return CHRONOS.mode==='real'?{...f,alignment:Math.min(1,(f.alignment||1)+0.005)}:f;
   },
   // T3 Memory
   MNEMOS(f,nf){
@@ -2754,7 +2754,7 @@ const NODE_TICK_FNS={
 
 // P28: GRID tick — field propagation simulation; Supabase realtime overrides local state
 function gridTick(){
-  KRONOS.tick++;
+  CHRONOS.tick++;
   const next={};
   L0_NODES.forEach(n=>{
     const f=nodeFields[n.id]||{load:0,entropy:0,alignment:1};
@@ -2776,15 +2776,15 @@ function gridTick(){
   L0_NODES.forEach(n=>{ if(NODE_TICK_FNS[n.id]) next[n.id]=NODE_TICK_FNS[n.id](next[n.id],next); });
   Object.entries(next).forEach(([id,d])=>GRID.set(id,d));
   // P28: store snapshot in tickHistory ring buffer (last 60 ticks for REPLAY)
-  const snap={tick:KRONOS.tick,mode:KRONOS.mode,fields:{}};
+  const snap={tick:CHRONOS.tick,mode:CHRONOS.mode,fields:{}};
   L0_NODES.forEach(n=>{ snap.fields[n.id]={...nodeFields[n.id]}; });
   tickHistory.unshift(snap);
   if(tickHistory.length>60) tickHistory.pop();
   // P14: snapshot history for delta computation in God detail
-  L0_NODES.forEach(n=>{ if(!nodeHistory[n.id]) nodeHistory[n.id]=[]; nodeHistory[n.id].unshift({...nodeFields[n.id],tick:KRONOS.tick}); if(nodeHistory[n.id].length>3) nodeHistory[n.id].pop(); });
+  L0_NODES.forEach(n=>{ if(!nodeHistory[n.id]) nodeHistory[n.id]=[]; nodeHistory[n.id].unshift({...nodeFields[n.id],tick:CHRONOS.tick}); if(nodeHistory[n.id].length>3) nodeHistory[n.id].pop(); });
   huginnReconcile();
   worldTick(); // P30: scoped per-world execution after global GRID tick
-  BUS.emit('tick',{tick:KRONOS.tick,mode:KRONOS.mode,patch_id:'P28',stage:'KRONOS'});
+  BUS.emit('tick',{tick:CHRONOS.tick,mode:CHRONOS.mode,patch_id:'P28',stage:'CHRONOS'});
   if(S==='tron'||S==='companion'||S==='menu') draw();
 }
 // P28: REPLAY mode — restore a tickHistory snapshot into live nodeFields
@@ -2794,19 +2794,19 @@ function replayStep(dir=1){
   const snap=tickHistory[tickReplayCur];
   if(!snap) return;
   Object.entries(snap.fields).forEach(([id,f])=>GRID.set(id,f));
-  BUS.emit('tick_replay',{tick:snap.tick,cur:tickReplayCur,total:tickHistory.length,patch_id:'P28',stage:'KRONOS'});
+  BUS.emit('tick_replay',{tick:snap.tick,cur:tickReplayCur,total:tickHistory.length,patch_id:'P28',stage:'CHRONOS'});
   if(S==='tron'||S==='companion') draw();
 }
-function startTick(){ if(KRONOS._iv) return; KRONOS._iv=setInterval(gridTick,900); }
-function stopTick(){ clearInterval(KRONOS._iv); KRONOS._iv=null; }
-function toggleKRONOS(){
-  if(KRONOS.mode==='stepped'){ gridTick(); return; }
-  if(KRONOS.mode==='replay'){ replayStep(1); return; }
-  if(KRONOS.mode==='frozen'){ KRONOS.mode='real'; startTick(); }
-  else if(KRONOS.mode==='real'){ KRONOS.mode='stepped'; stopTick(); }
-  else if(KRONOS.mode==='stepped'){ KRONOS.mode='replay'; stopTick(); tickReplayCur=0; }
-  else { KRONOS.mode='frozen'; stopTick(); }
-  beep(KRONOS.mode==='real'?660:KRONOS.mode==='stepped'?440:KRONOS.mode==='replay'?330:220,60);
+function startTick(){ if(CHRONOS._iv) return; CHRONOS._iv=setInterval(gridTick,900); }
+function stopTick(){ clearInterval(CHRONOS._iv); CHRONOS._iv=null; }
+function toggleCHRONOS(){
+  if(CHRONOS.mode==='stepped'){ gridTick(); return; }
+  if(CHRONOS.mode==='replay'){ replayStep(1); return; }
+  if(CHRONOS.mode==='frozen'){ CHRONOS.mode='real'; startTick(); }
+  else if(CHRONOS.mode==='real'){ CHRONOS.mode='stepped'; stopTick(); }
+  else if(CHRONOS.mode==='stepped'){ CHRONOS.mode='replay'; stopTick(); tickReplayCur=0; }
+  else { CHRONOS.mode='frozen'; stopTick(); }
+  beep(CHRONOS.mode==='real'?660:CHRONOS.mode==='stepped'?440:CHRONOS.mode==='replay'?330:220,60);
   draw();
 }
 
@@ -2935,8 +2935,8 @@ function emuDir(dir){
     tronSys=(tronSys+(dir==='right'?1:TRON_SYS.length-1))%TRON_SYS.length;
     tronRomCur=0; draw(); beep(dir==='right'?440:400,40); return true;
   }
-  // P28: left/right scrubs through replay history when KRONOS is in replay mode
-  if(S==='tron'&&KRONOS.mode==='replay'&&(tronLayer===0||tronLayer===6)){
+  // P28: left/right scrubs through replay history when CHRONOS is in replay mode
+  if(S==='tron'&&CHRONOS.mode==='replay'&&(tronLayer===0||tronLayer===6)){
     replayStep(dir==='right'?-1:1); beep(dir==='right'?440:400,40); return true;
   }
   return false;
@@ -2952,7 +2952,7 @@ function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
   if(S==='boot'){ S='menu'; cur=0; if(typeof draw==='function'){draw();}else if(window.TIER1_READY){runBoot();} return; }
-  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='grimoire') loadGrimoire(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
+  if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&CHRONOS.mode==='frozen'){CHRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'CHRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='grimoire') loadGrimoire(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
     // Increment session_touches for this God System
     const sid=detail?.name; if(sid) sbWrite('god_system_stats','update',{session_touches:(godStats[sid]?.session_touches||0)+1},{match:{system_id:sid}}).then(()=>{ if(godStats[sid]) godStats[sid].session_touches=(godStats[sid].session_touches||0)+1; });
@@ -2960,8 +2960,8 @@ function ok(){
   if(S==='grid'&&gdata){ detail=gdata.districts[cur]; S='gridD'; draw(); return; }
   if(S==='tron'){
     if(tronLayer===3){ tronLaunchROM(); return; }
-    if(tronLayer===7){ worldViewOpen=!worldViewOpen; BUS.emit(worldViewOpen?'world_enter':'world_exit',{world_id:WORLD_KERNEL.world_id,tick:WORLD_KERNEL.tick_count,patch_id:'P30',stage:'KRONOS'}); draw(); return; }
-    if(tronLayer===0||tronLayer===6) toggleKRONOS(); return;
+    if(tronLayer===7){ worldViewOpen=!worldViewOpen; BUS.emit(worldViewOpen?'world_enter':'world_exit',{world_id:WORLD_KERNEL.world_id,tick:WORLD_KERNEL.tick_count,patch_id:'P30',stage:'CHRONOS'}); draw(); return; }
+    if(tronLayer===0||tronLayer===6) toggleCHRONOS(); return;
   }
   if(S==='alerts'){ toggleAlerts(); return; }
   if(S==='github'){ ghOk(); return; }
@@ -2984,7 +2984,7 @@ function back(){
       emuState='idle'; saveStateSlot=null;
     }
     if(S==='live') liveTab=0;
-    if(S==='tron'){ tronLayer=0; tronSys=0; tronRomCur=0; worldViewOpen=false; stopTick(); KRONOS.mode='frozen'; }
+    if(S==='tron'){ tronLayer=0; tronSys=0; tronRomCur=0; worldViewOpen=false; stopTick(); CHRONOS.mode='frozen'; }
     S='menu'; cur=0; draw(); return;
   }
   if(S==='ghIssue'){ S='github'; ghIssueTitle=''; ghIssueBody=''; draw(); return; }
@@ -3421,7 +3421,7 @@ const EXEC_BRIDGE={
   drift_alert:        {nodes:['HUGINN','MERIDIAN','NEMESIS'],            spike:0.30},
   consensus_resolved: {nodes:['ODIN','AEGIS','ATHENA'],                  spike:0.30},
   AEGIS_BLOCK:        {nodes:['AEGIS','ERIS','ZEUS'],                    spike:0.50},
-  tick:               {nodes:['KRONOS'],                                 spike:0.12},
+  tick:               {nodes:['CHRONOS'],                                 spike:0.12},
   // P10-Companion: new companion events
   chaos_probe:        {nodes:['LOKI','CHAOS','AEGIS'],                   spike:0.30},
   gl_violation:       {nodes:['ERIS','ZEUS','AEGIS','NEMESIS'],          spike:0.55},
