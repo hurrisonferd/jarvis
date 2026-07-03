@@ -220,8 +220,10 @@ function runBoot(){
 }
 
 // STUB FUNCTIONS - Only active until TIER 2 loads. TIER 2 will overwrite these.
-function ok(){ 
-  console.log('[STUB ok] TIER 2 not loaded yet - S='+(typeof S !== 'undefined' ? S : 'undefined')); 
+function ok(){
+  console.log('[STUB ok] A/START pressed');
+  S='menu';
+  runBoot();
 }
 function back(){ console.log('[STUB back] B pressed'); }
 function start(){ console.log('[STUB start] START pressed'); ok(); }
