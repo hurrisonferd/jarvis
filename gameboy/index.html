@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>JARVIS RE-WIRED HUD v3.15 — LOCKED FOCUS</title>
+    <title>JARVIS RE-WIRED HUD v4.0 — LOCKED FOCUS</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         :root {
@@ -171,7 +171,7 @@
         function initRealtime() {
             if (!sb) { setTimeout(initRealtime, 100); return; }
             sb.removeAllChannels();
-            const ch = sb.channel('stable_monolithic_bus_v3_15')
+            const ch = sb.channel('stable_monolithic_bus_v4.0')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
                     console.log('[RT] Got payload:', JSON.stringify(payload.new));
                     const row = payload.new || {};
