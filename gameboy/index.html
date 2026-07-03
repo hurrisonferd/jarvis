@@ -753,8 +753,49 @@ const ToggleEngine = {
 let fleetTerminalLog = [];
 let fleetInput = '';
 let fleetPollingInterval = null;
+let fleetVoiceOn = false;
+let fleetMicOn = false;
+let fleetMicRecog = null;
 const fleetNodes = ['GEMINI', 'LILITH', 'AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
 const GEMINI_KEY = "GEMINI_OPH_KEY"; // Gemini coordinator
+
+function fleetVoiceToggle() {
+  fleetVoiceOn = !fleetVoiceOn;
+  if (!fleetVoiceOn && window.speechSynthesis) window.speechSynthesis.cancel();
+  fleetLog(fleetVoiceOn ? '[VOX] Enabled' : '[VOX] Disabled', fleetVoiceOn ? '#00ff88' : '#555966');
+  updateFleetTerminal();
+}
+
+function fleetMicListen() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) { fleetLog('[MIC] Not supported', '#ff0055'); updateFleetTerminal(); return; }
+  if (fleetMicOn) { 
+    try { fleetMicRecog && fleetMicRecog.stop(); } catch(e) {} 
+    fleetMicOn = false; 
+    updateFleetTerminal(); 
+    return; 
+  }
+  fleetMicRecog = new SR();
+  fleetMicRecog.lang = 'en-US';
+  fleetMicRecog.interimResults = false;
+  fleetMicRecog.maxAlternatives = 1;
+  fleetMicOn = true;
+  fleetLog('[MIC] Listening...', '#f5a623');
+  updateFleetTerminal();
+  
+  fleetMicRecog.onresult = (e) => {
+    const t = e.results[0][0].transcript;
+    fleetInput = t;
+    document.getElementById('fleet-input').value = t;
+    fleetMicOn = false;
+    fleetLog('[MIC] ' + t, '#00ffcc');
+    updateFleetTerminal();
+    if (t.trim()) fleetSend();
+  };
+  fleetMicRecog.onerror = () => { fleetMicOn = false; updateFleetTerminal(); };
+  fleetMicRecog.onend = () => { fleetMicOn = false; updateFleetTerminal(); };
+  try { fleetMicRecog.start(); } catch(e) { fleetMicOn = false; updateFleetTerminal(); }
+}
 
 function fleetToggleNode(nodeName) {
   if (ToggleEngine.selectedNodes.has(nodeName)) {
@@ -837,14 +878,14 @@ async function pollFleetResponses() {
           if (msg.response === 'DELIBERATION_ACTIVE') {
             ToggleEngine.updateDelibStream(msg.sender, msg.content, 'DEBATE');
             // Speak coordinator's response with their unique voice
-            if (voiceOn && msg.content) {
+            if (fleetVoiceOn && msg.content) {
               coordinatorSpeak(msg.sender, msg.content.slice(0, 200));
             }
           } else {
             fleetTerminalLog.push({ msg: `<${msg.target_node}> ${msg.response}`, col: '#00ff88', time: Date.now(), shown: true, id: msg.id });
             if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
             // Speak response
-            if (voiceOn && msg.response) {
+            if (fleetVoiceOn && msg.response) {
               coordinatorSpeak(msg.sender, msg.response.slice(0, 200));
             }
           }
@@ -960,7 +1001,10 @@ function rFleet() {
         <div style="color:var(--dim);font-size:4px;margin-bottom:2px">TERMINAL</div>
         <div class="terminal-content">${terminalLines}</div>
       </div>
-      <div style="margin-top:3px">
+      <div style="margin-top:3px;display:flex;gap:3px;align-items:center">
+        <span onclick="fleetVoiceToggle()" style="cursor:pointer;font-size:5px;color:${fleetVoiceOn?'#00ff88':'#555966'}">${fleetVoiceOn?'VOX✓':'VOX'}</span>
+        <span onclick="fleetMicListen()" style="cursor:pointer;font-size:5px;color:${fleetMicOn?'#f5a623':'#555966'}">${fleetMicOn?'●REC':'MIC'}</span>
+        <span style="width:3px"></span>
         <input 
           id="fleet-input" 
           type="text" 
@@ -2375,8 +2419,14 @@ function rMnemos(){
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:2px;padding:5px 0 4px;border-bottom:1px solid #0a1520">
         <div><div style="color:var(--dim);font-size:3.5px">SESSIONS</div><div style="color:var(--amber);font-size:7px">${d.total||0}</div></div>
         <div><div style="color:var(--dim);font-size:3.5px">EVENTS LOGGED</div><div style="color:var(--amber);font-size:7px">${d.totalEvents||0}</div></div>
-        <div style="margin-top:3px"><div style="color:var(--dim);font-size:3.5px">FIRST CONTACT</div><div style="color:var(--bright);font-size:4px">${(d.first||'').slice(0,10)||'—'}</div></div>
-        <div style="margin-top:3px"><div style="color:var(--dim);font-size:3.5px">LAST CONTACT</div><div style="color:var(--green);font-size:4px">${fmtAgo(d.last)}</div></div>
+        <div style="margin-top:3px;display:flex;gap:3px;align-items:center">
+        <span onclick="fleetVoiceToggle()" style="cursor:pointer;font-size:5px;color:${fleetVoiceOn?'#00ff88':'#555966'}">${fleetVoiceOn?'VOX✓':'VOX'}</span>
+        <span onclick="fleetMicListen()" style="cursor:pointer;font-size:5px;color:${fleetMicOn?'#f5a623':'#555966'}">${fleetMicOn?'●REC':'MIC'}</span>
+        <span style="width:3px"></span><div style="color:var(--dim);font-size:3.5px">FIRST CONTACT</div><div style="color:var(--bright);font-size:4px">${(d.first||'').slice(0,10)||'—'}</div></div>
+        <div style="margin-top:3px;display:flex;gap:3px;align-items:center">
+        <span onclick="fleetVoiceToggle()" style="cursor:pointer;font-size:5px;color:${fleetVoiceOn?'#00ff88':'#555966'}">${fleetVoiceOn?'VOX✓':'VOX'}</span>
+        <span onclick="fleetMicListen()" style="cursor:pointer;font-size:5px;color:${fleetMicOn?'#f5a623':'#555966'}">${fleetMicOn?'●REC':'MIC'}</span>
+        <span style="width:3px"></span><div style="color:var(--dim);font-size:3.5px">LAST CONTACT</div><div style="color:var(--green);font-size:4px">${fmtAgo(d.last)}</div></div>
       </div>
       <div style="padding:4px 0 2px"><div style="color:var(--dim);font-size:3.5px;margin-bottom:3px">EVENT MEMORY</div>${evtRows}</div>
       <div style="padding:4px 0 2px;border-top:1px solid #0a1520"><div style="color:var(--dim);font-size:3.5px;margin-bottom:2px">RECENT SESSIONS</div>${timelineRows}</div>
