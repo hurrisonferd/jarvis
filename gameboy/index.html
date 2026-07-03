@@ -137,6 +137,11 @@ html, body {
 </style>
 </head>
 <body>
+<div id="test-buttons" style="position:fixed;top:0;left:0;z-index:9999999;background:#fff;color:#000;padding:10px;font-size:14px;">
+  <button onclick="console.log('ok type:', typeof ok);alert('ok='+typeof ok);">TEST ok()</button>
+  <button onclick="console.log('back type:', typeof back);alert('back='+typeof back);">TEST back()</button>
+  <button onclick="ToggleEngine.toggleSidebar();">TEST WAR ROOM</button>
+</div>
 <div class="device">
   <div class="led"></div>
   <div class="screen-housing">
