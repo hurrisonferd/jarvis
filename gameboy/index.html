@@ -728,6 +728,49 @@ const ToggleEngine = {
       btn.style.color = "#00ffcc";
     }
   },
+  // Broadcast from War Room - talks to all coordinators
+  async broadcastFromWarRoom() {
+    const input = document.getElementById("warroom_input");
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+    
+    const targets = Array.from(this.selectedNodes);
+    const targetTag = targets.length > 1 ? "FLEET_BUS" : targets[0] || "FLEET_BUS";
+    const formatted = targets.length > 1 ? `@FLEET ${text}` : `@${targetTag} ${text}`;
+    
+    try {
+      await sb.from('fleet_messages').insert({
+        target_node: targetTag,
+        sender: "Raven",
+        content: formatted,
+        response: "DELIBERATION_ACTIVE"
+      });
+      this.updateDelibStream("RAVEN", text, "ASK");
+      if (fleetVoiceOn) coordinatorSpeak("JARVIS", text.slice(0, 100));
+    } catch(e) { console.error("[-] War room broadcast failed:", e); }
+  },
+  // Broadcast from main fleet terminal
+  async broadcastFromFleet() {
+    const input = document.getElementById("fleet-input");
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = "";
+    
+    const targets = Array.from(this.selectedNodes);
+    const targetTag = targets.length > 1 ? "FLEET_BUS" : targets[0] || "FLEET_BUS";
+    const formatted = targets.length > 1 ? `@FLEET ${text}` : `@${targetTag} ${text}`;
+    
+    try {
+      await sb.from('fleet_messages').insert({
+        target_node: targetTag,
+        sender: "Raven",
+        content: formatted,
+        response: null
+      });
+      fleetLog("[RAVEN] " + text, "#00ffcc");
+    } catch(e) { console.error("[-] Fleet broadcast failed:", e); }
+  },
   updateDelibStream(node, msg, type) {
     const stream = document.getElementById("delib_stream");
     if (!stream) return;
@@ -817,35 +860,7 @@ function fleetLog(msg, col) {
   updateFleetTerminal();
 }
 
-async function fleetSend() {
-  const input = document.getElementById('fleet-input');
-  if (!input || !input.value.trim()) return;
-  const msg = input.value.trim();
-  fleetLog(`> ${msg}`, '#a0c8e0');
-  input.value = '';
-  
-  const selected = Array.from(ToggleEngine.selectedNodes);
-  if (!selected.length) {
-    fleetLog('[INFO] Select a node first', '#555966');
-    updateFleetTerminal();
-    return;
-  }
-  
-  // Send to Supabase for each selected node
-  for (const node of selected) {
-    fleetLog(`[SEND] → ${node}`, '#f5a623');
-    try {
-      const { error } = await sb.from('fleet_messages').insert({
-        target_node: node,
-        content: msg,
-        sender: 'raven',
-        response: null,
-        responded_at: null
-      });
-      if (error) throw error;
-    } catch (e) {
-      fleetLog(`[ERR] ${node}: ${e.message}`, '#ff0055');
-    }
+async function fleetSend() { ToggleEngine.broadcastFromFleet(); return; }
   }
   
   updateFleetTerminal();
@@ -3291,6 +3306,10 @@ if('serviceWorker' in navigator){
       <span>LOCKS: <strong id="lbl_sigs" style="color:#f5a623;">0/3</strong></span>
     </div>
     <div id="delib_stream" style="padding:10px;flex-grow:1;overflow-y:auto;font-size:4px;line-height:1.6;background:#050810;font-family:var(--pixel);color:#8899aa;white-space:pre-wrap;"></div>
+    <div style="display:flex;border-top:1px solid #1e3a52;background:#090a0f;">
+      <input type="text" id="warroom_input" placeholder="Talk with coordinators..." style="flex:1;border:none;background:none;color:#fff;padding:8px;font-size:3.5px;font-family:var(--pixel);outline:none;" onkeydown="if(event.key==='Enter'){ToggleEngine.broadcastFromWarRoom();}">
+      <button onclick="ToggleEngine.broadcastFromWarRoom()" style="background:none;border:none;color:#00ffcc;padding:0 8px;font-family:var(--pixel);font-size:3.5px;cursor:pointer;">DEBATE</button>
+    </div>
   </div>
   <button id="btn_toggle_war_room" onclick="ToggleEngine.toggleSidebar()" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:10000;">[ WAR ROOM ]</button>
 
