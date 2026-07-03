@@ -137,6 +137,11 @@ html, body {
 </style>
 </head>
 <body>
+<div id="test-buttons" style="position:fixed;top:0;left:0;z-index:9999999;background:#fff;color:#000;padding:10px;font-size:14px;">
+  <button onclick="console.log('ok type:', typeof ok);alert('ok='+typeof ok);">TEST ok()</button>
+  <button onclick="console.log('back type:', typeof back);alert('back='+typeof back);">TEST back()</button>
+  <button onclick="ToggleEngine.toggleSidebar();">TEST WAR ROOM</button>
+</div>
 <div class="device">
   <div class="led"></div>
   <div class="screen-housing">
@@ -178,7 +183,7 @@ html, body {
     <div class="face">
       <span class="fbl b">B</span><span class="fbl a">A</span>
       <button class="fb b" onclick="back()" ontouchstart="event.preventDefault();back();">B</button>
-      <button class="fb a" id="btn-a-test" onclick="ok();this.style.background='#f00'" ontouchstart="event.preventDefault();ok();this.style.background='#f00'">A</button>
+      <button class="fb a" onclick="ok()" ontouchstart="event.preventDefault();ok();">A</button>
     </div>
   </div>
   <div class="menu-row">
@@ -199,7 +204,8 @@ window.onerror = function(msg, url, line) {
 // BOOT_LINES
 const BOOT_LINES=['ORACLE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
 
-// NOTE: S is declared in TIER 2 as `let S='boot'` - do NOT redeclare here
+// Global state
+var S='boot';
 
 // runBoot - Pure synchronous UI
 function runBoot(){
@@ -219,14 +225,8 @@ function runBoot(){
   setTimeout(tick,200);
 }
 
-// STUB FUNCTIONS - Only active until TIER 2 loads. TIER 2 will overwrite these.
-function ok(){
-  var el=document.getElementById('screen-inner');
-  if(el) el.innerHTML='<div style="color:#0f0;font-size:8px;padding:5px;">OK PRESSED<br>S was:'+S+'</div>';
-  S='menu';
-  cur=0;
-  if(typeof draw === 'function') draw();
-}
+// STUB FUNCTIONS - These get overridden by TIER 2 when it loads
+function ok(){ console.log('[STUB ok] A/START pressed'); S='menu'; runBoot(); }
 function back(){ console.log('[STUB back] B pressed'); }
 function start(){ console.log('[STUB start] START pressed'); ok(); }
 function emuBtn(btn){ console.log('[STUB emuBtn]', btn); }
@@ -943,7 +943,10 @@ function fleetLog(msg, col) {
 }
 
 async function fleetSend() { ToggleEngine.broadcastFromFleet(); return; }
+  }
   
+  updateFleetTerminal();
+}
 
 async function pollFleetResponses() {
   const selected = Array.from(ToggleEngine.selectedNodes);
@@ -2952,10 +2955,9 @@ function emuBtn(btn){
 }
 
 function ok(){
-  console.log('[TRACE] TIER2 ok() called - S='+S+', bootHardwareInterface='+typeof bootHardwareInterface);
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
-  if(S==='boot'){ S='menu'; cur=0; console.log('[TRACE] Transitioning to menu'); draw(); return; }
+  if(S==='boot'){ S='menu'; cur=0; draw(); return; }
   if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='grimoire') loadGrimoire(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
     // Increment session_touches for this God System
@@ -3317,10 +3319,6 @@ async function loadNodeFields(){
 const BOOT_LINES=['ORACLE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
 
 function runBoot(){
-  if(S !== 'boot') {
-    console.log('[+] Skipping boot - S='+S+', already booted');
-    return;
-  }
   const el=document.getElementById('screen-inner');
   el.innerHTML=`<div class="boot-panel">
     <div class="boot-logo">JARVIS</div>
