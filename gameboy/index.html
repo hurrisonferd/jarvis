@@ -3467,16 +3467,24 @@ if('serviceWorker' in navigator){
 (function(){
   var _origOk = window.ok;
   window.ok = function() {
+    console.log('[PATCH ok] called, S='+S);
     // Handle boot→menu even when draw() isn't loaded
     if(S==='boot'){
+      console.log('[PATCH] boot detected, setting menu');
       S='menu'; cur=0;
+      var el=document.getElementById('screen-inner');
+      if(el) el.innerHTML='<div style="color:#00ffcc;font-family:monospace;padding:20px;">LOADING MENU...</div>';
       if(typeof draw==='function'){ draw(); }
-      else { runBoot(); }
+      else { 
+        console.log('[PATCH] draw not ready, re-running boot');
+        runBoot(); 
+      }
       return;
     }
     // Fall back to original
     if(_origOk) _origOk.apply(this, arguments);
   };
+  console.log('[PATCH] ok() overridden');
 })();
 </script>
 </body>
