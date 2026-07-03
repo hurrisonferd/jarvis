@@ -734,8 +734,11 @@ const ToggleEngine = {
     const streamBox = document.getElementById("delib_stream");
     if (!streamBox) return;
     const color = type === 'EXECUTE' ? '#ffd700' : type === 'COMPLETED' ? '#00ff22' : '#fff';
-    streamBox.innerHTML += `\n<span style="color:#00ffcc">[${node}]:</span> <span style="color:${color}">${msg}</span>\n`;
-    streamBox.scrollTop = streamBox.scrollHeight;
+    const span = document.createElement('div');
+    span.style.color = color;
+    span.innerHTML = `<span style="color:#00ffcc">[${node}]:</span> ${msg}`;
+    streamBox.appendChild(span);
+    requestAnimationFrame(() => { streamBox.scrollTop = streamBox.scrollHeight; });
   },
   updateDelibMetrics(phase, sigs) {
     const lblPhase = document.getElementById("lbl_phase");
