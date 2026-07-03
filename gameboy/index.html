@@ -2951,9 +2951,10 @@ function emuBtn(btn){
 }
 
 function ok(){
+  console.log('[TRACE] TIER2 ok() called - S='+S+', bootHardwareInterface='+typeof bootHardwareInterface);
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
-  if(S==='boot'){ S='menu'; cur=0; draw(); return; }
+  if(S==='boot'){ S='menu'; cur=0; console.log('[TRACE] Transitioning to menu'); draw(); return; }
   if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='grimoire') loadGrimoire(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
     // Increment session_touches for this God System
