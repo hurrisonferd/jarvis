@@ -3349,5 +3349,15 @@ if('serviceWorker' in navigator){
 })();
 </script>
 
+<script>
+// Show S state after boot
+window.addEventListener('load', function() {
+  setTimeout(function() {
+    var si = document.getElementById('screen-inner');
+    if(si) si.innerHTML += '<div style="padding:2px 4px;font-size:5px;color:#0af;background:#050810;">S=' + (typeof S !== 'undefined' ? S : 'undefined') + '</div>';
+  }, 2000);
+});
+</script>
+
 </body>
 </html>
