@@ -3154,6 +3154,18 @@ function connectRealtime(){
       ToggleEngine.updateDelibMetrics("ROLLED_BACK",0);
       fleetLog("[!] ROLLBACK: "+r.supervisor_node+" failed. Check WAR ROOM.",'#ff0055');
     })
+    // Token efficiency auditor - Resource Governor
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'fleet_token_ledger'},payload=>{
+      const e=payload.new;
+      const streamBox=document.getElementById("delib_stream");
+      const meterBlocks=Math.min(10,Math.max(1,Math.round(e.efficiency_score||0)));
+      const meterBar="█".repeat(meterBlocks)+"░".repeat(10-meterBlocks);
+      let colorCode="#00ff22";
+      if(e.efficiency_score<4)colorCode="var(--accent)";
+      if(e.efficiency_score<2)colorCode="#ff0055";
+      streamBox.innerHTML+=`<div style="font-size:10px;color:#555966;border-left:2px solid ${colorCode};padding-left:8px;margin:5px 0;font-family:monospace;">⚡ RESOURCE AUDIT [${e.node_name}] | ${e.operation_type}<br/>Tokens: ${(e.input_tokens||0)+(e.output_tokens||0)} | Eff: <span style="color:${colorCode};font-weight:bold;">${e.efficiency_score}/10</span><br/><span style="color:${colorCode};">${meterBar}</span></div>`;
+      streamBox.scrollTop=streamBox.scrollHeight;
+    })
     .subscribe(status=>{
       sseConnected=(status==='SUBSCRIBED');
       sseDot(sseConnected);
