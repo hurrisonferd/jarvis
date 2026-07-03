@@ -137,11 +137,6 @@ html, body {
 </style>
 </head>
 <body>
-<div id="test-buttons" style="position:fixed;top:0;left:0;z-index:9999999;background:#fff;color:#000;padding:10px;font-size:14px;">
-  <button onclick="console.log('ok type:', typeof ok);alert('ok='+typeof ok);">TEST ok()</button>
-  <button onclick="console.log('back type:', typeof back);alert('back='+typeof back);">TEST back()</button>
-  <button onclick="ToggleEngine.toggleSidebar();">TEST WAR ROOM</button>
-</div>
 <div class="device">
   <div class="led"></div>
   <div class="screen-housing">
@@ -182,13 +177,13 @@ html, body {
     </div>
     <div class="face">
       <span class="fbl b">B</span><span class="fbl a">A</span>
-      <button class="fb b" onclick="back()" ontouchstart="event.preventDefault();back();">B</button>
-      <button class="fb a" onclick="ok()" ontouchstart="event.preventDefault();ok();">A</button>
+      <button class="fb b" onclick="back()" ontouchstart="event.preventDefault(); back();">B</button>
+      <button class="fb a" onclick="alert('A clicked! S='+S);ok()" ontouchstart="event.preventDefault(); alert('A clicked! S='+S);ok();">A</button>
     </div>
   </div>
   <div class="menu-row">
-    <button class="mb" onclick="event.stopPropagation();emuBtn('SELECT');return false;" ontouchstart="event.stopPropagation();emuBtn('SELECT');return false;">SELECT</button>
-    <button class="mb" onclick="event.stopPropagation();ok();return false;" ontouchstart="event.stopPropagation();ok();return false;">START</button>
+    <button class="mb" onclick="emuBtn('SELECT')||back()" ontouchstart="event.preventDefault(); emuBtn('SELECT')||back();">SELECT</button>
+    <button class="mb" onclick="start()" ontouchstart="event.preventDefault(); start();">START</button>
   </div>
   <div class="speaker" id="spk"></div>
 </div>
@@ -203,9 +198,6 @@ window.onerror = function(msg, url, line) {
 
 // BOOT_LINES
 const BOOT_LINES=['ORACLE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
-
-// Global state
-var S='boot';
 
 // runBoot - Pure synchronous UI
 function runBoot(){
@@ -225,35 +217,6 @@ function runBoot(){
   setTimeout(tick,200);
 }
 
-// STUB FUNCTIONS - These get overridden by TIER 2 when it loads
-function ok(){ console.log('[STUB ok] A/START pressed'); S='menu'; runBoot(); }
-function back(){ console.log('[STUB back] B pressed'); }
-function start(){ console.log('[STUB start] START pressed'); ok(); }
-function emuBtn(btn){ console.log('[STUB emuBtn]', btn); }
-function beep(freq,ms){ console.log('[STUB beep]', freq, ms); }
-
-// ToggleEngine stub for WAR ROOM
-var ToggleEngine = {
-  sidebarOpen: false,
-  toggleSidebar: function() {
-    this.sidebarOpen = !this.sidebarOpen;
-    var el = document.getElementById("delib_sidebar");
-    var btn = document.getElementById("btn_toggle_war_room");
-    if (!el || !btn) return;
-    if (this.sidebarOpen) {
-      el.style.right = "0px";
-      btn.innerText = "[ CLOSE ]";
-      btn.style.borderColor = "#f5a623";
-      btn.style.color = "#f5a623";
-    } else {
-      el.style.right = "-320px";
-      btn.innerText = "[ WAR ROOM ]";
-      btn.style.borderColor = "#00ffcc";
-      btn.style.color = "#00ffcc";
-    }
-  }
-};
-
 // FORCE IMMEDIATE RENDER - This MUST work regardless of anything else
 try {
   runBoot();
@@ -265,12 +228,6 @@ try {
 
 <!-- TIER 2: INFRASTRUCTURE - Isolated from TIER 1 -->
 <script>
-// DEBUG: TIER 2 loading
-console.log('[TIER2] Infrastructure script starting...');
-window.addEventListener('DOMContentLoaded', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="tier2-banner" style="position:fixed;top:40px;left:0;right:0;background:#ff8800;color:#000;padding:5px;font-family:monospace;z-index:9999999;text-align:center;font-size:10px;">TIER2 LOADING: '+Date.now()+'</div>');
-});
-
 // ── config (safe for client-side)
 const SUPABASE_URL     = 'https://oexghfsvhnggddllgvrt.supabase.co';
 const SUPABASE_ANON    = 'sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA';
@@ -3449,13 +3406,6 @@ if('serviceWorker' in navigator){
 } else {
   pushStatus='NOT SUPPORTED';
 }
-
-// DEBUG: TIER 2 loaded
-console.log('[TIER2] Infrastructure script COMPLETE');
-console.log('[TIER2] ok=' + typeof ok + ' back=' + typeof back + ' emuBtn=' + typeof emuBtn + ' S=' + typeof S);
-window.addEventListener('DOMContentLoaded', function() {
-  document.body.insertAdjacentHTML('afterbegin', '<div id="tier2-done" style="position:fixed;top:60px;left:0;right:0;background:#00ff00;color:#000;padding:5px;font-family:monospace;z-index:9999999;text-align:center;font-size:10px;">TIER2 DONE: ok=' + typeof ok + ' back=' + typeof back + ' S=' + typeof S + '</div>');
-});
 </script>
   <!-- WAR ROOM Sidebar - Strategic Deliberation View -->
   <div id="delib_sidebar" style="position:fixed;right:-320px;top:0;width:300px;height:100vh;background:#0a0e16;border-left:1px solid #1e3a52;transition:right 0.3s;display:flex;flex-direction:column;z-index:9999;box-shadow:-5px 0 20px rgba(0,0,0,0.6);">
