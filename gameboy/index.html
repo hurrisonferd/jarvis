@@ -223,7 +223,8 @@ function runBoot(){
 function ok(){
   console.log('[STUB ok] A/START pressed');
   S='menu';
-  runBoot();
+  cur=0;
+  if(typeof draw === 'function') draw();
 }
 function back(){ console.log('[STUB back] B pressed'); }
 function start(){ console.log('[STUB start] START pressed'); ok(); }
