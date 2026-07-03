@@ -732,23 +732,20 @@ function fleetToggleNode(nodeName) {
 function fleetLog(msg, col) {
   fleetTerminalLog.push({ msg, col, time: Date.now() });
   if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
-  // Auto-scroll terminal
-  setTimeout(() => {
-    const term = document.getElementById('fleet-terminal');
-    if (term) term.scrollTop = term.scrollHeight;
-  }, 10);
+  updateFleetTerminal();
 }
 
 async function fleetSend() {
-  if (!fleetInput.trim()) return;
-  const msg = fleetInput.trim();
+  const input = document.getElementById('fleet-input');
+  if (!input || !input.value.trim()) return;
+  const msg = input.value.trim();
   fleetLog(`> ${msg}`, '#a0c8e0');
+  input.value = '';
   
   const selected = Array.from(ToggleEngine.selectedNodes);
   if (!selected.length) {
     fleetLog('[INFO] Select a node first', '#555966');
-    fleetInput = '';
-    draw();
+    updateFleetTerminal();
     return;
   }
   
@@ -769,9 +766,7 @@ async function fleetSend() {
     }
   }
   
-  fleetInput = '';
-  document.getElementById('fleet-input').value = '';
-  draw();
+  updateFleetTerminal();
 }
 
 async function pollFleetResponses() {
@@ -793,19 +788,43 @@ async function pollFleetResponses() {
     if (error) throw error;
     
     if (data && data.length > 0) {
-      // Find new responses we haven't shown yet
       const shown = new Set(fleetTerminalLog.filter(l => l.shown).map(l => l.id));
+      let newResponses = false;
+      
       for (const msg of data.reverse()) {
         if (!shown.has(msg.id)) {
-          fleetLog(`<${msg.target_node}> ${msg.response}`, '#00ff88');
-          fleetTerminalLog[fleetTerminalLog.length - 1].shown = true;
-          fleetTerminalLog[fleetTerminalLog.length - 1].id = msg.id;
+          fleetTerminalLog.push({ msg: `<${msg.target_node}> ${msg.response}`, col: '#00ff88', time: Date.now(), shown: true, id: msg.id });
+          if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
+          newResponses = true;
         }
       }
-      draw();
+      
+      if (newResponses) {
+        updateFleetTerminal(); // Update without full redraw
+      }
     }
   } catch (e) {
     // Silently fail polling
+  }
+}
+
+function updateFleetTerminal() {
+  const term = document.getElementById('fleet-terminal');
+  if (!term) return;
+  
+  // Save scroll position
+  const wasAtBottom = term.scrollHeight - term.scrollTop <= term.clientHeight + 50;
+  
+  // Update only the terminal content
+  const lines = fleetTerminalLog.slice(-12).map(l => `<div style="font-size:4.5px;color:${l.col};line-height:1.5">${l.msg}</div>`).join('');
+  const termContent = term.querySelector('.terminal-content');
+  if (termContent) {
+    termContent.innerHTML = lines || '<div style="color:var(--dim);font-size:4.5px;padding:4px">Terminal ready.</div>';
+  }
+  
+  // Restore scroll position (or scroll to bottom if was at bottom)
+  if (wasAtBottom) {
+    term.scrollTop = term.scrollHeight;
   }
 }
 
@@ -872,9 +891,9 @@ function rFleet() {
       <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:4px">
         ${fleet2.map(n => makeButton(n)).join('')}
       </div>
-      <div style="background:#020408;border:1px solid #0f2035;border-radius:2px;padding:3px;height:90px;overflow-y:auto" id="fleet-terminal">
+      <div style="background:#020408;border:1px solid #0f2035;border-radius:2px;padding:3px;height:90px;overflow-y:auto" id="fleet-terminal" ontouchstart="event.stopPropagation()">
         <div style="color:var(--dim);font-size:4px;margin-bottom:2px">TERMINAL</div>
-        ${terminalLines}
+        <div class="terminal-content">${terminalLines}</div>
       </div>
       <div style="margin-top:3px">
         <input 
