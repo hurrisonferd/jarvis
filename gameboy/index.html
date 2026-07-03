@@ -550,7 +550,8 @@ const MENU=[
   {label:'LIVE FEED',   state:'live'},
   {label:'ALERTS',      state:'alerts'},
   {label:'GITHUB',      state:'github'},
-  {label:'EMULATOR',    state:'emu'},
+    {label:'EMULATOR',    state:'emu'},
+  {label:'FLEET',       state:'fleet'},
 ];
 
 function draw(){
@@ -573,6 +574,7 @@ function draw(){
   else if(S==='github') el.innerHTML=rGithub();
   else if(S==='ghIssue') el.innerHTML=rGhIssue();
   else if(S==='emu')    el.innerHTML=rEmulator();
+  else if(S==='fleet')   el.innerHTML=rFleet();
   else if(S==='grimoire') el.innerHTML=rGrimoire();
 }
 
@@ -612,6 +614,135 @@ function rCompanionScreen(){
   );
 }
 
+
+// ── Fleet 2.0 Lifecycle Controller ──────────────────────────────────────
+const HandheldSessionManager = {
+  accountKeys: {
+    AYRE: "AYRE_OPH_KEY", JARVIS: "AYRE_OPH_KEY", THOR: "AYRE_OPH_KEY",
+    NEO: "AYRE_OPH_KEY", VIRGIL: "AYRE_OPH_KEY", EREBUS: "AYRE_OPH_KEY",
+    LILITH: "LILITH_OPH_KEY", SHAKA: "LILITH_OPH_KEY", EDISON: "LILITH_OPH_KEY",
+    PYTHAGORAS: "LILITH_OPH_KEY", ATLAS: "LILITH_OPH_KEY", YORK: "LILITH_OPH_KEY"
+  },
+  SESSION_TIMEOUT_MS: 1800000,
+  OH_BASE: "https://app.all-hands.dev/api/v1",
+
+  async handleNodeTapLifecycle(nodeName) {
+    const cleanName = nodeName.toUpperCase();
+    const terminal = document.getElementById('speak-input') || document.getElementById('screen-inner');
+    const envKey = this.accountKeys[cleanName];
+    const apiToken = window[envKey] || localStorage.getItem(envKey);
+    if (!apiToken) { this.log('[ERROR] Missing: ' + envKey, terminal); return; }
+    this.log('[*] Auditing ' + cleanName + '...', terminal);
+    try {
+      const remoteSession = await this.locateActiveSessionByTitle(cleanName, apiToken);
+      if (remoteSession) {
+        const status = await this.fetchLiveSessionStatus(remoteSession.id, apiToken);
+        if (status === "OFFLINE" || status === "FAILED") {
+          this.log('[!] ' + cleanName + ' dead. Cleaning...', terminal);
+          await this.terminateOpenHandsSession(remoteSession.id, apiToken);
+        } else {
+          this.log('[+] ' + cleanName + ' healthy', terminal);
+          ToggleEngine.uuids[cleanName] = remoteSession.id;
+          await this.syncStateToEris(cleanName, remoteSession.id, status);
+          return;
+        }
+      }
+      this.log('[*] Spawning ' + cleanName + '...', terminal);
+      const freshSession = await this.provisionFreshSession(cleanName, apiToken);
+      if (freshSession && freshSession.id) {
+        ToggleEngine.uuids[cleanName] = freshSession.id;
+        await this.syncStateToEris(cleanName, freshSession.id, "IDLE");
+        this.log('[OK] ' + cleanName + ': ' + freshSession.id.substring(0,8), terminal);
+      }
+    } catch (err) { this.log('[ERROR] ' + err.message, terminal); }
+  },
+
+  log(msg, term) {
+    if (term) { term.value = (term.value || '') + msg + '\n'; term.scrollTop = term.scrollHeight; }
+    console.log('[Fleet]', msg);
+  },
+
+  async locateActiveSessionByTitle(nodeTitle, token) {
+    try {
+      const headers = { "Authorization": "Bearer " + token, "Content-Type": "application/json" };
+      const res = await fetch(this.OH_BASE + "/app-conversations/search?title=" + encodeURIComponent(nodeTitle), headers);
+      if (!res.ok) return null;
+      const data = await res.json();
+      return (data.items || []).find(s => s.title && s.title.toUpperCase().includes(nodeTitle.toUpperCase()));
+    } catch (e) { return null; }
+  },
+
+  async fetchLiveSessionStatus(conversationId, token) {
+    try {
+      const headers = { "Authorization": "Bearer " + token, "Content-Type": "application/json" };
+      const res = await fetch(this.OH_BASE + "/conversations/" + conversationId + "/events?limit=1", { headers });
+      if (res.status === 404 || res.status === 502) return "OFFLINE";
+      if (!res.ok) return "FAILED";
+      const data = await res.json();
+      const events = data.events || data.items || [];
+      if (events.length === 0) return "IDLE";
+      const elapsed = Date.now() - new Date(events[0].timestamp || Date.now()).getTime();
+      return elapsed > this.SESSION_TIMEOUT_MS ? "OFFLINE" : (events[0].status === "paused" ? "PAUSED" : "IDLE");
+    } catch (e) { return "OFFLINE"; }
+  },
+
+  async terminateOpenHandsSession(conversationId, token) {
+    try { await fetch(this.OH_BASE + "/app-conversations/" + conversationId, { method: "DELETE", headers: { "Authorization": "Bearer " + token } }); return true; }
+    catch (e) { return false; }
+  },
+
+  async provisionFreshSession(nodeTitle, token) {
+    try {
+      const headers = { "Authorization": "Bearer " + token, "Content-Type": "application/json" };
+      const res = await fetch(this.OH_BASE + "/app-conversations", { method: "POST", headers, body: JSON.stringify({ title: nodeTitle.toUpperCase() + " Coordinator Core", repo_path: "hurrisonferd/Jarvis-Private" }) });
+      return res.ok ? await res.json() : null;
+    } catch (e) { return null; }
+  },
+
+  async syncStateToEris(nodeName, conversationId, currentStatus) {
+    try { await sb.from('eris_fleet_registry').update({ conversation_id: conversationId, execution_status: currentStatus.toUpperCase(), last_heartbeat: new Date().toISOString(), updated_at: new Date().toISOString() }).eq('node_name', nodeName.toUpperCase()); }
+    catch (err) { console.error("[-] ERIS sync:", err); }
+  }
+};
+
+// ToggleEngine wrapper
+const ToggleEngine = { uuids: {}, selectedNodes: new Set(), clickNode(n) { this.selectedNodes.has(n) ? this.selectedNodes.delete(n) : this.selectedNodes.add(n); }, updateUI() {} };
+
+// rFleet — Fleet 2.0 control panel
+function rFleet() {
+  const fleet1 = ['AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS'];
+  const fleet2 = ['LILITH', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
+  const statusColors = { RUNNING: "#00ffcc", IDLE: "#00ff22", PAUSED: "#ffd700", FAILED: "#ff0055", OFFLINE: "#555966", LOADING: "#ae00ff", INACTIVE: "#333344" };
+  const makeRow = (n, i) => {
+    const sel = ToggleEngine.selectedNodes.has(n);
+    return '<div class="row ' + (sel ? 'sel' : '') + '" onclick="fleetSelect(\'' + n + '\')">' + cursor(i, sel) + '<span style="color:var(--amber)">' + n + '</span></div>';
+  };
+  return '<div class="panel">' +
+    '<div class="s-header"><span style="color:var(--green)">FLEET 2.0</span><span style="color:var(--dim)">12 NODES</span></div>' +
+    '<div class="s-body" style="padding:4px;font-size:5px">' +
+    '<div style="color:var(--amber);margin-bottom:2px">FLEET 1: SYNTHESIS</div>' +
+    fleet1.map((n,i) => makeRow(n, i)).join('') +
+    '<div style="color:var(--green);margin:6px 0 2px">FLEET 2: DIVERGENCE</div>' +
+    fleet2.map((n,i) => makeRow(n, i + 6)).join('') +
+    '</div>' +
+    '<div class="s-footer">TAP:PROVISION &nbsp; A:LIFECYCLE &nbsp; B:BACK</div>' +
+    '</div>';
+}
+
+function fleetSelect(nodeName) {
+  ToggleEngine.clickNode(nodeName);
+  HandheldSessionManager.handleNodeTapLifecycle(nodeName);
+  draw();
+}
+
+// Initialize realtime telemetry
+if (typeof sb !== 'undefined') {
+  sb.channel('eris_fleet_telemetry').on('postgres_changes', { event: 'UPDATE', schema: 'public', table: 'eris_fleet_registry' }, payload => {
+    const u = payload.new;
+    if (u.conversation_id) ToggleEngine.uuids[u.node_name] = u.conversation_id;
+    draw();
+  }).subscribe();
+}
 function rGodList(){
   if(!gdata) return rLoad();
   const sys=gdata.god_systems, pip=gdata.pipeline||[];
