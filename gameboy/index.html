@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>JARVIS RE-WIRED HUD v3.14 — LOCKED FOCUS</title>
+    <title>JARVIS RE-WIRED HUD v3.15 — LOCKED FOCUS</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         :root {
@@ -135,26 +135,32 @@
             });
         }
         let lastId = 0;
+        let lastCreatedAt = null;
         function initPolling() {
             if (!sb) { setTimeout(initPolling, 100); return; }
             writeLineToViewport("System", "Starting poll...");
             async function poll() {
                 try {
-                    console.log('[POLL] Fetching...');
-                    const { data, error } = await sb.from('fleet_messages')
-                        .select('id, sender, content, response')
-                        .gt('id', lastId)
-                        .order('id', { ascending: true })
-                        .limit(10);
-                    console.log('[POLL] Got:', data?.length, 'rows');
-                    if (!error && data && data.length > 0) {
-                        data.forEach(row => {
-                            console.log('[POLL] Row:', row.sender, row.content?.slice(0,20));
-                            if (row.sender && row.sender.toLowerCase() !== 'raven') {
-                                writeLineToViewport(row.sender, row.content || row.response || '(empty)');
-                            }
-                            if (row.id > lastId) lastId = row.id;
-                        });
+                    let query = sb.from('fleet_messages')
+                        .select('id, sender, content, response, created_at')
+                        .order('created_at', { ascending: true })
+                        .limit(20);
+                    const { data, error } = await query;
+                    if (error) {
+                        console.log('[POLL] Error:', error.message);
+                        writeLineToViewport("System", "Poll error: " + error.message);
+                    } else if (data && data.length > 0) {
+                        const cutoff = lastCreatedAt || new Date(0).toISOString();
+                        const newMsgs = data.filter(r => r.created_at > cutoff);
+                        if (newMsgs.length > 0) {
+                            console.log('[POLL] Got', newMsgs.length, 'new messages');
+                            newMsgs.forEach(row => {
+                                if (row.sender && row.sender.toLowerCase() !== 'raven') {
+                                    writeLineToViewport(row.sender, row.content || row.response || '(empty)');
+                                }
+                            });
+                            lastCreatedAt = newMsgs[newMsgs.length - 1].created_at;
+                        }
                     }
                 } catch(e) { console.log('[POLL] error:', e.message); }
                 setTimeout(poll, 2000);
@@ -165,7 +171,7 @@
         function initRealtime() {
             if (!sb) { setTimeout(initRealtime, 100); return; }
             sb.removeAllChannels();
-            const ch = sb.channel('stable_monolithic_bus_v3.14')
+            const ch = sb.channel('stable_monolithic_bus_v3_15')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
                     console.log('[RT] Got payload:', JSON.stringify(payload.new));
                     const row = payload.new || {};
