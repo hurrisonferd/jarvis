@@ -199,8 +199,7 @@ window.onerror = function(msg, url, line) {
 // BOOT_LINES
 const BOOT_LINES=['ORACLE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
 
-// Global state
-var S='boot';
+// NOTE: S is declared in TIER 2 as `let S='boot'` - do NOT redeclare here
 
 // runBoot - Pure synchronous UI
 function runBoot(){
@@ -222,7 +221,7 @@ function runBoot(){
 
 // STUB FUNCTIONS - Only active until TIER 2 loads. TIER 2 will overwrite these.
 function ok(){ 
-  console.log('[STUB ok] TIER 2 not loaded yet - S='+S); 
+  console.log('[STUB ok] TIER 2 not loaded yet - S='+(typeof S !== 'undefined' ? S : 'undefined')); 
 }
 function back(){ console.log('[STUB back] B pressed'); }
 function start(){ console.log('[STUB start] START pressed'); ok(); }
