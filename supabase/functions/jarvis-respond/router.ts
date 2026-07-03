@@ -31,7 +31,7 @@ const FN: Record<string, string> = {
   AEGIS: "Gold Law / authority gate",
   ODIN: "orchestration routing",
   SKADI: "execution runtime",
-  KRONOS: "scheduling / sequencing",
+  CHRONOS: "scheduling / sequencing",
   MNEMOS: "persistent semantic memory",
   MIMIR: "contextual knowledge access",
   HUGINN: "cross-session reconciliation",
@@ -89,7 +89,7 @@ const RULES: Rule[] = [
     intent: "execute",
     test: /\b(build|implement|run|ship|fix|carve|refactor|push|commit|extract|wire)\b/i,
     primary: "SKADI",
-    systems: ["ODIN", "AEGIS", "KRONOS", "SKADI"],
+    systems: ["ODIN", "AEGIS", "CHRONOS", "SKADI"],
   },
   // Audit / review / governance check.
   {
@@ -157,7 +157,7 @@ const FORBIDDEN: ReadonlyArray<readonly [string, string]> = [
 // canonical precedence: gates/routers before runtime. AEGIS must precede SKADI.
 function orderSystems(systems: string[]): string[] {
   const rank: Record<string, number> = {
-    AEGIS: 0, ODIN: 1, KRONOS: 2, ATHENA: 1, MERIDIAN: 1, PROMETHEUS: 0,
+    AEGIS: 0, ODIN: 1, CHRONOS: 2, ATHENA: 1, MERIDIAN: 1, PROMETHEUS: 0,
     BIFROST: 1, ATLAS: 1, MNEMOS: 1, MIMIR: 1, ARGUS: 1, NEMESIS: 1,
     SKADI: 3, APOLLO: 4, HUGINN: 5, HALO: 1, ZEUS: 0,
   };

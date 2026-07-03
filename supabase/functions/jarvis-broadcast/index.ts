@@ -8,7 +8,7 @@ const SB_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? Deno.env.get("SUPABA
 
 const TIERS: Record<string, string> = {
   ORACLE: "T0 Foundational", AEGIS: "T0 Foundational", ODIN: "T0 Foundational",
-  KRONOS: "T0 Foundational", SKADI: "T0 Foundational", MNEMOS: "T0 Foundational",
+  CHRONOS: "T0 Foundational", SKADI: "T0 Foundational", MNEMOS: "T0 Foundational",
   HUGINN: "T0 Foundational", CHAOS: "T0 Foundational", HADES: "T0 Foundational",
   POSEIDON: "T0 Foundational", ZEUS: "T0 Foundational",
   HALO: "T3 Monitoring", MIMIR: "T3 Monitoring", BIFROST: "T3 Monitoring",
@@ -20,7 +20,7 @@ const TIERS: Record<string, string> = {
 };
 
 const LIVE_INDICATORS: Record<string, "ONLINE" | "STANDBY" | "DORMANT"> = {
-  ORACLE: "ONLINE", AEGIS: "ONLINE", ODIN: "ONLINE", KRONOS: "ONLINE",
+  ORACLE: "ONLINE", AEGIS: "ONLINE", ODIN: "ONLINE", CHRONOS: "ONLINE",
   SKADI: "ONLINE", MNEMOS: "ONLINE", HUGINN: "ONLINE",
   HALO: "ONLINE", MIMIR: "ONLINE", BIFROST: "ONLINE",
   CHAOS: "STANDBY", HADES: "STANDBY", POSEIDON: "STANDBY", ZEUS: "STANDBY",

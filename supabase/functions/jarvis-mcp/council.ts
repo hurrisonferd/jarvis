@@ -6,7 +6,7 @@
 export const TIERS: Record<string, string[]> = {
   T0: ["CHAOS", "ZEUS", "POSEIDON", "HADES"],
   T1: ["ORACLE", "AEGIS", "ODIN", "SKADI", "ERIS"],
-  T2: ["KRONOS"],
+  T2: ["CHRONOS"],
   T3: ["MNEMOS", "HUGINN", "HALO", "MIMIR"],
   T4: ["BIFROST", "JANUS"],
   T5: ["LOKI", "ATHENA", "PROMETHEUS", "ARGUS", "NEMESIS"],
@@ -26,7 +26,7 @@ export const TIER_WEIGHT: Record<string, number> = {
 export const ROLE: Record<string, string> = {
   CHAOS: "foundational substrate", ZEUS: "supreme authority arbitration", POSEIDON: "foundational", HADES: "archival sink",
   ORACLE: "intake + intent parse / routing", AEGIS: "constraint / Gold Law gate", ODIN: "routing", SKADI: "execution runtime", ERIS: "entropy guardian",
-  KRONOS: "timing / compression authority",
+  CHRONOS: "timing / compression authority",
   MNEMOS: "memory store + recall", HUGINN: "synthesis / reconciliation", HALO: "ambient monitoring", MIMIR: "contextual knowledge",
   BIFROST: "external relay", JANUS: "mode transition",
   LOKI: "rollback", ATHENA: "strategic planning", PROMETHEUS: "expansion rationale ledger", ARGUS: "surveillance", NEMESIS: "drift / redundancy detection",
@@ -119,7 +119,7 @@ export function shouldDeliberate(intent: string): boolean {
 // ATLAS, or SKADI, which have no domain view to offer.
 export const COMMENTARY = new Set([
   "HUGINN", "MIMIR", "ATHENA", "ARGUS", "NEMESIS", "PROMETHEUS", "LOKI",
-  "JANUS", "MERIDIAN", "IRIS", "ERIS", "KRONOS", "HALO", "AEGIS",
+  "JANUS", "MERIDIAN", "IRIS", "ERIS", "CHRONOS", "HALO", "AEGIS",
 ]);
 
 // Content signals → specialist lenses. When the input touches a domain, that
@@ -131,7 +131,7 @@ const LENS_SIGNALS: { system: string; test: RegExp }[] = [
   { system: "MERIDIAN", test: /\b(align|keel|identity|mission|drift|purpose|values?)\b/i },
   { system: "IRIS", test: /\b(integrity|consisten|contradict|accurate|truth|verify|valid)\b/i },
   { system: "ERIS", test: /\b(entropy|bloat|complexity|messy|chaos|noise|sprawl)\b/i },
-  { system: "KRONOS", test: /\b(time|evolve|future|long.?term|over time|roadmap|phase|schedule)\b/i },
+  { system: "CHRONOS", test: /\b(time|evolve|future|long.?term|over time|roadmap|phase|schedule)\b/i },
   { system: "NEMESIS", test: /\b(redundan|overlap|duplicate|dead code|unused|dedup)\b/i },
   { system: "JANUS", test: /\b(transition|shift|migrat|switch|handoff|mode change)\b/i },
   { system: "MIMIR", test: /\b(context|background|history|lore|prior|reference|precedent)\b/i },

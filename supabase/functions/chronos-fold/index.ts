@@ -1,7 +1,7 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
-// KRONOS-triggered fold automation (Raven-directed 2026-06-24).
+// CHRONOS-triggered fold automation (Raven-directed 2026-06-24).
 // JSTM → JHTM: memories older than 14 days compress into a digest receipt.
 // JC → SL: session containers compress into star-log digests.
 // Runs on a cron schedule via GitHub Actions; can also be triggered manually.
@@ -98,7 +98,7 @@ async function foldMnemosMemories(sb: ReturnType<typeof createClient>, grade?: s
   const result: FoldResult = { table: "mnemos_memories", promoted: 0, errors: [] };
 
   // IMPL-JMMS-0001: exclude session-scoped memories — they die, not fold.
-  // Filter by grade (default system) so KRONOS doesn't fold personal memories.
+  // Filter by grade (default system) so CHRONOS doesn't fold personal memories.
   let q = sb
     .from("mnemos_memories")
     .select("id, text, tags, source, memory_scope, grade")
@@ -145,10 +145,10 @@ async function foldMnemosMemories(sb: ReturnType<typeof createClient>, grade?: s
 Deno.serve(async (req: Request) => {
   const url     = new URL(req.url);
   const dryRun  = url.searchParams.get("dry") === "1";
-  // IMPL-JMMS-0001: grade param lets KRONOS fold personal memories too (default: system)
+  // IMPL-JMMS-0001: grade param lets CHRONOS fold personal memories too (default: system)
   const foldGrade = url.searchParams.get("grade") === "personal" ? "personal" : undefined;
 
-  // KRONOS-gated: only accept cron trigger or explicit dry run
+  // CHRONOS-gated: only accept cron trigger or explicit dry run
   const auth      = req.headers.get("x-cron-secret") ?? "";
   const cronSecret = Deno.env.get("CRON_SECRET") ?? "";
   if (req.method === "POST" && auth !== cronSecret && !dryRun) {
