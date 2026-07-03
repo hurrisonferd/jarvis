@@ -206,12 +206,15 @@ window.addEventListener('unhandledrejection', function(e) {
 // ── URGENT BOOT: Run immediately to ensure screen renders
 (function urgentBoot() {
   console.log('[URGENT] Page script starting...');
+  // TEMP DEBUG: Show we're running
+  document.body.insertAdjacentHTML('afterbegin', '<div id="debug-banner" style="position:fixed;top:0;left:0;right:0;background:#00ff00;color:#000;padding:5px;font-family:monospace;z-index:9999999;text-align:center;">DEBUG: Script running! Time: '+Date.now()+'</div>');
   const si = document.getElementById('screen-inner');
   if (si) {
-    si.innerHTML = '<div style="padding:20px;color:#00ff88;font-family:monospace;">LOADING...</div>';
-    console.log('[URGENT] screen-inner set');
+    si.innerHTML = '<div style="padding:20px;color:#00ff88;font-family:monospace;background:#000;font-size:20px;">LOADING... '+Date.now()+'</div>';
+    console.log('[URGENT] screen-inner set to:', si.innerHTML.substring(0,100));
   } else {
     console.log('[URGENT] screen-inner NOT FOUND');
+    document.body.insertAdjacentHTML('afterbegin', '<div style="position:fixed;top:0;left:0;right:0;background:#ff0000;color:#fff;padding:5px;">ERROR: screen-inner NOT FOUND</div>');
   }
 })();
 
