@@ -3468,6 +3468,9 @@ if('serviceWorker' in navigator){
   var _origOk = window.ok;
   window.ok = function() {
     console.log('[PATCH ok] called, S='+S);
+    // Add visible marker
+    document.body.insertAdjacentHTML('afterbegin','<div id="patch-debug" style="position:fixed;top:0;left:0;background:#00ff00;color:#000;padding:4px;font-size:10px;z-index:9999999;">PATCH OK! S='+S+'</div>');
+    setTimeout(function(){var d=document.getElementById('patch-debug');if(d)d.remove();},2000);
     // Handle boot→menu even when draw() isn't loaded
     if(S==='boot'){
       console.log('[PATCH] boot detected, setting menu');
