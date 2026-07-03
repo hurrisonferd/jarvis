@@ -709,30 +709,87 @@ const HandheldSessionManager = {
 const ToggleEngine = { uuids: {}, selectedNodes: new Set(), clickNode(n) { this.selectedNodes.has(n) ? this.selectedNodes.delete(n) : this.selectedNodes.add(n); }, updateUI() {} };
 
 // rFleet — Fleet 2.0 control panel
+// ── Fleet 2.0: Button Grid + Terminal ───────────────────────────────────
+let fleetTerminalLog = [];
+const fleetNodes = ['AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS', 'LILITH', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
+
+function fleetToggleNode(nodeName) {
+  const status = ToggleEngine.uuids[nodeName] ? 'active' : 'inactive';
+  const idx = fleetNodes.indexOf(nodeName);
+  if (ToggleEngine.selectedNodes.has(nodeName)) {
+    ToggleEngine.selectedNodes.delete(nodeName);
+    fleetLog(`[OFFLINE] ${nodeName}`, '#555966');
+  } else {
+    ToggleEngine.selectedNodes.add(nodeName);
+    fleetLog(`[PROVISION] ${nodeName}`, '#00ff22');
+    HandheldSessionManager.handleNodeTapLifecycle(nodeName);
+  }
+  draw();
+}
+
+function fleetLog(msg, col) {
+  fleetTerminalLog.push({ msg, col, time: Date.now() });
+  if (fleetTerminalLog.length > 20) fleetTerminalLog.shift();
+}
+
 function rFleet() {
-  const fleet1 = ['AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS'];
-  const fleet2 = ['LILITH', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
   const statusColors = { RUNNING: "#00ffcc", IDLE: "#00ff22", PAUSED: "#ffd700", FAILED: "#ff0055", OFFLINE: "#555966", LOADING: "#ae00ff", INACTIVE: "#333344" };
-  const makeRow = (n, i) => {
-    const sel = ToggleEngine.selectedNodes.has(n);
-    return '<div class="row ' + (sel ? 'sel' : '') + '" onclick="fleetSelect(\'' + n + '\')">' + cursor(i, sel) + '<span style="color:var(--amber)">' + n + '</span></div>';
+  const fleet1 = fleetNodes.slice(0, 6);
+  const fleet2 = fleetNodes.slice(6);
+  
+  const makeButton = (node) => {
+    const isActive = ToggleEngine.selectedNodes.has(node);
+    const uuid = ToggleEngine.uuids[node];
+    const status = uuid ? 'RUNNING' : 'OFFLINE';
+    const statusCol = statusColors[status];
+    const borderCol = isActive ? '#00ffcc' : '#1e3a52';
+    return `<button 
+      onclick="fleetToggleNode('${node}')"
+      style="
+        background: ${isActive ? 'rgba(0,255,204,0.1)' : 'var(--surface)'};
+        border: 1px solid ${borderCol};
+        color: ${isActive ? '#00ffcc' : 'var(--dim)'};
+        font-family: var(--pixel);
+        font-size: 4.5px;
+        padding: 3px 2px;
+        border-radius: 2px;
+        cursor: pointer;
+        min-width: 52px;
+        text-align: center;
+      ">
+      <div style="color:${isActive ? '#00ffcc' : 'var(--bright)'};margin-bottom:1px">${node.slice(0,6)}</div>
+      <div style="font-size:3.5px;color:${statusCol}">${status}</div>
+    </button>`;
   };
-  return '<div class="panel">' +
-    '<div class="s-header"><span style="color:var(--green)">FLEET 2.0</span><span style="color:var(--dim)">12 NODES</span></div>' +
-    '<div class="s-body" style="padding:4px;font-size:5px">' +
-    '<div style="color:var(--amber);margin-bottom:2px">FLEET 1: SYNTHESIS</div>' +
-    fleet1.map((n,i) => makeRow(n, i)).join('') +
-    '<div style="color:var(--green);margin:6px 0 2px">FLEET 2: DIVERGENCE</div>' +
-    fleet2.map((n,i) => makeRow(n, i + 6)).join('') +
-    '</div>' +
-    '<div class="s-footer">TAP:PROVISION &nbsp; A:LIFECYCLE &nbsp; B:BACK</div>' +
-    '</div>';
+  
+  // Terminal output
+  const terminalLines = fleetTerminalLog.length 
+    ? fleetTerminalLog.slice(-8).map(l => `<div style="font-size:4.5px;color:${l.col};line-height:1.6">${l.msg}</div>`).join('')
+    : '<div style="color:var(--dim);font-size:4.5px;padding:4px">Tap nodes to provision. Terminal ready.</div>';
+  
+  return `<div class="panel">
+    <div class="s-header"><span style="color:var(--green)">FLEET</span><span style="color:var(--dim)">12 NODES</span></div>
+    <div class="s-body" style="padding:4px">
+      <div style="color:var(--amber);font-size:5px;margin-bottom:3px">FLEET 1: SYNTHESIS</div>
+      <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px">
+        ${fleet1.map(n => makeButton(n)).join('')}
+      </div>
+      <div style="color:var(--green);font-size:5px;margin-bottom:3px">FLEET 2: DIVERGENCE</div>
+      <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px">
+        ${fleet2.map(n => makeButton(n)).join('')}
+      </div>
+      <div style="border-top:1px solid #0f2035;margin:4px 0"></div>
+      <div style="background:#020408;border:1px solid #0f2035;border-radius:2px;padding:3px;height:50px;overflow-y:auto">
+        <div style="color:var(--dim);font-size:4px;margin-bottom:2px">TERMINAL</div>
+        ${terminalLines}
+      </div>
+    </div>
+    <div class="s-footer">TAP:TOGGLE &nbsp; B:BACK</div>
+  </div>`;
 }
 
 function fleetSelect(nodeName) {
-  ToggleEngine.clickNode(nodeName);
-  HandheldSessionManager.handleNodeTapLifecycle(nodeName);
-  draw();
+  fleetToggleNode(nodeName);
 }
 
 // Initialize realtime telemetry
