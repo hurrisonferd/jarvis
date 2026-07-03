@@ -3144,6 +3144,16 @@ function connectRealtime(){
       const r=payload.new; GRID.set(r.node_id,r);
       if(S==='tron') draw();
     })
+    // Rollback listener - alerts when L3 sandbox fails
+    .on('postgres_changes',{event:'INSERT',schema:'public',table:'fleet_rollbacks'},payload=>{
+      const r=payload.new;
+      if(!ToggleEngine.sidebarOpen) ToggleEngine.toggleSidebar();
+      ToggleEngine.updateDelibStream("SYSTEM","🚨 ROLLBACK: "+r.failed_executor+" failed","EXECUTE");
+      document.getElementById('lbl_phase').innerText="ROLLED_BACK";
+      document.getElementById('lbl_phase').style.color="#ff0055";
+      ToggleEngine.updateDelibMetrics("ROLLED_BACK",0);
+      fleetLog("[!] ROLLBACK: "+r.supervisor_node+" failed. Check WAR ROOM.",'#ff0055');
+    })
     .subscribe(status=>{
       sseConnected=(status==='SUBSCRIBED');
       sseDot(sseConnected);
