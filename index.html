@@ -750,8 +750,32 @@ const ToggleEngine = {
     fleetInput = msg;
     fleetSend();
     this.updateDelibStream("RAVEN", msg, 'sent');
+  },
+  initHealthTicker() {
+    const nodes = ['GEMINI','LILITH','AYRE','JARVIS','THOR','NEO','VIRGIL','EREBUS','SHAKA','EDISON','PYTHAGORAS','ATLAS','YORK'];
+    const grid = document.getElementById("node_dots_grid");
+    if (!grid) return;
+    grid.innerHTML = nodes.map(n => `<div id="hb_${n}" style="border:1px solid #333;padding:2px;text-align:center;font-size:3.5px;background:rgba(255,51,85,0.05);color:#ff3355;">${n.slice(0,4)}<span style="color:#ff3355;">:○</span></div>`).join('');
+    // Subscribe to heartbeat realtime
+    if (sb && sb.channel) {
+      sb.channel('heartbeats').on('postgres_changes', { event: '*', schema: 'public', table: 'fleet_heartbeats' }, p => {
+        const h = p.new;
+        const el = document.getElementById("hb_" + h.node_name);
+        if (!el) return;
+        const age = h.last_ping ? Math.round((Date.now() - new Date(h.last_ping).getTime())/1000) : 999;
+        const color = age < 10 ? '#00ff22' : age < 30 ? '#ffd700' : '#ff3355';
+        const dot = age < 10 ? '●' : '○';
+        el.style.borderColor = color;
+        el.style.color = color;
+        el.style.background = `rgba(${age < 10 ? '0,255,34' : age < 30 ? '255,215,0' : '255,51,85'},0.05)`;
+        el.innerHTML = `${h.node_name.slice(0,4)}<span style="color:${color}">:${dot}</span>`;
+      }).subscribe();
+    }
   }
 };
+
+// Init health ticker on load
+window.addEventListener('load', () => setTimeout(() => ToggleEngine.initHealthTicker(), 1000));
 
 // rFleet — Fleet 2.0 control panel
 // ── Fleet 2.0: Button Grid + Terminal ───────────────────────────────────
@@ -3155,6 +3179,11 @@ if('serviceWorker' in navigator){
   <div style="padding:8px 12px;background:#050810;font-size:4px;border-bottom:1px solid #1e3a52;display:flex;justify-content:space-between;font-family:var(--pixel);">
     <span>PHASE: <strong id="lbl_phase" style="color:#00ffcc;">DELIBERATE</strong></span>
     <span>LOCKS: <strong id="lbl_sigs" style="color:#ffd700;">0 / 3</strong></span>
+  </div>
+  <!-- Swarm Health Ticker -->
+  <div id="fleet_health_ticker" style="padding:8px 12px;background:#05080f;border-bottom:1px solid #1e3a52;font-family:var(--pixel);">
+    <div style="color:#555966;font-size:3.5px;margin-bottom:4px;">🛰️ SWARM HEARTBEATS:</div>
+    <div id="node_dots_grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:3px;"></div>
   </div>
   <div id="delib_stream" style="padding:12px;flex-grow:1;overflow-y:auto;font-size:4.5px;font-family:var(--pixel);color:#a1aabf;white-space:pre-wrap;line-height:1.6;"></div>
   <div style="padding:8px 12px;border-top:1px solid #1e3a52;background:#050810;display:flex;gap:4px;">
