@@ -220,8 +220,10 @@ function runBoot(){
   setTimeout(tick,200);
 }
 
-// STUB FUNCTIONS - These get overridden by TIER 2 when it loads
-function ok(){ console.log('[STUB ok] A pressed - S='+S); if(S==='boot'){S='menu';cur=0;typeof draw==='function'&&draw();} }
+// STUB FUNCTIONS - Only active until TIER 2 loads. TIER 2 will overwrite these.
+function ok(){ 
+  console.log('[STUB ok] TIER 2 not loaded yet - S='+S); 
+}
 function back(){ console.log('[STUB back] B pressed'); }
 function start(){ console.log('[STUB start] START pressed'); ok(); }
 function emuBtn(btn){ console.log('[STUB emuBtn]', btn); }
