@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>JARVIS RE-WIRED HUD v3.9 — LOCKED FOCUS</title>
+    <title>JARVIS RE-WIRED HUD v3.10 — LOCKED FOCUS</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         :root {
@@ -137,18 +137,21 @@
         function initRealtime() {
             if (!sb) { setTimeout(initRealtime, 100); return; }
             sb.removeAllChannels();
-            sb.channel('stable_monolithic_bus_v3_9')
+            const ch = sb.channel('stable_monolithic_bus_v3_10')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
-                    const row = payload.new;
-                    if (row.sender.toLowerCase() !== 'raven') {
+                    console.log('[RT] Got payload:', JSON.stringify(payload.new));
+                    const row = payload.new || {};
+                    if (row.sender && row.sender.toLowerCase() !== 'raven') {
                         writeLineToViewport(row.sender, row.content || row.response || '(empty)');
                     }
-                }).subscribe((status) => {
-                    if (status === 'SUBSCRIBED') {
-                        writeLineToViewport("System", "Real-time mesh: ONLINE");
-                    }
                 });
-            writeLineToViewport("System", "JARVIS v3.9 initialized");
+            ch.subscribe((status, err) => {
+                console.log('[RT] Status:', status, err);
+                if (status === 'SUBSCRIBED') {
+                    writeLineToViewport("System", "Real-time mesh: ONLINE");
+                }
+            });
+            writeLineToViewport("System", "JARVIS v3.10 initialized");
         }
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(initRealtime, 500);
