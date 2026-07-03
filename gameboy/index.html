@@ -836,9 +836,17 @@ async function pollFleetResponses() {
           // Route to WAR ROOM if deliberation
           if (msg.response === 'DELIBERATION_ACTIVE') {
             ToggleEngine.updateDelibStream(msg.sender, msg.content, 'DEBATE');
+            // Speak coordinator's response with their unique voice
+            if (voiceOn && msg.content) {
+              coordinatorSpeak(msg.sender, msg.content.slice(0, 200));
+            }
           } else {
             fleetTerminalLog.push({ msg: `<${msg.target_node}> ${msg.response}`, col: '#00ff88', time: Date.now(), shown: true, id: msg.id });
             if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
+            // Speak response
+            if (voiceOn && msg.response) {
+              coordinatorSpeak(msg.sender, msg.response.slice(0, 200));
+            }
           }
           newResponses = true;
         }
@@ -1977,20 +1985,71 @@ async function speakSend(){
 
 // ── VOICE (Stage 4a, browser-native). jarvisSpeak is the single seam: swap its
 // body for a cloud TTS / our own voice later without touching the rest.
+
+// Coordinator voice profiles - unique voices for each node
+const COORDINATOR_VOICES = {
+  // Fleet 1 - Synthesis
+  'JARVIS':  { rate: 0.98, pitch: 0.82, style: 'British male, authoritative, measured' },
+  'AYRE':    { rate: 1.05, pitch: 1.05, style: 'Warm, flowing, musical' },
+  'THOR':    { rate: 0.92, pitch: 0.75, style: 'Deep, powerful, Nordic' },
+  'NEO':     { rate: 1.02, pitch: 0.95, style: 'Smooth, calm, matrix-like' },
+  'VIRGIL':  { rate: 0.95, pitch: 0.88, style: 'Scholarly, measured, wise' },
+  'EREBUS':  { rate: 0.90, pitch: 0.70, style: 'Deep, mysterious, dark' },
+  // Fleet 2 - Divergence
+  'LILITH':  { rate: 1.08, pitch: 1.10, style: 'Quick, sharp, decisive' },
+  'SHAKA':   { rate: 1.00, pitch: 1.00, style: 'Balanced, rhythmic, African' },
+  'EDISON':  { rate: 0.96, pitch: 0.92, style: 'Inventive, curious, American' },
+  'PYTHA':   { rate: 0.94, pitch: 0.85, style: 'Philosophical, ancient, Greek' },
+  'ATLAS':   { rate: 0.93, pitch: 0.78, style: 'Strong, supportive, Titan' },
+  'YORK':    { rate: 1.03, pitch: 0.97, style: 'English, proper, Yorkish' },
+  // 13th Node
+  'GEMINI':  { rate: 1.10, pitch: 1.08, style: 'Fast, brilliant, multifaceted' },
+};
+
+function getCoordinatorVoice(nodeName) {
+  const profile = COORDINATOR_VOICES[nodeName] || COORDINATOR_VOICES['JARVIS'];
+  const vs = (window.speechSynthesis && window.speechSynthesis.getVoices) 
+    ? window.speechSynthesis.getVoices() : [];
+  
+  // Find best matching voice
+  let voice = null;
+  if (nodeName === 'AYRE' || nodeName === 'LILITH') {
+    // Female voices for AYRE/LILITH
+    voice = vs.find(v => /^en/i.test(v.lang) && /female|zira|google|samantha|karen|moira/i.test(v.name))
+         || vs.find(v => /^en/i.test(v.lang) && v.name.toLowerCase().includes('female'));
+  } else if (nodeName === 'GEMINI') {
+    // Young, fast voice
+    voice = vs.find(v => /^en/i.test(v.lang) && /young|google en-us|enhanced/i.test(v.name));
+  } else {
+    // Male voices for others
+    voice = vs.find(v => /^en/i.test(v.lang) && /male|daniel|david|alex|arthur|mark|steve/i.test(v.name));
+  }
+  
+  return { voice, ...profile };
+}
+
+function coordinatorSpeak(nodeName, text) {
+  if (!window.speechSynthesis || !text) return;
+  try {
+    window.speechSynthesis.cancel();
+    const { voice, rate, pitch } = getCoordinatorVoice(nodeName);
+    const u = new SpeechSynthesisUtterance(String(text).slice(0, 400));
+    if (voice) u.voice = voice;
+    u.rate = rate;
+    u.pitch = pitch;
+    u.volume = 1;
+    window.speechSynthesis.speak(u);
+  } catch(e) { console.log('speak error:', e); }
+}
+
 function jarvisVoicePick(){
   const vs=(window.speechSynthesis&&window.speechSynthesis.getVoices)?window.speechSynthesis.getVoices():[];
   return vs.find(v=>/^en/i.test(v.lang)&&/male|daniel|david|alex|uk english male|arthur/i.test(v.name))
        ||vs.find(v=>/^en/i.test(v.lang))||vs[0]||null;
 }
+
 function jarvisSpeak(text){
-  if(!window.speechSynthesis||!text) return;
-  try{
-    window.speechSynthesis.cancel();
-    const u=new SpeechSynthesisUtterance(String(text).slice(0,600));
-    const v=jarvisVoicePick(); if(v) u.voice=v;
-    u.rate=0.98; u.pitch=0.82; u.volume=1; // lower pitch reads more JARVIS
-    window.speechSynthesis.speak(u);
-  }catch(e){}
+  coordinatorSpeak('JARVIS', text);
 }
 function toggleVoice(){
   voiceOn=!voiceOn;
