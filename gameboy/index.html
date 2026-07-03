@@ -920,6 +920,7 @@ var ToggleEngine = {
     const text = input.value.trim();
     if (!text) return;
     input.value = "";
+    setTimeout(() => input && input.focus(), 10);
     
     const targets = Array.from(this.selectedNodes);
     const targetTag = targets.length > 1 ? "FLEET_BUS" : targets[0] || "FLEET_BUS";
@@ -963,6 +964,8 @@ let fleetPollingInterval = null;
 let fleetVoiceOn = false;
 let fleetMicOn = false;
 let fleetMicRecog = null;
+let fleetTerminalUserScrolling = false;
+let fleetScrollTimeout = null;
 const fleetNodes = ['GEMINI', 'LILITH', 'AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
 const GEMINI_KEY = "GEMINI_OPH_KEY"; // Gemini coordinator
 
@@ -1109,15 +1112,47 @@ function updateFleetTerminal() {
     termContent.innerHTML = lines || '<div style="color:var(--dim);font-size:4.5px;padding:4px">Terminal ready.</div>';
   }
   
-  // Restore scroll position (or scroll to bottom if was at bottom)
-  if (wasAtBottom) {
+  // Restore scroll position (or scroll to bottom if was at bottom and not user-scrolling)
+  if (wasAtBottom && !fleetTerminalUserScrolling) {
     term.scrollTop = term.scrollHeight;
   }
+}
+
+// Track user scroll to prevent auto-scroll snapping
+function initFleetTerminalScrollTracking() {
+  const term = document.getElementById('fleet-terminal');
+  if (!term) return;
+  
+  term.addEventListener('scroll', () => {
+    const atBottom = term.scrollHeight - term.scrollTop <= term.clientHeight + 20;
+    if (!atBottom) {
+      // User scrolled up - set manual scroll flag
+      fleetTerminalUserScrolling = true;
+      clearTimeout(fleetScrollTimeout);
+      // Reset after 3 seconds of inactivity
+      fleetScrollTimeout = setTimeout(() => {
+        fleetTerminalUserScrolling = false;
+      }, 3000);
+    } else {
+      fleetTerminalUserScrolling = false;
+    }
+  });
 }
 
 function startFleetPolling() {
   if (fleetPollingInterval) return;
   fleetPollingInterval = setInterval(pollFleetResponses, 3000);
+  
+  // Subscribe to realtime fleet_messages INSERT events
+  sb.channel('fleet_messages_realtime')
+    .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
+      const msg = payload.new;
+      // Only process if from coordinator (not Raven) and has response
+      if (msg.sender !== 'Raven' && msg.response) {
+        fleetLog(`<${msg.sender}> ${msg.response}`, '#00ff88');
+      }
+    })
+    .subscribe();
 }
 
 function stopFleetPolling() {
@@ -1128,6 +1163,9 @@ function stopFleetPolling() {
 }
 
 function rFleet() {
+  // Initialize scroll tracking for terminal
+  setTimeout(initFleetTerminalScrollTracking, 100);
+  
   const statusColors = { RUNNING: "#00ffcc", IDLE: "#00ff22", PAUSED: "#ffd700", FAILED: "#ff0055", OFFLINE: "#555966", LOADING: "#ae00ff", INACTIVE: "#333344" };
   const fleet1 = fleetNodes.slice(0, 7); // GEMINI + 6
   const fleet2 = fleetNodes.slice(7);    // remaining 6
