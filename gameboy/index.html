@@ -2,8 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>JARVIS RE-WIRED HUD v3.5 — LOCKED FOCUS</title>
-    <script src="https://jsdelivr.net"></script>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>JARVIS RE-WIRED HUD v3.6 — LOCKED FOCUS?v=3.6.1</title>
+    <script src="https://jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js?v=3.6.1"></script>
     <style>
         :root {
             --pixel: 'Courier New', monospace;
@@ -41,6 +44,10 @@
         let userIsReviewingHistory = false;
         const term = document.getElementById("display_terminal");
         const inputField = document.getElementById("terminal_input_line");
+
+        // Initialize Supabase client
+        const sb = supabase.createClient('https://oexghfsvhnggddllgvrt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.M8dPIQ1yWI4zVZnRbNXN-YRFfMclBVOhW8Ol5MQKhXc');
+
         function lockScroller(isLocked) {
             userIsReviewingHistory = isLocked;
         }
@@ -61,6 +68,7 @@
             if (nameToken === 'RAVEN') lineRow.style.color = "#00ff88";
             else if (nameToken === 'LILITH') lineRow.style.color = "#f5a623";
             else if (nameToken === 'AYRE') lineRow.style.color = "#00aaff";
+            else if (nameToken.includes('ERROR') || nameToken.includes('SYSTEM')) lineRow.style.color = "#ff3355";
             else lineRow.style.color = "#4a7a99";
             lineRow.appendChild(document.createTextNode(`[${nameToken}]: ${messageBody}`));
             term.appendChild(lineRow);
@@ -71,6 +79,26 @@
                 inputField.focus();
             }
         }
+        async function safetyCastOutboundPayload(targetNode, payloadText) {
+            if (typeof supabase === 'undefined' || !sb) {
+                console.warn("[🚨] Supabase uninitialized");
+                writeLineToViewport("System_Error", "Outbound pipeline offline: Connection tokens missing.");
+                return;
+            }
+            try {
+                const { error } = await sb.from('fleet_messages').insert([{
+                    target_node: targetNode,
+                    sender: "Raven",
+                    content: payloadText,
+                    response: "PENDING"
+                }]);
+                if (error) throw error;
+                console.log("[+] Committed to bus");
+            } catch (err) {
+                console.error("[-] Transmit drop:", err.message);
+                writeLineToViewport("System_Error", `Network drop: ${err.message}`);
+            }
+        }
         if (inputField) {
             inputField.addEventListener('keydown', async (event) => {
                 if (event.key === 'Enter') {
@@ -79,32 +107,24 @@
                     writeLineToViewport("Raven", cleanText);
                     inputField.value = "";
                     inputField.focus();
-                    try {
-                        await supabase.from('fleet_messages').insert([{
-                            target_node: activeTargetNode,
-                            sender: "Raven",
-                            content: cleanText,
-                            response: "PENDING"
-                        }]);
-                    } catch (err) {
-                        console.error("[-] Outbound network pipe drop trace:", err.message);
-                    }
+                    await safetyCastOutboundPayload(activeTargetNode, cleanText);
                 }
             });
         }
         window.addEventListener('DOMContentLoaded', () => {
-            supabase.removeAllChannels();
-            supabase.channel('stable_monolithic_bus_v3_5')
+            sb.removeAllChannels();
+            sb.channel('stable_monolithic_bus_v3_6')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
                     const row = payload.new;
                     if (row.sender.toLowerCase() !== 'raven') {
-                        writeLineToViewport(row.sender, row.content);
+                        writeLineToViewport(row.sender, row.content || row.response || '(empty)');
                     }
                 }).subscribe((status) => {
                     if (status === 'SUBSCRIBED') {
-                        writeLineToViewport("System", "Real-time state mesh synchronization fully initialized.");
+                        writeLineToViewport("System", "Real-time mesh: ONLINE");
                     }
                 });
+            writeLineToViewport("System", "JARVIS v3.6 initialized");
         });
     </script>
 </body>
