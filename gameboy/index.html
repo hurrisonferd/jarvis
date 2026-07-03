@@ -3049,11 +3049,13 @@ document.addEventListener('keydown',e=>{
     return;
   }
   if(S==='speak'){ if(k==='Escape') back(); return; }
-  if(k==='ArrowUp')   nav(-1);
-  if(k==='ArrowDown') nav(1);
-  if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
-  if(k==='ArrowLeft' ||k==='x'||k==='X'||k==='Escape') back();
-  if(k===' ') start();
+  if(!inInput){
+    if(k==='ArrowUp')   nav(-1);
+    if(k==='ArrowDown') nav(1);
+    if(k==='ArrowRight'||k==='z'||k==='Z'||k==='Enter') ok();
+    if(k==='ArrowLeft' ||k==='x'||k==='X'||k==='Escape') back();
+    if(k===' ') start();
+  }
   if(S==='mnemos'&&mnemosSearchMode){ if(k==='Escape'){ mnemosSearchMode=false; mnemosSearchInput=''; mnemosSearchResults=null; draw(); } return; }
   if((k==='s'||k==='S')&&S==='mnemos'){ mnemosSearchMode=true; mnemosSearchInput=''; mnemosSearchResults=null; draw(); setTimeout(()=>{const el=document.getElementById('mnemos-search');if(el)el.focus();},60); return; }
   if((k==='r'||k==='R')&&S==='mnemos'){ mnemosData=null; mnemosSearchMode=false; mnemosSearchResults=null; loadMnemos(); }
