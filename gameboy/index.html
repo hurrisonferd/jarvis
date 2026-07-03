@@ -178,7 +178,7 @@ html, body {
     <div class="face">
       <span class="fbl b">B</span><span class="fbl a">A</span>
       <button class="fb b" onclick="back()" ontouchstart="event.preventDefault(); back();">B</button>
-      <button class="fb a" onclick="alert('A clicked! S='+S);ok()" ontouchstart="event.preventDefault(); alert('A clicked! S='+S);ok();">A</button>
+      <button class="fb a" onclick="ok()" ontouchstart="event.preventDefault(); ok();">A</button>
     </div>
   </div>
   <div class="menu-row">
@@ -241,9 +241,17 @@ if (typeof ToggleEngine === 'undefined') {
   };
 }
 
+// STUB ok/back for boot screen - TIER 2 will override
+window.ok = window.ok || function() {
+  console.log('[STUB ok] S='+S);
+  if(S==='boot'){ S='menu'; cur=0; if(typeof draw==='function'){draw();}else{runBoot();} }
+};
+window.back = window.back || function() { console.log('[STUB back]'); };
+
 // FORCE IMMEDIATE RENDER - This MUST work regardless of anything else
 try {
   runBoot();
+  window.TIER1_READY = true;
   console.log('[TIER1] Core graphics rendered');
 } catch(e) {
   document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;top:0;left:0;right:0;background:#ff0000;color:#fff;padding:10px;z-index:999999;">TIER1 ERROR: '+e.message+'</div>');
@@ -2939,7 +2947,7 @@ function emuBtn(btn){
 function ok(){
   beep(880,60);
   if(emuState==='running'&&activeCore){ activeCore.setInput({A:true}); setTimeout(()=>activeCore.setInput({A:false}),80); return; }
-  if(S==='boot'){ S='menu'; cur=0; draw(); return; }
+  if(S==='boot'){ S='menu'; cur=0; if(typeof draw==='function'){draw();}else if(window.TIER1_READY){runBoot();} return; }
   if(S==='menu'){ const ns=MENU[cur].state; S=ns; cur=0; ModeController.set(ns); updateSession(ns); if(['tron','companion','speak'].includes(ns)&&KRONOS.mode==='frozen'){KRONOS.mode='real';startTick();BUS.emit('system_start',{patch_id:'P10',stage:'KRONOS'});} if(ns==='mnemos'){ mnemosSearchMode=false; mnemosSearchResults=null; if(!mnemosData) loadMnemos(); } if(ns==='prometheus'&&!prometheusData) loadPrometheus(); if(ns==='grimoire') loadGrimoire(); if(ns==='speak') setTimeout(()=>{const el=document.getElementById('speak-input');if(el)el.focus();},60); if(['tron','companion','speak','god','mnemos'].includes(ns)) storeBehavior(ns); draw(); return; }
   if(S==='god'&&gdata){ detail=gdata.god_systems[cur]; S='godD'; draw();
     // Increment session_touches for this God System
