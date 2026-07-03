@@ -3335,29 +3335,5 @@ if('serviceWorker' in navigator){
   </div>
   <button id="btn_toggle_war_room" onclick="ToggleEngine.toggleSidebar()" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:10000;">[ WAR ROOM ]</button>
 
-<script>
-// Instant boot test - set content immediately to verify screen works
-(function(){
-  var si = document.getElementById('screen-inner');
-  if(si) {
-    si.style.background = '#000';
-    si.innerHTML = '<div style="padding:20px;color:#f5a623;font-size:8px;">BOOT TEST<br>S=boot</div>';
-    si.style.color = '#f5a623';
-  } else {
-    document.body.innerHTML += '<div style="color:red;padding:20px;">ERROR: screen-inner not found</div>';
-  }
-})();
-</script>
-
-<script>
-// Show S state after boot
-window.addEventListener('load', function() {
-  setTimeout(function() {
-    var si = document.getElementById('screen-inner');
-    if(si) si.innerHTML += '<div style="padding:2px 4px;font-size:5px;color:#0af;background:#050810;">S=' + (typeof S !== 'undefined' ? S : 'undefined') + '</div>';
-  }, 2000);
-});
-</script>
-
 </body>
 </html>
