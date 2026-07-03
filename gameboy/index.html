@@ -203,6 +203,18 @@ window.addEventListener('unhandledrejection', function(e) {
   console.error('[UNHANDLED PROMISE]', e.reason);
 });
 
+// ── URGENT BOOT: Run immediately to ensure screen renders
+(function urgentBoot() {
+  console.log('[URGENT] Page script starting...');
+  const si = document.getElementById('screen-inner');
+  if (si) {
+    si.innerHTML = '<div style="padding:20px;color:#00ff88;font-family:monospace;">LOADING...</div>';
+    console.log('[URGENT] screen-inner set');
+  } else {
+    console.log('[URGENT] screen-inner NOT FOUND');
+  }
+})();
+
 // ── config (safe for client-side)
 const SUPABASE_URL     = 'https://oexghfsvhnggddllgvrt.supabase.co';
 const SUPABASE_ANON    = 'sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA';
