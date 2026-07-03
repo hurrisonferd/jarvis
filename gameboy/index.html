@@ -706,14 +706,55 @@ const HandheldSessionManager = {
 };
 
 // ToggleEngine wrapper
-const ToggleEngine = { uuids: {}, selectedNodes: new Set(), clickNode(n) { this.selectedNodes.has(n) ? this.selectedNodes.delete(n) : this.selectedNodes.add(n); }, updateUI() {} };
+const ToggleEngine = {
+  uuids: {},
+  selectedNodes: new Set(),
+  sidebarOpen: false,
+  clickNode(n) { this.selectedNodes.has(n) ? this.selectedNodes.delete(n) : this.selectedNodes.add(n); },
+  updateUI() {},
+  toggleSidebar() {
+    this.sidebarOpen = !this.sidebarOpen;
+    const el = document.getElementById("delib_sidebar");
+    const btn = document.getElementById("btn_toggle_war_room");
+    if (this.sidebarOpen) {
+      el.style.right = "0px";
+      btn.innerText = "[ CLOSE ]";
+      btn.style.borderColor = "#f5a623";
+      btn.style.color = "#f5a623";
+    } else {
+      el.style.right = "-320px";
+      btn.innerText = "[ WAR ROOM ]";
+      btn.style.borderColor = "#00ffcc";
+      btn.style.color = "#00ffcc";
+    }
+  },
+  updateDelibStream(node, msg, type) {
+    const stream = document.getElementById("delib_stream");
+    if (!stream) return;
+    const color = type === "DEBATE" ? "#a0c8e0" : type === "CONCUR" ? "#00ff22" : type === "EXECUTE" ? "#f5a623" : "#8899aa";
+    stream.innerHTML += `\n<span style="color:${color}">[${node}]</span> ${msg}`;
+    stream.scrollTop = stream.scrollHeight;
+  },
+  updateDelibMetrics(phase, sigs) {
+    const lblPhase = document.getElementById("lbl_phase");
+    const lblSigs = document.getElementById("lbl_sigs");
+    if (lblPhase) lblPhase.innerText = phase;
+    if (lblSigs) lblSigs.innerText = sigs + "/3";
+    if (lblPhase) {
+      if (phase === "EXECUTE") lblPhase.style.color = "#f5a623";
+      else if (phase === "COMPLETED") lblPhase.style.color = "#00ff22";
+      else lblPhase.style.color = "#00ffcc";
+    }
+  }
+};
 
 // rFleet — Fleet 2.0 control panel
 // ── Fleet 2.0: Button Grid + Terminal ───────────────────────────────────
 let fleetTerminalLog = [];
 let fleetInput = '';
 let fleetPollingInterval = null;
-const fleetNodes = ['AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS', 'LILITH', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
+const fleetNodes = ['GEMINI', 'LILITH', 'AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
+const GEMINI_KEY = "GEMINI_OPH_KEY"; // Gemini coordinator
 
 function fleetToggleNode(nodeName) {
   if (ToggleEngine.selectedNodes.has(nodeName)) {
@@ -777,7 +818,8 @@ async function pollFleetResponses() {
   }
   
   try {
-    const { data, error } = await sb
+    // Poll fleet_messages for responses
+    const { data: msgData } = await sb
       .from('fleet_messages')
       .select('*')
       .in('target_node', selected)
@@ -785,23 +827,38 @@ async function pollFleetResponses() {
       .order('created_at', { ascending: false })
       .limit(10);
     
-    if (error) throw error;
-    
-    if (data && data.length > 0) {
+    if (msgData && msgData.length > 0) {
       const shown = new Set(fleetTerminalLog.filter(l => l.shown).map(l => l.id));
       let newResponses = false;
       
-      for (const msg of data.reverse()) {
+      for (const msg of msgData.reverse()) {
         if (!shown.has(msg.id)) {
-          fleetTerminalLog.push({ msg: `<${msg.target_node}> ${msg.response}`, col: '#00ff88', time: Date.now(), shown: true, id: msg.id });
-          if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
+          // Route to WAR ROOM if deliberation
+          if (msg.response === 'DELIBERATION_ACTIVE') {
+            ToggleEngine.updateDelibStream(msg.sender, msg.content, 'DEBATE');
+          } else {
+            fleetTerminalLog.push({ msg: `<${msg.target_node}> ${msg.response}`, col: '#00ff88', time: Date.now(), shown: true, id: msg.id });
+            if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
+          }
           newResponses = true;
         }
       }
       
       if (newResponses) {
-        updateFleetTerminal(); // Update without full redraw
+        updateFleetTerminal();
       }
+    }
+    
+    // Poll fleet_deliberation for phase/sig updates
+    const { data: delibData } = await sb
+      .from('fleet_deliberation')
+      .select('*')
+      .order('created_at', { ascending: false })
+      .limit(1);
+    
+    if (delibData && delibData.length > 0) {
+      const d = delibData[0];
+      ToggleEngine.updateDelibMetrics(d.current_phase, d.concurring_nodes?.length || 0);
     }
   } catch (e) {
     // Silently fail polling
@@ -842,8 +899,8 @@ function stopFleetPolling() {
 
 function rFleet() {
   const statusColors = { RUNNING: "#00ffcc", IDLE: "#00ff22", PAUSED: "#ffd700", FAILED: "#ff0055", OFFLINE: "#555966", LOADING: "#ae00ff", INACTIVE: "#333344" };
-  const fleet1 = fleetNodes.slice(0, 6);
-  const fleet2 = fleetNodes.slice(6);
+  const fleet1 = fleetNodes.slice(0, 7); // GEMINI + 6
+  const fleet2 = fleetNodes.slice(7);    // remaining 6
   
   const makeButton = (node) => {
     const isActive = ToggleEngine.selectedNodes.has(node);
@@ -3114,5 +3171,19 @@ if('serviceWorker' in navigator){
   pushStatus='NOT SUPPORTED';
 }
 </script>
+  <!-- WAR ROOM Sidebar - Strategic Deliberation View -->
+  <div id="delib_sidebar" style="position:fixed;right:-320px;top:0;width:300px;height:100vh;background:#0a0e16;border-left:1px solid #1e3a52;transition:right 0.3s;display:flex;flex-direction:column;z-index:9999;box-shadow:-5px 0 20px rgba(0,0,0,0.6);">
+    <div style="padding:12px;border-bottom:1px solid #1e3a52;display:flex;justify-content:space-between;align-items:center;">
+      <span style="color:#00ffcc;font-family:var(--pixel);font-size:4px;">⚔ WAR ROOM</span>
+      <button onclick="ToggleEngine.toggleSidebar()" style="background:none;border:none;color:#ff0055;cursor:pointer;font-family:monospace;font-size:8px;">[X]</button>
+    </div>
+    <div style="padding:8px 12px;background:#050810;font-size:4px;border-bottom:1px solid #1e3a52;display:flex;justify-content:space-between;font-family:var(--pixel);">
+      <span>PHASE: <strong id="lbl_phase" style="color:#00ffcc;">DELIBERATE</strong></span>
+      <span>LOCKS: <strong id="lbl_sigs" style="color:#f5a623;">0/3</strong></span>
+    </div>
+    <div id="delib_stream" style="padding:10px;flex-grow:1;overflow-y:auto;font-size:4px;line-height:1.6;background:#050810;font-family:var(--pixel);color:#8899aa;white-space:pre-wrap;"></div>
+  </div>
+  <button id="btn_toggle_war_room" onclick="ToggleEngine.toggleSidebar()" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:10000;">[ WAR ROOM ]</button>
+
 </body>
 </html>
