@@ -12,7 +12,7 @@ export const TIERS: Record<string, string[]> = {
   T5: ["LOKI", "ATHENA", "PROMETHEUS", "ARGUS", "NEMESIS"],
   T6: ["IRIS", "MERIDIAN"],
   T7: ["DANTE", "APOLLO"],
-  T8: ["ATLAS"],
+  T8: ["HEPHAESTUS"],
   T9: ["HERMES"],
 };
 
@@ -32,7 +32,7 @@ export const ROLE: Record<string, string> = {
   LOKI: "rollback", ATHENA: "strategic planning", PROMETHEUS: "expansion rationale ledger", ARGUS: "surveillance", NEMESIS: "drift / redundancy detection",
   IRIS: "integrity", MERIDIAN: "keel alignment",
   DANTE: "interface", APOLLO: "output formatting + delivery",
-  ATLAS: "infrastructure", HERMES: "translation",
+  HEPHAESTUS: "infrastructure", HERMES: "translation",
 };
 
 const SYSTEM_TIER: Record<string, string> = {};
