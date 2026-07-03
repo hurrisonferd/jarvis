@@ -3253,65 +3253,44 @@ function runBoot(){
   setTimeout(tick,350);
 }
 
-// P21: Fault-tolerant boot sequence — wrapped in DOMContentLoaded
-window.addEventListener('DOMContentLoaded', async () => {
+// NON-BLOCKING BOOT: runBoot() fires SYNCHRONOUSLY, async data loads in background
+function bootHardwareInterface() {
   const screen = document.getElementById('screen-inner');
   if (!screen) {
     console.error('[-] FATAL: #screen-inner not found');
     return;
   }
+  console.log('[*] Initializing layout frame...');
   
-  // Async init chain with fallback
-  try { await loadBriefing(); } catch(e) { console.warn('loadBriefing failed:', e); }
-  try { await loadData(); } catch(e) { console.warn('loadData failed:', e); }
-  try { await loadLive(); } catch(e) { console.warn('loadLive failed:', e); }
-  try { await loadNodeFields(); } catch(e) { console.warn('loadNodeFields failed:', e); }
-  try { await loadROMIndex(); } catch(e) { console.warn('loadROMIndex failed:', e); }
-  try { await loadGithub(); } catch(e) { console.warn('loadGithub failed:', e); }
-  try { await loadMnemos(); } catch(e) { console.warn('loadMnemos failed:', e); }
-  try { await loadPrometheus(); } catch(e) { console.warn('loadPrometheus failed:', e); }
-  try { await loadGodStats(); } catch(e) { console.warn('loadGodStats failed:', e); }
-  try { connectRealtime(); } catch(e) { console.warn('connectRealtime failed:', e); }
-  try { await startSession(); } catch(e) { console.warn('startSession failed:', e); }
-  
-  // Force boot regardless of failures
+  // 1. CRITICAL: Execute runBoot SYNCHRONOUSLY first
   try {
     if (typeof runBoot === 'function') {
       runBoot();
+      console.log('[+] runBoot() executed');
     } else {
-      // Fallback if runBoot is missing
-      screen.innerHTML = `<div class="boot-panel">
-        <div class="boot-logo">JARVIS</div>
-        <div class="boot-sub">NEURAL MESH v2.5</div>
-        <div class="boot-lines" id="blines">
-          <div class="boot-line" style="color:var(--green)">> EMERGENCY BOOT</div>
-          <div class="boot-line" style="color:var(--green)">> SYSTEM READY</div>
-        </div>
-        <div class="boot-hint">PRESS ANY KEY</div>
-      </div>`;
+      screen.innerHTML = '<div style="padding:10px;color:#ff0055;font-family:monospace;">BOOT ERROR: runBoot not found</div>';
     }
   } catch(e) {
     console.error('runBoot failed:', e);
-    screen.innerHTML = '<div style="padding:20px;color:#ff0055;font-family:monospace;">BOOT ERROR: ' + e.message + '</div>';
   }
-  
-  // Backup: force runBoot after short delay even if async chain is slow
-  setTimeout(() => {
-    const el = document.getElementById('screen-inner');
-    if (el && (el.innerHTML === '' || !el.querySelector('.boot-panel'))) {
-      console.log('[!] Fallback: forcing boot panel render');
-      el.innerHTML = `<div class="boot-panel">
-        <div class="boot-logo">JARVIS</div>
-        <div class="boot-sub">NEURAL MESH v2.5</div>
-        <div class="boot-lines" id="blines">
-          <div class="boot-line" style="color:var(--green)">> FALLBACK BOOT</div>
-          <div class="boot-line" style="color:var(--green)">> ALL SYSTEMS NOMINAL</div>
-        </div>
-        <div class="boot-hint">PRESS ANY KEY</div>
-      </div>`;
-    }
-  }, 2000);
-});
+
+  // 2. Background async data loads — fire-and-forget
+  setTimeout(async () => {
+    console.log('[*] Loading background data...');
+    try { if(typeof loadBriefing==='function') await loadBriefing(); } catch(e) {}
+    try { if(typeof loadData==='function') await loadData(); } catch(e) {}
+    try { if(typeof loadLive==='function') await loadLive(); } catch(e) {}
+    try { if(typeof connectRealtime==='function') connectRealtime(); } catch(e) {}
+    try { if(typeof startSession==='function') await startSession(); } catch(e) {}
+    console.log('[+] Background data loaded');
+  }, 50);
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', bootHardwareInterface);
+} else {
+  bootHardwareInterface();
+}
 
 setInterval(() => loadGithub(), 60000);
 
