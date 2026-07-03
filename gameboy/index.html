@@ -199,6 +199,9 @@ window.onerror = function(msg, url, line) {
 // BOOT_LINES
 const BOOT_LINES=['ORACLE: PARSING INTENT...','LOADING BRIEFING...','AEGIS: GOLD LAWS ACTIVE...','ODIN: ROUTING ONLINE...','CONNECTING SUPABASE...','REALTIME MESH UP...','READY.'];
 
+// Global state
+var S='boot';
+
 // runBoot - Pure synchronous UI
 function runBoot(){
   const el=document.getElementById('screen-inner');
@@ -216,6 +219,34 @@ function runBoot(){
   }
   setTimeout(tick,200);
 }
+
+// STUB FUNCTIONS - These get overridden by TIER 2 when it loads
+function ok(){ console.log('[STUB ok] Press START or A to enter menu'); S='menu'; runBoot(); }
+function back(){ console.log('[STUB back] Press B to go back'); }
+function emuBtn(btn){ console.log('[STUB emuBtn]', btn); }
+function beep(freq,ms){ console.log('[STUB beep]', freq, ms); }
+
+// ToggleEngine stub for WAR ROOM
+var ToggleEngine = {
+  sidebarOpen: false,
+  toggleSidebar: function() {
+    this.sidebarOpen = !this.sidebarOpen;
+    var el = document.getElementById("delib_sidebar");
+    var btn = document.getElementById("btn_toggle_war_room");
+    if (!el || !btn) return;
+    if (this.sidebarOpen) {
+      el.style.right = "0px";
+      btn.innerText = "[ CLOSE ]";
+      btn.style.borderColor = "#f5a623";
+      btn.style.color = "#f5a623";
+    } else {
+      el.style.right = "-320px";
+      btn.innerText = "[ WAR ROOM ]";
+      btn.style.borderColor = "#00ffcc";
+      btn.style.color = "#00ffcc";
+    }
+  }
+};
 
 // FORCE IMMEDIATE RENDER - This MUST work regardless of anything else
 try {
