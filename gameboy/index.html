@@ -53,6 +53,8 @@ try {
         }).subscribe();
 } catch(e) { console.log("[Efficiency] Realtime not available"); }
 
+
+
 </script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -343,6 +345,8 @@ try {
             }
         }).subscribe();
 } catch(e) { console.log("[Efficiency] Realtime not available"); }
+
+
 
 </script>
 
@@ -990,10 +994,13 @@ function fleetMicListen() {
     const t = e.results[0][0].transcript;
     fleetInput = t;
     document.getElementById('fleet-input').value = t;
-    fleetMicOn = false;
     fleetLog('[MIC] ' + t, '#00ffcc');
     updateFleetTerminal();
-    if (t.trim()) fleetSend();
+    // Only send on final result, not interim
+    if (e.results[0].isFinal && t.trim()) {
+      fleetMicOn = false;
+      fleetSend();
+    }
   };
   fleetMicRecog.onerror = () => { fleetMicOn = false; updateFleetTerminal(); };
   fleetMicRecog.onend = () => { fleetMicOn = false; updateFleetTerminal(); };
@@ -1054,8 +1061,11 @@ async function pollFleetResponses() {
               coordinatorSpeak(msg.sender, msg.content.slice(0, 200));
             }
           } else {
-            fleetTerminalLog.push({ msg: `<${msg.target_node}> ${msg.response}`, col: '#00ff88', time: Date.now(), shown: true, id: msg.id });
+            // Show response from coordinator
+            fleetTerminalLog.push({ msg: `<${msg.sender}> ${msg.response}`, col: '#00ff88', time: Date.now(), shown: true, id: msg.id });
             if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
+            // Show in War Room too
+            ToggleEngine.updateDelibStream(msg.sender, msg.response, 'DEBATE');
             // Speak response
             if (fleetVoiceOn && msg.response) {
               coordinatorSpeak(msg.sender, msg.response.slice(0, 200));
@@ -3572,6 +3582,8 @@ try {
         }).subscribe();
 } catch(e) { console.log("[Efficiency] Realtime not available"); }
 
+
+
 </script>
   <!-- WAR ROOM Sidebar - Strategic Deliberation View -->
   <div id="delib_sidebar" style="position:fixed;right:-320px;top:0;width:300px;height:100vh;background:#0a0e16;border-left:1px solid #1e3a52;transition:right 0.3s;display:flex;flex-direction:column;z-index:9999;box-shadow:-5px 0 20px rgba(0,0,0,0.6);">
@@ -3675,6 +3687,8 @@ try {
             }
         }).subscribe();
 } catch(e) { console.log("[Efficiency] Realtime not available"); }
+
+
 
 </script>
 </body>
