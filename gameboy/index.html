@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>JARVIS RE-WIRED HUD v3.8 — LOCKED FOCUS</title>
+    <title>JARVIS RE-WIRED HUD v3.9 — LOCKED FOCUS</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         :root {
@@ -46,9 +46,18 @@
         let userIsReviewingHistory = false;
         const term = document.getElementById("display_terminal");
         const inputField = document.getElementById("terminal_input_line");
+        let sb = null;
 
-        // Initialize Supabase client
-        const sb = supabase.createClient('https://oexghfsvhnggddllgvrt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.M8dPIQ1yWI4zVZnRbNXN-YRFfMclBVOhW8Ol5MQKhXc');
+        // Wait for supabase to load, then init
+        function initSupabase() {
+            if (typeof supabase !== 'undefined') {
+                sb = supabase.createClient('https://oexghfsvhnggddllgvrt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.M8dPIQ1yWI4zVZnRbNXN-YRFfMclBVOhW8Ol5MQKhXc');
+                console.log('[+] Supabase initialized');
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+        initSupabase();
 
         function lockScroller(isLocked) {
             userIsReviewingHistory = isLocked;
@@ -82,15 +91,21 @@
             }
         }
         async function safetyCastOutboundPayload(targetNode, payloadText) {
-            if (typeof supabase === 'undefined' || !sb) {
-                console.warn("[🚨] Supabase uninitialized");
+            // Wait for sb to be ready
+            let retries = 20;
+            while (!sb && retries > 0) {
+                await new Promise(r => setTimeout(r, 50));
+                retries--;
+            }
+            if (!sb) {
+                console.warn("[🚨] Supabase not initialized");
                 writeLineToViewport("System_Error", "Outbound pipeline offline: Connection tokens missing.");
                 return;
             }
             try {
                 const { error } = await sb.from('fleet_messages').insert([{
                     target_node: targetNode,
-                    sender: "Raven",  // MUST match trigger case
+                    sender: "Raven",
                     content: payloadText,
                     response: "PENDING"
                 }]);
@@ -119,9 +134,10 @@
                 }
             });
         }
-        window.addEventListener('DOMContentLoaded', () => {
+        function initRealtime() {
+            if (!sb) { setTimeout(initRealtime, 100); return; }
             sb.removeAllChannels();
-            sb.channel('stable_monolithic_bus_v3_6')
+            sb.channel('stable_monolithic_bus_v3_9')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
                     const row = payload.new;
                     if (row.sender.toLowerCase() !== 'raven') {
@@ -132,7 +148,10 @@
                         writeLineToViewport("System", "Real-time mesh: ONLINE");
                     }
                 });
-            writeLineToViewport("System", "JARVIS v3.6 initialized");
+            writeLineToViewport("System", "JARVIS v3.9 initialized");
+        }
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(initRealtime, 500);
         });
     </script>
 </body>
