@@ -177,13 +177,13 @@ html, body {
     </div>
     <div class="face">
       <span class="fbl b">B</span><span class="fbl a">A</span>
-      <button class="fb b" onclick="back()">B</button>
-      <button class="fb a" onclick="alert('A clicked! S='+S);ok()">A</button>
+      <button class="fb b" onclick="back()" ontouchstart="event.preventDefault(); back();">B</button>
+      <button class="fb a" onclick="alert('A clicked! S='+S);ok()" ontouchstart="event.preventDefault(); alert('A clicked! S='+S);ok();">A</button>
     </div>
   </div>
   <div class="menu-row">
-    <button class="mb" onclick="emuBtn('SELECT')||back()">SELECT</button>
-    <button class="mb" onclick="start()">START</button>
+    <button class="mb" onclick="emuBtn('SELECT')||back()" ontouchstart="event.preventDefault(); emuBtn('SELECT')||back();">SELECT</button>
+    <button class="mb" onclick="start()" ontouchstart="event.preventDefault(); start();">START</button>
   </div>
   <div class="speaker" id="spk"></div>
 </div>
