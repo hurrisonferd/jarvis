@@ -1198,7 +1198,7 @@ function rFleet() {
           "
           value="${fleetInput}"
           oninput="fleetInput=this.value"
-          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();fleetSend();}"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.stopPropagation();fleetSend();}"
         >
       </div>
     </div>
@@ -3597,7 +3597,7 @@ try {
 
     <div id="delib_stream" style="padding:10px;flex-grow:1;overflow-y:auto;font-size:4px;line-height:1.6;background:#050810;font-family:var(--pixel);color:#8899aa;white-space:pre-wrap;"></div>
     <div style="display:flex;border-top:1px solid #1e3a52;background:#090a0f;">
-      <input type="text" id="warroom_input" placeholder="Talk with coordinators..." style="flex:1;border:none;background:none;color:#fff;padding:8px;font-size:3.5px;font-family:var(--pixel);outline:none;" onkeydown="if(event.key==='Enter'){ToggleEngine.broadcastFromWarRoom();}">
+      <input type="text" id="warroom_input" placeholder="Talk with coordinators..." style="flex:1;border:none;background:none;color:#fff;padding:8px;font-size:3.5px;font-family:var(--pixel);outline:none;" onkeydown="if(event.key==='Enter'){event.stopPropagation();ToggleEngine.broadcastFromWarRoom();}">
       <button onclick="ToggleEngine.broadcastFromWarRoom()" style="background:none;border:none;color:#00ffcc;padding:0 8px;font-family:var(--pixel);font-size:3.5px;cursor:pointer;">DEBATE</button>
     </div>
   </div>
