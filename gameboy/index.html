@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>JARVIS RE-WIRED HUD v3.10 — LOCKED FOCUS</title>
+    <title>JARVIS RE-WIRED HUD v3.12 — LOCKED FOCUS</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         :root {
@@ -134,10 +134,34 @@
                 }
             });
         }
+        let lastId = 0;
+        function initPolling() {
+            if (!sb) { setTimeout(initPolling, 100); return; }
+            async function poll() {
+                try {
+                    const { data, error } = await sb.from('fleet_messages')
+                        .select('*')
+                        .gt('id', lastId)
+                        .order('id', { ascending: true })
+                        .limit(10);
+                    if (!error && data) {
+                        data.forEach(row => {
+                            if (row.sender && row.sender.toLowerCase() !== 'raven') {
+                                writeLineToViewport(row.sender, row.content || row.response || '(empty)');
+                            }
+                            if (row.id > lastId) lastId = row.id;
+                        });
+                    }
+                } catch(e) { console.log('[POLL] error:', e.message); }
+                setTimeout(poll, 2000);
+            }
+            poll();
+            writeLineToViewport("System", "Polling mesh: ONLINE (2s interval)");
+        }
         function initRealtime() {
             if (!sb) { setTimeout(initRealtime, 100); return; }
             sb.removeAllChannels();
-            const ch = sb.channel('stable_monolithic_bus_v3_10')
+            const ch = sb.channel('stable_monolithic_bus_v3_12')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
                     console.log('[RT] Got payload:', JSON.stringify(payload.new));
                     const row = payload.new || {};
@@ -149,9 +173,11 @@
                 console.log('[RT] Status:', status, err);
                 if (status === 'SUBSCRIBED') {
                     writeLineToViewport("System", "Real-time mesh: ONLINE");
+                } else {
+                    writeLineToViewport("System", "WebSocket failed, falling back to polling...");
+                    initPolling();
                 }
             });
-            writeLineToViewport("System", "JARVIS v3.10 initialized");
         }
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(initRealtime, 500);
