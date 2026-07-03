@@ -866,6 +866,10 @@ async function pollFleetResponses() {
     if (error) throw error;
     
     if (data && data.length > 0) {
+      // Save scroll position before draw
+      const term = document.getElementById('fleet-terminal');
+      const wasAtBottom = term ? (term.scrollHeight - term.scrollTop <= term.clientHeight + 50) : true;
+      
       // Find new responses we haven't shown yet
       const shown = new Set(fleetTerminalLog.filter(l => l.shown).map(l => l.id));
       for (const msg of data.reverse()) {
@@ -876,6 +880,14 @@ async function pollFleetResponses() {
         }
       }
       draw();
+      
+      // Restore scroll position or scroll to bottom if was at bottom
+      requestAnimationFrame(() => {
+        const term = document.getElementById('fleet-terminal');
+        if (term) {
+          term.scrollTop = wasAtBottom ? term.scrollHeight : term.scrollTop;
+        }
+      });
     }
   } catch (e) {
     // Silently fail polling
