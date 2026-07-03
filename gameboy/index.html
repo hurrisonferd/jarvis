@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>JARVIS RE-WIRED HUD v3.12 — LOCKED FOCUS</title>
+    <title>JARVIS RE-WIRED HUD v3.13 — LOCKED FOCUS</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         :root {
@@ -161,7 +161,7 @@
         function initRealtime() {
             if (!sb) { setTimeout(initRealtime, 100); return; }
             sb.removeAllChannels();
-            const ch = sb.channel('stable_monolithic_bus_v3_12')
+            const ch = sb.channel('stable_monolithic_bus_v3.13')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
                     console.log('[RT] Got payload:', JSON.stringify(payload.new));
                     const row = payload.new || {};
@@ -169,16 +169,36 @@
                         writeLineToViewport(row.sender, row.content || row.response || '(empty)');
                     }
                 });
-            ch.subscribe((status, err) => {
-                console.log('[RT] Status:', status, err);
+            ch.subscribe((status) => {
+                console.log('[RT] Status:', status);
                 if (status === 'SUBSCRIBED') {
                     writeLineToViewport("System", "Real-time mesh: ONLINE");
-                } else {
-                    writeLineToViewport("System", "WebSocket failed, falling back to polling...");
+                } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+                    writeLineToViewport("System", "WebSocket error, falling back to polling...");
                     initPolling();
                 }
             });
+            // Force polling fallback after 3 seconds if no subscription
+            setTimeout(() => {
+                writeLineToViewport("System", "Checking realtime status...");
+            }, 3000);
         }
+        
+        // Also init polling as backup after 4s
+        let pollingBackupStarted = false;
+        function tryBackupPolling() {
+            if (pollingBackupStarted) return;
+            pollingBackupStarted = true;
+            if (!sb) {
+                setTimeout(tryBackupPolling, 500);
+                return;
+            }
+            if (!window._pollingActive) {
+                window._pollingActive = true;
+                initPolling();
+            }
+        }
+        setTimeout(tryBackupPolling, 4000);
         window.addEventListener('DOMContentLoaded', () => {
             setTimeout(initRealtime, 500);
         });
