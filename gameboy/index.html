@@ -241,12 +241,16 @@ if (typeof ToggleEngine === 'undefined') {
   };
 }
 
-// STUB ok/back for boot screen - TIER 2 will override
-window.ok = window.ok || function() {
-  console.log('[STUB ok] S='+S);
-  if(S==='boot'){ S='menu'; cur=0; if(typeof draw==='function'){draw();}else{runBoot();} }
-};
-window.back = window.back || function() { console.log('[STUB back]'); };
+// STUB ok/back for boot screen - TIER 2 will override (guard: only set if not already defined)
+if (typeof window.ok !== 'function') {
+  window.ok = function() {
+    console.log('[STUB ok] S='+S);
+    if(S==='boot'){ S='menu'; cur=0; if(typeof draw==='function'){draw();}else{runBoot();} }
+  };
+}
+if (typeof window.back !== 'function') {
+  window.back = function() { console.log('[STUB back]'); };
+}
 
 // FORCE IMMEDIATE RENDER - This MUST work regardless of anything else
 try {
@@ -3458,5 +3462,22 @@ if('serviceWorker' in navigator){
   </div>
   <button id="btn_toggle_war_room" tabindex="0" role="button" onclick="event.stopPropagation(); ToggleEngine.toggleSidebar();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); ToggleEngine.toggleSidebar();}" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:999999 !important;pointer-events:auto !important;outline:none;">[ WAR ROOM ]</button>
 
+<script>
+// PATCH: Override ok() to handle boot→menu transition when draw() is not yet defined
+(function(){
+  var _origOk = window.ok;
+  window.ok = function() {
+    // Handle boot→menu even when draw() isn't loaded
+    if(S==='boot'){
+      S='menu'; cur=0;
+      if(typeof draw==='function'){ draw(); }
+      else { runBoot(); }
+      return;
+    }
+    // Fall back to original
+    if(_origOk) _origOk.apply(this, arguments);
+  };
+})();
+</script>
 </body>
 </html>
