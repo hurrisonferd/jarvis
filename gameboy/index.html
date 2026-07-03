@@ -712,6 +712,7 @@ const ToggleEngine = { uuids: {}, selectedNodes: new Set(), clickNode(n) { this.
 // ── Fleet 2.0: Button Grid + Terminal ───────────────────────────────────
 let fleetTerminalLog = [];
 let fleetInput = '';
+let fleetPollingInterval = null;
 const fleetNodes = ['AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS', 'LILITH', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
 
 function fleetToggleNode(nodeName) {
@@ -722,6 +723,8 @@ function fleetToggleNode(nodeName) {
     ToggleEngine.selectedNodes.add(nodeName);
     fleetLog(`[PROVISION] ${nodeName}`, '#00ff22');
     HandheldSessionManager.handleNodeTapLifecycle(nodeName);
+    // Start polling for responses from this node
+    startFleetPolling();
   }
   draw();
 }
@@ -729,22 +732,93 @@ function fleetToggleNode(nodeName) {
 function fleetLog(msg, col) {
   fleetTerminalLog.push({ msg, col, time: Date.now() });
   if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
+  // Auto-scroll terminal
+  setTimeout(() => {
+    const term = document.getElementById('fleet-terminal');
+    if (term) term.scrollTop = term.scrollHeight;
+  }, 10);
 }
 
-function fleetSend() {
+async function fleetSend() {
   if (!fleetInput.trim()) return;
   const msg = fleetInput.trim();
   fleetLog(`> ${msg}`, '#a0c8e0');
-  fleetInput = '';
-  // Dispatch to selected nodes
+  
   const selected = Array.from(ToggleEngine.selectedNodes);
-  if (selected.length) {
-    fleetLog(`[DISPATCH] → ${selected.join(', ')}`, '#f5a623');
-    // TODO: Call actual coordinator API
-  } else {
+  if (!selected.length) {
     fleetLog('[INFO] Select a node first', '#555966');
+    fleetInput = '';
+    draw();
+    return;
   }
+  
+  // Send to Supabase for each selected node
+  for (const node of selected) {
+    fleetLog(`[SEND] → ${node}`, '#f5a623');
+    try {
+      const { error } = await sb.from('fleet_messages').insert({
+        target_node: node,
+        content: msg,
+        sender: 'raven',
+        response: null,
+        responded_at: null
+      });
+      if (error) throw error;
+    } catch (e) {
+      fleetLog(`[ERR] ${node}: ${e.message}`, '#ff0055');
+    }
+  }
+  
+  fleetInput = '';
+  document.getElementById('fleet-input').value = '';
   draw();
+}
+
+async function pollFleetResponses() {
+  const selected = Array.from(ToggleEngine.selectedNodes);
+  if (!selected.length) {
+    stopFleetPolling();
+    return;
+  }
+  
+  try {
+    const { data, error } = await sb
+      .from('fleet_messages')
+      .select('*')
+      .in('target_node', selected)
+      .not('response', 'is', null)
+      .order('created_at', { ascending: false })
+      .limit(10);
+    
+    if (error) throw error;
+    
+    if (data && data.length > 0) {
+      // Find new responses we haven't shown yet
+      const shown = new Set(fleetTerminalLog.filter(l => l.shown).map(l => l.id));
+      for (const msg of data.reverse()) {
+        if (!shown.has(msg.id)) {
+          fleetLog(`<${msg.target_node}> ${msg.response}`, '#00ff88');
+          fleetTerminalLog[fleetTerminalLog.length - 1].shown = true;
+          fleetTerminalLog[fleetTerminalLog.length - 1].id = msg.id;
+        }
+      }
+      draw();
+    }
+  } catch (e) {
+    // Silently fail polling
+  }
+}
+
+function startFleetPolling() {
+  if (fleetPollingInterval) return;
+  fleetPollingInterval = setInterval(pollFleetResponses, 3000);
+}
+
+function stopFleetPolling() {
+  if (fleetPollingInterval) {
+    clearInterval(fleetPollingInterval);
+    fleetPollingInterval = null;
+  }
 }
 
 function rFleet() {
