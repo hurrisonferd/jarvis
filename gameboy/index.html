@@ -182,8 +182,8 @@ html, body {
     </div>
     <div class="face">
       <span class="fbl b">B</span><span class="fbl a">A</span>
-      <button class="fb b" onclick="event.stopPropagation();back();return false;" ontouchstart="event.stopPropagation();back();return false;">B</button>
-      <button class="fb a" onclick="event.stopPropagation();ok();return false;" ontouchstart="event.stopPropagation();ok();return false;">A</button>
+      <button class="fb b" onclick="back()" ontouchstart="event.preventDefault();back();">B</button>
+      <button class="fb a" onclick="ok()" ontouchstart="event.preventDefault();ok();">A</button>
     </div>
   </div>
   <div class="menu-row">
