@@ -228,6 +228,10 @@ try {
 
 <!-- TIER 2: INFRASTRUCTURE - Isolated from TIER 1 -->
 <script>
+// DEBUG: TIER 2 loading
+console.log('[TIER2] Infrastructure script starting...');
+document.body.insertAdjacentHTML('afterbegin', '<div id="tier2-banner" style="position:fixed;top:40px;left:0;right:0;background:#ff8800;color:#000;padding:5px;font-family:monospace;z-index:9999999;text-align:center;font-size:10px;">TIER2 LOADING: '+Date.now()+'</div>');
+
 // ── config (safe for client-side)
 const SUPABASE_URL     = 'https://oexghfsvhnggddllgvrt.supabase.co';
 const SUPABASE_ANON    = 'sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA';
@@ -3406,6 +3410,11 @@ if('serviceWorker' in navigator){
 } else {
   pushStatus='NOT SUPPORTED';
 }
+
+// DEBUG: TIER 2 loaded
+console.log('[TIER2] Infrastructure script COMPLETE');
+console.log('[TIER2] ok=' + typeof ok + ' back=' + typeof back + ' emuBtn=' + typeof emuBtn + ' S=' + typeof S);
+document.body.insertAdjacentHTML('afterbegin', '<div id="tier2-done" style="position:fixed;top:60px;left:0;right:0;background:#00ff00;color:#000;padding:5px;font-family:monospace;z-index:9999999;text-align:center;font-size:10px;">TIER2 DONE: ok=' + typeof ok + ' back=' + typeof back + ' S=' + typeof S + '</div>');
 </script>
   <!-- WAR ROOM Sidebar - Strategic Deliberation View -->
   <div id="delib_sidebar" style="position:fixed;right:-320px;top:0;width:300px;height:100vh;background:#0a0e16;border-left:1px solid #1e3a52;transition:right 0.3s;display:flex;flex-direction:column;z-index:9999;box-shadow:-5px 0 20px rgba(0,0,0,0.6);">
