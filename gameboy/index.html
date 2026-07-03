@@ -189,6 +189,20 @@ html, body {
 </div>
 
 <script>
+// ── Global error handler to prevent silent crashes
+window.onerror = function(msg, url, line, col, error) {
+  console.error('[GLOBAL ERROR]', msg, 'at line', line, ':', error ? error.stack : '');
+  // Try to force boot panel render
+  const screen = document.getElementById('screen-inner');
+  if(screen && !screen.innerHTML) {
+    screen.innerHTML = '<div style="padding:20px;color:#ff0055;font-family:monospace;font-size:8px;">ERROR: '+msg+'</div>';
+  }
+  return false; // Don't suppress
+};
+window.addEventListener('unhandledrejection', function(e) {
+  console.error('[UNHANDLED PROMISE]', e.reason);
+});
+
 // ── config (safe for client-side)
 const SUPABASE_URL     = 'https://oexghfsvhnggddllgvrt.supabase.co';
 const SUPABASE_ANON    = 'sb_publishable_N1-MFLpXtOXkKh3UQNfclw_ZG0TVqOA';
@@ -3147,10 +3161,12 @@ function connectRealtime(){
     // Rollback listener - alerts when L3 sandbox fails
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'fleet_rollbacks'},payload=>{
       const r=payload.new;
-      if(!ToggleEngine.sidebarOpen) ToggleEngine.toggleSidebar();
+      const lblPhase=document.getElementById('lbl_phase');
+      if(!lblPhase) return; // Guard: WAR ROOM not rendered
+      try { if(!ToggleEngine.sidebarOpen) ToggleEngine.toggleSidebar(); } catch(e){}
       ToggleEngine.updateDelibStream("SYSTEM","🚨 ROLLBACK: "+r.failed_executor+" failed","EXECUTE");
-      document.getElementById('lbl_phase').innerText="ROLLED_BACK";
-      document.getElementById('lbl_phase').style.color="#ff0055";
+      lblPhase.innerText="ROLLED_BACK";
+      lblPhase.style.color="#ff0055";
       ToggleEngine.updateDelibMetrics("ROLLED_BACK",0);
       fleetLog("[!] ROLLBACK: "+r.supervisor_node+" failed. Check WAR ROOM.",'#ff0055');
     })
@@ -3158,6 +3174,7 @@ function connectRealtime(){
     .on('postgres_changes',{event:'INSERT',schema:'public',table:'fleet_token_ledger'},payload=>{
       const e=payload.new;
       const streamBox=document.getElementById("delib_stream");
+      if(!streamBox) return; // Guard: sidebar not rendered yet
       const meterBlocks=Math.min(10,Math.max(1,Math.round(e.efficiency_score||0)));
       const meterBar="█".repeat(meterBlocks)+"░".repeat(10-meterBlocks);
       let colorCode="#00ff22";
@@ -3280,7 +3297,7 @@ function bootHardwareInterface() {
     try { if(typeof loadBriefing==='function') await loadBriefing(); } catch(e) {}
     try { if(typeof loadData==='function') await loadData(); } catch(e) {}
     try { if(typeof loadLive==='function') await loadLive(); } catch(e) {}
-    try { if(typeof connectRealtime==='function') connectRealtime(); } catch(e) {}
+    try { if(sb && typeof connectRealtime==='function') connectRealtime(); } catch(e) { console.warn('connectRealtime failed:', e); }
     try { if(typeof startSession==='function') await startSession(); } catch(e) {}
     console.log('[+] Background data loaded');
   }, 50);
