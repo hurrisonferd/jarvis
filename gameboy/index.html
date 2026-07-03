@@ -5,8 +5,8 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>JARVIS RE-WIRED HUD v3.6 — LOCKED FOCUS?v=3.6.1</title>
-    <script src="https://jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js?v=3.6.1"></script>
+    <title>JARVIS RE-WIRED HUD v3.7 — LOCKED FOCUS</title>
+    <script src="https://jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js?v=3.7"></script>
     <style>
         :root {
             --pixel: 'Courier New', monospace;
@@ -33,7 +33,9 @@
     <div class="screen">
         <div id="display_terminal" onmouseenter="lockScroller(true)" onmouseleave="lockScroller(false)" ontouchstart="lockScroller(true)" ontouchend="lockScroller(false)">🛸 [SYSTEM INITIALIZED]: COGNITIVE HIGHWAYS ACTIVE.</div>
     </div>
-    <input type="text" id="terminal_input_line" placeholder="ENTER DIRECTIVE PAYLOAD VECTOR..." autofocus autocomplete="off">
+    <form id="input_form" onsubmit="handleSubmit(event); return false;">
+        <input type="text" id="terminal_input_line" placeholder="ENTER DIRECTIVE PAYLOAD VECTOR..." autocomplete="off" autofocus>
+    </form>
     <div id="selector_bar" style="margin-top: 8px;">
         <div class="node-dot selected" id="dot_LILITH" onclick="setTargetNode('LILITH')">LILITH</div>
         <div class="node-dot" id="dot_AYRE" onclick="setTargetNode('AYRE')">AYRE</div>
@@ -99,15 +101,21 @@
                 writeLineToViewport("System_Error", `Network drop: ${err.message}`);
             }
         }
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const cleanText = inputField.value.trim();
+            if (!cleanText) return;
+            writeLineToViewport("Raven", cleanText);
+            inputField.value = "";
+            inputField.focus();
+            await safetyCastOutboundPayload(activeTargetNode, cleanText);
+        }
+        
         if (inputField) {
-            inputField.addEventListener('keydown', async (event) => {
+            inputField.focus();
+            inputField.addEventListener('keydown', (event) => {
                 if (event.key === 'Enter') {
-                    const cleanText = inputField.value.trim();
-                    if (!cleanText) return;
-                    writeLineToViewport("Raven", cleanText);
-                    inputField.value = "";
-                    inputField.focus();
-                    await safetyCastOutboundPayload(activeTargetNode, cleanText);
+                    handleSubmit(event);
                 }
             });
         }
