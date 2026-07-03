@@ -3333,7 +3333,7 @@ if('serviceWorker' in navigator){
       <button onclick="ToggleEngine.broadcastFromWarRoom()" style="background:none;border:none;color:#00ffcc;padding:0 8px;font-family:var(--pixel);font-size:3.5px;cursor:pointer;">DEBATE</button>
     </div>
   </div>
-  <button id="btn_toggle_war_room" onclick="event.stopPropagation(); ToggleEngine.toggleSidebar();" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:999999 !important;pointer-events:auto !important;">[ WAR ROOM ]</button>
+  <button id="btn_toggle_war_room" tabindex="0" role="button" onclick="event.stopPropagation(); ToggleEngine.toggleSidebar();" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault(); ToggleEngine.toggleSidebar();}" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:999999 !important;pointer-events:auto !important;outline:none;">[ WAR ROOM ]</button>
 
 </body>
 </html>
