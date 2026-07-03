@@ -943,18 +943,15 @@ async function fleetSend() { ToggleEngine.broadcastFromFleet(); return; }
 }
 
 async function pollFleetResponses() {
-  const selected = Array.from(ToggleEngine.selectedNodes);
-  if (!selected.length) {
-    stopFleetPolling();
-    return;
-  }
+  // Always include LILITH for Trinity responses
+  const selected = ['LILITH', ...Array.from(ToggleEngine.selectedNodes)];
   
   try {
     // Poll fleet_messages for responses
     const { data: msgData } = await sb
       .from('fleet_messages')
       .select('*')
-      .in('target_node', selected)
+      .in('target_node', [...new Set(selected)])
       .not('response', 'is', null)
       .order('created_at', { ascending: false })
       .limit(10);
