@@ -5,7 +5,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>JARVIS RE-WIRED HUD v3.13 — LOCKED FOCUS</title>
+    <title>JARVIS RE-WIRED HUD v3.14 — LOCKED FOCUS</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
     <style>
         :root {
@@ -137,15 +137,19 @@
         let lastId = 0;
         function initPolling() {
             if (!sb) { setTimeout(initPolling, 100); return; }
+            writeLineToViewport("System", "Starting poll...");
             async function poll() {
                 try {
+                    console.log('[POLL] Fetching...');
                     const { data, error } = await sb.from('fleet_messages')
-                        .select('*')
+                        .select('id, sender, content, response')
                         .gt('id', lastId)
                         .order('id', { ascending: true })
                         .limit(10);
-                    if (!error && data) {
+                    console.log('[POLL] Got:', data?.length, 'rows');
+                    if (!error && data && data.length > 0) {
                         data.forEach(row => {
+                            console.log('[POLL] Row:', row.sender, row.content?.slice(0,20));
                             if (row.sender && row.sender.toLowerCase() !== 'raven') {
                                 writeLineToViewport(row.sender, row.content || row.response || '(empty)');
                             }
@@ -156,12 +160,12 @@
                 setTimeout(poll, 2000);
             }
             poll();
-            writeLineToViewport("System", "Polling mesh: ONLINE (2s interval)");
+            writeLineToViewport("System", "Polling mesh: ONLINE");
         }
         function initRealtime() {
             if (!sb) { setTimeout(initRealtime, 100); return; }
             sb.removeAllChannels();
-            const ch = sb.channel('stable_monolithic_bus_v3.13')
+            const ch = sb.channel('stable_monolithic_bus_v3.14')
                 .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
                     console.log('[RT] Got payload:', JSON.stringify(payload.new));
                     const row = payload.new || {};
