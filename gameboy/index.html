@@ -71,7 +71,7 @@ html, body {
   background: linear-gradient(135deg, rgba(255,255,255,.04), transparent);
   z-index: 101; pointer-events: none;
 }
-#screen-inner { position: absolute; inset: 0; overflow: hidden; font-family: var(--pixel); font-size: 7px; color: var(--text); }
+#screen-inner { position: absolute; inset: 0; overflow: hidden; font-family: var(--pixel); font-size: 7px; color: var(--text); background: var(--bg); }
 .panel { display: flex; flex-direction: column; height: 100%; }
 .s-header {
   background: var(--surface); border-bottom: 1px solid #0f2035;
@@ -3334,6 +3334,20 @@ if('serviceWorker' in navigator){
     </div>
   </div>
   <button id="btn_toggle_war_room" onclick="ToggleEngine.toggleSidebar()" style="background:#050810;border:1px solid #00ffcc;color:#00ffcc;padding:4px 8px;font-family:var(--pixel);font-size:4px;cursor:pointer;position:fixed;right:10px;top:10px;border-radius:2px;z-index:10000;">[ WAR ROOM ]</button>
+
+<script>
+// Instant boot test - set content immediately to verify screen works
+(function(){
+  var si = document.getElementById('screen-inner');
+  if(si) {
+    si.style.background = '#000';
+    si.innerHTML = '<div style="padding:20px;color:#f5a623;font-size:8px;">BOOT TEST<br>S=boot</div>';
+    si.style.color = '#f5a623';
+  } else {
+    document.body.innerHTML += '<div style="color:red;padding:20px;">ERROR: screen-inner not found</div>';
+  }
+})();
+</script>
 
 </body>
 </html>
