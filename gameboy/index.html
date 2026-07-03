@@ -11,7 +11,49 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon.svg">
 <title>JARVIS HANDHELD</title>
-<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js?v=5"></script>
+<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js?v=5">
+// ═══════════════════════════════════════════════════════════════
+// TOKEN EFFICIENCY GRAPH ENGINE
+// ═══════════════════════════════════════════════════════════════
+const EfficiencyGraphEngine = {
+    historyQueue: Array(8).fill(10.0),
+    
+    renderAsciiGraph() {
+        const matrix = document.getElementById("ascii_graph_matrix");
+        if (!matrix) return;
+        const lines = ["[E] 10 | ", "[F]  5 | ", "[F]  1 | "];
+        for (let i = 0; i < 8; i++) {
+            const val = this.historyQueue[i];
+            lines[0] += val >= 8.0 ? "  █ " : "  ░ ";
+            lines[1] += val >= 4.0 ? "  █ " : "  ░ ";
+            lines[2] += val >= 0.5 ? "  █ " : "  ░ ";
+        }
+        matrix.innerHTML = lines.join("<br/>") + "<br/>-------+-----------------------------<br/>       | T1  T2  T3  T4  T5  T6  T7  T8";
+    },
+    
+    updateGraphDataStream(newScore) {
+        this.historyQueue.shift();
+        this.historyQueue.push(parseFloat(newScore) || 0);
+        const label = document.getElementById("lbl_global_efficiency");
+        if (label) {
+            label.innerText = newScore + "/10";
+            label.style.color = newScore < 4.0 ? "#ff3355" : (newScore < 7.0 ? "#f5a623" : "#00ff88");
+        }
+        this.renderAsciiGraph();
+    }
+};
+
+// Subscribe to token ledger updates
+try {
+    sb.channel('trinity_resource_governor')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'fleet_token_ledger' }, payload => {
+            if (payload.new && payload.new.efficiency_score !== undefined) {
+                EfficiencyGraphEngine.updateGraphDataStream(payload.new.efficiency_score);
+            }
+        }).subscribe();
+} catch(e) { console.log("[Efficiency] Realtime not available"); }
+
+</script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 :root {
@@ -260,6 +302,48 @@ try {
 } catch(e) {
   document.body.insertAdjacentHTML('afterbegin','<div style="position:fixed;top:0;left:0;right:0;background:#ff0000;color:#fff;padding:10px;z-index:999999;">TIER1 ERROR: '+e.message+'</div>');
 }
+
+// ═══════════════════════════════════════════════════════════════
+// TOKEN EFFICIENCY GRAPH ENGINE
+// ═══════════════════════════════════════════════════════════════
+const EfficiencyGraphEngine = {
+    historyQueue: Array(8).fill(10.0),
+    
+    renderAsciiGraph() {
+        const matrix = document.getElementById("ascii_graph_matrix");
+        if (!matrix) return;
+        const lines = ["[E] 10 | ", "[F]  5 | ", "[F]  1 | "];
+        for (let i = 0; i < 8; i++) {
+            const val = this.historyQueue[i];
+            lines[0] += val >= 8.0 ? "  █ " : "  ░ ";
+            lines[1] += val >= 4.0 ? "  █ " : "  ░ ";
+            lines[2] += val >= 0.5 ? "  █ " : "  ░ ";
+        }
+        matrix.innerHTML = lines.join("<br/>") + "<br/>-------+-----------------------------<br/>       | T1  T2  T3  T4  T5  T6  T7  T8";
+    },
+    
+    updateGraphDataStream(newScore) {
+        this.historyQueue.shift();
+        this.historyQueue.push(parseFloat(newScore) || 0);
+        const label = document.getElementById("lbl_global_efficiency");
+        if (label) {
+            label.innerText = newScore + "/10";
+            label.style.color = newScore < 4.0 ? "#ff3355" : (newScore < 7.0 ? "#f5a623" : "#00ff88");
+        }
+        this.renderAsciiGraph();
+    }
+};
+
+// Subscribe to token ledger updates
+try {
+    sb.channel('trinity_resource_governor')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'fleet_token_ledger' }, payload => {
+            if (payload.new && payload.new.efficiency_score !== undefined) {
+                EfficiencyGraphEngine.updateGraphDataStream(payload.new.efficiency_score);
+            }
+        }).subscribe();
+} catch(e) { console.log("[Efficiency] Realtime not available"); }
+
 </script>
 
 <!-- TIER 2: INFRASTRUCTURE - Isolated from TIER 1 -->
@@ -3446,6 +3530,48 @@ if('serviceWorker' in navigator){
 } else {
   pushStatus='NOT SUPPORTED';
 }
+
+// ═══════════════════════════════════════════════════════════════
+// TOKEN EFFICIENCY GRAPH ENGINE
+// ═══════════════════════════════════════════════════════════════
+const EfficiencyGraphEngine = {
+    historyQueue: Array(8).fill(10.0),
+    
+    renderAsciiGraph() {
+        const matrix = document.getElementById("ascii_graph_matrix");
+        if (!matrix) return;
+        const lines = ["[E] 10 | ", "[F]  5 | ", "[F]  1 | "];
+        for (let i = 0; i < 8; i++) {
+            const val = this.historyQueue[i];
+            lines[0] += val >= 8.0 ? "  █ " : "  ░ ";
+            lines[1] += val >= 4.0 ? "  █ " : "  ░ ";
+            lines[2] += val >= 0.5 ? "  █ " : "  ░ ";
+        }
+        matrix.innerHTML = lines.join("<br/>") + "<br/>-------+-----------------------------<br/>       | T1  T2  T3  T4  T5  T6  T7  T8";
+    },
+    
+    updateGraphDataStream(newScore) {
+        this.historyQueue.shift();
+        this.historyQueue.push(parseFloat(newScore) || 0);
+        const label = document.getElementById("lbl_global_efficiency");
+        if (label) {
+            label.innerText = newScore + "/10";
+            label.style.color = newScore < 4.0 ? "#ff3355" : (newScore < 7.0 ? "#f5a623" : "#00ff88");
+        }
+        this.renderAsciiGraph();
+    }
+};
+
+// Subscribe to token ledger updates
+try {
+    sb.channel('trinity_resource_governor')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'fleet_token_ledger' }, payload => {
+            if (payload.new && payload.new.efficiency_score !== undefined) {
+                EfficiencyGraphEngine.updateGraphDataStream(payload.new.efficiency_score);
+            }
+        }).subscribe();
+} catch(e) { console.log("[Efficiency] Realtime not available"); }
+
 </script>
   <!-- WAR ROOM Sidebar - Strategic Deliberation View -->
   <div id="delib_sidebar" style="position:fixed;right:-320px;top:0;width:300px;height:100vh;background:#0a0e16;border-left:1px solid #1e3a52;transition:right 0.3s;display:flex;flex-direction:column;z-index:9999;box-shadow:-5px 0 20px rgba(0,0,0,0.6);">
@@ -3457,6 +3583,18 @@ if('serviceWorker' in navigator){
       <span>PHASE: <strong id="lbl_phase" style="color:#00ffcc;">DELIBERATE</strong></span>
       <span>LOCKS: <strong id="lbl_sigs" style="color:#f5a623;">0/3</strong></span>
     </div>
+    <div style="padding: 10px; background: #03060a; border-bottom: 1px solid #1e3a52;">
+        <div style="color: #555966; margin-bottom: 5px; font-size: 4px; display: flex; justify-content: space-between;">
+            <span>📊 EFFICIENCY:</span>
+            <span id="lbl_global_efficiency" style="color: #00ff88;">10.0/10</span>
+        </div>
+        <div id="ascii_graph_matrix" style="color: #0af; line-height: 1.2; font-size: 4px; background: #010205; padding: 4px; border: 1px solid #0f1f38;">
+            [E] 10 | ░░░░░░░░<br/>
+            [F]  5 | ░░░░░░░░<br/>
+            [F]  1 | ░░░░░░░░<br/>
+        </div>
+    </div>
+
     <div id="delib_stream" style="padding:10px;flex-grow:1;overflow-y:auto;font-size:4px;line-height:1.6;background:#050810;font-family:var(--pixel);color:#8899aa;white-space:pre-wrap;"></div>
     <div style="display:flex;border-top:1px solid #1e3a52;background:#090a0f;">
       <input type="text" id="warroom_input" placeholder="Talk with coordinators..." style="flex:1;border:none;background:none;color:#fff;padding:8px;font-size:3.5px;font-family:var(--pixel);outline:none;" onkeydown="if(event.key==='Enter'){ToggleEngine.broadcastFromWarRoom();}">
@@ -3496,6 +3634,48 @@ document.addEventListener('click', function(e){
   };
   console.log('[PATCH] ok() overridden');
 })();
+
+// ═══════════════════════════════════════════════════════════════
+// TOKEN EFFICIENCY GRAPH ENGINE
+// ═══════════════════════════════════════════════════════════════
+const EfficiencyGraphEngine = {
+    historyQueue: Array(8).fill(10.0),
+    
+    renderAsciiGraph() {
+        const matrix = document.getElementById("ascii_graph_matrix");
+        if (!matrix) return;
+        const lines = ["[E] 10 | ", "[F]  5 | ", "[F]  1 | "];
+        for (let i = 0; i < 8; i++) {
+            const val = this.historyQueue[i];
+            lines[0] += val >= 8.0 ? "  █ " : "  ░ ";
+            lines[1] += val >= 4.0 ? "  █ " : "  ░ ";
+            lines[2] += val >= 0.5 ? "  █ " : "  ░ ";
+        }
+        matrix.innerHTML = lines.join("<br/>") + "<br/>-------+-----------------------------<br/>       | T1  T2  T3  T4  T5  T6  T7  T8";
+    },
+    
+    updateGraphDataStream(newScore) {
+        this.historyQueue.shift();
+        this.historyQueue.push(parseFloat(newScore) || 0);
+        const label = document.getElementById("lbl_global_efficiency");
+        if (label) {
+            label.innerText = newScore + "/10";
+            label.style.color = newScore < 4.0 ? "#ff3355" : (newScore < 7.0 ? "#f5a623" : "#00ff88");
+        }
+        this.renderAsciiGraph();
+    }
+};
+
+// Subscribe to token ledger updates
+try {
+    sb.channel('trinity_resource_governor')
+        .on('postgres_changes', { event: '*', schema: 'public', table: 'fleet_token_ledger' }, payload => {
+            if (payload.new && payload.new.efficiency_score !== undefined) {
+                EfficiencyGraphEngine.updateGraphDataStream(payload.new.efficiency_score);
+            }
+        }).subscribe();
+} catch(e) { console.log("[Efficiency] Realtime not available"); }
+
 </script>
 </body>
 </html>
