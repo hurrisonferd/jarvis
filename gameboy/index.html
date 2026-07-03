@@ -222,9 +222,11 @@ if (typeof ToggleEngine === 'undefined') {
   var ToggleEngine = {
     sidebarOpen: false,
     toggleSidebar: function() {
+      console.log('[STUB toggleSidebar] called');
       this.sidebarOpen = !this.sidebarOpen;
       var el = document.getElementById("delib_sidebar");
       var btn = document.getElementById("btn_toggle_war_room");
+      console.log('[STUB] el:', !!el, 'btn:', !!btn);
       if (!el || !btn) return;
       if (this.sidebarOpen) {
         el.style.right = "0px";
