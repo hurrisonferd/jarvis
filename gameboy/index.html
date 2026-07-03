@@ -221,7 +221,8 @@ function runBoot(){
 
 // STUB FUNCTIONS - Only active until TIER 2 loads. TIER 2 will overwrite these.
 function ok(){
-  console.log('[STUB ok] A/START pressed');
+  var el=document.getElementById('screen-inner');
+  if(el) el.innerHTML='<div style="color:#0f0;font-size:8px;padding:5px;">OK PRESSED<br>S was:'+S+'</div>';
   S='menu';
   cur=0;
   if(typeof draw === 'function') draw();
