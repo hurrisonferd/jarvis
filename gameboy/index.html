@@ -178,7 +178,7 @@ html, body {
     <div class="face">
       <span class="fbl b">B</span><span class="fbl a">A</span>
       <button class="fb b" onclick="back()" ontouchstart="event.preventDefault();back();">B</button>
-      <button class="fb a" onclick="ok()" ontouchstart="event.preventDefault();ok();">A</button>
+      <button class="fb a" id="btn-a-test" onclick="ok();this.style.background='#f00'" ontouchstart="event.preventDefault();ok();this.style.background='#f00'">A</button>
     </div>
   </div>
   <div class="menu-row">
