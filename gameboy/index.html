@@ -137,11 +137,6 @@ html, body {
 </style>
 </head>
 <body>
-<div id="test-buttons" style="position:fixed;top:0;left:0;z-index:9999999;background:#fff;color:#000;padding:10px;font-size:14px;">
-  <button onclick="console.log('ok type:', typeof ok);alert('ok='+typeof ok);">TEST ok()</button>
-  <button onclick="console.log('back type:', typeof back);alert('back='+typeof back);">TEST back()</button>
-  <button onclick="ToggleEngine.toggleSidebar();">TEST WAR ROOM</button>
-</div>
 <div class="device">
   <div class="led"></div>
   <div class="screen-housing">
@@ -226,7 +221,7 @@ function runBoot(){
 }
 
 // STUB FUNCTIONS - These get overridden by TIER 2 when it loads
-function ok(){ console.log('[STUB ok] A/START pressed'); S='menu'; runBoot(); }
+function ok(){ console.log('[STUB ok] A pressed - S='+S); if(S==='boot'){S='menu';cur=0;typeof draw==='function'&&draw();} }
 function back(){ console.log('[STUB back] B pressed'); }
 function start(){ console.log('[STUB start] START pressed'); ok(); }
 function emuBtn(btn){ console.log('[STUB emuBtn]', btn); }
