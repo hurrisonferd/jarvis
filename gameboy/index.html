@@ -711,11 +711,10 @@ const ToggleEngine = { uuids: {}, selectedNodes: new Set(), clickNode(n) { this.
 // rFleet — Fleet 2.0 control panel
 // ── Fleet 2.0: Button Grid + Terminal ───────────────────────────────────
 let fleetTerminalLog = [];
+let fleetInput = '';
 const fleetNodes = ['AYRE', 'JARVIS', 'THOR', 'NEO', 'VIRGIL', 'EREBUS', 'LILITH', 'SHAKA', 'EDISON', 'PYTHAGORAS', 'ATLAS', 'YORK'];
 
 function fleetToggleNode(nodeName) {
-  const status = ToggleEngine.uuids[nodeName] ? 'active' : 'inactive';
-  const idx = fleetNodes.indexOf(nodeName);
   if (ToggleEngine.selectedNodes.has(nodeName)) {
     ToggleEngine.selectedNodes.delete(nodeName);
     fleetLog(`[OFFLINE] ${nodeName}`, '#555966');
@@ -729,7 +728,23 @@ function fleetToggleNode(nodeName) {
 
 function fleetLog(msg, col) {
   fleetTerminalLog.push({ msg, col, time: Date.now() });
-  if (fleetTerminalLog.length > 20) fleetTerminalLog.shift();
+  if (fleetTerminalLog.length > 30) fleetTerminalLog.shift();
+}
+
+function fleetSend() {
+  if (!fleetInput.trim()) return;
+  const msg = fleetInput.trim();
+  fleetLog(`> ${msg}`, '#a0c8e0');
+  fleetInput = '';
+  // Dispatch to selected nodes
+  const selected = Array.from(ToggleEngine.selectedNodes);
+  if (selected.length) {
+    fleetLog(`[DISPATCH] → ${selected.join(', ')}`, '#f5a623');
+    // TODO: Call actual coordinator API
+  } else {
+    fleetLog('[INFO] Select a node first', '#555966');
+  }
+  draw();
 }
 
 function rFleet() {
@@ -740,57 +755,84 @@ function rFleet() {
   const makeButton = (node) => {
     const isActive = ToggleEngine.selectedNodes.has(node);
     const uuid = ToggleEngine.uuids[node];
-    const status = uuid ? 'RUNNING' : 'OFFLINE';
+    const isOnline = !!uuid;
+    const status = isOnline ? 'RUNNING' : 'OFFLINE';
     const statusCol = statusColors[status];
-    const borderCol = isActive ? '#00ffcc' : '#1e3a52';
+    const glowStyle = isOnline 
+      ? 'box-shadow: 0 0 8px #00ffcc, 0 0 16px rgba(0,255,204,0.3);' 
+      : '';
+    const borderCol = isOnline ? '#00ffcc' : (isActive ? '#f5a623' : '#1e3a52');
     return `<button 
       onclick="fleetToggleNode('${node}')"
       style="
-        background: ${isActive ? 'rgba(0,255,204,0.1)' : 'var(--surface)'};
+        background: ${isOnline ? 'rgba(0,255,204,0.15)' : (isActive ? 'rgba(245,166,35,0.1)' : 'var(--surface)')};
         border: 1px solid ${borderCol};
-        color: ${isActive ? '#00ffcc' : 'var(--dim)'};
+        color: ${isOnline ? '#00ffcc' : 'var(--dim)'};
         font-family: var(--pixel);
         font-size: 4.5px;
         padding: 3px 2px;
-        border-radius: 2px;
+        border-radius: 3px;
         cursor: pointer;
         min-width: 52px;
         text-align: center;
+        transition: all 0.2s;
+        ${glowStyle}
       ">
-      <div style="color:${isActive ? '#00ffcc' : 'var(--bright)'};margin-bottom:1px">${node.slice(0,6)}</div>
+      <div style="color:${isOnline ? '#00ffcc' : 'var(--bright)'};margin-bottom:1px">${node.slice(0,6)}</div>
       <div style="font-size:3.5px;color:${statusCol}">${status}</div>
     </button>`;
   };
   
-  // Terminal output
   const terminalLines = fleetTerminalLog.length 
-    ? fleetTerminalLog.slice(-8).map(l => `<div style="font-size:4.5px;color:${l.col};line-height:1.6">${l.msg}</div>`).join('')
-    : '<div style="color:var(--dim);font-size:4.5px;padding:4px">Tap nodes to provision. Terminal ready.</div>';
+    ? fleetTerminalLog.slice(-12).map(l => `<div style="font-size:4.5px;color:${l.col};line-height:1.5">${l.msg}</div>`).join('')
+    : '<div style="color:var(--dim);font-size:4.5px;padding:4px">Terminal ready. Select node, type message.</div>';
   
   return `<div class="panel">
     <div class="s-header"><span style="color:var(--green)">FLEET</span><span style="color:var(--dim)">12 NODES</span></div>
     <div class="s-body" style="padding:4px">
-      <div style="color:var(--amber);font-size:5px;margin-bottom:3px">FLEET 1: SYNTHESIS</div>
-      <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px">
+      <div style="color:var(--amber);font-size:5px;margin-bottom:2px">FLEET 1: SYNTHESIS</div>
+      <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:4px">
         ${fleet1.map(n => makeButton(n)).join('')}
       </div>
-      <div style="color:var(--green);font-size:5px;margin-bottom:3px">FLEET 2: DIVERGENCE</div>
-      <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:5px">
+      <div style="color:var(--green);font-size:5px;margin-bottom:2px">FLEET 2: DIVERGENCE</div>
+      <div style="display:flex;gap:3px;flex-wrap:wrap;margin-bottom:4px">
         ${fleet2.map(n => makeButton(n)).join('')}
       </div>
-      <div style="border-top:1px solid #0f2035;margin:4px 0"></div>
-      <div style="background:#020408;border:1px solid #0f2035;border-radius:2px;padding:3px;height:50px;overflow-y:auto">
+      <div style="background:#020408;border:1px solid #0f2035;border-radius:2px;padding:3px;height:90px;overflow-y:auto" id="fleet-terminal">
         <div style="color:var(--dim);font-size:4px;margin-bottom:2px">TERMINAL</div>
         ${terminalLines}
       </div>
+      <div style="margin-top:3px">
+        <input 
+          id="fleet-input" 
+          type="text" 
+          placeholder="Type message..."
+          autocomplete="off"
+          autocorrect="off"
+          autocapitalize="off"
+          spellcheck="false"
+          style="
+            width:100%;
+            background:#020408;
+            border:1px solid #0f2035;
+            border-radius:2px;
+            color:#a0c8e0;
+            font-family:var(--pixel);
+            font-size:5px;
+            padding:4px 6px;
+            outline:none;
+          "
+          value="${fleetInput}"
+          oninput="fleetInput=this.value"
+          onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();fleetSend();}"
+        >
+      </div>
     </div>
-    <div class="s-footer">TAP:TOGGLE &nbsp; B:BACK</div>
+    <div class="s-footer">TAP:TOGGLE &nbsp; ENTER:SEND &nbsp; B:BACK</div>
   </div>`;
 }
 
-function fleetSelect(nodeName) {
-  fleetToggleNode(nodeName);
-}
+function fleetSelect(nodeName) { fleetToggleNode(nodeName); }
 
 // Initialize realtime telemetry
 if (typeof sb !== 'undefined') {
