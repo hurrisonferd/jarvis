@@ -833,7 +833,7 @@ async function fleetSend() {
       const { error } = await sb.from('fleet_messages').insert({
         target_node: node,
         content: msg,
-        sender: 'raven',
+        sender: 'Raven',
         response: null,
         responded_at: null
       });
