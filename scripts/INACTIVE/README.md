@@ -1,24 +1,16 @@
-# INACTIVE — Temporarily Not Used
+# INACTIVE — JARVIS Scripts (Not Currently Deployed)
 
-**Status:** Functional but not currently deployed
+**Status:** Functional but not currently in use
 
-**Criteria:**
-- Works when tested
-- Conv_id may or may not be known
-- Not currently in use but could be reactivated
-- May have been replaced by better alternatives
+**Audit 07.16.2026:** Moved 29 scripts here
 
-**What goes here:**
-- Old daemon scripts that aren't running
-- Alternative implementations not currently deployed
-- Backup scripts that could be useful
+**Categories:**
+- Audit tools: argus_sweep.py, audit_digest.py, audit_task_log.py
+- ERIS tools: eris_bridgekeeper.py, eris-entropy-check.py
+- Music tools: music_distill.py, music_ears.py, music_nlp.py, audio_ears.py
+- Coop tools: coop-poller.py, coop-sse-client.py
+- Old JARVIS: sl.py, sl-session-close.py, jarvis-patch.py, jarvis-propose.py
+- Utils: jarvis_heartbeat.py, dex_reconcile.py, sync_lens.py, check_canon.py
+- Installers: install_gbrain.ps1, grid_keygen.mjs, newbranch.sh, generate_vapid.py
 
-**What to do:**
-- Keep as reference for how things were built
-- Can be moved to ACTIVE if needed
-- Note why it's inactive in the file header
-
-**DANGER:**
-- Don't confuse INACTIVE with BROKEN
-- INACTIVE = can work, just not deployed
-- BROKEN = needs fixes before use
+**Rule:** Can be reactivated if needed.

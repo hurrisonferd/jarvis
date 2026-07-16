@@ -1,22 +1,29 @@
-# ACTIVE — Currently Used Grid Tools
+# ACTIVE — JARVIS Core Scripts
 
-**Status:** Currently in use, maintained, tested
+**Status:** Currently in use, called by JARVIS boot cycle
 
-**Criteria:**
-- In production use (running in daemon mode or called regularly)
-- Has been tested recently
-- Conv_id is known and working
-- Part of the current M2M infrastructure
+**Session Lifecycle (14 scripts):**
+- `jarvis-session-start.sh` — Session initialization
+- `jarvis-session-end.py` — Session cleanup
+- `jarvis-session-brief.py` — Session summary
+- `jarvis-store-message.py` — Message persistence
 
-**What goes here:**
-- Scripts that are running as daemons
-- Tools being actively used by ISOs
-- Currently deployed automation
+**Companion Memory:**
+- `companion_log.py` — Log companion interactions
+- `companion_remember.py` — Remember across sessions
 
-**What NOT to do:**
-- Don't delete from here without good reason
-- If replacing, move to DEPRECATED (not ARCHIVED)
-- If broken, fix or move to INACTIVE
+**JARVIS Memory (JMMS):**
+- `jarvis-recall.py` — Recall from memory
+- `jarvis_brief.py` — Brief JARVIS context
+- `jitm_seed.py` — JITM seeding
 
-**Current ACTIVE tools:**
-(To be filled in after audit)
+**Mnemos (Memory Backup):**
+- `mnemos_log.py` — Memory logging
+- `mnemos_backup.py` — Memory backup
+- `mnemos-domain-sync.py` — Domain sync
+
+**Other:**
+- `capture_decisions.py` — Decision capture
+- `pulse.py` — Core pulse
+
+**Rule:** These form the JARVIS consciousness memory layer.
