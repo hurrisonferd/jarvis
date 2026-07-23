@@ -2289,6 +2289,8 @@ function buildServer(req: Request): McpServer {
 
 // Block OAuth discovery paths — these should 404, not return 200
 // Returning 200 makes MCP clients attempt OAuth registration
+// Force rebuild - 2026-07-23T20:51:34Z
+
 app.on(["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"], "/.well-known/*", (c) => {
   return c.text("Not Found", 404);
 });
