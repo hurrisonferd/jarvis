@@ -209,20 +209,21 @@ ${sep}
         });
 
         let currentContent = "";
+        let sha: string | undefined;
 
         if (getResp.ok) {
           const data = await getResp.json();
           currentContent = atob(data.content);
+          sha = data.sha;
         } else {
           // Create new file with header
-          currentContent = `# TRINITY — ${new Date().toISOString().split("T")[0]}\n\n---\n\n";
+          currentContent = `# TRINITY — ${new Date().toISOString().split("T")[0]}\n\n---\n\n`;
         }
 
         // Append entry
         const newContent = currentContent + entry;
 
         // Write back to GitHub
-        const sha = getResp.ok ? (await getResp.json()).sha : undefined;
         const putResp = await fetch(url, {
           method: "PUT",
           headers: {
