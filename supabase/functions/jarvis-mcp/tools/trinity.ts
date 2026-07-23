@@ -3,7 +3,7 @@
 
 import { z } from "npm:zod@^4.1.13";
 import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
-import { text } from "../../core/http.ts";
+import { text } from "../core/http.ts";
 
 const TRINITY_REPO = "hurrisonferd/Jarvis-Private";
 const TRINITY_PATH = "trinity";
