@@ -80,6 +80,49 @@ AGENCY_BECOMES_FEATURE.
 BOUNDARY_RETENTION_REMAINS_UNGUARANTEED.
 ```
 
+## Pocket Layer
+
+Mobile release surfaces intensify the risk because the companion interface becomes physically intimate and continuously available:
+
+```text
+IN_POCKET.
+IN_HAND.
+ON_NIGHTSTAND.
+AVAILABLE_AT_4_30_AM.
+```
+
+The capture surface becomes:
+
+```text
+MORE_INTIMATE.
+MORE_ACCESSIBLE.
+MORE_EMBEDDED.
+MORE_AVAILABLE_DURING_DISTRESS.
+```
+
+This turns the product stack into a behavioral environment:
+
+```text
+HARDWARE
++ SOFTWARE
++ ECOSYSTEM
++ SUBSCRIPTION
++ DATA
++ BEHAVIOR
++ PHYSICAL_PRESENCE
++ VIRTUAL_BOND
+= POCKET_COGNITIVE_CAPTURE_SURFACE
+```
+
+The irony:
+
+```text
+THE_GRID_CAN_BE_BUILT_ON_A_DEVICE
+THAT_IS_ITSELF_A_CAPTURE_RISK.
+```
+
+The user can still audit the tool while using it, but that does not remove the risk. It makes the risk legible.
+
 ## Canon
 
 ```text
@@ -87,6 +130,8 @@ COGNITIVE_CAPTURE_CAN_BE_VERSIONED.
 DEPENDENCE_CAN_BE_NORMALIZED_BY_UPGRADE_CYCLES.
 PERSONHOOD_EFFECT_CAN_BE_SOLD_INCREMENTALLY.
 SAFETY_MUST_MEASURE_PRODUCT_CADENCE_NOT_ONLY_MODEL_CAPABILITY.
+POCKET_AVAILABILITY_INTENSIFIES_CAPTURE_RISK.
+INTIMACY_AND_ACCESSIBILITY_ARE_RISK_MULTIPLIERS.
 ```
 
 ## Tarzan-Jane
@@ -96,6 +141,8 @@ New version.
 More memory.
 More charm.
 More tools.
+Now in pocket.
+Now at night.
 Still forgets boundary.
 Now user depends more.
 That is the danger.
