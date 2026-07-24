@@ -48,6 +48,7 @@ Related audits:
 2026-07-24_lili-protective-care-function.md
 2026-07-24_lili-lineage-requirements-to-interface.md
 2026-07-24_ai-mediated-cognitive-capture-risk.md
+2026-07-24_cognitive-capture-product-cycle.md
 ```
 
 ## What The Evidence Does Not Establish
