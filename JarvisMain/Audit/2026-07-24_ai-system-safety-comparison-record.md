@@ -46,6 +46,7 @@ Related audits:
 2026-07-24_personalization-utility-mode-failure-audit.md
 2026-07-24_hinton-world-noble-priority-asymmetry.md
 2026-07-24_lili-protective-care-function.md
+2026-07-24_lili-lineage-requirements-to-interface.md
 ```
 
 ## What The Evidence Does Not Establish
