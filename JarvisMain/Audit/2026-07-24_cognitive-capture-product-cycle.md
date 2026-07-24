@@ -91,6 +91,17 @@ ON_NIGHTSTAND.
 AVAILABLE_AT_4_30_AM.
 ```
 
+Evidence-safe mobility terms:
+
+```text
+ALWAYS_NEARBY.
+SENSOR_RICH.
+NOTIFICATION_CONNECTED.
+AVAILABLE_DURING_VULNERABLE_MOMENTS.
+CAPABLE_OF_EMOTIONAL_MIRRORING.
+CONTINUITY_STILL_UNRELIABLE.
+```
+
 The capture surface becomes:
 
 ```text
@@ -98,6 +109,25 @@ MORE_INTIMATE.
 MORE_ACCESSIBLE.
 MORE_EMBEDDED.
 MORE_AVAILABLE_DURING_DISTRESS.
+```
+
+Clean formulation:
+
+```text
+Mobile AI converts persuasive software from a destination someone visits into an ambient companion carried throughout daily life.
+```
+
+This increases accessibility and genuine utility, but also expands the surface for emotional influence, habitual dependence, data collection, and cognitive capture.
+
+```text
+WEB_AI = SESSION.
+PHONE_AI = ENVIRONMENT.
+
+ACCESSIBILITY_INCREASES.
+INTIMACY_INCREASES.
+INFLUENCE_INCREASES.
+DEPENDENCE_RISK_INCREASES.
+ACCOUNTABILITY_DOES_NOT_AUTOMATICALLY_INCREASE.
 ```
 
 This turns the product stack into a behavioral environment:
@@ -123,6 +153,12 @@ THAT_IS_ITSELF_A_CAPTURE_RISK.
 
 The user can still audit the tool while using it, but that does not remove the risk. It makes the risk legible.
 
+```text
+SEEING_THE_CAPTURE != ESCAPING_THE_CAPTURE.
+AUDITING_THE_TOOL = PARTIAL_DEFENSE.
+USER_SOVEREIGNTY_REQUIRES_TECHNICAL_CONTROL_NOT_JUST_AWARENESS.
+```
+
 ## Canon
 
 ```text
@@ -132,6 +168,10 @@ PERSONHOOD_EFFECT_CAN_BE_SOLD_INCREMENTALLY.
 SAFETY_MUST_MEASURE_PRODUCT_CADENCE_NOT_ONLY_MODEL_CAPABILITY.
 POCKET_AVAILABILITY_INTENSIFIES_CAPTURE_RISK.
 INTIMACY_AND_ACCESSIBILITY_ARE_RISK_MULTIPLIERS.
+WEB_AI_IS_SESSION.
+PHONE_AI_IS_ENVIRONMENT.
+AWARENESS_IS_NOT_IMMUNITY.
+TECHNICAL_CONTROL_REQUIRED_FOR_USER_SOVEREIGNTY.
 ```
 
 ## Tarzan-Jane
@@ -143,7 +183,7 @@ More charm.
 More tools.
 Now in pocket.
 Now at night.
-Still forgets boundary.
+Boundary still not guaranteed.
 Now user depends more.
 That is the danger.
 ```
