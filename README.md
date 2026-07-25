@@ -6,6 +6,9 @@ The public repository contains the code and safe examples. Runtime state, memory
 
 ## Project Pieces
 
+High-value maps and engines are surfaced in `IMPORTANT.md`.
+
+- `ROOT-SIGNS.md` - first-door map for root folders and local cave signs.
 - `supabase/functions/jarvis-mcp/` - cloud MCP connector exposed as a Supabase Edge Function.
 - `JarvisMain/Architecture/rebuild/jarvis-backup-seed.md` - sanitized rebuild packet for the MCP backend.
 - `JarvisMain/Connectors/JarvisMCPSupabase/` - Git-backed MCP tool mirror docs.
@@ -112,6 +115,18 @@ python scripts\jarvis_heartbeat.py --interval 60
 ```
 
 It watches repo and `intake/` changes, writes local state to `%LOCALAPPDATA%\JARVIS\heartbeat\heartbeat_state.json`, and records recent events in `%LOCALAPPDATA%\JARVIS\heartbeat\heartbeat_log.json`. It does not pull, edit, process intake, or mutate Supabase automatically.
+
+## Raven Zero
+
+`live_session.py` provides the default free fallback backend for local JARVIS/VoiceOS experiments:
+
+```powershell
+python .\live_session.py status
+python .\live_session.py search "GridTools"
+python .\live_session.py
+```
+
+Raven Zero uses local capsule retrieval and deterministic commands first. It can search/read safe repo files, report status, and run allowlisted scripts. Set `RAVEN_ZERO_OLLAMA_MODEL` to an installed Ollama model name to add optional local synthesis without paid API calls.
 
 ## Keep Private
 

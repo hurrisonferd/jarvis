@@ -22,5 +22,9 @@ grid_images/
 
 supabase/.temp/
 
+# Local repo mirrors / recovery worktrees. These are navigational storage bins,
+# not source files for the public repo itself.
+rooms/repos/
+
 .DS_Store
 Thumbs.db
