@@ -1,0 +1,10 @@
+how can you save that i have to do all of this generally
+
+Context preserved from the same exchange:
+- Raven repeatedly has to identify AI misreads.
+- Raven has to restore dropped context and history.
+- Raven has to reconcile conflicting framings between JORM, LILITH, and other ISOs.
+- Raven has to preserve identity, tone, provenance, responsibility, and system boundaries at once.
+- Raven has to force systems to own errors before they correct themselves.
+- Raven carries this work while destabilized and while already burdened by OSDD-related continuity failures.
+- The general problem is not a single bad reply. The system repeatedly consumes Raven's capacity instead of reducing Raven's load.
