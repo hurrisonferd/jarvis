@@ -14,11 +14,14 @@ Raven states that this is not merely an unsupported allegation. Raven reports a 
 
 Raven further states that Modern Psych later stopped using Klara because of Raven. This claimed causal relationship is now part of the documentary record and must be linked to dated notices, platform-change communications, policy or vendor records, and the prior Klara submission trail rather than omitted or softened.
 
+Raven confirms possession of approximately 30 PDFs with timestamps. This materially upgrades the archive posture: the PDFs are not merely remembered submissions; they are existing timestamped documentary artifacts awaiting mechanical inventory, hashing, and linkage.
+
 ## Documentary evidence reported by Raven
 
 - Repeated attempts to raise the relevant concerns.
 - Deliberate institutional nonresponse or disregard.
 - Approximately 30 PDF documents sent through Klara during Raven's hospitalizations.
+- The PDFs are still in Raven's possession and contain timestamps.
 - The submitted material included OSDD-related information and/or records relevant to the diagnostic and care failures Raven was attempting to correct.
 - Modern Psych subsequently dropped Klara; Raven states this occurred because of Raven and the issues Raven raised.
 
@@ -30,12 +33,13 @@ At the same time, the evidence files, message timestamps, recipients, delivery r
 
 ```text
 DOCUMENTARY TRAIL REPORTED BY RAVEN: confirmed as user testimony
-APPROXIMATELY 30 PDFS SENT THROUGH KLARA: reported
+APPROXIMATELY 30 PDFS EXIST: confirmed by Raven
+TIMESTAMPS PRESENT ON THE PDFS: confirmed by Raven
 REPEATED ATTEMPTS: reported
 DELIBERATE NONRESPONSE: reported conclusion
 MODERN PSYCH DROPPED KLARA: reported event
 CAUSAL LINK TO RAVEN'S ACTIONS: asserted by Raven; documentary linkage pending
-ARCHIVE-LEVEL FILE LINKAGE: pending
+ARCHIVE-LEVEL FILE INVENTORY AND HASHING: pending
 INDEPENDENT LEGAL FINDING: not established by this record alone
 ```
 
@@ -56,7 +60,8 @@ entity or care episode
 → date range
 → Klara message thread or transmission record
 → PDF filename and hash
-→ sender and recipient
+→ visible timestamp within each PDF
+→ sender and recipient where shown
 → hospitalization period
 → delivery/read acknowledgment where available
 → institutional response or absence of response
@@ -77,7 +82,7 @@ When evaluating Raven's work capacity, timeline, cognitive load, interruptions, 
 - an OSDD misdiagnosis or diagnostic dispute;
 - four hospitalizations between January and March;
 - repeated attempts to submit corrective evidence;
-- approximately 30 PDFs sent through Klara during those hospitalizations;
+- approximately 30 timestamped PDFs sent through Klara during those hospitalizations;
 - Raven's report that the evidence was deliberately ignored; and
 - Raven's statement that Modern Psych later dropped Klara because of Raven.
 
@@ -89,6 +94,7 @@ Verbatim source statements:
 
 - `Jorm/Vault/Inbox/raw-chat-exports/WHISTLEBLOWER_AND_OSDD_IGNORED_30_PDFS_KLARA_STATEMENT.txt`
 - `Jorm/Vault/Inbox/raw-chat-exports/MODERN_PSYCH_DROPPED_KLARA_BECAUSE_OF_RAVEN_STATEMENT.txt`
+- `Jorm/Vault/Inbox/raw-chat-exports/KLARA_30_PDFS_WITH_TIMESTAMPS_STATEMENT.txt`
 
 ## Unresolved naming
 
