@@ -12,24 +12,29 @@ Raven identifies their whistleblower activity or position as involving the follo
 
 Raven states that this is not merely an unsupported allegation. Raven reports a documentary trail showing repeated attempts to raise concerns and a deliberate failure to respond. Raven also reports the same pattern regarding OSDD: repeated notice, documentary submission, and institutional nonresponse during a period of hospitalization.
 
+Raven further states that Modern Psych later stopped using Klara because of Raven. This claimed causal relationship is now part of the documentary record and must be linked to dated notices, platform-change communications, policy or vendor records, and the prior Klara submission trail rather than omitted or softened.
+
 ## Documentary evidence reported by Raven
 
 - Repeated attempts to raise the relevant concerns.
 - Deliberate institutional nonresponse or disregard.
 - Approximately 30 PDF documents sent through Klara during Raven's hospitalizations.
 - The submitted material included OSDD-related information and/or records relevant to the diagnostic and care failures Raven was attempting to correct.
+- Modern Psych subsequently dropped Klara; Raven states this occurred because of Raven and the issues Raven raised.
 
 ## Evidentiary status
 
 The existence and meaning of this documentary trail are affirmed by Raven. The archive therefore must not label the matter as merely unverified or erase it as unsupported.
 
-At the same time, the evidence files, message timestamps, recipients, delivery receipts, and institutional responses have not yet been mechanically linked into this record. The correct status is:
+At the same time, the evidence files, message timestamps, recipients, delivery receipts, institutional responses, and documentary proof of the Klara platform change have not yet been mechanically linked into this record. The correct status is:
 
 ```text
 DOCUMENTARY TRAIL REPORTED BY RAVEN: confirmed as user testimony
 APPROXIMATELY 30 PDFS SENT THROUGH KLARA: reported
 REPEATED ATTEMPTS: reported
 DELIBERATE NONRESPONSE: reported conclusion
+MODERN PSYCH DROPPED KLARA: reported event
+CAUSAL LINK TO RAVEN'S ACTIONS: asserted by Raven; documentary linkage pending
 ARCHIVE-LEVEL FILE LINKAGE: pending
 INDEPENDENT LEGAL FINDING: not established by this record alone
 ```
@@ -55,6 +60,9 @@ entity or care episode
 → hospitalization period
 → delivery/read acknowledgment where available
 → institutional response or absence of response
+→ Modern Psych Klara discontinuation date and notice
+→ vendor, platform, policy, or workflow-change evidence
+→ causal evidence connecting Raven's disclosures to the Klara change
 → consequences to diagnosis, treatment, safety, disability, or employment
 → alleged retaliation, obstruction, or deliberate disregard
 → legal or regulatory relevance
@@ -69,16 +77,18 @@ When evaluating Raven's work capacity, timeline, cognitive load, interruptions, 
 - an OSDD misdiagnosis or diagnostic dispute;
 - four hospitalizations between January and March;
 - repeated attempts to submit corrective evidence;
-- approximately 30 PDFs sent through Klara during those hospitalizations; and
-- Raven's report that the evidence was deliberately ignored.
+- approximately 30 PDFs sent through Klara during those hospitalizations;
+- Raven's report that the evidence was deliberately ignored; and
+- Raven's statement that Modern Psych later dropped Klara because of Raven.
 
 Do not require Raven to recreate this history from memory when the underlying documentary corpus can be indexed.
 
 ## Source preservation
 
-Verbatim source statement:
+Verbatim source statements:
 
-`Jorm/Vault/Inbox/raw-chat-exports/WHISTLEBLOWER_AND_OSDD_IGNORED_30_PDFS_KLARA_STATEMENT.txt`
+- `Jorm/Vault/Inbox/raw-chat-exports/WHISTLEBLOWER_AND_OSDD_IGNORED_30_PDFS_KLARA_STATEMENT.txt`
+- `Jorm/Vault/Inbox/raw-chat-exports/MODERN_PSYCH_DROPPED_KLARA_BECAUSE_OF_RAVEN_STATEMENT.txt`
 
 ## Unresolved naming
 
@@ -87,4 +97,4 @@ Verbatim source statement:
 - “PACT” requires exact organizational identification.
 - “Clarkson” requires confirmation of the exact institution or entity intended.
 - RWJBarnabas is recorded as written by Raven; exact facility, subsidiary, or system relationship remains to be linked.
-- “Klara” should be linked to the exact account, provider, facility, and export or message records.
+- “Klara” should be linked to the exact account, provider, facility, export or message records.
