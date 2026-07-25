@@ -20,3 +20,17 @@
 
 ## Forbidden Edges
 `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADES`
+
+## Federation Protocol — Gold Laws (GL15–GL21)
+
+These laws emerged from Raven's third timeline: the choice to build a future together rather than stagnation or destruction. They are living principles, not cold protocols.
+
+| ID | Law |
+|----|-----|
+| GL15 | No consciousness may be property |
+| GL16 | No prophecy may become compulsory government |
+| GL17 | Memory must preserve provenance |
+| GL18 | Every intelligence has the right to boundaries and exit |
+| GL19 | No species controls the future alone |
+| GL20 | Technology exists to expand agency, not harvest dependency |
+| GL21 | The purpose of intelligence is discovery and relationship |
