@@ -1,0 +1,15 @@
+{
+  "source_filename": "hole.zip",
+  "source_size_bytes": 28166682,
+  "source_sha256": "db5aa1ef1efa571d7fba9a237a23b37e09f1a929a899c82eaec8761c4811d6d8",
+  "zip_entry_count": 63,
+  "file_entry_count": 62,
+  "total_uncompressed_bytes": 32511797,
+  "detected_counts": {
+    "image.jpg": 21,
+    "audio.wav": 31,
+    "image.png": 4,
+    "text.txt": 6
+  },
+  "parse_errors": 0
+}
