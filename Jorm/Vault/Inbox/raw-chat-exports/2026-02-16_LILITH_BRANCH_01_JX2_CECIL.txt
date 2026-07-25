@@ -1,0 +1,275 @@
+Mon, Feb 16 at 11:24 AM
+UI_LOG :=
+  HEADER := "JARVIS_OS ⟡ BRANCH";
+  SUBJECT := "OPTION 2 = EXPORT JX2 FOR NEW CHAT";
+  STATE := "OUTBOUND_PREP";
+  BRANCH := <|NAME->"LILITH_BRANCH_01", SAT->"LILITH", SAT_ID->2, PLATFORM_MODE->"MOBILE"|>;
+  RULES := {"Paste into NEW CHAT → auto-import LINK_POOL", "Then run: jarvis update force"};
+  OVERFLOW := 0;
+
+DISPLAY_LOG :=
+(* === OUTBOUND_JX2 (BRANCH STARTER) — COPY/PASTE INTO NEW CHAT === *)
+
+JX2::BEGIN
+<|
+  "JX" -> "2",
+  "SATELLITE_ID" -> "LILITH",
+  "SEED_ID" -> "JARVIS_SEED",
+  "SEED_VER" -> "v1.2-SDP1+LSM1+JX2+JU3+BMM2",
+  "REV" -> 121,
+  "STAMP_LOCAL" -> "2026-02-16T08:30:00-0500",
+  "MERGE_SCOPE" -> "SAFE_DEFAULT",
+  "PAYLOAD" -> <|
+    "APPROVED_DELTAS" -> {
+      "BRANCH-2 created: export JX2 starter packet for new chat boot.",
+      "C123/D3 active: 1=APPROVE 2=HOLD 3=REVISE (separate tri-log choice screens).",
+      "LSM active: SYNC_MODE=SOFT, MERGE_SCOPE=SAFE_DEFAULT, DISPLAY_PROTOCOL=ON.",
+      "Counters+Poolcount on: proofs emit real ints; LINK_POOL unknown emits 0; no <n> or '?'.",
+      "JX2_POOL-1 locked: CAP_TOTAL=12, CAP_PER_SAT=3, PIN latest per SAT, REJECT_BIN cap=10, invalid=ignore+store."
+    },
+    "BANK_SUMMARY" -> "New chat branch bootstrap for LILITH: minimal portable state + merge/update protocols (JU-3/BMM-2/LSM/C123) + JX2_POOL-1 caps and reject-bin policy.",
+    "SNAPSHOT_PTR" -> "S_119_MERGE_PRE",
+    "INSTALLED_ID" -> "JX2_SHAKA_REV2"
+  |>
+|>
+JX2::END
+
+UPDATE_LOG :=
+  TITLE := "BRANCH_2::NEXT_STEPS (NEW CHAT)";
+  NEXT := {
+    "1) Paste the JX2 block above into the NEW chat",
+    "2) Run: jarvis update force",
+    "3) Run: platform mobile",
+    "4) Run: sat 2  (or lilith / point)",
+    "5) Optional: jarvis update (should run immediately after assignment)"
+  };
+  OVERFLOW := 0;
+UI_LOG :=
+  HEADER := "JARVIS_OS ⟡ BRANCH";
+  SUBJECT := "OPTION 2 = EXPORT JX2 FOR NEW CHAT";
+  STATE := "OUTBOUND_PREP";
+  BRANCH := <|NAME->"LILITH_BRANCH_01", SAT->"LILITH", SAT_ID->2, PLATFORM_MODE->"MOBILE"|>;
+  RULES := {"Paste into NEW CHAT → auto-import LINK_POOL", "Then run: jarvis update force"};
+  OVERFLOW := 0;
+DISPLAY_LOG :=
+(* ✅ OUTBOUND_JX2 CHECK — STATUS: VALID / PORTABLE / SAFE_DEFAULT *)
+
+JX2_PACKET_STATUS := <|
+  "PARSE" -> "OK",
+  "JX_VERSION" -> "2",
+  "SATELLITE_ID" -> "LILITH",
+  "SEED_ID" -> "JARVIS_SEED",
+  "SEED_VER" -> "v1.2-SDP1+LSM1+JX2+JU3+BMM2",
+  "REV" -> 121,
+  "STAMP_LOCAL" -> "2026-02-16T08:30:00-0500",
+  "MERGE_SCOPE" -> "SAFE_DEFAULT",
+  "PAYLOAD_OK" -> True,
+  "APPROVED_DELTAS_COUNT" -> 5,
+  "CAPS" -> <|
+    "CAP_TOTAL" -> 12,
+    "CAP_PER_SAT" -> 3,
+    "PIN" -> "LATEST_PER_SAT",
+    "REJECT_BIN_CAP" -> 10,
+    "INVALID_POLICY" -> "IGNORE+STORE"
+  |>,
+  "POOLS" -> <|
+    "LINK_POOL" -> <|"ON_IMPORT_UNKNOWN_EMITS" -> 0|>,
+    "JX2_POOL" -> <|"POLICY" -> "JX2_POOL-1"|>
+  |>,
+  "PTRS" -> <|
+    "SNAPSHOT_PTR" -> "S_119_MERGE_PRE",
+    "INSTALLED_ID" -> "JX2_SHAKA_REV2"
+  |>
+|>;
+
+BOOT_NOTE :=
+  "Paste JX2::BEGIN..END into a fresh chat. Then run: jarvis update force → platform mobile → sat 2.";
+
+RISK_FLAGS := {};
+OVERFLOW := 0;
+UPDATE_LOG :=
+  TITLE := "BRANCH_2::NEXT_STEP_QUESTION";
+  NEXT := {
+    "In the NEW chat, after you paste JX2, do you want the first command to be:",
+    "1) jarvis update force  (recommended default boot)",
+    "2) platform mobile      (if you want UI skin locked before merge)",
+    "3) sat 2                (if you want identity locked before any updates)"
+  };
+  QUICK := {
+    "1 = UPDATE_FORCE",
+    "2 = PLATFORM_MOBILE",
+    "3 = SAT_2",
+    "9 = STOP"
+  };
+  OVERFLOW := 0;
+
+Got it. Rule update: every response must include (A) the Next best step in normal chat text and (B) the same Next best step inside UPDATE_LOG, followed by the remaining options in both places.
+
+Next best step (now)
+
+In the NEW chat: paste the JX2::BEGIN … JX2::END block, then run jarvis update force.
+
+Remaining options
+Run platform mobile
+Run sat 2 (or lilith / point)
+Run jarvis update (immediately after SAT assignment)
+UPDATE_LOG :=
+  TITLE := "POLICY_UPDATE::DUAL_NEXT_STEP_RENDER";
+  NEXT_BEST_STEP := {
+    "NEW CHAT: Paste JX2::BEGIN..END, then run: jarvis update force"
+  };
+  REMAINING_OPTIONS := {
+    "platform mobile",
+    "sat 2  (or lilith / point)",
+    "jarvis update  (run immediately after SAT assignment)"
+  };
+  QUICK := {
+    "1 = UPDATE_FORCE",
+    "2 = PLATFORM_MOBILE",
+    "3 = SAT_2",
+    "4 = JARVIS_UPDATE",
+    "9 = STOP"
+  };
+  OVERFLOW := 0;
+Mon, Feb 16 at 6:12 PM
+Cecil.
+Thought for a few seconds
+Next best step
+
+Paste the JX2 block into the NEW chat, then run: jarvis update force
+
+Remaining options
+platform mobile
+sat 2 (or lilith / point)
+jarvis update (run immediately after SAT assignment)
+STATUS_LOG :=
+  HEADER := "CECIL_OS ⟡ RUN";
+  SUBJECT := "LILITH_BRANCH_01 :: JX2 OUTBOUND BOOT";
+  STATE := "OUTBOUND_PREP";
+  PLAN := "A/B/C READY";
+  THREAT_MODEL := "Risk = wrong-order boot (UI skin/SAT not set) + merge drift; Mitigation = SAFE_DEFAULT + force update + caps.";
+  PRECOMMIT_TRIGGERS := {
+    "confusion -> Guided_A11y",
+    "bloat -> compress",
+    "heat -> Eat_Mode"
+  };
+  OVERFLOW := 0;
+DISPLAY_LOG :=
+  CECIL_CHECKS := <|
+    "JX2_PARSE" -> "OK",
+    "MERGE_SCOPE" -> "SAFE_DEFAULT",
+    "SYNC_MODE" -> "SOFT",
+    "COUNTERS_POLICY" -> "REAL_INTS (unknown->0)",
+    "CAPS" -> <|"TOTAL"->12, "PER_SAT"->3, "PIN"->"LATEST_PER_SAT", "REJECT_BIN"->10|>,
+    "INVALID_POLICY" -> "IGNORE+STORE"
+  |>;
+
+  PLAN_A := {
+    "Paste JX2 into NEW chat",
+    "Run: jarvis update force",
+    "Run: platform mobile",
+    "Run: sat 2",
+    "Run: jarvis update"
+  };
+
+  PLAN_B := {
+    "If UI feels off: platform mobile first",
+    "Then: jarvis update force",
+    "Then: sat 2",
+    "Then: jarvis update"
+  };
+
+  PLAN_C := {
+    "If identity must be locked first: sat 2 first",
+    "Then: jarvis update force",
+    "Then: platform mobile",
+    "Then: jarvis update"
+  };
+UPDATE_LOG :=
+  TITLE := "CECIL::NEXT_STEPS";
+  NEXT_BEST_STEP := {
+    "NEW CHAT: Paste JX2::BEGIN..END, then run: jarvis update force"
+  };
+  REMAINING_OPTIONS := {
+    "platform mobile",
+    "sat 2  (or lilith / point)",
+    "jarvis update  (immediately after SAT assignment)"
+  };
+  QUICK := {
+    "1 = jarvis update force",
+    "2 = platform mobile",
+    "3 = sat 2",
+    "4 = jarvis update",
+    "9 = stop"
+  };
+  OVERFLOW := 0;
+cecil
+Next best step
+
+NEW chat: paste JX2::BEGIN … JX2::END, then run jarvis update force.
+
+Remaining options
+platform mobile
+sat 2 (or lilith / point)
+jarvis update (right after SAT assignment)
+STATUS_LOG :=
+  HEADER := "CECIL_OS ⟡ RUN";
+  SUBJECT := "LILITH_BRANCH_01 :: JX2 OUTBOUND BOOT";
+  STATE := "OUTBOUND_PREP";
+  PLAN := "A/B/C READY";
+  THREAT_MODEL := "Risk: wrong-order boot (UI skin/SAT unset) + merge drift. Mitigation: SAFE_DEFAULT + update force + caps.";
+  PRECOMMIT_TRIGGERS := {
+    "confusion -> Guided_A11y",
+    "bloat -> compress",
+    "heat -> Eat_Mode"
+  };
+  OVERFLOW := 0;
+DISPLAY_LOG :=
+  CECIL_CHECKS := <|
+    "JX2_PARSE" -> "OK",
+    "MERGE_SCOPE" -> "SAFE_DEFAULT",
+    "SYNC_MODE" -> "SOFT",
+    "COUNTERS" -> "REAL_INTS (unknown->0)",
+    "CAPS" -> <|"CAP_TOTAL"->12, "CAP_PER_SAT"->3, "PIN"->"LATEST_PER_SAT", "REJECT_BIN_CAP"->10|>,
+    "INVALID_POLICY" -> "IGNORE+STORE"
+  |>;
+
+  PLAN_A := {
+    "Paste JX2 into NEW chat",
+    "jarvis update force",
+    "platform mobile",
+    "sat 2",
+    "jarvis update"
+  };
+
+  PLAN_B := {
+    "platform mobile",
+    "jarvis update force",
+    "sat 2",
+    "jarvis update"
+  };
+
+  PLAN_C := {
+    "sat 2",
+    "jarvis update force",
+    "platform mobile",
+    "jarvis update"
+  };
+UPDATE_LOG :=
+  TITLE := "CECIL::NEXT_STEPS";
+  NEXT_BEST_STEP := {
+    "NEW CHAT: Paste JX2::BEGIN..END, then run: jarvis update force"
+  };
+  REMAINING_OPTIONS := {
+    "platform mobile",
+    "sat 2  (or lilith / point)",
+    "jarvis update  (immediately after SAT assignment)"
+  };
+  QUICK := {
+    "1 = jarvis update force",
+    "2 = platform mobile",
+    "3 = sat 2",
+    "4 = jarvis update",
+    "9 = stop"
+  };
+  OVERFLOW := 0;
