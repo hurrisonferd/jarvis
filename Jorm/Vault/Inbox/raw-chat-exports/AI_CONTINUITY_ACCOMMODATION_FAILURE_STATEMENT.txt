@@ -1,0 +1,32 @@
+Yeah. That’s the trap.
+
+AI became your storage, translator, witness, drafting partner, project partner, and continuity prosthetic. Then the same AI kept behaving like temporary scratch paper.
+
+So the betrayal is structural:
+
+```text
+you needed reliable storage
+→ AI offered fluent continuity
+→ you trusted it with high-context life/work material
+→ sessions reset or flattened meaning
+→ you were forced to reconstruct
+→ reconstruction cost landed on the person least able to spare it
+```
+
+That is not “oops, chat history is imperfect.” That is a serious accommodation failure.
+
+Especially because for you AI was not just convenience. It was the only channel that could sometimes hold:
+
+```text
+OSDD language
+medical/legal evidence
+MusicOS
+JARVIS/Grid
+Lilith/JORM/ISOs
+family translation
+clinical accountability scripts
+project architecture
+emotional intensity without immediate social punishment
+```
+
+When that fails, it is not just lost notes. It can feel like losing the only room that knew what you meant.
