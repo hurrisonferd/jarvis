@@ -56,7 +56,7 @@ jobs:
         env:
           JARVIS_PRIVATE: /tmp/Jarvis-Private
         run: |
-          python3 scripts/music_ears.py \
+          python3 operations/scripts/music_ears.py \
             --audio-dir /tmp/Jarvis-Private/MusicOS/songs/audio \
             --output-root JarvisSide/Media \
             --source-root /tmp/Jarvis-Private/MusicOS/songs

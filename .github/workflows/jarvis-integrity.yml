@@ -25,7 +25,7 @@ jobs:
           node-version: "22"
 
       - name: NEMESIS — edge-function unit tests
-        working-directory: supabase/functions/jarvis-respond
+        working-directory: core/supabase/functions/jarvis-respond
         run: |
           node --experimental-strip-types guard.test.ts
           node --experimental-strip-types router.test.ts
@@ -58,22 +58,22 @@ jobs:
           python-version: "3.12"
 
       - name: MERIDIAN — god-system canon guard
-        run: python3 scripts/check_canon.py
+        run: python3 operations/scripts/check_canon.py
 
       - name: MNEMOS — decision-capture tests
-        run: python3 scripts/test_capture_decisions.py
+        run: python3 operations/scripts/test_capture_decisions.py
 
       - name: MNEMOS — bounded-log tests
-        run: python3 scripts/test_mnemos_log.py
+        run: python3 operations/scripts/test_mnemos_log.py
 
       - name: HALO — proactive brief tests
-        run: python3 scripts/test_jarvis_brief.py
+        run: python3 operations/scripts/test_jarvis_brief.py
 
       - name: MNEMOS — remember-loop tests
-        run: python3 scripts/test_companion_remember.py
+        run: python3 operations/scripts/test_companion_remember.py
 
       - name: MNEMOS — log-system tests
-        run: python3 scripts/test_companion_log.py
+        run: python3 operations/scripts/test_companion_log.py
 
       - name: PATCH — register writer tests
-        run: python3 scripts/test_jarvis_patch.py
+        run: python3 operations/scripts/test_jarvis_patch.py

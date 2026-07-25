@@ -22,7 +22,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile the ladder
-        run: python3 JarvisMain/yggdrasil/tools/rollup.py
+        run: python3 core/JarvisMain/yggdrasil/tools/rollup.py
       - name: Commit compilations
         run: |
           git config user.name  "JARVIS"

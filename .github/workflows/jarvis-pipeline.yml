@@ -87,7 +87,7 @@ jobs:
           COMMIT_SHA:     ${{ github.sha }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message || 'schedule/dispatch' }}
         run: |
-          OUTPUT=$(python3 scripts/eris-entropy-check.py 2>&1)
+          OUTPUT=$(python3 operations/scripts/eris-entropy-check.py 2>&1)
           echo "$OUTPUT"
           STATUS=$(echo "$OUTPUT" | grep -oP '(?<=status:    )\S+' | head -1 || echo "ok")
           SCORE=$(echo "$OUTPUT"  | grep -oP '(?<=score:     )\S+' | head -1 || echo "0")
@@ -112,13 +112,13 @@ jobs:
           SUPABASE_URL:         ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SUPABASE_ANON_KEY:    ${{ secrets.SUPABASE_ANON_KEY }}
-        run: python3 scripts/mnemos-domain-sync.py
+        run: python3 operations/scripts/mnemos-domain-sync.py
 
       - name: Commit memory files
         run: |
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add mnemos/
+          git add memory/mnemos/
           git diff --staged --quiet || git commit -m "chore(mnemos): sync [${{ needs.ayre.outputs.event_type }}/${{ needs.ayre.outputs.sha_short }}] [skip ci]"
           git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
 
@@ -145,7 +145,7 @@ jobs:
           sha   = "${{ needs.ayre.outputs.sha_short }}"
           gl7   = "${{ needs.aegis.outputs.gl7_status }}"
 
-          path = pathlib.Path("mnemos/memories/sessions.json")
+          path = pathlib.Path("memory/mnemos/memories/sessions.json")
           try:
               data = json.loads(path.read_text())
           except Exception:
@@ -168,7 +168,7 @@ jobs:
         run: |
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add mnemos/memories/sessions.json
+          git add memory/mnemos/memories/sessions.json
           git diff --staged --quiet || git commit -m "chore(huginn): observation [${{ needs.ayre.outputs.event_type }}] [skip ci]"
           git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
 

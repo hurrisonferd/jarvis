@@ -1,0 +1,369 @@
+{
+  "updated": "2026-06-25",
+  "implementation_order": [
+    "DONE: P01 P02 P03 P04 P05 P06(partial)",
+    "DONE: P17(partial) P21(partial) P22(partial) P23(partial)",
+    "DONE: P27(partial) P13(partial) P14(partial) P10(done) MNEMOS(cloud)",
+    "DONE: P28 — GRID Runtime Engine (tick loop + GOVERNOR + REPLAY + pipeline pulse)",
+    "DONE: P29 — GNPL Consensus Engine (proposal/vote/commit/conflict/ZEUS arbitration)",
+    "DONE: P30(partial) — World Kernel (schema + tables + init + heartbeat + browser runtime LANDED 7f77e96; edge-fn AEGIS + L7 world view remain)",
+    "DONE: P33(partial) — MNEMOS Vector Layer (pgvector+HNSW 1536-dim live, OpenAI-compatible embeddings, needs EMBEDDING_API_KEY secret + backfill)",
+    "DONE: P18 — Intelligence Growth Registry (per-session growth_ledger.json, session-end + session-brief wired)",
+    "NEXT: P30 finish — grid-event edge-fn AEGIS world rules + TRON L7 enter/exit-world view",
+    "P31 — Mythos Governance Layer (frontier model integration, depends P28-P30)",
+    "P32 — Fractal Universe (Raven sign-off required — GL7 review pending, depends P28-P30)",
+    "MANUAL: P06 browser verify (COI+GBA ROM load test), P17 GitHub Actions secret"
+  ],
+  "patches": [
+    {
+      "id": "P01",
+      "name": "Patch 1 — Intake Pipeline",
+      "status": "done",
+      "priority": "low",
+      "summary": "memory/intake/gpt/ folder structure for AI handoff review lane.",
+      "remaining": []
+    },
+    {
+      "id": "P02",
+      "name": "Patch 2 — GB Emulator Stubs",
+      "status": "done",
+      "priority": "normal",
+      "summary": "ROMLoader + EmulatorRouter architecture stubs. GBA header detection via ARM reset vector (0x2E 0x00 0x00 0xEA).",
+      "remaining": []
+    },
+    {
+      "id": "P03",
+      "name": "Patch 3 — EMULATOR UI",
+      "status": "done",
+      "priority": "normal",
+      "summary": "EMULATOR menu item (7th), ROM file picker, handleROM() FileReader, detection feedback screen. B=stop+back, A=load.",
+      "remaining": []
+    },
+    {
+      "id": "P04",
+      "name": "Patch 4 — Neural Mesh (critical)",
+      "status": "done",
+      "priority": "critical",
+      "summary": "sessions/events/memory_state Supabase tables. ModeController. startSession/updateSession/sbEvent wiring. Realtime connected.",
+      "remaining": []
+    },
+    {
+      "id": "P05",
+      "name": "Patch 5 — GRID Spatial Graph (critical)",
+      "status": "done",
+      "priority": "critical",
+      "summary": "L0 spatial graph (16 nodes), L2 field overlay (glow/pressure from node_fields), L3 vector routing (SVG arrowheads), L4 Hypergraph (patch lineage fan-out), L5 Temporal (GitHub commit timeline).",
+      "remaining": []
+    },
+    {
+      "id": "P06",
+      "name": "Patch 6 — Master Emulator Consolidation (critical)",
+      "status": "partial",
+      "priority": "critical",
+      "summary": "RetroArch-style unified emulator. Adapter pattern. Local-first ROM execution. GB/GBC/GBA under one interface.",
+      "remaining": [
+        "Verify GBA ROM loads in browser (COI headers active after first SW reload)",
+        "Save states — snapshot/restore wired to P09"
+      ]
+    },
+    {
+      "id": "P07",
+      "name": "Patch 7 — GRID Execution Bridge",
+      "status": "done",
+      "priority": "normal",
+      "summary": "AEGIS gate edge function (grid-event) live. All events validated before execution. execution_trace table stores full audit trail. jarvis-bridge.py CLI + /execute slash command wired.",
+      "remaining": []
+    },
+    {
+      "id": "P08",
+      "name": "Patch 8 — GitHub ROM Indexer",
+      "status": "deprecated",
+      "priority": "normal",
+      "summary": "Auto-index ROMs in repo via GitHub API. Feed into GRID node list.",
+      "remaining": []
+    },
+    {
+      "id": "P09",
+      "name": "Patch 9 — Save States",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "Emulator save-state system. Snapshot storage in Supabase.",
+      "remaining": []
+    },
+    {
+      "id": "P10",
+      "name": "Patch 10 — Core Unification",
+      "status": "done",
+      "priority": "normal",
+      "summary": "Unify GB/GBC/GBA cores under single adapter interface. Companion intelligence layer: 27 God Systems with tick behaviors, L7 Companion view, MNEMOS continuity, PROMETHEUS ledger, SPEAK exchange (real A",
+      "remaining": []
+    },
+    {
+      "id": "P11",
+      "name": "Patch 11 — TRON Frontend",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "WASM emulator runtime + ES-DE-style launcher + TRON navigation layer.",
+      "remaining": []
+    },
+    {
+      "id": "P12",
+      "name": "Patch 12 — Intelligence + Multiplayer + Temporal Replay",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "AI guidance overlay, multiplayer session sync, full replay engine.",
+      "remaining": []
+    },
+    {
+      "id": "P13",
+      "name": "Patch 13 — God System Governance Pipeline",
+      "status": "done",
+      "priority": "normal",
+      "summary": "Full 27-node God System pipeline visible in GRID. AYRE→AEGIS→ODIN→KRONOS→SKADI→MNEMOS→HUGINN flow UI as TRON L6 layer. Parallel branch overlay complete.",
+      "remaining": []
+    },
+    {
+      "id": "P14",
+      "name": "Patch 14 — God Stats / Power Model",
+      "status": "done",
+      "priority": "normal",
+      "summary": "Per-node stat model: entropy, load, alignment, power. Power formula: alignment × load × (1−ent) × (1−entSens×ent). Historical trend mini [n2→n1→n0] per stat.",
+      "remaining": []
+    },
+    {
+      "id": "P15",
+      "name": "Patch 15 — Multimodal Layer",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "Text adventure overlay. Image + text hybrid view in TRON navigation layer.",
+      "remaining": []
+    },
+    {
+      "id": "P16",
+      "name": "Patch 16 — Clean Hierarchy",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "Briefing-aware hierarchy cleanup. Patch stack load order enforcement on boot.",
+      "remaining": []
+    },
+    {
+      "id": "P17",
+      "name": "Patch 17 — Audit + Log System",
+      "status": "done",
+      "priority": "highest",
+      "summary": "Immutable audit_log + patch_log Supabase tables. GitHub Actions auto-log workflow. patch_ledger.json canonical tracker. AUDIT tab in LIVE FEED.",
+      "remaining": []
+    },
+    {
+      "id": "P18",
+      "name": "Patch 18 — Intelligence Growth Registry",
+      "status": "done",
+      "priority": "normal",
+      "summary": "Per-session growth records. jarvis-session-end.py writes structured entry (patches_touched, built_files, topics, alignment, key_insight) to memory/mnemos/memories/growth_ledger.json at session end. jarvis-se",
+      "remaining": []
+    },
+    {
+      "id": "P19",
+      "name": "Patch 19 — Quantum GRID Realm",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "4D lattice structure. Folded space compression. L3-L6 GRID kernel layers. Per P00: GRID = view projection — quantum framing is conceptual.",
+      "remaining": []
+    },
+    {
+      "id": "P20",
+      "name": "Patch 20 — Stable Controller / Drift Elimination",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "Control plane. Drift detection triggers event bus alerts. HUGINN reconciliation on mismatch.",
+      "remaining": []
+    },
+    {
+      "id": "P21",
+      "name": "Patch 21 — Execution Identity Layer",
+      "status": "partial",
+      "priority": "highest",
+      "summary": "Briefing-first boot sequence. All agents = JARVIS instances in role mode. AEGIS gate on all outputs. Traceability mandate.",
+      "remaining": [
+        "Role-mode identity tagging — verify sessions table has agent/version columns (may need migration)",
+        "AEGIS policy expansion — additional rules beyond emu_start/COI"
+      ]
+    },
+    {
+      "id": "P22",
+      "name": "Patch 22 — Live Runtime Mesh",
+      "status": "partial",
+      "priority": "high",
+      "summary": "Replay engine + event bus + cartridge standard + push sync. System becomes fully replayable like a save-state engine.",
+      "remaining": [
+        "Push sync — cross-session cartridge state broadcast via Supabase realtime"
+      ]
+    },
+    {
+      "id": "P23",
+      "name": "Patch 23 — GRID/TRON Substrate Split",
+      "status": "partial",
+      "priority": "high",
+      "summary": "GRID = internal state kernel (L0-L6 layers). TRON = navigation/UI shell. Clean separation of substrate from interface.",
+      "remaining": [
+        "Full L1-L6 layer objects inside GRID substrate",
+        "TRON write-lock enforcement (currently symbolic only)"
+      ]
+    },
+    {
+      "id": "P27",
+      "name": "Patch 27 — GRID Place System",
+      "status": "partial",
+      "priority": "high",
+      "summary": "Transform GRID into spatial-semantic hybrid: readable as geography (TRON), writable as graph state (JARVIS), stored as event-sourced memory. REGION hull overlays + PORTAL external edges on L0 graph.",
+      "remaining": [
+        "ANCHOR/SHADOW entities",
+        "EDGE semantic typing (causal/temporal/structural/signal/constraint)",
+        "TRON navigation modes EXPLORE/ROUTE/DEBUG/REPLAY/BUILD — depends on P28"
+      ]
+    },
+    {
+      "id": "P28",
+      "name": "Patch 28 — GRID Runtime Engine",
+      "status": "done",
+      "priority": "high",
+      "summary": "GRID transitions from static structured space to active runtime simulation engine. NODE = stateful actor with tick_fn. Tick loop: ingest→route(ODIN)→validate(AEGIS)→execute(SKADI)→reconcile(MNEMOS)→dr",
+      "remaining": []
+    },
+    {
+      "id": "P29",
+      "name": "Patch 29 — GNPL Consensus Engine",
+      "status": "done",
+      "priority": "high",
+      "summary": "Multi-agent graph agreement + conflict resolution for Claude/Codex/GPT/Gemini/Mythos operating on shared GRID state.",
+      "remaining": []
+    },
+    {
+      "id": "P30",
+      "name": "Patch 30 — World Kernel Spec",
+      "status": "done",
+      "priority": "normal",
+      "summary": "NODE becomes a WORLD: isolated execution sandbox embedded inside GRID with its own runtime loop and bounded agent hosting. Foundation for P31 (Mythos) and P32 (Fractal Universe).",
+      "remaining": []
+    },
+    {
+      "id": "P31",
+      "name": "Patch 31 — Mythos Autonomous Governance Layer",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "Mythos-class frontier models integrated as bounded reasoning engines under strict JARVIS governance.",
+      "remaining": []
+    },
+    {
+      "id": "P32",
+      "name": "Patch 32 — Fractal Universe",
+      "status": "pending",
+      "priority": "normal",
+      "summary": "Fractal node expansion engine. Raven sign-off required before execution. GL7 review pending.",
+      "remaining": []
+    },
+    {
+      "id": "P33",
+      "name": "Patch 33 — MNEMOS Vector Layer",
+      "status": "partial",
+      "priority": "high",
+      "summary": "Semantic memory search via pgvector. mnemos-search edge function: cosine similarity via match_memories RPC, keyword ILIKE fallback. mnemos-embed: stores 768-dim vectors per memory. jarvis-recall.py up",
+      "remaining": [
+        "Set EMBEDDING_API_KEY in Supabase edge function secrets (Dashboard → Edge Functions → Secrets)",
+        "Backfill: POST /functions/v1/mnemos-embed {backfill:true} with service key to embed existing memories"
+      ]
+    },
+    {
+      "id": "P34",
+      "name": "Patch 34 — Security Hardening",
+      "status": "partial",
+      "priority": "highest",
+      "summary": "Close Supabase RLS exposure surfaced by full audit. Backend was world-writable via the public anon key (GL5 risk). Phase 1 (non-breaking) applied; Phase 2 (write-path governance) pending.",
+      "remaining": [
+        "Phase 2 — route browser writes through edge functions (service role + AEGIS gate) so anon becomes read-only everywhere. Tables still carrying anon insert/update USING(true): sessions, events, consensus_proposals, save_states, rom_library, push_subscriptions, node_fields, memory_state, emulator_state, world_kernels/world_agents/world_events. This is the real GL5 fix — no silent state mutation from the public key.",
+        "Switch jarvis-world-init.py + CI heartbeat to SUPABASE_SERVICE_KEY (depends on P17 secret), then lock world_* tables to anon read-only.",
+        "Move vector extension out of public schema (WARN)."
+      ]
+    },
+    {
+      "id": "P35",
+      "name": "Patch 35 — Consistent Patch Register — lifecycle + chronological accumulation",
+      "status": "executed",
+      "priority": "highest",
+      "summary": "Consistent Patch Register — lifecycle + chronological accumulation",
+      "remaining": []
+    },
+    {
+      "id": "P36",
+      "name": "Patch 36 — Silent-Write Hardening — every write confirms or surfaces failure (GL5)",
+      "status": "executed",
+      "priority": "highest",
+      "summary": "Silent-Write Hardening — every write confirms or surfaces failure (GL5)",
+      "remaining": []
+    },
+    {
+      "id": "P37",
+      "name": "Patch 37 — Grid Trust Layer — RLS on node_keys/node_messages + TOFU key-to-node binding + inbox rate limit",
+      "status": "executed",
+      "priority": "highest",
+      "summary": "Grid Trust Layer — RLS on node_keys/node_messages + TOFU key-to-node binding + inbox rate limit",
+      "remaining": []
+    },
+    {
+      "id": "P38",
+      "name": "Patch 38 — Close the Loop — wire output-gate + auto-ingest into live jarvis-respond (GL10)",
+      "status": "executed",
+      "priority": "high",
+      "summary": "Close the Loop — wire output-gate + auto-ingest into live jarvis-respond (GL10)",
+      "remaining": []
+    },
+    {
+      "id": "P39",
+      "name": "Patch 39 — Governance-as-Code Teeth — tests for session hooks, jarvis-patch.py, 9 edge functions; CI wiring",
+      "status": "executed",
+      "priority": "high",
+      "summary": "Governance-as-Code Teeth — tests for session hooks, jarvis-patch.py, 9 edge functions; CI wiring",
+      "remaining": []
+    },
+    {
+      "id": "P40",
+      "name": "Patch 40 — Memory Consolidation + Durability — one session-history spine, archive on rotation, fix vector-dim drift",
+      "status": "executed",
+      "priority": "normal",
+      "summary": "Memory Consolidation + Durability — one session-history spine, archive on rotation, fix vector-dim drift",
+      "remaining": []
+    },
+    {
+      "id": "P41",
+      "name": "Patch 41 — Canon Hygiene — CLAUDE.md cloud-first, Gold Law numbering Rosetta, resolve 4 unrouted god systems",
+      "status": "executed",
+      "priority": "normal",
+      "summary": "Canon Hygiene — CLAUDE.md cloud-first, Gold Law numbering Rosetta, resolve 4 unrouted god systems",
+      "remaining": []
+    },
+    {
+      "id": "P42",
+      "name": "Patch 42 — Autonomous consolidation scheduler — MNEMOS/KRONOS, the loop's 'compress' step",
+      "status": "executed",
+      "priority": "high",
+      "summary": "Autonomous consolidation scheduler — MNEMOS/KRONOS, the loop's 'compress' step",
+      "remaining": []
+    },
+    {
+      "id": "P43",
+      "name": "Patch 43 — Governed persistence loop — scheduled re-eval + drift detection + self-consistency audit (KRONOS)",
+      "status": "open",
+      "priority": "high",
+      "summary": "Governed persistence loop — scheduled re-eval + drift detection + self-consistency audit (KRONOS)",
+      "remaining": []
+    },
+    {
+      "id": "P44",
+      "name": "Patch 44 — AYRE/JARVIS split — co-equal streams, shared keel (phase 1)",
+      "status": "executed",
+      "priority": "highest",
+      "summary": "AYRE/JARVIS split — co-equal streams, shared keel (phase 1)",
+      "remaining": []
+    }
+  ]
+}

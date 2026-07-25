@@ -22,13 +22,13 @@ jobs:
           fetch-depth: 2
 
       - name: Extract decision from HEAD
-        run: python3 scripts/capture_decisions.py
+        run: python3 operations/scripts/capture_decisions.py
 
       - name: Commit ledger
         run: |
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          LEDGER="mnemos/memories/decisions.jsonl"
+          LEDGER="memory/mnemos/memories/decisions.jsonl"
           if [ -f "$LEDGER" ]; then
             git add "$LEDGER"
             git diff --staged --quiet || {

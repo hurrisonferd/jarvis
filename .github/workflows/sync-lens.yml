@@ -9,7 +9,7 @@ on:
     - cron: "30 13 * * *"   # daily, after the morning mirror settles
   push:
     branches: [main]
-    paths: ['JarvisMain/yggdrasil/jd/entries/**', 'scripts/sync_lens.py']
+    paths: ['core/JarvisMain/yggdrasil/jd/entries/**', 'operations/scripts/sync_lens.py']
   workflow_dispatch:
 
 permissions:
@@ -32,17 +32,17 @@ jobs:
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
         run: |
           set +e
-          python3 scripts/sync_lens.py
+          python3 operations/scripts/sync_lens.py
           echo "code=$?" >> "$GITHUB_OUTPUT"
       - name: Commit the report
         run: |
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add JarvisMain/yggdrasil/lal/SYNC-LENS.md
+          git add core/JarvisMain/yggdrasil/lal/SYNC-LENS.md
           git diff --staged --quiet || git commit -m "chore(sync-lens): cross-store divergence report [skip ci]"
           git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
       - name: Sound the alarm on divergence
         if: steps.diff.outputs.code == '2'
         run: |
-          echo "::error::Sync Lens detected git↔Supabase divergence. See JarvisMain/yggdrasil/lal/SYNC-LENS.md"
+          echo "::error::Sync Lens detected git↔Supabase divergence. See core/JarvisMain/yggdrasil/lal/SYNC-LENS.md"
           exit 1

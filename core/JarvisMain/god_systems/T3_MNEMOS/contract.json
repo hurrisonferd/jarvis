@@ -1,0 +1,23 @@
+{
+  "id": "MNEMOS", "tier": 3, "pipeline_position": 6,
+  "role": "Persistent semantic memory. Indexes all executed actions. Cross-session continuity. The reason JARVIS remembers.",
+  "implementation": {
+    "hot": "Supabase mnemos_memories — searchable via tsvector + tag overlap",
+    "cold": "GitHub memory/mnemos/domains/*.json — versioned, always-readable",
+    "tags": 18,
+    "vocab_table": "mnemos_vocab — modular, adding a tag = one INSERT, no deploy"
+  },
+  "memory_types": {
+    "raven_profile": "Who Raven is",
+    "decision": "Gold Laws + architecture decisions",
+    "speak_input": "Every message Raven sends",
+    "speak_output": "Every JARVIS response",
+    "github_commit": "Commits to main",
+    "github_issue": "Issues opened/closed",
+    "session_summary": "End-of-session digest",
+    "monitor": "Daily autonomous observations"
+  },
+  "current_state": { "total": 39, "load": 0.35, "entropy": 0.12, "alignment": 0.98 },
+  "speaks_to": ["HUGINN"],
+  "receives_from": ["SKADI", "UserPromptSubmit hook", "GitHub Actions", "jarvis-monitor"]
+}

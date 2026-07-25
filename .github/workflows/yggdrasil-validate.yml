@@ -7,13 +7,13 @@ name: yggdrasil-validate
 on:
   pull_request:
     paths:
-      - 'JarvisMain/**'
+      - 'core/JarvisMain/**'
       - 'JarvisSide/**'
       - '.github/workflows/yggdrasil-validate.yml'
   push:
     branches: [main]
     paths:
-      - 'JarvisMain/**'
+      - 'core/JarvisMain/**'
       - 'JarvisSide/**'
 
 jobs:
@@ -25,12 +25,12 @@ jobs:
         with:
           python-version: '3.11'
       - name: Validate substrate (grammar + GL12 + status + mirror)
-        run: python JarvisMain/yggdrasil/tools/validate.py
+        run: python core/JarvisMain/yggdrasil/tools/validate.py
       - name: Check status-managed files are sorted (JSS/autosort)
-        run: python JarvisMain/yggdrasil/tools/autosort.py
+        run: python core/JarvisMain/yggdrasil/tools/autosort.py
       - name: Check registries are in sync with entries (no drift)
         run: |
-          python JarvisMain/yggdrasil/tools/seed.py
+          python core/JarvisMain/yggdrasil/tools/seed.py
           # status --porcelain catches UNTRACKED files too (git diff --quiet missed new JD
           # entries — that's how an entry once landed in the registry but not in git).
           # EXCLUDE lal/PINCH.md: it is a lens REPORT, not a registry — it bakes in wall-clock
@@ -38,9 +38,9 @@ jobs:
           # it moves HEAD). Gating on it made this step fail every run, which SKIPPED the mirror job
           # (needs: validate) and silently froze the Supabase mirror. The gate guards the
           # deterministic registries/entries; volatile reports are out of scope.
-          DRIFT="$(git status --porcelain JarvisMain/yggdrasil/ | grep -v 'lal/PINCH.md' || true)"
+          DRIFT="$(git status --porcelain core/JarvisMain/yggdrasil/ | grep -v 'lal/PINCH.md' || true)"
           if [ -n "$DRIFT" ]; then
-            echo "::error::LAL registries / JD entries are out of sync (incl. untracked). Run 'python JarvisMain/yggdrasil/tools/seed.py' and commit."
+            echo "::error::LAL registries / JD entries are out of sync (incl. untracked). Run 'python core/JarvisMain/yggdrasil/tools/seed.py' and commit."
             echo "$DRIFT"
             exit 1
           fi
@@ -61,9 +61,9 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python JarvisMain/yggdrasil/tools/sync_supabase.py --push
+        run: python core/JarvisMain/yggdrasil/tools/sync_supabase.py --push
       - name: Re-seed JITM keel pins from the profiles (auto-update; self-gating, no churn)
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python scripts/jitm_seed.py
+        run: python operations/scripts/jitm_seed.py

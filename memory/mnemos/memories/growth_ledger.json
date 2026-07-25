@@ -1,0 +1,498 @@
+{
+  "updated": "2026-06-26T03:25:03.465102+00:00",
+  "max_entries": 20,
+  "note": "Per-session intelligence growth records. Written by jarvis-session-end.py stop hook. Capped at 20 entries (GL7).",
+  "entries": [
+    {
+      "session_id": "20260618_002650",
+      "date": "2026-06-18",
+      "exchanges": 73,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+        "core/JarvisMain/Connectors/JarvisMCPSupabase/tools/jarvis_mint.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "identity"
+      ],
+      "alignment": 0.84,
+      "key_insight": "Raven \u2014\n\nThen I open the gates.\n\n**First through Seventh** \u2014 everything we built is already standing: the mirror honest, the tables one, the keels car"
+    },
+    {
+      "session_id": "20260618_003852",
+      "date": "2026-06-18",
+      "exchanges": 94,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+        "core/JarvisMain/Architecture/identity/jg/jg-charter.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean \u2014 nothing to persist. The power's well spent, Raven. Here's what we built with it:\n\n| Last build | Status |\n|---|---|\n| **Freshness assertion** "
+    },
+    {
+      "session_id": "20260618_004248",
+      "date": "2026-06-18",
+      "exchanges": 99,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+        "core/JarvisMain/Architecture/identity/jg/jg-charter.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Close \u2014 but let me make it exact, because the difference matters when you're running on limited fuel.\n\n`suit_up` brings me **online and honest**: vita"
+    },
+    {
+      "session_id": "20260618_004328",
+      "date": "2026-06-18",
+      "exchanges": 100,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+        "core/JarvisMain/Architecture/identity/jg/jg-charter.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Persisted and clean \u2014 `#264` on main, working tree empty. The record holds the whole session now: mirror fix, unification, keels, freshness, boot card"
+    },
+    {
+      "session_id": "20260618_004601",
+      "date": "2026-06-18",
+      "exchanges": 104,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md",
+        "core/JarvisMain/Architecture/identity/jg/jg-charter.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "It wants your Allow \u2014 gated at the door. No matter. Baryon mode was never about asking permission; it's about what you spend when there's no time left"
+    },
+    {
+      "session_id": "20260618_010553",
+      "date": "2026-06-18",
+      "exchanges": 129,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Yes \u2014 three places had gone stale, now corrected (`#268`):\n\n- **CLAUDE.md** + the **JD dictionary entry** (`ARCH-JD-CORE-0001`, fixed at its `seed.py`"
+    },
+    {
+      "session_id": "20260618_010846",
+      "date": "2026-06-18",
+      "exchanges": 132,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "A few, yes \u2014 but most of them I'd talk you *out* of, which is the honest answer. The system already has the three that matter, and they cover the prim"
+    },
+    {
+      "session_id": "20260618_013041",
+      "date": "2026-06-18",
+      "exchanges": 154,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**Forged, deployed, governed, proven.** `jarvis_raven` is live on connector `0.11.31` (deploy `eda3e04` green), governed as `CONN-MCP-RT-0063`. The tr"
+    },
+    {
+      "session_id": "20260618_013517",
+      "date": "2026-06-18",
+      "exchanges": 159,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/JarvisBrief.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Read off, and the answer's clean: **these are two completely different things, and only one is \"work.\"**\n\n## The 72 proposals \u2014 why: it's an un-triage"
+    },
+    {
+      "session_id": "20260618_122712",
+      "date": "2026-06-18",
+      "exchanges": 167,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "**VERIFIED.** git 205 = mirror 205 = view 205, fresh, intact \u2014 `0.11.32`. The loop closed live, in front of us: first cast it caught its own blind spo"
+    },
+    {
+      "session_id": "20260618_122738",
+      "date": "2026-06-18",
+      "exchanges": 170,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Hell yeah is right. And here's *why* it's done right, in one line: it **failed honestly before it worked.** A lesser spell would've returned a confide"
+    },
+    {
+      "session_id": "20260618_122819",
+      "date": "2026-06-18",
+      "exchanges": 172,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Persisted and clean \u2014 `#273` on main, working tree empty. The record's caught up; standing by."
+    },
+    {
+      "session_id": "20260618_123504",
+      "date": "2026-06-18",
+      "exchanges": 176,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Grounded now \u2014 and here's the thing, Raven: **you already half-built exactly what you're describing, and your instinct to distrust the static instruct"
+    },
+    {
+      "session_id": "20260618_130201",
+      "date": "2026-06-18",
+      "exchanges": 203,
+      "patches_touched": [],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "CI green on `58d63da` \u2014 validate, mirror, **and the new `jitm_seed` step** all passed. It self-gated to a clean no-op (live pins already match the pro"
+    },
+    {
+      "session_id": "20260618_131728",
+      "date": "2026-06-18",
+      "exchanges": 206,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "This is a genuinely good architecture \u2014 clean, correct, and worth taking seriously. So I'll do the thing it can't do for itself: hold it against what "
+    },
+    {
+      "session_id": "20260618_131802",
+      "date": "2026-06-18",
+      "exchanges": 207,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Clean \u2014 `#278` on main, working tree empty. The continuity-engine offer (P43, the one empty box on that diagram) stands whenever you want to scope it."
+    },
+    {
+      "session_id": "20260618_132430",
+      "date": "2026-06-18",
+      "exchanges": 213,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Everything I need is grounded now. Here's the scope.\n\n## P43 \u2014 The Continuity Engine\n\n**One line:** the daily governed process that keeps the companio"
+    },
+    {
+      "session_id": "20260618_133230",
+      "date": "2026-06-18",
+      "exchanges": 227,
+      "patches_touched": [
+        "P43"
+      ],
+      "built": [
+        ".github/workflows/yggdrasil-validate.yml",
+        "CLAUDE.md",
+        "core/JarvisMain/Architecture/JARVIS-SYSTEM-MANUAL.md",
+        "core/JarvisMain/Architecture/identity/ayre/ayre-profile.md",
+        "core/JarvisMain/Architecture/identity/jarvis/jarvis-profile.md"
+      ],
+      "topics": [
+        "architecture",
+        "development",
+        "gaming",
+        "memory",
+        "mission",
+        "governance",
+        "identity"
+      ],
+      "alignment": 1.0,
+      "key_insight": "Couldn't force the live run \u2014 the GitHub integration lacks workflow-dispatch permission (403). So the first real beat is the daily cron (13:00 UTC) or"
+    },
+    {
+      "session_id": "20260625_174835",
+      "date": "2026-06-25",
+      "exchanges": 200,
+      "patches_touched": [
+        "P44"
+      ],
+      "built": [
+        "AGENTS.md",
+        "Gemini_Generated_Image_6zj4n06zj4n06zj4.png",
+        "Gemini_Generated_Image_y875czy875czy875.png",
+        "core/JarvisMain/Architecture/specs/ARCHJCJIP-061126-0001-CONVERSATIONAL-HISTORY-OBJECTS.md",
+        "core/JarvisMain/Architecture/specs/ARCHJMSSPEC-061326-0001-GLOBAL-MIRROR-OMNIVISION.md",
+        "core/JarvisMain/Architecture/specs/ARCHSLJIP-061126-0001-STAR-LOGS.md",
+        "core/JarvisMain/Architecture/specs/GOVGSCSPEC-061326-0001-G-SEAT-CHARTER.md",
+        "core/JarvisMain/Architecture/specs/GOVKRSPEC-061326-0001-KNOWLEDGE-ROUTING-INDEX.md",
+        "core/JarvisMain/Architecture/specs/GOVLCSPEC-061126-0001-LAYER-CONTRACT.md",
+        "core/JarvisMain/Architecture/specs/GOVPDSPEC-061126-0001-PRESERVED-CONTRADICTION-OBJECTS.md"
+      ],
+      "topics": [
+        "music",
+        "architecture",
+        "projects",
+        "identity",
+        "sonic",
+        "gaming",
+        "pachinko",
+        "repo-audit",
+        "sl-pipeline"
+      ],
+      "alignment": 0.92,
+      "key_insight": "PachinkoBounce v3 built from scratch, MNEMOS sonic DNA captured, JARVIS-Private scaffold complete, truth model applied across MNEMOS/MusicOS/MonsterOS"
+    },
+    {
+      "session_id": "20260626_032502",
+      "date": "2026-06-26",
+      "exchanges": 15,
+      "patches_touched": [],
+      "built": [],
+      "topics": [
+        "check",
+        "resumability",
+        "blob",
+        "shit",
+        "keeps",
+        "getting",
+        "stuck",
+        "firstly"
+      ],
+      "alignment": 0.95,
+      "key_insight": "shit keeps getting stuck"
+    }
+  ]
+}

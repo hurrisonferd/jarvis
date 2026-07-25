@@ -9,22 +9,22 @@ dist/
 .env.*
 !.env.example
 
-chaos/chaos_seed.json
-chaos/session_log.json
-chaos/prometheus_log.json
-chaos/live_log.json
-chaos/tunnel_*.txt
-chaos/*.db
-chaos/*.sqlite
-chaos/*.sqlite3
+memory/chaos/chaos_seed.json
+memory/chaos/session_log.json
+memory/chaos/prometheus_log.json
+memory/chaos/live_log.json
+memory/chaos/tunnel_*.txt
+memory/chaos/*.db
+memory/chaos/*.sqlite
+memory/chaos/*.sqlite3
 
 grid_images/
 
-supabase/.temp/
+core/supabase/.temp/
 
 # Local repo mirrors / recovery worktrees. These are navigational storage bins,
 # not source files for the public repo itself.
-rooms/repos/
+operations/rooms/repos/
 
 .DS_Store
 Thumbs.db
@@ -34,3 +34,5 @@ docs/emulator/cores/*.wasm
 docs/emulator/cores/*.js
 .openhands/
 .coop_poller_state.json
+
+*.bundle

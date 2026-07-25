@@ -1,7 +1,7 @@
 # MNEMOS cloud backup (Raven-directed 2026-06-10): the spine's durable copy in
 # the canonical core. The repo is git-versioned; the cloud is the unbacked
 # surface — this closes it. Weekly snapshot of the irreplaceable tables into
-# JarvisMain/Backups/cloud/, committed only when changed.
+# core/JarvisMain/Backups/cloud/, committed only when changed.
 name: MNEMOS — cloud backup
 on:
   schedule:
@@ -20,12 +20,12 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python3 scripts/mnemos_backup.py
+        run: python3 operations/scripts/mnemos_backup.py
       - name: Publish snapshot to the backups branch (main is protected — no bypass needed)
         run: |
           git config user.name "JARVIS (MNEMOS backup)"
           git config user.email "noreply@anthropic.com"
-          git add JarvisMain/Backups/
+          git add core/JarvisMain/Backups/
           if git diff --cached --quiet; then
             echo "backup: no change since last snapshot."
           else

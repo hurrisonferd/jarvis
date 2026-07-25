@@ -11,7 +11,7 @@
 <link rel="manifest" href="./manifest.json">
 <link rel="apple-touch-icon" href="./icon.svg">
 <title>JARVIS HANDHELD</title>
-<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script crossorigin="anonymous" src="https://cdn.jsdelivr.net/npm/@core/supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 :root {
@@ -530,7 +530,7 @@ let godStats={};
 // every open, so it mirrors exactly what CI regenerates + what the connector serves (one source,
 // every face). Never hardcoded — it can't drift from JARVIS/the connector/GitHub.
 let grimoireData=null, grimoireLoading=false, grimoireCard=null;
-const GRIMOIRE_URL='https://raw.githubusercontent.com/hurrisonferd/jarvis/main/JarvisMain/yggdrasil/lal/graph.json';
+const GRIMOIRE_URL='https://raw.githubusercontent.com/hurrisonferd/jarvis/main/core/JarvisMain/yggdrasil/lal/graph.json';
 // SPEAK — companion exchange layer
 let speakHistory=[], speakInput='', speakThinking=false, lastRouting=null, lastAegis=null;
 let voiceOn=false, voiceListening=false, _jarvisRecog=null;
@@ -1115,7 +1115,7 @@ const WasmBoyCore={
 
 // P06: GBA adapter — @thenick775/mgba-wasm v2.4.1 (COI headers enabled in gameboy-sw.js)
 const MGBA_CDN='https://cdn.jsdelivr.net/npm/@thenick775/mgba-wasm@2.4.1/dist/';
-const MGBA_LOCAL='/emulator/cores/';
+const MGBA_LOCAL='/app/emulator/cores/';
 const MGBACore={
   name:'mGBA', types:['gba'], _m:null, _prev:new Set(),
   _map:{A:'A',B:'B',UP:'Up',DOWN:'Down',LEFT:'Left',RIGHT:'Right',START:'Start',SELECT:'Select',L:'L',R:'R'},

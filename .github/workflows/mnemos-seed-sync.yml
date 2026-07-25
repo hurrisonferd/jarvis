@@ -1,6 +1,6 @@
 name: MNEMOS Seed Sync
 
-# The remember loop's third strand. Drains mnemos/memories/seed_queue.jsonl into
+# The remember loop's third strand. Drains memory/mnemos/memories/seed_queue.jsonl into
 # the live brain (Supabase mnemos_memories, embedded) by POSTing each pending
 # insight to the mnemos-store edge function, then clears the queue and commits.
 #
@@ -10,7 +10,7 @@ name: MNEMOS Seed Sync
 on:
   push:
     branches: [main]
-    paths: ['mnemos/memories/seed_queue.jsonl']
+    paths: ['memory/mnemos/memories/seed_queue.jsonl']
 
 permissions:
   contents: write
@@ -31,7 +31,7 @@ jobs:
           python3 << 'PYEOF'
           import json, os, sys, urllib.request, pathlib
 
-          q = pathlib.Path("mnemos/memories/seed_queue.jsonl")
+          q = pathlib.Path("memory/mnemos/memories/seed_queue.jsonl")
           if not q.exists() or not q.read_text().strip():
               print("seed queue empty — nothing to sync"); sys.exit(0)
 
@@ -79,6 +79,6 @@ jobs:
         run: |
           git config user.name  "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add mnemos/memories/seed_queue.jsonl
+          git add memory/mnemos/memories/seed_queue.jsonl
           git diff --staged --quiet || git commit -m "chore(mnemos): drain seed queue to live memory [skip ci]"
           git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"

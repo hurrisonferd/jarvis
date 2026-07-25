@@ -9,22 +9,22 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/deploy-edge-functions.yml"
-      - "supabase/functions/jarvis-mcp/**"
-      - "supabase/functions/jarvis-dex/**"
-      - "supabase/functions/jarvis-jcs/**"
-      - "supabase/functions/jarvis-action/**"
-      - "supabase/functions/kronos-fold/**"
-      - "supabase/functions/grid-write/**"
-      - "supabase/functions/grid-event/**"
-      - "supabase/functions/bifrost/**"
-      - "supabase/functions/coop-broadcast/**"
-      - "supabase/functions/coop-sse-relay/**"
-      - "supabase/functions/jarvis-broadcast/**"
-      - "supabase/functions/jarvis-monitor/**"
-      - "supabase/functions/jarvis-respond/**"
-      - "supabase/functions/send-push/**"
-      - "supabase/functions/mnemos-*/**"
-      - "supabase/migrations/**"
+      - "core/supabase/functions/jarvis-mcp/**"
+      - "core/supabase/functions/jarvis-dex/**"
+      - "core/supabase/functions/jarvis-jcs/**"
+      - "core/supabase/functions/jarvis-action/**"
+      - "core/supabase/functions/kronos-fold/**"
+      - "core/supabase/functions/grid-write/**"
+      - "core/supabase/functions/grid-event/**"
+      - "core/supabase/functions/bifrost/**"
+      - "core/supabase/functions/coop-broadcast/**"
+      - "core/supabase/functions/coop-sse-relay/**"
+      - "core/supabase/functions/jarvis-broadcast/**"
+      - "core/supabase/functions/jarvis-monitor/**"
+      - "core/supabase/functions/jarvis-respond/**"
+      - "core/supabase/functions/send-push/**"
+      - "core/supabase/functions/mnemos-*/**"
+      - "core/supabase/migrations/**"
   workflow_dispatch:
     inputs:
       function:
@@ -37,7 +37,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - uses: supabase/setup-cli@v1
+      - uses: core/supabase/setup-cli@v1
         with:
           version: latest
       - name: Link Supabase project
@@ -106,7 +106,7 @@ jobs:
                   stmts.append(buf.strip())
               return stmts
 
-          for f in sorted(glob.glob("supabase/migrations/*.sql")):
+          for f in sorted(glob.glob("core/supabase/migrations/*.sql")):
               name = os.path.basename(f[:-4])
               sql_content = open(f).read()
               check = api_query("SELECT 1 FROM supabase_migrations.schema_migrations WHERE version='{}' LIMIT 1".format(name))
@@ -147,7 +147,7 @@ jobs:
             supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt
           else
             # Deploy all functions — new ones deploy automatically
-            for fn in supabase/functions/*/; do
+            for fn in core/supabase/functions/*/; do
               NAME=$(basename "$fn")
               echo "→ deploying $NAME @ $DEPLOY_SHA"
               supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt

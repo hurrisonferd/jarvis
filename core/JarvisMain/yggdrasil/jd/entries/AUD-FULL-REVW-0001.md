@@ -1,0 +1,26 @@
+---
+name: Full System Audit
+type: REVW
+class: EVENT
+tier: MAIN
+authority: CANON
+owner: Audit
+steward: 
+parent: AUD-IDX-REG-0001
+jnl: AUD-FULL-REVW-0001
+seq: 89
+status: ACTIVE
+created: 2026-06-09
+updated: 2026-06-26
+source: core/JarvisMain/Audit/2026-06-04_full_system_audit.md
+related: [GOV-CAN-CORE-0001]
+references: []
+tags: [audit, review]
+aliases: []
+ref: [PRI, IDX]
+memory_tier: JLTM
+---
+
+**Definition:** Full system audit (2026-06-04).
+
+**Purpose:** Recorded audit.

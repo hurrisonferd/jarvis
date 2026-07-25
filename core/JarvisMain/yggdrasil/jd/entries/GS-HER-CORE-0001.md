@@ -1,0 +1,26 @@
+---
+name: HERMES
+type: CORE
+class: SYSTEM
+tier: MAIN
+authority: CANON
+owner: God Systems
+steward: 
+parent: ARCH-GS-IDX-0001
+jnl: GS-HER-CORE-0001
+seq: 31
+status: INACTIVE
+created: 2026-06-09
+updated: 2026-06-26
+source: core/JarvisMain/god_systems/T9_HERMES/contract.json
+related: [CONN-MSB-CORE-0001]
+references: []
+tags: [governance, god-system, canon]
+aliases: []
+ref: [PRI, IDX]
+memory_tier: JATM
+---
+
+**Definition:** Translation + protocol conversion (MCP <-> external).
+
+**Purpose:** Canonical God System (governance tier). Fixed; do not redefine.

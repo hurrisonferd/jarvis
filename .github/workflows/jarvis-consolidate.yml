@@ -24,4 +24,4 @@ jobs:
         env:
           SUPABASE_URL: https://oexghfsvhnggddllgvrt.supabase.co
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python3 scripts/jarvis-consolidate.py
+        run: python3 operations/scripts/jarvis-consolidate.py

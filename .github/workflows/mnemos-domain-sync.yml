@@ -17,12 +17,12 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
-        run: python3 scripts/mnemos-domain-sync.py
+        run: python3 operations/scripts/mnemos-domain-sync.py
 
       - name: Commit updated memory files
         run: |
           git config user.name "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add mnemos/
+          git add memory/mnemos/
           git diff --staged --quiet || git commit -m "chore(mnemos): daily memory sync — memories + context + index [GL7-OK]"
           git push origin main || echo "Nothing to push"

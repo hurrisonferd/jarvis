@@ -1,7 +1,7 @@
 Run this command in bash and display the results to Raven:
 
 ```bash
-python3 scripts/jarvis-bridge.py "$ARGUMENTS"
+python3 operations/scripts/jarvis-bridge.py "$ARGUMENTS"
 ```
 
 This submits an event through the GRID Execution Bridge (AEGIS gate).

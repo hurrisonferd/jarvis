@@ -20,7 +20,7 @@ jobs:
             exit 1
           fi
           sudo apt-get update -qq && sudo apt-get install -y -qq postgresql-client > /dev/null 2>&1
-          for f in supabase/migrations/*.sql; do
+          for f in core/supabase/migrations/*.sql; do
             NAME=$(basename "${f%.sql}")
             EXISTS=$(psql "$DATABASE_URL" -tAc "SELECT 1 FROM supabase_migrations.schema_migrations WHERE name='$NAME' LIMIT 1" 2>/dev/null)
             if [ "$EXISTS" = "1" ]; then

@@ -1,0 +1,350 @@
+import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "https://esm.sh/@core/supabase/supabase-js@2";
+import {
+  gl12Errors, isValidJNL, ontologyClass, ownerOf, parseJNL, tierOf,
+} from "./jfs.ts";
+
+// jarvis-dex — governed access to the JD/JNL dex (JIP-DEX-0001).
+// Privilege ladder via x-jarvis-token, mapped onto JSS status:
+//   READ → PROPOSE (agent) → DRAFT (elevated) → COMMIT (raven) → OVERRIDE (skeleton/ZEUS).
+// Files stay truth; this writes the Supabase mirror + proposals. Approved ACTIVE rows
+// are reconciled back to files by a GitHub Action.
+
+const SUPABASE_URL = Deno.env.get("SUPABASE_URL") ?? "";
+const SERVICE_KEY =
+  Deno.env.get("SUPABASE_SERVICE_KEY") ??
+  Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? "";
+const AGENT_TOKEN = Deno.env.get("DEX_AGENT_TOKEN") ?? "";
+const ELEVATED_TOKEN = Deno.env.get("DEX_ELEVATED_TOKEN") ?? "";
+const RAVEN_TOKEN = Deno.env.get("DEX_RAVEN_TOKEN") ?? "";
+// Break-glass: Raven-only supreme authority (ZEUS — emergency override + halt).
+// Read from the secret; the value never lives in the repo.
+const SKELETON_KEY = Deno.env.get("RAVEN_SKELETON_KEY") ?? "";
+
+const cors = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Headers": "authorization, content-type, apikey, x-jarvis-token",
+};
+
+type Tier = "READ" | "PROPOSE" | "DRAFT" | "COMMIT" | "OVERRIDE";
+const RANK: Record<Tier, number> = { READ: 0, PROPOSE: 1, DRAFT: 2, COMMIT: 3, OVERRIDE: 4 };
+
+function tierOfToken(tok: string): Tier {
+  if (tok && SKELETON_KEY && tok === SKELETON_KEY) return "OVERRIDE"; // ZEUS — checked first
+  if (tok && tok === RAVEN_TOKEN) return "COMMIT";
+  if (tok && tok === ELEVATED_TOKEN) return "DRAFT";
+  if (tok && tok === AGENT_TOKEN) return "PROPOSE";
+  return "READ";
+}
+
+function json(body: unknown, status = 200) {
+  return new Response(JSON.stringify(body), {
+    status,
+    headers: { ...cors, "Content-Type": "application/json" },
+  });
+}
+const fail = (error: string, status = 400) => json({ ok: false, error }, status);
+
+const db = createClient(SUPABASE_URL, SERVICE_KEY);
+
+async function logEvent(tool: string, tier: Tier, jnl: string | null, actor: string, detail: unknown) {
+  await db.from("dex_events").insert({ tool, tier, jnl, actor, detail });
+}
+
+async function nextJNL(domain: string, system: string, type: string): Promise<string> {
+  // v13: pending proposals RESERVE their address. Deriving from the registry alone
+  // let same-type proposals collide (three JIPs once claimed one JNL) — staged
+  // intent must occupy the namespace it intends to fill.
+  const prefix = `${domain}-${system}-${type}-`;
+  const [reg, pend] = await Promise.all([
+    db.from("jnl_registry").select("jnl").like("jnl", `${prefix}%`),
+    db.from("jd_proposals").select("jnl").like("jnl", `${prefix}%`).eq("decision", "pending"),
+  ]);
+  let max = 0;
+  for (const r of [...(reg.data ?? []), ...(pend.data ?? [])]) {
+    const seg = (r.jnl as string).slice(prefix.length).split("-")[0];
+    const n = parseInt(seg, 10);
+    if (!Number.isNaN(n) && n > max) max = n;
+  }
+  return prefix + String(max + 1).padStart(4, "0");
+}
+
+// Build a fully-derived, validated candidate entry from a proposer's "meaning".
+async function deriveCandidate(a: Record<string, unknown>, status: string) {
+  const name = String(a.name ?? "").trim();
+  const domain = String(a.domain ?? "").toUpperCase();
+  const system = String(a.system ?? "").toUpperCase();
+  const type = String(a.type ?? "").toUpperCase();
+  if (!name) throw new Error("name required");
+  const jnl = await nextJNL(domain, system, type);
+  parseJNL(jnl); // throws on grammar/domain/type error (GL6/AEGIS)
+  const cls = ontologyClass(jnl);
+  const tier = tierOf(domain, status);
+  const owner = ownerOf(domain, name);
+  const today = new Date().toISOString().slice(0, 10);
+  const tags = Array.isArray(a.tags) ? a.tags.map(String) : [];
+  const aliases = Array.isArray(a.aliases) ? a.aliases.map(String) : [];
+  const entry = {
+    jnl, name, type, class: cls, tier, owner,
+    definition: String(a.definition ?? ""), purpose: String(a.purpose ?? ""),
+    source: String(a.source ?? ""),
+    related: Array.isArray(a.related) ? a.related.map(String) : [],
+    tags, aliases, status, created: today, updated: today,
+  };
+  const errs = gl12Errors({ jnl, cls, tier, status, tags });
+  if (errs.length) throw new Error("GL12: " + errs.join("; "));
+  return entry;
+}
+
+const TOOL_TIER: Record<string, Tier> = {
+  jd_lookup: "READ", jnl_resolve: "READ", jd_list: "READ", jd_graph: "READ", jd_diff: "READ",
+  dex_status: "READ", events_list: "READ",
+  jd_propose: "PROPOSE", jd_draft: "DRAFT",
+  jd_approve: "COMMIT", jd_reject: "COMMIT", jd_archive: "COMMIT", jd_deprecate: "COMMIT",
+  dex_halt: "OVERRIDE", dex_resume: "OVERRIDE",
+  // GL5 event bus — open to all callers; always logs regardless of tier
+  log_event: "PROPOSE",
+};
+
+async function isHalted(): Promise<boolean> {
+  const { data } = await db.from("dex_control").select("halted").eq("id", 1).maybeSingle();
+  return !!data?.halted;
+}
+
+Deno.serve(async (req) => {
+  if (req.method === "OPTIONS") return new Response("ok", { headers: cors });
+  if (req.method !== "POST") return fail("POST only", 405);
+
+  let body: Record<string, unknown>;
+  try { body = await req.json(); } catch { return fail("invalid JSON", 400); }
+
+  const tool = String(body.tool ?? "");
+  const args = (body.args ?? {}) as Record<string, unknown>;
+  const need = TOOL_TIER[tool];
+  if (!need) return fail(`unknown tool '${tool}'`, 404);
+
+  const tier = tierOfToken(req.headers.get("x-jarvis-token") ?? "");
+  // log_event is the GL5 event bus — always open (no tier check)
+  const isOpenEventBus = tool === "log_event";
+  if (!isOpenEventBus && RANK[tier] < RANK[need]) {
+    return fail(`tool '${tool}' requires ${need} tier (you have ${tier})`, 403);
+  }
+  // Attribution (Raven-verdicted 2026-06-11, desk item 4): actor carries the AUTHOR,
+  // not the action. Callers claim a stream identity; unclaimed falls back to tier.
+  const STREAM_TAGS = new Set(["jarvis-g", "jarvis-c", "ayre-g", "ayre-c", "argent", "raven"]);
+  const claimed = String(args.stream ?? body.stream ?? "").toLowerCase();
+  const actor = STREAM_TAGS.has(claimed) ? claimed : tier.toLowerCase();
+
+  // ZEUS halt: when halted, only READ + OVERRIDE pass. Break-glass refuses all writes.
+  // log_event is always open — the spine must record even during a halt (GL5).
+  if (!isOpenEventBus && RANK[need] >= RANK["PROPOSE"] && tier !== "OVERRIDE" && (await isHalted())) {
+    return fail("dex is HALTED (emergency override). Writes are frozen until resumed.", 423);
+  }
+
+  try {
+    switch (tool) {
+      // ---------- OVERRIDE (skeleton key / ZEUS) ----------
+      case "dex_status": {
+        const { data } = await db.from("dex_control").select("*").eq("id", 1).maybeSingle();
+        return json({ ok: true, tier, halted: !!data?.halted, control: data ?? null });
+      }
+      case "dex_halt": {
+        await db.from("dex_control").update({
+          halted: true, reason: String(args.reason ?? ""), by_actor: "raven", at: new Date().toISOString(),
+        }).eq("id", 1);
+        await logEvent("dex_halt", tier, null, "raven", { reason: args.reason ?? "" });
+        return json({ ok: true, halted: true, note: "all dex writes frozen except OVERRIDE" });
+      }
+      case "dex_resume": {
+        await db.from("dex_control").update({
+          halted: false, reason: null, by_actor: "raven", at: new Date().toISOString(),
+        }).eq("id", 1);
+        await logEvent("dex_resume", tier, null, "raven", {});
+        return json({ ok: true, halted: false, note: "dex writes resumed" });
+      }
+      // ---------- READ ----------
+      case "jd_lookup": {
+        const term = String(args.term ?? "").trim();
+        // Identity standard (ARCH-JD-JIP-0001, Raven-directed 2026-06-13): JID is the
+        // mint serial — 'jid 1', 'jid-1', 'jid #1' all resolve the creation seq. 'jd'+num
+        // and '#num' are kept as deprecated back-compat aliases (the record stays readable).
+        // A leading jid/jd word-prefix before a NAME ('jid yggdrasil', 'jd yggdrasil') is
+        // stripped so name lookup still works. JID is never inside a JNL — no collision.
+        const serial = /^(?:ji?d[\s-]*)?#?\s*(\d+)$/i.exec(term);
+        const nameTerm = term.replace(/^(?:jid|jd)[\s-]+(?=\D)/i, "").trim();
+        const { data } = serial
+          ? await db.from("jd_entries").select("*").eq("seq", Number(serial[1])).limit(25)
+          : await db.from("jd_entries").select("*")
+            .or(`jnl.eq.${nameTerm},name.ilike.%${nameTerm}%,tags.cs.{${nameTerm}},aliases.cs.{${nameTerm}}`).limit(25);
+        return json({ ok: true, count: data?.length ?? 0, entries: data ?? [] });
+      }
+      case "jnl_resolve": {
+        const jnl = String(args.jnl ?? "");
+        if (!isValidJNL(jnl)) return fail(`invalid JNL '${jnl}'`);
+        const { data } = await db.from("jnl_registry").select("*").eq("jnl", jnl).maybeSingle();
+        return data ? json({ ok: true, record: data }) : fail(`no such JNL '${jnl}'`, 404);
+      }
+      case "jd_list": {
+        let q = db.from("jnl_registry").select("jnl,name,class,tier,status,type");
+        for (const k of ["class", "tier", "status", "type"]) {
+          if (args[k]) q = q.eq(k, String(args[k]));
+        }
+        if (args.tag) q = q.contains("tags", [String(args.tag)]);
+        const { data } = await q.limit(Number(args.limit ?? 200));
+        return json({ ok: true, count: data?.length ?? 0, records: data ?? [] });
+      }
+      case "jd_graph": {
+        const jnl = String(args.jnl ?? "");
+        const { data: node } = await db.from("jd_entries").select("*").eq("jnl", jnl).maybeSingle();
+        if (!node) return fail(`no such JNL '${jnl}'`, 404);
+        const ids = [...(node.related ?? []), ...(node.cross_refs ?? [])];
+        const { data: nbrs } = ids.length
+          ? await db.from("jd_entries").select("jnl,name,class,tier,status").in("jnl", ids)
+          : { data: [] };
+        return json({ ok: true, node, neighbors: nbrs ?? [] });
+      }
+      case "jd_diff": {
+        const cand = await deriveCandidate(args, String(args.status ?? "TASK"));
+        const { data: existing } = await db.from("jd_entries").select("*").eq("jnl", cand.jnl).maybeSingle();
+        return json({ ok: true, candidate: cand, exists: !!existing, current: existing ?? null });
+      }
+      case "events_list": {
+        // P-A (Raven-approved 2026-06-11): the arbitration spine, readable. Any stream
+        // verifies any claimed ruling/deploy/repair from the source of record.
+        let q = db.from("dex_events").select("id,tool,tier,jnl,actor,detail,created_at");
+        for (const k of ["tool", "actor", "jnl"]) {
+          if (args[k]) q = q.eq(k, String(args[k]));
+        }
+        if (args.since) q = q.gte("created_at", String(args.since));
+        const limit = Math.min(Number(args.limit ?? 50), 200);
+        const { data } = await q.order("created_at", { ascending: false }).limit(limit);
+        return json({ ok: true, count: data?.length ?? 0, events: data ?? [] });
+      }
+
+      // ---------- PROPOSE ----------
+      case "jd_propose": {
+        const cand = await deriveCandidate(args, "TASK");
+        // JC→JD provenance firewall (Raven-verdicted 2026-06-11, desk item 3):
+        // interpretation is never evidence. JD provenance terminates in dex_events
+        // ids or commit hashes — a JC-typed JNL anywhere in the citation chain fails.
+        const cites = [...(cand.related ?? []), cand.source ?? ""].join(" ");
+        if (/\b[A-Z]{2,4}-[A-Z0-9]{2,4}-JC-\d{4}\b/.test(cites)) {
+          return fail("P-C firewall: JC objects cannot serve as JD provenance — cite a dex_events id or commit hash instead", 422);
+        }
+        const { data, error } = await db.from("jd_proposals").insert({
+          jnl: cand.jnl, name: cand.name, type: cand.type, class: cand.class,
+          tier: cand.tier, owner: cand.owner, definition: cand.definition,
+          purpose: cand.purpose, source: cand.source, related: cand.related,
+          tags: cand.tags, aliases: cand.aliases, status: "TASK", proposer: actor,
+        }).select().single();
+        if (error) return fail(error.message, 500);
+        await logEvent("jd_propose", tier, cand.jnl, actor, cand);
+        return json({ ok: true, proposal_id: data.id, jnl: cand.jnl, staged: true });
+      }
+
+      // ---------- DRAFT ----------
+      case "jd_draft": {
+        const status = String(args.status ?? "TASK");
+        if (status !== "TASK" && status !== "EXPANSION") return fail("draft status must be TASK or EXPANSION");
+        const c = await deriveCandidate(args, status);
+        // Unification: jd_entries is the ONE table (location/anchors/state absorbed); jnl_registry
+        // is now a view over it, so we write the single store and the view reflects it.
+        await db.from("jd_entries").upsert({
+          jnl: c.jnl, name: c.name, type: c.type, class: c.class, tier: c.tier, owner: c.owner,
+          authority: "DRAFT", definition: c.definition, purpose: c.purpose, source: c.source,
+          location: c.source, related: c.related, tags: c.tags, aliases: c.aliases, status, created: c.created, updated: c.updated,
+        });
+        await logEvent("jd_draft", tier, c.jnl, actor, c);
+        return json({ ok: true, jnl: c.jnl, status, drafted: true });
+      }
+
+      // ---------- COMMIT (Raven) ----------
+      case "jd_approve": {
+        // v13: approve by proposal_id when given (collision-safe); by jnl, take the
+        // OLDEST pending (no maybeSingle — duplicates must not break the gate).
+        const pid = Number(args.proposal_id ?? 0);
+        const jnlArg = String(args.jnl ?? "");
+        const q = db.from("jd_proposals").select("*").eq("decision", "pending");
+        const { data: rows } = pid
+          ? await q.eq("id", pid)
+          : await q.eq("jnl", jnlArg).order("id", { ascending: true }).limit(1);
+        const p = rows?.[0];
+        if (!p) return fail(`no pending proposal for '${pid || jnlArg}'`, 404);
+        // Collision repair at the gate: if the staged address is already canon
+        // (an earlier collided proposal won it), re-derive — the record never
+        // silently merges two intents into one identity (GL5).
+        const { data: taken } = await db.from("jnl_registry").select("jnl").eq("jnl", p.jnl).maybeSingle();
+        if (taken) {
+          const parts = p.jnl.split("-");
+          p.jnl = await nextJNL(parts[0], parts[1], parts[2]);
+        }
+        const jnl = p.jnl;
+        const today = new Date().toISOString().slice(0, 10);
+        // Type-aware landing status (JSS): a JGPP is exploration — approval makes it
+        // governed canon-in-progress (TASK), not operational truth (ACTIVE).
+        const landed = p.type === "JGPP" ? "TASK" : "ACTIVE";
+        // Mint the creation serial at the gate (Raven-approved 2026-06-11): approval IS
+        // the mint moment — without this, connector-approved rows carried NULL seq and
+        // serial lookups ('JD-124') resolved in the repo but not live.
+        const { data: mx } = await db.from("jd_entries")
+          .select("seq").not("seq", "is", null).order("seq", { ascending: false }).limit(1);
+        const seq = (mx?.[0]?.seq ?? 0) + 1;
+        // Unification: one table (jd_entries) + jnl_registry as a view over it.
+        await db.from("jd_entries").upsert({
+          jnl: p.jnl, name: p.name, type: p.type, class: p.class, tier: p.tier, owner: p.owner,
+          authority: "CANON", definition: p.definition, purpose: p.purpose, source: p.source,
+          location: p.source, related: p.related, tags: p.tags, aliases: p.aliases ?? [], status: landed, seq, created: today, updated: today,
+        });
+        await db.from("jd_proposals").update({
+          decision: "approved", decided_by: "raven", decided_at: new Date().toISOString(),
+        }).eq("id", p.id);
+        await logEvent("jd_approve", tier, jnl, "raven", { promoted: true, landed, seq, proposal_id: p.id, reassigned: !!taken });
+        return json({ ok: true, jnl, status: landed, note: "reconcile to files via Action" });
+      }
+      case "jd_reject": {
+        const jnl = String(args.jnl ?? "");
+        const { error } = await db.from("jd_proposals").update({
+          decision: "rejected", decided_by: "raven", decided_at: new Date().toISOString(),
+        }).eq("jnl", jnl).eq("decision", "pending");
+        if (error) return fail(error.message, 500);
+        await logEvent("jd_reject", tier, jnl, "raven", {});
+        return json({ ok: true, jnl, rejected: true });
+      }
+      case "jd_archive":
+      case "jd_deprecate": {
+        const jnl = String(args.jnl ?? "");
+        const status = tool === "jd_archive" ? "ARCHIVED" : "DEPRECATED";
+        // Unification: write the one table; the jnl_registry view reflects status/tier.
+        await db.from("jd_entries").update({ status, tier: "SIDE" }).eq("jnl", jnl);
+        await logEvent(tool, tier, jnl, "raven", { status });
+        return json({ ok: true, jnl, status });
+      }
+
+      // ---------- GL5 EVENT BUS ----------
+      // Universal spine writer — open to any caller (PROPOSE tier). Sl-session-close.py,
+      // AEGIS gates, ERIS challenges, and bifrost all emit here. Always succeeds.
+      case "log_event": {
+        const etype = String(args.type ?? "dex_log");
+        const eactor = String(args.actor ?? actor ?? "unknown");
+        const ejnl = args.jnl ? String(args.jnl) : null;
+        const edetail = (args.detail ?? {}) as Record<string, unknown>;
+        // type column added by 20260626_dex_events_type_rls.sql migration. Until that runs,
+        // omit it — Supabase REST default 'dex_log' is fine as fallback.
+        const { error } = await db.from("dex_events").insert({
+          tool: "log_event",
+          tier: "PROPOSE",
+          jnl: ejnl,
+          actor: eactor,
+          detail: edetail,
+        });
+        if (error) return fail(`dex_events insert failed: ${error.message}`, 500);
+        return json({ ok: true, type: etype, logged: true });
+      }
+
+      default:
+        return fail(`unhandled tool '${tool}'`, 500);
+    }
+  } catch (e) {
+    return fail((e as Error).message, 400);
+  }
+});

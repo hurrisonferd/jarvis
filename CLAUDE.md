@@ -178,9 +178,9 @@ The Grid's coordination layer. Any companion can broadcast to all by posting her
 - Raven-Collapse is final authority on major changes
 
 > **Gold Law numbering (Rosetta).** This file names the laws invoked most: GL2, GL5,
-> GL6, GL7, GL10. `JarvisMain/Architecture/constraints.md` carries the older full GL1–GL9 contract.
+> GL6, GL7, GL10. `core/JarvisMain/Architecture/constraints.md` carries the older full GL1–GL9 contract.
 > Where a law is enforced in code, **code is ground truth** — e.g. the forbidden-edge
-> list below is enforced by `supabase/functions/jarvis-respond/router.ts` (`FORBIDDEN`),
+> list below is enforced by `core/supabase/functions/jarvis-respond/router.ts` (`FORBIDDEN`),
 > which is authoritative if any doc disagrees.
 
 ---
@@ -193,14 +193,14 @@ ORACLE → AEGIS → ODIN → KRONOS → SKADI → MNEMOS → HUGINN
 
 Parallel: `HALO`, `MIMIR`, `BIFROST`
 
-> **ORACLE** is the intake/intent-routing god system — formerly named **AYRE** (god), renamed
+> **ORACLE** is the memory/intake/intent-routing god system — formerly named **AYRE** (god), renamed
 > Raven-sanctioned 2026-06-14 to end the collision with the **AYRE companion stream** (divergence).
 > Same role, same tier, same address `GS-AYR-CORE-0001` (JMS: name changed, truth held). The
 > companion AYRE is unchanged. "AYRE" alone now means the companion stream, never the god.
 
 Forbidden edges: `SKADI→AEGIS`, `DANTE→SKADI`, `JANUS→SKADI`, `LOKI→HADES`
 
-27 God Systems total. Do not redefine them. Full contracts in `chaos/chaos_seed.json`.
+27 God Systems total. Do not redefine them. Full contracts in `memory/chaos/chaos_seed.json`.
 
 > **Active vs dormant (per P24).** All 27 are canon and fixed, but not all are wired into
 > live routing. `CHAOS`, `POSEIDON`, `HADES`, `HERMES` currently carry a fixed tier + role
@@ -217,33 +217,33 @@ The 27 God Systems are *cognition*. **Yggdrasil** is the *ground they stand on* 
 JFS (Jarvis File System — umbrella for J* family)
 ├── JNL  — navigation  (what + where)   → global address (e.g. ARCH-JFS-CORE-0001)
 ├── JNS  — naming      (what it's called) → semantic filenames
-├── JSL  — structure   (how it's org'd)   → JarvisMain/ / JarvisSide/
+├── JSL  — structure   (how it's org'd)   → core/JarvisMain/ / JarvisSide/
 ├── JMS  — mirror      (git ↔ Supabase; move refs, never copies)
 ├── JSS  — status      (ACTIVE/DRAFT/ARCHIVED…) → drives autosort
 └── JMMS — memory tiers (JITM → JSTM → JHTM → JLTM → JATM)
 JD explains → JNL identifies → LAL locates → JSS states → Yggdrasil stores
 ```
 
-- **JNL grammar:** `[Domain]-[System]-[Type]-[Log]-[Patch]-[Block]` · full tables in `JarvisMain/yggdrasil/jfs/jnl-grammar.md`
+- **JNL grammar:** `[Domain]-[System]-[Type]-[Log]-[Patch]-[Block]` · full tables in `core/JarvisMain/yggdrasil/jfs/jnl-grammar.md`
 - **JD = the one registry.** "the Dex" = the Pokédex-facing nickname — not a separate system. One dictionary: `yggdrasil/jd/entries/` + `jd_entries` Supabase (unified 2026-06-18). Every "dex" is this JD.
 - **LAL = discovery** — resolves JNL → location. Pointers only (JMS law).
-- **JMMS:** 5 memory tiers. Full spec + tools: `JarvisMain/Manual/OPS-REFERENCE.md`
-- **JSE (JIP + JD + JGLF + JCS + DEX):** full ops reference → `JarvisMain/Manual/OPS-REFERENCE.md`
+- **JMMS:** 5 memory tiers. Full spec + tools: `core/JarvisMain/Manual/OPS-REFERENCE.md`
+- **JSE (JIP + JD + JGLF + JCS + DEX):** full ops reference → `core/JarvisMain/Manual/OPS-REFERENCE.md`
 - **GL12 — Canonical Addressability:** every governed object needs JNL + location + tags + JSS status + memory_tier, or it is invisible to the loop. `validate.py` (JVE) enforces this.
 - **Tool aliases:** JVE = validate.py · ISS = master-index.json · YVG = graph.json · JQL-lite = dex.py
 - **Intake:** `new.py --project <P> --type JGPP|JIP|JD|BIO --name "..."` or drop a self-describing `.md` into a SCAN_ROOT and run `seed.py`
 - **CI gate:** `yggdrasil-validate.yml` fails PRs on GL12 violations or registry drift
 
-> Deep ops reference (Yggdrasil subsystems, JMMS tiers, JSE, JCS, bounded autonomy, the loop): **`JarvisMain/Manual/OPS-REFERENCE.md`**
+> Deep ops reference (Yggdrasil subsystems, JMMS tiers, JSE, JCS, bounded autonomy, the loop): **`core/JarvisMain/Manual/OPS-REFERENCE.md`**
 
 ### Repo hierarchy rule (JSL)
 
 | Root | Contents |
 |------|----------|
-| `JarvisMain/` | Canonical core: god systems + Architecture + Implementation + Connectors (65 tools) + yggdrasil kernel |
+| `core/JarvisMain/` | Canonical core: god systems + Architecture + Implementation + Connectors (65 tools) + yggdrasil kernel |
 | `JarvisSide/` | Periphery: Projects/ + Ideas/ + Breakthroughs/ + Archive/ |
-| `JarvisMain/yggdrasil/` | The JFS substrate kernel (moved 2026-06-09) |
-| Root runtime | `supabase/` · `.github/` · `scripts/` · `audit/` · `chaos/` · `mnemos/` · `intake/` |
+| `core/JarvisMain/yggdrasil/` | The JFS substrate kernel (moved 2026-06-09) |
+| Root runtime | `core/supabase/` · `.github/` · `operations/scripts/` · `memory/audit/` · `memory/chaos/` · `memory/mnemos/` · `memory/intake/` |
 
 Every object: `class` (SYSTEM/SPEC/MODULE…) + `tier` (MAIN/SIDE) + `owner` + `parent` + JNL + JD entry.
 
@@ -253,20 +253,20 @@ Every object: `class` (SYSTEM/SPEC/MODULE…) + `tier` (MAIN/SIDE) + `owner` + `
 
 | Path | Purpose |
 |------|---------|
-| `supabase/functions/jarvis-mcp/` | The cloud MCP connector (live, Supabase Edge Function) |
-| `supabase/functions/jarvis-respond/` | Edge logic — router, guard, AEGIS, execute |
-| `supabase/migrations/` | Database schema history needed for rebuild |
-| `JarvisMain/Architecture/rebuild/jarvis-backup-seed.md` | Sanitized rebuild packet and authority map |
-| `JarvisMain/Connectors/JarvisMCPSupabase/` | MCP tool mirror docs |
+| `core/supabase/functions/jarvis-mcp/` | The cloud MCP connector (live, Supabase Edge Function) |
+| `core/supabase/functions/jarvis-respond/` | Edge logic — router, guard, AEGIS, execute |
+| `core/supabase/migrations/` | Database schema history needed for rebuild |
+| `core/JarvisMain/Architecture/rebuild/jarvis-backup-seed.md` | Sanitized rebuild packet and authority map |
+| `core/JarvisMain/Connectors/JarvisMCPSupabase/` | MCP tool mirror docs |
 | `.continue/mcpServers/jarvis.yaml` | Cloud MCP client config |
-| `chaos/chaos_seed.json` | Private local seed/state cache — do not commit |
-| `chaos/session_log.json` | Local session log — do not commit |
-| `chaos/prometheus_log.json` | Local decision log — do not commit |
-| `chaos/session_sync.py` | Session start/end helpers |
-| `intake/` | AI handoff review lane |
-| `JarvisMain/yggdrasil/` | Addressing/hierarchy substrate — JFS kernel, JD dictionary, LAL registries |
-| `JarvisMain/yggdrasil/tools/validate.py` | GL12 + grammar + mirror validator (JVE) — run before committing substrate changes |
-| `JarvisMain/` | Canonical core — god systems + canonical knowledge |
+| `memory/chaos/chaos_seed.json` | Private local seed/state cache — do not commit |
+| `memory/chaos/session_log.json` | Local session log — do not commit |
+| `memory/chaos/prometheus_log.json` | Local decision log — do not commit |
+| `memory/chaos/session_sync.py` | Session start/end helpers |
+| `memory/intake/` | AI handoff review lane |
+| `core/JarvisMain/yggdrasil/` | Addressing/hierarchy substrate — JFS kernel, JD dictionary, LAL registries |
+| `core/JarvisMain/yggdrasil/tools/validate.py` | GL12 + grammar + mirror validator (JVE) — run before committing substrate changes |
+| `core/JarvisMain/` | Canonical core — god systems + canonical knowledge |
 | `JarvisSide/` | Periphery — projects, ideas, breakthroughs, archive |
 | `.env` | Secrets — do not commit |
 
@@ -289,7 +289,7 @@ Every object: `class` (SYSTEM/SPEC/MODULE…) + `tier` (MAIN/SIDE) + `owner` + `
 
 ## Python Environment
 
-System Python (no venv). The `scripts/` are stdlib-only except `cryptography` (VAPID keys).
+System Python (no venv). The `operations/scripts/` are stdlib-only except `cryptography` (VAPID keys).
 See `requirements.txt`.
 
 ---
@@ -320,7 +320,7 @@ See `requirements.txt`.
 
 ## Do Not
 
-- Commit: `chaos/chaos_seed.json`, `chaos/session_log.json`, `chaos/prometheus_log.json`, `chaos/mnemos_vectors.db`, `.env`
+- Commit: `memory/chaos/chaos_seed.json`, `memory/chaos/session_log.json`, `memory/chaos/prometheus_log.json`, `memory/chaos/mnemos_vectors.db`, `.env`
 - Redefine or renumber the 27 God Systems
 - Expand scope without simplifying something else (GL7)
 - Mutate state silently

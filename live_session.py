@@ -82,7 +82,7 @@ class RavenZeroConfig:
             approved_scripts={
                 "heartbeat-once": ScriptSpec(
                     "Observe repo/intake heartbeat once; writes only local heartbeat state.",
-                    (sys.executable, "scripts/jarvis_heartbeat.py", "--once"),
+                    (sys.executable, "operations/scripts/jarvis_heartbeat.py", "--once"),
                 ),
                 "npm-validate": ScriptSpec(
                     "Run TypeScript build plus offline diagnostics.",

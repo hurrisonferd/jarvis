@@ -1,7 +1,7 @@
 Run this command in bash and display the result to Raven:
 
 ```bash
-bash scripts/newbranch.sh $ARGUMENTS
+bash operations/scripts/newbranch.sh $ARGUMENTS
 ```
 
 Cuts a new working branch from a freshly-fetched `origin/main` — never from the

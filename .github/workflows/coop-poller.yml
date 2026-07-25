@@ -15,4 +15,4 @@ jobs:
           OPENHANDS_API_KEY: ${{ secrets.OPENHANDS_API_KEY }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           GIT_TOKEN_PRIVATE: ${{ secrets.GIT_TOKEN_PRIVATE }}
-        run: python3 scripts/coop-poller.py
+        run: python3 operations/scripts/coop-poller.py

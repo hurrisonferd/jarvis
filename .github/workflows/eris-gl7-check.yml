@@ -17,4 +17,4 @@ jobs:
         env:
           COMMIT_SHA:     ${{ github.sha }}
           COMMIT_MESSAGE: ${{ github.event.head_commit.message }}
-        run: python3 scripts/eris-entropy-check.py
+        run: python3 operations/scripts/eris-entropy-check.py

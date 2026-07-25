@@ -16,9 +16,9 @@ The stack is **GitHub + Supabase + Claude Code**. No Ollama, no Neo4j, no local-
 |-------|-------|------|
 | **Interface** | `docs/index.html` → [GitHub Pages](https://hurrisonferd.github.io/jarvis/) | The JARVIS handheld — TRON GRID, God System pipeline, SPEAK companion view, emulator |
 | **Backend** | Supabase (`oexghfsvhnggddllgvrt`) | Tables (sessions, events, memory, consensus, world kernels) + edge functions (`jarvis-respond`, `mnemos-store`, `mnemos-search`, `grid-event`) |
-| **Memory** | `mnemos/` + Supabase pgvector | GitHub-first: memory files committed to the repo; semantic search via OpenAI-compatible embeddings (1536-dim) |
+| **Memory** | `memory/mnemos/` + Supabase pgvector | GitHub-first: memory files committed to the repo; semantic search via OpenAI-compatible embeddings (1536-dim) |
 | **Governance** | `.github/workflows/` + AEGIS/GNPL | Daily pipeline, GL7 entropy check, audit log, MNEMOS sync — all run on GitHub Actions |
-| **Record** | `audit/patch_ledger.json` | Canonical patch tracker (mirrors Supabase `patch_log`) |
+| **Record** | `memory/audit/patch_ledger.json` | Canonical patch tracker (mirrors Supabase `patch_log`) |
 
 The live companion needs no install — it is a static page backed by Supabase. The interface is not JARVIS; JARVIS is the intelligence that runs through every interface.
 
@@ -26,17 +26,17 @@ The live companion needs no install — it is a static page backed by Supabase. 
 
 ## MNEMOS (memory)
 
-GitHub-first. Memory files live in `mnemos/` (`context/`, `domains/`, `memories/`) and are committed to the repo, so any agent can read continuity with no credentials. Semantic search runs on Supabase pgvector:
+GitHub-first. Memory files live in `memory/mnemos/` (`context/`, `domains/`, `memories/`) and are committed to the repo, so any agent can read continuity with no credentials. Semantic search runs on Supabase pgvector:
 
 - Auto-embed on store via `EMBEDDING_API_KEY` (OpenAI-compatible: OpenAI, Voyage, Cohere, …), model `text-embedding-3-small`.
 - `mnemos-search` edge function: cosine similarity via `match_memories` RPC, keyword `ILIKE` fallback.
-- `scripts/jarvis-recall.py` does semantic-first recall with keyword fallback.
+- `operations/scripts/jarvis-recall.py` does semantic-first recall with keyword fallback.
 
 ## Governed Workflow
 
 All changes follow the loop in `CLAUDE.md`: intake → context → implement → verify → log → commit. Significant decisions are logged (PROMETHEUS); expansion requires GL7 (`reduces_complexity=true`, `overlap_score_below=0.40`).
 
-Use `intake/` for AI handoffs reviewed before they become memory, code, or migrations (`intake/gpt/`, `intake/claude/`, `intake/codex/` → `intake/processed/`; reusable patterns to `intake/recycle/`).
+Use `memory/intake/` for AI handoffs reviewed before they become memory, code, or migrations (`memory/intake/gpt/`, `memory/intake/claude/`, `memory/intake/codex/` → `memory/intake/processed/`; reusable patterns to `memory/intake/recycle/`).
 
 ## Branch & merge
 
@@ -48,26 +48,26 @@ Use `intake/` for AI handoffs reviewed before they become memory, code, or migra
 
 Git is the rebuild source. Supabase runs the backend.
 
-- MCP source: `supabase/functions/jarvis-mcp/`
+- MCP source: `core/supabase/functions/jarvis-mcp/`
 - MCP endpoint: `https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp`
-- Rebuild packet: `JarvisMain/Architecture/rebuild/jarvis-backup-seed.md`
-- Mainline/event rule: `JarvisMain/Architecture/rebuild/mainline-event-ledger.md`
-- Tool mirror docs: `JarvisMain/Connectors/JarvisMCPSupabase/`
+- Rebuild packet: `core/JarvisMain/Architecture/rebuild/jarvis-backup-seed.md`
+- Mainline/event rule: `core/JarvisMain/Architecture/rebuild/mainline-event-ledger.md`
+- Tool mirror docs: `core/JarvisMain/Connectors/JarvisMCPSupabase/`
 - Client config: `.continue/mcpServers/jarvis.yaml`
 
 MCP clients should connect to the Supabase endpoint with SSE/Streamable HTTP support. Secrets for the deployed function live in Supabase or the deployment environment, never in Git.
 
-Meaningful changes land through `main` and should carry an event or ledger pointer: `audit/patch_ledger.json` for patch/change tracking, the runtime event contract for Supabase event shape, and the commit hash for durable proof.
+Meaningful changes land through `main` and should carry an event or ledger pointer: `memory/audit/patch_ledger.json` for patch/change tracking, the runtime event contract for Supabase event shape, and the commit hash for durable proof.
 
 ---
 
 ## Keep Private — never commit
 
 - `.env` and `.env.*` (secrets)
-- `chaos/chaos_seed.json`, `chaos/session_log.json`, `chaos/prometheus_log.json`
-- `chaos/live_log.json`, `chaos/tunnel_*.txt`
-- `chaos/mnemos_vectors.db` and any local vector DB
-- `supabase/.temp/`
+- `memory/chaos/chaos_seed.json`, `memory/chaos/session_log.json`, `memory/chaos/prometheus_log.json`
+- `memory/chaos/live_log.json`, `memory/chaos/tunnel_*.txt`
+- `memory/chaos/mnemos_vectors.db` and any local vector DB
+- `core/supabase/.temp/`
 - Service-role keys, private seeds, raw private logs
 
 The public anon/publishable key is client-safe **only** behind Row Level Security. Service-role keys are server-side only.

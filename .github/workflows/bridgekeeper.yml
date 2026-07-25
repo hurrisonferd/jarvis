@@ -35,7 +35,7 @@ jobs:
       - name: Run ERIS Bridgekeeper
         id: eris
         run: |
-          python3 scripts/eris_bridgekeeper.py \
+          python3 operations/scripts/eris_bridgekeeper.py \
             --pr-number ${{ github.event.pull_request.number }} \
             --pr-title "${{ github.event.pull_request.title }}" \
             --author "${{ github.event.pull_request.user.login }}" \

@@ -1,0 +1,39 @@
+{
+  "domain": "architecture",
+  "last_updated": "2026-05-29",
+  "system": {
+    "name": "JARVIS",
+    "version": "2.5",
+    "stack": ["GitHub", "Supabase", "Claude Code", "Deno Edge Functions", "Python hooks"],
+    "planes": ["execution", "memory", "governance", "interface"],
+    "event_spine": "BUS — all events route through AEGIS gate before listeners"
+  },
+  "pipeline": {
+    "primary": ["AYRE", "AEGIS", "ODIN", "KRONOS", "SKADI", "MNEMOS", "HUGINN"],
+    "parallel": ["HALO", "MIMIR", "BIFROST"],
+    "sovereign": ["ZEUS", "CHAOS", "ERIS"]
+  },
+  "edge_functions": {
+    "mnemos-store": "INSERT memory + auto-tag from vocab table",
+    "mnemos-recall": "3-mode recall: full-text → tag-only → recency",
+    "jarvis-respond": "AI response via Claude API + MNEMOS memory injection",
+    "jarvis-monitor": "Daily autonomous observation — stores to MNEMOS",
+    "send-push": "Push notification relay"
+  },
+  "github_actions": {
+    "audit-log.yml": "Every push → audit_log table",
+    "monitor-daily.yml": "08:00 UTC daily → jarvis-monitor edge function",
+    "mnemos-github-sync.yml": "Issues + PRs + commits → MNEMOS memories",
+    "pages.yml": "Deploy docs/index.html to GitHub Pages"
+  },
+  "hooks": {
+    "SessionStart": "jarvis-session-brief.py — reads repo files first, Supabase second",
+    "UserPromptSubmit": "jarvis-store-message.py — store every exchange to MNEMOS",
+    "Stop": "jarvis-session-end.py — session summary on close"
+  },
+  "memory_layers": {
+    "hot": "Supabase mnemos_memories — searchable, real-time, semantic tags",
+    "cold": "GitHub memory/mnemos/domains/*.json — versioned, always-readable, no network required",
+    "archive": "GitHub memory/mnemos/sessions/*.json — per-session records"
+  }
+}

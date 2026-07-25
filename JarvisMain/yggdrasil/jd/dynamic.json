@@ -1,4 +1,0 @@
-{
-  "note": "Connector-approved JD entries reconciled from Supabase by scripts/dex_reconcile.py. seed.py seeds these alongside the hardcoded manifests. The hardcoded manifest always wins on JNL collision.",
-  "entries": []
-}

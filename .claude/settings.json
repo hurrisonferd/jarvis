@@ -53,7 +53,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 scripts/jarvis-session-brief.py"
+            "command": "python3 operations/scripts/jarvis-session-brief.py"
           }
         ]
       }
@@ -63,7 +63,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 scripts/jarvis-store-message.py"
+            "command": "python3 operations/scripts/jarvis-store-message.py"
           }
         ]
       }
@@ -73,7 +73,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "python3 scripts/jarvis-session-end.py"
+            "command": "python3 operations/scripts/jarvis-session-end.py"
           }
         ]
       }

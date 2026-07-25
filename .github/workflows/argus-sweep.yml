@@ -20,7 +20,7 @@ jobs:
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-        run: python3 scripts/argus_sweep.py | tee /tmp/argus-report.txt
+        run: python3 operations/scripts/argus_sweep.py | tee /tmp/argus-report.txt
       - name: Open drift issue
         if: failure()
         uses: actions/github-script@v7

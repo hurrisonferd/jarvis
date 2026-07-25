@@ -1,14 +1,14 @@
 Run this command in bash and display the results to Raven:
 
 ```bash
-python3 scripts/jarvis-patch.py $ARGUMENTS
+python3 operations/scripts/jarvis-patch.py $ARGUMENTS
 ```
 
 The one consistent patch register. A patch is any unit of change worth tracing.
 It gets a monotonic ID in chronological order the moment it is OPENED, then keeps
 BUILDING (every change appends a dated entry) until it is EXECUTED.
 
-Source of truth: `audit/patch_ledger.json` (this tool is the only writer).
+Source of truth: `memory/audit/patch_ledger.json` (this tool is the only writer).
 
 Usage:
 - `/patch` or `/patch list` — open + building + pending patches

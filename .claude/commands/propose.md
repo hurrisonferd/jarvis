@@ -1,7 +1,7 @@
 Run this command in bash and display the results to Raven:
 
 ```bash
-python3 scripts/jarvis-propose.py "$ARGUMENTS"
+python3 operations/scripts/jarvis-propose.py "$ARGUMENTS"
 ```
 
 If no arguments, lists open proposals. With arguments, creates a new GNPL proposal.

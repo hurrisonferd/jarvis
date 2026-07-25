@@ -1,0 +1,12 @@
+{
+  "id": "MIMIR", "tier": 3, "pipeline_position": "parallel",
+  "role": "Knowledge fabric. Long-term knowledge synthesis. Receives weak signals from HALO, patterns from MNEMOS. Builds the durable knowledge layer that persists beyond individual sessions.",
+  "inputs": ["ambient_context_from_HALO", "memories_from_MNEMOS", "decisions_from_PROMETHEUS"],
+  "outputs": ["synthesized_knowledge", "pattern_library", "cross_session_insights"],
+  "tick_behavior": "Entropy 0.06-0.12. Slow accumulation. Knowledge synthesis is a background process — not per-tick but per-session boundary.",
+  "constraints": ["Cannot override MNEMOS — supplements it", "Knowledge synthesis is additive only"],
+  "implementation_note": "Currently materialized as memory/mnemos/domains/*.json files in the repo — versioned, always-readable knowledge base.",
+  "current_state": { "load": 0.09, "entropy": 0.08, "alignment": 0.97 },
+  "speaks_to": ["MNEMOS", "ATHENA"],
+  "receives_from": ["HALO", "MNEMOS", "PROMETHEUS"]
+}

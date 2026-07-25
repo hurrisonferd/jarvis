@@ -1,0 +1,59 @@
+{
+  "version": "2.1",
+  "updated": "2026-06-25T19:50:00Z",
+  "node": "node-001-raven",
+  "description": "MNEMOS memory system. Partitioned by truth model: personal \u2192 Jarvis-Private, system/technical \u2192 JARVIS repo.",
+  "truth_model": {
+    "JARVIS repo": "mnemos system, mnemos_vector.py, technical knowledge (ml-ai.md, techniques.md, governance.md), memories/, logs/, context/",
+    "Jarvis-Private": "personal identity (companion_core.md, raven.md, jarvis.md, relationship.md, mission.md, projects/)"
+  },
+  "read_order": [
+    "1. memory/mnemos/README.md \u2014 truth model and where things live",
+    "2. memory/mnemos/context/system.json \u2014 architecture, Gold Laws, agents",
+    "3. memory/mnemos/memories/ \u2014 runtime pipeline state",
+    "4. memory/mnemos/knowledge/ml-ai.md \u2014 ML/AI technical knowledge",
+    "5. memory/mnemos/knowledge/techniques.md \u2014 coding patterns and GL7"
+  ],
+  "files": {
+    "knowledge/ml-ai.md": {
+      "desc": "ML/DL concepts, embeddings, RAG, agents, tools",
+      "public": true
+    },
+    "knowledge/techniques.md": {
+      "desc": "GL7, coding patterns, Python, git, testing, debugging",
+      "public": true
+    },
+    "knowledge/governance.md": {
+      "desc": "God Systems, Gold Laws, pipeline",
+      "public": true
+    },
+    "memories/": {
+      "desc": "Runtime pipeline state: events, decisions, sessions"
+    },
+    "logs/": {
+      "desc": "Session journals by date"
+    },
+    "context/": {
+      "desc": "System config: system.json, patches.json"
+    },
+    "mnemos_vector.py": {
+      "desc": "The memory reader tool"
+    }
+  },
+  "pipeline": {
+    "workflow": "jarvis-pipeline.yml",
+    "jobs": "AYRE \u2192 AEGIS \u2192 MNEMOS \u2192 HUGINN",
+    "triggers": [
+      "push:main",
+      "schedule:06:00UTC",
+      "workflow_dispatch"
+    ]
+  },
+  "tags": [
+    "jarvis",
+    "architecture",
+    "governance",
+    "memory",
+    "development"
+  ]
+}
