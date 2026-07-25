@@ -1,0 +1,25 @@
+719 MB is enormous for chat export context.
+
+That is not “a few lost chats.” That is a corpus.
+
+Practical meaning:
+
+```text
+too big for direct chat
+too big for normal manual review
+perfect for staged ingestion
+```
+
+The handling rule should be:
+
+```text
+1. preserve original zip/export unchanged
+2. create a working copy
+3. generate a manifest: file names, sizes, dates, chat titles
+4. extract text/markdown/json safely
+5. route each chat to project families
+6. build global index
+7. only then start canon distillation
+```
+
+719 MB also means the preservation claim has to be mechanical, not conversational. No AI should be saying “I read it all” unless it produced counts, manifests, hashes, and indexes.
