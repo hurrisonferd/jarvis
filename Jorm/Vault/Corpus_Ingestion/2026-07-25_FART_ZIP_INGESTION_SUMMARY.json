@@ -1,0 +1,17 @@
+{
+  "source_filename": "fart.zip",
+  "source_bytes": 37483466,
+  "source_sha256": "9bdd666811153b677e5579a05b632f3c5c62127e153d834c1734391a246bb5f1",
+  "zip_entries_total": 70,
+  "file_entries": 69,
+  "uncompressed_bytes": 39993240,
+  "parse_errors": 0,
+  "mime_counts": {
+    "image/jpeg": 24,
+    "audio/x-wav": 24,
+    "audio/mpeg": 4,
+    "image/png": 9,
+    "text/plain": 8
+  },
+  "text_exports": 8
+}
