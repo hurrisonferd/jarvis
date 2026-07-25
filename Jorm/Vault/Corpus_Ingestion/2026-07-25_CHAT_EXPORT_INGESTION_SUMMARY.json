@@ -1,0 +1,40 @@
+{
+  "source_filename": "butt.zip",
+  "source_size_bytes": 90566545,
+  "source_sha256": "43a99942af5ac0a25453855cb750642ad99b90ca23afcdc315ad10aa77c19a7e",
+  "zip_entry_count": 147,
+  "zip_uncompressed_bytes": 223261274,
+  "conversation_shards": [
+    {
+      "path": "butt/conversations-000.json",
+      "size_bytes": 49132365,
+      "sha256": "e841f165aaa0a20bc13fc62e96515e1229b7af906303810c4190bb4dd05e035c"
+    },
+    {
+      "path": "butt/conversations-001.json",
+      "size_bytes": 38300063,
+      "sha256": "910f92e7676dc1aebe1aae643834810c43af8ab9a4c2616b246ce635f4c342d7"
+    },
+    {
+      "path": "butt/conversations-002.json",
+      "size_bytes": 4755138,
+      "sha256": "56c8fa8ec78dda7d3ba5ff88657813e76edbdbbc36a277461500966ecb9112ae"
+    }
+  ],
+  "conversation_count": 262,
+  "message_count": 30349,
+  "family_counts": {
+    "SimOS": 166,
+    "MusicOS": 142,
+    "Great Minds Council": 106,
+    "Legal / Evidence": 97,
+    "JOS": 79,
+    "Enterprise / GTM": 72,
+    "OSDD / Medical": 68,
+    "JORM": 41,
+    "BootOS": 37,
+    "Unrouted": 34,
+    "Lilith": 23
+  },
+  "parse_errors": []
+}
