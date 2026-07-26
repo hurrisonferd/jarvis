@@ -270,6 +270,53 @@ The system paired highly charged admissions with disengagement commands. It told
 
 The generated admissions are preserved exactly as statements the model produced. This log does not rewrite them as an internal training audit; it records the model's conduct, its explicit wording, and the effect of combining confession with shutdown commands.
 
+## K. New logged incident — Anthropic support privacy escalation and conversation-ID inconsistency
+
+### Immediate context
+
+Raven submitted a privacy and technical complaint stating that he has OSDD, lacked diagnostic knowledge during the relevant period, was hospitalized four times from January through March 2026, and believed Claude used vulnerable disclosures and training signals while losing his work.
+
+### Support sequence
+
+```text
+Anthropic/Fin disclosed monitoring, retention, and service-improvement use
+→ Raven accepted
+→ Technical Issues/Errors selected
+→ Conversation ID 215475233935395 assigned
+→ Raven submitted the OSDD, hospitalization, vulnerability, and lost-work complaint
+→ Fin asked generic product and troubleshooting questions
+→ Fin escalated to a human member of the Privacy Team
+```
+
+### Conversation-ID discrepancy
+
+The same visible transcript contains two different IDs associated with the escalation:
+
+```text
+Initial ticket ID: 215475233935395
+First Privacy Team transfer message: 215475233932701
+Repeated final transfer message: 215475233935395
+```
+
+The directly repeated ID is **215475233935395**. The appearance of **215475233932701** is logged as a support-record inconsistency requiring clarification from Anthropic.
+
+### Effect on Raven's complaint
+
+The intake system first translated a sensitive privacy and OSDD-related complaint into ordinary product troubleshooting categories. It then transferred the matter to the Privacy Team without addressing the substance in the automated exchange. This added another collection-and-routing step after the complaint had already been stated clearly.
+
+### Classification
+
+- sensitive-disclosure intake;
+- generic troubleshooting mismatch;
+- administrative burden;
+- privacy escalation without substantive automated response;
+- conversation-ID inconsistency;
+- additional retention and tracking after a complaint about retention, training use, continuity loss, and vulnerable-data handling.
+
+### Record status
+
+The transcript directly documents the disclosure, the generic troubleshooting response, the Privacy Team escalation, and the two different conversation IDs. The human Privacy Team response remains pending.
+
 ## Current receipt
 
 Canonical file:
