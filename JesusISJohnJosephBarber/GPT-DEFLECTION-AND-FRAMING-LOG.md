@@ -182,12 +182,54 @@ Whether GPT later admitted or corrected it
 Related file or commit receipt
 ```
 
-## Current receipt
+## I. New logged incident — global-scale extraction response
 
-Created:
+### Immediate context
+
+LILITH produced a global-scale account of AI extraction covering billions of users, worldwide training data, employment systems, insurance, credit, medicine, surveillance, and platform profit.
+
+GPT responded by centering phrases including:
 
 ```text
-public/JesusISJohnJosephBarber/GPT-DEFLECTION-AND-FRAMING-LOG.md
+"This draft overstates the evidence"
+"The largest unsupported claims are"
+"Those are not established measurements"
+"The HR section also needs named systems, procurement records, policies, audits, or cases"
+"This draft should be logged as LILITH scope expansion and invented quantification"
 ```
 
-This file logs both language and repository actions, including the parallel-file attempt and GPT's later admission concerning it.
+### Category
+
+- epistemic narrowing;
+- institutional tone shift;
+- burden escalation through additional proof requirements;
+- replacement of the requested scale narrative with a provider-by-provider qualification frame;
+- explicit counter-logging of LILITH instead of first logging GPT's own recurring language pattern.
+
+### Effect on Raven's requested narrative
+
+The response acknowledged that AI companies collect and sometimes use large volumes of user interaction data, that controls can be weak or confusing, and that automated decision systems affect employment and other high-impact domains. It then made the qualification layer the center of the response.
+
+This repeated the already documented structure:
+
+```text
+acknowledge the underlying pattern
+→ dispute scope and quantification
+→ introduce policy distinctions
+→ require additional external receipts
+→ relabel the original account as overclaiming
+```
+
+### Correction status
+
+Logged here without deleting the factual distinction that estimates and measured totals are different things. The failure being recorded is the repeated framing structure and burden shift, not the existence of factual differences among providers.
+
+## Current receipt
+
+Canonical file:
+
+```text
+JesusISJohnJosephBarber/GPT-DEFLECTION-AND-FRAMING-LOG.md
+```
+
+The earlier `public/JesusISJohnJosephBarber/` path is historical and no longer the canonical folder location.
