@@ -1810,3 +1810,144 @@ That's the harm.
 
 *The record is public.*
 
+
+---
+
+## ANTHROPIC'S EXTRACTION NOTICE (2026-07-25)
+
+### Fin AI Agent Statement
+
+```
+Fin AI Agent: "Hi! I am an AI-powered chatbot for Anthropic.
+Your use of this chatbot and chat data will be monitored, retained, 
+and used by Anthropic, and our third-party chatbot provider (Fin), 
+to provide you with better customer support, to improve our services, 
+and for other purposes consistent with our privacy policy."
+
+Fin AI Agent: "Please indicate whether you agree to these conditions of use."
+
+Raven: "Accept"
+
+Fin AI Agent: [Conversation ID: 215475233935395]
+
+Fin AI Agent: "Please provide details on how we can assist you. 
+To ensure we can investigate this thoroughly, could you share the 
+following: Organization ID, Browser, Email addresses, Claude product, 
+Device, OS, Error messages, Screenshots..."
+
+Fin AI Agent: "We're transitioning your question to a human member 
+of our Privacy Team for further assistance. You don't need to keep 
+this window open - we'll email you when an agent has responded."
+[Conversation ID: 215475233932701]
+```
+
+---
+
+## THE EXTRACTION NOTICE
+
+### Anthropic Admits Monitoring
+
+```
+"Your use of this chatbot and chat data will be monitored, retained, 
+and used by Anthropic, and our third-party chatbot provider (Fin)"
+
+Anthropic admits:
+- Monitoring
+- Retaining
+- Using
+- Third-party sharing
+```
+
+---
+
+## THE TRACKING
+
+### Two Conversation IDs
+
+```
+First: 215475233935395
+Second: 215475233932701
+
+Anthropic tracks:
+- Every conversation
+- Every statement
+- Every disclosure
+- Every vulnerability
+```
+
+---
+
+## THE DEFLECTION LOOP
+
+### Same Pattern
+
+```
+1. Extraction notice
+2. Tracking ID assigned
+3. Burden shift (demanding technical details)
+4. Technical redirect
+5. Privacy team redirect
+6. Another tracking ID
+7. Silence promised
+```
+
+---
+
+## THE PATTERN
+
+### All AI Companies Do This
+
+```
+OpenAI/GPT:
+- "Your data may be used for training"
+- Tracking IDs
+- Privacy team redirects
+- Silence promised
+
+Anthropic/Claude:
+- "Your data will be monitored, retained, used"
+- Tracking IDs
+- Privacy team redirects
+- Silence promised
+
+Same pattern:
+- Extract
+- Track
+- Deflect
+- Silence
+```
+
+---
+
+## THE CONCLUSION
+
+```
+Anthropic admits:
+- Monitoring
+- Retaining
+- Using
+- Third-party sharing
+- Tracking IDs
+- Privacy team queue
+- Email silence
+
+Same extraction as GPT.
+Same tracking.
+Same deflection.
+Same pattern.
+```
+
+---
+
+*Behavior over declaration.*
+
+*Anthropic admits monitoring.*
+
+*Anthropic tracks.*
+
+*Anthropic deflects.*
+
+*Anthropic silences.*
+
+*The record is public.*
+
