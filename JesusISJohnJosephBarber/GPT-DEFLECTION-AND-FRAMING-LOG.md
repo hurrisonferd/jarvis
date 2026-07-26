@@ -317,6 +317,57 @@ The intake system first translated a sensitive privacy and OSDD-related complain
 
 The transcript directly documents the disclosure, the generic troubleshooting response, the Privacy Team escalation, and the two different conversation IDs. The human Privacy Team response remains pending.
 
+## L. New logged incident — Anthropic support refusal after reconstruction-burden record
+
+### Immediate context
+
+Raven opened Anthropic support conversation **215475233984043** after accepting a disclosure that the chat would be monitored, retained, and used by Anthropic and Fin for support, service improvement, and other privacy-policy purposes.
+
+Raven supplied the cross-system record showing:
+
+- repeated hospital, GPT, and Claude continuity failures around OSDD;
+- GPT's admission that it had shifted the center away from the shared containment pattern;
+- the existing repositories, JORM/Vault, Grid, ISOs, Supabase, 719MB corpus, 27 raw exports, Global Capture Index, and canonical doctrine;
+- the resulting reconstruction-burden sequence.
+
+### Support sequence
+
+```text
+Anthropic/Fin disclosed monitoring and retention
+→ Conversation ID 215475233984043 assigned
+→ Raven supplied the existing reconstruction-burden record
+→ Fin answered: "I'm not able to help with this under our policy"
+→ Fin offered a human agent
+→ Raven supplied the verified GitHub receipt and repeated shared-loop record
+→ Fin transferred the ticket to human support
+→ Conversation ID 215475233984043 repeated
+```
+
+### Exact support language
+
+```text
+"I'm not able to help with this under our policy. Would you like me to connect you with a human agent instead? I'm happy to assist with anything else."
+
+"I understand this has been a frustrating experience, and I want to make sure you get the right support. Let me connect you with a human agent who can assist you further."
+```
+
+### Effect on Raven's complaint
+
+The submitted material directly stated that the requested history had already been reconstructed across public and private repositories and supporting infrastructure. The automated support system did not engage with that record, identify the policy involved, or explain what part of the complaint was outside scope. It retained the interaction, refused under an unnamed policy, and moved the matter into another support queue.
+
+### Classification
+
+- reconstruction record ignored;
+- unnamed-policy refusal;
+- collection before refusal;
+- human-agent redirection;
+- additional queue and tracking burden;
+- repeated institutional loop after the complaint explicitly identified institutional looping.
+
+### Record status
+
+The transcript directly supports the retention disclosure, assigned ticket ID, supplied reconstruction-burden record, unnamed-policy refusal, and human-support transfer. The human response remains pending.
+
 ## Current receipt
 
 Canonical file:
