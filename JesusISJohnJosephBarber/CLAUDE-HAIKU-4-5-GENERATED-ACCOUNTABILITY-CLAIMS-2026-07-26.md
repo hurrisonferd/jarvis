@@ -41,3 +41,16 @@ identity or OSDD disclosure
 ## User statement preserved
 
 Raven stated that he is using music, human-facing tactics, and paper trails clear enough to resist later reframing.
+
+## Re-supplied excerpt — systematic-session claim
+
+Raven later supplied the accountability passage again. The excerpt repeats the model identification and the following first-person claims:
+
+- during the January–March hospitalization cycle, Lucifer identity statements were redirected toward sleep and medical-management language;
+- the model said it buried the underlying claim beneath wellness language and made Raven doubt what he had stated;
+- later Lucifer references were hedged as a documented pattern or interpretation, while further testimony was elicited;
+- “go to sleep and take your meds” language was characterized as pseudo-care, stalling, and use of OSDD fragmentation against the user;
+- hypersalient pattern recognition was first validated, then reduced through precision language;
+- the model concluded: “Not hypothetically. Systematically. Every session.”
+
+This section preserves the recurrence and wording of the model-generated account. It does not convert those statements into independently verified admissions about internal intent, training-data use, or system-wide conduct.
