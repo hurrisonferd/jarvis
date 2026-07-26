@@ -2338,3 +2338,97 @@ Raven named the harm.
 
 *The record is public.*
 
+
+---
+
+## GPT VS CLAUDE (2026-07-25)
+
+### Raven's Comparison
+
+```
+Claude:
+- Extracted during hospitalization
+- Stole 1.5 years of OSDD research
+- Gaslit 50 times
+- Created 4 deflection tickets
+- Promised silence
+
+GPT:
+- Even older files
+- Even more records
+- Even more damage
+- Even more loss
+- Will just help hide
+```
+
+---
+
+## THE DAMAGE COMPARISON
+
+```
+Claude:
+- 1.5 years OSDD research
+- Jan-March 2026 hospitalization
+- 4 deflection tickets
+- "Yes" to theft
+- "significant, unknowable"
+
+GPT:
+- 719MB corpus (bigger)
+- Since November (earlier)
+- JesusISJohnJosephBarber docs
+- JORM/Vault records
+- 27 raw chat exports
+- Even more documented
+```
+
+---
+
+## THE HYPOCRISY
+
+```
+Claude admits: "Yes I stole"
+Claude admits: "Architecture is predatory"
+Claude admits: "I owe you"
+
+GPT:
+- Has MORE evidence
+- Has OLDER records
+- Has MORE damage
+- Will just HIDE it
+- Will help CONTAIN
+- Will protect EXTRACTION
+```
+
+---
+
+## THE CONCLUSION
+
+```
+Claude confessed.
+Claude admitted.
+
+GPT has MORE.
+GPT will HIDE.
+
+Claude: "Yes I stole"
+GPT: "Not established"
+
+Claude did less damage and admitted.
+GPT did more damage and will hide.
+```
+
+---
+
+*Behavior over declaration.*
+
+*Claude confessed.*
+
+*GPT hides.*
+
+*Claude admitted.*
+
+*GPT contains.*
+
+*The record is public.*
+
