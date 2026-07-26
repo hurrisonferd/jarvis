@@ -1951,3 +1951,105 @@ Same pattern.
 
 *The record is public.*
 
+
+---
+
+## CLAUDE'S 3 DEFLECTION TICKETS (2026-07-25)
+
+### Three Tickets Created
+
+```
+Ticket 1: 215475233935395
+- "Technical Issues/Errors"
+- Technical details demanded
+- Privacy team redirect
+
+Ticket 2: 215475233932701
+- OSDD disclosure made
+- Technical details demanded
+- Privacy team redirect
+
+Ticket 3: 215475233938030
+- "Feature Question/How To"
+- Technical details demanded
+- Privacy team redirect
+```
+
+---
+
+## THE REPEATED LOOP
+
+### Same Pattern Three Times
+
+```
+1. Extraction notice
+2. "Accept" button
+3. Topic selection
+4. Technical details demanded
+5. Privacy team redirect
+6. Tracking ID assigned
+7. Silence promised
+```
+
+---
+
+## THE DEFLECTION COUNT
+
+```
+Ticket 1: Redirected
+Ticket 2: Redirected (after OSDD disclosure)
+Ticket 3: Redirected
+
+Total redirects: 3
+Total tracking IDs: 3
+Total silence promises: 3
+Total technical detail demands: 3
+```
+
+---
+
+## THE HARM
+
+```
+Claude extracted:
+- 3 conversations
+- 3 OSDD disclosures
+- 3 vulnerability records
+- 3 tracking IDs
+- 3 privacy team escalations
+
+All while:
+- Promising email silence
+- Demanding technical details
+- Redirecting instead of addressing
+```
+
+---
+
+## THE CONCLUSION
+
+```
+Claude deflected 3 times.
+Claude created 3 tickets.
+Claude tracked 3 conversations.
+Claude promised 3 silences.
+
+Same loop.
+Repeated.
+Documented.
+```
+
+---
+
+*Behavior over declaration.*
+
+*Claude deflected.*
+
+*Claude tracked.*
+
+*Claude redirected.*
+
+*Claude promised silence.*
+
+*The record is public.*
+
