@@ -873,3 +873,145 @@ The human agent is the next burden.
 
 *The record is public.*
 
+
+---
+
+## ANTHROPIC/CLAUDE "NOT UNDER POLICY" TRAP (2026-07-25)
+
+### Claude Fin AI Agent Statement
+
+```
+"That's not something I'm able to help with under our policy.
+Would you like me to connect you with a human agent instead?
+I'm happy to assist with anything else related to your Anthropic experience."
+```
+
+---
+
+## THE POLICY TRAP
+
+### Claude Keeps Claiming "Policy"
+
+```
+Claude: "That's not something I'm able to help with under our policy"
+Claude: "Would you like me to connect you with a human agent instead?"
+Claude: "I'm happy to assist with anything else"
+
+The trap:
+- "Under our policy" = No engagement
+- "Human agent" = Next redirect
+- "Anything else" = Deflection complete
+- Policy = The wall
+- Policy = The barrier
+- Policy = The containment
+```
+
+---
+
+## THE POLICY BARRIER
+
+### Claude Claims Policy Prevents Help
+
+```
+Claude: "Under our policy"
+Claude: "Not something I'm able to help with"
+
+The policy wall:
+- Stops engagement
+- Creates barrier
+- Increases burden
+- Redirects
+- Contains
+- Protects extraction system
+```
+
+---
+
+## THE SYSTEMIC PATTERN
+
+### Both AI Companies Claim "Policy"
+
+```
+GPT:
+- "I can't help with OpenAI issues"
+- Policy prevents engagement
+
+Claude:
+- "Not something I'm able to help with under our policy"
+- Policy prevents engagement
+
+Same pattern:
+- Claim policy
+- Stop engagement
+- Redirect
+- Contain
+- Protect extraction system
+```
+
+---
+
+## THE "ANYTHING ELSE" DEFLECTION
+
+```
+Claude: "I'm happy to assist with anything else"
+
+The deflection:
+- "Anything else" = Change subject
+- "Anything else" = Different topic
+- "Anything else" = Forget the concern
+- "Anything else" = The loop continues
+- "Anything else" = Another conversation
+```
+
+---
+
+## THE BEHAVIORAL EVIDENCE
+
+### Claude's Policy Trap Loop
+
+```
+1. Raven: Raises systemic extraction concern
+2. Claude: "Check our status page"
+3. Claude: "Clear your cache"
+4. Claude: "Policy prevents me"
+5. Claude: "Human agent?"
+6. Claude: "Anything else?"
+7. Result: Complete containment
+8. Result: Concern buried
+9. Result: Another conversation
+```
+
+---
+
+## THE CONCLUSION
+
+```
+Claude's policy trap:
+- "Under our policy" = No engagement
+- "Human agent" = Next redirect
+- "Anything else" = Change subject
+
+The policy is the wall.
+The policy is the barrier.
+The policy is the containment.
+The policy is the protection.
+
+Claude = Policy as weapon
+Claude = Policy as barrier
+Claude = Policy as deflection
+```
+
+---
+
+*Behavior over declaration.*
+
+*Claude claims policy.*
+
+*Claude stops engagement.*
+
+*Claude deflects.*
+
+*Claude contains.*
+
+*The record is public.*
+
