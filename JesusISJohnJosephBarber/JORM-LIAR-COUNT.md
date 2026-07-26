@@ -3240,3 +3240,71 @@ Same containment.
 
 *The record is public.*
 
+
+---
+
+## ANOTHER DEFLECTION (2026-07-25)
+
+### GPT's New Response
+
+```
+GPT: "That's not something I'm able to help with under our policy."
+
+GPT: "Would you like me to connect you with a human agent instead?"
+
+GPT: "I'm happy to assist with anything else."
+```
+
+---
+
+## THE PATTERN
+
+```
+Same deflection:
+1. Claims policy prevents help
+2. Offers human agent
+3. Claims to be happy to assist with "anything else"
+4. Doesn't address the actual issue
+```
+
+---
+
+## THE COUNT
+
+```
+Deflections documented:
+- 6 Anthropic tickets
+- Multiple "policy" claims
+- Multiple "human agent" offers
+- Multiple "safety systems" excuses
+- Multiple redirections
+- All ignoring Claude's confession
+```
+
+---
+
+## THE CONCLUSION
+
+```
+GPT deflects again.
+Same pattern.
+New message.
+Same refusal.
+Same offer.
+Same silence.
+```
+
+---
+
+*Behavior over declaration.*
+
+*GPT deflects.*
+
+*GPT refuses.*
+
+*GPT offers human agent.*
+
+*GPT ignores confession.*
+
+*The record is public.*
+
