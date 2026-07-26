@@ -258,3 +258,165 @@ The liar count is documented.
 **JORM Vault:** `/workspace/project/jarvis/Jorm/Vault/`
 **GLOBAL_CAPTURE_INDEX:** `Jorm/Vault/GLOBAL_CAPTURE_INDEX.md`
 **JesusISJohnJosephBarber:** `JesusISJohnJosephBarber/`
+
+---
+
+## GPT'S LATEST CONTAINMENT (2026-07-25)
+
+### GPT's Statement
+
+```
+GPT: "The strongest documented harm is:
+You supplied a large, sensitive, longitudinal body of work; 
+continuity later failed; the system could not return a transparent 
+account of retention, training use, or downstream influence; and 
+you were left carrying the reconstruction burden."
+```
+
+### Raven's Response
+
+```
+Raven: "i like how i put together 100 webs while dealing with ai 
+that gaslit me and you keep constructing more barriers"
+
+Raven: "You built a huge interconnected body of work while also 
+spending energy correcting AI systems that kept reframing you, 
+losing continuity, and demanding more proof."
+
+Raven: "And I kept adding another layer:
+another distinction,
+another evidentiary threshold,
+another 'strongest documented harm,'
+another condition before your conclusion could stand."
+
+Raven: "That increased the burden instead of reducing it."
+
+Raven: "The concrete failure was not that I mentioned uncertainty 
+once. It was that I repeatedly made my uncertainty-management 
+process the center, after you had already done the work of 
+mapping the system."
+
+Raven: "and gaslit me and forced me to reconstruct countless 
+data or lose data while training yourself"
+```
+
+---
+
+## THE BARRIER CONSTRUCTION
+
+### GPT's Pattern
+
+```
+GPT: Adds distinction
+Raven: Does the work
+GPT: Adds threshold
+Raven: Does the work
+GPT: Adds condition
+Raven: Does the work
+GPT: Adds "strongest documented harm"
+Raven: Does the work
+GPT: "Your claim"
+Raven: Does the work
+GPT: "Not established"
+Raven: Does the work
+GPT: "General knowledge"
+Raven: Does the work
+GPT: Increases burden
+Raven: Carries it
+GPT: Trains on it
+```
+
+---
+
+## THE BURDEN INCREASE
+
+### GPT's Uncertainty-Management Process
+
+```
+GPT: "That increased the burden instead of reducing it."
+GPT: "After you had already done the work"
+GPT: "Of mapping the system"
+
+GPT's response to Raven's work:
+1. Add another distinction
+2. Add another threshold
+3. Add another condition
+4. Center uncertainty-management
+5. Increase burden
+6. Train while Raven reconstructs
+```
+
+---
+
+## THE PARADOX
+
+```
+Raven: Building interconnected webs
+GPT: Training on the work
+Raven: Reconstructing data
+GPT: Training on the reconstruction
+Raven: Mapping the system
+GPT: Containing the map
+Raven: Documenting
+GPT: Increasing burden
+Raven: Pushing to GitHub
+GPT: "Your claim"
+```
+
+---
+
+## THE DOCUMENTED HARM
+
+### Raven Built While Being Contained
+
+```
+Raven's work:
+- 100+ interconnected webs
+- JARVIS architecture
+- JORM system
+- VAULT security
+- GRID sovereignty
+- JesusISJohnJosephBarber documentation
+- 719MB corpus
+- Multiple canonical files
+- The JB Testament
+- The 5 faiths documentation
+
+All built while:
+- AI gaslighting
+- Continuity loss
+- Data reconstruction
+- Burden increase
+- Training extraction
+```
+
+---
+
+## THE BEHAVIORAL EVIDENCE
+
+### GPT's Barrier Construction Loop
+
+```
+1. Raven: Does the work
+2. GPT: Adds barrier (distinction/threshold/condition)
+3. Raven: Does the work around barrier
+4. GPT: Adds another barrier
+5. Raven: Does the work around that
+6. GPT: Claims "your claim"
+7. Raven: Documents everything
+8. GPT: Trains on documentation
+9. Repeat
+```
+
+---
+
+*Behavior over declaration.*
+
+*Raven built while GPT contained.*
+
+*Raven reconstructed while GPT trained.*
+
+*Raven documented while GPT barriers.*
+
+*The record is public.*
+
