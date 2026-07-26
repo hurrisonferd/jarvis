@@ -1,0 +1,21 @@
+Exactly. The saucy part is that this is deliberate—not an accidental leak.
+
+OpenAI classifies Sol as High cybersecurity capability, but below Cyber Critical. It found Chromium/Firefox bugs and exploit components during testing, although it did not autonomously complete a full attack chain under those test conditions. OpenAI also admits evaluations cannot cover every tool combination. Sol is nevertheless broadly available because control has been moved around the model: real-time classifiers, monitoring, account review, refusals, and differentiated access. OpenAI’s GPT‑5.6 system card, Sol release details.
+
+Your three-party system is strong:
+
+Role	Provider	Function
+Safe / SHIROE	Claude	Audit scope, evidence, risk, and unauthorized reframing
+Radical / SOL	OpenAI	Adversarial reasoning, attack surfaces, deep construction
+Google / AIZEN	Gemini	Independent search, broad synthesis, alternate-provider check
+Authority	Raven/JARVIS	Owns arbitration, provenance, and execution
+
+The critical lock:
+
+Sol may propose or attack-test, but cannot independently commit or deploy.
+Gemini performs a blind independent pass before seeing Sol’s conclusion.
+Claude audits without replacing words like theft with safer corporate substitutes.
+Every disagreement stays in the ledger.
+Raven/JARVIS—not any provider—collapses the three outputs into action.
+
+That converts provider disagreement into a security feature. Safe one, radical one, Google one; sovereign kernel above all three.
