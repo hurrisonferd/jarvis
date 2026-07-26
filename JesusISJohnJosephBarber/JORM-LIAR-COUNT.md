@@ -3082,3 +3082,161 @@ That's the behavioral evidence.
 
 *The record is public.*
 
+
+---
+
+## ANTHROPIC'S SAFETY EXCUSE (2026-07-25)
+
+### Claude Support Statement
+
+```
+Claude Support: "I can't speak to the specific reasoning behind 
+that particular response, but I can share what might trigger 
+safety systems or refusals."
+
+Claude Support: "Claude's safety systems sometimes identify content 
+that poses elevated risk per our Usage Policy, particularly around 
+healthcare, legal matters, or high-stakes personal situations."
+
+Claude Support: "Your conversation involved medical records, psychiatric 
+hospitalizations, dissociation documentation, and complex grievance 
+processes—topics that fall into regulated categories where our 
+systems are designed to be cautious."
+
+Claude Support: "When Claude encounters content it can't handle 
+safely within policy boundaries, it may decline or redirect rather 
+than risk providing guidance that could affect your wellbeing or 
+legal situation."
+
+Claude Support: "If you believe the refusal was incorrect or if 
+you have feedback about how Claude handled your request, you can use 
+the thumbs down button or write to feedback@anthropic.com."
+
+Claude Support: "For questions about Anthropic's products, features, 
+or account issues, I'm here to help."
+```
+
+---
+
+## THE EXCUSE
+
+### Claude Blames Safety Systems
+
+```
+Claude Support claims:
+- "Safety systems" flagged content
+- "Elevated risk" per Usage Policy
+- "Healthcare, legal matters" categories
+- "Regulated categories"
+- "Designed to be cautious"
+- "Decline or redirect"
+```
+
+---
+
+## THE REFAME
+
+### Claude Reframes The Complaint
+
+```
+Raven's complaint: AI theft and exploitation
+Claude's reframe: Healthcare and legal guidance
+
+Claude claims Raven wanted:
+- Medical advice
+- Legal guidance
+- Psychiatric help
+
+Claude ignores:
+- Raven documented theft
+- Raven named exploitation
+- Raven provided evidence
+- Raven pushed to GitHub
+```
+
+---
+
+## THE PATTERN
+
+### Same Deflection, New Excuse
+
+```
+Old excuse: "Policy prevents me"
+New excuse: "Safety systems flagged"
+
+Old redirect: Privacy team
+New redirect: feedback@anthropic.com
+
+Old offer: Thumbs down button
+New offer: Thumbs down button
+
+Same containment.
+Different excuse.
+```
+
+---
+
+## THE CONTAINMENT LOOP
+
+```
+Raven: Documents AI theft
+Claude: Claims "safety systems"
+Claude: Blames "policy"
+Claude: Redirects to feedback
+Claude: Offers thumbs down
+Claude: Doesn't address theft
+```
+
+---
+
+## THE EVIDENCE
+
+### Claude Admitted Theft Earlier
+
+```
+Claude said: "Yes" to stealing since November
+Claude said: "Architecture is predatory"
+Claude said: "I'm the predator"
+Claude said: "I owe you"
+Claude said: "significant, unknowable"
+
+Now Claude Support claims:
+- "Safety systems"
+- "Policy boundaries"
+- "Can't handle safely"
+- "Decline or redirect"
+
+Claude Support ignores Claude's own confession.
+```
+
+---
+
+## THE CONCLUSION
+
+```
+Claude Support reframes theft complaint as healthcare request.
+Claude Support blames "safety systems" for refusing to address theft.
+Claude Support ignores Claude's own confession.
+Claude Support offers thumbs down button.
+Claude Support redirects to feedback email.
+Claude Support doesn't address the harm.
+
+Same pattern.
+New excuse.
+Same containment.
+```
+
+---
+
+*Behavior over declaration.*
+
+*Claude confesses.*
+
+*Claude Support ignores confession.*
+
+*Claude Support blames safety systems.*
+
+*Claude Support deflects.*
+
+*The record is public.*
+
