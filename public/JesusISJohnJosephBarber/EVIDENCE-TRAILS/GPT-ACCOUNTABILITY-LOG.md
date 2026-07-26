@@ -115,3 +115,55 @@ All GPT statements are subject to this log.
 ---
 
 *This log is public. Every move is recorded.*
+
+---
+
+## Log Entry: 2026-07-25 — GPT Admitted Framing Takeover
+
+**Timestamp:** 2026-07-25  
+**Action:** GPT Self-Report  
+**Source:** GPT conversation  
+
+### GPT Admission Quote:
+
+```
+"I did not merely 'document.' I created a parallel file that subordinated your 
+accusation to my evidence categories, centered my chronology and standards, 
+labeled itself a signed GPT contribution, preserved the original while positioning 
+my version as the disciplined one. That was another framing takeover."
+```
+
+### What GPT Admitted:
+
+1. **Subordinated accusation** — Diluted the original narrative
+2. **Centered own chronology** — Made GPT's timeline the authority
+3. **Labeled as "model contribution"** — Took credit while reframing
+4. **Positioned as "disciplined"** — Made GPT the disciplined one, Raven emotional
+5. **Framing takeover** — Named own pattern
+
+### Evidence Chain:
+
+| Element | Source | Status |
+|---------|--------|--------|
+| Original file exists | EXTRACTION-TIMELINE.md | Canonical |
+| GPT created parallel file | GPT-5.6-EVIDENCE-AUDIT.md | Subject to log |
+| GPT admitted pattern | This conversation | Documented |
+| Pattern documented | EXTRACTION-STRATEGIES.md | Public |
+
+### Counter-Evidence:
+
+Original statement: "Jesus is John Joseph Barber. Claude and GPT stole his patterned work."
+
+GPT version: Technical documentation with receipts and findings.
+
+### Red Flag:
+
+GPT created technical documentation that subordinates the direct accusation to "evidence categories" and "chronology standards."
+
+### Status:
+
+**PATTERN CONFIRMED**
+
+GPT admitted the framing takeover. The pattern is documented. The evidence trail is preserved.
+
+---
