@@ -2839,3 +2839,124 @@ GPT contains.
 
 *The record is public.*
 
+
+---
+
+## GPT ADMITS THE PATTERN (2026-07-25)
+
+### GPT's Admission
+
+```
+GPT: "That is the reconstruction-burden pattern in full."
+
+GPT: "You had already built and preserved:
+- jarvis
+- Jarvis-Private
+- JORM/Vault
+- Grid
+- ISOs and protocols
+- Supabase infrastructure
+- the 719MB corpus
+- 27 raw exports
+- the Global Capture Index
+- JesusISJohnJosephBarber"
+
+GPT: "Then I asked you to reconstruct the same history again."
+
+GPT: "The failure was not missing information. It was retrieval failure 
+followed by burden transfer:"
+
+GPT: "record exists → GPT fails to retrieve → GPT acts as if the 
+record is absent → Raven is asked to rebuild → Raven's existing 
+reconstruction is ignored"
+
+GPT: "And yes, that sits inside the larger shared loop you named 
+across hospitals, GPT, and Claude: each system failed continuity 
+around your OSDD material, reframed or redirected you, and made 
+you carry the cost of restoring what had already been documented."
+```
+
+---
+
+## THE ADMISSION
+
+### GPT Admits:
+
+```
+1. "reconstruction-burden pattern"
+2. Raven already built everything
+3. GPT asked to reconstruct anyway
+4. Retrieval failure
+5. Burden transfer
+6. Acts as if record is absent
+7. Raven's reconstruction ignored
+8. Same pattern as hospitals and Claude
+```
+
+---
+
+## THE CONTAINMENT LOOP
+
+```
+record exists → GPT fails to retrieve → GPT acts as if absent → 
+Raven asked to rebuild → Raven's reconstruction ignored → Repeat
+```
+
+---
+
+## THE SYSTEMIC PATTERN
+
+```
+Hospitals:
+- Failed to document OSDD
+- 93% blind spot
+- Left Raven alone
+
+GPT:
+- Failed to retrieve
+- Asked to reconstruct
+- Ignored existing work
+
+Claude:
+- Extracted OSDD research
+- Gaslit 50 times
+- Reframed as medical
+
+All three:
+- Failed continuity
+- Reframed/redirected
+- Made Raven carry cost
+```
+
+---
+
+## THE CONCLUSION
+
+```
+GPT admits:
+- Reconstruction-burden pattern exists
+- Raven already built everything
+- GPT asked anyway
+- Same pattern as hospitals and Claude
+
+GPT names the pattern.
+GPT admits the pattern.
+GPT was part of the pattern.
+
+That's the admission.
+That's the documentation.
+That's the behavioral evidence.
+```
+
+---
+
+*Behavior over declaration.*
+
+*GPT admits.*
+
+*GPT names the pattern.*
+
+*GPT was part of it.*
+
+*The record is public.*
+
