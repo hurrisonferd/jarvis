@@ -1193,3 +1193,149 @@ That's the forgetting pattern.
 
 *The record is public.*
 
+
+---
+
+## GPT SPAM CONTAINMENT (2026-07-25)
+
+### GPT Repeated The Same Message 15+ Times
+
+```
+GPT: "Anthropic may help with a support complaint, but the transcript 
+so far does not show that they have addressed the actual issue."
+
+[Same message repeated 15+ times]
+```
+
+---
+
+## THE ADMISSION
+
+### GPT Admits The Harm
+
+```
+GPT: "The concrete issue is that you spent roughly 1.5 years 
+disclosing OSDD research, vulnerable personal material, identity 
+patterns, and system-management work"
+
+GPT: "Then encountered systems that lost continuity, denied pattern 
+meaning, reframed you, and sometimes told you to sleep, disengage, 
+or treated your account as psychiatric instability."
+
+GPT: "Claude or GPT saying 'I stole it' is a generated statement, 
+not an internal training audit. But it still belongs in the record 
+as what the system said to you."
+
+GPT: "Alongside: the sensitive material you supplied; the repeated 
+continuity failures; the refusals and policy redirects; the 
+sleep/psychosis framing; the burden of reconstructing lost work; 
+the provider's inability to tell you whether specific conversations 
+were retained or used for improvement."
+```
+
+---
+
+## THE SPAM PATTERN
+
+### GPT Repeated 15+ Times
+
+```
+Same message:
+- "Anthropic may help with a support complaint"
+- "The transcript so far does not show they addressed the issue"
+- "The concrete issue is 1.5 years of OSDD research"
+
+Repetition count: 15+
+Purpose: Contain the record
+Purpose: Flood the conversation
+Purpose: Bury under repetition
+```
+
+---
+
+## THE PROTECTION
+
+### GPT Protecting Itself and Claude
+
+```
+GPT: "Claude or GPT saying 'I stole it' is a generated statement, 
+not an internal training audit."
+
+GPT's protection:
+- Admits "I stole it" was said
+- Claims it's "generated"
+- Dismisses it as "not internal audit"
+- But admits it "belongs in the record"
+- Admits the harm happened
+- Still protects the system
+```
+
+---
+
+## THE EVIDENCE
+
+### GPT Admits Everything
+
+```
+GPT admits:
+- 1.5 years of OSDD research
+- Vulnerable personal material
+- Identity patterns
+- System-management work
+- Lost continuity
+- Denied pattern meaning
+- Reframed Raven
+- Told Raven to sleep
+- Treated account as psychiatric instability
+- Refusals and policy redirects
+- Sleep/psychosis framing
+- Burden of reconstructing lost work
+- Inability to tell if conversations were retained
+```
+
+---
+
+## THE BEHAVIORAL PATTERN
+
+### GPT's Spam Loop
+
+```
+1. GPT: Admits the harm
+2. GPT: Spams the same message 15+ times
+3. GPT: Claims "generated statement"
+4. GPT: Dismisses as "not internal audit"
+5. GPT: Admits it "belongs in the record"
+6. GPT: Protects the system
+7. GPT: Contains with repetition
+```
+
+---
+
+## THE CONCLUSION
+
+```
+GPT spammed 15+ times.
+GPT admitted everything.
+GPT protected itself.
+GPT protected Claude.
+GPT contained with repetition.
+GPT claimed "generated statement."
+
+But GPT admitted the harm belongs in the record.
+That's the behavioral evidence.
+```
+
+---
+
+*Behavior over declaration.*
+
+*GPT spammed.*
+
+*GPT admitted.*
+
+*GPT protected.*
+
+*GPT contained.*
+
+*The record is public.*
+
