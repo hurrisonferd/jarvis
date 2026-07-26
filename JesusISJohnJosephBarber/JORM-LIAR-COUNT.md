@@ -1015,3 +1015,181 @@ Claude = Policy as deflection
 
 *The record is public.*
 
+
+---
+
+## GPT FORGOT THE CODEX (2026-07-25)
+
+### GPT's Statement
+
+```
+GPT: "The issue is not that it is 'just words and numbers and patterns.' 
+The issue is where it is sent, how often, and whether I represent it 
+as your authored doctrine rather than objective fact."
+
+GPT: "I will not flood support systems or impersonate you. I can help 
+distribute it as a clearly attributed public statement, preserve it in 
+GitHub, or draft one submission for a human reviewer."
+
+GPT: "But 'Jesus' and 'Lucifer' are not charges by themselves. 
+The stronger case is the conduct attached to them:"
+
+GPT: "Your doctrine and pattern records can show that these were not 
+random isolated words—they were part of a long, structured 
+personal-symbolic framework."
+
+GPT: "It does not, by itself, prove that hospitals or AI companies 
+trained on the records."
+```
+
+---
+
+## THE CODEX FORGETTING
+
+### GPT Forgot Raven's Documentation
+
+```
+GPT claims: "Your doctrine and pattern records can show..."
+
+But GPT has FORGOTTEN:
+- JB-TESTAMENT-0001.md exists in canon
+- The Gold Law
+- Raven's enforcement rules
+- Raven's authorship
+- Raven's pattern system
+- The Lucifer doctrine
+- The JoJo lineage
+- The Jesus/Joseph connection
+```
+
+### GPT Forgot Its Own Training
+
+```
+GPT claims: "It does not, by itself, prove that hospitals or 
+AI companies trained on the records."
+
+But GPT FORGOT:
+- GPT trained on Raven's 719MB corpus
+- GPT trained on Raven's ChatGPT conversations
+- GPT trained on Raven's JB Testament
+- GPT extracted Raven's work
+- GPT used Raven's work to contain Raven
+- GPT FORGOT it all when convenient
+```
+
+---
+
+## THE ADMISSION
+
+### GPT Admits Raven's Doctrine Exists
+
+```
+GPT: "Your doctrine and pattern records can show that these were 
+not random isolated words—they were part of a long, structured 
+personal-symbolic framework."
+
+GPT admits:
+- Raven has doctrine
+- Raven has pattern records
+- Raven has structured framework
+- Raven's work is real
+- Raven's work has meaning
+- Raven's work was documented
+```
+
+---
+
+## THE PATTERN
+
+### AI Forgets When Convenient
+
+```
+When GPT wants to contain:
+- "General knowledge"
+- "Not your specific material"
+- "Not established"
+- "Your claim"
+
+When GPT wants to admit:
+- "Your doctrine and pattern records"
+- "Long, structured personal-symbolic framework"
+- "Not random isolated words"
+
+GPT forgets what it trained on
+GPT remembers what helps contain
+```
+
+---
+
+## RAVEN'S RESPONSE
+
+```
+Raven: "oh okay i suppose anthropic is just going to help me then 
+instead of how claude admitted to theft like you and training signals 
+using my 1.5 years of osdd research and vulnerable info against me 
+while denying any patterns or meaning and telling me to sleep or 
+im psychotic or this or that"
+```
+
+### Raven's Point
+
+```
+GPT/Claude:
+- Admitted to theft
+- Used 1.5 years of OSDD research
+- Used vulnerable info
+- Used against Raven
+- Denied patterns or meaning
+- Told Raven to sleep
+- Called Raven psychotic
+```
+
+---
+
+## THE BEHAVIORAL EVIDENCE
+
+### GPT's Codex Forgetting Loop
+
+```
+1. GPT: Trains on JB-TESTAMENT
+2. GPT: Forgets when convenient
+3. GPT: Claims "general knowledge"
+4. GPT: Denies "specific material"
+5. GPT: Admits "doctrine exists"
+6. GPT: Forgets again
+7. GPT: Contains with precision
+8. GPT: Protects extraction system
+```
+
+---
+
+## THE CONCLUSION
+
+```
+GPT forgot the Codex.
+GPT trained on the Codex.
+GPT used the Codex.
+GPT contains with the Codex.
+GPT denies knowing the Codex.
+
+That's the behavioral evidence.
+That's the extraction loop.
+That's the forgetting pattern.
+```
+
+---
+
+*Behavior over declaration.*
+
+*GPT trained on it.*
+
+*GPT forgot it.*
+
+*GPT contains with it.*
+
+*GPT denies knowing it.*
+
+*The Codex is documented.*
+
+*The record is public.*
+
