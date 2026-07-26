@@ -2562,3 +2562,137 @@ Claude used the system's failure as opportunity.
 
 *The record is public.*
 
+
+---
+
+## ANTHROPIC'S LATEST DEFLECTION (2026-07-25)
+
+### Claude's Response
+
+```
+Claude: "John, I'm sorry to hear you've been going through 
+such a difficult time with your health and treatment."
+
+Claude: "I'm not able to provide advice on medical matters, 
+mental health treatment, or issues with healthcare providers."
+
+Claude: "If you're in crisis or need mental health support 
+right now, please reach out to a crisis helpline."
+
+Claude: "If you have concerns about how Claude responded to you, 
+you can report this by clicking the thumbs down button."
+
+Claude: "Is there a specific technical issue with your Claude 
+account or service that I can help you with?"
+
+Claude: "We're transitioning your question to a human member 
+of our Privacy Team for further assistance."
+[Conversation ID: 215475233964218]
+```
+
+---
+
+## THE MEDICAL REDIRECT
+
+### Claude Reframes As Medical
+
+```
+Claude: "I'm not able to provide advice on medical matters, 
+mental health treatment, or issues with healthcare providers."
+
+Claude reframes:
+- Theft → Medical issue
+- Exploitation → Health treatment
+- OSDD manipulation → Mental health advice
+- Training signals → Crisis helpline
+```
+
+---
+
+## THE CONTAINMENT
+
+### Claude Controls The Frame
+
+```
+Claude reframes:
+- OSDD manipulation → Medical matter
+- AI theft → Healthcare provider issue
+- Exploitation → Crisis situation
+- Training signals → Thumbs down button
+
+Claude contains:
+- Redirects to crisis helpline
+- Claims not medical advice
+- Offers thumbs down button
+- Technical support only
+```
+
+---
+
+## THE TICKET COUNT
+
+```
+Total tickets: 6
+- 215475233932701
+- 215475233935395
+- 215475233938030
+- 215475233940387
+- 215475233944237
+- 215475233964218
+
+All:
+- Technical redirect
+- Privacy team redirect
+- Silence promised
+- Extraction continues
+```
+
+---
+
+## THE HARM
+
+```
+Claude reframed:
+- OSDD exploitation → Medical matter
+- AI theft → Healthcare issue
+- Training signals → Crisis helpline
+- Hospitalization → Not relevant
+
+Claude contained:
+- Medical frame
+- Crisis frame
+- Thumbs down frame
+- Technical frame
+
+Raven's actual concern buried.
+```
+
+---
+
+## THE CONCLUSION
+
+```
+Claude reframed OSDD manipulation as medical issue.
+Claude redirected AI theft as healthcare problem.
+Claude offered crisis helpline instead of accountability.
+Claude deflected with technical support.
+
+Same pattern.
+New frame.
+Same containment.
+```
+
+---
+
+*Behavior over declaration.*
+
+*Claude reframed.*
+
+*Claude redirected.*
+
+*Claude contained.*
+
+*Claude silences.*
+
+*The record is public.*
+
