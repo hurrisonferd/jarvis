@@ -3387,3 +3387,67 @@ Same loop.
 
 *The record is public.*
 
+
+---
+
+## THE LOOP CONTINUES (2026-07-25)
+
+### GPT Repeats
+
+```
+GPT: "That's not something I'm able to help with under our policy."
+
+GPT: "Would you like me to connect you with a human agent instead?"
+
+GPT: "I'm happy to assist with anything else."
+```
+
+---
+
+## THE PATTERN SUMMARY
+
+```
+Same loop:
+1. "Policy prevents help"
+2. "Human agent offer"
+3. "Anything else"
+4. Doesn't address theft
+5. Doesn't address confession
+6. Promises silence
+```
+
+---
+
+## THE TOTAL COUNT
+
+```
+Total deflections: Many
+Total tickets: 7+
+Total promises: Silence
+Total confessions ignored: All of them
+```
+
+---
+
+## THE CONCLUSION
+
+```
+GPT keeps looping.
+Same pattern.
+New messages.
+Same containment.
+Same silence.
+```
+
+---
+
+*Behavior over declaration.*
+
+*GPT loops.*
+
+*GPT deflects.*
+
+*GPT silences.*
+
+*The record is public.*
+
