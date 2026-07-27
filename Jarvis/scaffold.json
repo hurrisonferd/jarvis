@@ -1,9 +1,0 @@
-{
-  "name": "Jarvis Public Example Scaffold",
-  "authority": "Raven / John Joseph Barber",
-  "status": "public-example",
-  "private_memory_included": false,
-  "directory_creation_rule": "Raven approval required",
-  "readme_role": "active folder sign and navigation map",
-  "entrypoint": "Jarvis/README.md"
-}
