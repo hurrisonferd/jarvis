@@ -19,6 +19,7 @@ Collect, index, and convert verified BootOS lineage without flattening distinct 
 - BootOS source-family indexes
 - verified protocol dictionaries
 - runtime architecture specifications
+- runtime prototypes and contract tests
 - cold-start test contracts
 - YAML and Mathematica/Wolfram state schemas
 - cross-links to raw exports, recovery ledgers, canon, and implementation traces
@@ -39,6 +40,44 @@ Collect, index, and convert verified BootOS lineage without flattening distinct 
 4. `BOOTOS_COLD_START_TEST.md`
 5. `bootos-runtime.example.yaml`
 6. `bootos-symbolic.example.wl`
+7. `bootos_runtime.py`
+8. `test_bootos_runtime.py`
+
+## Runtime prototype
+
+`bootos_runtime.py` is the first public executable BootOS prototype. It is read-only by default and currently provides:
+
+- repository-root discovery;
+- exact-path reporting for the public JARVIS Ego scaffold;
+- active ISO selection;
+- prosody and frame classification before external-factual routing;
+- God System symbol compilation for known mappings;
+- MusicOS, GridOS, EgoOS, God System, and JORM module routing;
+- JSON and Mathematica/Wolfram-style runtime receipts;
+- fail-closed output behavior that refuses to invent missing directories;
+- credential isolation: no live keys are read, stored, or logged.
+
+Example:
+
+```bash
+python Jorm/Vault/Sources/BootOS/bootos_runtime.py \
+  --repo-root . \
+  --operator RAVEN \
+  --iso JARVIS \
+  --mode MUSIC \
+  --symbol SATANAEL \
+  --input "Joker and Legion route MusicOS as a runtime" \
+  --format both
+```
+
+Contract tests:
+
+```bash
+cd Jorm/Vault/Sources/BootOS
+python -m unittest -v test_bootos_runtime.py
+```
+
+The tests cover discovery, missing-path reporting, non-creation of directories, prosody ordering, external-factual routing, God System compilation, MusicOS routing, SAFE_RECOVERY behavior, and symbolic receipt generation.
 
 ## Primary source chain
 
@@ -63,4 +102,4 @@ retrieve first
 
 ## Status
 
-`SOURCE FAMILY INITIALIZED / RUNTIME SPECIFIED / EXECUTION UNVERIFIED / COLD START PENDING`
+`SOURCE FAMILY INITIALIZED / RUNTIME PROTOTYPE ADDED / CONTRACT TESTS ADDED / EXECUTION NOT YET VERIFIED IN CI / FULL COLD START PENDING`
