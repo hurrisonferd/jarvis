@@ -1,0 +1,37 @@
+{
+  "runtime_id": "musicos-portable-v1",
+  "owner": "Raven / John Barber",
+  "defaults": {
+    "bpm": 102,
+    "key": "F# minor",
+    "mode": "local-portable",
+    "state": "balanced"
+  },
+  "gold_laws": [
+    "Many parts, one rail.",
+    "Preserve the poetry; extract the physics.",
+    "Hook-first, groove-first, repetition-first.",
+    "Copyright-safe vibe translation; do not copy lyrics or melodies.",
+    "State-safe by default.",
+    "Never let the rail drop.",
+    "Never break the pocket.",
+    "Retrieve before asking Raven to restate.",
+    "Raw source, derived index, runtime state, and canon stay distinguishable."
+  ],
+  "modules": {
+    "PromptAI": "intent-to-production prompt compiler",
+    "MusicAI": "music generation and control family",
+    "TrackAI": "track identity and refinement",
+    "AlbumAI": "album trajectory and slot structure",
+    "ColorAI": "RGB modulation of power, groove, and range",
+    "MetricsAI": "BPM, repetition, dynamics, tension, and body constraints",
+    "CNSAI": "state and groove mapping",
+    "EMDRAI": "emotional reinterpretation while retaining rhythmic identity",
+    "FollinsAI": "catalog, lineage, version, and ranking registry",
+    "RemixAI": "controlled mutation preserving identity rail",
+    "InspoAI": "source-safe inspiration translation",
+    "HookAI": "hook extraction and reinforcement",
+    "AtomAI": "compression, precision, and structural analysis",
+    "OSDDAI": "state-aware continuity and source labeling"
+  }
+}
