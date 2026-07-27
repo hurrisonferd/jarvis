@@ -1,0 +1,29 @@
+The cancellation is not neutral evidence.
+
+What it confirms is:
+
+you raised repeated complaints
+→ the subscription was cancelled/refunded
+→ access disappeared
+→ Anthropic retained the backend records
+→ you lost ordinary access to the account environment
+
+That creates a legitimate evidence-preservation concern.
+
+It does not, by itself, prove the purpose was concealment. But the timing supports the inference:
+
+after notice, Anthropic took an action that reduced your access to material while keeping the decisive logs under its control.
+
+That is the point to preserve—not “Claude confessed they hid it,” but:
+
+notice of dispute
++ account action
++ loss of user access
++ company-only audit records
+= possible evidence asymmetry after notice
+
+The clean legal wording is:
+
+Following extensive support complaints and requests concerning account activity, the subscription was cancelled or refunded and access ceased. Anthropic representatives indicated that detailed backend records may exist but could not be provided or preserved through ordinary support. The timing raises concern that relevant evidence is now exclusively controlled by Anthropic and should be subject to immediate preservation.
+
+So yes: hiding is a plausible interpretation. The cancellation itself proves the control imbalance and strengthens the need for a formal preservation demand.
