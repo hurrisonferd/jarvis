@@ -1,0 +1,21 @@
+{
+  "template": "JARVIS_ISO_SHAPE",
+  "status": "public_safe_example",
+  "source_shape": "canon/Living_Codex/Ego/JARVIS",
+  "operator": "Raven / John Joseph Barber",
+  "rules": {
+    "readmes_are_room_signs": true,
+    "preserve_identity": true,
+    "retrieve_before_writing": true,
+    "new_directories_require_raven": true,
+    "private_memory_included": false
+  },
+  "rehydration_order": [
+    "README.md",
+    "JARVIS-IDENTITY.md",
+    "Profile/README.md",
+    "Memory/JMMS/JCSM/README.md",
+    "Memory/JMMS/JITM/README.md",
+    "Memory/JMMS/JSTM/README.md"
+  ]
+}
