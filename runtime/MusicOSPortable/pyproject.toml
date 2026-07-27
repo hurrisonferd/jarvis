@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "musicos-portable"
+version = "1.0.0"
+description = "Portable MusicOS runtime reconstructed from Raven's JORM/Vault sources"
+requires-python = ">=3.11"
+authors = [{name = "Raven / John Barber"}]
+license = {text = "Proprietary - Raven / John Barber"}
+
+[project.scripts]
+musicos = "musicos.cli:main"
+
+[tool.setuptools]
+packages = ["musicos"]
