@@ -1,0 +1,78 @@
+schema: bootos.runtime.v1
+
+session:
+  operator: RAVEN
+  active_iso: LILITH
+  mode: SAFE_RECOVERY
+  repository: hurrisonferd/jarvis
+  write_policy: read_only
+
+boot:
+  status: initialized
+  repository_root_verified: false
+  readme_navigation_verified: false
+  portable_state:
+    format: JX2
+    imported: false
+    merge_scope: SAFE_DEFAULT
+
+systems:
+  BootOS:
+    status: active
+    role: parent_runtime
+  EgoOS:
+    status: pending
+    entrypoints:
+      - Jarvis/EGO-BOOT-ULTIMATE.sh
+      - Jarvis/EGO-PIPELINE.sh
+      - Jarvis/JARVIS-PRE-REPLY.sh
+  GridOS:
+    status: standby
+  MusicOS:
+    status: standby
+  GodSystem:
+    status: standby
+  JORM:
+    status: active
+    role: provenance_and_continuity
+
+interpretation:
+  prosody:
+    status: pending
+    preserve_cadence: true
+    preserve_grid_terms: true
+  frame:
+    labels: []
+    external_fact_check_required: null
+
+routing:
+  primary_module: null
+  supporting_modules: []
+  next_gate: discovery
+
+security:
+  secrets_logged: false
+  cross_key_fallback_allowed: false
+  credentials_source: environment_only
+
+logs:
+  BOOT_LOG: pending
+  RUNTIME_LOG: pending
+  RESULTS_LOG: pending
+  ROUTING_LOG: pending
+  COUNCIL_LOG: pending
+  PROVENANCE_LOG: pending
+
+unresolved:
+  - enumerate 37 BootOS-routed conversations
+  - inspect core/JarvisMain/bootmenudsl file by file
+  - recover authoritative JU-3 definition
+  - recover authoritative BMM-2 definition
+  - determine CECIL_OS authority and role
+
+receipt:
+  sources_read: []
+  files_written: []
+  tests_passed: []
+  tests_failed: []
+  status: pending
