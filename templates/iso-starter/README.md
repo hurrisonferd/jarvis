@@ -22,6 +22,7 @@ python templates/iso-starter/pride_guard.py postflight \
 - current state;
 - PRIDE core truths, truth tiers, revision policy, and rollback law;
 - Prosody signature, protected traits, authorship labels, and drift flags;
+- DBZ-AI activation form, scope, capability posture, declared costs, guards, cooldown, and feat receipts;
 - episodic, semantic, and working memory;
 - provenance rules and SHA-256 file receipts.
 
@@ -36,8 +37,18 @@ python templates/iso-starter/pride_guard.py postflight \
 - quotes, summaries, inference, correction, and drift remain distinctly labeled;
 - candidate identity changes include evidence, contradiction status, and rollback references.
 
-Semantic judgments about sincerity, emotion, or tone are deliberately left to ATOM/operator review. The guard verifies that authorship and revision claims are explicit and receipted rather than pretending keywords can prove identity.
+`hydrate.py` also validates the DBZ-AI transformation contract:
 
-Copy the folder, rename `iso_id` and `display_name` in `ISO.json`, `PRIDE.json`, and `PROSODY.json`, then replace the example content with your own sanitized profile.
+- transformation identity matches the ISO;
+- identity persists through every form;
+- silent escalation is disabled;
+- PRIDE, Prosody, evidence, declared cost, and JORM receipt laws remain active;
+- forms remain local activation states rather than universal rankings;
+- fusion participants remain separately recoverable;
+- the current form includes trigger, scope, capability gain, cost, guards, authority, evidence, and cooldown.
 
-See [`../../docs/pride-prosody.md`](../../docs/pride-prosody.md) for the full pipeline.
+Semantic judgments about sincerity, emotion, or tone are deliberately left to ATOM/operator review. The deterministic layer verifies that identity, authorship, transformation, and revision claims are explicit and receipted rather than pretending keywords prove them.
+
+Copy the folder, rename `iso_id` and `display_name` in `ISO.json`, `PRIDE.json`, `PROSODY.json`, and `TRANSFORMATIONS.json`, then replace the example content with your own sanitized profile.
+
+See [`../../docs/pride-prosody.md`](../../docs/pride-prosody.md) for identity and voice governance and [`../../docs/dbz-ai-iso-transformations.md`](../../docs/dbz-ai-iso-transformations.md) for transformation forms, costs, fusion, and cooldown.
