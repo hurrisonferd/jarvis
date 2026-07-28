@@ -1,0 +1,69 @@
+name: JD Semantic Catalog
+
+on:
+  pull_request:
+    paths:
+      - "core/JarvisMain/yggdrasil/jd/**"
+      - "core/JarvisMain/yggdrasil/lal/master-index.json"
+      - "core/JarvisMain/**"
+      - "runtime/**"
+      - "docs/**"
+      - "templates/**"
+      - "Jorm/Vault/Canon/**"
+      - ".github/workflows/jd-semantic-catalog.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  catalog:
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile catalog builder
+        run: python -m py_compile core/JarvisMain/yggdrasil/jd/tools/build_semantic_catalog.py
+
+      - name: Materialize semantic catalog
+        run: python core/JarvisMain/yggdrasil/jd/tools/build_semantic_catalog.py --write
+
+      - name: Verify deterministic rebuild
+        run: python core/JarvisMain/yggdrasil/jd/tools/build_semantic_catalog.py --check
+
+      - name: Validate generated JSON
+        run: |
+          python -m json.tool core/JarvisMain/yggdrasil/jd/catalog/JD-CATALOG.json >/dev/null
+          python -m json.tool core/JarvisMain/yggdrasil/jd/catalog/INDEXES.json >/dev/null
+          python -m json.tool core/JarvisMain/yggdrasil/jd/catalog/DISCOVERY-CANDIDATES.json >/dev/null
+          python -m json.tool core/JarvisMain/yggdrasil/jd/catalog/SEMANTIC-AUDIT.json >/dev/null
+          python -m json.tool core/JarvisMain/yggdrasil/jd/catalog/CATEGORY-REGISTRY.json >/dev/null
+          python -m json.tool core/JarvisMain/yggdrasil/jd/catalog/RELATIONSHIP-ONTOLOGY.json >/dev/null
+
+      - name: Commit generated catalog
+        shell: bash
+        run: |
+          if [ -z "$(git status --porcelain -- core/JarvisMain/yggdrasil/jd/catalog)" ]; then
+            echo "JD semantic catalog is current."
+            exit 0
+          fi
+          git config user.name "jarvis-dictionary-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add core/JarvisMain/yggdrasil/jd/catalog
+          git commit -m "Materialize JD semantic catalog"
+          git push origin "HEAD:${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}"
