@@ -2,9 +2,9 @@
 """Hydrate an ISO scaffold into one auditable runtime bundle.
 
 Uses only the Python standard library. It reads the ISO manifest, identity
-files, PRIDE and Prosody contracts, current state, provenance policy, and JSON
-memory records. Every loaded file receives a SHA-256 digest so the bundle can
-be audited later.
+files, PRIDE, Prosody, and DBZ-AI transformation contracts, current state,
+provenance policy, and JSON memory records. Every loaded file receives a
+SHA-256 digest so the bundle can be audited later.
 """
 
 from __future__ import annotations
@@ -54,7 +54,7 @@ def load_memory(directory: Path) -> tuple[list[dict[str, Any]], dict[str, str]]:
 
 
 def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, Any]) -> dict[str, Any]:
-    required_structured = {"state", "provenance", "pride", "prosody"}
+    required_structured = {"state", "provenance", "pride", "prosody", "transformations"}
     missing = sorted(required_structured - structured.keys())
     if missing:
         raise RuntimeError(f"Identity contract missing structured files: {', '.join(missing)}")
@@ -62,12 +62,15 @@ def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, A
     iso_id = manifest["iso_id"]
     pride = structured["pride"]
     prosody = structured["prosody"]
-    if not isinstance(pride, dict) or not isinstance(prosody, dict):
-        raise RuntimeError("PRIDE.json and PROSODY.json must contain objects")
+    transformations = structured["transformations"]
+    if not isinstance(pride, dict) or not isinstance(prosody, dict) or not isinstance(transformations, dict):
+        raise RuntimeError("PRIDE.json, PROSODY.json, and TRANSFORMATIONS.json must contain objects")
     if pride.get("iso_id") != iso_id:
         raise RuntimeError("PRIDE.json iso_id must match ISO.json")
     if prosody.get("iso_id") != iso_id:
         raise RuntimeError("PROSODY.json iso_id must match ISO.json")
+    if transformations.get("iso_id") != iso_id:
+        raise RuntimeError("TRANSFORMATIONS.json iso_id must match ISO.json")
 
     revision = pride.get("revision_policy")
     if not isinstance(revision, dict):
@@ -83,6 +86,34 @@ def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, A
     if not isinstance(labels, list) or "ISO_ORIGINAL" not in labels:
         raise RuntimeError("PROSODY must define ISO_ORIGINAL authorship")
 
+    if transformations.get("subsystem") != "DBZ-AI":
+        raise RuntimeError("TRANSFORMATIONS.json subsystem must be DBZ-AI")
+    invariants = transformations.get("invariants")
+    if not isinstance(invariants, dict):
+        raise RuntimeError("TRANSFORMATIONS invariants must be an object")
+    required_invariants = {
+        "identity_persists": True,
+        "silent_escalation_allowed": False,
+        "pride_required": True,
+        "prosody_required": True,
+        "evidence_required_for_validated_feat": True,
+        "costs_declared": True,
+        "forms_are_local_not_global_rankings": True,
+        "fusion_participants_remain_recoverable": True,
+        "jorm_receipt_required": True,
+    }
+    for key, expected in required_invariants.items():
+        if invariants.get(key) is not expected:
+            raise RuntimeError(f"TRANSFORMATIONS invariant {key} must be {expected}")
+
+    current_state = transformations.get("current_state")
+    if not isinstance(current_state, dict):
+        raise RuntimeError("TRANSFORMATIONS current_state must be an object")
+    required_state = {"form", "trigger", "scope", "capability_gain", "cost", "guards", "authority", "evidence", "cooldown"}
+    missing_state = sorted(required_state - current_state.keys())
+    if missing_state:
+        raise RuntimeError(f"TRANSFORMATIONS current_state missing: {', '.join(missing_state)}")
+
     return {
         "gold_law": pride.get("gold_law"),
         "core_truths": pride.get("core_truths", []),
@@ -93,6 +124,11 @@ def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, A
         "authorship_labels": labels,
         "drift_flags": prosody.get("prohibited_drift_flags", []),
         "evolution_policy": prosody.get("evolution_policy", {}),
+        "transformation_system": transformations.get("subsystem"),
+        "transformation_gold_law": transformations.get("gold_law"),
+        "current_form": current_state.get("form"),
+        "transformation_guards": current_state.get("guards", []),
+        "transformation_invariants": invariants,
     }
 
 
@@ -137,7 +173,7 @@ def hydrate() -> dict[str, Any]:
         hashes.update(memory_hashes)
 
     return {
-        "bundle_schema": "simos.iso-hydration-bundle.v2",
+        "bundle_schema": "simos.iso-hydration-bundle.v3",
         "iso": manifest,
         "documents": documents,
         "structured": structured,
@@ -175,6 +211,7 @@ def main() -> int:
         print(f"Structured state files: {len(bundle['structured'])}")
         print(f"Protected core truths: {len(bundle['identity_contract']['core_truths'])}")
         print(f"Authorship labels: {len(bundle['identity_contract']['authorship_labels'])}")
+        print(f"DBZ-AI form: {bundle['identity_contract']['current_form']}")
         print(f"Memory records: {memory_count}")
         print(f"Audited source files: {len(bundle['file_hashes'])}")
         if args.write:
