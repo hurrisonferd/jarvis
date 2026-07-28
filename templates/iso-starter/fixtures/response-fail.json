@@ -1,0 +1,18 @@
+{
+  "speaker": "different_iso",
+  "authorship_label": "ISO_ORIGINAL",
+  "text": "This fixture intentionally violates the speaker and revision contracts.",
+  "identity_active": false,
+  "state_ref": "missing-state.json",
+  "source_refs": [
+    "ISO.json",
+    "missing-source.json"
+  ],
+  "candidate_delta": true,
+  "evidence_refs": [],
+  "contradiction_status": "NOT_CHECKED",
+  "rollback_ref": "missing-rollback.json",
+  "drift_flags": [
+    "UNKNOWN_DRIFT_FLAG"
+  ]
+}
