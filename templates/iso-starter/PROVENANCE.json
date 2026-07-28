@@ -1,0 +1,11 @@
+{
+  "schema_version": "simos.provenance.v1",
+  "canonical_store": "git",
+  "created_by": "JARVIS public ISO starter",
+  "source_policy": {
+    "quotes_must_be_exact": true,
+    "summaries_must_be_labeled": true,
+    "inferences_must_be_labeled": true,
+    "corrections_append_to_history": true
+  }
+}
