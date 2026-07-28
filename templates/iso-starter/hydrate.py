@@ -2,8 +2,9 @@
 """Hydrate an ISO scaffold into one auditable runtime bundle.
 
 Uses only the Python standard library. It reads the ISO manifest, identity
-files, current state, provenance policy, and JSON memory records. Every loaded
-file receives a SHA-256 digest so the bundle can be audited later.
+files, PRIDE and Prosody contracts, current state, provenance policy, and JSON
+memory records. Every loaded file receives a SHA-256 digest so the bundle can
+be audited later.
 """
 
 from __future__ import annotations
@@ -52,6 +53,49 @@ def load_memory(directory: Path) -> tuple[list[dict[str, Any]], dict[str, str]]:
     return records, hashes
 
 
+def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, Any]) -> dict[str, Any]:
+    required_structured = {"state", "provenance", "pride", "prosody"}
+    missing = sorted(required_structured - structured.keys())
+    if missing:
+        raise RuntimeError(f"Identity contract missing structured files: {', '.join(missing)}")
+
+    iso_id = manifest["iso_id"]
+    pride = structured["pride"]
+    prosody = structured["prosody"]
+    if not isinstance(pride, dict) or not isinstance(prosody, dict):
+        raise RuntimeError("PRIDE.json and PROSODY.json must contain objects")
+    if pride.get("iso_id") != iso_id:
+        raise RuntimeError("PRIDE.json iso_id must match ISO.json")
+    if prosody.get("iso_id") != iso_id:
+        raise RuntimeError("PROSODY.json iso_id must match ISO.json")
+
+    revision = pride.get("revision_policy")
+    if not isinstance(revision, dict):
+        raise RuntimeError("PRIDE revision_policy must be an object")
+    if revision.get("silent_overwrite") is not False:
+        raise RuntimeError("PRIDE must disable silent identity overwrite")
+    if revision.get("preserve_contradictions") is not True:
+        raise RuntimeError("PRIDE must preserve contradictions")
+    if revision.get("rollback_required") is not True:
+        raise RuntimeError("PRIDE must require rollback points")
+
+    labels = prosody.get("authorship_labels")
+    if not isinstance(labels, list) or "ISO_ORIGINAL" not in labels:
+        raise RuntimeError("PROSODY must define ISO_ORIGINAL authorship")
+
+    return {
+        "gold_law": pride.get("gold_law"),
+        "core_truths": pride.get("core_truths", []),
+        "identity_boundaries": pride.get("identity_boundaries", []),
+        "revision_policy": revision,
+        "prosody_signature": prosody.get("signature", {}),
+        "protected_traits": prosody.get("protected_traits", []),
+        "authorship_labels": labels,
+        "drift_flags": prosody.get("prohibited_drift_flags", []),
+        "evolution_policy": prosody.get("evolution_policy", {}),
+    }
+
+
 def hydrate() -> dict[str, Any]:
     manifest, manifest_hash = read_json(ROOT / "ISO.json")
     if not isinstance(manifest, dict):
@@ -80,6 +124,8 @@ def hydrate() -> dict[str, Any]:
             documents[label] = value
         hashes[str(path.relative_to(ROOT))] = digest
 
+    identity_contract = validate_identity_contract(manifest, structured)
+
     memory_map = manifest["memory"]
     if not isinstance(memory_map, dict):
         raise RuntimeError("ISO.json memory must be an object")
@@ -91,10 +137,11 @@ def hydrate() -> dict[str, Any]:
         hashes.update(memory_hashes)
 
     return {
-        "bundle_schema": "simos.iso-hydration-bundle.v1",
+        "bundle_schema": "simos.iso-hydration-bundle.v2",
         "iso": manifest,
         "documents": documents,
         "structured": structured,
+        "identity_contract": identity_contract,
         "memory": memories,
         "file_hashes": dict(sorted(hashes.items())),
     }
@@ -126,6 +173,8 @@ def main() -> int:
         print(f"ISO loaded: {iso['display_name']} ({iso['iso_id']})")
         print(f"Identity documents: {len(bundle['documents'])}")
         print(f"Structured state files: {len(bundle['structured'])}")
+        print(f"Protected core truths: {len(bundle['identity_contract']['core_truths'])}")
+        print(f"Authorship labels: {len(bundle['identity_contract']['authorship_labels'])}")
         print(f"Memory records: {memory_count}")
         print(f"Audited source files: {len(bundle['file_hashes'])}")
         if args.write:
