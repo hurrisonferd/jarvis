@@ -9,8 +9,8 @@ on:
       - "templates/iso-starter/**"
       - "docs/iso-spec.md"
       - "docs/pride-prosody.md"
-      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PRIDE-CORE-0001.md"
-      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PROSODY-CORE-0001.md"
+      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PRD-CORE-0001.md"
+      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PRS-CORE-0001.md"
       - ".github/workflows/public-demos.yml"
   workflow_dispatch:
 
