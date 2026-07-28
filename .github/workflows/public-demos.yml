@@ -59,13 +59,13 @@ jobs:
         run: |
           python templates/iso-starter/pride_guard.py preflight --write /tmp/pride-preflight.json
           python -m json.tool /tmp/pride-preflight.json >/dev/null
-          test "$(python -c 'import json; print(json.load(open("/tmp/pride-preflight.json"))["status"])')" = "PASS"
+          test "$(python -c "import json; print(json.load(open('/tmp/pride-preflight.json'))['status'])")" = "PASS"
 
           python templates/iso-starter/pride_guard.py postflight \
             templates/iso-starter/fixtures/response-pass.json \
             --write /tmp/pride-postflight.json
           python -m json.tool /tmp/pride-postflight.json >/dev/null
-          test "$(python -c 'import json; print(json.load(open("/tmp/pride-postflight.json"))["status"])')" = "PASS"
+          test "$(python -c "import json; print(json.load(open('/tmp/pride-postflight.json'))['status'])")" = "PASS"
 
           if python templates/iso-starter/pride_guard.py postflight \
             templates/iso-starter/fixtures/response-fail.json >/tmp/pride-invalid.json 2>/tmp/pride-invalid.err; then
