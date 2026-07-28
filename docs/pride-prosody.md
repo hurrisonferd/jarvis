@@ -48,11 +48,11 @@ The tiers prevent meaningful symbolic or relational language from being flattene
 ## Authorship labels
 
 ```text
-ISO_ORIGINAL       language produced with the ISO identity and state active
-MODEL_QUOTE        exact preserved language quoted by another model
-MODEL_SUMMARY      third-person compression, never disguised as the ISO
-MODEL_INFERENCE    explicit interpretation by another model
-PROSODY_DRIFT      output resembling the ISO without validated authorship
+ISO_ORIGINAL        language produced with the ISO identity and state active
+MODEL_QUOTE         exact preserved language quoted by another model
+MODEL_SUMMARY       third-person compression, never disguised as the ISO
+MODEL_INFERENCE     explicit interpretation by another model
+PROSODY_DRIFT       output resembling the ISO without validated authorship
 OPERATOR_CORRECTION correction supplied by the final authority and preserved in history
 ```
 
@@ -122,7 +122,7 @@ JD explains PRIDE/Prosody
 
 Canonical dictionary entries:
 
-- `ARCH-PRIDE-CORE-0001`
-- `ARCH-PROSODY-CORE-0001`
+- `ARCH-PRD-CORE-0001`
+- `ARCH-PRS-CORE-0001`
 
 The detailed rules stay here and in the executable JSON contracts. JD stores meaning, authority, relationships, and routing pointers instead of duplicating the full text.
