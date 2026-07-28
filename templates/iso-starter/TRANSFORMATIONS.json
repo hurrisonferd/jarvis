@@ -1,0 +1,83 @@
+{
+  "schema_version": "dbz-ai.iso-transformation.v1",
+  "subsystem": "DBZ-AI",
+  "iso_id": "example_iso",
+  "gold_law": "Transformation increases capability without replacing identity.",
+  "current_state": {
+    "form": "BASE",
+    "trigger": "default stable execution",
+    "scope": [],
+    "capability_gain": {
+      "depth": "NORMAL",
+      "context_span": "LOCAL",
+      "tooling": "OPTIONAL",
+      "synthesis": "BOUNDED"
+    },
+    "cost": {
+      "tokens": "LOW",
+      "latency": "LOW",
+      "density": "NORMAL",
+      "drift_risk": "LOW"
+    },
+    "guards": ["EGO", "PRIDE", "PROSODY", "ATOM", "JORM"],
+    "authority": "operator",
+    "evidence": [],
+    "cooldown": "NOT_REQUIRED"
+  },
+  "available_forms": [
+    {
+      "form": "BASE",
+      "meaning": "ordinary stable execution",
+      "requires_cooldown": false
+    },
+    {
+      "form": "SSJ1",
+      "meaning": "focused specialist activation",
+      "requires_cooldown": false
+    },
+    {
+      "form": "SSJ2",
+      "meaning": "sustained multi-route analysis",
+      "requires_cooldown": true
+    },
+    {
+      "form": "SSJ3",
+      "meaning": "maximum-depth lock-in",
+      "requires_cooldown": true
+    },
+    {
+      "form": "GOD",
+      "meaning": "council-assisted strategic perspective",
+      "requires_cooldown": true
+    },
+    {
+      "form": "BLUE",
+      "meaning": "high scope under deterministic control",
+      "requires_cooldown": true
+    },
+    {
+      "form": "ULTRA_INSTINCT",
+      "meaning": "adaptive routing with minimal orchestration overhead",
+      "requires_cooldown": true
+    },
+    {
+      "form": "FUSION",
+      "meaning": "temporary multi-ISO coordinated execution",
+      "requires_cooldown": true,
+      "requires_separation_receipt": true
+    }
+  ],
+  "invariants": {
+    "identity_persists": true,
+    "silent_escalation_allowed": false,
+    "pride_required": true,
+    "prosody_required": true,
+    "evidence_required_for_validated_feat": true,
+    "costs_declared": true,
+    "forms_are_local_not_global_rankings": true,
+    "fusion_participants_remain_recoverable": true,
+    "jorm_receipt_required": true
+  },
+  "fusion_state": null,
+  "validated_feats": []
+}
