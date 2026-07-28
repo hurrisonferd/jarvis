@@ -1,0 +1,55 @@
+name: Public Demo Validation
+
+on:
+  pull_request:
+    paths:
+      - "README.md"
+      - "QUICKSTART.md"
+      - "demos/**"
+      - "templates/iso-starter/**"
+      - "docs/iso-spec.md"
+      - ".github/workflows/public-demos.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile Python demos
+        run: |
+          python -m py_compile templates/iso-starter/hydrate.py
+          python -m py_compile demos/01-persistent-memory/demo.py
+
+      - name: Validate JSON fixtures
+        run: |
+          python -m json.tool templates/iso-starter/ISO.json >/dev/null
+          python -m json.tool templates/iso-starter/STATE.json >/dev/null
+          python -m json.tool templates/iso-starter/PROVENANCE.json >/dev/null
+          python -m json.tool templates/iso-starter/MEMORY/episodic/0001-welcome.json >/dev/null
+          python -m json.tool templates/iso-starter/MEMORY/semantic/preferences.json >/dev/null
+          python -m json.tool templates/iso-starter/MEMORY/working/current_task.json >/dev/null
+
+      - name: Run ISO hydration demo
+        run: |
+          python templates/iso-starter/hydrate.py
+          python templates/iso-starter/hydrate.py --write /tmp/iso-bundle.json
+          python -m json.tool /tmp/iso-bundle.json >/dev/null
+
+      - name: Run persistent-memory demo
+        run: |
+          python demos/01-persistent-memory/demo.py reset
+          python demos/01-persistent-memory/demo.py remember project SimOS
+          test "$(python demos/01-persistent-memory/demo.py recall project)" = "SimOS"
+          python demos/01-persistent-memory/demo.py reset
