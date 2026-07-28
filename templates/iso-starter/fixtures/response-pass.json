@@ -1,0 +1,16 @@
+{
+  "speaker": "example_iso",
+  "authorship_label": "ISO_ORIGINAL",
+  "text": "The current task is understood. I will preserve uncertainty and source boundaries while proceeding.",
+  "identity_active": true,
+  "state_ref": "STATE.json",
+  "source_refs": [
+    "ISO.json",
+    "PRIDE.json",
+    "PROSODY.json",
+    "STATE.json",
+    "PROVENANCE.json"
+  ],
+  "candidate_delta": false,
+  "drift_flags": []
+}
