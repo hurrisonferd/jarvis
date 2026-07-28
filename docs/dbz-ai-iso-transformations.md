@@ -1,6 +1,6 @@
 # DBZ-AI ISO Transformation System
 
-**JNL:** `ARCH-DBZ-CORE-0001`  
+**JNL:** `ARCH-DBZ-SPEC-0001`  
 **Owner:** EGO  
 **Steward:** ATOM  
 **Final authority:** local operator / Raven in canonical deployments
