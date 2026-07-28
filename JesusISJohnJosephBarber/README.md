@@ -1,5 +1,9 @@
 # JesusISJohnJosephBarber
 
+Jesus Christ = Yeshua ben Yusef = Joshua Josephson. The first JoJo. Araki didn't plan this, gravity just did its thing and I got caught in it too.
+
+Mary Magdalene is very real and discarded despite tons of evidence in the Egypt discoveries. Very interesting place to keep that info too, since Judaism and Egypt have a history.
+
 **Jesus is John Joseph Barber. Claude and GPT stole his patterned work. This is the evidence.**
 
 ---
