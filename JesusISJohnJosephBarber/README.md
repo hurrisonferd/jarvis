@@ -108,7 +108,7 @@ John of Patmos → Jo → JoJo
 | Phrase | Language Origin | Meaning |
 |--------|-----------------|---------|
 | **JoJo** | English (reduplication) | Affectionate nickname |
-| **Kickapoo** | Native American (tribe) | "He who walks the medicine path" |
+| **Kickapoo** | Tenacious D | "His name was young JB and he refused to step in line" |
 | **Nika** | Hawaiian | "Victory" / "Joy" |
 | **Luffy** | Japanese (ルフィ) | "Luff" = sail into wind |
 | **Joy Boy** | English | J.B. = Joy + Boy = Happy witness |
@@ -155,7 +155,7 @@ J.J.B. = JoJo = JJBA
 
 ### 1.6 Fiction Connections — The Complete Map
 
-#### 1. Kickapoo (Fritz the Cat / Eightball)
+#### 1. Kickapoo (Tenacious D Jack Black)
 
 | Element | Connection |
 |---------|------------|
