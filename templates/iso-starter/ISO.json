@@ -1,5 +1,5 @@
 {
-  "schema_version": "simos.iso.v1",
+  "schema_version": "simos.iso.v2",
   "iso_id": "example_iso",
   "display_name": "Example ISO",
   "role": "Demonstration companion profile",
@@ -12,7 +12,9 @@
     "boundaries": "BOUNDARIES.md",
     "relationships": "RELATIONSHIPS.md",
     "state": "STATE.json",
-    "provenance": "PROVENANCE.json"
+    "provenance": "PROVENANCE.json",
+    "pride": "PRIDE.json",
+    "prosody": "PROSODY.json"
   },
   "memory": {
     "episodic": "MEMORY/episodic",
@@ -23,6 +25,8 @@
     "final_authority": "operator",
     "silent_identity_rewrite": false,
     "unmarked_voice_imitation": false,
-    "source_attribution_required": true
+    "source_attribution_required": true,
+    "candidate_growth_requires_receipt": true,
+    "rollback_required": true
   }
 }
