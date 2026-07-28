@@ -1,0 +1,7 @@
+{
+  "memory_id": "working-current-task",
+  "type": "working",
+  "task": "Hydrate the ISO and verify its files",
+  "status": "ready",
+  "source": "template"
+}
