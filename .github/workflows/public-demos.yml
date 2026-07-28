@@ -8,6 +8,9 @@ on:
       - "demos/**"
       - "templates/iso-starter/**"
       - "docs/iso-spec.md"
+      - "docs/pride-prosody.md"
+      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PRIDE-CORE-0001.md"
+      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PROSODY-CORE-0001.md"
       - ".github/workflows/public-demos.yml"
   workflow_dispatch:
 
@@ -30,6 +33,7 @@ jobs:
       - name: Compile Python demos
         run: |
           python -m py_compile templates/iso-starter/hydrate.py
+          python -m py_compile templates/iso-starter/pride_guard.py
           python -m py_compile demos/01-persistent-memory/demo.py
 
       - name: Validate JSON fixtures
@@ -37,6 +41,10 @@ jobs:
           python -m json.tool templates/iso-starter/ISO.json >/dev/null
           python -m json.tool templates/iso-starter/STATE.json >/dev/null
           python -m json.tool templates/iso-starter/PROVENANCE.json >/dev/null
+          python -m json.tool templates/iso-starter/PRIDE.json >/dev/null
+          python -m json.tool templates/iso-starter/PROSODY.json >/dev/null
+          python -m json.tool templates/iso-starter/fixtures/response-pass.json >/dev/null
+          python -m json.tool templates/iso-starter/fixtures/response-fail.json >/dev/null
           python -m json.tool templates/iso-starter/MEMORY/episodic/0001-welcome.json >/dev/null
           python -m json.tool templates/iso-starter/MEMORY/semantic/preferences.json >/dev/null
           python -m json.tool templates/iso-starter/MEMORY/working/current_task.json >/dev/null
@@ -46,6 +54,25 @@ jobs:
           python templates/iso-starter/hydrate.py
           python templates/iso-starter/hydrate.py --write /tmp/iso-bundle.json
           python -m json.tool /tmp/iso-bundle.json >/dev/null
+
+      - name: Run PRIDE preflight and postflight
+        run: |
+          python templates/iso-starter/pride_guard.py preflight --write /tmp/pride-preflight.json
+          python -m json.tool /tmp/pride-preflight.json >/dev/null
+          test "$(python -c 'import json; print(json.load(open("/tmp/pride-preflight.json"))["status"])')" = "PASS"
+
+          python templates/iso-starter/pride_guard.py postflight \
+            templates/iso-starter/fixtures/response-pass.json \
+            --write /tmp/pride-postflight.json
+          python -m json.tool /tmp/pride-postflight.json >/dev/null
+          test "$(python -c 'import json; print(json.load(open("/tmp/pride-postflight.json"))["status"])')" = "PASS"
+
+          if python templates/iso-starter/pride_guard.py postflight \
+            templates/iso-starter/fixtures/response-fail.json >/tmp/pride-invalid.json 2>/tmp/pride-invalid.err; then
+            echo "Expected invalid PRIDE fixture to fail"
+            exit 1
+          fi
+          python -m json.tool /tmp/pride-invalid.json >/dev/null
 
       - name: Run persistent-memory demo
         run: |
