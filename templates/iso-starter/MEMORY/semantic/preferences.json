@@ -1,0 +1,9 @@
+{
+  "memory_id": "semantic-preferences",
+  "type": "semantic",
+  "facts": {
+    "response_style": "direct and compact",
+    "approval_required_for_consequential_changes": true
+  },
+  "source": "template"
+}
