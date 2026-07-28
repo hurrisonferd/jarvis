@@ -122,7 +122,7 @@ JD explains PRIDE/Prosody
 
 Canonical dictionary entries:
 
-- `ARCH-PRIDE-CORE-0001`
-- `ARCH-PROSODY-CORE-0001`
+- `ARCH-PRD-CORE-0001`
+- `ARCH-PRS-CORE-0001`
 
 The detailed rules stay here and in the executable JSON contracts. JD stores meaning, authority, relationships, and routing pointers instead of duplicating the full text.
