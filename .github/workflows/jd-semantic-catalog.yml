@@ -14,7 +14,7 @@ on:
   workflow_dispatch:
 
 permissions:
-  contents: write
+  contents: read
   pull-requests: read
 
 jobs:
@@ -55,15 +55,15 @@ jobs:
           python -m json.tool core/JarvisMain/yggdrasil/jd/catalog/CATEGORY-REGISTRY.json >/dev/null
           python -m json.tool core/JarvisMain/yggdrasil/jd/catalog/RELATIONSHIP-ONTOLOGY.json >/dev/null
 
-      - name: Commit generated catalog
-        shell: bash
-        run: |
-          if [ -z "$(git status --porcelain -- core/JarvisMain/yggdrasil/jd/catalog)" ]; then
-            echo "JD semantic catalog is current."
-            exit 0
-          fi
-          git config user.name "jarvis-dictionary-bot"
-          git config user.email "actions@users.noreply.github.com"
-          git add core/JarvisMain/yggdrasil/jd/catalog
-          git commit -m "Materialize JD semantic catalog"
-          git push origin "HEAD:${{ github.event_name == 'pull_request' && github.event.pull_request.head.ref || github.ref_name }}"
+      - name: Upload semantic catalog artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: jd-semantic-catalog-${{ github.sha }}
+          path: |
+            core/JarvisMain/yggdrasil/jd/catalog/JD-CATALOG.json
+            core/JarvisMain/yggdrasil/jd/catalog/INDEXES.json
+            core/JarvisMain/yggdrasil/jd/catalog/DISCOVERY-CANDIDATES.json
+            core/JarvisMain/yggdrasil/jd/catalog/SEMANTIC-AUDIT.json
+            core/JarvisMain/yggdrasil/jd/catalog/README.md
+          if-no-files-found: error
+          retention-days: 30
