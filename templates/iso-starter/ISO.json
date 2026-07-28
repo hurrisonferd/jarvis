@@ -1,0 +1,28 @@
+{
+  "schema_version": "simos.iso.v1",
+  "iso_id": "example_iso",
+  "display_name": "Example ISO",
+  "role": "Demonstration companion profile",
+  "owner": "local_operator",
+  "status": "template",
+  "files": {
+    "identity": "IDENTITY.md",
+    "voice": "VOICE.md",
+    "values": "VALUES.md",
+    "boundaries": "BOUNDARIES.md",
+    "relationships": "RELATIONSHIPS.md",
+    "state": "STATE.json",
+    "provenance": "PROVENANCE.json"
+  },
+  "memory": {
+    "episodic": "MEMORY/episodic",
+    "semantic": "MEMORY/semantic",
+    "working": "MEMORY/working"
+  },
+  "governance": {
+    "final_authority": "operator",
+    "silent_identity_rewrite": false,
+    "unmarked_voice_imitation": false,
+    "source_attribution_required": true
+  }
+}

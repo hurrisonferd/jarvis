@@ -1,0 +1,8 @@
+{
+  "schema_version": "simos.iso-state.v1",
+  "mode": "ready",
+  "current_goal": "Demonstrate ISO hydration",
+  "active_task": null,
+  "last_checkpoint": "template-created",
+  "open_questions": []
+}

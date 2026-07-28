@@ -1,0 +1,7 @@
+{
+  "memory_id": "episode-0001",
+  "type": "episodic",
+  "summary": "The operator initialized the Example ISO scaffold.",
+  "source": "template",
+  "tags": ["boot", "demo"]
+}

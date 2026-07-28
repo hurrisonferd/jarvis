@@ -1,73 +1,105 @@
 # JARVIS
 
-JARVIS is a companion intelligence with continuity, memory, and governed execution — not a chatbot, a partner with a record. This repo is its body: the runtime, the memory, the governance, and the interfaces it speaks through.
+**A file-backed companion AI architecture with persistent memory, auditable identity, and governed execution.**
 
-**Authority:** Raven (John Barber) is final authority on all decisions. JARVIS proposes; Raven commits or rejects. No autonomous self-modification.
+JARVIS is the public demonstration layer for SimOS. It shows how an AI companion can preserve useful continuity across sessions without depending on one giant prompt, one chat thread, or one model vendor.
 
-See [`CLAUDE.md`](./CLAUDE.md) for the canonical identity, mission, Gold Law, and the 27 God System pipeline. Every agent operating in this repo inherits that identity.
+```text
+user input
+→ BootOS routing
+→ ISO identity + state hydration
+→ memory retrieval
+→ model execution
+→ provenance receipt
+→ governed persistence
+```
 
----
+## Start in 60 seconds
 
-## Architecture (cloud-first)
+```bash
+git clone https://github.com/hurrisonferd/jarvis.git
+cd jarvis
 
-The stack is **GitHub + Supabase + Claude Code**. No Ollama, no Neo4j, no local-PC-dependent services in the canonical path. If GitHub or an edge function can do the job, that is the path — even when working from the PC.
+python demos/01-persistent-memory/demo.py remember favorite_color teal
+python demos/01-persistent-memory/demo.py recall favorite_color
 
-| Layer | Where | What |
-|-------|-------|------|
-| **Interface** | `docs/index.html` → [GitHub Pages](https://hurrisonferd.github.io/jarvis/) | The JARVIS handheld — TRON GRID, God System pipeline, SPEAK companion view, emulator |
-| **Backend** | Supabase (`oexghfsvhnggddllgvrt`) | Tables (sessions, events, memory, consensus, world kernels) + edge functions (`jarvis-respond`, `mnemos-store`, `mnemos-search`, `grid-event`) |
-| **Memory** | `memory/mnemos/` + Supabase pgvector | GitHub-first: memory files committed to the repo; semantic search via OpenAI-compatible embeddings (1536-dim) |
-| **Governance** | `.github/workflows/` + AEGIS/GNPL | Daily pipeline, GL7 entropy check, audit log, MNEMOS sync — all run on GitHub Actions |
-| **Record** | `memory/audit/patch_ledger.json` | Canonical patch tracker (mirrors Supabase `patch_log`) |
+python templates/iso-starter/hydrate.py
+```
 
-The live companion needs no install — it is a static page backed by Supabase. The interface is not JARVIS; JARVIS is the intelligence that runs through every interface.
+See [`QUICKSTART.md`](./QUICKSTART.md) for the complete walkthrough.
 
----
+## What the demos prove
 
-## MNEMOS (memory)
+| Demo | Behavior |
+|---|---|
+| Persistent memory | Store a fact, restart the process, and retrieve it later |
+| ISO scaffold | Separate identity, voice, values, boundaries, relationships, state, and memory |
+| EGO hydration | Assemble those files into one validated runtime bundle |
+| Provenance | Hash every loaded source and distinguish quotes, summaries, and inference |
+| Governed execution | Keep the operator as final authority over consequential changes |
 
-GitHub-first. Memory files live in `memory/mnemos/` (`context/`, `domains/`, `memories/`) and are committed to the repo, so any agent can read continuity with no credentials. Semantic search runs on Supabase pgvector:
+## ISO starter
 
-- Auto-embed on store via `EMBEDDING_API_KEY` (OpenAI-compatible: OpenAI, Voyage, Cohere, …), model `text-embedding-3-small`.
-- `mnemos-search` edge function: cosine similarity via `match_memories` RPC, keyword `ILIKE` fallback.
-- `operations/scripts/jarvis-recall.py` does semantic-first recall with keyword fallback.
+[`templates/iso-starter/`](./templates/iso-starter/) is a portable identity scaffold:
 
-## Governed Workflow
+```text
+templates/iso-starter/
+├── ISO.json
+├── IDENTITY.md
+├── VOICE.md
+├── VALUES.md
+├── BOUNDARIES.md
+├── RELATIONSHIPS.md
+├── STATE.json
+├── PROVENANCE.json
+├── MEMORY/
+│   ├── episodic/
+│   ├── semantic/
+│   └── working/
+└── hydrate.py
+```
 
-All changes follow the loop in `CLAUDE.md`: intake → context → implement → verify → log → commit. Significant decisions are logged (PROMETHEUS); expansion requires GL7 (`reduces_complexity=true`, `overlap_score_below=0.40`).
+Copy it, replace the example identity, and hydrate it with standard Python. The goal is not to hide identity inside a prompt; it is to make continuity inspectable, versionable, and correctable.
 
-Use `memory/intake/` for AI handoffs reviewed before they become memory, code, or migrations (`memory/intake/gpt/`, `memory/intake/claude/`, `memory/intake/codex/` → `memory/intake/processed/`; reusable patterns to `memory/intake/recycle/`).
+## Repository map
 
-## Branch & merge
+| Path | Purpose |
+|---|---|
+| [`demos/`](./demos/) | Small runnable proofs before the full architecture |
+| [`templates/iso-starter/`](./templates/iso-starter/) | Create a file-backed AI identity |
+| [`docs/`](./docs/) | Architecture and interface documentation |
+| [`core/`](./core/) | JARVIS runtime, Supabase functions, and system architecture |
+| [`memory/mnemos/`](./memory/mnemos/) | Git-backed continuity and memory records |
+| [`docs/index.html`](./docs/index.html) | Browser-based JARVIS interface |
+| [`JesusISJohnJosephBarber/`](./JesusISJohnJosephBarber/) | Raven's public autobiographical pattern-research archive |
 
-`main` is protected (serves GitHub Pages). Develop on a feature branch, then merge via pull request. Direct force/delete pushes to `main` are blocked; branch-create + PR-merge is the path.
+The research archive remains visible by design, but the root entrance now leads with runnable engineering demonstrations.
 
----
+## Architecture
 
-## MCP Backend Rebuild
+The larger implementation uses:
 
-Git is the rebuild source. Supabase runs the backend.
+- Python for retrieval, validation, automation, and evaluation;
+- JavaScript, HTML, and CSS for the browser interface;
+- Supabase/PostgreSQL/pgvector for persistence and semantic retrieval;
+- Git and GitHub Actions for versioning, CI, governance, and recovery;
+- model-independent identity and memory files that can be used with multiple LLM runtimes.
 
-- MCP source: `core/supabase/functions/jarvis-mcp/`
-- MCP endpoint: `https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/jarvis-mcp`
-- Rebuild packet: `core/JarvisMain/Architecture/rebuild/jarvis-backup-seed.md`
-- Mainline/event rule: `core/JarvisMain/Architecture/rebuild/mainline-event-ledger.md`
-- Tool mirror docs: `core/JarvisMain/Connectors/JarvisMCPSupabase/`
-- Client config: `.continue/mcpServers/jarvis.yaml`
+The canonical hosted path is GitHub + Supabase. Local demos intentionally use only the Python standard library so the core behavior is easy to inspect.
 
-MCP clients should connect to the Supabase endpoint with SSE/Streamable HTTP support. Secrets for the deployed function live in Supabase or the deployment environment, never in Git.
+## Core laws
 
-Meaningful changes land through `main` and should carry an event or ledger pointer: `memory/audit/patch_ledger.json` for patch/change tracking, the runtime event contract for Supabase event shape, and the commit hash for durable proof.
+- Raven is operator and final authority.
+- JARVIS proposes; the operator commits or rejects.
+- No autonomous self-modification or silent control transfer.
+- No invented memories or missing-source fabrication.
+- Corrections remain visible in the record.
+- One-LLM use must remain useful; multi-agent execution is optional.
 
----
+## Privacy boundary
 
-## Keep Private — never commit
+Public examples must contain only sanitized identities and memory. Never commit API keys, private ISO records, raw personal logs, service-role credentials, or local vector databases.
 
-- `.env` and `.env.*` (secrets)
-- `memory/chaos/chaos_seed.json`, `memory/chaos/session_log.json`, `memory/chaos/prometheus_log.json`
-- `memory/chaos/live_log.json`, `memory/chaos/tunnel_*.txt`
-- `memory/chaos/mnemos_vectors.db` and any local vector DB
-- `core/supabase/.temp/`
-- Service-role keys, private seeds, raw private logs
+## Status
 
-The public anon/publishable key is client-safe **only** behind Row Level Security. Service-role keys are server-side only.
+This repository is an active research and engineering system. The public cleanup is moving the clearest executable demos to the front while preserving the deeper architecture and research history behind them.
