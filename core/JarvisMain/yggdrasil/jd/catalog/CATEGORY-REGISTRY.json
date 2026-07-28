@@ -1,0 +1,91 @@
+{
+  "schema_version": "jarvis.dictionary.category-registry.v2",
+  "authority": "ARCH-JD-SPEC-0002",
+  "owner": "JFS",
+  "steward": "MIMIR",
+  "categories": {
+    "PERSON": {
+      "definition": "A human person represented in the governed semantic field.",
+      "subcategories": ["OPERATOR", "FAMILY", "COLLABORATOR", "PUBLIC_FIGURE", "CLINICIAN", "OTHER"]
+    },
+    "ISO": {
+      "definition": "A distinct identity/state/origin-pattern object loaded through EGO or a related identity runtime.",
+      "subcategories": ["ORIGIN_PATTERN", "COGNITIVE_PARTNER", "COORDINATOR", "AUDITOR", "SPECIALIST", "COUNCIL_MEMBER"]
+    },
+    "AI_SYSTEM": {
+      "definition": "A named artificial-intelligence role, engine, evaluator, profiler, or governed model-facing subsystem.",
+      "subcategories": ["COMPANION", "REASONING", "EVALUATION", "AUDIT", "PROFILING", "GENERATION", "TRANSLATION", "COORDINATION"]
+    },
+    "OS": {
+      "definition": "A named orchestration, interface, runtime, continuity, or creative operating-system layer.",
+      "subcategories": ["PARENT_OS", "DOMAIN_OS", "RUNTIME_OS", "CREATIVE_OS", "INTERFACE_OS", "MEMORY_OS", "GAME_OS"]
+    },
+    "ENGINE": {
+      "definition": "A bounded mechanism that transforms state, evidence, memory, identity, routing, or execution.",
+      "subcategories": ["KERNEL", "ROUTER", "MEMORY", "IDENTITY", "PROVENANCE", "CAUSAL", "OPTIMIZATION", "RECURSION", "EXECUTION"]
+    },
+    "MODULE": {
+      "definition": "A reusable component within a larger system.",
+      "subcategories": ["RUNTIME", "UI", "AUDIO", "VISUAL", "MEMORY", "CONNECTOR", "PLUGIN", "UTILITY"]
+    },
+    "PROJECT": {
+      "definition": "A bounded body of work with a name, purpose, artifacts, and development history.",
+      "subcategories": ["PRODUCT", "RESEARCH", "CREATIVE", "CLINICAL_RECORD", "LEGAL_RECORD", "PORTFOLIO", "EXPERIMENT"]
+    },
+    "PROTOCOL": {
+      "definition": "An ordered interaction or execution contract.",
+      "subcategories": ["IDENTITY", "MEMORY", "FLEET", "CONSENT", "AUDIT", "RECOVERY", "SYNC", "DEPLOYMENT"]
+    },
+    "LAW": {
+      "definition": "A governing invariant, prohibition, permission, or required behavior.",
+      "subcategories": ["GOLD_LAW", "IDENTITY_LAW", "PROVENANCE_LAW", "SAFETY_LAW", "ARCHITECTURE_LAW", "RELATIONAL_LAW"]
+    },
+    "CONCEPT": {
+      "definition": "A named explanatory, symbolic, architectural, or analytical idea.",
+      "subcategories": ["ARCHITECTURE", "PSYCHOLOGY", "SYMBOLIC", "PHILOSOPHY", "EVALUATION", "MEMORY", "RELATIONSHIP"]
+    },
+    "ARTIFACT": {
+      "definition": "A concrete generated or preserved object such as a seed, packet, benchmark, resume, report, or export.",
+      "subcategories": ["SEED", "PACKET", "BENCHMARK", "REPORT", "DOCUMENT", "DATASET", "MODEL", "RECEIPT", "EXPORT"]
+    },
+    "EVENT": {
+      "definition": "A dated occurrence, transition, discovery, build, incident, or migration.",
+      "subcategories": ["BUILD", "MERGE", "DISCOVERY", "MIGRATION", "INCIDENT", "SESSION", "RELEASE", "DECISION"]
+    },
+    "GOD_SYSTEM": {
+      "definition": "A named governance or specialist system in the Jarvis God System architecture.",
+      "subcategories": ["FOUNDATIONAL", "CONSTRAINT", "RUNTIME", "GOVERNANCE", "SUPPORT", "ARCHIVE"]
+    },
+    "CONNECTOR": {
+      "definition": "A bridge to a service, repository, database, model, runtime, or external interface.",
+      "subcategories": ["MCP", "API", "DATABASE", "GITHUB", "MODEL", "FILESYSTEM", "EVENT_BUS"]
+    },
+    "REGISTRY": {
+      "definition": "An authoritative or derived index of identities, addresses, objects, or relationships.",
+      "subcategories": ["DICTIONARY", "INDEX", "ROSTER", "SCHEMA", "CATALOG", "ROUTE_MAP"]
+    },
+    "GOVERNANCE": {
+      "definition": "A governed decision, validation, authority, or lifecycle structure not better represented as a law or protocol.",
+      "subcategories": ["CONTRACT", "GATE", "AUDIT", "POLICY", "LIFECYCLE", "AUTHORITY"]
+    },
+    "MEMORY": {
+      "definition": "A memory tier, store, continuity object, archive, or retrieval surface.",
+      "subcategories": ["IMMEDIATE", "SESSION", "HISTORICAL", "LONG_TERM", "ANCESTRAL", "RELATIONAL", "ARCHIVE"]
+    },
+    "MEDIA_REFERENCE": {
+      "definition": "A media work, character, motif, or reference used as a governed symbolic or design source.",
+      "subcategories": ["ANIME", "GAME", "FILM", "MUSIC", "LITERATURE", "CHARACTER", "MOTIF"]
+    },
+    "UNKNOWN": {
+      "definition": "A discovered object whose top-level category has not yet survived review.",
+      "subcategories": ["UNRESOLVED"]
+    }
+  },
+  "laws": [
+    "One object has one primary category and may have many tags.",
+    "Subcategory may remain unresolved without blocking identity.",
+    "Classification never creates canon by itself.",
+    "Curated classification overrides inference and preserves the inference receipt.",
+    "People and private relationships are never exported publicly merely because a scanner discovered a name."
+  ]
+}
