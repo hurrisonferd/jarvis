@@ -160,8 +160,8 @@ async function sseRelayProbe(timeoutMs: number): Promise<Record<string, unknown>
     };
   } finally {
     await Promise.all(listeners.map(async (listener) => {
-      listener.abort.abort();
       await listener.reader.cancel().catch(() => undefined);
+      listener.abort.abort();
     }));
   }
 }
