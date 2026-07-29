@@ -30,6 +30,21 @@ async function chatlinkRpc(name: string, body: Record<string, unknown>): Promise
   return payload;
 }
 
+async function sseDisconnect(satellite: string): Promise<void> {
+  const apiKey = Deno.env.get("OPENHANDS_API_KEY");
+  const response = await fetch(`${SSE_RELAY}/disconnect`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ satellite }),
+  });
+  if (!response.ok) {
+    throw new Error(`relay disconnect failed for ${satellite}: HTTP ${response.status}`);
+  }
+}
+
 async function sseBroadcast(command: string, from: string): Promise<{ ok: boolean; delivered?: number; error?: string }> {
   const apiKey = Deno.env.get("OPENHANDS_API_KEY");
   try {
@@ -159,6 +174,10 @@ async function sseRelayProbe(timeoutMs: number): Promise<Record<string, unknown>
       receipts,
     };
   } finally {
+    await Promise.all(listeners.map((listener) =>
+      sseDisconnect(listener.satellite).catch(() => undefined)
+    ));
+    await new Promise((resolve) => setTimeout(resolve, 250));
     await Promise.all(listeners.map(async (listener) => {
       await listener.reader.cancel().catch(() => undefined);
       listener.abort.abort();
