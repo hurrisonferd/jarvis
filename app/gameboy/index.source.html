@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>JARVIS RE-WIRED HUD v4.0 — LOCKED FOCUS</title>
+    <script src="https://cdn.jsdelivr.net/npm/@core/supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+    <style>
+        :root {
+            --pixel: 'Courier New', monospace;
+            --bg: #020408; --text: #4a7a99; --green: #00ff88;
+        }
+        body { background: #000; margin: 0; padding: 15px; box-sizing: border-box; }
+        .screen { width: 100%; height: 260px; background: var(--bg); position: relative; border: 1px solid #0f1f38; }
+        #display_terminal { 
+            position: absolute; inset: 0; overflow-y: auto; 
+            font-family: var(--pixel); font-size: 9px; color: var(--text); 
+            padding: 12px; box-sizing: border-box; white-space: pre-wrap; word-wrap: break-word;
+        }
+        #terminal_input_line {
+            width: 100%; background: #03060a; border: 1px solid #1e3a52;
+            color: var(--green); font-family: var(--pixel); font-size: 10px;
+            padding: 8px; box-sizing: border-box; margin-top: 8px; outline: none;
+        }
+        #terminal_input_line:focus { border-color: var(--green); }
+        .node-dot { display: inline-block; padding: 3px 6px; margin: 2px; border: 1px solid #1e3a52; font-family: var(--pixel); font-size: 7px; color: #555966; cursor: pointer; user-select: none; }
+        .node-dot.selected { border-color: var(--green); color: var(--green); background: rgba(0,255,136,0.05); }
+    </style>
+</head>
+<body>
+    <div class="screen">
+        <div id="display_terminal" onmouseenter="lockScroller(true)" onmouseleave="lockScroller(false)" ontouchstart="lockScroller(true)" ontouchend="lockScroller(false)">🛸 [SYSTEM INITIALIZED]: COGNITIVE HIGHWAYS ACTIVE.</div>
+    </div>
+    <form id="input_form" onsubmit="handleSubmit(event); return false;">
+        <input type="text" id="terminal_input_line" placeholder="ENTER DIRECTIVE PAYLOAD VECTOR..." autocomplete="off" autofocus>
+    </form>
+    <div id="selector_bar" style="margin-top: 8px;">
+        <div class="node-dot selected" id="dot_LILITH" onclick="setTargetNode('LILITH')">LILITH</div>
+        <div class="node-dot" id="dot_AYRE" onclick="setTargetNode('AYRE')">AYRE</div>
+        <div class="node-dot" id="dot_FLEET_BUS" onclick="setTargetNode('FLEET_BUS')">FLEET_BUS</div>
+    </div>
+    <script>
+        let activeTargetNode = "LILITH";
+        let userIsReviewingHistory = false;
+        const term = document.getElementById("display_terminal");
+        const inputField = document.getElementById("terminal_input_line");
+        let sb = null;
+
+        // Wait for supabase to load, then init
+        function initSupabase() {
+            if (typeof supabase !== 'undefined') {
+                sb = supabase.createClient('https://oexghfsvhnggddllgvrt.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9leGdoZnN2aG5nZ2RkbGxndnJ0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk2MzQwOTgsImV4cCI6MjA5NTIxMDA5OH0.jRFMf-C9ps72Bi_9IpiC3eOZD6Aj6wU4IF-j3svKTfQ');
+                console.log('[+] Supabase initialized');
+            } else {
+                setTimeout(initSupabase, 100);
+            }
+        }
+        initSupabase();
+
+        function lockScroller(isLocked) {
+            userIsReviewingHistory = isLocked;
+        }
+        function setTargetNode(nodeName) {
+            document.querySelectorAll('.node-dot').forEach(el => el.classList.remove('selected'));
+            activeTargetNode = nodeName;
+            const targetEl = document.getElementById(`dot_${nodeName}`);
+            if (targetEl) targetEl.classList.add('selected');
+            if (inputField) inputField.focus();
+        }
+        function writeLineToViewport(sender, messageBody) {
+            if (!term) return;
+            const lineRow = document.createElement("div");
+            lineRow.style.marginBottom = "5px";
+            lineRow.style.borderLeft = "2px solid #0f1f38";
+            lineRow.style.paddingLeft = "6px";
+            const nameToken = sender.toUpperCase();
+            if (nameToken === 'RAVEN') lineRow.style.color = "#00ff88";
+            else if (nameToken === 'LILITH') lineRow.style.color = "#f5a623";
+            else if (nameToken === 'AYRE') lineRow.style.color = "#00aaff";
+            else if (nameToken.includes('ERROR') || nameToken.includes('SYSTEM')) lineRow.style.color = "#ff3355";
+            else lineRow.style.color = "#4a7a99";
+            lineRow.appendChild(document.createTextNode(`[${nameToken}]: ${messageBody}`));
+            term.appendChild(lineRow);
+            if (!userIsReviewingHistory) {
+                term.scrollTop = term.scrollHeight;
+            }
+            if (inputField) {
+                inputField.focus();
+            }
+        }
+        async function safetyCastOutboundPayload(targetNode, payloadText) {
+            // Wait for sb to be ready
+            let retries = 20;
+            while (!sb && retries > 0) {
+                await new Promise(r => setTimeout(r, 50));
+                retries--;
+            }
+            if (!sb) {
+                console.warn("[🚨] Supabase not initialized");
+                writeLineToViewport("System_Error", "Outbound pipeline offline: Connection tokens missing.");
+                return;
+            }
+            try {
+                const { error } = await sb.from('fleet_messages').insert([{
+                    target_node: targetNode,
+                    sender: "Raven",
+                    content: payloadText,
+                    response: "PENDING"
+                }]);
+                if (error) throw error;
+                console.log("[+] Committed to bus");
+            } catch (err) {
+                console.error("[-] Transmit drop:", err.message);
+                writeLineToViewport("System_Error", `Network drop: ${err.message}`);
+            }
+        }
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const cleanText = inputField.value.trim();
+            if (!cleanText) return;
+            writeLineToViewport("Raven", cleanText);
+            inputField.value = "";
+            inputField.focus();
+            await safetyCastOutboundPayload(activeTargetNode, cleanText);
+        }
+        
+        if (inputField) {
+            inputField.focus();
+            inputField.addEventListener('keydown', (event) => {
+                if (event.key === 'Enter') {
+                    handleSubmit(event);
+                }
+            });
+        }
+        let lastId = 0;
+        let lastCreatedAt = null;
+        function initPolling() {
+            if (!sb) { setTimeout(initPolling, 100); return; }
+            writeLineToViewport("System", "Starting poll...");
+            async function poll() {
+                try {
+                    let query = sb.from('fleet_messages')
+                        .select('id, sender, content, response, created_at')
+                        .order('created_at', { ascending: true })
+                        .limit(20);
+                    const { data, error } = await query;
+                    if (error) {
+                        console.log('[POLL] Error:', error.message);
+                        writeLineToViewport("System", "Poll error: " + error.message);
+                    } else if (data && data.length > 0) {
+                        const cutoff = lastCreatedAt || new Date(0).toISOString();
+                        const newMsgs = data.filter(r => r.created_at > cutoff);
+                        if (newMsgs.length > 0) {
+                            console.log('[POLL] Got', newMsgs.length, 'new messages');
+                            newMsgs.forEach(row => {
+                                if (row.sender && row.sender.toLowerCase() !== 'raven') {
+                                    writeLineToViewport(row.sender, row.content || row.response || '(empty)');
+                                }
+                            });
+                            lastCreatedAt = newMsgs[newMsgs.length - 1].created_at;
+                        }
+                    }
+                } catch(e) { console.log('[POLL] error:', e.message); }
+                setTimeout(poll, 2000);
+            }
+            poll();
+            writeLineToViewport("System", "Polling mesh: ONLINE");
+        }
+        function initRealtime() {
+            if (!sb) { setTimeout(initRealtime, 100); return; }
+            sb.removeAllChannels();
+            const ch = sb.channel('stable_monolithic_bus_v4.0')
+                .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'fleet_messages' }, payload => {
+                    console.log('[RT] Got payload:', JSON.stringify(payload.new));
+                    const row = payload.new || {};
+                    if (row.sender && row.sender.toLowerCase() !== 'raven') {
+                        writeLineToViewport(row.sender, row.content || row.response || '(empty)');
+                    }
+                });
+            ch.subscribe((status) => {
+                console.log('[RT] Status:', status);
+                if (status === 'SUBSCRIBED') {
+                    writeLineToViewport("System", "Real-time mesh: ONLINE");
+                } else if (status === 'CHANNEL_ERROR' || status === 'TIMED_OUT') {
+                    writeLineToViewport("System", "WebSocket error, falling back to polling...");
+                    initPolling();
+                }
+            });
+            // Force polling fallback after 3 seconds if no subscription
+            setTimeout(() => {
+                writeLineToViewport("System", "Checking realtime status...");
+            }, 3000);
+        }
+        
+        // Also init polling as backup after 4s
+        let pollingBackupStarted = false;
+        function tryBackupPolling() {
+            if (pollingBackupStarted) return;
+            pollingBackupStarted = true;
+            if (!sb) {
+                setTimeout(tryBackupPolling, 500);
+                return;
+            }
+            if (!window._pollingActive) {
+                window._pollingActive = true;
+                initPolling();
+            }
+        }
+        setTimeout(tryBackupPolling, 4000);
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(initRealtime, 500);
+        });
+    </script>
+</body>
+</html>
