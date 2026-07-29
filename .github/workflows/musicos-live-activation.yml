@@ -48,7 +48,7 @@ jobs:
       - name: Exercise repository rehydration
         working-directory: runtime/MusicOSPortable
         run: |
-          python -m musicos rehydrate --repo ../.. --receipt /tmp/musicos-rehydration.json
+          python -m musicos rehydrate --repo ../.. >/tmp/musicos-rehydration.json
           python -m json.tool /tmp/musicos-rehydration.json >/dev/null
           python - <<'PY'
           import json
