@@ -55,10 +55,17 @@ jobs:
       - name: Set Supabase Edge Function secrets
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          REF: oexghfsvhnggddllgvrt
+          GRID_GPT_TOKEN: ${{ secrets.GRID_GPT_TOKEN }}
+          ATOM_MCP_TOKEN: ${{ secrets.ATOM_MCP_TOKEN }}
           OPENHANDS_API_KEY: ${{ secrets.OPENHANDS_API_KEY }}
         run: |
-          echo "Setting secrets..."
-          supabase secrets set OPENHANDS_API_KEY="$OPENHANDS_API_KEY" --project-ref "$REF" 2>/dev/null || true
+          echo "Setting edge function secrets..."
+          supabase secrets set \
+            GRID_GPT_TOKEN="$GRID_GPT_TOKEN" \
+            ATOM_MCP_TOKEN="$ATOM_MCP_TOKEN" \
+            OPENHANDS_API_KEY="$OPENHANDS_API_KEY" \
+            --project-ref "$REF"
 
       - name: Apply migrations via Management API
         env:
@@ -85,12 +92,10 @@ jobs:
               stmts, buf, in_dollar = [], "", False
               for line in content.split("\n"):
                   stripped = line.rstrip()
-                  # Track $$ quoting
                   count = stripped.count("$$")
                   if count == 1:
                       in_dollar = not in_dollar
                   elif count >= 2:
-                      # Both markers on same line — toggle twice (net no change unless odd)
                       if count % 2 == 1:
                           in_dollar = not in_dollar
                   if not in_dollar and stripped.endswith(";"):
@@ -110,7 +115,6 @@ jobs:
               name = os.path.basename(f[:-4])
               sql_content = open(f).read()
               check = api_query("SELECT 1 FROM supabase_migrations.schema_migrations WHERE version='{}' LIMIT 1".format(name))
-              # SELECT returns [{"?column?":1}] on success, [] on not-found — len>0 means found
               if isinstance(check, list) and len(check) > 0:
                   print(f"✓ {name} already applied")
                   continue
@@ -120,7 +124,6 @@ jobs:
                   if not stmt.strip() or stmt.strip().startswith("--"):
                       continue
                   result = api_query(stmt)
-                  # Success: empty list [], or list with no 'code' key
                   if isinstance(result, list) and len(result) > 0 and isinstance(result[0], dict) and result[0].get("code"):
                       msg = result[0].get("message", str(result))[:100]
                       print(f"⚠ {name}: {msg}")
