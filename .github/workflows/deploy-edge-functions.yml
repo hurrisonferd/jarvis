@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/deploy-edge-functions.yml"
+      - "operations/scripts/check_external_identifiers.py"
       - "core/supabase/functions/jarvis-mcp/**"
       - "core/supabase/functions/jarvis-dex/**"
       - "core/supabase/functions/jarvis-jcs/**"
@@ -30,13 +31,16 @@ on:
       function:
         description: "edge function to deploy (manual override)"
         required: true
+        default: "jarvis-mcp"
         type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+      - name: Guard external dependency identifiers
+        run: python3 operations/scripts/check_external_identifiers.py
       - uses: supabase/setup-cli@v2
         with:
           version: latest
@@ -46,11 +50,11 @@ jobs:
           REF: oexghfsvhnggddllgvrt
         run: |
           PROJECT_REF="$REF"
-          if supabase link --project-ref "$PROJECT_REF" 2>&1 | grep -q "Already linked"; then
+          if supabase link --project-ref "$PROJECT_REF" --workdir core 2>&1 | grep -q "Already linked"; then
             echo "✓ Project already linked"
           else
             echo "→ Linking project..."
-            supabase link --project-ref "$PROJECT_REF" 2>&1 || echo "⚠ link failed"
+            supabase link --project-ref "$PROJECT_REF" --workdir core 2>&1 || echo "⚠ link failed"
           fi
       - name: Set Supabase Edge Function secrets
         env:
@@ -153,6 +157,6 @@ jobs:
             for fn in core/supabase/functions/*/; do
               NAME=$(basename "$fn")
               echo "→ deploying $NAME @ $DEPLOY_SHA"
-              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt
+              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt --workdir core
             done
           fi
