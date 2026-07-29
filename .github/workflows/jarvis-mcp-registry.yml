@@ -1,0 +1,31 @@
+name: Jarvis MCP registry
+
+on:
+  pull_request:
+    paths:
+      - "core/supabase/functions/jarvis-mcp/**"
+      - "operations/scripts/build_mcp_tool_registry.py"
+      - "operations/sql/mcp-tool-registry-sync.sql"
+      - ".github/workflows/jarvis-mcp-registry.yml"
+  push:
+    branches: [main]
+    paths:
+      - "core/supabase/functions/jarvis-mcp/**"
+      - "operations/scripts/build_mcp_tool_registry.py"
+      - "operations/sql/mcp-tool-registry-sync.sql"
+
+permissions:
+  contents: read
+
+jobs:
+  registry:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile generator
+        run: python -m py_compile operations/scripts/build_mcp_tool_registry.py
+      - name: Verify generated registry
+        run: python operations/scripts/build_mcp_tool_registry.py --check

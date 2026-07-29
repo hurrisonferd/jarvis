@@ -17,21 +17,5 @@ export const MCP_TOKEN = Deno.env.get("JARVIS_MCP_TOKEN") ?? "";
 export const NODE_ID = Deno.env.get("JARVIS_NODE_ID") ?? "raven-node-0";
 export const BASE_URL = `${SUPABASE_URL}/functions/v1/jarvis-mcp`;
 
-// The node's advertised capabilities (its tool surface) — published in the card.
-export const TOOL_NAMES = [
-  "jarvis_suit_up", "jarvis_status", "jarvis_council", "jarvis_query", "jarvis_format",
-  "jarvis_recall", "jarvis_remember", "jarvis_event", "jarvis_jmms", "jarvis_mint",
-  "jarvis_dex_list", "jarvis_dex_search", "jarvis_dex_graph", "jarvis_dex_events", "jarvis_dex_propose", "jarvis_dex_log",
-  "jarvis_jd_resolve", "jarvis_load", "jarvis_jc_recall", "jarvis_grimoire", "jarvis_jglf_validate",
-  "jarvis_repo_tree", "jarvis_repo_read", "jarvis_github_tree", "jarvis_github_file", "jarvis_media_view", "jarvis_github_commits", "jarvis_github_write", "jarvis_repo_edit", "jarvis_repo_search", "jarvis_self_test", "jarvis_prs", "jarvis_pr_merge", "jarvis_deploy",
-  "jarvis_private_tree", "jarvis_private_read", "jarvis_private_write",
-  "jarvis_db_inspect", "jarvis_db_read", "jarvis_db_schema",
-  "jarvis_now",
-  "jarvis_timeline", "jarvis_identity_read", "jarvis_identity_grow", "jarvis_omnivision",
-  "jarvis_eyes", "jarvis_pinch", "jarvis_muster", "jarvis_shiroe", "jarvis_ainz", "jarvis_ayre", "jarvis_raven", "jarvis_continuity", "jarvis_listen", "jarvis_dither",
-  "jarvis_jip_create", "jarvis_jip_list", "jarvis_jip_apply", "jarvis_jip_revert",
-  "jarvis_voice_brief",
-  "jarvis_node_card", "jarvis_export", "jarvis_node_inbox", "jarvis_node_send", "jarvis_node_register_key",
-  "jarvis_halo",
-  "jarvis_openhands_context",
-];
+// Generated from actual server.registerTool(...) calls. CI rejects any registry drift.
+export { JARVIS_MCP_VERSION, TOOL_COUNT, TOOL_NAMES, TOOL_SOURCES } from "../tool-registry.generated.ts";
