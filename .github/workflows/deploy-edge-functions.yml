@@ -14,7 +14,7 @@ on:
       - "core/supabase/functions/jarvis-dex/**"
       - "core/supabase/functions/jarvis-jcs/**"
       - "core/supabase/functions/jarvis-action/**"
-      - "core/supabase/functions/kronos-fold/**"
+      - "core/supabase/functions/chronos-fold/**"
       - "core/supabase/functions/grid-write/**"
       - "core/supabase/functions/grid-event/**"
       - "core/supabase/functions/bifrost/**"
@@ -90,6 +90,16 @@ jobs:
             OPENHANDS_API_KEY="$OPENHANDS_API_KEY" \
             --project-ref "$REF"
 
+      - name: Set DEPLOY_SHA secret
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          REF: oexghfsvhnggddllgvrt
+          DEPLOY_SHA: ${{ github.sha }}
+        run: |
+          echo "DEPLOY_SHA=$DEPLOY_SHA"
+          echo "Setting DEPLOY_SHA secret..."
+          supabase secrets set DEPLOY_SHA="$DEPLOY_SHA" --project-ref "$REF"
+
       - name: Deploy JARVIS MCP recovery surface
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.function == 'jarvis-mcp' }}
         env:
@@ -161,16 +171,6 @@ jobs:
               if all_ok:
                   print(f"✓ {name} applied ({len(stmts)} statement(s))")
           PYEOF
-
-      - name: Set DEPLOY_SHA secret
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          REF: oexghfsvhnggddllgvrt
-          DEPLOY_SHA: ${{ github.sha }}
-        run: |
-          echo "DEPLOY_SHA=$DEPLOY_SHA"
-          echo "Setting DEPLOY_SHA secret..."
-          supabase secrets set DEPLOY_SHA="$DEPLOY_SHA" --project-ref "$REF"
 
       - name: Deploy edge functions
         env:
