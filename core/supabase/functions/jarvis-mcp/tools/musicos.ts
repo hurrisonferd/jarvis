@@ -87,7 +87,15 @@ export function compileMusicIntent(input: CompileInput) {
 }
 
 async function rows(path: string): Promise<Record<string, unknown>[]> {
-  return await rest(path).catch(() => []) as Record<string, unknown>[];
+  return await rest(path) as Record<string, unknown>[];
+}
+
+async function probe(path: string) {
+  try {
+    return { ok: true, rows: await rows(path) };
+  } catch (error) {
+    return { ok: false, rows: [] as Record<string, unknown>[], error: String(error).slice(0, 240) };
+  }
 }
 
 export function registerMusicOSTools(server: McpServer): void {
@@ -100,18 +108,24 @@ export function registerMusicOSTools(server: McpServer): void {
     },
     async () => {
       const [tracks, observations, receipts] = await Promise.all([
-        rows("musicos_tracks?select=track_id&limit=1000"),
-        rows("musicos_observations?select=observation_id&limit=1000"),
-        rows("musicos_source_receipts?select=source_path&limit=1000"),
+        probe("musicos_tracks?select=track_id&limit=1000"),
+        probe("musicos_observations?select=observation_id&limit=1000"),
+        probe("musicos_source_receipts?select=source_path&limit=1000"),
       ]);
       return text({
-        ok: true,
+        ok: tracks.ok && observations.ok && receipts.ok,
+        schema_ready: tracks.ok && observations.ok && receipts.ok,
         schema_version: "musicos.live.v1",
         authority: {
           private_truth: "Jarvis-Private/MusicOS/registry/",
           public_runtime: "carry, rehydration, and reference-safe shared state",
         },
-        counts: { tracks: tracks.length, observations: observations.length, source_receipts: receipts.length },
+        counts: {
+          tracks: tracks.rows.length,
+          observations: observations.rows.length,
+          source_receipts: receipts.rows.length,
+        },
+        errors: [tracks.error, observations.error, receipts.error].filter(Boolean),
         transport: { durable: "Supabase + SAT ChatLink", wake: "Supabase Realtime/relay" },
         unresolved: ["full private-registry parity", "missing historical audio", "28-versus-24 prompt reconciliation", "full raw transcript digestion"],
       });
@@ -165,6 +179,25 @@ export function registerMusicOSTools(server: McpServer): void {
       },
     },
     async (args) => {
+      const existing = await rows(
+        `musicos_observations?select=*&idempotency_key=eq.${encodeURIComponent(args.idempotency_key)}&limit=1`,
+      );
+      if (existing.length) {
+        const prior = existing[0];
+        if (
+          prior.track_id !== args.track_id ||
+          prior.actor_iso !== args.actor_iso ||
+          prior.modality !== args.modality
+        ) {
+          return text({
+            ok: false,
+            error: "idempotency_key already exists with different observation identity",
+            observation: prior,
+          });
+        }
+        return text({ ok: true, idempotent_replay: true, observation: prior, wake: { attempted: false } });
+      }
+
       await rest("musicos_tracks?on_conflict=track_id", {
         method: "POST",
         prefer: "resolution=merge-duplicates,return=minimal",
@@ -232,7 +265,7 @@ export function registerMusicOSTools(server: McpServer): void {
           wake = { attempted: true, ok: false, error: String(error).slice(0, 240) };
         }
       }
-      return text({ ok: true, idempotent: saved.length === 1, observation: saved[0] ?? null, wake });
+      return text({ ok: true, idempotent_replay: false, observation: saved[0] ?? null, wake });
     },
   );
 
