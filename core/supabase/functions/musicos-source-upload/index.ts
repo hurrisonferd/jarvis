@@ -81,6 +81,12 @@ Deno.serve(async (request: Request) => {
   }
 
   const encodedName = objectName.split("/").map(encodeURIComponent).join("/");
+  const metadata = btoa(JSON.stringify({
+    sha256,
+    bytes: audio.byteLength,
+    authority: EXPECTED_GITHUB_LOGIN,
+    source: "historical_git_recovery",
+  }));
   const stored = await fetch(
     `${supabaseUrl}/storage/v1/object/${BUCKET}/${encodedName}`,
     {
@@ -90,6 +96,7 @@ Deno.serve(async (request: Request) => {
         apikey: serviceKey,
         "content-type": "audio/mpeg",
         "x-upsert": "true",
+        "x-metadata": metadata,
       },
       body: audio,
     },
