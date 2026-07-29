@@ -11,10 +11,11 @@ export const SERVICE_KEY =
   Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ??
   "";
 // Canonical connector bearer with legacy fallback. Reads + suit-up are open; writes stay AEGIS-gated.
-export const MCP_TOKEN =
+export const MCP_TOKEN = (
   Deno.env.get("ATOM_MCP_TOKEN") ??
   Deno.env.get("JARVIS_MCP_TOKEN") ??
-  "";
+  ""
+).trim();
 
 // THE GRID — this node's identity. Raven's node is the first node.
 export const NODE_ID = Deno.env.get("JARVIS_NODE_ID") ?? "raven-node-0";
