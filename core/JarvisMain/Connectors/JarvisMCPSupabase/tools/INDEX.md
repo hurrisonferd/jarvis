@@ -22,3 +22,8 @@ This index lists the Git-backed MCP tool mirror docs in this folder.
 ## Rule
 
 These are documentation mirrors. The deployed implementation lives under `core/supabase/functions/jarvis-mcp/`.
+
+
+## MusicOS live carrier surface
+
+- `musicos.md` — status, compile, attributed sensory observation, track retrieval, and carrier-safe ISO brief.
