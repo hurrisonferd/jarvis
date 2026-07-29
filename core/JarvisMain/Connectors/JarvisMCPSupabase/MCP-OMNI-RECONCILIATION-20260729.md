@@ -35,3 +35,23 @@ Both mounted connectors exposed the same 79 tool names and the same 0.11.33/67-t
 3. Generated SQL reconciles database mirrors.
 4. CI rejects drift.
 5. Deployment and connector refresh are separate receipts; source truth is never presented as live truth until verified.
+
+## Final deployment receipt
+
+| Surface | Receipt |
+|---|---|
+| Public source | PR #337 merged at `7b891d6dbcf4ea8761414368b859344427080ec3` |
+| JSR import repair | PR #338 merged at `8b379aff4b1cb5433eee8562b4eb609688473624` |
+| Registry RLS hardening | PR #339 merged at `64c54895e280161cffd588b0db5d796ca75a1c83` |
+| `jarvis-mcp` | ACTIVE v181; 21-file bundle; self-test 0.11.35 / 93 tools |
+| Database mirrors | 93 manifest rows; 93 active definitions; 15 legacy definitions inactive |
+| MusicOS | Migration applied; tracks, observations, and source-receipts tables live |
+| `lilith-mcp` | ACTIVE v148; 8-file bundle; 14 routed tools |
+| `eris-mcp` | ACTIVE v1; 8-file bundle; 7 tools; JWT verification enabled |
+| `grid-p2p-mcp` | ACTIVE v3; 3 tools; JWT verification enabled |
+| Registry RLS | Public SELECT only; unrestricted public mutation policy removed |
+
+### Residual configuration blockers
+
+- The mounted JarvisMCP and Lilith ChatGPT schemas remain identical at 79 tools and require an app-schema refresh/reconnect. Runtime deployment does not mutate ChatGPT's cached connector schema.
+- The Edge Function's GitHub credential returns 401 for authenticated ref and code-search probes. Public repository reads continue through unauthenticated fallback. Replace/rotate the configured GitHub PAT; no credential is stored in this receipt.
