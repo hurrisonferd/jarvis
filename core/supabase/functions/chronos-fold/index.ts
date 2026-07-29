@@ -1,5 +1,5 @@
-import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "https://esm.sh/@core/supabase/supabase-js@2";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 // CHRONOS-triggered fold automation (Raven-directed 2026-06-24).
 // JSTM → JHTM: memories older than 14 days compress into a digest receipt.
@@ -18,7 +18,7 @@ interface FoldResult { table: string; promoted: number; errors: string[] }
 interface JcRow { id: string; jnl: string; alias: string; session_date: string; subject: string; summary: string; events: string; decisions: string; keystones: string }
 interface MemRow  { id: string; text: string; tags: string[]; source: string }
 
-// ── compress ──────────────────────────────────────────────────────────────────
+// ── compress ────────────────────────────────────────────────────────────────
 function compressEvents(events: unknown[]): string {
   if (!Array.isArray(events) || !events.length) return "";
   return events.slice(0, 10).map((e: any) => {
@@ -29,7 +29,7 @@ function compressEvents(events: unknown[]): string {
   }).join("\n");
 }
 
-// ── fold jc_objects: JSTM → JHTM, write SL ───────────────────────────────────
+// ── fold jc_objects: JSTM → JHTM, write SL ─────────────────────────────────
 // IMPL-JMMS-0001: exclude session-scoped JCs; session-scoped memories die, not fold.
 async function foldJcObjects(sb: ReturnType<typeof createClient>, grade?: string): Promise<FoldResult> {
   const result: FoldResult = { table: "jc_objects", promoted: 0, errors: [] };
@@ -91,7 +91,7 @@ async function foldJcObjects(sb: ReturnType<typeof createClient>, grade?: string
   return result;
 }
 
-// ── fold mnemos_memories: JSTM → JHTM ───────────────────────────────────────
+// ── fold mnemos_memories: JSTM → JHTM ─────────────────────────────────────
 // IMPL-JMMS-0001: session-scoped memories die without folding; fold only system-grade
 // (or whatever grade is passed). Carry JMMS dimensions on fold.
 async function foldMnemosMemories(sb: ReturnType<typeof createClient>, grade?: string): Promise<FoldResult> {
@@ -141,7 +141,7 @@ async function foldMnemosMemories(sb: ReturnType<typeof createClient>, grade?: s
   return result;
 }
 
-// ── handler ───────────────────────────────────────────────────────────────────
+// ── handler ────────────────────────────────────────────────────────────────
 Deno.serve(async (req: Request) => {
   const url     = new URL(req.url);
   const dryRun  = url.searchParams.get("dry") === "1";
