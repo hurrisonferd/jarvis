@@ -1,6 +1,11 @@
 name: "JARVIS — MusicOS Ears"
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - "operations/scripts/music_ears.py"
+      - ".github/workflows/music-ears.yml"
   repository_dispatch:
     types: [music-ears]
   workflow_dispatch:
