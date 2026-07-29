@@ -102,6 +102,7 @@ class MusicOSRuntime:
         mappings = {
             "bounce": "elasticity",
             "rubber": "snap-back",
+            "elastic": "elasticity",
             "race": "forward momentum",
             "dry drum": "subdivision precision",
             "syncopat": "gravity groove",
@@ -114,6 +115,8 @@ class MusicOSRuntime:
         for token, term in mappings.items():
             if token in lower and term not in found:
                 found.append(term)
+        if "elastic" in lower and "snap-back" not in found:
+            found.append("snap-back")
         return found[:8] or ["forward momentum", "gravity groove"]
 
     @staticmethod
