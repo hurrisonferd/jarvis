@@ -53,7 +53,7 @@ jobs:
           python - <<'PY'
           import json
           receipt = json.load(open("/tmp/musicos-rehydration.json", encoding="utf-8"))
-          assert receipt["coverage"] in {"COMPLETE", "PARTIAL"}
+          assert receipt["coverage"] in {"PASS", "PARTIAL"}
           assert receipt["sources"], "rehydration must produce source receipts"
           assert all(
               source["canon_promotion"] == "PROHIBITED_AUTOMATICALLY"
