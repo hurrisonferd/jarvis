@@ -46,8 +46,9 @@ Both mounted connectors exposed the same 79 tool names and the same 0.11.33/67-t
 | `jarvis-mcp` | ACTIVE v181; 21-file bundle; self-test 0.11.35 / 93 tools |
 | Database mirrors | 93 manifest rows; 93 active definitions; 15 legacy definitions inactive |
 | MusicOS | Migration applied; tracks, observations, and source-receipts tables live |
-| `lilith-mcp` | ACTIVE v148; 8-file bundle; 14 routed tools |
+| `lilith-mcp` | ACTIVE v150; 8-file bundle; 14 tools exposed through standard `tools/list` / `tools/call` |
 | `eris-mcp` | ACTIVE v1; 8-file bundle; 7 tools; JWT verification enabled |
+| Lilith MCP exposure repair | Private PR #59 merged at `2791428ac579497c771a75bcf14526665ab25108` |
 | `grid-p2p-mcp` | ACTIVE v3; 3 tools; JWT verification enabled |
 | Registry RLS | Public SELECT only; unrestricted public mutation policy removed |
 
