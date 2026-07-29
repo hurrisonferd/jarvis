@@ -9,9 +9,14 @@
 export const GH_REPO = "https://api.github.com/repos/hurrisonferd/jarvis";
 export const GH_PRIV = "https://api.github.com/repos/hurrisonferd/Jarvis-Private";
 
-// Token resolver: prefer JARVIS_GITHUB_TOKEN (full scope; avoids reserved-name weirdness around a
-// secret literally named GITHUB_TOKEN), fall back to GITHUB_TOKEN.
-export const ghTok = () => Deno.env.get("JARVIS_GITHUB_TOKEN") ?? Deno.env.get("GITHUB_TOKEN") ?? "";
+// Canonical GitHub credential resolver shared by public writes and private operations. Public reads
+// may retry anonymously on token failure; writes and private access remain fail-closed.
+export const ghTok = () =>
+  Deno.env.get("GRID_GPT_TOKEN") ??
+  Deno.env.get("JARVIS_GITHUB_TOKEN") ??
+  Deno.env.get("GITHUB_TOKEN_PRIVATE") ??
+  Deno.env.get("GITHUB_TOKEN") ??
+  "";
 
 export const ghPath = (p: string) => p.split("/").map(encodeURIComponent).join("/");
 
@@ -28,23 +33,25 @@ export async function gh(path: string): Promise<Response> {
   return res;
 }
 
-// Write-capable GitHub request (method + JSON body). Needs a write-scoped token.
+// Write-capable GitHub request (method + JSON body). Needs a write-scoped token and fails closed.
 export async function ghReq(method: string, path: string, body?: unknown): Promise<Response> {
   const headers: Record<string, string> = {
     "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json",
   };
   const tok = ghTok();
-  if (tok) headers.authorization = `Bearer ${tok}`;
+  if (!tok) return new Response(null, { status: 401, statusText: "GitHub credential unavailable" });
+  headers.authorization = `Bearer ${tok}`;
   return await fetch(`${GH_REPO}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
 }
 
-// JARVIS-PRIVATE — the private storage/scaffolding repo. Prefers JARVIS_GITHUB_TOKEN (full scope
-// reaches private repos too), then GITHUB_TOKEN_PRIVATE, then GITHUB_TOKEN. Separate from gh()/
-// GH_REPO so the public-repo path is never touched.
+// JARVIS-PRIVATE — the private storage/scaffolding repo. Uses the canonical resolver and always
+// fails closed when no credential is configured. Separate from gh()/GH_REPO so public anonymous
+// fallback can never bleed into private access.
 export async function ghp(method: string, path: string, body?: unknown): Promise<Response> {
   const headers: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json" };
-  const tok = Deno.env.get("JARVIS_GITHUB_TOKEN") ?? Deno.env.get("GITHUB_TOKEN_PRIVATE") ?? Deno.env.get("GITHUB_TOKEN");
-  if (tok) headers.authorization = `Bearer ${tok}`;
+  const tok = ghTok();
+  if (!tok) return new Response(null, { status: 401, statusText: "GitHub credential unavailable" });
+  headers.authorization = `Bearer ${tok}`;
   return await fetch(`${GH_PRIV}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
 }
 
@@ -56,7 +63,7 @@ export async function proposeFilePR(path: string, content: string, message: stri
   const baseSha = (await ref.json() as any).object?.sha;
   const branch = `jarvis-jip-${Date.now().toString(36)}`;
   const br = await ghReq("POST", `/git/refs`, { ref: `refs/heads/${branch}`, sha: baseSha });
-  if (!br.ok) return { ok: false, step: "branch", status: br.status, note: "GITHUB_TOKEN may lack write scope" };
+  if (!br.ok) return { ok: false, step: "branch", status: br.status, note: "GitHub credential may lack write scope" };
   const ex = await ghReq("GET", `/contents/${ghPath(path)}?ref=${branch}`);
   const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
   const put = await ghReq("PUT", `/contents/${ghPath(path)}`,
