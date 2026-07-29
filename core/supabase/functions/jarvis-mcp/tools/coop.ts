@@ -212,10 +212,16 @@ export function registerCoopTools(server: McpServer): void {
     },
     async () => {
       const status = await sseStatus();
-      const tasks = await rest(`type=eq.coop_task&detail=ilike.*"status"%3A"in_progress"*&order=created_at.desc`) as any[];
-      const inProgress = tasks.map((r: any) => {
-        const d = JSON.parse(r.detail);
-        return { task_id: d.task_id, claimed_by: d.claimed_by };
+      const tasks = await rest(`dex_events?type=eq.coop_task&order=created_at.desc&limit=100`) as any[];
+      const inProgress = tasks.flatMap((r: any) => {
+        try {
+          const d = typeof r.detail === "string" ? JSON.parse(r.detail) : r.detail;
+          return d?.status === "in_progress"
+            ? [{ task_id: d.task_id, claimed_by: d.claimed_by }]
+            : [];
+        } catch {
+          return [];
+        }
       });
       return text({ ok: true, sse: status, in_progress: inProgress });
     },
