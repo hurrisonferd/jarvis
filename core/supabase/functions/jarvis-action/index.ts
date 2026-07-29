@@ -1,4 +1,4 @@
-import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 import { Hono } from "npm:hono@^4.9.7";
 import {

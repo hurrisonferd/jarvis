@@ -1,6 +1,6 @@
 // COOP-Broadcast — GitHub webhook handler for MARCO-POLO changes
 // Receives push events, notifies all registered satellites
-import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const SB_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SB_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? Deno.env.get("SUPABASE_SERVICE_KEY") ?? "";
