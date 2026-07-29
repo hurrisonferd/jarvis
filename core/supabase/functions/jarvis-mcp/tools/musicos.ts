@@ -10,6 +10,7 @@ const SHA256 = /^[0-9a-f]{64}$/i;
 const DEFAULT_STYLES = ["neon-race synthpop-rock", "chiptune-inflected game-score drive"];
 const PHYSICS = [
   ["bounce", "elasticity"],
+  ["elastic", "elasticity"],
   ["elastic", "snap-back"],
   ["race", "forward momentum"],
   ["dry drum", "subdivision precision"],
