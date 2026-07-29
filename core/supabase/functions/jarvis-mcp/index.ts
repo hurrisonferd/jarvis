@@ -1541,7 +1541,7 @@ function buildServer(req: Request): McpServer {
     },
     async ({ track }) => {
       const res = await gh(`/contents/${ghPath("JarvisSide/Media/AUDIO-FEATURES.json")}?ref=main`);
-      if (!res.ok) return text({ ok: false, note: "no features yet — the Ears pipeline (audio-ears.yml) hasn't run. Merge to main + dispatch 'JARVIS — Ears' to backfill." });
+      if (!res.ok) return text({ ok: false, note: "no features yet — MusicOS Ears has not completed its main-branch backfill. Merge the Ears repair; the workflow backfills automatically." });
       const j = await res.json() as any;
       let tracks: Record<string, any> = {};
       try { tracks = JSON.parse(atob(j.content.replace(/\n/g, ""))).tracks ?? {}; } catch { /* malformed */ }
