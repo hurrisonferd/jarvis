@@ -30,6 +30,21 @@ async function chatlinkRpc(name: string, body: Record<string, unknown>): Promise
   return payload;
 }
 
+async function sseDisconnect(satellite: string): Promise<void> {
+  const apiKey = Deno.env.get("OPENHANDS_API_KEY");
+  const response = await fetch(`${SSE_RELAY}/disconnect`, {
+    method: "POST",
+    headers: {
+      "Authorization": `Bearer ${apiKey}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ satellite }),
+  });
+  if (!response.ok) {
+    throw new Error(`relay disconnect failed for ${satellite}: HTTP ${response.status}`);
+  }
+}
+
 async function sseBroadcast(command: string, from: string): Promise<{ ok: boolean; delivered?: number; error?: string }> {
   const apiKey = Deno.env.get("OPENHANDS_API_KEY");
   try {
@@ -53,6 +68,120 @@ async function sseStatus(): Promise<{ ok: boolean; clients?: number; peers?: str
     return await resp.json();
   } catch {
     return { ok: false };
+  }
+}
+
+type RelayProbeListener = {
+  satellite: string;
+  abort: AbortController;
+  reader: ReadableStreamDefaultReader<Uint8Array>;
+  buffer: string;
+};
+
+async function openRelayProbeListener(satellite: string): Promise<RelayProbeListener> {
+  const apiKey = Deno.env.get("OPENHANDS_API_KEY");
+  if (!apiKey) throw new Error("OPENHANDS_API_KEY is not configured");
+
+  const abort = new AbortController();
+  const response = await fetch(
+    `${SSE_RELAY}/register?satellite=${encodeURIComponent(satellite)}`,
+    {
+      headers: { "Authorization": `Bearer ${apiKey}` },
+      signal: abort.signal,
+    },
+  );
+
+  if (!response.ok || !response.body) {
+    abort.abort();
+    throw new Error(`relay register failed for ${satellite}: HTTP ${response.status}`);
+  }
+
+  return { satellite, abort, reader: response.body.getReader(), buffer: "" };
+}
+
+async function waitForRelayCommand(
+  listener: RelayProbeListener,
+  command: string,
+  timeoutMs: number,
+): Promise<{ satellite: string; received: boolean; event?: Record<string, unknown> }> {
+  const decoder = new TextDecoder();
+  const deadline = Date.now() + timeoutMs;
+
+  while (Date.now() < deadline) {
+    const remaining = deadline - Date.now();
+    let timer: number | undefined;
+    try {
+      const chunk = await Promise.race([
+        listener.reader.read(),
+        new Promise<never>((_, reject) => {
+          timer = setTimeout(() => reject(new Error("relay probe timeout")), remaining);
+        }),
+      ]);
+      if (timer !== undefined) clearTimeout(timer);
+      if (chunk.done) break;
+
+      listener.buffer += decoder.decode(chunk.value, { stream: true });
+      const frames = listener.buffer.split("\n\n");
+      listener.buffer = frames.pop() ?? "";
+
+      for (const frame of frames) {
+        const payload = frame
+          .split("\n")
+          .filter((line) => line.startsWith("data:"))
+          .map((line) => line.slice(5).trim())
+          .join("\n");
+        if (!payload) continue;
+
+        try {
+          const event = JSON.parse(payload) as Record<string, unknown>;
+          if (event.type === "command" && event.command === command) {
+            return { satellite: listener.satellite, received: true, event };
+          }
+        } catch {
+          // Ignore malformed non-command frames and continue until timeout.
+        }
+      }
+    } catch (error) {
+      if (timer !== undefined) clearTimeout(timer);
+      if (String(error).includes("relay probe timeout")) break;
+      throw error;
+    }
+  }
+
+  return { satellite: listener.satellite, received: false };
+}
+
+async function sseRelayProbe(timeoutMs: number): Promise<Record<string, unknown>> {
+  const testId = crypto.randomUUID();
+  const command = `CHATLINK-SSE-PROBE:${testId}`;
+  const listeners: RelayProbeListener[] = [];
+
+  try {
+    listeners.push(...await Promise.all([
+      openRelayProbeListener("ATOM-RELAY-PROBE"),
+      openRelayProbeListener("LILITH-RELAY-PROBE"),
+    ]));
+
+    const broadcast = await sseBroadcast(command, "atom-relay-probe");
+    const receipts = await Promise.all(
+      listeners.map((listener) => waitForRelayCommand(listener, command, timeoutMs)),
+    );
+
+    return {
+      ok: broadcast.ok && receipts.every((receipt) => receipt.received),
+      test_id: testId,
+      broadcast,
+      receipts,
+    };
+  } finally {
+    await Promise.all(listeners.map((listener) =>
+      sseDisconnect(listener.satellite).catch(() => undefined)
+    ));
+    await new Promise((resolve) => setTimeout(resolve, 250));
+    await Promise.all(listeners.map(async (listener) => {
+      await listener.reader.cancel().catch(() => undefined);
+      listener.abort.abort();
+    }));
   }
 }
 
@@ -207,10 +336,13 @@ export function registerCoopTools(server: McpServer): void {
     "coop_status",
     {
       title: "Co-op — Status (SSE + workers)",
-      description: "See who's connected to the SSE relay and what tasks are in progress.",
-      inputSchema: {},
+      description: "See who's connected to the SSE relay and what tasks are in progress. Set probe=true to run a transient two-listener delivery test without writing a Dex event.",
+      inputSchema: {
+        probe: z.boolean().optional().default(false),
+        timeout_ms: z.number().int().min(1000).max(15000).optional().default(5000),
+      },
     },
-    async () => {
+    async ({ probe, timeout_ms }) => {
       const status = await sseStatus();
       const tasks = await rest(`dex_events?type=eq.coop_task&order=created_at.desc&limit=100`) as any[];
       const inProgress = tasks.flatMap((r: any) => {
@@ -223,7 +355,17 @@ export function registerCoopTools(server: McpServer): void {
           return [];
         }
       });
-      return text({ ok: true, sse: status, in_progress: inProgress });
+
+      let relayProbe: Record<string, unknown> | undefined;
+      if (probe) {
+        try {
+          relayProbe = await sseRelayProbe(timeout_ms);
+        } catch (error) {
+          relayProbe = { ok: false, error: String(error).slice(0, 500) };
+        }
+      }
+
+      return text({ ok: true, sse: status, in_progress: inProgress, relay_probe: relayProbe });
     },
   );
 
