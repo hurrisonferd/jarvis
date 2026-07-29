@@ -1,0 +1,31 @@
+name: apply-supabase-identifier-repair
+
+on:
+  push:
+    branches:
+      - "jarvis-write-*"
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    if: ${{ !contains(github.event.head_commit.message, '[identifier-repair-applied]') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+      - run: python3 operations/scripts/repair_supabase_identifiers.py
+      - name: Commit repaired sources
+        run: |
+          if git diff --quiet; then
+            echo "No source changes required"
+            exit 0
+          fi
+          git config user.name "JARVIS Repair"
+          git config user.email "jarvis-repair@users.noreply.github.com"
+          git add -A
+          git commit -m "repair(supabase): restore external identifiers [identifier-repair-applied]"
+          git push origin "HEAD:${{ github.ref_name }}"
