@@ -32,6 +32,16 @@ python -m unittest discover \
 
 The tests use `fake_app_server.py`. They create no ChatGPT or Codex threads.
 
+## Probe the authenticated host
+
+```bash
+python demos/02-sat-remote-launcher/sat_remote_launcher.py \
+  probe demos/02-sat-remote-launcher/mission.example.json
+```
+
+`probe` calls `model/list`, checks every requested model and reasoning effort,
+and exits without calling `thread/start`.
+
 ## Execute against Codex App Server
 
 The host must have an authenticated `codex` executable whose `model/list`
