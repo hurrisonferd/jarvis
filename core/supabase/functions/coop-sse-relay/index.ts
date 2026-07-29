@@ -124,7 +124,14 @@ Deno.serve(async (req) => {
     const close = async () => {
       if (closing) return;
       closing = true;
-      if (listener) await cleanup(listener);
+      if (listener) {
+        await cleanup(listener);
+        try {
+          listener.controller.close();
+        } catch {
+          // The consumer may already have canceled the stream.
+        }
+      }
       resolveClosed?.();
     };
     req.signal.addEventListener("abort", () => void close(), { once: true });
@@ -154,6 +161,10 @@ Deno.serve(async (req) => {
             } catch {
               void close();
             }
+          })
+          .on("broadcast", { event: "disconnect" }, (message) => {
+            const payload = (message.payload ?? message) as Record<string, unknown>;
+            if (payload.satellite === satellite) void close();
           })
           .on("presence", { event: "sync" }, () => {
             const state = channel.presenceState() as Record<string, Array<Record<string, unknown>>>;
@@ -196,6 +207,29 @@ Deno.serve(async (req) => {
         "Access-Control-Allow-Origin": "*",
       },
     });
+  }
+
+  if (path.endsWith("/disconnect") && req.method === "POST") {
+    try {
+      const body = await req.json() as Record<string, unknown>;
+      const satellite = typeof body.satellite === "string" ? body.satellite : "";
+      if (!satellite) return json({ error: "satellite required" }, 400);
+
+      const client = realtimeClient();
+      const channel = client.channel(TOPIC, { config: { private: true } });
+      try {
+        const result = await channel.send({
+          type: "broadcast",
+          event: "disconnect",
+          payload: { satellite },
+        });
+        return json({ ok: result === "ok", accepted: result, satellite });
+      } finally {
+        await client.removeChannel(channel).catch(() => undefined);
+      }
+    } catch {
+      return json({ error: "Invalid request" }, 400);
+    }
   }
 
   if (path.endsWith("/broadcast") && req.method === "POST") {
