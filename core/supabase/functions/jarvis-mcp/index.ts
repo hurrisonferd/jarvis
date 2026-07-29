@@ -20,6 +20,7 @@ import { registerCloudTools } from "./tools/cloud.ts";
 import { registerTrinityTools } from "./tools/trinity.ts";
 import { registerJipTools } from "./tools/jip.ts";
 import { registerCoopTools } from "./tools/coop.ts";
+import { registerMusicOSTools } from "./tools/musicos.ts";
 import { registerVegaPunkTools } from "./tools/jarvis_vegapunk.ts";
 import { registerResources } from "./resources.ts";
 
@@ -72,7 +73,7 @@ function withTier(tags: unknown, tier: Tier): string[] {
 
 
 function buildServer(req: Request): McpServer {
-  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.33" });
+  const server = new McpServer({ name: "jarvis-cloud", version: "0.11.34" });
 
   // THE CALL SIGN. Say "JARVIS, suit up" → activation + full HUD. No password.
   server.registerTool(
@@ -1579,6 +1580,7 @@ function buildServer(req: Request): McpServer {
 
   // DATABASE VISION (read-only) — extracted to tools/db.ts (forge slice 5).
   registerCoopTools(server);
+  registerMusicOSTools(server);
   registerVegaPunkTools(server);
   registerDbTools(server);
   registerCloudTools(server);
