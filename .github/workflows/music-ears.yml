@@ -47,6 +47,22 @@ jobs:
           token: ${{ secrets.GRID_GPT_TOKEN }}
           path: private-source
 
+      - name: Recover historical MusicOS audio
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.source_url == '' }}
+        env:
+          RECOVERY_COMMIT: 512c0de7b1865b47b0087de0806d064410290cc0
+        run: |
+          recovery_root=/tmp/music-ears-recovery
+          recovered_audio="$recovery_root/JarvisSide/Media/audio"
+          audio_dir=private-source/archive/workspaces/MusicOS/songs/audio
+          mkdir -p "$recovery_root" "$audio_dir"
+          git fetch --no-tags --depth=1 origin "$RECOVERY_COMMIT"
+          git archive "$RECOVERY_COMMIT" JarvisSide/Media/audio | tar -x -C "$recovery_root"
+          recovered=$(find "$recovered_audio" -maxdepth 1 -type f -name '*.mp3' | wc -l | tr -d ' ')
+          test "$recovered" -eq 6
+          cp "$recovered_audio"/*.mp3 "$audio_dir"/
+          echo "recovered=$recovered"
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
@@ -66,9 +82,9 @@ jobs:
           args=()
           if [[ "$FORCE" == "true" ]]; then args+=(--force); fi
           python3 operations/scripts/music_ears.py \
-            --audio-dir private-source/MusicOS/songs/audio \
+            --audio-dir private-source/archive/workspaces/MusicOS/songs/audio \
             --output-root JarvisSide/Media \
-            --source-root private-source/MusicOS/songs \
+            --source-root private-source/archive/workspaces/MusicOS/songs \
             "${args[@]}"
 
       - name: Hear HTTPS source
@@ -95,16 +111,17 @@ jobs:
             git push origin main || (git pull --rebase origin main && git push origin main)
           fi
 
-      - name: Mirror repository spectrograms
+      - name: Mirror recovered audio and spectrograms
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.source_url == '' }}
         run: |
           cd private-source
           git config user.name "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          git add MusicOS/songs/spectrograms/
+          git add archive/workspaces/MusicOS/songs/audio/ \
+                  archive/workspaces/MusicOS/songs/spectrograms/
           if git diff --staged --quiet; then
-            echo "no private spectrogram changes"
+            echo "no private audio or spectrogram changes"
           else
-            git commit -m "feat(ears): refresh MusicOS spectrograms [skip ci]"
+            git commit -m "feat(ears): restore MusicOS audio and spectrograms [skip ci]"
             git push origin main
           fi
