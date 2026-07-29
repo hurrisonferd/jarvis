@@ -5,6 +5,7 @@ on:
     paths:
       - "demos/02-sat-remote-launcher/**"
       - "docs/sat-remote-launcher.md"
+      - "docs/sat-chatlink.md"
       - "templates/iso-starter/CARRIERS.json"
       - ".github/workflows/sat-remote-launcher.yml"
   workflow_dispatch:
@@ -29,8 +30,10 @@ jobs:
         run: |
           python -m py_compile \
             demos/02-sat-remote-launcher/sat_remote_launcher.py \
+            demos/02-sat-remote-launcher/sat_chatlink.py \
             demos/02-sat-remote-launcher/fake_app_server.py \
-            demos/02-sat-remote-launcher/test_sat_remote_launcher.py
+            demos/02-sat-remote-launcher/test_sat_remote_launcher.py \
+            demos/02-sat-remote-launcher/test_sat_chatlink.py
 
       - name: Validate mission fixture
         run: |
