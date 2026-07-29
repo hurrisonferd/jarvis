@@ -46,3 +46,14 @@ A complete carry bundle should contain:
 3. optional `sources/Jorm-Vault/` copy included by `build_portable.py --vault`;
 4. `BUNDLE-MANIFEST.json` containing path, byte count, and SHA-256 for every bundled file;
 5. the final zip SHA-256 printed by the builder.
+
+
+## Live activation v1 coverage
+
+- Deterministic repository-family rehydration receipt: implemented.
+- Python/TypeScript prompt-contract parity fixtures: implemented.
+- Service-only durable track and observation schema: proposed in migration.
+- MCP status, compile, observation, retrieval, and carrier-brief surface: implemented.
+- SAT ChatLink wake: reference-only and persistence-first.
+- Private 47-track registry parity: unresolved; private registry remains authoritative.
+- Complete Shaka/Cecil/old-GPT supersession pass: partial and explicitly reported by the receipt.
