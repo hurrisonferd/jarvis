@@ -886,131 +886,92 @@ const RESOURCE_GENERATORS: Record<string, () => Promise<string>> = {
 // ─── Registration ─────────────────────────────────────────────────────────────
 
 export function registerResources(server: McpServer): void {
-  // Register all resource definitions
   for (const def of RESOURCE_DEFINITIONS) {
-    server.addResource({
-      uri: def.uri,
-      name: def.name,
-      description: def.description,
-      mimeType: def.mimeType,
-    });
-  }
-
-  // Register prompts
-  for (const def of PROMPT_DEFINITIONS) {
-    server.addPrompt({
-      name: def.name,
-      description: def.description,
-      arguments: def.arguments,
-    });
-  }
-
-  // Resource list handler
-  server.setRequestHandler(
-    { method: "resources/list" },
-    async () => ({
-      resources: RESOURCE_DEFINITIONS.map(def => ({
-        uri: def.uri,
-        name: def.name,
+    server.registerResource(
+      def.name,
+      def.uri,
+      {
+        title: def.name,
         description: def.description,
         mimeType: def.mimeType,
-      })),
-    })
-  );
-
-  // Resource read handler
-  server.setRequestHandler(
-    { method: "resources/read" },
-    async ({ params }: { params: { uri: string } }) => {
-      const { uri } = params;
-      const generator = RESOURCE_GENERATORS[uri];
-
-      if (!generator) {
-        return {
-          contents: [{
-            type: "text",
-            text: `Unknown resource: ${uri}`,
-            uri,
-          }],
-        };
-      }
-
-      try {
-        const content = await generator();
-        return {
-          contents: [{
-            type: "text",
-            text: content,
-            uri,
-          }],
-        };
-      } catch (err) {
-        return {
-          contents: [{
-            type: "text",
-            text: `Error generating resource: ${String(err)}`,
-            uri,
-          }],
-        };
-      }
-    }
-  );
-
-  // Prompts list handler
-  server.setRequestHandler(
-    { method: "prompts/list" },
-    async () => ({
-      prompts: PROMPT_DEFINITIONS.map(def => ({
-        name: def.name,
-        description: def.description,
-        arguments: def.arguments,
-      })),
-    })
-  );
-
-  // Prompt get handler
-  server.setRequestHandler(
-    { method: "prompts/get" },
-    async ({ params }: { params: { name: string; arguments?: Record<string, string> } }) => {
-      const { name, arguments: args = {} } = params;
-
-      let prompt: string;
-
-      switch (name) {
-        case "jarvis/bootstrap":
-          prompt = await generateBootstrapPrompt(args as { task?: string; agent?: string });
-          break;
-        case "jarvis/task-review":
-          prompt = await generateTaskReviewPrompt(args as { task_description: string; context?: string });
-          break;
-        case "jarvis/architect":
-          prompt = await generateArchitectPrompt(args as { component: string; requirements?: string });
-          break;
-        default:
+      },
+      async () => {
+        const generator = RESOURCE_GENERATORS[def.uri];
+        try {
+          const content = generator
+            ? await generator()
+            : `Unknown resource: ${def.uri}`;
           return {
-            messages: [{
-              role: "user",
-              content: {
-                type: "text",
-                text: `Unknown prompt: ${name}`,
-              },
+            contents: [{
+              uri: def.uri,
+              mimeType: def.mimeType,
+              text: content,
             }],
           };
-      }
+        } catch (error) {
+          return {
+            contents: [{
+              uri: def.uri,
+              mimeType: def.mimeType,
+              text: `Error generating resource: ${String(error)}`,
+            }],
+          };
+        }
+      },
+    );
+  }
 
-      return {
-        messages: [{
-          role: "user",
-          content: {
-            type: "text",
-            text: prompt,
-          },
-        }],
-      };
-    }
+  server.registerPrompt(
+    "jarvis/bootstrap",
+    {
+      description: "Session startup template for initializing JARVIS context",
+      argsSchema: {
+        task: z.string().optional(),
+        agent: z.string().optional(),
+      },
+    },
+    async (args) => ({
+      messages: [{
+        role: "user",
+        content: { type: "text", text: await generateBootstrapPrompt(args) },
+      }],
+    }),
   );
 
-  // Cache management endpoint (internal tool)
+  server.registerPrompt(
+    "jarvis/task-review",
+    {
+      description: "Review a task and provide structured feedback",
+      argsSchema: {
+        task_description: z.string(),
+        context: z.string().optional(),
+      },
+    },
+    async (args) => ({
+      messages: [{
+        role: "user",
+        content: { type: "text", text: await generateTaskReviewPrompt(args) },
+      }],
+    }),
+  );
+
+  server.registerPrompt(
+    "jarvis/architect",
+    {
+      description: "Design a new system component with full context",
+      argsSchema: {
+        component: z.string(),
+        requirements: z.string().optional(),
+      },
+    },
+    async (args) => ({
+      messages: [{
+        role: "user",
+        content: { type: "text", text: await generateArchitectPrompt(args) },
+      }],
+    }),
+  );
+
   server.registerTool(
     "jarvis_resource_cache_invalidate",
     {
@@ -1027,7 +988,7 @@ export function registerResources(server: McpServer): void {
         message: pattern ? `Cache invalidated for pattern: ${pattern}` : "Full cache cleared",
         cached_entries: RESOURCE_CACHE.size,
       });
-    }
+    },
   );
 }
 
