@@ -51,6 +51,10 @@ Codex App Server exposes the native lifecycle SAT needs:
 The launcher uses the authenticated Codex host. It does not call the OpenAI API
 and does not store an API key.
 
+The `probe` command performs discovery and mission-route validation without
+calling `thread/start`, so Raven can verify the host before any provider-side
+thread exists.
+
 ## Cloud-first boundary
 
 Git/Supabase remain canonical for manifests, receipts, and accepted state. A
