@@ -44,7 +44,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: hurrisonferd/Jarvis-Private
-          token: ${{ secrets.JARVIS_PRIVATE_TOKEN }}
+          token: ${{ secrets.GRID_GPT_TOKEN }}
           path: private-source
 
       - name: Set up Python
