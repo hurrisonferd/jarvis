@@ -1,24 +1,29 @@
 name: "JARVIS — MusicOS Ears"
 
-# MusicOS ears. Dispatches from Jarvis-Private when audio lands; runs librosa analysis
-# on MusicOS/songs/audio/, writes spectrograms + AUDIO-FEATURES.json + MEDIA-MANIFEST.md
-# to this repo. The companion hears the bones; the soul is Raven's.
 on:
-  # Dispatches from Jarvis-Private when audio lands
+  push:
+    branches: [main]
+    paths:
+      - "operations/scripts/music_ears.py"
+      - ".github/workflows/music-ears.yml"
   repository_dispatch:
     types: [music-ears]
-  # Manual backfill / re-analysis
   workflow_dispatch:
     inputs:
-      force:
-        description: "Re-analyze all tracks (ignore cache)"
+      source_url:
+        description: "Direct HTTPS audio URL or public GitHub file URL"
         required: false
-        default: "false"
+        type: string
+      track_name:
+        description: "Optional stable name for a URL-fed track"
+        required: false
+        type: string
+      force:
+        description: "Re-analyze repository tracks even when their hashes match"
+        required: false
+        default: false
         type: boolean
 
-# JARVIS_PRIVATE_TOKEN: GitHub PAT with repo scope. Stored as a repo secret.
-# Required so this workflow (in JARVIS repo) can clone Jarvis-Private for audio source.
-# Create at: https://github.com/settings/tokens  →  repo scope
 permissions:
   contents: write
 
@@ -34,61 +39,72 @@ jobs:
       - name: Checkout JARVIS
         uses: actions/checkout@v4
 
-      - name: Clone MusicOS audio from Jarvis-Private
-        env:
-          JARVIS_PRIVATE_TOKEN: ${{ secrets.JARVIS_PRIVATE_TOKEN }}
-        run: |
-          git clone --depth 1 https://x-access-token:${JARVIS_PRIVATE_TOKEN}@github.com/hurrisonferd/Jarvis-Private.git /tmp/Jarvis-Private
-          echo "tracks=$(ls /tmp/Jarvis-Private/MusicOS/songs/audio/*.mp3 2>/dev/null | wc -l)" >> $GITHUB_OUTPUT
-          echo "JARVIS_PRIVATE=/tmp/Jarvis-Private" >> $GITHUB_OUTPUT
+      - name: Checkout private MusicOS source
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.source_url == '' }}
+        uses: actions/checkout@v4
+        with:
+          repository: hurrisonferd/Jarvis-Private
+          token: ${{ secrets.JARVIS_PRIVATE_TOKEN }}
+          path: private-source
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
 
-      - name: Install audio deps
+      - name: Install audio dependencies
         run: |
-          sudo apt-get update && sudo apt-get install -y ffmpeg
+          sudo apt-get update
+          sudo apt-get install -y ffmpeg
           python3 -m pip install --quiet librosa numpy soundfile audioread matplotlib
 
-      - name: Run ears
+      - name: Hear repository library
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.source_url == '' }}
         env:
-          JARVIS_PRIVATE: /tmp/Jarvis-Private
+          FORCE: ${{ inputs.force }}
         run: |
+          args=()
+          if [[ "$FORCE" == "true" ]]; then args+=(--force); fi
           python3 operations/scripts/music_ears.py \
-            --audio-dir /tmp/Jarvis-Private/MusicOS/songs/audio \
+            --audio-dir private-source/MusicOS/songs/audio \
             --output-root JarvisSide/Media \
-            --source-root /tmp/Jarvis-Private/MusicOS/songs
+            --source-root private-source/MusicOS/songs \
+            "${args[@]}"
 
-      - name: Commit & push — JARVIS repo
+      - name: Hear HTTPS source
+        if: ${{ github.event_name == 'workflow_dispatch' && inputs.source_url != '' }}
+        env:
+          EARS_SOURCE_URL: ${{ inputs.source_url }}
+          EARS_TRACK_NAME: ${{ inputs.track_name }}
         run: |
-          git config user.name  "JARVIS"
+          args=(--source-url "$EARS_SOURCE_URL" --output-root JarvisSide/Media)
+          if [[ -n "$EARS_TRACK_NAME" ]]; then args+=(--track-name "$EARS_TRACK_NAME"); fi
+          python3 operations/scripts/music_ears.py "${args[@]}"
+
+      - name: Commit feature receipts
+        run: |
+          git config user.name "JARVIS"
           git config user.email "jarvis@jarvis.local"
           git add JarvisSide/Media/AUDIO-FEATURES.json \
                   JarvisSide/Media/MEDIA-MANIFEST.md \
                   JarvisSide/Media/spectrograms/
           if git diff --staged --quiet; then
-            echo "no changes — all tracks cached"
+            echo "no feature changes"
           else
-            git commit -m "feat(music_ears): MusicOS audio features + spectrograms [skip ci]"
+            git commit -m "feat(ears): update durable audio feature receipts [skip ci]"
             git push origin main || (git pull --rebase origin main && git push origin main)
           fi
 
-      - name: Mirror spectrograms to Jarvis-Private
-        env:
-          JARVIS_PRIVATE_TOKEN: ${{ secrets.JARVIS_PRIVATE_TOKEN }}
-          WORKSPACE: ${{ github.workspace }}
+      - name: Mirror repository spectrograms
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.source_url == '' }}
         run: |
-          cd /tmp/Jarvis-Private
-          git config user.name  "JARVIS"
+          cd private-source
+          git config user.name "JARVIS"
           git config user.email "jarvis@jarvis.local"
-          mkdir -p MusicOS/songs/spectrograms
-          cp $WORKSPACE/JarvisSide/Media/spectrograms/*.png MusicOS/songs/spectrograms/
           git add MusicOS/songs/spectrograms/
           if git diff --staged --quiet; then
-            echo "no spectrogram changes"
+            echo "no private spectrogram changes"
           else
-            git commit -m "feat(ears): spectrograms from music_ears [skip ci]"
-            git push origin main || echo "Push skipped (protected)"
+            git commit -m "feat(ears): refresh MusicOS spectrograms [skip ci]"
+            git push origin main
           fi

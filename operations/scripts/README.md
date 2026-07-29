@@ -6,10 +6,9 @@
 
 | File | Purpose |
 | --- | --- |
-| `jarvis_heartbeat.py` | Observe-only repo/intake heartbeat watcher. |
+| `music_ears.py` | Analyze repository or public HTTPS audio into durable MusicOS feature receipts. |
+| `build_mcp_tool_registry.py` | Generate the canonical MCP runtime registry artifacts. |
 | `cave_readme_audit.py` | Find folders missing README/INDEX cave signs. |
-| `generate_vapid.py` | Generate VAPID key material locally. Treat output as sensitive. |
-| `install_gbrain.ps1` | Install and initialize GBrain for Continue/local experiments. |
 
 ## Rule
 
