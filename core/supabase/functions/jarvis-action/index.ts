@@ -1,4 +1,4 @@
-import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 import { Hono } from "npm:hono@^4.9.7";
 import {
@@ -271,7 +271,7 @@ async function runJcRecall(term: string | undefined, tier: string | undefined, j
   };
 }
 
-// ── session_close — bounded autonomy JSTM commit guard ─────────────────────────
+// ── session_close — bounded autonomy JSTM commit guard ───────────────────────
 // GL6: no silent state mutation. Before a session dies (context ceiling or explicit close),
 // scan JSTM memories for items that were never committed above JLTM. If any exist, write
 // a HOLD artifact to core/JarvisMain/Implementation/tasks/ so the next session knows what was
