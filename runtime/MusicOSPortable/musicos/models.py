@@ -30,6 +30,7 @@ class MusicIntent:
     instrumental: bool = True
     rgb: dict[str, int] = field(default_factory=lambda: {"R": 50, "G": 75, "B": 50})
     state: str = "balanced"
+    styles: list[str] = field(default_factory=list)
     constraints: list[str] = field(default_factory=list)
 
 
@@ -41,8 +42,10 @@ class CompiledTrack:
     key: str
     rgb: dict[str, int]
     physics: list[str]
+    styles: list[str]
     constraints: list[str]
     provenance: list[str]
+    schema_version: str = "musicos.compile.v1"
     created_at: str = field(default_factory=lambda: datetime.now(timezone.utc).isoformat())
 
     def to_dict(self) -> dict[str, Any]:
