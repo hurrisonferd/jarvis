@@ -1,0 +1,95 @@
+name: MusicOS Live Activation
+
+on:
+  pull_request:
+    paths:
+      - "runtime/MusicOSPortable/**"
+      - "core/supabase/functions/jarvis-mcp/tools/musicos.ts"
+      - "core/supabase/functions/jarvis-mcp/tools/musicos.test.ts"
+      - "core/supabase/functions/jarvis-mcp/core/http.ts"
+      - "core/supabase/functions/jarvis-mcp/index.ts"
+      - "core/supabase/migrations/*musicos*.sql"
+      - "core/JarvisMain/Connectors/JarvisMCPSupabase/tools/musicos.md"
+      - ".github/workflows/musicos-live-activation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile MusicOS runtime
+        run: |
+          python -m py_compile \
+            runtime/MusicOSPortable/musicos/cli.py \
+            runtime/MusicOSPortable/musicos/models.py \
+            runtime/MusicOSPortable/musicos/rehydration.py \
+            runtime/MusicOSPortable/musicos/runtime.py \
+            runtime/MusicOSPortable/tests/test_runtime.py
+
+      - name: Test continuity and prompt engine
+        working-directory: runtime/MusicOSPortable
+        run: |
+          PYTHONWARNINGS=error python -m unittest discover \
+            -s tests \
+            -p "test_*.py" -v
+
+      - name: Exercise repository rehydration
+        working-directory: runtime/MusicOSPortable
+        run: |
+          python -m musicos rehydrate --repo ../.. >/tmp/musicos-rehydration.json
+          python -m json.tool /tmp/musicos-rehydration.json >/dev/null
+          python - <<'PY'
+          import json
+          receipt = json.load(open("/tmp/musicos-rehydration.json", encoding="utf-8"))
+          assert receipt["coverage"] in {"PASS", "PARTIAL"}
+          assert receipt["sources"], "rehydration must produce source receipts"
+          assert all(
+              source["canon_promotion"] == "PROHIBITED_AUTOMATICALLY"
+              for source in receipt["sources"]
+          )
+          PY
+
+      - name: Set up Deno
+        uses: denoland/setup-deno@v2
+        with:
+          deno-version: v2.x
+
+      - name: Test MCP MusicOS compiler
+        run: |
+          deno test --node-modules-dir=auto --allow-env \
+            core/supabase/functions/jarvis-mcp/tools/musicos.test.ts
+
+      - name: Verify Supabase security posture
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+
+          sql = Path(
+              "core/supabase/migrations/20260729070000_musicos_live_activation_v1.sql"
+          ).read_text(encoding="utf-8").lower()
+
+          required = [
+              "enable row level security",
+              "force row level security",
+              "revoke all",
+              "service_role",
+              "musicos_tracks",
+              "musicos_observations",
+              "musicos_source_receipts",
+          ]
+          missing = [token for token in required if token not in sql]
+          assert not missing, f"missing migration security contracts: {missing}"
+          assert "grant all" not in sql, "least-privilege migration must not grant all"
+          PY

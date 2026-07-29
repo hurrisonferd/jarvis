@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 
 from .models import MusicIntent
+from .rehydration import rehydrate_sources
 from .runtime import MusicOSRuntime
 
 
@@ -29,18 +30,21 @@ def build_parser() -> argparse.ArgumentParser:
     imp = sub.add_parser("import-vault", help="Index all MusicOS-linked sources under Jorm/Vault")
     imp.add_argument("--vault", type=Path, required=True)
 
+    boot = sub.add_parser("rehydrate", help="Build a deterministic source-to-runtime receipt")
+    boot.add_argument("--repo", type=Path, required=True)
+
     comp = sub.add_parser("compile", help="Compile natural-language intent into a MusicOS track packet")
     comp.add_argument("--intent", required=True)
     comp.add_argument("--bpm", type=int)
     comp.add_argument("--key")
     comp.add_argument("--rgb", type=_rgb, default={"R": 50, "G": 75, "B": 50})
     comp.add_argument("--state", default="balanced")
+    comp.add_argument("--style", action="append", default=[])
     comp.add_argument("--vocal", action="store_true")
     comp.add_argument("--constraint", action="append", default=[])
 
     snap = sub.add_parser("snapshot", help="Write an immutable runtime state snapshot")
     snap.add_argument("--name", default="raven-main")
-
     return parser
 
 
@@ -52,6 +56,17 @@ def main(argv: list[str] | None = None) -> int:
         result = runtime.status()
     elif args.command == "import-vault":
         result = runtime.import_vault(args.vault)
+    elif args.command == "rehydrate":
+        result = rehydrate_sources(args.repo, runtime.rehydration_path)
+        runtime.store.event(
+            runtime.state,
+            "REHYDRATION_RECEIPT_CREATED",
+            {
+                "receipt_sha256": result["receipt_sha256"],
+                "coverage": result["coverage"],
+                "source_count": result["source_count"],
+            },
+        )
     elif args.command == "compile":
         result = runtime.compile(MusicIntent(
             text=args.intent,
@@ -60,6 +75,7 @@ def main(argv: list[str] | None = None) -> int:
             instrumental=not args.vocal,
             rgb=args.rgb,
             state=args.state,
+            styles=args.style,
             constraints=args.constraint,
         )).to_dict()
     elif args.command == "snapshot":

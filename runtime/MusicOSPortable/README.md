@@ -64,3 +64,15 @@ MusicOSPortable/
 ## Source status
 
 This runtime does not claim that every Vault source has already been fully digested. It includes a source importer and coverage ledger so additional raw exports can be indexed without rebuilding the engine or losing provenance.
+
+
+## Live activation v1
+
+The public runtime is the carry/rehydration engine; `Jarvis-Private/MusicOS/registry/` remains canonical track truth.
+
+```bash
+python -m musicos rehydrate --repo ../..
+python -m musicos status
+```
+
+The rehydration receipt records source-family coverage and SHA-256 provenance without promoting raw files to canon. Carrier tools persist structured observations, then optionally wake other ISOs through a reference-only SAT ChatLink receipt.

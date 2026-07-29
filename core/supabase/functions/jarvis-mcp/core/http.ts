@@ -33,14 +33,14 @@ export async function callFunction(name: string, body: Json): Promise<unknown> {
 }
 
 // GET against PostgREST with the service key. Throws on non-2xx.
-export async function rest(path: string, opts?: { method?: string; body?: unknown }): Promise<unknown> {
+export async function rest(path: string, opts?: { method?: string; body?: unknown; prefer?: string }): Promise<unknown> {
   const res = await fetch(`${SUPABASE_URL}/rest/v1/${path}`, {
     method: opts?.method ?? "GET",
     headers: {
       authorization: `Bearer ${SERVICE_KEY}`,
       apikey: SERVICE_KEY,
       "content-type": "application/json",
-      ...(opts?.body ? { prefer: "return=minimal" } : {}),
+      ...(opts?.prefer ? { prefer: opts.prefer } : opts?.body ? { prefer: "return=minimal" } : {}),
     },
     ...(opts?.body !== undefined ? { body: JSON.stringify(opts.body) } : {}),
   });
