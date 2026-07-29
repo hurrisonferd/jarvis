@@ -9,6 +9,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/deploy-edge-functions.yml"
+      - "operations/scripts/check_external_identifiers.py"
       - "core/supabase/functions/jarvis-mcp/**"
       - "core/supabase/functions/jarvis-dex/**"
       - "core/supabase/functions/jarvis-jcs/**"
@@ -30,28 +31,50 @@ on:
       function:
         description: "edge function to deploy (manual override)"
         required: true
+        default: "jarvis-mcp"
         type: string
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+
+      - name: Guard external dependency identifiers
+        run: python3 operations/scripts/check_external_identifiers.py
+
       - uses: supabase/setup-cli@v2
         with:
           version: latest
+
+      - name: Validate required deployment secrets
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          GRID_GPT_TOKEN: ${{ secrets.GRID_GPT_TOKEN }}
+          ATOM_MCP_TOKEN: ${{ secrets.ATOM_MCP_TOKEN }}
+        run: |
+          missing=0
+          for name in SUPABASE_ACCESS_TOKEN GRID_GPT_TOKEN ATOM_MCP_TOKEN; do
+            if [ -z "${!name}" ]; then
+              echo "Missing required secret: $name"
+              missing=1
+            fi
+          done
+          exit "$missing"
+
       - name: Link Supabase project
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           REF: oexghfsvhnggddllgvrt
         run: |
           PROJECT_REF="$REF"
-          if supabase link --project-ref "$PROJECT_REF" 2>&1 | grep -q "Already linked"; then
+          if supabase link --project-ref "$PROJECT_REF" --workdir core 2>&1 | grep -q "Already linked"; then
             echo "✓ Project already linked"
           else
             echo "→ Linking project..."
-            supabase link --project-ref "$PROJECT_REF" 2>&1 || echo "⚠ link failed"
+            supabase link --project-ref "$PROJECT_REF" --workdir core 2>&1 || echo "⚠ link failed"
           fi
+
       - name: Set Supabase Edge Function secrets
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -66,6 +89,13 @@ jobs:
             ATOM_MCP_TOKEN="$ATOM_MCP_TOKEN" \
             OPENHANDS_API_KEY="$OPENHANDS_API_KEY" \
             --project-ref "$REF"
+
+      - name: Deploy JARVIS MCP recovery surface
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.function == 'jarvis-mcp' }}
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          REF: oexghfsvhnggddllgvrt
+        run: supabase functions deploy jarvis-mcp --project-ref "$REF" --no-verify-jwt --workdir core
 
       - name: Apply migrations via Management API
         env:
@@ -131,6 +161,7 @@ jobs:
               if all_ok:
                   print(f"✓ {name} applied ({len(stmts)} statement(s))")
           PYEOF
+
       - name: Set DEPLOY_SHA secret
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -140,6 +171,7 @@ jobs:
           echo "DEPLOY_SHA=$DEPLOY_SHA"
           echo "Setting DEPLOY_SHA secret..."
           supabase secrets set DEPLOY_SHA="$DEPLOY_SHA" --project-ref "$REF"
+
       - name: Deploy edge functions
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
@@ -147,12 +179,17 @@ jobs:
           DEPLOY_SHA: ${{ github.sha }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt --workdir core
+            if [ "${{ inputs.function }}" != "jarvis-mcp" ]; then
+              supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt --workdir core
+            fi
           else
-            # Deploy all functions — new ones deploy automatically
+            # Deploy all functions — new ones deploy automatically.
             for fn in core/supabase/functions/*/; do
               NAME=$(basename "$fn")
+              if [ "$NAME" = "jarvis-mcp" ]; then
+                continue
+              fi
               echo "→ deploying $NAME @ $DEPLOY_SHA"
-              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt
+              supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt --workdir core
             done
           fi
