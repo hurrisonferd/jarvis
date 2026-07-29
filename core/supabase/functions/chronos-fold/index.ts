@@ -1,5 +1,5 @@
-import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "https://esm.sh/@core/supabase/supabase-js@2";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 // CHRONOS-triggered fold automation (Raven-directed 2026-06-24).
 // JSTM → JHTM: memories older than 14 days compress into a digest receipt.

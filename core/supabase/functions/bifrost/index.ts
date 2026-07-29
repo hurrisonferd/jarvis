@@ -1,4 +1,4 @@
-import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 import { buildRequest, endpoint, parseGrounded, reachSummary } from "./bifrost.ts";
 
 // BIFROST — JARVIS reaches the world. Live, grounded web knowledge via Gemini's

@@ -1,7 +1,7 @@
 // JARVIS Broadcast — live system status for the TV interface.
 // Returns a lightweight JSON payload: clock, god systems, god status,
 // recent events, HALO posture. Refreshes every ~5 seconds from the TV side.
-import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
 
 const SB_URL = Deno.env.get("SUPABASE_URL") ?? "";
 const SB_KEY = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY") ?? Deno.env.get("SUPABASE_SERVICE_KEY") ?? "";
