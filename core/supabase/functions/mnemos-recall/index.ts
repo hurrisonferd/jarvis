@@ -1,5 +1,5 @@
-import "jsr:@core/supabase/functions-js/edge-runtime.d.ts";
-import { createClient } from "https://esm.sh/@core/supabase/supabase-js@2";
+import "jsr:@supabase/functions-js/edge-runtime.d.ts";
+import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 // P33: same VOCAB tagger used in mnemos-store — auto-tag the query itself for re-ranking
 const VOCAB: Record<string, string[]> = {
