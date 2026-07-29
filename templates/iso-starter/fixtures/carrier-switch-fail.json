@@ -1,0 +1,62 @@
+{
+  "schema_version": "simos.carrier-switch-plan.v1",
+  "switch_id": "CSW-DEMO-INVALID",
+  "iso_id": "example_iso",
+  "reason": "This fixture intentionally attempts an uncheckpointed running-task switch.",
+  "from": {
+    "carrier": "TERRA",
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "speed": "standard",
+    "meter": "balanced"
+  },
+  "to": {
+    "carrier": "SOL",
+    "model": "gpt-5.6-sol",
+    "reasoning_effort": "max",
+    "speed": "fast",
+    "meter": "full"
+  },
+  "authority": {
+    "actor": "local_operator",
+    "role": "operator",
+    "approved": true
+  },
+  "task": {
+    "id": "ATOM-CARRIER-DOGFOOD-INVALID",
+    "status": "RUNNING",
+    "checkpoint": null
+  },
+  "transitions": [
+    {
+      "from": "ACTIVE",
+      "event": "REQUEST",
+      "to": "SWITCH_PENDING"
+    },
+    {
+      "from": "SWITCH_PENDING",
+      "event": "ACTIVATE",
+      "to": "ACTIVE"
+    }
+  ],
+  "continuity": {
+    "identity_loaded": true,
+    "pride_loaded": true,
+    "prosody_loaded": true,
+    "rollback_available": true,
+    "path_home": [
+      "EGO",
+      "PRIDE",
+      "PROSODY",
+      "JORM"
+    ]
+  },
+  "jorm": {
+    "event_type": "carrier.switch",
+    "receipt_required": true
+  },
+  "becoming": {
+    "observation_required": true,
+    "auto_mutation": false
+  }
+}

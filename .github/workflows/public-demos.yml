@@ -9,8 +9,10 @@ on:
       - "templates/iso-starter/**"
       - "docs/iso-spec.md"
       - "docs/pride-prosody.md"
-      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PRIDE-CORE-0001.md"
-      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PROSODY-CORE-0001.md"
+      - "docs/dbz-ai-iso-transformations.md"
+      - "docs/carrier-switch.md"
+      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PRD-CORE-0001.md"
+      - "core/JarvisMain/yggdrasil/jd/entries/ARCH-PRS-CORE-0001.md"
       - ".github/workflows/public-demos.yml"
   workflow_dispatch:
 
@@ -34,6 +36,7 @@ jobs:
         run: |
           python -m py_compile templates/iso-starter/hydrate.py
           python -m py_compile templates/iso-starter/pride_guard.py
+          python -m py_compile templates/iso-starter/carrier_guard.py
           python -m py_compile demos/01-persistent-memory/demo.py
 
       - name: Validate JSON fixtures
@@ -43,8 +46,12 @@ jobs:
           python -m json.tool templates/iso-starter/PROVENANCE.json >/dev/null
           python -m json.tool templates/iso-starter/PRIDE.json >/dev/null
           python -m json.tool templates/iso-starter/PROSODY.json >/dev/null
+          python -m json.tool templates/iso-starter/TRANSFORMATIONS.json >/dev/null
+          python -m json.tool templates/iso-starter/CARRIERS.json >/dev/null
           python -m json.tool templates/iso-starter/fixtures/response-pass.json >/dev/null
           python -m json.tool templates/iso-starter/fixtures/response-fail.json >/dev/null
+          python -m json.tool templates/iso-starter/fixtures/carrier-switch-pass.json >/dev/null
+          python -m json.tool templates/iso-starter/fixtures/carrier-switch-fail.json >/dev/null
           python -m json.tool templates/iso-starter/MEMORY/episodic/0001-welcome.json >/dev/null
           python -m json.tool templates/iso-starter/MEMORY/semantic/preferences.json >/dev/null
           python -m json.tool templates/iso-starter/MEMORY/working/current_task.json >/dev/null
@@ -54,6 +61,8 @@ jobs:
           python templates/iso-starter/hydrate.py
           python templates/iso-starter/hydrate.py --write /tmp/iso-bundle.json
           python -m json.tool /tmp/iso-bundle.json >/dev/null
+          test "$(python -c "import json; print(json.load(open('/tmp/iso-bundle.json'))['bundle_schema'])")" = "simos.iso-hydration-bundle.v4"
+          test "$(python -c "import json; print('CARRIERS.json' in json.load(open('/tmp/iso-bundle.json'))['file_hashes'])")" = "True"
 
       - name: Run PRIDE preflight and postflight
         run: |
@@ -73,6 +82,27 @@ jobs:
             exit 1
           fi
           python -m json.tool /tmp/pride-invalid.json >/dev/null
+
+      - name: Run carrier preflight and switch contracts
+        run: |
+          python templates/iso-starter/carrier_guard.py preflight \
+            --write /tmp/carrier-preflight.json
+          python -m json.tool /tmp/carrier-preflight.json >/dev/null
+          test "$(python -c "import json; print(json.load(open('/tmp/carrier-preflight.json'))['status'])")" = "PASS"
+
+          python templates/iso-starter/carrier_guard.py switch \
+            templates/iso-starter/fixtures/carrier-switch-pass.json \
+            --write /tmp/carrier-switch.json
+          python -m json.tool /tmp/carrier-switch.json >/dev/null
+          test "$(python -c "import json; print(json.load(open('/tmp/carrier-switch.json'))['status'])")" = "PASS"
+          test "$(python -c "import json; print(' -> '.join(json.load(open('/tmp/carrier-switch.json'))['transition_path']))")" = "ACTIVE -> SWITCH_PENDING -> CHECKPOINTED -> ACTIVE"
+
+          if python templates/iso-starter/carrier_guard.py switch \
+            templates/iso-starter/fixtures/carrier-switch-fail.json >/tmp/carrier-invalid.json 2>/tmp/carrier-invalid.err; then
+            echo "Expected uncheckpointed running-task carrier switch to fail"
+            exit 1
+          fi
+          python -m json.tool /tmp/carrier-invalid.json >/dev/null
 
       - name: Run persistent-memory demo
         run: |
