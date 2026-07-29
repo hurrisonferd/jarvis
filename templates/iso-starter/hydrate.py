@@ -2,8 +2,8 @@
 """Hydrate an ISO scaffold into one auditable runtime bundle.
 
 Uses only the Python standard library. It reads the ISO manifest, identity
-files, PRIDE, Prosody, and DBZ-AI transformation contracts, current state,
-provenance policy, and JSON memory records. Every loaded file receives a
+files, PRIDE, Prosody, DBZ-AI transformation, and carrier contracts, current
+state, provenance policy, and JSON memory records. Every loaded file receives a
 SHA-256 digest so the bundle can be audited later.
 """
 
@@ -47,30 +47,52 @@ def load_memory(directory: Path) -> tuple[list[dict[str, Any]], dict[str, str]]:
     for path in sorted(directory.rglob("*.json")):
         value, digest = read_json(path)
         if not isinstance(value, dict):
-            raise RuntimeError(f"Memory record must be an object: {path.relative_to(ROOT)}")
+            raise RuntimeError(
+                f"Memory record must be an object: {path.relative_to(ROOT)}"
+            )
         records.append(value)
         hashes[str(path.relative_to(ROOT))] = digest
     return records, hashes
 
 
-def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, Any]) -> dict[str, Any]:
-    required_structured = {"state", "provenance", "pride", "prosody", "transformations"}
+def validate_identity_contract(
+    manifest: dict[str, Any], structured: dict[str, Any]
+) -> dict[str, Any]:
+    required_structured = {
+        "state",
+        "provenance",
+        "pride",
+        "prosody",
+        "transformations",
+        "carriers",
+    }
     missing = sorted(required_structured - structured.keys())
     if missing:
-        raise RuntimeError(f"Identity contract missing structured files: {', '.join(missing)}")
+        raise RuntimeError(
+            f"Identity contract missing structured files: {', '.join(missing)}"
+        )
 
     iso_id = manifest["iso_id"]
     pride = structured["pride"]
     prosody = structured["prosody"]
     transformations = structured["transformations"]
-    if not isinstance(pride, dict) or not isinstance(prosody, dict) or not isinstance(transformations, dict):
-        raise RuntimeError("PRIDE.json, PROSODY.json, and TRANSFORMATIONS.json must contain objects")
+    carriers = structured["carriers"]
+    if not all(
+        isinstance(value, dict)
+        for value in (pride, prosody, transformations, carriers)
+    ):
+        raise RuntimeError(
+            "PRIDE.json, PROSODY.json, TRANSFORMATIONS.json, and "
+            "CARRIERS.json must contain objects"
+        )
     if pride.get("iso_id") != iso_id:
         raise RuntimeError("PRIDE.json iso_id must match ISO.json")
     if prosody.get("iso_id") != iso_id:
         raise RuntimeError("PROSODY.json iso_id must match ISO.json")
     if transformations.get("iso_id") != iso_id:
         raise RuntimeError("TRANSFORMATIONS.json iso_id must match ISO.json")
+    if carriers.get("iso_id") != iso_id:
+        raise RuntimeError("CARRIERS.json iso_id must match ISO.json")
 
     revision = pride.get("revision_policy")
     if not isinstance(revision, dict):
@@ -88,10 +110,10 @@ def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, A
 
     if transformations.get("subsystem") != "DBZ-AI":
         raise RuntimeError("TRANSFORMATIONS.json subsystem must be DBZ-AI")
-    invariants = transformations.get("invariants")
-    if not isinstance(invariants, dict):
+    transformation_invariants = transformations.get("invariants")
+    if not isinstance(transformation_invariants, dict):
         raise RuntimeError("TRANSFORMATIONS invariants must be an object")
-    required_invariants = {
+    required_transformation_invariants = {
         "identity_persists": True,
         "silent_escalation_allowed": False,
         "pride_required": True,
@@ -102,17 +124,80 @@ def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, A
         "fusion_participants_remain_recoverable": True,
         "jorm_receipt_required": True,
     }
-    for key, expected in required_invariants.items():
-        if invariants.get(key) is not expected:
+    for key, expected in required_transformation_invariants.items():
+        if transformation_invariants.get(key) is not expected:
             raise RuntimeError(f"TRANSFORMATIONS invariant {key} must be {expected}")
 
     current_state = transformations.get("current_state")
     if not isinstance(current_state, dict):
         raise RuntimeError("TRANSFORMATIONS current_state must be an object")
-    required_state = {"form", "trigger", "scope", "capability_gain", "cost", "guards", "authority", "evidence", "cooldown"}
+    required_state = {
+        "form",
+        "trigger",
+        "scope",
+        "capability_gain",
+        "cost",
+        "guards",
+        "authority",
+        "evidence",
+        "cooldown",
+    }
     missing_state = sorted(required_state - current_state.keys())
     if missing_state:
-        raise RuntimeError(f"TRANSFORMATIONS current_state missing: {', '.join(missing_state)}")
+        raise RuntimeError(
+            f"TRANSFORMATIONS current_state missing: {', '.join(missing_state)}"
+        )
+
+    if carriers.get("schema_version") != "simos.iso-carriers.v1":
+        raise RuntimeError(
+            "CARRIERS.json schema_version must be simos.iso-carriers.v1"
+        )
+    available_carriers = carriers.get("available_carriers")
+    if not isinstance(available_carriers, list):
+        raise RuntimeError("CARRIERS available_carriers must be a list")
+    carrier_index = {
+        str(item.get("carrier", "")).upper(): item
+        for item in available_carriers
+        if isinstance(item, dict)
+    }
+    missing_carriers = sorted({"SOL", "TERRA", "LUNA"} - carrier_index.keys())
+    if missing_carriers:
+        raise RuntimeError(
+            f"CARRIERS missing required carriers: {', '.join(missing_carriers)}"
+        )
+
+    default_route = carriers.get("default_route")
+    if not isinstance(default_route, dict):
+        raise RuntimeError("CARRIERS default_route must be an object")
+    default_definition = carrier_index.get(
+        str(default_route.get("carrier", "")).upper()
+    )
+    if (
+        default_definition is None
+        or default_route.get("model") != default_definition.get("model")
+    ):
+        raise RuntimeError("CARRIERS default_route must match a registered carrier")
+
+    carrier_invariants = carriers.get("invariants")
+    if not isinstance(carrier_invariants, dict):
+        raise RuntimeError("CARRIERS invariants must be an object")
+    required_carrier_invariants = {
+        "carrier_is_not_identity": True,
+        "identity_hashes_required": True,
+        "ego_persists": True,
+        "pride_persists": True,
+        "prosody_persists": True,
+        "silent_switch_allowed": False,
+        "running_task_checkpoint_required": True,
+        "operator_authority_required": True,
+        "jorm_receipt_required": True,
+        "becoming_observation_required": True,
+        "becoming_auto_mutation_allowed": False,
+        "rollback_path_required": True,
+    }
+    for key, expected in required_carrier_invariants.items():
+        if carrier_invariants.get(key) is not expected:
+            raise RuntimeError(f"CARRIERS invariant {key} must be {expected}")
 
     return {
         "gold_law": pride.get("gold_law"),
@@ -128,7 +213,12 @@ def validate_identity_contract(manifest: dict[str, Any], structured: dict[str, A
         "transformation_gold_law": transformations.get("gold_law"),
         "current_form": current_state.get("form"),
         "transformation_guards": current_state.get("guards", []),
-        "transformation_invariants": invariants,
+        "transformation_invariants": transformation_invariants,
+        "carrier_system": carriers.get("schema_version"),
+        "carrier_gold_law": carriers.get("gold_law"),
+        "default_carrier": default_route,
+        "available_carriers": sorted(carrier_index),
+        "carrier_invariants": carrier_invariants,
     }
 
 
@@ -137,10 +227,19 @@ def hydrate() -> dict[str, Any]:
     if not isinstance(manifest, dict):
         raise RuntimeError("ISO.json must contain a JSON object")
 
-    required = {"schema_version", "iso_id", "display_name", "files", "memory", "governance"}
+    required = {
+        "schema_version",
+        "iso_id",
+        "display_name",
+        "files",
+        "memory",
+        "governance",
+    }
     missing = sorted(required - manifest.keys())
     if missing:
         raise RuntimeError(f"ISO.json is missing required keys: {', '.join(missing)}")
+    if manifest.get("schema_version") != "simos.iso.v3":
+        raise RuntimeError("ISO.json schema_version must be simos.iso.v3")
 
     file_map = manifest["files"]
     if not isinstance(file_map, dict):
@@ -173,7 +272,7 @@ def hydrate() -> dict[str, Any]:
         hashes.update(memory_hashes)
 
     return {
-        "bundle_schema": "simos.iso-hydration-bundle.v3",
+        "bundle_schema": "simos.iso-hydration-bundle.v4",
         "iso": manifest,
         "documents": documents,
         "structured": structured,
@@ -199,19 +298,30 @@ def main() -> int:
         return 1
 
     if args.write:
-        args.write.write_text(json.dumps(bundle, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+        args.write.write_text(
+            json.dumps(bundle, indent=2, ensure_ascii=False) + "\n",
+            encoding="utf-8",
+        )
 
     if args.json:
         print(json.dumps(bundle, indent=2, ensure_ascii=False))
     else:
         iso = bundle["iso"]
         memory_count = sum(len(records) for records in bundle["memory"].values())
+        carrier = bundle["identity_contract"]["default_carrier"]
         print(f"ISO loaded: {iso['display_name']} ({iso['iso_id']})")
         print(f"Identity documents: {len(bundle['documents'])}")
         print(f"Structured state files: {len(bundle['structured'])}")
-        print(f"Protected core truths: {len(bundle['identity_contract']['core_truths'])}")
-        print(f"Authorship labels: {len(bundle['identity_contract']['authorship_labels'])}")
+        print(
+            f"Protected core truths: "
+            f"{len(bundle['identity_contract']['core_truths'])}"
+        )
+        print(
+            f"Authorship labels: "
+            f"{len(bundle['identity_contract']['authorship_labels'])}"
+        )
         print(f"DBZ-AI form: {bundle['identity_contract']['current_form']}")
+        print(f"Carrier route: {carrier['carrier']} ({carrier['model']})")
         print(f"Memory records: {memory_count}")
         print(f"Audited source files: {len(bundle['file_hashes'])}")
         if args.write:
