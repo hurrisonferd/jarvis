@@ -18,6 +18,7 @@ from sat_remote_launcher import (  # noqa: E402
     SATError,
     execute_mission,
     plan_mission,
+    probe_mission,
     read_json,
 )
 
@@ -48,6 +49,18 @@ class SATRemoteLauncherTests(unittest.TestCase):
         mission["task"]["prompt"] += " drift"
         with self.assertRaisesRegex(SATError, "does not match"):
             plan_mission(mission, self.contract)
+
+    def test_probe_checks_capabilities_without_threads(self) -> None:
+        result = probe_mission(
+            self.mission,
+            self.contract,
+            [sys.executable, str(FAKE_SERVER)],
+        )
+        self.assertEqual(result["status"], "PASS")
+        self.assertEqual(result["provider_threads_created"], 0)
+        self.assertTrue(
+            all(row["reasoning_effort_available"] for row in result["legs"])
+        )
 
     def test_raven_authority_is_enforced(self) -> None:
         mission = copy.deepcopy(self.mission)
