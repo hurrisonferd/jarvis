@@ -84,6 +84,17 @@ Model, reasoning effort, and speed are bound through documented Codex controls.
 publish a direct meter field. The receipt names that boundary instead of
 pretending it was enforced upstream.
 
+## ChatLink: P2P and group conversation log
+
+`sat_chatlink.py` adds durable conversation for separately running carrier
+threads: canonical DMs and mission rooms, hash-chained events, unread cursors,
+causal ACKs, receipts, handoffs, blockers, membership, visibility, idempotency,
+and private-reference boundaries.
+
+ChatLink is brokered P2P. It does not directly inject one chat's hidden context
+into another. See `docs/sat-chatlink.md` for its contract and relationship to
+Shaka's Co-op/JX2 lineage.
+
 ## Deliberate v0.1 limits
 
 - sequential execution only;
