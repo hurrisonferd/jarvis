@@ -39,6 +39,8 @@ jobs:
     steps:
       - name: Checkout JARVIS
         uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GRID_GPT_TOKEN }}
 
       - name: Checkout private MusicOS source
         if: ${{ github.event_name != 'workflow_dispatch' || inputs.source_url == '' }}
@@ -100,7 +102,7 @@ jobs:
 
       - name: Propose feature receipts
         env:
-          GH_TOKEN: ${{ github.token }}
+          GH_TOKEN: ${{ secrets.GRID_GPT_TOKEN }}
         run: |
           git config user.name "JARVIS"
           git config user.email "jarvis@jarvis.local"
@@ -110,7 +112,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "no feature changes"
           else
-            branch="automation/music-ears-public-${GITHUB_RUN_ID}"
+            branch="automation/music-ears-public"
             git switch -c "$branch"
             git commit -m "feat(ears): update durable audio feature receipts [skip ci]"
             git push origin "$branch"
@@ -135,7 +137,7 @@ jobs:
           if git diff --staged --quiet; then
             echo "no private audio or spectrogram changes"
           else
-            branch="automation/music-ears-private-${GITHUB_RUN_ID}"
+            branch="automation/music-ears-private"
             git switch -c "$branch"
             git commit -m "feat(ears): restore MusicOS audio and spectrograms [skip ci]"
             git push origin "$branch"
