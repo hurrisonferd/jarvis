@@ -68,7 +68,7 @@ jobs:
 
       - name: Test MCP MusicOS compiler
         run: |
-          deno test --allow-env \
+          deno test --node-modules-dir=auto --allow-env \
             core/supabase/functions/jarvis-mcp/tools/musicos.test.ts
 
       - name: Verify Supabase security posture
