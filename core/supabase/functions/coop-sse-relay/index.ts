@@ -115,11 +115,19 @@ Deno.serve(async (req) => {
     const satellite = url.searchParams.get("satellite") || "unknown";
     const id = crypto.randomUUID();
     const client = realtimeClient();
-    let listener: Listener;
+    let listener: Listener | undefined;
     let resolveClosed: (() => void) | undefined;
+    let closing = false;
     const closed = new Promise<void>((resolve) => {
       resolveClosed = resolve;
     });
+    const close = async () => {
+      if (closing) return;
+      closing = true;
+      if (listener) await cleanup(listener);
+      resolveClosed?.();
+    };
+    req.signal.addEventListener("abort", () => void close(), { once: true });
 
     const stream = new ReadableStream<Uint8Array>({
       start(controller) {
@@ -144,7 +152,7 @@ Deno.serve(async (req) => {
                 timestamp: payload.timestamp ?? new Date().toISOString(),
               }));
             } catch {
-              void cleanup(listener);
+              void close();
             }
           })
           .on("presence", { event: "sync" }, () => {
@@ -157,7 +165,7 @@ Deno.serve(async (req) => {
             try {
               controller.enqueue(encode({ type: "peers", peers }));
             } catch {
-              void cleanup(listener);
+              void close();
             }
           })
           .subscribe(async (status) => {
@@ -166,14 +174,12 @@ Deno.serve(async (req) => {
               controller.enqueue(encode({ type: "registered", satellite, id }));
             } else if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") {
               controller.error(new Error(`Realtime subscription failed: ${status}`));
-              await cleanup(listener);
-              resolveClosed?.();
+              await close();
             }
           });
       },
       async cancel() {
-        if (listener) await cleanup(listener);
-        resolveClosed?.();
+        await close();
       },
     });
 
