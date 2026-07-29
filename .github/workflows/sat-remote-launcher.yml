@@ -1,0 +1,49 @@
+name: SAT Remote Launcher
+
+on:
+  pull_request:
+    paths:
+      - "demos/02-sat-remote-launcher/**"
+      - "docs/sat-remote-launcher.md"
+      - "templates/iso-starter/CARRIERS.json"
+      - ".github/workflows/sat-remote-launcher.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile SAT launcher
+        run: |
+          python -m py_compile \
+            demos/02-sat-remote-launcher/sat_remote_launcher.py \
+            demos/02-sat-remote-launcher/fake_app_server.py \
+            demos/02-sat-remote-launcher/test_sat_remote_launcher.py
+
+      - name: Validate mission fixture
+        run: |
+          python -m json.tool \
+            demos/02-sat-remote-launcher/mission.example.json >/dev/null
+          python demos/02-sat-remote-launcher/sat_remote_launcher.py \
+            plan demos/02-sat-remote-launcher/mission.example.json \
+            >/tmp/sat-plan.json
+          python -m json.tool /tmp/sat-plan.json >/dev/null
+          test "$(python -c "import json; print(json.load(open('/tmp/sat-plan.json'))['status'])")" = "READY"
+
+      - name: Run deterministic App Server contract
+        run: |
+          PYTHONWARNINGS=error python -m unittest discover \
+            -s demos/02-sat-remote-launcher \
+            -p "test_*.py" -v
