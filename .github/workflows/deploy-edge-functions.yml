@@ -147,7 +147,7 @@ jobs:
           DEPLOY_SHA: ${{ github.sha }}
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt
+            supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt --workdir core
           else
             # Deploy all functions — new ones deploy automatically
             for fn in core/supabase/functions/*/; do
