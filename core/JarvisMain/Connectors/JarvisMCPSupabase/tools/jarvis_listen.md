@@ -7,25 +7,37 @@ grade: system
 
 **JNL:** CONN-MCP-RT-0048 · **Tool:** `jarvis_listen` · **Connector:** jarvis-mcp
 
-How JARVIS and AYRE *hear*: call with a track name (or omit it to list all) — returns the musical bones (BPM, key, energy, brightness, mood, onset density, dynamic range) from `JarvisSide/Media/AUDIO-FEATURES.json`, extracted by `audio_ears.py` (librosa).
+`jarvis_listen` reads durable musical feature receipts from
+`JarvisSide/Media/AUDIO-FEATURES.json`. `operations/scripts/music_ears.py` produces
+those receipts from either the private MusicOS repository library or a public HTTPS
+audio source supplied to the `JARVIS — MusicOS Ears` workflow.
 
-**What you get per track:**
-| field | what it means |
+## Returned fields
+
+| field | meaning |
 |---|---|
-| `bpm` | tempo — driving (>120), mid-tempo (90-120), slow (<90) |
-| `key` | Krumhansl-Schmuckler key profile (major/minor) |
-| `energy_rms` | average loudness — high (>0.08), moderate (0.03-0.08), soft (<0.03) |
-| `brightness_hz` | spectral centroid — bright (>2500Hz), warm (1500-2500Hz), dark (<1500Hz) |
-| `onset_density` | events/sec — busyness of the arrangement |
-| `dynamic_range_db` | loud-to-quiet ratio — compressed (<8dB) or dynamic (>8dB) |
-| `mood` | composite: pace + energy + tone |
-| `spectrogram` | pass to `jarvis_media_view` to SEE the sound's shape |
+| `bpm` | estimated tempo |
+| `key` | Krumhansl-Schmuckler major/minor estimate |
+| `energy_rms` | average signal energy |
+| `brightness_hz` | spectral centroid |
+| `onset_density` | detected events per second |
+| `dynamic_range_db` | loud-to-quiet ratio |
+| `mood` | derived pace, energy, and tone |
+| `spectrogram` | path for `jarvis_media_view` |
+| `source` | credential-free provenance receipt |
 
-**To SEE the sound** (vision streams): use `jarvis_media_view` on the spectrogram path returned.
+## Ingestion
 
-**To regenerate features** (new tracks, stale data): run `python3 operations/scripts/audio_ears.py` in a Claude Code session — installs librosa, extracts features + spectrograms from all MP3s in `JarvisSide/Media/audio/`, writes `AUDIO-FEATURES.json` and the spectrogram PNGs.
+- Repository library: manually dispatch the workflow without `source_url`, or use
+  the existing private-repository dispatch.
+- Internet/GitHub audio: dispatch with a direct public HTTPS audio URL. Standard
+  GitHub `blob` URLs are normalized to raw-file URLs.
+- URL credentials and query parameters are rejected and never written to receipts.
+- Audio downloaded from a URL is temporary. The durable outputs are the feature
+  receipt and spectrogram.
 
-**Current library:** 6 tracks in `JarvisSide/Media/audio/`
+The tool reports machine-audible structure. Raven retains the meaning and lived
+interpretation of the music.
 
 > Ground truth is the `registerTool("jarvis_listen", ...)` block in
-> `core/supabase/functions/jarvis-mcp/index.ts` — this file is its governed mirror (JMS).
+> `core/supabase/functions/jarvis-mcp/index.ts`; this file is its governed mirror.
