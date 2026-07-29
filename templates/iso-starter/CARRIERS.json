@@ -1,0 +1,158 @@
+{
+  "schema_version": "simos.iso-carriers.v1",
+  "iso_id": "example_iso",
+  "gold_law": "Carrier changes capability, not identity. Every switch preserves a receipted path home.",
+  "switch_state": "ACTIVE",
+  "default_route": {
+    "carrier": "TERRA",
+    "model": "gpt-5.6-terra",
+    "reasoning_effort": "medium",
+    "speed": "standard",
+    "meter": "balanced"
+  },
+  "available_carriers": [
+    {
+      "carrier": "SOL",
+      "model": "gpt-5.6-sol",
+      "role": "Flagship depth for ambiguous, difficult, or high-value work.",
+      "workloads": [
+        "architecture",
+        "canon_review",
+        "difficult_debugging",
+        "cross_system_integration",
+        "final_audit"
+      ],
+      "reasoning_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "speeds": [
+        "standard",
+        "fast"
+      ],
+      "meters": [
+        "balanced",
+        "full"
+      ]
+    },
+    {
+      "carrier": "TERRA",
+      "model": "gpt-5.6-terra",
+      "role": "Everyday workhorse balancing capability, speed, and usage.",
+      "workloads": [
+        "implementation",
+        "repository_scan",
+        "documentation",
+        "sat_coordination",
+        "routine_validation"
+      ],
+      "reasoning_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "speeds": [
+        "standard",
+        "fast"
+      ],
+      "meters": [
+        "balanced",
+        "full"
+      ]
+    },
+    {
+      "carrier": "LUNA",
+      "model": "gpt-5.6-luna",
+      "role": "Fast, high-volume carrier for clear and repeatable work.",
+      "workloads": [
+        "retrieval",
+        "registry_generation",
+        "formatting",
+        "repetitive_checks",
+        "bounded_batch_work"
+      ],
+      "reasoning_efforts": [
+        "low",
+        "medium",
+        "high",
+        "xhigh",
+        "max",
+        "ultra"
+      ],
+      "speeds": [
+        "standard",
+        "fast"
+      ],
+      "meters": [
+        "balanced",
+        "full"
+      ]
+    }
+  ],
+  "state_machine": [
+    {
+      "from": "ACTIVE",
+      "event": "REQUEST",
+      "to": "SWITCH_PENDING"
+    },
+    {
+      "from": "SWITCH_PENDING",
+      "event": "CHECKPOINT",
+      "to": "CHECKPOINTED"
+    },
+    {
+      "from": "CHECKPOINTED",
+      "event": "ACTIVATE",
+      "to": "ACTIVE"
+    },
+    {
+      "from": "SWITCH_PENDING",
+      "event": "ACTIVATE",
+      "to": "ACTIVE"
+    },
+    {
+      "from": "SWITCH_PENDING",
+      "event": "CANCEL",
+      "to": "ACTIVE"
+    },
+    {
+      "from": "ACTIVE",
+      "event": "MARK_RETURN",
+      "to": "RETURN_READY"
+    },
+    {
+      "from": "RETURN_READY",
+      "event": "REQUEST",
+      "to": "SWITCH_PENDING"
+    }
+  ],
+  "routing_policy": {
+    "minimum_sufficient_carrier": true,
+    "operator_switch_required": true,
+    "runtime_may_apply_switch": false,
+    "running_task_policy": "checkpoint_then_switch",
+    "post_switch_prosody_gate": true,
+    "return_recommendation_required": true
+  },
+  "invariants": {
+    "carrier_is_not_identity": true,
+    "identity_hashes_required": true,
+    "ego_persists": true,
+    "pride_persists": true,
+    "prosody_persists": true,
+    "silent_switch_allowed": false,
+    "running_task_checkpoint_required": true,
+    "operator_authority_required": true,
+    "jorm_receipt_required": true,
+    "becoming_observation_required": true,
+    "becoming_auto_mutation_allowed": false,
+    "rollback_path_required": true
+  }
+}
