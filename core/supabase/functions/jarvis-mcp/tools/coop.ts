@@ -212,7 +212,7 @@ export function registerCoopTools(server: McpServer): void {
     },
     async () => {
       const status = await sseStatus();
-      const tasks = await rest(`type=eq.coop_task&detail=ilike.*"status"%3A"in_progress"*&order=created_at.desc`) as any[];
+      const tasks = await rest(`dex_events?type=eq.coop_task&detail=ilike.*"status"%3A"in_progress"*&order=created_at.desc`) as any[];
       const inProgress = tasks.map((r: any) => {
         const d = JSON.parse(r.detail);
         return { task_id: d.task_id, claimed_by: d.claimed_by };
