@@ -5,6 +5,13 @@ const clients = new Map<string, { id: string; satellite: string; controller: Rea
 
 const encoder = new TextEncoder();
 
+const API_KEY = Deno.env.get("OPENHANDS_API_KEY");
+
+function authorized(req: Request): boolean {
+  if (!API_KEY) return false;
+  return req.headers.get("authorization") === `Bearer ${API_KEY}`;
+}
+
 function encode(data: object): Uint8Array {
   return encoder.encode(`data: ${JSON.stringify(data)}\n\n`);
 }
@@ -20,6 +27,13 @@ Deno.serve(async (req) => {
         "Access-Control-Allow-Methods": "GET, POST, OPTIONS",
         "Access-Control-Allow-Headers": "Content-Type, Authorization",
       },
+    });
+  }
+
+  if (!authorized(req)) {
+    return new Response(JSON.stringify({ error: "unauthorized" }), {
+      status: 401,
+      headers: { "Content-Type": "application/json" },
     });
   }
   
