@@ -6,6 +6,7 @@ on:
     paths:
       - "operations/scripts/music_ears.py"
       - ".github/workflows/music-ears.yml"
+      - "core/supabase/functions/musicos-source-upload/**"
   repository_dispatch:
     types: [music-ears]
   workflow_dispatch:
@@ -66,6 +67,30 @@ jobs:
           test "$recovered" -eq 6
           cp "$recovered_audio"/*.mp3 "$audio_dir"/
           echo "recovered=$recovered"
+
+      - name: Store source audio privately
+        if: ${{ github.event_name != 'workflow_dispatch' || inputs.source_url == '' }}
+        env:
+          GRID_GPT_TOKEN: ${{ secrets.GRID_GPT_TOKEN }}
+          MUSICOS_UPLOAD_URL: https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/musicos-source-upload
+        run: |
+          set -euo pipefail
+          audio_dir=private-source/archive/workspaces/MusicOS/songs/audio
+          uploaded=0
+          while IFS= read -r -d '' file; do
+            filename=$(basename "$file")
+            sha256=$(sha256sum "$file" | cut -d ' ' -f1)
+            curl --fail-with-body --silent --show-error --retry 2 \
+              --request POST "$MUSICOS_UPLOAD_URL" \
+              --header "x-grid-token: $GRID_GPT_TOKEN" \
+              --header "x-object-name: historical/$filename" \
+              --header "x-content-sha256: $sha256" \
+              --header "content-type: audio/mpeg" \
+              --data-binary "@$file"
+            uploaded=$((uploaded + 1))
+          done < <(find "$audio_dir" -maxdepth 1 -type f -name '*.mp3' -print0)
+          test "$uploaded" -eq 6
+          echo "uploaded=$uploaded"
 
       - name: Set up Python
         uses: actions/setup-python@v5
