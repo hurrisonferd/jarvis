@@ -2,6 +2,12 @@ name: Run Database Migrations
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'core/supabase/migrations/**'
+      - '.github/workflows/run-migrations.yml'
 
 jobs:
   migrate:
@@ -27,6 +33,8 @@ jobs:
               echo "✓ $NAME already applied"
             else
               echo "→ applying $NAME"
-              psql "$DATABASE_URL" -f "$f" 2>&1 && echo "✓ $NAME applied" || echo "⚠ $NAME failed"
+              psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$f"
+              psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -c "INSERT INTO supabase_migrations.schema_migrations(name) VALUES ('$NAME') ON CONFLICT DO NOTHING;"
+              echo "✓ $NAME applied"
             fi
           done
