@@ -575,6 +575,55 @@ def execute_mission(
     return mission_receipt
 
 
+def probe_mission(
+    mission: dict[str, Any],
+    contract: dict[str, Any],
+    command: list[str],
+) -> dict[str, Any]:
+    legs = validate_mission(mission, contract)
+    timeout = mission["execution"].get("timeout_seconds", 300)
+    with JsonRpcStdio(command, timeout) as client:
+        client.initialize()
+        models = advertised_models(client)
+
+    results: list[dict[str, Any]] = []
+    errors: list[str] = []
+    for leg in legs:
+        route = leg["route"]
+        model = models.get(route["model"])
+        efforts = effort_names(model) if model else set()
+        model_available = model is not None
+        effort_available = model_available and (
+            not efforts or route["reasoning_effort"] in efforts
+        )
+        if not model_available:
+            errors.append(
+                f"{leg['anonymous_leg']} model unavailable: {route['model']}"
+            )
+        elif not effort_available:
+            errors.append(
+                f"{leg['anonymous_leg']} effort unavailable: "
+                f"{route['reasoning_effort']}"
+            )
+        results.append(
+            {
+                "anonymous_leg": leg["anonymous_leg"],
+                "model": route["model"],
+                "model_available": model_available,
+                "reasoning_effort": route["reasoning_effort"],
+                "reasoning_effort_available": effort_available,
+            }
+        )
+    return {
+        "schema_version": "simos.sat.remote-capability-probe.v1",
+        "mission_id": mission["mission_id"],
+        "status": "PASS" if not errors else "INVALID",
+        "provider_threads_created": 0,
+        "legs": results,
+        "errors": errors,
+    }
+
+
 def plan_mission(
     mission: dict[str, Any], contract: dict[str, Any]
 ) -> dict[str, Any]:
@@ -604,6 +653,12 @@ def parse_args() -> argparse.Namespace:
     plan = subparsers.add_parser("plan", help="Validate and hash a mission")
     plan.add_argument("mission", type=Path)
 
+    probe = subparsers.add_parser(
+        "probe", help="Check requested models and efforts without creating threads"
+    )
+    probe.add_argument("mission", type=Path)
+    probe.add_argument("--app-server", default="codex")
+
     execute = subparsers.add_parser(
         "execute", help="Create fresh threads and write blinded receipts"
     )
@@ -626,6 +681,14 @@ def main() -> int:
         if args.command == "plan":
             print(json.dumps(plan_mission(mission, contract), indent=2))
             return 0
+        if args.command == "probe":
+            result = probe_mission(
+                mission,
+                contract,
+                codex_command(args.app_server, "medium", "standard"),
+            )
+            print(json.dumps(result, indent=2))
+            return 0 if result["status"] == "PASS" else 1
         if not args.raven_approved:
             raise SATError("execute requires --raven-approved")
         receipt = execute_mission(
