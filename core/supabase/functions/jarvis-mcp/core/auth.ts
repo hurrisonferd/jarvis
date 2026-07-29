@@ -1,6 +1,6 @@
 // core/auth.ts — the AEGIS write gate. Reads + suit-up are open; persistent writes require
-// the connector to carry JARVIS_MCP_TOKEN. A held write self-diagnoses (names WHY it's gated)
-// without ever exposing the secret. (Extracted from index.ts, zero behavior change.)
+// the connector to carry ATOM_MCP_TOKEN (with JARVIS_MCP_TOKEN retained as a legacy server fallback).
+// A held write self-diagnoses without ever exposing the secret.
 
 import { MCP_TOKEN } from "./env.ts";
 import { text } from "./http.ts";
@@ -21,8 +21,7 @@ export function authToken(req: Request): string {
 }
 
 // AEGIS token diagnosis — names WHY a write is gated so a held response is actionable:
-//   server_unset   — the function has NO JARVIS_MCP_TOKEN baked in (secret missing, or set
-//                    AFTER the last deploy → redeploy to pick it up; secrets bake at deploy).
+//   server_unset   — the function has no canonical/legacy MCP token baked in.
 //   client_missing — the connector sent no token at all.
 //   mismatch       — the connector sent a token, but it differs from the function's.
 export type TokenState = "ok" | "server_unset" | "client_missing" | "mismatch";
@@ -34,7 +33,7 @@ export function tokenState(req: Request): TokenState {
   return sent === MCP_TOKEN ? "ok" : "mismatch";
 }
 
-// AEGIS write gate. Persistent writes require the JARVIS_MCP_TOKEN bearer. Consent is the
+// AEGIS write gate. Persistent writes require the deployed MCP bearer. Consent is the
 // client's own Allow/Deny prompt before the call. Fails closed when no token is configured.
 export function writeAuthorized(req: Request): boolean {
   return tokenState(req) === "ok";
@@ -47,9 +46,9 @@ export function heldForApproval(action: string, preview: unknown, req: Request) 
   const st = tokenState(req);
   const reason: Record<TokenState, string> = {
     ok: "Authorized — no hold.",
-    server_unset: "Write not authorized: JARVIS_MCP_TOKEN is not set in THIS function's deployed env — the secret is missing, or was set after the last deploy. Redeploy jarvis-mcp (secrets bake at deploy) so it picks up the token.",
-    client_missing: "Write not authorized: the connector sent no token. Add JARVIS_MCP_TOKEN to the connector — as an Authorization bearer, an x-jarvis-token header, or ?token=… on the connector URL.",
-    mismatch: "Write not authorized: the connector's token does NOT match the function's JARVIS_MCP_TOKEN. The values differ — confirm the Supabase secret equals the token the connector carries, then redeploy.",
+    server_unset: "Write not authorized: ATOM_MCP_TOKEN (or legacy JARVIS_MCP_TOKEN) is not set in this function's deployed environment. Set the secret and redeploy jarvis-mcp so it is loaded.",
+    client_missing: "Write not authorized: the connector sent no token. Configure the AtomMCP connector with ATOM_MCP_TOKEN as its bearer, x-jarvis-token header, or token query parameter.",
+    mismatch: "Write not authorized: the connector token does not match the function's configured MCP token. Confirm AtomMCP and Supabase use the same ATOM_MCP_TOKEN, then redeploy.",
   };
   if (st !== "ok") {
     console.error(`AEGIS hold [${action}] token_state=${st} client_len=${authToken(req).length} server_len=${MCP_TOKEN.length}`);
