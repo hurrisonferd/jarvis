@@ -2,22 +2,41 @@ name: apply-supabase-repair-on-pr
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
 
 permissions:
   contents: write
 
 jobs:
   repair:
-    if: ${{ startsWith(github.head_ref, 'jarvis-write-') && !contains(github.event.pull_request.title, '[repair-applied]') }}
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      startsWith(github.head_ref, 'jarvis-write-') &&
+      !contains(github.event.pull_request.title, '[repair-applied]')
     runs-on: ubuntu-latest
     steps:
+      - name: Require Grid owner token
+        env:
+          GRID_GPT_TOKEN: ${{ secrets.GRID_GPT_TOKEN }}
+        run: |
+          if [ -z "$GRID_GPT_TOKEN" ]; then
+            echo "GRID_GPT_TOKEN is not available to this same-repository PR workflow."
+            exit 1
+          fi
+
       - uses: actions/checkout@v6
         with:
           ref: ${{ github.head_ref }}
           fetch-depth: 0
-      - run: python3 operations/scripts/repair_supabase_identifiers.py
+          token: ${{ secrets.GRID_GPT_TOKEN }}
+          persist-credentials: true
+
+      - name: Repair external Supabase identifiers
+        run: python3 operations/scripts/repair_supabase_identifiers.py
+
       - name: Commit repaired sources
+        env:
+          HEAD_REF: ${{ github.head_ref }}
         run: |
           if git diff --quiet; then
             echo "No source changes required"
@@ -27,4 +46,4 @@ jobs:
           git config user.email "jarvis-repair@users.noreply.github.com"
           git add -A
           git commit -m "repair(supabase): restore external identifiers [repair-applied]"
-          git push origin "HEAD:${{ github.head_ref }}"
+          git push origin "HEAD:${HEAD_REF}"
