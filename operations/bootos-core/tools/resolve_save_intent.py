@@ -99,7 +99,7 @@ def resolve(request: dict[str, Any], policy: dict[str, Any], now: datetime) -> d
         questions.append(defaults["subject"])
     if visibility == "unknown":
         questions.append(defaults["visibility"])
-    if owner is None and route and route.get("owner") is None:
+    if owner is None and (route is None or route.get("owner") is None):
         questions.append(defaults["owner"])
     if write_mode == "unknown" and route is None:
         questions.append(defaults["write_mode"])
