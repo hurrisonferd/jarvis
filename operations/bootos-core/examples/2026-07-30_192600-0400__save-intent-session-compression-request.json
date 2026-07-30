@@ -1,0 +1,9 @@
+{
+  "request_id": "save-intent-2026-07-30-001",
+  "classification": "session-compression",
+  "owner": "MNEMOS",
+  "visibility": "private",
+  "subject": "save intent resolver build session",
+  "write_mode": "create",
+  "sensitivity": ["private"]
+}
