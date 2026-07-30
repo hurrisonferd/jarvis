@@ -4,32 +4,39 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#f5a623">
-  <title>JARVIS Pocket Universe — Construction Dock</title>
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="JARVIS II">
+  <title>JARVIS Pocket Universe — Vessel Two</title>
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="./icon.svg">
   <link rel="stylesheet" href="./styles/app.css">
 </head>
 <body>
   <main class="device" aria-label="JARVIS pocket universe handheld">
     <div class="led" id="field-led"></div>
     <section class="screen-housing">
-      <div class="screen-label">JARVIS POCKET UNIVERSE · WORLD-001</div>
+      <div class="screen-label">JARVIS POCKET UNIVERSE · WORLD-002 <span id="net-state">OFFLINE</span></div>
       <div class="screen"><div id="screen-inner"></div></div>
     </section>
-    <div class="brand">JARVIS</div>
+    <div class="brand">JARVIS II</div>
     <section class="controls" aria-label="handheld controls">
       <div class="dpad">
-        <button data-command="up">▲</button>
-        <button data-command="left">◀</button>
-        <button data-command="right">▶</button>
-        <button data-command="down">▼</button>
+        <button data-command="up" aria-label="up">▲</button>
+        <button data-command="left" aria-label="left">◀</button>
+        <button data-command="right" aria-label="right">▶</button>
+        <button data-command="down" aria-label="down">▼</button>
       </div>
       <div class="face">
-        <button data-command="back" class="b">B</button>
-        <button data-command="confirm" class="a">A</button>
+        <button data-command="back" class="b" aria-label="back">B</button>
+        <button data-command="confirm" class="a" aria-label="confirm">A</button>
       </div>
     </section>
     <section class="meta-controls">
       <button data-command="select">SELECT</button>
       <button data-command="start">START</button>
+      <button id="install-app" hidden>INSTALL</button>
     </section>
   </main>
   <script type="module" src="./app.js"></script>
