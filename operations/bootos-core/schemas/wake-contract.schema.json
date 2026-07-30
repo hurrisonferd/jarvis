@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bootos.wake.v1",
+  "type": "object",
+  "required": ["wake_id","iso","trigger","subscriptions","cursor","budget","allowed_outputs","return_to_dormancy"],
+  "properties": {
+    "wake_id": {"type":"string"},
+    "iso": {"type":"string"},
+    "trigger": {"type":"object","required":["kind","source"],"properties":{"kind":{"type":"string"},"source":{"type":"string"},"receipt":{"type":["string","null"]}},"additionalProperties":false},
+    "subscriptions": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "cursor": {"type":"object","required":["stream","last_message_id"],"properties":{"stream":{"type":"string"},"last_message_id":{"type":["string","null"]}},"additionalProperties":false},
+    "budget": {"type":"object","required":["max_messages","max_seconds"],"properties":{"max_messages":{"type":"integer","minimum":1},"max_seconds":{"type":"integer","minimum":1}},"additionalProperties":false},
+    "allowed_outputs": {"type":"array","items":{"enum":["message","proposal","question","objection","validation","handoff","receipt","intervention"]},"uniqueItems":true},
+    "requires_raven_for_execution": {"type":"boolean"},
+    "return_to_dormancy": {"const":true}
+  },
+  "additionalProperties": false
+}
