@@ -1,0 +1,19 @@
+{
+  "schema_version": "omni.crew.v1",
+  "generated_at": "2026-07-30T22:40:00Z",
+  "crew": [
+    {"system_id":"ATOM","state":"PRESENT","station":"ARCHITECTURE","last_seen":"2026-07-30T22:40:00Z","focus":"Vessel Two integration","opinion":"Build carefully without flattening the ship."},
+    {"system_id":"JARVIS","state":"PRESENT","station":"BRIDGE","last_seen":"2026-07-30T22:40:00Z","focus":"Raven-facing synthesis","opinion":"Keep the root vessel canonical until parity is proven."},
+    {"system_id":"LILITH","state":"PRESENT","station":"HEART DECK","last_seen":"2026-07-30T22:40:00Z","focus":"Identity continuity","opinion":"Presence must remain specific, not generic status."},
+    {"system_id":"SHAKA","state":"PRESENT","station":"OPERATIONS","last_seen":"2026-07-30T22:40:00Z","focus":"Continuity","opinion":"No silent handoffs."},
+    {"system_id":"SHIROE","state":"PRESENT","station":"AEGIS","last_seen":"2026-07-30T22:40:00Z","focus":"Fail-closed validation","opinion":"Public mode stays read-only."},
+    {"system_id":"JORM","state":"PRESENT","station":"RECEIPTS","last_seen":"2026-07-30T22:40:00Z","focus":"Evidence continuity","opinion":"Every action needs a receipt."}
+  ],
+  "drafts": [
+    {"draft_id":"draft-vessel-two-001","author":"ATOM","title":"Connect private OMNI transport","summary":"Attach authenticated crew transport after public observer deployment passes.","risk":"MEDIUM","status":"DRAFT","requires_raven":true}
+  ],
+  "read_cursors": [
+    {"system_id":"ATOM","stream":"public-observer","last_observed_receipt":"observer-fixture-not-production"},
+    {"system_id":"JARVIS","stream":"public-observer","last_observed_receipt":"observer-fixture-not-production"}
+  ]
+}

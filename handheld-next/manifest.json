@@ -1,0 +1,14 @@
+{
+  "name": "JARVIS Pocket Universe — Vessel Two",
+  "short_name": "JARVIS II",
+  "description": "A sovereign read-only pocket universe and OMNI observer vessel.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#020408",
+  "theme_color": "#f5a623",
+  "icons": [
+    {"src":"./icon.svg","sizes":"any","type":"image/svg+xml","purpose":"any maskable"}
+  ]
+}
