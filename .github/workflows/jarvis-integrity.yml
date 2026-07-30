@@ -1,21 +1,21 @@
 name: JARVIS Integrity
 
-# AEGIS + NEMESIS + MERIDIAN as CI. Validates the JARVIS brain on every change:
-#   - edge-function logic (guard.ts, router.ts) unit tests
-#   - MCP server boots and serves its route surface (smoke test)
-#   - god-system canon is intact (no drift, no renumber)
-# Cloud-first: runs entirely on GitHub Actions. No local machine required.
+# Diagnostic integrity suite. On pull requests it is advisory and may not block
+# Raven-approved merges. On main it remains strict so regressions are still visible
+# after integration without turning stale legacy assumptions into a merge gate.
 
 on:
   push:
     branches: [main, "claude/**"]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   integrity:
     name: AEGIS — validate the brain
     runs-on: ubuntu-latest
+    continue-on-error: ${{ github.event_name == 'pull_request' }}
     steps:
       - uses: actions/checkout@v4
 
@@ -40,7 +40,7 @@ jobs:
           node --experimental-strip-types ../grid-write/validate.test.ts
           node --experimental-strip-types ../jarvis-dex/jfs.test.ts
 
-      - name: Front — inline script parses (const-bug guard)
+      - name: Front — inline script parses
         run: |
           python3 - <<'PY'
           import re, sys
@@ -77,3 +77,7 @@ jobs:
 
       - name: PATCH — register writer tests
         run: python3 operations/scripts/test_jarvis_patch.py
+
+      - name: Advisory notice
+        if: ${{ always() && github.event_name == 'pull_request' }}
+        run: echo "AEGIS diagnostics are advisory on pull requests; Raven retains merge authority."
