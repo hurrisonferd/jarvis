@@ -1,13 +1,15 @@
 name: MNEMOS GitHub Event Sync
 
-# MNEMOS — records GitHub issues and PRs to memory/mnemos/memories/events.jsonl.
-# No Supabase required. Push events are handled by jarvis-pipeline.yml.
+# Issue events may be written to the bounded Git memory log.
+# Pull-request events are advisory only: they never commit or push to main, avoiding
+# branch races, recursive workflow churn, and PR blockage from memory bookkeeping.
 
 on:
   issues:
     types: [opened, closed, labeled, reopened]
   pull_request:
-    types: [opened, closed]
+    types: [opened, synchronize, reopened, closed]
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -17,86 +19,68 @@ jobs:
     name: MNEMOS — Record Event
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: PR bookkeeping is non-blocking
+        if: ${{ github.event_name == 'pull_request' }}
+        run: |
+          echo "PR #${{ github.event.pull_request.number }} ${{ github.event.action }}"
+          echo "MNEMOS will not write or push Git memory from pull-request events."
 
-      - name: Write event to memory
+      - uses: actions/checkout@v4
+        if: ${{ github.event_name == 'issues' }}
+
+      - name: Write issue event to memory
+        if: ${{ github.event_name == 'issues' }}
         env:
           EVENT_NAME:   ${{ github.event_name }}
           EVENT_ACTION: ${{ github.event.action }}
           ISSUE_NUMBER: ${{ github.event.issue.number }}
           ISSUE_TITLE:  ${{ github.event.issue.title }}
           ISSUE_BODY:   ${{ github.event.issue.body }}
-          PR_NUMBER:    ${{ github.event.pull_request.number }}
-          PR_TITLE:     ${{ github.event.pull_request.title }}
-          PR_MERGED:    ${{ github.event.pull_request.merged }}
-          PR_BODY:      ${{ github.event.pull_request.body }}
         run: |
           python3 << 'PYEOF'
-          import json, os, pathlib
+          import os, sys
           from datetime import datetime, timezone
 
-          ev  = os.environ.get("EVENT_NAME", "")
           act = os.environ.get("EVENT_ACTION", "")
-          ts  = datetime.now(timezone.utc).isoformat()[:19] + "Z"
+          num = os.environ.get("ISSUE_NUMBER", "?")
+          title = os.environ.get("ISSUE_TITLE", "").strip()
+          body = (os.environ.get("ISSUE_BODY") or "").strip()[:200]
+          ts = datetime.now(timezone.utc).isoformat()[:19] + "Z"
 
-          text = None
-          tags = ["development"]
-
-          if ev == "issues":
-              num   = os.environ.get("ISSUE_NUMBER", "?")
-              title = os.environ.get("ISSUE_TITLE", "").strip()
-              body  = (os.environ.get("ISSUE_BODY") or "").strip()[:200]
-              text  = f"[ISSUE #{num} {act.upper()}] {title}"
-              if body and act == "opened":
-                  text += f"\n{body}"
-              tags  = ["development", "projects"]
-
-          elif ev == "pull_request":
-              num    = os.environ.get("PR_NUMBER", "?")
-              title  = os.environ.get("PR_TITLE", "").strip()
-              merged = os.environ.get("PR_MERGED", "false") == "true"
-              body   = (os.environ.get("PR_BODY") or "").strip()[:200]
-              if act == "closed" and merged:
-                  text = f"[PR #{num} MERGED] {title}"
-              elif act == "closed":
-                  text = f"[PR #{num} CLOSED] {title}"
-              else:
-                  text = f"[PR #{num} {act.upper()}] {title}"
-              if body and act == "opened":
-                  text += f"\n{body}"
-              tags = ["development", "architecture" if merged else "development"]
-
-          if not text:
-              print(f"No event to record for {ev}.{act}")
-              exit(0)
+          text = f"[ISSUE #{num} {act.upper()}] {title}"
+          if body and act == "opened":
+              text += f"\n{body}"
 
           entry = {
-              "ts": ts, "event": ev, "action": act,
-              "text": text[:500], "tags": tags,
-              "source_type": f"github_{ev}",
+              "ts": ts,
+              "event": "issues",
+              "action": act,
+              "text": text[:500],
+              "tags": ["development", "projects"],
+              "source_type": "github_issues",
           }
 
-          import sys
           sys.path.insert(0, "scripts")
           from mnemos_log import append_bounded
-
-          # Bounded: rotates to archive + writes a compact rollup when the
-          # active log crosses ~64 KB or 200 entries. Memory, not bloat.
           result = append_bounded(
-              "memory/mnemos/memories/events.jsonl", entry,
-              source="github_events", max_entries=200, max_bytes=65536,
+              "memory/mnemos/memories/events.jsonl",
+              entry,
+              source="github_events",
+              max_entries=200,
+              max_bytes=65536,
           )
           print(f"MNEMOS: {text[:80]}")
           if result["rotated"]:
-              print(f"  rotated -> {result['archive']} (rollup appended to summaries.jsonl)")
+              print(f"rotated -> {result['archive']}")
           PYEOF
 
-      - name: Commit event log
+      - name: Commit issue event log
+        if: ${{ github.event_name == 'issues' }}
         run: |
-          git config user.name  "JARVIS"
-          git config user.email "jarvis@jarvis.local"
+          git config user.name "ATOM"
+          git config user.email "atom@grid.local"
           git add memory/mnemos/memories/events.jsonl
           [ -f memory/mnemos/memories/summaries.jsonl ] && git add memory/mnemos/memories/summaries.jsonl || true
           [ -d memory/mnemos/memories/archive ] && git add memory/mnemos/memories/archive || true
-          git diff --staged --quiet || git commit -m "chore(mnemos): github event [${{ github.event_name }}.${{ github.event.action }}] [skip ci]"
-          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Push skipped"
+          git diff --staged --quiet || git commit -m "chore(mnemos): issue event [${{ github.event.action }}] [skip ci]"
+          git push origin main || (git pull --rebase origin main && git push origin main) || echo "Issue-memory push skipped"
