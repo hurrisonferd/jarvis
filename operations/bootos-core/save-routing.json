@@ -1,0 +1,37 @@
+{
+  "schema_version": "bootos.save-routing.v1",
+  "confidence_thresholds": {
+    "save_directly": 0.95,
+    "save_with_receipt": 0.8,
+    "ask": 0.0
+  },
+  "high_impact_classifications": ["canon", "doctrine"],
+  "always_confirm_write_modes": ["replace"],
+  "default_questions": {
+    "visibility": "Is this public, private, or observer-safe?",
+    "classification": "Is this canon, working memory, a temporary artifact, a daily or weekly log, a session record, transcript, receipt, doctrine, code, or configuration?",
+    "owner": "Which system or ISO owns this artifact?",
+    "destination": "Which repository and directory should own the saved file?",
+    "write_mode": "Should this create a new file, append to an existing record, or replace a canonical file?",
+    "sensitivity": "Does this contain identity-sensitive, relationship-sensitive, credential, or sovereign material?",
+    "subject": "What short subject title should appear in the filename?"
+  },
+  "routes": [
+    {"classification":"daily-log","owner":"MNEMOS","visibility":"private","directory":"operations/bootos-core/archive/{YYYY}/{MM}/{DD}","timestamped":true,"extension":"md","default_write_mode":"create"},
+    {"classification":"weekly-log","owner":"MNEMOS","visibility":"private","directory":"operations/bootos-core/archive/{YYYY}/weeks","timestamped":true,"extension":"md","default_write_mode":"create"},
+    {"classification":"session-compression","owner":"MNEMOS","visibility":"private","directory":"operations/bootos-core/archive/{YYYY}/{MM}/{DD}","timestamped":true,"extension":"json","default_write_mode":"create"},
+    {"classification":"transcript","owner":"MNEMOS","visibility":"private","directory":"operations/omni-streams/archive/{YYYY}/{MM}/{DD}","timestamped":true,"extension":"jsonl","default_write_mode":"append"},
+    {"classification":"receipt","owner":"JORM","visibility":"private","directory":"operations/receipts/{YYYY}/{MM}/{DD}","timestamped":true,"extension":"json","default_write_mode":"create"},
+    {"classification":"doctrine","owner":"BOOTOS","visibility":"private","directory":"operations/bootos-core/doctrine","timestamped":true,"extension":"md","default_write_mode":"create","requires_confirmation":true},
+    {"classification":"canon","owner":null,"visibility":"private","directory":null,"timestamped":false,"extension":null,"default_write_mode":"unknown","requires_confirmation":true},
+    {"classification":"working-memory","owner":null,"visibility":"private","directory":"operations/working-memory/{owner}","timestamped":true,"extension":"md","default_write_mode":"create"},
+    {"classification":"temporary-artifact","owner":null,"visibility":"private","directory":"tmp/{owner}","timestamped":true,"extension":"json","default_write_mode":"create"}
+  ],
+  "safety": {
+    "never_guess_visibility_for_sensitive_material": true,
+    "never_replace_without_confirmation": true,
+    "never_claim_saved_without_receipt": true,
+    "public_destination_requires_observer_projection": true,
+    "credentials_are_refused": true
+  }
+}
