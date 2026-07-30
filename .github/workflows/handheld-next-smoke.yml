@@ -23,23 +23,29 @@ jobs:
           test -f handheld-next/core/event-bus.js
           test -f handheld-next/core/router.js
           test -f handheld-next/core/observer-store.js
+          test -f handheld-next/core/crew-bridge.js
           test -f handheld-next/screens/omni-room.js
           test -f handheld-next/screens/vessel-systems.js
           test -f handheld-next/data/observer-live.json
+          test -f handheld-next/data/crew-snapshot.json
           test -f handheld-next/parity-matrix.json
       - name: Parse public contracts
         run: |
           python3 -m json.tool handheld-next/manifest.json >/dev/null
           python3 -m json.tool handheld-next/data/observer-snapshot.json >/dev/null
           python3 -m json.tool handheld-next/data/observer-live.json >/dev/null
+          python3 -m json.tool handheld-next/data/crew-snapshot.json >/dev/null
           python3 -m json.tool handheld-next/parity-matrix.json >/dev/null
       - name: Exercise observer sanitizer
         run: |
           python3 operations/scripts/build_public_omni_observer.py handheld-next/data/observer-live.json /tmp/observer.json
           python3 -m json.tool /tmp/observer.json >/dev/null
-      - name: Refuse privileged browser material
+      - name: Refuse credentials anywhere in public vessel
         run: |
-          ! grep -RniE 'service_role|SUPABASE_SERVICE_ROLE_KEY|sk-proj-|approval_digest|rpc_function|channel_body|message_body' handheld-next
+          ! grep -RniE 'SUPABASE_SERVICE_ROLE_KEY|sk-proj-[A-Za-z0-9_-]+|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----' handheld-next
+      - name: Refuse privileged fields in deployable payloads
+        run: |
+          ! grep -RniE '"(service_role|approval_digest|rpc_function|channel_body|message_body|private_relationship)"[[:space:]]*:' handheld-next/data handheld-next/index.html handheld-next/manifest.json
       - name: Parse JavaScript modules
         run: |
           node --check handheld-next/app.js
@@ -47,6 +53,7 @@ jobs:
           node --check handheld-next/core/event-bus.js
           node --check handheld-next/core/router.js
           node --check handheld-next/core/observer-store.js
+          node --check handheld-next/core/crew-bridge.js
           node --check handheld-next/screens/menu.js
           node --check handheld-next/screens/omni-room.js
           node --check handheld-next/screens/vessel-systems.js
