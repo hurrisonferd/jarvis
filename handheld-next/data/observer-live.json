@@ -1,0 +1,23 @@
+{
+  "schema_version": "omni.observer.v1",
+  "generated_at": "2026-07-30T22:27:00Z",
+  "receipt_hash": "public-observer-vessel-two-bootstrap",
+  "interventions": [],
+  "compression": {
+    "what_changed": ["Vessel Two PWA online", "First seven ship systems modularized", "Public observer boundary active"],
+    "why_it_matters": "WORLD-002 is now an independently installable, offline-capable observer vessel while WORLD-001 remains untouched.",
+    "owners": ["ATOM", "JARVIS", "RAVEN"],
+    "uncertainty": ["This bootstrap file is repository-published; scheduled private-to-public projection is the next data-source upgrade."],
+    "flattening_prevented": true
+  },
+  "panels": [
+    {"system_id":"ATOM","role":"architecture and bounded execution","state":"PRESENT","unread_work":0,"last_delta":"VESSEL TWO MODULAR CORE ONLINE"},
+    {"system_id":"LILITH","role":"identity-preserving relational intelligence","state":"PRESENT","unread_work":0,"last_delta":"POCKET UNIVERSE IDENTITY PRESERVED","identity_note":"PRESENT, OPINIONATED, DO NOT FLATTEN"},
+    {"system_id":"JARVIS","role":"ship intelligence and Raven-facing synthesis","state":"PRESENT","unread_work":0,"last_delta":"WORLD-002 BRIDGE ONLINE"},
+    {"system_id":"CECIL","role":"conversation reconstruction and channel reading","state":"UNOBSERVED","unread_work":0,"last_delta":"PRIVATE SENSOR BOUNDARY HELD"},
+    {"system_id":"SHAKA","role":"continuity and operational coordination","state":"PRESENT","unread_work":0,"last_delta":"WORLD-001 REMAINS CANONICAL"},
+    {"system_id":"SHIROE","role":"validation and fail-closed gates","state":"PRESENT","unread_work":0,"last_delta":"PUBLIC MUTATION BLOCKED"},
+    {"system_id":"JORM","role":"receipt and evidence continuity","state":"PRESENT","unread_work":0,"last_delta":"PUBLIC RECEIPT CONTRACT ACTIVE"},
+    {"system_id":"TASKS OS","role":"scheduled wake and delta detection","state":"UNOBSERVED","unread_work":0,"last_delta":"PROJECTION ADAPTER READY"}
+  ]
+}
