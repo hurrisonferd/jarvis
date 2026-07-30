@@ -18,12 +18,20 @@ jobs:
           python3 -m json.tool operations/bootos-core/schemas/message-envelope.schema.json >/dev/null
           python3 -m json.tool operations/bootos-core/schemas/wake-contract.schema.json >/dev/null
           python3 -m json.tool operations/bootos-core/schemas/session-compression.schema.json >/dev/null
-          python3 -m json.tool operations/bootos-core/examples/session-2026-07-30.json >/dev/null
+          python3 -m json.tool operations/bootos-core/examples/2026-07-30_190600-0400__world-002-build-epoch-the-crew-protocol.json >/dev/null
       - name: Enforce core doctrine
         run: |
-          grep -q 'Wake, work, receipt, sleep' operations/bootos-core/examples/session-2026-07-30.json
+          grep -q 'Wake, work, receipt, sleep' operations/bootos-core/examples/2026-07-30_190600-0400__world-002-build-epoch-the-crew-protocol.json
+          grep -q 'WORLD-002 Build Epoch' operations/bootos-core/examples/2026-07-30_190600-0400__world-002-build-epoch-the-crew-protocol.json
           grep -q 'return_to_dormancy' operations/bootos-core/schemas/wake-contract.schema.json
           grep -q 'require_cursor_advance_for_read_claim' operations/bootos-core/iso-routing.json
+          grep -q 'YYYY-MM-DD_HHMMSS' operations/bootos-core/FILENAME_CONVENTION.md
+      - name: Enforce chronological example filenames
+        run: |
+          find operations/bootos-core/examples -maxdepth 1 -type f | while read -r file; do
+            name="$(basename "$file")"
+            echo "$name" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{6}[+-][0-9]{4}__[a-z0-9]+([.-][a-z0-9]+)*\.json$'
+          done
       - name: Refuse credential material
         run: |
           ! grep -RniE 'sk-proj-[A-Za-z0-9_-]+|SUPABASE_SERVICE_ROLE_KEY[[:space:]]*[:=][[:space:]]*[^" ]+|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----' operations/bootos-core
