@@ -40,9 +40,9 @@ jobs:
         run: |
           python3 operations/scripts/build_public_omni_observer.py handheld-next/data/observer-live.json /tmp/observer.json
           python3 -m json.tool /tmp/observer.json >/dev/null
-      - name: Refuse credentials anywhere in public vessel
+      - name: Refuse credential values anywhere in public vessel
         run: |
-          ! grep -RniE 'SUPABASE_SERVICE_ROLE_KEY|sk-proj-[A-Za-z0-9_-]+|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----' handheld-next
+          ! grep -RniE 'sk-proj-[A-Za-z0-9_-]{12,}|eyJ[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}\.[A-Za-z0-9_-]{20,}|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----' handheld-next
       - name: Refuse privileged fields in deployable payloads
         run: |
           ! grep -RniE '"(service_role|approval_digest|rpc_function|channel_body|message_body|private_relationship)"[[:space:]]*:' handheld-next/data handheld-next/index.html handheld-next/manifest.json
