@@ -29,6 +29,16 @@ Consequential actions require an exact approval package. Public clients remain r
 
 Git is the durable black box, not the live bloodstream. Active communication belongs in a private event store. Deterministic Git snapshots preserve transcripts, cursors, approvals, and receipts for replay and recovery.
 
+## Chronological artifact doctrine
+
+Durable daily, weekly, session, transcript, receipt, and closeout artifacts use timestamp-first, subject-bearing filenames:
+
+```text
+YYYY-MM-DD_HHMMSS±ZZZZ__subject-title.ext
+```
+
+This keeps repository listings naturally chronological while preserving enough subject context to identify a record without opening it. Stable code, schemas, workflows, and canonical configuration files retain stable semantic names. Full rules are defined in `FILENAME_CONVENTION.md`.
+
 ## Core contracts
 
 - ISO identity envelope
