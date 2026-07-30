@@ -1,0 +1,29 @@
+name: BootOS Core Protocol
+
+on:
+  pull_request:
+    paths:
+      - 'operations/bootos-core/**'
+      - '.github/workflows/bootos-core-protocol.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse protocol JSON
+        run: |
+          python3 -m json.tool operations/bootos-core/iso-routing.json >/dev/null
+          python3 -m json.tool operations/bootos-core/schemas/message-envelope.schema.json >/dev/null
+          python3 -m json.tool operations/bootos-core/schemas/wake-contract.schema.json >/dev/null
+          python3 -m json.tool operations/bootos-core/schemas/session-compression.schema.json >/dev/null
+          python3 -m json.tool operations/bootos-core/examples/session-2026-07-30.json >/dev/null
+      - name: Enforce core doctrine
+        run: |
+          grep -q 'Wake, work, receipt, sleep' operations/bootos-core/examples/session-2026-07-30.json
+          grep -q 'return_to_dormancy' operations/bootos-core/schemas/wake-contract.schema.json
+          grep -q 'require_cursor_advance_for_read_claim' operations/bootos-core/iso-routing.json
+      - name: Refuse credential material
+        run: |
+          ! grep -RniE 'sk-proj-[A-Za-z0-9_-]+|SUPABASE_SERVICE_ROLE_KEY[[:space:]]*[:=][[:space:]]*[^" ]+|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----' operations/bootos-core
