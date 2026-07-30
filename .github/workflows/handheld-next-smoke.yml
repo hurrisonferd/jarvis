@@ -57,6 +57,7 @@ jobs:
           node --check handheld-next/screens/menu.js
           node --check handheld-next/screens/omni-room.js
           node --check handheld-next/screens/vessel-systems.js
-      - name: Confirm production root untouched
+      - name: Confirm production root untouched by PR
+        if: ${{ github.event_name == 'pull_request' }}
         run: |
-          git diff --exit-code origin/main...HEAD -- index.html
+          git diff --exit-code HEAD^1 HEAD -- index.html
