@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bootos.save-intent.v1",
+  "title": "BootOS Save Intent Decision",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "request_id",
+    "classification",
+    "owner",
+    "visibility",
+    "destination",
+    "filename",
+    "write_mode",
+    "confidence",
+    "decision",
+    "questions_required",
+    "requires_confirmation",
+    "reasoning_summary"
+  ],
+  "properties": {
+    "schema_version": {"const": "bootos.save-intent.v1"},
+    "request_id": {"type": "string", "minLength": 1},
+    "classification": {
+      "enum": [
+        "canon",
+        "working-memory",
+        "temporary-artifact",
+        "daily-log",
+        "weekly-log",
+        "session-compression",
+        "transcript",
+        "receipt",
+        "doctrine",
+        "source-code",
+        "configuration",
+        "unknown"
+      ]
+    },
+    "owner": {"type": ["string", "null"]},
+    "visibility": {"enum": ["public", "private", "observer", "unknown"]},
+    "destination": {"type": ["string", "null"]},
+    "filename": {"type": ["string", "null"]},
+    "write_mode": {"enum": ["create", "append", "replace", "none", "unknown"]},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "decision": {"enum": ["SAVE", "SAVE_WITH_RECEIPT", "ASK", "REQUIRE_CONFIRMATION", "REFUSE"]},
+    "questions_required": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "requires_confirmation": {"type": "boolean"},
+    "reasoning_summary": {"type": "string", "minLength": 1},
+    "receipt": {"type": ["string", "null"]}
+  },
+  "additionalProperties": false
+}
