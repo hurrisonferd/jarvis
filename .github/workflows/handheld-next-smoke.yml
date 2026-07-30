@@ -4,7 +4,7 @@ on:
   pull_request:
     paths:
       - 'handheld-next/**'
-      - 'legacy/handheld-v2.5/**'
+      - 'operations/scripts/build_public_omni_observer.py'
       - '.github/workflows/handheld-next-smoke.yml'
   workflow_dispatch:
 
@@ -13,23 +13,43 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      - name: Verify module surface
+      - name: Verify vessel surface
         run: |
           test -f handheld-next/index.html
           test -f handheld-next/app.js
+          test -f handheld-next/manifest.json
+          test -f handheld-next/service-worker.js
+          test -f handheld-next/icon.svg
           test -f handheld-next/core/event-bus.js
           test -f handheld-next/core/router.js
+          test -f handheld-next/core/observer-store.js
           test -f handheld-next/screens/omni-room.js
-          test -f handheld-next/data/observer-snapshot.json
-      - name: Parse observer contract
-        run: python3 -m json.tool handheld-next/data/observer-snapshot.json >/dev/null
+          test -f handheld-next/screens/vessel-systems.js
+          test -f handheld-next/data/observer-live.json
+          test -f handheld-next/parity-matrix.json
+      - name: Parse public contracts
+        run: |
+          python3 -m json.tool handheld-next/manifest.json >/dev/null
+          python3 -m json.tool handheld-next/data/observer-snapshot.json >/dev/null
+          python3 -m json.tool handheld-next/data/observer-live.json >/dev/null
+          python3 -m json.tool handheld-next/parity-matrix.json >/dev/null
+      - name: Exercise observer sanitizer
+        run: |
+          python3 operations/scripts/build_public_omni_observer.py handheld-next/data/observer-live.json /tmp/observer.json
+          python3 -m json.tool /tmp/observer.json >/dev/null
       - name: Refuse privileged browser material
         run: |
-          ! grep -RniE 'service_role|SUPABASE_SERVICE_ROLE_KEY|sk-proj-' handheld-next
+          ! grep -RniE 'service_role|SUPABASE_SERVICE_ROLE_KEY|sk-proj-|approval_digest|rpc_function|channel_body|message_body' handheld-next
       - name: Parse JavaScript modules
         run: |
           node --check handheld-next/app.js
+          node --check handheld-next/service-worker.js
           node --check handheld-next/core/event-bus.js
           node --check handheld-next/core/router.js
+          node --check handheld-next/core/observer-store.js
           node --check handheld-next/screens/menu.js
           node --check handheld-next/screens/omni-room.js
+          node --check handheld-next/screens/vessel-systems.js
+      - name: Confirm production root untouched
+        run: |
+          git diff --exit-code origin/main...HEAD -- index.html
