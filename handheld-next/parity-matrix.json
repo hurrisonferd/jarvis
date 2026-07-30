@@ -1,0 +1,28 @@
+{
+  "schema_version": "handheld.parity.v1",
+  "production_vessel": "WORLD-001",
+  "successor_vessel": "WORLD-002",
+  "root_promotion_allowed": false,
+  "gates": [
+    {"id":"shell","status":"PASS","evidence":"independent handheld shell and controls"},
+    {"id":"navigation","status":"PASS","evidence":"modular router, bridge menu, and ship map"},
+    {"id":"mobile_touch","status":"PASS","evidence":"button command surface retained; physical-device verification still recommended"},
+    {"id":"pwa_install","status":"PASS","evidence":"manifest, icon, service worker, install prompt"},
+    {"id":"offline_shell","status":"PASS","evidence":"versioned cache with navigation fallback"},
+    {"id":"observer_data","status":"PASS","evidence":"validated live-first observer store with fixture fallback"},
+    {"id":"public_private_separation","status":"PASS","evidence":"strict allowlist sanitizer and browser leak rejection"},
+    {"id":"bridge_comms","status":"EXTRACTED","evidence":"read-only native screen module"},
+    {"id":"ship_intelligence","status":"EXTRACTED","evidence":"Jarvis compression native screen module"},
+    {"id":"mnemos","status":"EXTRACTED","evidence":"receipt and snapshot memory module"},
+    {"id":"telemetry","status":"EXTRACTED","evidence":"sovereign panel sensor array"},
+    {"id":"god_system_field","status":"EXTRACTED_PARTIAL","evidence":"observer-derived symbolic field; runtime event parity pending"},
+    {"id":"fleet","status":"EXTRACTED_PARTIAL","evidence":"vessel registry screen; OpenHands lifecycle parity pending"},
+    {"id":"supabase_reads","status":"PENDING","evidence":"public observer JSON currently used instead of direct table reads"},
+    {"id":"governed_writes","status":"LOCKED","evidence":"WORLD-002 remains intentionally read-only"},
+    {"id":"emulator","status":"PENDING","evidence":"WORLD-001 remains canonical holodeck"},
+    {"id":"save_states","status":"PENDING","evidence":"not migrated"},
+    {"id":"full_event_bridge","status":"PENDING","evidence":"core BUS exists; all 27 activation mappings not migrated"},
+    {"id":"private_command_deck","status":"LOCKED","evidence":"requires authenticated capability and separate transport"},
+    {"id":"raven_promotion","status":"REQUIRED","evidence":"explicit approval required after all parity gates"}
+  ]
+}
