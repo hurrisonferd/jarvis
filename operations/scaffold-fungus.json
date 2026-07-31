@@ -1,0 +1,10 @@
+{
+  "schema": "repository.scaffold.fungus.v1",
+  "mode": "FULL_REPOSITORY_LOCAL_ONLY",
+  "master_index": "docs/scaffolds/REPOSITORY-MASTER-INDEX.generated.md",
+  "exclude_names": [".idea", ".vscode", ".ruff_cache", ".tox", "coverage", "target"],
+  "exclude_routes": ["Backups/cloud"],
+  "preserve_existing_readmes": true,
+  "write_generated_index_per_directory": true,
+  "cross_repository_content_copy": false
+}
