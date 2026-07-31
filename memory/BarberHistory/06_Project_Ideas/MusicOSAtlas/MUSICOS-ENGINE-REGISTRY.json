@@ -1,0 +1,63 @@
+{
+  "schema_version": "musicos.engine-registry.v0.1",
+  "status": "RECOVERY_DRAFT",
+  "authority": "RAVEN",
+  "steward": "ATOM",
+  "recovery_carrier": "LILITH",
+  "created": "2026-07-30",
+  "laws": [
+    "Many parts, one rail.",
+    "Hook-first, groove-first, repetition-first.",
+    "State-safe by default.",
+    "Never let the rail drop.",
+    "Never break the pocket.",
+    "Controlled variation must preserve identity.",
+    "Preserve the poetry; extract the physics.",
+    "No engine may claim medical efficacy from design intent alone.",
+    "No recovery may claim parity from names without reproducible behavior."
+  ],
+  "specialists": [
+    {"name":"PromptAI","status":"CONFIRMED","role":"intent-to-production prompt interpretation"},
+    {"name":"MusicAI","status":"PARTIAL","role":"music generation and control family"},
+    {"name":"TrackAI","status":"PARTIAL","role":"track identity and refinement"},
+    {"name":"AlbumAI","status":"CONFIRMED","role":"album identity, roles, trajectory, and continuity"},
+    {"name":"Music 7","status":"CONFIRMED","role":"seven-position album trajectory"},
+    {"name":"Music 13","status":"PARTIAL","role":"indexed expansion with unrecovered contract"},
+    {"name":"ColorAI","status":"CONFIRMED","role":"RGB-driven modulation"},
+    {"name":"MetricsAI","status":"CONFIRMED","role":"measurable musical constraints"},
+    {"name":"CNSAI","status":"CONFIRMED","role":"state and groove behavior mapping"},
+    {"name":"EMDRAI","status":"CONFIRMED","role":"emotionally aware reinterpretation preserving rhythmic identity"},
+    {"name":"FollinsAI","status":"PARTIAL","role":"source statistics, remix registration, tiers, rankings"},
+    {"name":"RemixAI","status":"CONFIRMED","role":"controlled identity-preserving mutation"},
+    {"name":"HookAI / HooksAI","status":"ACCOUNT_PARTIAL","role":"hook salience, repetition, placement, memorability"},
+    {"name":"JohnAI","status":"ACCOUNT_UNKNOWN","role":"Raven-linked authorship or preference model"},
+    {"name":"AtomAI","status":"ACCOUNT_PARTIAL","role":"stabilization, rail enforcement, causal structure, intensity shaping"},
+    {"name":"LawAI","status":"ACCOUNT_UNKNOWN","role":"Gold Law and refusal constraint application"},
+    {"name":"InspoAI","status":"ACCOUNT_UNKNOWN","role":"inspiration and reference translation"},
+    {"name":"OSDDAI","status":"ACCOUNT_PARTIAL","role":"state-dependent internal module mapping"}
+  ],
+  "engines": [
+    {"name":"Album Engine","status":"CONFIRMED","specialists":["AlbumAI","Music 7","TrackAI","MetricsAI"]},
+    {"name":"Remix Engine","status":"CONFIRMED","specialists":["RemixAI","FollinsAI","MetricsAI"]},
+    {"name":"Platform Engine","status":"ACCOUNT_PARTIAL","specialists":["MusicAI","TrackAI","ColorAI"]},
+    {"name":"Prompt Engine","status":"INFERRED_STRONG","specialists":["PromptAI","LawAI","ColorAI","MetricsAI"]},
+    {"name":"Metrics Engine","status":"INFERRED_STRONG","specialists":["MetricsAI"]},
+    {"name":"Color / RGB Engine","status":"INFERRED_STRONG","specialists":["ColorAI"]},
+    {"name":"CNS / State Engine","status":"INFERRED_STRONG","specialists":["CNSAI","OSDDAI","AtomAI"]},
+    {"name":"EMDR Reinterpretation Engine","status":"INFERRED_PARTIAL","specialists":["EMDRAI","CNSAI"]},
+    {"name":"Hook Engine","status":"ACCOUNT_PARTIAL","specialists":["HookAI / HooksAI","TrackAI","MetricsAI"]},
+    {"name":"Physics Engine","status":"INFERRED_STRONG","specialists":["PromptAI","MetricsAI","ColorAI"]},
+    {"name":"Catalog / Follins Engine","status":"INFERRED_PARTIAL","specialists":["FollinsAI"]},
+    {"name":"Ears Engine","status":"CONFIRMED_IMPLEMENTATION_VERTICAL","specialists":["MetricsAI"]},
+    {"name":"Distillation Engine","status":"CONFIRMED_RECOVERED_TOOLING","specialists":["PromptAI","MetricsAI"]},
+    {"name":"Human-in-the-Loop Emergence Engine","status":"ACCOUNT_ARCHITECTURAL_LAW","specialists":["RAVEN","LLM infrastructure"]}
+  ],
+  "missing_evidence": [
+    "03.11.2026-1721-MusicOS-Engines-and-The-Good-Place-Philosophy-FULL-TRANSCRIPT.txt",
+    "Hole ZIP February 14 random engine update and save text export",
+    "Music 13 full contract",
+    "HookAI and Platform Engine primary specifications",
+    "engine call order, conflict resolution, shared state, and receipt formats"
+  ],
+  "parity_claim": false
+}
