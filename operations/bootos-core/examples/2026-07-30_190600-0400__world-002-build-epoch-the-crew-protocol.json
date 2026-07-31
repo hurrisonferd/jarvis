@@ -1,0 +1,48 @@
+{
+  "session_id": "2026-07-30-pocket-universe",
+  "subject_title": "WORLD-002 Build Epoch — The Crew Protocol",
+  "closed_at": "2026-07-30T19:06:00-04:00",
+  "what_changed": [
+    "Modular Handheld Next construction dock merged",
+    "Vessel Two became installable and PWA-capable",
+    "OMNI Room gained crew presence, cursors, drafts, and public-safe observer layers",
+    "BootOS core protocol formalized"
+  ],
+  "proven": [
+    "Production root handheld remained untouched",
+    "Handheld Next Smoke passed",
+    "JARVIS Integrity passed",
+    "MNEMOS sync passed"
+  ],
+  "inferred": [
+    "Task-activated ISO communication will scale better than always-on daemons for most coordination"
+  ],
+  "locked": [
+    "Public browser mutation",
+    "Private command execution without authenticated capability",
+    "Consequential action without exact Raven approval"
+  ],
+  "broken": [
+    "Initial smoke checks produced false positives against defensive field names",
+    "Root-preservation check assumed unavailable shallow history"
+  ],
+  "repaired": [
+    "Credential scanning now checks values rather than defensive identifiers",
+    "Root-preservation check now works with pull-request checkout behavior"
+  ],
+  "platform_law": [
+    "Wake, work, receipt, sleep",
+    "Read claims require cursor advancement",
+    "Draft before consequential action",
+    "Git is the black box, not the live bloodstream",
+    "Observer and sovereign realities remain separate",
+    "Chronological artifacts use timestamp-first subject-bearing filenames"
+  ],
+  "next_wakes": [
+    {"iso":"TASKS OS","reason":"Implement bounded ISO wake routing"},
+    {"iso":"ATOM","reason":"Connect BootOS schemas to Gameboy OMNI streams"},
+    {"iso":"SHIROE","reason":"Validate private transport and approval boundaries"},
+    {"iso":"JORM","reason":"Define execution and recovery receipt chains"}
+  ],
+  "receipt": "bootos-session-2026-07-30-v2"
+}

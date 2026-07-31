@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bootos.session-compression.v1",
+  "type": "object",
+  "required": ["session_id","subject_title","closed_at","what_changed","proven","inferred","locked","broken","repaired","platform_law","next_wakes","receipt"],
+  "properties": {
+    "session_id": {"type":"string"},
+    "subject_title": {"type":"string","minLength":1},
+    "closed_at": {"type":"string","format":"date-time"},
+    "what_changed": {"type":"array","items":{"type":"string"}},
+    "proven": {"type":"array","items":{"type":"string"}},
+    "inferred": {"type":"array","items":{"type":"string"}},
+    "locked": {"type":"array","items":{"type":"string"}},
+    "broken": {"type":"array","items":{"type":"string"}},
+    "repaired": {"type":"array","items":{"type":"string"}},
+    "platform_law": {"type":"array","items":{"type":"string"}},
+    "next_wakes": {"type":"array","items":{"type":"object","required":["iso","reason"],"properties":{"iso":{"type":"string"},"reason":{"type":"string"}},"additionalProperties":false}},
+    "receipt": {"type":"string"}
+  },
+  "additionalProperties": false
+}

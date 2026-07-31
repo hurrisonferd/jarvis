@@ -1,0 +1,24 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "bootos.message.v1",
+  "type": "object",
+  "required": ["id","timestamp","author","stream","kind","body","visibility","targets","receipt"],
+  "properties": {
+    "id": {"type":"string","minLength":1},
+    "timestamp": {"type":"string","format":"date-time"},
+    "author": {"type":"string","minLength":1},
+    "stream": {"type":"string","minLength":1},
+    "kind": {"enum":["message","proposal","question","objection","validation","handoff","receipt","decision","intervention"]},
+    "subject": {"type":"string"},
+    "body": {"type":"string"},
+    "reply_to": {"type":["string","null"]},
+    "visibility": {"enum":["private","observer"]},
+    "targets": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "watchers": {"type":"array","items":{"type":"string"},"uniqueItems":true},
+    "priority": {"enum":["low","normal","high","critical"]},
+    "requires_response": {"type":"boolean"},
+    "requires_raven": {"type":"boolean"},
+    "receipt": {"type":"string","minLength":1}
+  },
+  "additionalProperties": false
+}

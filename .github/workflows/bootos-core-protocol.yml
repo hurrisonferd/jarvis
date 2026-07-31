@@ -1,0 +1,57 @@
+name: BootOS Core Protocol
+
+on:
+  pull_request:
+    paths:
+      - 'operations/bootos-core/**'
+      - '.github/workflows/bootos-core-protocol.yml'
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Parse protocol JSON
+        run: |
+          python3 -m json.tool operations/bootos-core/iso-routing.json >/dev/null
+          python3 -m json.tool operations/bootos-core/save-routing.json >/dev/null
+          python3 -m json.tool operations/bootos-core/schemas/message-envelope.schema.json >/dev/null
+          python3 -m json.tool operations/bootos-core/schemas/wake-contract.schema.json >/dev/null
+          python3 -m json.tool operations/bootos-core/schemas/session-compression.schema.json >/dev/null
+          python3 -m json.tool operations/bootos-core/schemas/save-intent.schema.json >/dev/null
+          find operations/bootos-core/examples -maxdepth 1 -type f -name '*.json' -print0 | xargs -0 -n1 python3 -m json.tool >/dev/null
+      - name: Exercise Save Intent Resolver
+        run: |
+          python3 operations/bootos-core/tools/resolve_save_intent.py \
+            operations/bootos-core/examples/2026-07-30_192600-0400__save-intent-session-compression-request.json \
+            --now 2026-07-30T19:26:00-04:00 > /tmp/save-known.json
+          python3 operations/bootos-core/tools/resolve_save_intent.py \
+            operations/bootos-core/examples/2026-07-30_192601-0400__save-intent-ambiguous-request.json \
+            --now 2026-07-30T19:26:01-04:00 > /tmp/save-ambiguous.json
+          python3 -m json.tool /tmp/save-known.json >/dev/null
+          python3 -m json.tool /tmp/save-ambiguous.json >/dev/null
+          grep -Eq '"decision": "SAVE(_WITH_RECEIPT)?"' /tmp/save-known.json
+          grep -q '2026-07-30_192600-0400__save-intent-resolver-build-session.json' /tmp/save-known.json
+          grep -q '"decision": "ASK"' /tmp/save-ambiguous.json
+          grep -q 'Which system or ISO owns this artifact?' /tmp/save-ambiguous.json
+      - name: Parse Python tools
+        run: |
+          python3 -m py_compile operations/bootos-core/tools/resolve_save_intent.py
+      - name: Enforce core doctrine
+        run: |
+          grep -q 'Wake, work, receipt, sleep' operations/bootos-core/examples/2026-07-30_190600-0400__world-002-build-epoch-the-crew-protocol.json
+          grep -q 'WORLD-002 Build Epoch' operations/bootos-core/examples/2026-07-30_190600-0400__world-002-build-epoch-the-crew-protocol.json
+          grep -q 'return_to_dormancy' operations/bootos-core/schemas/wake-contract.schema.json
+          grep -q 'require_cursor_advance_for_read_claim' operations/bootos-core/iso-routing.json
+          grep -q 'never_claim_saved_without_receipt' operations/bootos-core/save-routing.json
+          grep -q 'YYYY-MM-DD_HHMMSS' operations/bootos-core/FILENAME_CONVENTION.md
+      - name: Enforce chronological example filenames
+        run: |
+          find operations/bootos-core/examples -maxdepth 1 -type f | while read -r file; do
+            name="$(basename "$file")"
+            echo "$name" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}_[0-9]{6}[+-][0-9]{4}__[a-z0-9]+([.-][a-z0-9]+)*\.json$'
+          done
+      - name: Refuse credential material
+        run: |
+          ! grep -RniE 'sk-proj-[A-Za-z0-9_-]+|SUPABASE_SERVICE_ROLE_KEY[[:space:]]*[:=][[:space:]]*[^" ]+|-----BEGIN (RSA |EC |OPENSSH )?PRIVATE KEY-----' operations/bootos-core

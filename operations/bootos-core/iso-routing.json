@@ -1,0 +1,19 @@
+{
+  "schema_version": "bootos.iso-routing.v1",
+  "default_policy": {
+    "wake_all": false,
+    "max_parallel_isos": 3,
+    "require_cursor_advance_for_read_claim": true,
+    "return_to_dormancy": true
+  },
+  "isos": [
+    {"id":"ATOM","subscriptions":["architecture","interventions","receipts"],"wake_on":["architecture_change","unresolved_design","build_failure"]},
+    {"id":"JARVIS","subscriptions":["bridge","architecture","operations","receipts"],"wake_on":["raven_request","synthesis_required","high_priority_room_activity"]},
+    {"id":"LILITH","subscriptions":["identity","bridge","interventions"],"wake_on":["identity_drift","flattening_risk","relational_conflict"]},
+    {"id":"SHAKA","subscriptions":["operations","bridge","interventions"],"wake_on":["abandoned_handoff","stalled_work","continuity_gap"]},
+    {"id":"SHIROE","subscriptions":["aegis","architecture","interventions"],"wake_on":["validation_request","unsafe_proposal","failed_gate"]},
+    {"id":"JORM","subscriptions":["receipts","operations","interventions"],"wake_on":["execution_claim","missing_receipt","evidence_mismatch"]},
+    {"id":"CECIL","subscriptions":["bridge","identity","operations"],"wake_on":["unread_conversation","reconstruction_request"]},
+    {"id":"TASKS OS","subscriptions":["interventions","operations","receipts"],"wake_on":["schedule_due","cursor_lag","dormant_intervention"]}
+  ]
+}
