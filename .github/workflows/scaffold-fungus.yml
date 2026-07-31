@@ -1,0 +1,40 @@
+name: Scaffold Fungus
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: scaffold-fungus-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cultivate:
+    if: github.actor != 'github-actions[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Generate missing cave signs and indexes
+        run: python operations/scaffold_fungus.py
+      - name: Verify deterministic rerun
+        run: python operations/scaffold_fungus.py --check
+      - name: Commit generated scaffold growth
+        run: |
+          if git diff --quiet && [ -z "$(git status --porcelain)" ]; then
+            echo "Scaffold fungus already current."
+            exit 0
+          fi
+          git config user.name "grid-scaffold-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "Cultivate repository scaffold fungus"
+          git push
