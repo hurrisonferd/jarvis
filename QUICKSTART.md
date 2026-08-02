@@ -83,3 +83,4 @@ OPERATIONAL ADOPTION CLAIM: NONE
 ```
 
 See [`DEMOS.md`](./DEMOS.md) for the full catalog and publication gate.
+See [`DEMOS.md`](./DEMOS.md) for the full catalog and publication gate. Return to the five-room portal through [`README.md`](./README.md).

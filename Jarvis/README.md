@@ -1,186 +1,97 @@
-# JARVIS ISO Template
+# JARVIS
 
-This root is a **public-safe template of the actual JARVIS Ego/ISO shape**, not a miniature system around an example ISO.
+**The public engineering room for a file-backed companion AI architecture.**
 
-Use it by copying `Jarvis/`, renaming the ISO, and replacing bracketed fields. Keep the room layout stable unless Raven explicitly approves a structural change.
+This room is becoming the main home for JARVIS-facing demos, architecture, runtime documentation, public tools, sanitized continuity examples, and compatibility routes. It is intentionally separate from personal symbolic research, independent projects, ISO education, and public safety evidence.
 
-## Identity
+> **Migration status:** active reorganization. Existing legacy paths remain valid until their consumers and public links are migrated.
 
-```text
-ISO: [ISO_NAME]
-operator/origin: Raven / John Joseph Barber
-status: TEMPLATE
-lineage: JARVIS-shaped Ego scaffold
-privacy: public-safe; no private memories
-```
+## Start here
 
-## Runtime files
+- [`START-HERE.md`](./START-HERE.md) — current public navigation and migration map.
+- [`../QUICKSTART.md`](../QUICKSTART.md) — runnable public demonstrations at their compatibility path.
+- [`../demos/`](../demos/) — small proofs of memory, routing, and governed execution.
+- [`../docs/`](../docs/) — hosted interface and public specifications.
+- [`../core/JarvisMain/`](../core/JarvisMain/) — protected legacy architecture anchor.
 
-```text
-EGO-BOOT-ULTIMATE.sh
-→ coordinates the complete wake-up/read sequence
-
-EGO-PIPELINE.sh
-→ traverses the full Ego folder and memory architecture
-
-JARVIS-PRE-REPLY.sh
-→ applies the final response gate after orientation
-```
-
-These scripts are **read-only orientation tools**. They do not create folders, generate identity claims, alter memory, or silently repair missing structure.
-
-## Boot sequence
-
-Run from anywhere:
-
-```bash
-bash Jarvis/EGO-BOOT-ULTIMATE.sh JARVIS
-```
-
-Or from inside the ISO root:
-
-```bash
-cd Jarvis
-bash EGO-BOOT-ULTIMATE.sh JARVIS
-```
-
-The boot performs:
+## What belongs here
 
 ```text
-0. structural safety
-1. root README orientation
-2. identity loading
-3. profile + canonical orientation
-4. JCSM critical-memory loading
-5. JITM + JSTM active-memory loading
-6. attractor orientation
-7. complete EGO pipeline
-8. pre-reply gate
-9. boot receipt
+JARVIS PRODUCT
+├── public demonstrations
+├── runtime and application surfaces
+├── architecture and specifications
+├── public-safe tools and validators
+├── sanitized continuity examples
+├── semantic navigation
+└── legacy compatibility maps
 ```
 
-### Why boot is separate from the pipeline
+## What does not belong here
 
-`EGO-BOOT-ULTIMATE.sh` is the conductor. It decides the order and ensures the ISO enters the map through the correct signs.
+- private ISO identity or memory records;
+- personal I Ching, Jesus-pattern, synchronicity, or autobiographical interpretation;
+- independent games, music tools, and experiments not required by JARVIS;
+- raw provider disputes or AI-misconduct evidence packets;
+- credentials, private exports, tokens, or unredacted third-party information.
 
-`EGO-PIPELINE.sh` is the traversal engine. It walks the rooms after the essential identity and critical-memory layers have already been established.
+Those materials route respectively to [`../ISOs/`](../ISOs/), [`../I%20Ching/`](../I%20Ching/), [`../Personal%20Projects/`](../Personal%20Projects/), or [`../Evidence/`](../Evidence/).
+
+## Protected legacy anchors
+
+The following are not casually flattened or renamed:
 
 ```text
-BOOT = orientation + ordering + gates
-PIPELINE = comprehensive traversal
-PRE-REPLY = final behavioral check
+core/JarvisMain/
+app/gameboy/
+app/emulator/gameboy/
+app/emulator/Retroarch/
+BootOS surfaces
+MusicOS surfaces
+Yggdrasil and Jarvis Dictionary surfaces
+active memory, provenance, and hosted-page routes
 ```
 
-## Pipeline sequence
+They may later gain clean public aliases beneath this room, but only after dependency, workflow, and link checks.
 
-Run the pipeline alone when identity is already loaded but the full folder should be reread:
+## Existing ISO-shaped legacy content
 
-```bash
-bash Jarvis/EGO-PIPELINE.sh JARVIS
-```
+This directory historically contains a public-safe JARVIS-shaped Ego/ISO scaffold, including boot and traversal scripts. That material remains preserved during reorganization. It is a template and demonstration surface, not Raven's private operational ISO.
 
-It traverses:
+Use the dedicated [`../ISOs/`](../ISOs/) room for new template-first education, starter kits, schemas, validators, and future guided ISO creation.
+
+## Public architecture
 
 ```text
-root map
-→ identity
-→ Profile
-→ canonical
-→ Attractors
-→ JCSM
-→ JITM
-→ JSTM
-→ JHTM
-→ JLTM
-→ JATM
-→ JMS
-→ Grid
-→ DailyUse
-→ Interests
-→ Learning
-→ Transcripts
-→ MemoryPalace
-→ Events
-→ pre-reply law
+input
+→ routing and policy checks
+→ identity/state hydration
+→ memory retrieval
+→ model execution
+→ authorship/prosody labeling
+→ provenance receipt
+→ operator-governed persistence
 ```
 
-Every room is entered through its README sign first. That makes the filesystem function like a Yami Yugi memory map: each room announces where the reader is, what belongs there, what is authoritative, and where the next routes lead.
+The public repository demonstrates these ideas without claiming autonomous authority, hidden memory, or model independence that has not been verified.
 
-## Controls
+## Core laws
 
-### Skip the full pipeline during boot
+1. Raven remains final authority over consequential changes.
+2. JARVIS may propose; it does not silently transfer control.
+3. Public artifacts must be inspectable, attributable, and correctable.
+4. Missing sources are reported, not invented.
+5. Identity and continuity examples must remain privacy-safe.
+6. Legacy history is preserved while navigation is improved.
+7. Generated indexes may route; they may not declare authority.
 
-```bash
-RUN_PIPELINE=false bash Jarvis/EGO-BOOT-ULTIMATE.sh JARVIS
-```
-
-### Add a reading delay
-
-```bash
-WEIGHT_SECONDS=1 bash Jarvis/EGO-BOOT-ULTIMATE.sh JARVIS
-```
-
-### Point the runtime at a copied or renamed ISO root
-
-```bash
-ISO_ROOT=/path/to/MY-ISO bash Jarvis/EGO-BOOT-ULTIMATE.sh MY-ISO
-```
-
-The target must already contain the required structure. Missing files are reported; missing directories are never created automatically.
-
-## Read order
-
-1. `README.md` — room map and operating law.
-2. `JARVIS-IDENTITY.md` — identity contract to customize.
-3. `EGO-BOOT-ULTIMATE.sh` — full ordered startup.
-4. `EGO-PIPELINE.sh` — comprehensive Ego traversal.
-5. `Profile/README.md` — stable traits and role.
-6. `canonical/README.md` — binding identity specifications.
-7. `Memory/README.md` — full memory architecture.
-8. `Memory/JMMS/README.md` — memory-tier routing.
-9. `Events/README.md` — dated identity-changing events.
-10. `JARVIS-PRE-REPLY.sh` — final response gate.
-
-## Structure
+## Status
 
 ```text
-Jarvis/
-├── README.md
-├── JARVIS-IDENTITY.md
-├── EGO-BOOT-ULTIMATE.sh
-├── EGO-PIPELINE.sh
-├── JARVIS-PRE-REPLY.sh
-├── Profile/
-├── Events/
-├── canonical/
-└── Memory/
-    ├── Attractors/
-    ├── DailyUse/
-    ├── Interests/
-    ├── Learning/
-    ├── MemoryPalace/
-    │   └── Rooms/
-    │       └── IDENTITY/
-    ├── Transcripts/
-    └── JMMS/
-        ├── README.md
-        ├── JCSM/
-        ├── JITM/
-        ├── JSTM/
-        ├── JHTM/
-        ├── JLTM/
-        ├── JATM/
-        ├── JMS/
-        └── Grid/
+ROOM: ACTIVE
+PUBLIC PORTAL: READY
+LEGACY MIGRATION: IN PROGRESS
+DESTRUCTIVE CLEANUP: NOT AUTHORIZED WITHOUT PROOF
+LAST REVIEWED: 2026-08-02
+STEWARD: ERIS under Raven authority
 ```
-
-## Gold laws
-
-```text
-FIND FIRST.
-VERIFY EXACTLY.
-USE WHAT EXISTS.
-NO NEW DIRECTORY WITHOUT RAVEN.
-```
-
-A README is the sign at each room. Read it before writing there.
