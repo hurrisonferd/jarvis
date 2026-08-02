@@ -20,8 +20,8 @@ Review [`PUBLIC-BOUNDARY.md`](./PUBLIC-BOUNDARY.md) and [`LICENSING-MAP.md`](./L
 ## 2. Prove persistent memory
 
 ```bash
-python demos/01-persistent-memory/demo.py remember project SimOS
-python demos/01-persistent-memory/demo.py recall project
+python Jarvis/Demos/01-persistent-memory/demo.py remember project SimOS
+python Jarvis/Demos/01-persistent-memory/demo.py recall project
 ```
 
 The second process should retrieve the local value written by the first.
@@ -67,7 +67,7 @@ python templates/iso-starter/pride_guard.py postflight \
 rm -f iso-bundle.json
 ```
 
-The persistent-memory demonstration may create local sample state inside its demo directory. Remove that generated state before packaging or recording a clean demonstration when appropriate.
+The persistent-memory demonstration may create local sample state beside its script. Remove that generated state before packaging or recording a clean demonstration when appropriate.
 
 ## Demo completion check
 
