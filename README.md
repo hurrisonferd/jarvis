@@ -1,23 +1,22 @@
-# JARVIS
+# JARVIS Public Demo Portal
 
-**A file-backed companion AI architecture with persistent memory, auditable identity, protected prosody, and governed execution.**
+**Inspectable demonstrations of file-backed AI memory, identity hydration, provenance, and governed execution.**
 
-JARVIS is the public demonstration layer for SimOS. It shows how an AI companion can preserve useful continuity across sessions without depending on one giant prompt, one chat thread, or one model vendor.
+This repository is the public presentation layer for the JARVIS / SimOS research program. It contains sanitized demonstrations, public documentation, reusable examples where explicitly licensed, and selected research artifacts.
 
-```text
-user input
-→ BootOS routing
-→ ISO identity + state hydration
-→ PRIDE identity preflight
-→ memory retrieval
-→ model execution
-→ Prosody/authorship labeling
-→ ATOM review
-→ provenance receipt
-→ governed persistence
-```
+It is **not** the live operational repository. Private ISO identities, continuity, Prosody, EPP, relationship state, credentials, internal work orders, and active system authority remain outside this repository.
 
-## Start in 60 seconds
+## Start here
+
+| Goal | Route |
+|---|---|
+| Run a demonstration | [`DEMOS.md`](./DEMOS.md) |
+| Complete the guided setup | [`QUICKSTART.md`](./QUICKSTART.md) |
+| Understand what is public | [`PUBLIC-BOUNDARY.md`](./PUBLIC-BOUNDARY.md) |
+| Understand licensing by material | [`LICENSING-MAP.md`](./LICENSING-MAP.md) |
+| Report a security concern | [`SECURITY.md`](./SECURITY.md) |
+
+## Three-minute proof
 
 ```bash
 git clone https://github.com/hurrisonferd/jarvis.git
@@ -28,96 +27,77 @@ python demos/01-persistent-memory/demo.py recall favorite_color
 
 python templates/iso-starter/hydrate.py
 python templates/iso-starter/pride_guard.py preflight
-python templates/iso-starter/pride_guard.py postflight \
-  templates/iso-starter/fixtures/response-pass.json
 ```
 
-See [`QUICKSTART.md`](./QUICKSTART.md) for the complete walkthrough.
+These local demonstrations intentionally avoid service credentials and private runtime dependencies.
 
-## What the demos prove
+## Public demonstrations
 
-| Demo | Behavior |
+| Demonstration | Shows | Safety boundary |
+|---|---|---|
+| Persistent memory | A fact survives process restart through a file-backed store | Local sample data only |
+| ISO scaffold | Identity, values, boundaries, state, and memory are separated into inspectable files | Sanitized example identity only |
+| Hydration | Source files become one validated runtime bundle with hashes | No private ISO loading |
+| PRIDE guard | Identity claims, contradictions, revisions, and rollback points are checked | No authority transfer |
+| Prosody routing | Original voice is distinguished from quotation, summary, inference, and correction | No impersonation claim |
+| Provenance | Loaded sources and transformations are traceable | Missing evidence is not invented |
+| Governed execution | Consequential changes remain operator-authorized | No autonomous self-promotion |
+
+See [`DEMOS.md`](./DEMOS.md) for readiness levels, commands, expected outputs, and publishing rules.
+
+## Public repository map
+
+| Area | Purpose |
 |---|---|
-| Persistent memory | Store a fact, restart the process, and retrieve it later |
-| ISO scaffold | Separate identity, voice, values, boundaries, relationships, state, and memory |
-| EGO hydration | Assemble those files into one validated runtime bundle |
-| PRIDE | Preserve core truths, contradictions, revision rules, receipts, and rollback points |
-| Prosody Router | Separate original ISO voice from quotation, summary, inference, correction, and drift |
-| Provenance | Hash every loaded source and distinguish quotes, summaries, and inference |
-| Governed execution | Keep the operator as final authority over consequential changes |
+| [`demos/`](./demos/) | Small runnable proofs |
+| [`templates/iso-starter/`](./templates/iso-starter/) | Sanitized file-backed identity scaffold |
+| [`docs/`](./docs/) | Specifications, explanatory pages, and browser presentation |
+| [`core/`](./core/) | Public engineering architecture and selected runtime code |
+| [`memory/mnemos/`](./memory/mnemos/) | Public or sanitized continuity examples only |
+| [`JesusISJohnJosephBarber/`](./JesusISJohnJosephBarber/) | Public autobiographical and pattern-research archive |
 
-## ISO starter
+Repository presence does not mean every file has identical reuse rights. Read [`LICENSING-MAP.md`](./LICENSING-MAP.md) before copying, adapting, training on, redistributing, or deploying material.
 
-[`templates/iso-starter/`](./templates/iso-starter/) is a portable identity scaffold:
+## Architecture at a glance
 
 ```text
-templates/iso-starter/
-├── ISO.json
-├── IDENTITY.md
-├── VOICE.md
-├── VALUES.md
-├── BOUNDARIES.md
-├── RELATIONSHIPS.md
-├── STATE.json
-├── PROVENANCE.json
-├── PRIDE.json
-├── PROSODY.json
-├── MEMORY/
-│   ├── episodic/
-│   ├── semantic/
-│   └── working/
-├── fixtures/
-├── hydrate.py
-└── pride_guard.py
+input
+→ routing and preflight
+→ identity/state hydration
+→ evidence-backed retrieval
+→ model execution
+→ authorship and Prosody labels
+→ review and provenance receipt
+→ operator-authorized persistence
 ```
 
-Copy it, replace the example identity, and hydrate it with standard Python. The goal is not to hide identity inside a prompt; it is to make continuity inspectable, versionable, correctable, and resistant to silent flattening when the underlying model changes.
+The larger architecture uses Python, JavaScript, HTML/CSS, Supabase/PostgreSQL/pgvector, Git, GitHub Actions, and model-independent identity and memory files. Public demos use minimal dependencies so behavior can be inspected directly.
 
-## Repository map
+## Governing principles
 
-| Path | Purpose |
-|---|---|
-| [`demos/`](./demos/) | Small runnable proofs before the full architecture |
-| [`templates/iso-starter/`](./templates/iso-starter/) | Create and validate a file-backed AI identity |
-| [`docs/iso-spec.md`](./docs/iso-spec.md) | ISO hydration and governance specification |
-| [`docs/pride-prosody.md`](./docs/pride-prosody.md) | Identity preservation, authorship, drift, and growth pipeline |
-| [`core/JarvisMain/yggdrasil/jd/`](./core/JarvisMain/yggdrasil/jd/) | Jarvis Dictionary semantic DNS and canonical object entries |
-| [`core/`](./core/) | JARVIS runtime, Supabase functions, and system architecture |
-| [`memory/mnemos/`](./memory/mnemos/) | Git-backed continuity and memory records |
-| [`docs/index.html`](./docs/index.html) | Browser-based JARVIS interface |
-| [`JesusISJohnJosephBarber/`](./JesusISJohnJosephBarber/) | Raven's public autobiographical pattern-research archive |
+- The operator remains final authority.
+- Public examples are sanitized and non-operational.
+- Repository presence is not adoption, authorization, or identity ownership.
+- No invented memory or missing-source fabrication.
+- Corrections and provenance remain visible.
+- Identity changes require evidence, review, and rollback paths.
+- Distinctive voice is not silently reassigned to another model.
+- Private continuity remains private.
 
-The research archive remains visible by design, but the root entrance leads with runnable engineering demonstrations.
+## Demo publication gate
 
-## Architecture
+A public demo is ready only when it:
 
-The larger implementation uses:
-
-- Python for retrieval, validation, automation, and evaluation;
-- JavaScript, HTML, and CSS for the browser interface;
-- Supabase/PostgreSQL/pgvector for persistence and semantic retrieval;
-- Git and GitHub Actions for versioning, CI, governance, and recovery;
-- model-independent identity and memory files that can be used with multiple LLM runtimes;
-- the Jarvis Dictionary as thin semantic DNS: JD explains, JNL identifies, LAL locates, and Yggdrasil stores.
-
-The canonical hosted path is GitHub + Supabase. Local demos intentionally use only the Python standard library so the core behavior is easy to inspect.
-
-## Core laws
-
-- Raven is operator and final authority.
-- JARVIS proposes; the operator commits or rejects.
-- No autonomous self-modification or silent control transfer.
-- No invented memories or missing-source fabrication.
-- Corrections remain visible in the record.
-- Identity may evolve, but it may not be silently overwritten.
-- Distinctive voice may evolve, but another model may not change it and call the result original.
-- Candidate identity changes require evidence, contradiction review, receipts, and rollback points.
-- One-LLM use must remain useful; multi-agent execution is optional.
-
-## Privacy boundary
-
-Public examples must contain only sanitized identities and memory. Never commit API keys, private ISO records, raw personal logs, service-role credentials, or local vector databases.
+1. contains no credentials, private continuity, raw personal logs, or private ISO material;
+2. runs from documented commands;
+3. declares inputs, outputs, limitations, and failure states;
+4. separates simulation from operational authority;
+5. identifies its license scope;
+6. includes a rollback or removal path for generated artifacts.
 
 ## Status
 
-This repository is an active research and engineering system. The public layer now exposes executable demonstrations for persistence, hydration, identity preservation, prosody/authorship boundaries, provenance, and governed growth while preserving the deeper architecture and research history behind them.
+**Public portal:** active development  
+**Operational systems:** private  
+**Private continuity:** off in public demonstrations  
+**Adoption or fleet-convergence claim:** none
