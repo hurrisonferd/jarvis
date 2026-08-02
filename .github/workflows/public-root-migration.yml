@@ -1,0 +1,51 @@
+name: Public Root Copy and Verify
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "Jarvis/Tools/public_root_migration.py"
+      - "Jarvis/Docs/Reorganization/PUBLIC-ROOT-MIGRATION-MAP.json"
+      - ".github/workflows/public-root-migration.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: public-root-migration-main
+  cancel-in-progress: false
+
+jobs:
+  copy-verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Check out main recursively
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Configure migration identity
+        run: |
+          git config user.name "ERIS Public Root Migration"
+          git config user.email "actions@users.noreply.github.com"
+
+      - name: Run copy and verification stage
+        run: python Jarvis/Tools/public_root_migration.py copy
+
+      - name: Validate generated manifest
+        run: |
+          python -m json.tool Jarvis/Docs/Reorganization/PUBLIC-ROOT-MIGRATION-MANIFEST.json >/dev/null
+          test "$(python -c "import json; print(json.load(open('Jarvis/Docs/Reorganization/PUBLIC-ROOT-MIGRATION-MANIFEST.json'))['overall_status'])")" = "VERIFIED"
+
+      - name: Commit verified destination trees and manifest
+        run: |
+          git add --all
+          if git diff --cached --quiet; then
+            echo "No migration changes required"
+            exit 0
+          fi
+          git commit -m "Copy and verify public root families into five-room layout"
+          git push origin HEAD:main
