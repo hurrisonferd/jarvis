@@ -16,8 +16,8 @@ This catalog is the front door for runnable, sanitized JARVIS demonstrations.
 ### 1. Persistent memory — READY
 
 ```bash
-python demos/01-persistent-memory/demo.py remember project SimOS
-python demos/01-persistent-memory/demo.py recall project
+python Jarvis/Demos/01-persistent-memory/demo.py remember project SimOS
+python Jarvis/Demos/01-persistent-memory/demo.py recall project
 ```
 
 **Expected result:** the second process retrieves the value written by the first.
