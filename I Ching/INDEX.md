@@ -1,16 +1,32 @@
-# I Ching Research Index
+# I Ching and Pattern Research Index
 
-This index routes public personal and interpretive research without presenting interpretation as verified external fact.
+This room contains personal symbolic, spiritual, autobiographical, and pattern-oriented research. It is intentionally separated from JARVIS engineering and from governed AI-safety evidence.
+
+## Required labels
+
+Every substantial record should identify its epistemic type:
+
+```text
+SOURCE — externally available source material
+OBSERVATION — what was directly noticed or recorded
+INTERPRETATION — a proposed meaning or relationship
+PERSONAL BELIEF — Raven's stated belief or framework
+INFERENCE — a conclusion drawn from other material
+UNVERIFIED CLAIM — not independently established
+CREATIVE SYNTHESIS — artistic or exploratory combination
+HISTORICAL — retained for chronology rather than current endorsement
+```
 
 ## Research lanes
 
 | Lane | Purpose | Required labels |
 |---|---|---|
 | I Ching | hexagrams, readings, methods, reflections, and comparative notes | source, observation, interpretation, personal meaning |
-| Jesus patterns | autobiographical and symbolic pattern research | personal account, source, inference, unverified claim |
+| Jesus Patterns | autobiographical and symbolic pattern research | personal account, source, inference, unverified claim |
 | Synchronicity | date, number, event, and symbol correlations | observation, selection method, interpretation, uncertainty |
-| Source studies | religious, historical, literary, or cultural materials | citation, excerpt boundary, commentary |
-| Research archive | earlier drafts and superseded interpretations | historical status, replacement path where applicable |
+| Source Studies | religious, historical, literary, or cultural materials | citation, excerpt boundary, commentary |
+| Autobiographical Atlas | personal chronology and pattern maps | personal account, date confidence, privacy review |
+| Research Archive | earlier drafts and superseded interpretations | historical status, replacement path where applicable |
 
 ## Candidate source families
 
@@ -19,12 +35,14 @@ This index routes public personal and interpretive research without presenting i
 - I Ching and symbolic material discovered elsewhere;
 - selected Jorm source-vault material after privacy and publication review.
 
+## Boundary with Evidence
+
+A provider email, model output, support ticket, or platform event may become a source for an `Evidence/` case. The symbolic or autobiographical meaning Raven draws from it belongs here. The records may cross-link, but observation and interpretation may not be collapsed into one factual claim.
+
 ## Exclusions
 
-Provider correspondence, privacy tickets, AI-behavior captures, and platform-failure records belong in `Evidence/` when publication standards are met. Raw chats, private identity records, credentials, and unnecessary third-party personal data are excluded.
+Raw chats, credentials, private identity records, unnecessary third-party personal data, account identifiers, addresses, and unreviewed correspondence are excluded from direct public routing.
 
-## Classification rule
+## Publication rule
 
-Every migrated document must declare one or more of:
-
-`OBSERVATION`, `SOURCE MATERIAL`, `PERSONAL ACCOUNT`, `INTERPRETATION`, `INFERENCE`, `UNVERIFIED CLAIM`, `HISTORICAL`.
+Every migrated document must state its labels, source boundary, privacy status, and whether it represents current belief, historical belief, or exploratory synthesis.
