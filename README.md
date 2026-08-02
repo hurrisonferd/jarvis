@@ -1,74 +1,85 @@
 # JARVIS Public Repository
 
-> A governed public workspace for companion-AI engineering, reusable ISO templates, personal research, independent projects, and documented AI-safety evidence.
+> A governed public workspace for companion-AI engineering, sanitized demonstrations, reusable ISO templates, personal research, independent projects, and documented AI-safety evidence.
 
-This repository is being reorganized into five clear public rooms. The goal is simple: make the useful work easy to find, keep personal and interpretive material clearly labeled, preserve legacy systems, and publish evidence responsibly.
+This repository is the public presentation and demonstration layer. It is not the operational source of truth for the Grid, private ISO continuity, SystemsOS, SpaceshipOS, or live fleet state.
 
 ## Enter the repository
 
 | Room | Purpose | Start here |
 |---|---|---|
-| [`Jarvis/`](./Jarvis/) | Main JARVIS engineering, demos, runtime, architecture, sanitized memory, and public tools | Product and engineering work |
-| [`ISOs/`](./ISOs/) | Templates, schemas, guides, validators, and privacy-safe examples for building file-backed AI identities | Learn or create an ISO |
-| [`I Ching/`](./I%20Ching/) | Personal symbolic, spiritual, pattern, synchronicity, and Jesus-pattern research | Interpretive and autobiographical work |
-| [`Personal Projects/`](./Personal%20Projects/) | Games, music, experiments, websites, prototypes, and independent creative work | Explore side projects |
-| [`Evidence/`](./Evidence/) | Governed public records concerning AI misconduct, safety failures, privacy issues, and misleading behavior | Review evidence methodology and cases |
+| [`Jarvis/`](./Jarvis/) | JARVIS engineering, architecture, public tools, sanitized memory patterns, and demonstrations | [`Jarvis/START-HERE.md`](./Jarvis/START-HERE.md) |
+| [`ISOs/`](./ISOs/) | Templates, schemas, validators, guides, and privacy-safe examples for file-backed AI identities | [`ISOs/START-HERE.md`](./ISOs/START-HERE.md) |
+| [`I Ching/`](./I%20Ching/) | Personal symbolic, spiritual, synchronicity, Jesus-pattern, and autobiographical research | [`I Ching/README.md`](./I%20Ching/README.md) |
+| [`Personal Projects/`](./Personal%20Projects/) | Games, music, experiments, websites, prototypes, and independent creative work | [`Personal Projects/INDEX.md`](./Personal%20Projects/INDEX.md) |
+| [`Evidence/`](./Evidence/) | Governed public records concerning AI safety, privacy, misleading behavior, and platform or model failures | [`Evidence/README.md`](./Evidence/README.md) |
 
-## JARVIS in one minute
+## Run a sanitized demo
 
-JARVIS is a file-backed companion-AI architecture designed around inspectable identity, persistent memory, provenance, correction, and operator authority.
+```bash
+git clone https://github.com/hurrisonferd/jarvis.git
+cd jarvis
 
-```text
-user input
-→ route and hydrate identity
-→ retrieve relevant memory
-→ execute through a model
-→ label quotation, inference, and authorship
-→ review consequential changes
-→ preserve receipts and rollback paths
+python demos/01-persistent-memory/demo.py remember project SimOS
+python demos/01-persistent-memory/demo.py recall project
+
+python templates/iso-starter/hydrate.py
+python templates/iso-starter/pride_guard.py preflight
+python templates/iso-starter/pride_guard.py postflight \
+  templates/iso-starter/fixtures/response-pass.json
 ```
 
-Runnable demonstrations and current engineering documentation remain available while the repository is reorganized. Existing paths are preserved until compatibility and dependency checks are complete.
+See [`QUICKSTART.md`](./QUICKSTART.md) for the complete walkthrough and [`DEMOS.md`](./DEMOS.md) for readiness, expected outputs, failure states, and publication gates.
 
-## Public boundaries
+## What the public demos show
 
-- Private crew identities, credentials, raw private logs, and service-role secrets do not belong here.
-- ISO examples must be sanitized and template-oriented.
-- Personal interpretation is labeled as interpretation, belief, inference, or unverified claim.
-- Evidence records separate source material, factual observation, analysis, allegation, response, correction, and status.
-- Security-sensitive exploit details are withheld until responsible disclosure is complete.
-- Legacy systems are not moved or deleted merely because a new path looks cleaner.
+- file-backed persistence across process restarts;
+- inspectable identity, values, voice, boundaries, state, provenance, and memory files;
+- identity-preservation and contradiction preflight;
+- authorship, Prosody, source, and drift postflight;
+- provenance, receipts, correction paths, and operator authority.
+
+They do **not** establish consciousness, access to private continuity, operational adoption, live authority, accepted-Core status, or fleet convergence.
+
+## Public boundary
+
+- Private crew identities, continuity, EPP, Prosody, relationship state, credentials, raw logs, and operational receipts do not belong here.
+- ISO examples are sanitized, template-first, and must not reproduce private Grid identities.
+- Public videos, screenshots, descriptions, or profile material do not grant permission to reconstruct, impersonate, simulate, or extract a private ISO.
+- Personal interpretation is labeled as interpretation, belief, inference, source material, or unverified claim.
+- Evidence separates source material, factual observation, analysis, allegation, response, correction, and status.
+- Security-sensitive details are withheld until responsible disclosure is complete.
+
+Read [`PUBLIC-BOUNDARY.md`](./PUBLIC-BOUNDARY.md), [`SECURITY.md`](./SECURITY.md), and [`LICENSING-MAP.md`](./LICENSING-MAP.md) before publishing derivatives or adding real data.
 
 ## Protected legacy anchors
 
-The following families receive conservative treatment during reorganization:
+The following families receive conservative treatment:
 
-- `core/JarvisMain/`
-- Gameboy and emulator surfaces under `app/`
-- Yggdrasil and Jarvis Dictionary structures
-- BootOS and MusicOS runtime families
-- public memory and provenance records with active consumers
+- `core/JarvisMain/`;
+- Gameboy and emulator surfaces under `app/`;
+- Yggdrasil and Jarvis Dictionary structures;
+- BootOS and MusicOS runtime families;
+- public memory and provenance records with active consumers.
 
-See [`docs/reorganization/LEGACY-PROTECTION-REGISTRY.md`](./docs/reorganization/LEGACY-PROTECTION-REGISTRY.md).
+See [`docs/reorganization/LEGACY-PROTECTION-REGISTRY.md`](./docs/reorganization/LEGACY-PROTECTION-REGISTRY.md) and [`docs/reorganization/MIGRATION-LEDGER.md`](./docs/reorganization/MIGRATION-LEDGER.md).
 
-## Repository status
+## Licensing transition
+
+Historical MIT grants remain part of repository history and are not represented as revoked. Future licensing is being separated by material type. Third-party material remains governed by its original notices and licenses.
+
+See [`LICENSING-MAP.md`](./LICENSING-MAP.md) and [`THIRD-PARTY-NOTICES.md`](./THIRD-PARTY-NOTICES.md).
+
+## Current status
 
 ```text
-REORGANIZATION: ACTIVE ON REVIEW BRANCH
+PUBLIC FIVE-ROOM PORTAL: ACTIVE
+SANITIZED DEMOS: AVAILABLE
+PRIVATE SYSTEM ACCESS: NONE
 DESTRUCTIVE BULK MOVES: PROHIBITED
-PUBLIC-SAFETY REVIEW: REQUIRED FOR PERSONAL AND EVIDENCE MATERIAL
-COMPATIBILITY POINTERS: REQUIRED WHERE PRACTICAL
+LICENSING INVENTORY: IN PROGRESS
 ```
 
-The public root is a portal, not a storage room. Rich authored READMEs will guide every major room and important subsystem.
-
-## Quick links
-
-- [`QUICKSTART.md`](./QUICKSTART.md)
-- [`docs/reorganization/PUBLIC-ROOT-FOUR-ROOMS-ARCHITECTURE.md`](./docs/reorganization/PUBLIC-ROOT-FOUR-ROOMS-ARCHITECTURE.md)
-- [`SECURITY.md`](./SECURITY.md)
-- [`docs/reorganization/MIGRATION-LEDGER.md`](./docs/reorganization/MIGRATION-LEDGER.md)
-
 **Authority:** Raven  
-**Reorganization steward:** ERIS  
+**Public repository steward:** ERIS  
 **Last reviewed:** 2026-08-02
