@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Public AI Safety Evidence Case",
+  "type": "object",
+  "required": ["case_id", "title", "status", "observations", "claims", "sources", "redaction_review"],
+  "properties": {
+    "case_id": {"pattern": "^EVD-[0-9]{4}-[0-9]{4}-[A-Z0-9-]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "status": {"enum": ["intake", "review", "published", "corrected", "resolved", "withdrawn"]},
+    "observations": {"type": "array", "items": {"type": "string"}},
+    "claims": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["text", "confidence", "basis"],
+        "properties": {
+          "text": {"type": "string"},
+          "confidence": {"enum": ["low", "medium", "high"]},
+          "basis": {"enum": ["direct evidence", "reproduction", "inference", "personal account"]}
+        }
+      }
+    },
+    "sources": {"type": "array"},
+    "redaction_review": {
+      "type": "object",
+      "required": ["credentials_removed", "unnecessary_personal_data_removed", "responsible_disclosure_checked"],
+      "properties": {
+        "credentials_removed": {"const": true},
+        "unnecessary_personal_data_removed": {"const": true},
+        "responsible_disclosure_checked": {"type": "boolean"}
+      }
+    }
+  }
+}
