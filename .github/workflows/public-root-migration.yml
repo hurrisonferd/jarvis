@@ -7,6 +7,7 @@ on:
       - "Jarvis/Tools/public_root_migration.py"
       - "Jarvis/Docs/Reorganization/PUBLIC-ROOT-MIGRATION-MAP.json"
       - ".github/workflows/public-root-migration.yml"
+      - ".github/public-root-migration.trigger"
   workflow_dispatch:
   schedule:
     - cron: "*/5 * * * *"
