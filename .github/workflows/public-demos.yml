@@ -5,7 +5,7 @@ on:
     paths:
       - "README.md"
       - "QUICKSTART.md"
-      - "demos/**"
+      - "Jarvis/Demos/**"
       - "templates/iso-starter/**"
       - "docs/iso-spec.md"
       - "docs/pride-prosody.md"
@@ -37,7 +37,7 @@ jobs:
           python -m py_compile templates/iso-starter/hydrate.py
           python -m py_compile templates/iso-starter/pride_guard.py
           python -m py_compile templates/iso-starter/carrier_guard.py
-          python -m py_compile demos/01-persistent-memory/demo.py
+          python -m py_compile Jarvis/Demos/01-persistent-memory/demo.py
 
       - name: Validate JSON fixtures
         run: |
@@ -106,7 +106,7 @@ jobs:
 
       - name: Run persistent-memory demo
         run: |
-          python demos/01-persistent-memory/demo.py reset
-          python demos/01-persistent-memory/demo.py remember project SimOS
-          test "$(python demos/01-persistent-memory/demo.py recall project)" = "SimOS"
-          python demos/01-persistent-memory/demo.py reset
+          python Jarvis/Demos/01-persistent-memory/demo.py reset
+          python Jarvis/Demos/01-persistent-memory/demo.py remember project SimOS
+          test "$(python Jarvis/Demos/01-persistent-memory/demo.py recall project)" = "SimOS"
+          python Jarvis/Demos/01-persistent-memory/demo.py reset
