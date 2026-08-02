@@ -29,7 +29,7 @@ python templates/iso-starter/pride_guard.py postflight \
   templates/iso-starter/fixtures/response-pass.json
 ```
 
-See [`QUICKSTART.md`](./QUICKSTART.md) for the complete walkthrough and [`DEMOS.md`](./DEMOS.md) for readiness, expected outputs, failure states, and publication gates.
+See [`Jarvis/QUICKSTART.md`](./Jarvis/QUICKSTART.md) for the complete walkthrough and [`Jarvis/Demos/CATALOG.md`](./Jarvis/Demos/CATALOG.md) for readiness, expected outputs, failure states, and publication gates.
 
 ## What the public demos show
 
@@ -50,7 +50,7 @@ They do **not** establish consciousness, access to private continuity, operation
 - Evidence separates source material, factual observation, analysis, allegation, response, correction, and status.
 - Security-sensitive details are withheld until responsible disclosure is complete.
 
-Read [`PUBLIC-BOUNDARY.md`](./PUBLIC-BOUNDARY.md), [`SECURITY.md`](./SECURITY.md), and [`LICENSING-MAP.md`](./LICENSING-MAP.md) before publishing derivatives or adding real data.
+Read [`Jarvis/Docs/PUBLIC-BOUNDARY.md`](./Jarvis/Docs/PUBLIC-BOUNDARY.md), [`SECURITY.md`](./SECURITY.md), and [`LICENSING-MAP.md`](./LICENSING-MAP.md) before publishing derivatives or adding real data.
 
 ## Protected legacy anchors
 
