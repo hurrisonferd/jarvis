@@ -1,0 +1,33 @@
+{
+  "schema_version": "jarvis.public-root-migration-map.v1",
+  "mode": "copy-verify",
+  "protected_sources": [
+    ".git",
+    ".github",
+    "Jarvis",
+    "ISOs",
+    "I Ching",
+    "Personal Projects",
+    "Evidence"
+  ],
+  "mappings": [
+    {"source": "demos", "destination": "Jarvis/Demos"},
+    {"source": "templates/iso-starter", "destination": "ISOs/Templates/Standard"},
+    {"source": "core", "destination": "Jarvis/Core"},
+    {"source": "runtime", "destination": "Jarvis/Runtime"},
+    {"source": "operations", "destination": "Jarvis/Operations"},
+    {"source": "packages", "destination": "Jarvis/Packages"},
+    {"source": "JarvisSide", "destination": "Jarvis/JarvisSide"},
+    {"source": "app", "destination": "Jarvis/Apps"},
+    {"source": "MusicOS", "destination": "Personal Projects/MusicOS"},
+    {"source": "memory/mnemos", "destination": "Jarvis/Memory/mnemos"},
+    {"source": "memory/BarberHistory", "destination": "I Ching/BarberHistory"},
+    {"source": "JesusISJohnJosephBarber", "destination": "I Ching/JesusISJohnJosephBarber"},
+    {"source": "dataharvest", "destination": "Evidence/DataHarvest"}
+  ],
+  "retirement": {
+    "enabled": false,
+    "requires_verified_manifest": true,
+    "requires_separate_run": true
+  }
+}
