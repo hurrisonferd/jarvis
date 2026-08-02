@@ -92,10 +92,16 @@ FILES:
 - PUBLIC-SOURCE-ROUTING-MATRIX.md
 
 CLASSIFICATION: MOVE TO JARVIS
-COMPATIBILITY ACTION: update root and room documentation links
-ROLLBACK: restore original files from Git history and reverse link updates
+REFERENCES UPDATED:
+- README.md
+- Jarvis/README.md
+
+ROLLBACK:
+Restore the six source files from Git history and reverse the two navigation updates.
+
 AUTHORIZATION: Raven direct-main consolidation
 STATUS: COMPLETE
+SOURCE FAMILY REMOVED: YES
 ```
 
 ## Mutation state
@@ -104,7 +110,7 @@ STATUS: COMPLETE
 TARGET ROOMS PRESENT: 5
 DIRECT MAIN MODE: ACTIVE
 FILES COPIED TO ROOMS: 8
-LEGACY FILES REMOVED: 2 (additional reorganization deletions pending in this batch)
+LEGACY FILES REMOVED: 8
 COMPLETE SUBFAMILIES MOVED: persistent-memory demo; reorganization governance
 PROTECTED LEGACY MOVED: 0
 PUBLIC EVIDENCE CASES PROMOTED: 0
