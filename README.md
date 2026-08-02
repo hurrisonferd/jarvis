@@ -62,7 +62,7 @@ The following families receive conservative treatment:
 - BootOS and MusicOS runtime families;
 - public memory and provenance records with active consumers.
 
-See [`docs/reorganization/LEGACY-PROTECTION-REGISTRY.md`](./docs/reorganization/LEGACY-PROTECTION-REGISTRY.md) and [`docs/reorganization/MIGRATION-LEDGER.md`](./docs/reorganization/MIGRATION-LEDGER.md).
+See [`Jarvis/Docs/Reorganization/LEGACY-PROTECTION-REGISTRY.md`](./Jarvis/Docs/Reorganization/LEGACY-PROTECTION-REGISTRY.md) and [`Jarvis/Docs/Reorganization/MIGRATION-LEDGER.md`](./Jarvis/Docs/Reorganization/MIGRATION-LEDGER.md).
 
 ## Licensing transition
 
@@ -76,7 +76,7 @@ See [`LICENSING-MAP.md`](./LICENSING-MAP.md) and [`THIRD-PARTY-NOTICES.md`](./TH
 PUBLIC FIVE-ROOM PORTAL: ACTIVE
 SANITIZED DEMOS: AVAILABLE
 PRIVATE SYSTEM ACCESS: NONE
-DESTRUCTIVE BULK MOVES: PROHIBITED
+ROOT CONSOLIDATION: ACTIVE ON MAIN
 LICENSING INVENTORY: IN PROGRESS
 ```
 
