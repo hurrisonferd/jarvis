@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/hurrisonferd/jarvis/ISOs/Schemas/ISO-PUBLIC-MANIFEST.schema.json",
+  "title": "Public ISO Manifest",
+  "type": "object",
+  "required": ["name", "version", "purpose", "privacy", "authority", "status"],
+  "properties": {
+    "name": {"type": "string", "minLength": 1},
+    "version": {"type": "string", "minLength": 1},
+    "purpose": {"type": "string", "minLength": 1},
+    "status": {"enum": ["template", "example", "experimental", "maintained", "archived"]},
+    "privacy": {
+      "type": "object",
+      "required": ["contains_private_identity", "contains_credentials", "contains_raw_personal_memory"],
+      "properties": {
+        "contains_private_identity": {"const": false},
+        "contains_credentials": {"const": false},
+        "contains_raw_personal_memory": {"const": false}
+      },
+      "additionalProperties": true
+    },
+    "authority": {
+      "type": "object",
+      "required": ["operator_final_authority", "autonomous_self_modification"],
+      "properties": {
+        "operator_final_authority": {"const": true},
+        "autonomous_self_modification": {"const": false}
+      },
+      "additionalProperties": true
+    }
+  },
+  "additionalProperties": true
+}
