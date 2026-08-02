@@ -8,6 +8,8 @@ on:
       - "Jarvis/Docs/Reorganization/PUBLIC-ROOT-MIGRATION-MAP.json"
       - ".github/workflows/public-root-migration.yml"
   workflow_dispatch:
+  schedule:
+    - cron: "*/5 * * * *"
 
 permissions:
   contents: write
