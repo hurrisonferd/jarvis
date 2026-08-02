@@ -20,8 +20,8 @@ This repository is the public presentation and demonstration layer. It is not th
 git clone https://github.com/hurrisonferd/jarvis.git
 cd jarvis
 
-python demos/01-persistent-memory/demo.py remember project SimOS
-python demos/01-persistent-memory/demo.py recall project
+python Jarvis/Demos/01-persistent-memory/demo.py remember project SimOS
+python Jarvis/Demos/01-persistent-memory/demo.py recall project
 
 python templates/iso-starter/hydrate.py
 python templates/iso-starter/pride_guard.py preflight
