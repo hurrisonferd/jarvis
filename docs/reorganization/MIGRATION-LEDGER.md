@@ -1,7 +1,7 @@
 # Public Repository Migration Ledger
 
 **Repository:** `hurrisonferd/jarvis`  
-**Branch:** `grid/public-root-four-rooms-2026-08-02`  
+**Target:** `main`  
 **Authority:** Raven  
 **Steward:** ERIS
 
@@ -33,44 +33,59 @@ PROTECTED LEGACY
 UNKNOWN — MANUAL REVIEW
 ```
 
-## Initial protected families
+## Protected families
 
-| Current path/family | Classification | Proposed treatment | Risk |
+| Current path/family | Classification | Treatment | Risk |
 |---|---|---|---:|
-| `core/JarvisMain/` | PROTECTED LEGACY | Preserve in place while mapping eventual `Jarvis/` route | Critical |
+| `core/JarvisMain/` | PROTECTED LEGACY | Preserve until full dependency map exists | Critical |
 | `app/gameboy/` | DUPLICATE REVIEW / PROTECTED LEGACY | Compare with emulator family and consumers | High |
 | `app/emulator/gameboy/` | DUPLICATE REVIEW / PROTECTED LEGACY | Compare with direct Gameboy family | High |
 | `app/emulator/` | PROTECTED LEGACY | Preserve until runtime and link review | High |
-| `JesusISJohnJosephBarber/` | MIXED / PUBLIC-SAFETY REVIEW | Split personal interpretation, evidence, and support records individually | Critical |
+| `JesusISJohnJosephBarber/` | MIXED / PUBLIC-SAFETY REVIEW | Split personal interpretation and evidence individually | Critical |
 | `dataharvest/` | EVIDENCE CANDIDATE / REVIEW | Promote only governed, redacted cases | High |
-| `templates/iso-starter/` | MOVE TO ISOS CANDIDATE | Preserve current links; migrate after dependency review | Medium |
-| `demos/` | MOVE TO JARVIS CANDIDATE | Preserve quickstart compatibility | Medium |
+| `templates/iso-starter/` | MOVE TO ISOS CANDIDATE | Move only after every validator, fixture, workflow, and reference is mapped | Medium |
+| `demos/02-sat-remote-launcher/` | MOVE TO JARVIS CANDIDATE | Move as one complete receipted unit after all files and workflows are resolved | Medium |
 
-## Move receipt schema
+## Executed moves
 
-Every executed move records:
+### MOVE-20260802-001 — persistent-memory demo
 
 ```text
-ORIGINAL PATH
-DESTINATION PATH
-CONTENT DIGEST
-LAST KNOWN COMMIT
-CLASSIFICATION
-REASON
-KNOWN REFERENCES
-COMPATIBILITY ACTION
-PUBLIC-SAFETY REVIEW
-ROLLBACK INSTRUCTION
-AUTHORIZATION
+ORIGINAL PATHS:
+- demos/01-persistent-memory/README.md
+- demos/01-persistent-memory/demo.py
+
+DESTINATION PATHS:
+- Jarvis/Demos/01-persistent-memory/README.md
+- Jarvis/Demos/01-persistent-memory/demo.py
+
+CLASSIFICATION: MOVE TO JARVIS
+REFERENCES UPDATED:
+- README.md
+- QUICKSTART.md
+- DEMOS.md
+- .github/workflows/public-demos.yml
+- Jarvis/START-HERE.md
+
+ROLLBACK:
+Restore the two source files from Git history and reverse the five path updates.
+
+AUTHORIZATION: Raven direct-main consolidation
+STATUS: COMPLETE
 ```
 
 ## Mutation state
 
 ```text
-ROOM SCAFFOLDS CREATED: 4
-ROOT README REWRITTEN ON REVIEW BRANCH: YES
-FILES MOVED: 0
-FILES DELETED: 0
+TARGET ROOMS PRESENT: 5
+DIRECT MAIN MODE: ACTIVE
+FILES COPIED TO ROOM: 2
+LEGACY FILES REMOVED: 2
+COMPLETE ROOT FAMILIES REMOVED: 0
+PARTIAL LEGACY FAMILY REDUCTIONS: demos/01-persistent-memory
 PROTECTED LEGACY MOVED: 0
 PUBLIC EVIDENCE CASES PROMOTED: 0
+FULL ROOT CONSOLIDATION: INCOMPLETE
 ```
+
+The connector used for this migration does not provide a recursive tree or atomic directory-move operation. A family is not declared migrated until every tracked file and inbound reference is resolved.
