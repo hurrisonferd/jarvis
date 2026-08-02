@@ -1,6 +1,12 @@
-# JARVIS Quickstart
+# JARVIS Public Demo Quickstart
 
-The public repository exposes three zero-dependency proofs first: persistent memory, ISO hydration, and PRIDE/Prosody validation.
+This walkthrough runs sanitized, local demonstrations. It does not connect to private Grid systems, load a private ISO, or establish operational authority.
+
+## Requirements
+
+- Git
+- Python 3.10 or newer
+- no API keys or service credentials
 
 ## 1. Clone
 
@@ -9,7 +15,7 @@ git clone https://github.com/hurrisonferd/jarvis.git
 cd jarvis
 ```
 
-Python 3.10 or newer is recommended.
+Review [`PUBLIC-BOUNDARY.md`](./PUBLIC-BOUNDARY.md) and [`LICENSING-MAP.md`](./LICENSING-MAP.md) before publishing derivatives or adding real data.
 
 ## 2. Prove persistent memory
 
@@ -18,26 +24,35 @@ python demos/01-persistent-memory/demo.py remember project SimOS
 python demos/01-persistent-memory/demo.py recall project
 ```
 
-The second command reads a local file written by the first process.
+The second process should retrieve the local value written by the first.
 
-## 3. Hydrate an ISO
+This proves file-backed persistence. It does not prove consciousness, private continuity, or production security.
+
+## 3. Hydrate the sanitized ISO example
 
 ```bash
 python templates/iso-starter/hydrate.py
 python templates/iso-starter/hydrate.py --write iso-bundle.json
 ```
 
-The hydrator validates the scaffold and emits one auditable bundle with SHA-256 hashes for every loaded identity, PRIDE, Prosody, state, provenance, and memory file.
+The hydrator validates the public scaffold and can emit a bundle with SHA-256 hashes for loaded identity, PRIDE, Prosody, state, provenance, and memory files.
 
-## 4. Validate identity and authorship
+Do not replace the example with private ISO data inside this public repository.
+
+## 4. Run identity preflight
 
 ```bash
 python templates/iso-starter/pride_guard.py preflight
+```
+
+Preflight checks identity-preservation, truth-tier, contradiction, rollback, and Prosody contracts.
+
+## 5. Run authorship postflight
+
+```bash
 python templates/iso-starter/pride_guard.py postflight \
   templates/iso-starter/fixtures/response-pass.json
 ```
-
-Preflight verifies that identity-preservation, truth-tier, contradiction, rollback, and prosody contracts are intact. Postflight verifies speaker identity, authorship labels, source references, candidate growth receipts, and declared drift flags.
 
 The deliberately invalid fixture must fail:
 
@@ -46,16 +61,25 @@ python templates/iso-starter/pride_guard.py postflight \
   templates/iso-starter/fixtures/response-fail.json
 ```
 
-## 5. Create your own ISO
+## 6. Clean generated artifacts
 
 ```bash
-cp -R templates/iso-starter my-iso
-python my-iso/hydrate.py
-python my-iso/pride_guard.py preflight
+rm -f iso-bundle.json
 ```
 
-Update the matching `iso_id` in `ISO.json`, `PRIDE.json`, and `PROSODY.json`, then replace the Markdown identity files and example contracts. Keep private memories and credentials out of Git.
+The persistent-memory demonstration may create local sample state inside its demo directory. Remove that generated state before packaging or recording a clean demonstration when appropriate.
 
-## Next layers
+## Demo completion check
 
-The larger repository adds Supabase persistence, semantic memory, GitHub Actions governance, Jarvis Dictionary routing, the JARVIS interface, and the broader SimOS architecture.
+```text
+PERSISTENT MEMORY: VERIFIED LOCALLY
+ISO HYDRATION: VERIFIED LOCALLY
+PRIDE PREFLIGHT: VERIFIED LOCALLY
+VALID POSTFLIGHT: PASS
+INVALID POSTFLIGHT: BLOCKED AS EXPECTED
+PRIVATE DATA LOADED: NO
+CREDENTIALS REQUIRED: NO
+OPERATIONAL ADOPTION CLAIM: NONE
+```
+
+See [`DEMOS.md`](./DEMOS.md) for the full catalog and publication gate.
