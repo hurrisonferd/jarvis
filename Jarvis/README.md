@@ -2,16 +2,17 @@
 
 **The public engineering room for a file-backed companion AI architecture.**
 
-This room is becoming the main home for JARVIS-facing demos, architecture, runtime documentation, public tools, sanitized continuity examples, and compatibility routes. It is intentionally separate from personal symbolic research, independent projects, ISO education, and public safety evidence.
+This room is the main home for JARVIS-facing demos, architecture, runtime documentation, public tools, sanitized continuity examples, and compatibility routes. It is intentionally separate from personal symbolic research, independent projects, ISO education, and public safety evidence.
 
-> **Migration status:** active reorganization. Existing legacy paths remain valid until their consumers and public links are migrated.
+> **Migration status:** active on `main`. Legacy paths remain only where consumers, hosted links, workflows, or protected runtime dependencies still require them.
 
 ## Start here
 
 - [`START-HERE.md`](./START-HERE.md) — current public navigation and migration map.
-- [`../QUICKSTART.md`](../QUICKSTART.md) — runnable public demonstrations at their compatibility path.
-- [`../demos/`](../demos/) — small proofs of memory, routing, and governed execution.
-- [`../docs/`](../docs/) — hosted interface and public specifications.
+- [`Demos/`](./Demos/) — migrated public demonstrations.
+- [`Docs/Reorganization/`](./Docs/Reorganization/) — five-room architecture, routing, protection law, and move receipts.
+- [`../QUICKSTART.md`](../QUICKSTART.md) — runnable public walkthrough.
+- [`../docs/`](../docs/) — hosted interface and public specifications still under hosting review.
 - [`../core/JarvisMain/`](../core/JarvisMain/) — protected legacy architecture anchor.
 
 ## What belongs here
@@ -90,8 +91,8 @@ The public repository demonstrates these ideas without claiming autonomous autho
 ```text
 ROOM: ACTIVE
 PUBLIC PORTAL: READY
-LEGACY MIGRATION: IN PROGRESS
-DESTRUCTIVE CLEANUP: NOT AUTHORIZED WITHOUT PROOF
+ROOT CONSOLIDATION: ACTIVE ON MAIN
+PROTECTED LEGACY BULK MOVES: 0
 LAST REVIEWED: 2026-08-02
 STEWARD: ERIS under Raven authority
 ```
