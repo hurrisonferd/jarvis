@@ -43,6 +43,21 @@ class PublicScaffoldTests(unittest.TestCase):
         for item in files:
             self.assertTrue((ROOT / "gpt" / item["path"]).is_file(), item["path"])
 
+    def test_john_pl_demo_is_registered_and_bounded(self):
+        manifest = json.loads((ROOT / "gpt/KNOWLEDGE-MANIFEST.json").read_text())
+        paths = {item["path"] for item in manifest["files"]}
+        self.assertIn("knowledge/JOHN-PL-MUSICOS-DEMO.md", paths)
+
+        demo = (ROOT / "gpt/knowledge/JOHN-PL-MUSICOS-DEMO.md").read_text(encoding="utf-8")
+        self.assertIn("SMART ALL", demo)
+        self.assertIn("SMART CHARGE", demo)
+        self.assertIn("PUBLIC DEMO != FULL PRIVATE LANGUAGE", demo)
+        self.assertIn("COMMAND != HIDDEN AUTHORITY", demo)
+
+        instructions = (ROOT / "gpt/SYSTEM-INSTRUCTIONS.v1.md").read_text(encoding="utf-8")
+        self.assertIn("public JOHN-PL MusicOS demo dialect", instructions)
+        self.assertIn("never grant hidden authority or external effects", instructions)
+
     def test_no_fake_memory_instruction(self):
         text = (ROOT / "gpt/SYSTEM-INSTRUCTIONS.v1.md").read_text(encoding="utf-8").lower()
         self.assertIn("never claim otherwise", text)

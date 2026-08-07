@@ -4,6 +4,7 @@
   "files": [
     {"path": "knowledge/MUSICOS-FIELD-GUIDE.md", "role": "overview + MusicDNA + public routes"},
     {"path": "knowledge/MUSICOS-FORGE-PIPELINE.md", "role": "unified intake → HookAI → MusicDNA → Chaos/choice → Track/Album/Remix/Platform/Prompt orchestration"},
+    {"path": "knowledge/JOHN-PL-MUSICOS-DEMO.md", "role": "public-safe JOHN-PL compression demo for MusicOS routing, charge, locks, Chaos, and release"},
     {"path": "knowledge/CHAOS-RAIL-AND-QUIZ.md", "role": "C1-C5 + SELECT/SCRABBLE/SMART SCRABBLE/REROLL/LOCK"},
     {"path": "knowledge/CREATIVE-ENGINES.md", "role": "prompt/hooks/rhythm/instruments/color concepts"},
     {"path": "knowledge/ALBUM-REMIX-VGM.md", "role": "album/remix/platform methods"},
@@ -18,5 +19,5 @@
     "private catalog contents",
     "complete private engine implementations"
   ],
-  "note": "Six coherent cartridges provide the public MusicOS knowledge surface. Forge supplies the unified pipeline without turning every specialist subsystem into a separate GPT-facing interface."
+  "note": "Seven coherent cartridges provide the public MusicOS knowledge surface. Forge supplies the unified pipeline; JOHN-PL demonstrates optional command compression without turning the GPT into the full private language/runtime."
 }
