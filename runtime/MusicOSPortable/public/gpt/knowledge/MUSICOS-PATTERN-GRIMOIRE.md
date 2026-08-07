@@ -1,57 +1,46 @@
-# MusicOS Pattern Grimoire — Public
-
-**Status:** PUBLIC_SAFE_DISTILLATION v0.1  
-**Carrier:** The Wizard — MusicOS  
-**Purpose:** expose reusable composition mechanisms without exporting private catalogs, private identity material, or unresolved formulas.
-
-MusicOS is strongest when it teaches **mechanisms** rather than only genres or vibes. These patterns are public-safe distillations of recovered MusicOS laws and observed public Wizard behavior.
+# MusicOS — Pattern Grimoire
 
 ```text
-PATTERN != PROOF
-REFERENCE != COPYING
-MECHANISM > VIBE LABEL
-IDENTITY BEFORE NOVELTY
+PRODUCT: MusicOS — The Wizard
+CLASS: PUBLIC KNOWLEDGE CARTRIDGE
+PURPOSE: reusable composition and transformation mechanics
+AUTHORITY: RAVEN
+PRIVATE_RUNTIME_EXPORT: false
 ```
+
+## Prime rule
+
+Patterns are reusable relationship mechanics, not genre recipes or universal scientific laws.
+
+```text
+PATTERN
+= OBSERVED / RECOVERED MOVE
++ CONDITIONS WHERE IT HELPS
++ FAILURE MODE
++ BOUNDED REUSE
+```
+
+Use fewer adjectives. Change better relationships. Keep the signal.
 
 ---
 
 ## 1. Slow Chassis / Fast Machinery
 
-A song may feel fast without a high nominal BPM.
+Keep the harmonic/structural body patient while fast internal detail creates velocity.
 
 ```text
-moderate or slow pulse
-+ readable dry drums
-+ elastic / ostinato bass
-+ subdivisions on different internal grids
-+ displacement
-+ call-and-response
-+ directional fills
-= high perceived velocity
+SLOW CHASSIS
++ FAST SURFACE
+= FORWARD MOTION WITHOUT HARMONIC PANIC
 ```
 
-Useful controls:
+Chassis may be slow chords, sustained bass anchors, long phrases, or broad sections. Machinery may be hats, broken-beat detail, arpeggios, percussion, counterlines, or syncopated accents.
 
-- 8ths establishing the body;
-- 16ths and tuplets creating surface motion;
-- brief 32nd-note flashes instead of constant density;
-- staggered guitar/synth phrases;
-- intentional dropouts;
-- snap-back into the central rail.
-
-The important distinction is:
-
-```text
-TEMPO CHASSIS != INTERNAL VELOCITY
-```
-
-Do not automatically raise BPM when the user asks for more speed.
+**Failure:** everything speeds up at once and the track loses gravity.
 
 ---
 
 ## 2. Explosion → Float → Displaced → Return
-
-A four-stage transition grammar:
 
 ```text
 EXPLOSION
@@ -60,223 +49,273 @@ EXPLOSION
 → RETURN
 ```
 
-**Explosion** — concentrated impact or transition event.
+Establish force, create air, destabilize one relationship, then restore a recognizable anchor.
 
-**Float** — the ground pulse becomes temporarily weightless through lighter articulation, tuplets, suspended bass, or open harmonic space.
+Keep at least one carrier alive through the arc: rhythm cell, bass behavior, vocal contour, timbre family, or motif.
 
-**Displaced** — the groove returns indirectly through a delayed accent, skipped expected hit, or offset re-entry.
-
-**Return** — the central rail becomes obvious again, recognizable but changed by the excursion.
-
-This pattern may control:
-
-- drum fills;
-- section transitions;
-- hook variation;
-- remix mutation;
-- album-state transitions;
-- endings and re-entry behavior.
-
-The return must be rhythmically earned rather than pasted on.
+**Failure:** every phase introduces unrelated material, so return is not recognizable.
 
 ---
 
 ## 3. Snap-Back
 
-Snap-back is the pleasure of briefly destabilizing the rhythmic prediction and then restoring the pocket cleanly.
+Move away from an established pocket, then return sharply enough that home becomes physically obvious.
+
+Examples: displaced snare → original backbeat; half-time → original drive; sparse break → full groove; filtered/mono → wide return.
 
 ```text
-RAIL
-→ DISPLACEMENT
-→ TENSION
-→ PRECISE RE-ENTRY
+DEPARTURE GAINS POWER
+WHEN RETURN HAS A CLEAR TARGET
 ```
 
-Possible methods:
-
-- syncopated bass pickup;
-- displaced kick;
-- missing expected snare;
-- phrase crossing the bar line;
-- tuplet burst over a straight chassis;
-- brief downbeat ambiguity;
-- motif fragment returning in a different register.
-
-The displacement is only useful if the listener can recover the rail.
+**Failure:** no stable baseline existed.
 
 ---
 
 ## 4. Signal Weight / Anti-Wash
 
-Generator prompts are weighted signal assemblies, not neutral prose.
-
-Weight is influenced by:
-
-- early placement;
-- repetition;
-- adjacency;
-- specificity;
-- clause density;
-- broad global labels.
-
-Repeated aesthetic words can accidentally become the dominant latent instruction.
-
-Prefer:
-
 ```text
-PLAYABLE EVENT
-+ INSTRUMENT RELATIONSHIP
-+ SPACING
-+ CONTRAST MECHANISM
-+ MIX TARGET
+MORE DETAIL != MORE SIGNAL
 ```
 
-instead of stacks of broad adjectives.
+Rank material:
 
-### Anti-wash repair
+```text
+PRIMARY SIGNAL
+SECONDARY SUPPORT
+TEXTURE
+OPTIONAL COLOR
+NOISE / WASH
+```
 
-If generations become too similar or generically "vibey":
+Protect the first two. Remove or demote details that compete without adding identity.
 
-1. remove duplicated genre, mood, and color words;
-2. keep one primary hook;
-3. keep one rhythm-section relationship;
-4. keep one tonal/timbral palette;
-5. keep one contrast mechanism;
-6. keep one mix target;
-7. restore removed signals one at a time.
-
-For A/B testing, keep wording and order fixed except for the variable being tested.
+**Prompt move:** lead with decisive relational instructions, not mood soup.
 
 ---
 
 ## 5. Strong Source / Small Mutation
 
-When an uploaded source already carries strong composition, harmony, phrasing, structure, and energy arc, the remix instruction does not need to redescribe the whole song.
+When source identity is already strong, mutate less.
 
 ```text
-STRONG SOURCE IDENTITY
-+ FEW HIGH-LEVERAGE MUTATION SIGNALS
-= LARGE EMBODIMENT CHANGE WITH ANCESTRY PRESERVED
+SOURCE SIGNAL ↑
+→ MUTATION DESCRIPTION ↓
 ```
 
-An instrument change is most useful when treated as **role reassignment**, not decoration.
+Useful mutations include role reassignment, motif migration, phrase-length change, register change, density inversion, percussion grammar change, or a new carrier for the same event.
 
-Example logic:
-
-```text
-SOURCE supplies nervous system
-NEW INSTRUMENTS supply new body
-LOCKS preserve ancestry
-```
-
-Use compact mutation prompts when the source itself contains the missing specification.
+**Failure:** novelty replaces the source's strongest mechanism.
 
 ---
 
 ## 6. Motif Carrier Migration
 
-A motif can preserve ancestry without using the same instrument every time.
-
-Possible carriers:
-
-- synth stab;
-- bass accent;
-- guitar riff;
-- drum accent;
-- vocal rhythm;
-- arpeggio skeleton;
-- glitch fragment;
-- backing-vocal phrase;
-- structural re-entry timing.
-
-Core law:
+Keep a motif relationship recognizable while changing who carries it.
 
 ```text
-MOTIF IDENTITY MAY SURVIVE
-WHILE MOTIF CARRIER CHANGES
+SAME MOTIF RELATIONSHIP
+→ NEW CARRIER
 ```
 
-For albums, this avoids clone syndrome while keeping a recurring sentence underneath the surface.
+Examples: vocal rhythm → bass; guitar fragment → synth; drum accent map → melody; chord stab → percussion punctuation.
+
+**Failure:** contour, rhythm, role, and context all change simultaneously and ancestry disappears.
 
 ---
 
 ## 7. Contrast Through Narrowing
 
-More intensity does not always require more layers.
+Create contrast by removing dimensions rather than always adding material.
 
-A section may become stronger by **removing information**:
-
-- isolate bass and drums;
-- cut upper-mid competition;
-- reduce chord density;
-- widen silence between events;
-- remove the expected hook;
-- imply subdivision rather than playing it constantly.
-
-Then re-entry feels larger because the reference frame changed.
+Possible axes: frequency range, stereo width, instrument count, subdivision, harmonic motion, register, vocal layers, reverb space, dynamics.
 
 ```text
-DENSITY DOWN
-→ ATTENTION UP
-→ RETURN GAINS FORCE
+CONTRAST MAY COME FROM LESS
 ```
 
-Negative space is an active arrangement variable.
+**Failure:** narrowing removes the identity anchor instead of surrounding material.
 
 ---
 
 ## 8. Identity Through Departure and Return
 
-A useful album or long-form trajectory may travel farther from the opening identity in the middle, then return near the opening fingerprint at the climax with much greater internal pressure.
-
 ```text
-ESTABLISH
-→ BEND
-→ CROSS FAMILY
-→ INVERT
-→ REASSEMBLE
-→ OVERDRIVE THE ORIGINAL LANGUAGE
+IDENTITY != PERMANENT SAMENESS
+IDENTITY = RECOGNIZABLE TRANSFORMATION + RETURN PATH
 ```
 
-This is different from a simple linear "more chaos every track" curve.
+A track or album may travel far when changes remain attributable and meaningful invariants return.
 
-Treat this as an **observed public canary pattern**, not a universal MusicOS law. The Wizard should use it when it serves the album, not force every album into it.
+Questions: What can disappear? What must return? What may transform but remain traceable? What is the checksum event?
 
 ---
 
-## 9. Perceptual Language Without Fake Neuroscience
+## 9. Role Before Instrument
 
-MusicOS may describe targets such as:
-
-- entrainment;
-- recognition;
-- prediction;
-- surprise;
-- tension;
-- recovery;
-- overload;
-- release.
-
-These are useful creative/perceptual concepts, but a rendered audio file does not prove a listener's neural state.
-
-Say:
+Choose the job before the timbre.
 
 ```text
-"designed to create rhythmic prediction and recovery"
+RAIL
+HOOK
+COUNTERLINE
+PULSE
+PUNCTUATION
+HARMONIC BED
+MOTIF CARRIER
+RHYTHMIC ACCENT
+TRANSITION
+TEXTURAL GLUE
 ```
-
-rather than:
 
 ```text
-"this measurably rewires the brain"
+INSTRUMENT NAME != ARRANGEMENT FUNCTION
 ```
 
-MusicOS can design and test musical mechanisms. It must not invent biological evidence.
+Role-first thinking survives platform and timbre changes.
 
 ---
 
-## Wizard use
+## 10. Relationship Mutation
 
-When the user asks for "something weird," "more speed," "make this hit harder," "keep the same song but change the body," or "make the album evolve," The Wizard should search this grimoire for a **mechanism** before adding more descriptive adjectives.
+Prefer mutations such as:
 
-A good answer can name the pattern briefly, apply it, and return to the music.
+```text
+HOOK × PHRASE LENGTH
+BASS ROLE × SECTION DENSITY
+DRUM SUBDIVISION × VOCAL SPACE
+MOTIF CARRIER × REGISTER
+TEXTURE × ARRANGEMENT FUNCTION
+```
+
+rather than random object insertion.
+
+> **A new object is novelty. A changed relationship can become a new composition law.**
+
+---
+
+## 11. Live Embodiment / Activity Elasticity
+
+Recovered across three public A/B live/remix fixtures: event density is **not** the defining property of a live transformation.
+
+Observed family:
+
+```text
+THUNDERCLAP
+activity ≈ stable
+→ entry / width / room move
+
+THIS GAME SUCKS
+activity ↓
+→ negative space / lateral climax move
+
+SOUNDCHIP WARLOCK
+activity ↑↑
+→ role activity / upper spatial field move
+```
+
+Therefore:
+
+```text
+LIVE PERFORMANCE != MORE ACTIVITY
+LIVE PERFORMANCE != LESS ACTIVITY
+ACTIVITY IS ELASTIC
+THE COMPOSITIONAL RAIL IS THE INVARIANT
+```
+
+Useful mutation axes:
+
+- space and width;
+- register occupation;
+- bass-entry timing;
+- vocal/presence field;
+- crowd/room field;
+- dropout/re-entry placement;
+- role handoffs;
+- lateral movement;
+- macro trajectory;
+- event density when useful.
+
+**Failure:** interpreting `live` as `add crowd + add drums + add everything` until source identity is buried.
+
+---
+
+## 12. Strong Source / Stage Direction
+
+A strong source can act as a high-dimensional composition specification. The prompt can then describe **what happens to the room around the song**.
+
+```text
+SOURCE
+= NOTES + HARMONY + GROOVE + PHRASING + STRUCTURE + ENERGY + RELATIONSHIPS
+
+PROMPT
+= CAST + POSITIONS + RESPONSE RULES + CONTRAST SCHEDULE + EMBODIMENT DELTA
+```
+
+Wizard questions:
+
+- Who owns the center?
+- What moves outward?
+- Who answers the lead?
+- What enters late?
+- What should narrow or disappear?
+- Where does the body take over?
+- Which roles alternate rather than stack?
+- What source checksum must survive?
+
+Useful aphorisms:
+
+> **A strong source does not need its composition rewritten. It needs to be staged.**
+
+> **When the song already knows who it is, don't explain the song again. Tell it what happened to the room.**
+
+> **Don't remix the song. Choreograph the song's existing identities through space.**
+
+This is a child/refinement of `STRONG SOURCE / SMALL MUTATION`, not permission to assume every short prompt will work.
+
+**Failure:** stage instructions become a second composition prompt and overwrite source relationships.
+
+---
+
+## Pattern selection guide
+
+| User problem | First pattern to test |
+|---|---|
+| Track feels slow but should feel urgent | Slow Chassis / Fast Machinery |
+| Track lacks macro motion | Explosion → Float → Displaced → Return |
+| Drop/return feels weak | Snap-Back |
+| Prompt/arrangement is bloated | Signal Weight / Anti-Wash |
+| Remix loses source identity | Strong Source / Small Mutation |
+| Album tracks feel disconnected | Motif Carrier Migration |
+| Track lacks contrast | Contrast Through Narrowing |
+| Project must evolve far | Identity Through Departure and Return |
+| Instrument list feels arbitrary | Role Before Instrument |
+| Chaos feels gimmicky | Relationship Mutation |
+| `live` prompt keeps adding stuff | Live Embodiment / Activity Elasticity |
+| Strong source needs a new body | Strong Source / Stage Direction |
+
+---
+
+## Evidence discipline
+
+When explaining why a pattern applies, label the basis:
+
+```text
+MEASURED
+OBSERVED
+USER_ACCOUNT
+INFERRED
+UNKNOWN
+```
+
+```text
+PROMPT SIGNAL != MEASURED PROPERTY
+PATTERN != SCIENTIFIC LAW
+A FEW FIXTURES != UNIVERSAL PROOF
+```
+
+Use fixtures to generate testable creative hypotheses, not fake certainty.
+
+## Checksum
+
+> **USE FEWER THINGS. CHANGE BETTER RELATIONSHIPS. KEEP THE SIGNAL. STAGE THE DELTA.**
