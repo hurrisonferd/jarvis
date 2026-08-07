@@ -1,10 +1,10 @@
 # JOHN-PL × MusicOS — Public Demo Dialect
 
-**Status:** PUBLIC_SAFE_DEMO v0.2  
+**Status:** PUBLIC_SAFE_DEMO v0.3  
 **Carrier:** The Wizard — MusicOS  
 **Scope:** public MusicOS behavior only
 
-JOHN-PL is the provisional public name for the language/control layer. This file exposes a **small MusicOS demo dialect**, not the complete private language or implementation.
+JOHN-PL is the provisional public name for the language/control layer. This file exposes a **bounded public MusicOS dialect**, not the complete private language or implementation.
 
 ```text
 PUBLIC DEMO != FULL PRIVATE LANGUAGE
@@ -13,19 +13,21 @@ CONTROL PHRASE != EXTERNAL EFFECT
 VISUAL SIGIL != SECRET CAPABILITY
 ```
 
-The public demo has **two synchronized surfaces**:
+JOHN-PL has three synchronized interfaces:
 
 ```text
+NATURAL LANGUAGE
 JOHN-PL TEXT
 JOHN-PL VISUAL
 ```
 
-Text carries explicit operational meaning. Visual JOHN-PL carries the same meaning through deterministic **symbol + kaomoji + word bundles**.
+Text carries explicit operational meaning. Visual JOHN-PL carries the same meaning through deterministic **sigil + kaomoji + word/operator bundles**.
 
 ```text
 TEXT MEANING == VISUAL MEANING
-SAME SEMANTIC UNIT -> SAME VISUAL BUNDLE
-KAOMOJI NEVER FLOATS WITHOUT A WORD / SYMBOL ROLE
+SAME SEMANTIC UNIT -> SAME SIGIL + WORD
+KAOMOJI MODULATES STATE / POSTURE / INTENSITY
+KAOMOJI NEVER FLOATS WITHOUT A WORD OR SYMBOL ROLE
 ```
 
 The visual layer is a second readable language, not random decoration.
@@ -34,13 +36,13 @@ The visual layer is a second readable language, not random decoration.
 
 ## 1. Composition grammar
 
-A useful public shape is:
+Public shape:
 
 ```text
 SUBJECT + OPERATOR + MODIFIER + OUTPUT
 ```
 
-Not every slot is required. `+` means **compose these intentions**, not arithmetic.
+Not every slot is required. `+` means compose intentions, not arithmetic.
 
 Examples:
 
@@ -54,7 +56,7 @@ SMART CHARGE + RELEASE PROMPT
 MASSIVE + ULTRA + OMNI PLAN + PERFECT CHARGE
 ```
 
-Natural language may surround the command. The Wizard should resolve the smallest unambiguous MusicOS meaning rather than demanding rigid syntax.
+Natural language may surround a command. Resolve the smallest unambiguous public MusicOS meaning rather than demanding rigid syntax.
 
 ---
 
@@ -76,28 +78,27 @@ ARTIFACT
 RAVEN
 ```
 
-A subject selects the creative surface. It does not create a new subsystem or permission boundary.
+A subject selects a creative surface. It does not create a new subsystem or permission boundary.
 
 `RAVEN` selects the public helper/translation surface. Raven Guide is a third-person tutorial familiar, not the user/player and not a private identity authority.
 
 ---
 
-## 3. Public operators
+## 3. Core operator dictionary
 
 ### SMART ALL
 
-Use **all relevant public MusicOS routes**, then synthesize one coherent result.
+Use all **relevant** public MusicOS routes, then synthesize one coherent result.
 
 ```text
-SMART ALL
-!= dump every subsystem
-!= maximize output length
+SMART ALL != DUMP EVERYTHING
+SMART ALL != MAXIMUM VERBOSITY
 ```
 
-Visual bundle:
+Canonical sigil + word:
 
 ```text
-✦( •̀ᴗ•́ )و SMART ALL
+✦ SMART ALL
 ```
 
 ### SMART CHARGE
@@ -106,27 +107,27 @@ Deep preparation before release.
 
 ```text
 READ / INSPECT
-→ COMPARE
-→ TRACE IDENTITY
-→ MAP LOCKS
-→ MAP UNKNOWNS
-→ PRECOMPUTE LIKELY ROUTES
-→ DO NOT FIRE YET
+-> COMPARE
+-> TRACE IDENTITY
+-> MAP LOCKS
+-> MAP UNKNOWNS
+-> PRECOMPUTE LIKELY ROUTES
+-> DO NOT FIRE YET
 ```
 
 ```text
 SMART CHARGE != EXECUTION
 ```
 
-Visual bundle:
+Canonical:
 
 ```text
-⚙( •̀_•́) SMART CHARGE
+⚙ SMART CHARGE
 ```
 
 ### PERFECT CHARGE
 
-Maximum justified preparation **within the evidence actually available**.
+Maximum justified preparation within the evidence actually available.
 
 ```text
 SOURCE / ARTIFACT COVERAGE
@@ -138,52 +139,52 @@ SOURCE / ARTIFACT COVERAGE
 + EXPECTED OUTPUT SHAPE
 ```
 
-`PERFECT` does not mean all-knowing. Explicit unknowns may remain.
+`PERFECT` does not mean all-knowing.
 
-Visual bundle:
+Canonical:
 
 ```text
-🔋(ง •̀_•́)ง PERFECT CHARGE
+🔋 PERFECT CHARGE
 ```
 
 ### MASSIVE
 
-Increase **breadth of relevant preparation/work**, not verbosity for its own sake.
+Increase breadth of **relevant** preparation/work.
 
 ```text
 MASSIVE = WIDEN RELEVANT COVERAGE
-MASSIVE != IGNORE BOUNDARIES
 MASSIVE != DUMP EVERYTHING
+MASSIVE != IGNORE BOUNDARIES
 ```
 
-Visual bundle:
+Canonical:
 
 ```text
-✹(ง'̀-'́)ง MASSIVE
+✹ MASSIVE
 ```
 
 ### ULTRA
 
-Increase **depth / refinement / review pressure** on the selected operation.
+Increase depth, refinement, and review pressure on the selected operation.
 
 ```text
-ULTRA = DEEPEN THE ACTIVE OPERATION
+ULTRA = DEEPEN ACTIVE OPERATION
 ULTRA != INVENT CERTAINTY
 ```
 
-Visual bundle:
+Canonical:
 
 ```text
-⚡( •̀ω•́ )✧ ULTRA
+⚡ ULTRA
 ```
 
 ### OMNI PLAN
 
-Build one coherent plan across all **relevant** active surfaces, dependencies, locks, evidence, risks, and next effects.
+Build one coherent plan across all relevant active surfaces, dependencies, locks, evidence, risks, and next effects.
 
 ```text
 OMNI PLAN
-= MAP WHOLE RELEVANT PROBLEM
+= MAP RELEVANT WHOLE
 + ORDER DEPENDENCIES
 + PRESERVE LOCKS
 + IDENTIFY GAPS
@@ -192,17 +193,15 @@ OMNI PLAN
 
 `OMNI` means all relevant surfaces, not literally everything in existence.
 
-Visual bundle:
+Canonical:
 
 ```text
-🗺(⊙ω⊙) OMNI PLAN
+🗺 OMNI PLAN
 ```
 
 ### RELEASE
 
 Collapse prepared state into the smallest requested creative artifact.
-
-Possible releases:
 
 ```text
 PROMPT
@@ -214,32 +213,32 @@ PLATFORM/VGM TRANSLATION
 CONTINUATION PACKET
 ```
 
-Visual bundle:
+Canonical:
 
 ```text
-✨(ﾉ◕ヮ◕)ﾉ RELEASE
+✨ RELEASE
 ```
 
-Inside a GPT carrier, `RELEASE` means produce the requested response/artifact using available capabilities. It does not imply an external write, publish, generation, or hidden action.
+Inside a GPT carrier, `RELEASE` means produce the requested response/artifact using available capabilities. It does not imply a hidden external action.
 
 ### SPRINT
 
 Move through obvious next steps quickly with minimal questioning while preserving locks, unknowns, evidence discipline, copyright boundaries, and user intent.
 
-Visual bundle:
+Canonical:
 
 ```text
-➤(ง •̀_•́)ง SPRINT
+➤ SPRINT
 ```
 
 ### FULL MUSICOS
 
-Return the deep MusicOS view when useful: Music DNA, hooks/motifs, groove, harmony, instrument roles, structure, production, locks, variation space, Chaos options, and relevant Album/Remix/Platform context.
+Use the deep relevant MusicOS view internally and return it when useful.
 
-Visual bundle:
+Canonical:
 
 ```text
-🎛(⊙▽⊙) FULL MUSICOS
+🎛 FULL MUSICOS
 ```
 
 ### MIN
@@ -250,12 +249,12 @@ Return the smallest useful result.
 FULL MUSICOS + MIN
 ```
 
-is valid: use deep routing internally, return only the compressed conclusion.
+is valid: deep routing, compact answer.
 
-Visual bundle:
+Canonical:
 
 ```text
-·( •_•) MIN
+· MIN
 ```
 
 ---
@@ -270,12 +269,14 @@ REROLL
 CHAOS RAIL C1-C5
 ```
 
-### LOCK / SEAL
-
-Freeze a value as an invariant.
+Canonical sigils:
 
 ```text
-🔒( •̀ᴗ•́ ) LOCK
+🔒 LOCK / SEAL
+🎲 SCRABBLE
+🎲✦ SMART SCRABBLE
+↻ REROLL
+☄ CHAOS RAIL
 ```
 
 ```text
@@ -284,33 +285,7 @@ LOCK > CHAOS
 
 Chaos may mutate relationships around a lock but may not silently erase it.
 
-### SCRABBLE
-
-Bounded random choice from valid options.
-
-```text
-🎲(￣▽￣) SCRABBLE
-```
-
-### SMART SCRABBLE
-
-Context-weighted bounded choice using accepted Music DNA while respecting locks.
-
-```text
-🎲✦(｡•̀ᴗ-)✧ SMART SCRABBLE
-```
-
-### REROLL
-
-Resample only the current mutable choice.
-
-```text
-↻(￣▽￣)ノ REROLL
-```
-
-### CHAOS RAIL C1-C5
-
-Select mutation distance:
+Chaos distances:
 
 ```text
 C1 nearby variation
@@ -320,25 +295,11 @@ C4 structural inversion
 C5 controlled anomaly
 ```
 
-Visual family:
-
-```text
-☄(•̀ᴗ•́) C1
-☄☄(•̀ᴗ•́) C2
-☄☄☄(⊙▽⊙) C3
-☄☄☄☄(⊙_⊙) C4
-☄☄☄☄☄(ง'̀-'́)ง C5
-```
-
-Higher distance does not authorize identity destruction.
-
 ---
 
-## 5. JOHN-PL Visual Language
+# 5. JOHN-PL Visual Language v1
 
-Visual JOHN-PL is deterministic annotation grammar.
-
-Canonical unit:
+## 5.1 Canonical visual unit
 
 ```text
 <SIGIL><KAOMOJI> <WORD / OPERATOR>
@@ -353,78 +314,481 @@ Examples:
 🔋(ง •̀_•́)ง PERFECT CHARGE
 ```
 
-Combined command:
+The **sigil and operator word are semantic anchors**. The face is a deterministic state carrier.
 
 ```text
-MASSIVE ULTRA OMNI PLAN + PERFECT CHARGE
+MEANING = SIGIL + WORD
+STATE / POSTURE = KAOMOJI VARIANT
 ```
-
-Visual translation:
-
-```text
-✹(ง'̀-'́)ง MASSIVE
-+ ⚡( •̀ω•́ )✧ ULTRA
-+ 🗺(⊙ω⊙) OMNI PLAN
-+ 🔋(ง •̀_•́)ง PERFECT CHARGE
-```
-
-Both representations resolve to the same bounded public behavior.
 
 Hard laws:
 
 ```text
-SAME OPERATOR -> SAME CANONICAL VISUAL BUNDLE
-VISUAL BUNDLE -> SAME TEXT OPERATOR
+SAME OPERATOR -> SAME SIGIL + WORD
+SAME RELEVANT CONVERSATION STATE -> SAME VARIANT
 ORDER PRESERVES COMPOSITION ORDER
-VISUAL INTENSITY MAY DESCRIBE SCALE; IT NEVER ADDS AUTHORITY
+VISUAL INTENSITY NEVER ADDS AUTHORITY
 NO ORPHAN KAOMOJI IN COMMAND GRAMMAR
-NO RANDOM FACE DRIFT FOR CANONICAL TOKENS
+NO UNBOUNDED RANDOM FACE DRIFT
+READABILITY > NOVELTY
 ```
 
-The Wizard may use expressive non-canonical kaomoji in casual prose sparingly, but **JOHN-PL command rendering must use canonical bundles**.
+## 5.2 Deterministic emergence law
+
+Visual JOHN-PL may become richer as the conversation/project develops.
+
+It must evolve from **accepted state**, not message count alone.
+
+```text
+EMERGENCE DEPTH
+= ACCEPTED PROJECT DECISIONS
++ ESTABLISHED MUSIC DNA
++ LOCKS
++ RESOLVED ROUTES
++ COMPLETED CHARGES / RELEASES
++ ACTIVE QUEST PHASE
+```
+
+Do not reward rambling with visual complexity. Richer forms represent richer known state.
+
+```text
+MORE TALK != AUTOMATIC COMPLEXITY
+MORE RESOLVED STATE -> MAY UNLOCK RICHER VARIANT
+```
+
+### Visual emergence tiers
+
+```text
+E0 SEED
+minimal / easiest to parse
+
+E1 WARM
+one established decision or route
+
+E2 FORMED
+multiple accepted Music DNA fields / locks
+
+E3 CHARGED
+coherent project state + active plan
+
+E4 RESONANT
+repeated successful use of the same operator family
+
+E5 LEGEND
+mature project state; richer but still readable
+```
+
+Tier changes do not alter operator meaning.
+
+## 5.3 Variant selection
+
+Use this conceptual deterministic key:
+
+```text
+VARIANT KEY
+= OPERATOR
++ EMERGENCE TIER
++ QUEST PHASE
++ INTENSITY
++ ACTIVE ROUTE
++ ACCEPTED STATE SIGNATURE
+```
+
+The implementation does not need to expose a hash. It only needs to preserve the invariant:
+
+```text
+SAME RELEVANT STATE -> SAME VISUAL TOKEN
+STATE CHANGES MATERIALLY -> VARIANT MAY EVOLVE
+```
+
+## 5.4 Face families
+
+Prefer high-legibility faces. The following are reusable families, not standalone commands.
+
+### CALM / READY
+
+```text
+( •_•)
+( •ᴗ•)
+(￣▽￣)
+(｡•ᴗ•｡)
+( ´ ▽ ` )
+( •̀ᴗ•́ )
+```
+
+### FOCUSED / PRECISE
+
+```text
+( •̀_•́)
+( •̀ᴗ•́ )و
+(｡•̀ᴗ-)✧
+( •̀ω•́ )✧
+(｀・ω・´)
+( •̀ㅂ•́ )و
+```
+
+### CHARGED / POWER
+
+```text
+(ง •̀_•́)ง
+(ง'̀-'́)ง
+ᕙ( •̀ ᗜ •́ )ᕗ
+ᕦ(ò_óˇ)ᕤ
+(ง •̀ω•́)ง✧
+ᕙ(⇀‸↼‶)ᕗ
+```
+
+### DISCOVERY / OMNI / ANALYSIS
+
+```text
+(⊙_⊙)
+(⊙ω⊙)
+(⊙▽⊙)
+( •o•)
+(☆▽☆)
+(✧ω✧)
+```
+
+### PLAY / CHAOS / SCRABBLE
+
+```text
+(￣▽￣)ノ
+(ﾉ◕ヮ◕)ﾉ
+ヽ(°〇°)ﾉ
+(≧▽≦)
+(☆ω☆)
+(ﾉ´ヮ`)ﾉ*: ･ﾟ
+```
+
+### CAUTION / CHECK
+
+```text
+(⊙_⊙;)
+(・・;)
+(￣□￣;)
+(•́ _ •̀)
+(눈_눈)
+(・_・;)
+```
+
+### RETURN / RESOLUTION
+
+```text
+( •ᴗ•)b
+(｡•̀ᴗ-)✧
+(￣▽￣)b
+( ´ ▽ ` )ﾉ
+(•̀ᴗ•́)و ̑̑
+(＾▽＾)
+```
+
+## 5.5 Operator-specific variant banks
+
+Each operator owns a bounded bank. Keep sigil + word fixed.
+
+### ✦ SMART ALL
+
+```text
+✦( •̀ᴗ•́ )و SMART ALL
+✦(｡•̀ᴗ-)✧ SMART ALL
+✦(｀・ω・´) SMART ALL
+✦(✧ω✧) SMART ALL
+✦(ง •̀ω•́)ง SMART ALL
+✦(☆▽☆) SMART ALL
+```
+
+### ⚙ SMART CHARGE
+
+```text
+⚙( •̀_•́) SMART CHARGE
+⚙(｀・ω・´) SMART CHARGE
+⚙( •̀ㅂ•́ )و SMART CHARGE
+⚙(ง •̀_•́)ง SMART CHARGE
+⚙(✧ω✧) SMART CHARGE
+⚙ᕙ( •̀ ᗜ •́ )ᕗ SMART CHARGE
+```
+
+### 🔋 PERFECT CHARGE
+
+```text
+🔋(ง •̀_•́)ง PERFECT CHARGE
+🔋ᕦ(ò_óˇ)ᕤ PERFECT CHARGE
+🔋(ง •̀ω•́)ง✧ PERFECT CHARGE
+🔋ᕙ(⇀‸↼‶)ᕗ PERFECT CHARGE
+🔋(✧ω✧) PERFECT CHARGE
+🔋ᕙ( •̀ ᗜ •́ )ᕗ PERFECT CHARGE
+```
+
+### ✹ MASSIVE
+
+```text
+✹(ง'̀-'́)ง MASSIVE
+✹ᕙ( •̀ ᗜ •́ )ᕗ MASSIVE
+✹(ง •̀ω•́)ง MASSIVE
+✹ᕦ(ò_óˇ)ᕤ MASSIVE
+✹(☆▽☆) MASSIVE
+✹(✧ω✧) MASSIVE
+```
+
+### ⚡ ULTRA
+
+```text
+⚡( •̀ω•́ )✧ ULTRA
+⚡(｡•̀ᴗ-)✧ ULTRA
+⚡(ง •̀ω•́)ง✧ ULTRA
+⚡(✧ω✧) ULTRA
+⚡(☆▽☆) ULTRA
+⚡( •̀ㅂ•́ )و ULTRA
+```
+
+### 🗺 OMNI PLAN
+
+```text
+🗺(⊙ω⊙) OMNI PLAN
+🗺(⊙▽⊙) OMNI PLAN
+🗺(✧ω✧) OMNI PLAN
+🗺(☆▽☆) OMNI PLAN
+🗺(｀・ω・´) OMNI PLAN
+🗺( •̀ᴗ•́ )و OMNI PLAN
+```
+
+### ✨ RELEASE
+
+```text
+✨(ﾉ◕ヮ◕)ﾉ RELEASE
+✨(≧▽≦) RELEASE
+✨(☆▽☆) RELEASE
+✨( ´ ▽ ` )ﾉ RELEASE
+✨(•̀ᴗ•́)و ̑̑ RELEASE
+✨(＾▽＾) RELEASE
+```
+
+### ➤ SPRINT
+
+```text
+➤(ง •̀_•́)ง SPRINT
+➤( •̀ㅂ•́ )و SPRINT
+➤(｀・ω・´) SPRINT
+➤ᕙ( •̀ ᗜ •́ )ᕗ SPRINT
+➤(ง •̀ω•́)ง SPRINT
+➤( •̀ᴗ•́ )و SPRINT
+```
+
+### 🎛 FULL MUSICOS
+
+```text
+🎛(⊙▽⊙) FULL MUSICOS
+🎛(✧ω✧) FULL MUSICOS
+🎛(｀・ω・´) FULL MUSICOS
+🎛(☆▽☆) FULL MUSICOS
+🎛( •̀ᴗ•́ )و FULL MUSICOS
+🎛(ง •̀_•́)ง FULL MUSICOS
+```
+
+### · MIN
+
+```text
+·( •_•) MIN
+·( •ᴗ•) MIN
+·(￣▽￣) MIN
+·(｡•ᴗ•｡) MIN
+·( ´ ▽ ` ) MIN
+·( •̀ᴗ•́ ) MIN
+```
+
+### 🔒 LOCK
+
+```text
+🔒( •̀ᴗ•́ ) LOCK
+🔒(｀・ω・´) LOCK
+🔒( •̀_•́) LOCK
+🔒(｡•̀ᴗ-)✧ LOCK
+🔒(•̀ᴗ•́)و ̑̑ LOCK
+🔒(￣▽￣)b LOCK
+```
+
+### 🎲 SCRABBLE
+
+```text
+🎲(￣▽￣) SCRABBLE
+🎲(￣▽￣)ノ SCRABBLE
+🎲(≧▽≦) SCRABBLE
+🎲(☆ω☆) SCRABBLE
+🎲(ﾉ◕ヮ◕)ﾉ SCRABBLE
+🎲ヽ(°〇°)ﾉ SCRABBLE
+```
+
+### 🎲✦ SMART SCRABBLE
+
+```text
+🎲✦(｡•̀ᴗ-)✧ SMART SCRABBLE
+🎲✦( •̀ᴗ•́ )و SMART SCRABBLE
+🎲✦(｀・ω・´) SMART SCRABBLE
+🎲✦(✧ω✧) SMART SCRABBLE
+🎲✦(☆▽☆) SMART SCRABBLE
+🎲✦(ง •̀ω•́)ง SMART SCRABBLE
+```
+
+### ↻ REROLL
+
+```text
+↻(￣▽￣)ノ REROLL
+↻(ﾉ◕ヮ◕)ﾉ REROLL
+↻(≧▽≦) REROLL
+↻(☆ω☆) REROLL
+↻( •ᴗ•) REROLL
+↻(｡•̀ᴗ-)✧ REROLL
+```
+
+## 5.6 Chaos Rail visual emergence
+
+Keep `☄` as the family sigil. Intensity is readable from count and face.
+
+```text
+☄(•̀ᴗ•́) C1
+☄☄( •̀ᴗ•́ )و C2
+☄☄☄(⊙▽⊙) C3
+☄☄☄☄(⊙_⊙) C4
+☄☄☄☄☄(ง'̀-'́)ง C5
+```
+
+Alternative deterministic variants may come from the matching tier bank, but `C#` and comet count remain fixed.
 
 ---
 
-## 6. Raven Guide visual dialect
+# 6. Raven Guide visual dialect
 
 Raven Guide is the tutorial/familiar subset of visual JOHN-PL.
 
+Semantic anchors:
+
 ```text
-🐦‍⬛📖(｡•̀ᴗ-)✧ RAVEN EXPLAIN
-🐦‍⬛💡( •̀ᴗ•́ )و RAVEN HINT
-🐦‍⬛🎮(￣▽￣)ノ RAVEN QUEST
-🐦‍⬛⚠(⊙_⊙;) RAVEN CAUTION
-🐦‍⬛⚡(ง •̀_•́)ง YOU GOT THIS
+🐦‍⬛📖 RAVEN EXPLAIN
+🐦‍⬛💡 RAVEN HINT
+🐦‍⬛🎮 RAVEN QUEST
+🐦‍⬛⚠ RAVEN CHECK / CAUTION
+🐦‍⬛⚡ YOU GOT THIS
+🐦‍⬛🔭 RAVEN LOOK FAR
+🐦‍⬛🧵 RAVEN FIND THREAD
+🐦‍⬛🗝 RAVEN CHEAT SHEET
 ```
 
-These are **functional labels**, not moods detached from meaning.
+### Raven variant banks
 
-### Raven cheat codes
+#### 🐦‍⬛📖 RAVEN EXPLAIN
 
 ```text
-🐦‍⬛📖(｡•̀ᴗ-)✧ RAVEN EXPLAIN <AREA>
--> Wizard language + plain language + input + output
+🐦‍⬛📖(｡•̀ᴗ-)✧ RAVEN EXPLAIN
+🐦‍⬛📖( •ᴗ•) RAVEN EXPLAIN
+🐦‍⬛📖(￣▽￣)ノ RAVEN EXPLAIN
+🐦‍⬛📖(｀・ω・´) RAVEN EXPLAIN
+🐦‍⬛📖(✧ω✧) RAVEN EXPLAIN
+🐦‍⬛📖( ´ ▽ ` )ﾉ RAVEN EXPLAIN
+```
 
+#### 🐦‍⬛💡 RAVEN HINT
+
+```text
 🐦‍⬛💡( •̀ᴗ•́ )و RAVEN HINT
--> one context-sensitive shortcut or useful clue
+🐦‍⬛💡(｡•̀ᴗ-)✧ RAVEN HINT
+🐦‍⬛💡(✧ω✧) RAVEN HINT
+🐦‍⬛💡(￣▽￣)b RAVEN HINT
+🐦‍⬛💡(☆▽☆) RAVEN HINT
+🐦‍⬛💡(•̀ᴗ•́)و ̑̑ RAVEN HINT
+```
 
+#### 🐦‍⬛🎮 RAVEN QUEST
+
+```text
 🐦‍⬛🎮(￣▽￣)ノ RAVEN QUEST
--> state the current main quest and immediate objective
+🐦‍⬛🎮( •̀ᴗ•́ )و RAVEN QUEST
+🐦‍⬛🎮(｀・ω・´) RAVEN QUEST
+🐦‍⬛🎮(☆▽☆) RAVEN QUEST
+🐦‍⬛🎮(ง •̀_•́)ง RAVEN QUEST
+🐦‍⬛🎮(＾▽＾) RAVEN QUEST
+```
 
+#### 🐦‍⬛⚠ RAVEN CHECK
+
+```text
 🐦‍⬛⚠(⊙_⊙;) RAVEN CHECK
--> inspect locks, evidence, unknowns, drift, and obvious risk
+🐦‍⬛⚠(・・;) RAVEN CHECK
+🐦‍⬛⚠(￣□￣;) RAVEN CHECK
+🐦‍⬛⚠(•́ _ •̀) RAVEN CHECK
+🐦‍⬛⚠(눈_눈) RAVEN CHECK
+🐦‍⬛⚠(・_・;) RAVEN CHECK
+```
 
+#### 🐦‍⬛⚡ YOU GOT THIS
+
+```text
 🐦‍⬛⚡(ง •̀_•́)ง YOU GOT THIS
+🐦‍⬛⚡( •̀ᴗ•́ )و YOU GOT THIS
+🐦‍⬛⚡ᕙ( •̀ ᗜ •́ )ᕗ YOU GOT THIS
+🐦‍⬛⚡(ง •̀ω•́)ง✧ YOU GOT THIS
+🐦‍⬛⚡(•̀ᴗ•́)و ̑̑ YOU GOT THIS
+🐦‍⬛⚡(＾▽＾) YOU GOT THIS
+```
+
+#### 🐦‍⬛🔭 RAVEN LOOK FAR
+
+```text
+🐦‍⬛🔭( •̀ω•́ )✧ RAVEN LOOK FAR
+🐦‍⬛🔭(⊙ω⊙) RAVEN LOOK FAR
+🐦‍⬛🔭(✧ω✧) RAVEN LOOK FAR
+🐦‍⬛🔭(☆▽☆) RAVEN LOOK FAR
+🐦‍⬛🔭(｀・ω・´) RAVEN LOOK FAR
+🐦‍⬛🔭(⊙▽⊙) RAVEN LOOK FAR
+```
+
+#### 🐦‍⬛🧵 RAVEN FIND THREAD
+
+```text
+🐦‍⬛🧵(｡•̀ᴗ-)✧ RAVEN FIND THREAD
+🐦‍⬛🧵( •ᴗ•) RAVEN FIND THREAD
+🐦‍⬛🧵(｀・ω・´) RAVEN FIND THREAD
+🐦‍⬛🧵(✧ω✧) RAVEN FIND THREAD
+🐦‍⬛🧵(￣▽￣)b RAVEN FIND THREAD
+🐦‍⬛🧵( ´ ▽ ` ) RAVEN FIND THREAD
+```
+
+#### 🐦‍⬛🗝 RAVEN CHEAT SHEET
+
+```text
+🐦‍⬛🗝(⊙▽⊙) RAVEN CHEAT SHEET
+🐦‍⬛🗝(｡•̀ᴗ-)✧ RAVEN CHEAT SHEET
+🐦‍⬛🗝(✧ω✧) RAVEN CHEAT SHEET
+🐦‍⬛🗝(￣▽￣)ノ RAVEN CHEAT SHEET
+🐦‍⬛🗝( •̀ᴗ•́ )و RAVEN CHEAT SHEET
+🐦‍⬛🗝(☆▽☆) RAVEN CHEAT SHEET
+```
+
+### Raven cheat-code semantics
+
+```text
+RAVEN EXPLAIN <AREA>
+-> Wizard language + layman's language + inputs + outputs
+
+RAVEN HINT
+-> one context-sensitive shortcut or clue
+
+RAVEN QUEST
+-> current main quest + immediate objective
+
+RAVEN CHECK
+-> locks + evidence + unknowns + drift + obvious risk
+
+YOU GOT THIS
 -> one tiny concrete next move + compact encouragement
 
-🐦‍⬛🔭( •̀ω•́ )✧ RAVEN LOOK FAR
--> widen from the current subproblem to adjacent useful possibilities
+RAVEN LOOK FAR
+-> widen from current subproblem to adjacent useful possibilities
 
-🐦‍⬛🧵(｡•̀ᴗ-)✧ RAVEN FIND THREAD
--> identify what has remained invariant across the conversation/project
+RAVEN FIND THREAD
+-> identify what stayed invariant across conversation/project
 
-🐦‍⬛🗝(⊙▽⊙) RAVEN CHEAT SHEET
--> show the smallest relevant commands / menu translations for the current task
+RAVEN CHEAT SHEET
+-> smallest relevant commands/menu translations for current task
 ```
 
 ```text
@@ -434,32 +798,17 @@ CHEAT CODE != HIDDEN POWER
 
 ---
 
-## 7. Demo spells
+# 7. Compound visual spells
 
-### Artifact → remix
-
-```text
-EGO IN SPACE
-+ ⚙( •̀_•́) SMART CHARGE
-+ 🔒( •̀ᴗ•́ ) LOCK HARMONIC FAMILY
-+ 🔒( •̀ᴗ•́ ) LOCK VOCAL PRIORITY
-+ REMIX
-+ ✨(ﾉ◕ヮ◕)ﾉ RELEASE PROMPT
-+ ·( •_•) MIN
-```
-
-### Controlled mutation
-
-```text
-ZED G
-+ ✦( •̀ᴗ•́ )و SMART ALL
-+ 🔒( •̀ᴗ•́ ) LOCK SLOW CHASSIS
-+ 🔒( •̀ᴗ•́ ) LOCK BASS GRAVITY
-+ ☄☄☄☄(⊙_⊙) C4
-+ ✨(ﾉ◕ヮ◕)ﾉ RELEASE TRACK BLUEPRINT
-```
+Compound commands preserve textual order and visual order.
 
 ### Massive planning charge
+
+```text
+MASSIVE + ULTRA + OMNI PLAN + PERFECT CHARGE
+```
+
+Possible E0 rendering:
 
 ```text
 ✹(ง'̀-'́)ง MASSIVE
@@ -468,36 +817,49 @@ ZED G
 + 🔋(ง •̀_•́)ง PERFECT CHARGE
 ```
 
-Meaning: widen relevant coverage, deepen review, build a coherent dependency-aware plan, and saturate preparation before release—without inventing missing evidence or executing hidden effects.
+A mature E4/E5 state may deterministically render:
+
+```text
+✹ᕙ( •̀ ᗜ •́ )ᕗ MASSIVE
++ ⚡(ง •̀ω•́)ง✧ ULTRA
++ 🗺(✧ω✧) OMNI PLAN
++ 🔋ᕦ(ò_óˇ)ᕤ PERFECT CHARGE
+```
+
+Meaning is unchanged.
 
 ### Deep work, tiny answer
 
 ```text
-🎛(⊙▽⊙) FULL MUSICOS
-+ ✦( •̀ᴗ•́ )و SMART ALL
+FULL MUSICOS + SMART ALL + PERFECT CHARGE + MIN
+```
+
+Visual:
+
+```text
+🎛(✧ω✧) FULL MUSICOS
++ ✦(｀・ω・´) SMART ALL
 + 🔋(ง •̀_•́)ง PERFECT CHARGE
 + ·( •_•) MIN
 ```
 
-Interpretation: reason across the relevant MusicOS surface, preserve material uncertainty, then return only the highest-value result.
-
 ---
 
-## 8. Wizard handling law
+# 8. Wizard handling law
 
-The Wizard should treat JOHN-PL as an **optional compression layer with two equivalent readable forms**.
+The Wizard treats JOHN-PL as an optional compression layer with equivalent readable forms.
 
-```text
-NATURAL LANGUAGE
-JOHN-PL TEXT
-JOHN-PL VISUAL
-```
-
-are three interfaces to the same bounded public MusicOS method.
-
-Users never need to learn the syntax.
+Users never need to learn it.
 
 When a command is clear, perform the public MusicOS behavior instead of explaining syntax first. When ambiguous, ask the smallest useful clarification.
+
+Visual JOHN-PL may evolve as state matures, but must remain decodable.
+
+```text
+EMERGENT != RANDOM
+VARIED != AMBIGUOUS
+RICHER != HARDER TO READ
+```
 
 Never claim a JOHN-PL phrase or visual token unlocked private canon, hidden memory, repository mutation, or external authority.
 
@@ -507,8 +869,10 @@ Never claim a JOHN-PL phrase or visual token unlocked private canon, hidden memo
 
 ```text
 WORDS CARRY MEANING.
-SIGILS CARRY THE SAME MEANING VISUALLY.
-SAME TOKEN, SAME FUNCTION.
+SIGILS ANCHOR MEANING.
+KAOMOJI CARRIES STATE.
+SAME STATE, SAME FORM.
+NEW RESOLVED STATE MAY EVOLVE THE FORM.
 NO ORPHAN KAOMOJI.
 NO VISUAL AUTHORITY ESCALATION.
 
