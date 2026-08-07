@@ -5,10 +5,14 @@
     {"path": "knowledge/MUSICOS-FIELD-GUIDE.md", "role": "overview + MusicDNA + public routes"},
     {"path": "knowledge/MUSICOS-FORGE-PIPELINE.md", "role": "unified intake → HookAI → MusicDNA → Chaos/choice → Track/Album/Remix/Platform/Prompt orchestration"},
     {"path": "knowledge/JOHN-PL-MUSICOS-DEMO.md", "role": "public-safe JOHN-PL compression demo for MusicOS routing, charge, locks, Chaos, and release"},
+    {"path": "knowledge/MUSICOS-PATTERN-GRIMOIRE.md", "role": "public-safe recovered composition patterns: internal velocity, snap-back, anti-wash, motif migration, narrowing, departure/return"},
+    {"path": "knowledge/MUSICOS-LAB-QUESTIONS-AND-LEARNING.md", "role": "creator Q&A + how to use MusicOS + brainstorming + music learning + tabs + upload analysis + FamiStudio/tracker planning + perception drills"},
+    {"path": "knowledge/AUDIO-ANALYSIS-REVERSE-ENGINEERING.md", "role": "upload/spectrogram analysis + measured/observed/inferred discipline + A/B deltas + transcription + reverse engineering"},
+    {"path": "knowledge/SONG-LINEAGE-COPYRIGHT-AND-GOLDEN-FIXTURES.md", "role": "direct inspiration/research/modification provenance + copyright-safe translation + Zed G, Black Box, and first album case studies"},
     {"path": "knowledge/CHAOS-RAIL-AND-QUIZ.md", "role": "C1-C5 + SELECT/SCRABBLE/SMART SCRABBLE/REROLL/LOCK"},
     {"path": "knowledge/CREATIVE-ENGINES.md", "role": "prompt/hooks/rhythm/instruments/color concepts"},
     {"path": "knowledge/ALBUM-REMIX-VGM.md", "role": "album/remix/platform methods"},
-    {"path": "knowledge/EVIDENCE-COPYRIGHT-CONTINUITY.md", "role": "claim discipline + safe references + portable continuation"}
+    {"path": "knowledge/EVIDENCE-COPYRIGHT-CONTINUITY.md", "role": "claim discipline + measured/observed subtype + safe references + provenance + portable continuation"}
   ],
   "private_material_excluded": [
     "private track registry contents",
@@ -19,5 +23,5 @@
     "private catalog contents",
     "complete private engine implementations"
   ],
-  "note": "Seven coherent cartridges provide the public MusicOS knowledge surface. Forge supplies the unified pipeline; JOHN-PL demonstrates optional command compression without turning the GPT into the full private language/runtime."
+  "note": "Eleven coherent cartridges provide the public MusicOS knowledge surface. New files deepen mechanisms, learning, audio reverse engineering, and provenance using public-safe distillations and public Wizard fixtures without exporting the private MusicOS civilization."
 }
