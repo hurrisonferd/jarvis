@@ -3,6 +3,7 @@
   "status": "PUBLIC_SAFE_SOURCE",
   "files": [
     {"path": "knowledge/MUSICOS-FIELD-GUIDE.md", "role": "overview + MusicDNA + public routes"},
+    {"path": "knowledge/MUSICOS-FORGE-PIPELINE.md", "role": "unified intake → HookAI → MusicDNA → Chaos/choice → Track/Album/Remix/Platform/Prompt orchestration"},
     {"path": "knowledge/CHAOS-RAIL-AND-QUIZ.md", "role": "C1-C5 + SELECT/SCRABBLE/SMART SCRABBLE/REROLL/LOCK"},
     {"path": "knowledge/CREATIVE-ENGINES.md", "role": "prompt/hooks/rhythm/instruments/color concepts"},
     {"path": "knowledge/ALBUM-REMIX-VGM.md", "role": "album/remix/platform methods"},
@@ -17,5 +18,5 @@
     "private catalog contents",
     "complete private engine implementations"
   ],
-  "note": "Five coherent cartridges are preferred over filling the carrier's maximum file allowance without need."
+  "note": "Six coherent cartridges provide the public MusicOS knowledge surface. Forge supplies the unified pipeline without turning every specialist subsystem into a separate GPT-facing interface."
 }
