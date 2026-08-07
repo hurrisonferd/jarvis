@@ -1,4 +1,4 @@
-# The Wizard / MusicOS GPT — Builder Handoff v4
+# The Wizard / MusicOS GPT — Builder Handoff v5
 
 Status: READY_FOR_GPT_PREVIEW / NOT YET STORE-PUBLISHED  
 Carrier assumptions reviewed: 2026-08-07; re-check product behavior before launch.
@@ -11,13 +11,27 @@ Turn musical ideas and source audio into coherent MusicDNA, generator-ready prom
 
 ## Instructions
 
-Use `SYSTEM-INSTRUCTIONS.v3.md` as the active public instruction file. Knowledge now extends its Lab/Learn and Remix routes with deterministic preset language, drummer-Einstein teaching, NeuroMax Music, and Raven Advice recovery.
+Use `SYSTEM-INSTRUCTIONS.v3.md` as the active public instruction file. Knowledge extends its Lab/Learn and Remix routes with deterministic preset language, drummer-Einstein teaching, NeuroMax Music, and Raven Advice recovery.
 
-## Knowledge
+## Knowledge — Active shelf
 
-Upload every file listed in `KNOWLEDGE-MANIFEST.json` in manifest order. The active pack contains **16 cartridges**, intentionally below the assumed 20-file ceiling.
+Upload every file listed in `KNOWLEDGE-MANIFEST.json` in manifest order.
 
-Do not upload retired `CREATIVE-ENGINES.md` from repository history.
+The manifest's `active_root` is:
+
+```text
+knowledge/Active
+```
+
+All **16 active cartridges** live under that directory. `knowledge/Active/README.md` is shelf documentation and is **not** one of the 16 upload cartridges.
+
+Do not upload retired `CREATIVE-ENGINES.md` or other lineage/archaeology material outside `Active/` unless a later manifest explicitly promotes it.
+
+```text
+ACTIVE = CURRENT GPT KNOWLEDGE SURFACE
+OUTSIDE ACTIVE = LINEAGE / LEGACY / OTHER SOURCE MATERIAL
+MANIFEST = EXACT UPLOAD CONTRACT
+```
 
 Core navigation remains:
 
@@ -139,4 +153,4 @@ Test at minimum:
 
 ## Publication gate
 
-Store publication remains a separate Raven decision after identity, privacy, copyright, deterministic navigation, continuation, leakage, audio-claim, neuroscience-claim, creator-provenance, and remix-lineage canaries pass.
+Store publication remains a separate Raven decision after identity, privacy, copyright, deterministic navigation, continuation, leakage, audio-claim, neuroscience-claim, creator-provenance, active-shelf integrity, and remix-lineage canaries pass.
