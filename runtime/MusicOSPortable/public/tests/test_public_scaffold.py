@@ -21,6 +21,9 @@ class PublicScaffoldTests(unittest.TestCase):
             "gpt/knowledge/WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md",
             "gpt/knowledge/SUNO-GENERATORS-AND-REMIX.md",
             "gpt/knowledge/LIVE-PERFORMANCE-EMBODIMENT-LAB.md",
+            "gpt/knowledge/DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md",
+            "gpt/knowledge/WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md",
+            "gpt/knowledge/NEUROMAX-MUSIC-SHEET.md",
             "schemas/musicdna.v1.schema.json",
             "schemas/chaos-session.v1.schema.json",
             "schemas/continuation.v1.schema.json",
@@ -44,7 +47,7 @@ class PublicScaffoldTests(unittest.TestCase):
         manifest = json.loads((ROOT / "gpt/KNOWLEDGE-MANIFEST.json").read_text())
         files = manifest["files"]
         self.assertEqual(manifest["knowledge_file_count"], len(files))
-        self.assertEqual(len(files), 13)
+        self.assertEqual(len(files), 16)
         self.assertLessEqual(len(files), 20)
         for item in files:
             self.assertTrue((ROOT / "gpt" / item["path"]).is_file(), item["path"])
@@ -65,6 +68,46 @@ class PublicScaffoldTests(unittest.TestCase):
             self.assertIn("SAME MENU STATE", text)
             self.assertIn("SAME NUMBER", text)
             self.assertIn("SAME ROUTE", text)
+
+    def test_raven_advice_recovery_rail(self):
+        boot = (ROOT / "gpt/knowledge/WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md").read_text(encoding="utf-8")
+        self.assertIn("RAVEN ADVICE", boot)
+        self.assertIn("🐦‍⬛ RAVEN ADVICE", boot)
+        self.assertIn("THREAD", boot)
+        self.assertIn("one small", boot.lower())
+
+    def test_deterministic_preset_contract(self):
+        text = (ROOT / "gpt/knowledge/DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md").read_text(encoding="utf-8")
+        for term in [
+            "LIVE PERFORMANCE",
+            "TEMPORAL",
+            "SPATIAL",
+            "AMBIENT",
+            "FULL CONTRAST",
+            "BILATERAL ALTERNATION",
+            "SCHUMANN-SALIENT",
+            "A432",
+            "MICROPOCKET TUPLET SYNCOPATION",
+        ]:
+            self.assertIn(term, text)
+        self.assertIn("PROMPT SIGNAL != MEASURED PROPERTY", text)
+        self.assertIn("ACTIVITY IS ELASTIC", text)
+
+    def test_lexicon_compiler_contract(self):
+        text = (ROOT / "gpt/knowledge/WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md").read_text(encoding="utf-8")
+        for term in ["ELI5", "DRUMMER", "EINSTEIN", "BRAIN / BODY", "ENTRAINMENT", "SYNCOPATION", "EQ / EQUALIZATION"]:
+            self.assertIn(term, text)
+        self.assertIn("UNKNOWN-TERM BEHAVIOR", text.upper())
+
+    def test_neuromax_music_graph_not_number(self):
+        text = (ROOT / "gpt/knowledge/NEUROMAX-MUSIC-SHEET.md").read_text(encoding="utf-8")
+        self.assertIn("PERSON = LIVING GRAPH ACROSS TIME", text)
+        self.assertIn("SCORE != IDENTITY", text)
+        self.assertIn("Dopamine", text)
+        self.assertIn("OSDD / DID", text)
+        self.assertIn("MetricsAI", text)
+        self.assertIn("BILATERAL MUSIC != EMDR THERAPY", text)
+        self.assertIn("Do not infer OSDD", text)
 
     def test_john_pl_demo_is_registered_and_bounded(self):
         manifest = json.loads((ROOT / "gpt/KNOWLEDGE-MANIFEST.json").read_text())

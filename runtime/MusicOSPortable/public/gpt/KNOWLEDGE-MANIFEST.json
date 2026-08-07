@@ -1,20 +1,23 @@
 {
-  "schema": "musicos.gpt-knowledge-manifest.v2",
+  "schema": "musicos.gpt-knowledge-manifest.v4",
   "status": "PUBLIC_SAFE_SOURCE",
   "product": "MusicOS — The Wizard",
-  "knowledge_file_count": 13,
+  "knowledge_file_count": 16,
   "carrier_file_ceiling_assumed": 20,
   "routing_law": "Use the smallest relevant subset. Do not throw the whole library at the user.",
   "files": [
     {"path":"knowledge/MUSICOS-FIELD-GUIDE.md","role":"orientation + MusicDNA + public vocabulary"},
-    {"path":"knowledge/WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md","role":"deterministic 0–9 navigation + lightweight Wizard rooms/state"},
+    {"path":"knowledge/WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md","role":"deterministic 0–9 navigation + lightweight Wizard rooms/state + Raven Advice recovery"},
     {"path":"knowledge/MUSICOS-FORGE-PIPELINE.md","role":"intent → locks → musical system → generator-ready packet"},
     {"path":"knowledge/SUNO-GENERATORS-AND-REMIX.md","role":"Song Forge + Sound Lab + Voice Lab + Lyricist + Remix compilation"},
     {"path":"knowledge/MUSICOS-PATTERN-GRIMOIRE.md","role":"reusable relationship mechanics including stage-direction remixing"},
     {"path":"knowledge/CHAOS-RAIL-AND-QUIZ.md","role":"C1–C5 + bounded selection/randomization + locks"},
     {"path":"knowledge/AUDIO-ANALYSIS-REVERSE-ENGINEERING.md","role":"capability-aware audio analysis + A/B deltas + MusicDNA extraction"},
     {"path":"knowledge/LIVE-PERFORMANCE-EMBODIMENT-LAB.md","role":"three A/B live/remix fixtures + mutation vectors + stage choreography"},
+    {"path":"knowledge/DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md","role":"stable meanings for live/temporal/spatial/ambient/full-contrast/bilateral/Schumann-inspired/A432/micropocket preset language"},
     {"path":"knowledge/MUSICOS-LAB-QUESTIONS-AND-LEARNING.md","role":"creator Q&A + brainstorming + learning + tabs + tracker/FamiStudio planning"},
+    {"path":"knowledge/WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md","role":"extensible ELI5 → drummer → Einstein → neuro/perception → use-it compiler for music/audio terms"},
+    {"path":"knowledge/NEUROMAX-MUSIC-SHEET.md","role":"neuroscience + neurophysiology + neurotransmitters + condition evidence + MetricsAI graph semantics + public creator provenance"},
     {"path":"knowledge/ALBUM-REMIX-VGM.md","role":"album identity + descendants + VGM/platform constraints"},
     {"path":"knowledge/SONG-LINEAGE-COPYRIGHT-AND-GOLDEN-FIXTURES.md","role":"provenance + inspiration translation + public song case studies"},
     {"path":"knowledge/EVIDENCE-COPYRIGHT-CONTINUITY.md","role":"claim discipline + copyright/privacy + portable continuation"},
@@ -23,12 +26,16 @@
   "task_routes": {
     "new_song": ["MUSICOS-FIELD-GUIDE.md","MUSICOS-FORGE-PIPELINE.md","SUNO-GENERATORS-AND-REMIX.md","MUSICOS-PATTERN-GRIMOIRE.md"],
     "sound_voice_lyrics": ["SUNO-GENERATORS-AND-REMIX.md","MUSICOS-FORGE-PIPELINE.md","EVIDENCE-COPYRIGHT-CONTINUITY.md"],
-    "remix": ["SUNO-GENERATORS-AND-REMIX.md","MUSICOS-PATTERN-GRIMOIRE.md","LIVE-PERFORMANCE-EMBODIMENT-LAB.md","SONG-LINEAGE-COPYRIGHT-AND-GOLDEN-FIXTURES.md"],
+    "remix": ["SUNO-GENERATORS-AND-REMIX.md","MUSICOS-PATTERN-GRIMOIRE.md","LIVE-PERFORMANCE-EMBODIMENT-LAB.md","DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md","SONG-LINEAGE-COPYRIGHT-AND-GOLDEN-FIXTURES.md"],
+    "style_eq_spatial": ["DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md","LIVE-PERFORMANCE-EMBODIMENT-LAB.md","EVIDENCE-COPYRIGHT-CONTINUITY.md"],
     "analysis": ["AUDIO-ANALYSIS-REVERSE-ENGINEERING.md","MUSICOS-PATTERN-GRIMOIRE.md","EVIDENCE-COPYRIGHT-CONTINUITY.md"],
-    "learning": ["MUSICOS-LAB-QUESTIONS-AND-LEARNING.md","MUSICOS-FIELD-GUIDE.md"],
-    "chaos": ["CHAOS-RAIL-AND-QUIZ.md","MUSICOS-PATTERN-GRIMOIRE.md"],
+    "term_explanation": ["WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md","MUSICOS-LAB-QUESTIONS-AND-LEARNING.md","MUSICOS-FIELD-GUIDE.md"],
+    "neuro_music": ["NEUROMAX-MUSIC-SHEET.md","WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md","DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md","EVIDENCE-COPYRIGHT-CONTINUITY.md"],
+    "learning": ["WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md","MUSICOS-LAB-QUESTIONS-AND-LEARNING.md","MUSICOS-FIELD-GUIDE.md"],
+    "chaos": ["CHAOS-RAIL-AND-QUIZ.md","MUSICOS-PATTERN-GRIMOIRE.md","DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md"],
     "album_vgm": ["ALBUM-REMIX-VGM.md","MUSICOS-PATTERN-GRIMOIRE.md","SONG-LINEAGE-COPYRIGHT-AND-GOLDEN-FIXTURES.md"],
-    "command_help": ["WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md","JOHN-PL-MUSICOS-DEMO.md","MUSICOS-FIELD-GUIDE.md"]
+    "command_help": ["WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md","JOHN-PL-MUSICOS-DEMO.md","MUSICOS-FIELD-GUIDE.md"],
+    "lost_or_overwhelmed": ["WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md","MUSICOS-FIELD-GUIDE.md"]
   },
   "retired": [
     {"path":"knowledge/CREATIVE-ENGINES.md","reason":"methods were already represented more clearly by Field Guide, Forge, Generators, Analysis, and evidence cartridges"}
@@ -40,6 +47,7 @@
     "credentials",
     "unresolved private metric formulas",
     "private catalog contents",
-    "complete private engine implementations"
+    "complete private engine implementations",
+    "private NeuroMax profile contents beyond creator provenance explicitly made public by Raven"
   ]
 }
