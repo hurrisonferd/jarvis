@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/musicos/continuation.v1.schema.json",
+  "title": "MusicOS Continuation Packet v1",
+  "type": "object",
+  "required": ["schema_version", "musicdna", "latest_decisions", "open_questions", "next"],
+  "properties": {
+    "schema_version": {"const": "musicos.continuation.v1"},
+    "musicdna": {"type": "object"},
+    "latest_decisions": {"type": "array", "items": {"type": "string"}},
+    "open_questions": {"type": "array", "items": {"type": "string"}},
+    "source_notes": {"type": "array", "items": {"type": "string"}},
+    "next": {"type": "array", "items": {"type": "string"}},
+    "created_at": {"type": ["string", "null"]}
+  },
+  "additionalProperties": true
+}

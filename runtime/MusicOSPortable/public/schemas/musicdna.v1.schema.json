@@ -1,0 +1,56 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/musicos/musicdna.v1.schema.json",
+  "title": "MusicDNA v1",
+  "type": "object",
+  "required": ["schema_version", "identity", "locked", "mutable", "unknown", "provenance"],
+  "properties": {
+    "schema_version": {"const": "musicos.musicdna.v1"},
+    "project_id": {"type": ["string", "null"]},
+    "identity": {
+      "type": "object",
+      "required": ["intent"],
+      "properties": {
+        "intent": {"type": "string", "minLength": 1},
+        "title": {"type": ["string", "null"]},
+        "role": {"type": ["string", "null"]}
+      },
+      "additionalProperties": true
+    },
+    "rhythm": {"type": "object", "additionalProperties": true},
+    "bass_rail": {"type": "object", "additionalProperties": true},
+    "hooks": {"type": "array", "items": {"type": "object"}},
+    "motifs": {"type": "array", "items": {"type": "object"}},
+    "harmony": {"type": "object", "additionalProperties": true},
+    "instrument_roles": {"type": "array", "items": {"type": "object"}},
+    "rgb": {
+      "type": "object",
+      "properties": {
+        "R": {"type": ["integer", "null"], "minimum": 0, "maximum": 100},
+        "G": {"type": ["integer", "null"], "minimum": 0, "maximum": 100},
+        "B": {"type": ["integer", "null"], "minimum": 0, "maximum": 100}
+      },
+      "additionalProperties": false
+    },
+    "production": {"type": "object", "additionalProperties": true},
+    "structure": {"type": "object", "additionalProperties": true},
+    "platform_profile": {"type": ["object", "null"], "additionalProperties": true},
+    "album_inheritance": {"type": ["object", "null"], "additionalProperties": true},
+    "remix_inheritance": {"type": ["object", "null"], "additionalProperties": true},
+    "chaos": {
+      "type": "object",
+      "properties": {
+        "distance": {"enum": ["C1", "C2", "C3", "C4", "C5", null]},
+        "seed": {"type": ["string", "integer", "null"]},
+        "mutation_lanes": {"type": "array", "items": {"type": "string"}},
+        "collisions": {"type": "array", "items": {"type": "string"}}
+      },
+      "additionalProperties": true
+    },
+    "locked": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "mutable": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "unknown": {"type": "array", "items": {"type": "string"}, "uniqueItems": true},
+    "provenance": {"type": "array", "items": {"type": "object"}}
+  },
+  "additionalProperties": true
+}

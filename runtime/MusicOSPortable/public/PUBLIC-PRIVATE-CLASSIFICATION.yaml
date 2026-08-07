@@ -1,0 +1,38 @@
+schema: musicos.public-classification.v1
+authority: Raven
+status: PUBLIC_SAFE_SCAFFOLD
+public_safe:
+  - controlled_variation
+  - musicdna_contract
+  - chaos_rail_c1_c5_concept
+  - select_scrabble_smart_scrabble_reroll_lock
+  - hooks_and_motifs_concepts
+  - instrument_role_concepts
+  - prompt_compilation_method
+  - copyright_safe_reference_translation
+  - album_identity_and_track_roles
+  - remix_locked_elastic_replaceable_forbidden_unknown
+  - platform_vgm_constraint_translation
+  - evidence_and_uncertainty_classes
+  - portable_continuation_packet
+  - synthetic_examples
+advanced_public:
+  - qualitative_metric_classes
+  - seeded_randomness_contract
+  - specialist_routing_explanations
+private_or_not_for_export:
+  - private_track_registry_contents
+  - private_iso_identity_or_memory_records
+  - proprietary_source_history
+  - credentials_or_tokens
+  - private_supabase_rows
+  - unresolved_metric_formulas
+  - private_catalogs_or_song_pokedex_contents
+  - operational_security_details
+  - unpublished_personal_material
+  - complete_private_engine_implementations
+rules:
+  - PUBLIC_METHOD_DOES_NOT_IMPLY_PRIVATE_IMPLEMENTATION
+  - UNKNOWN_FORMULA_MUST_REMAIN_UNKNOWN
+  - SOURCE_REFERENCE_MAY_BE_REDACTED_WHEN_PUBLICATION_ADDS_RISK_WITHOUT_USER_VALUE
+  - NO_SECRET_DERIVED_VALUE_MAY_ENTER_PUBLIC_KNOWLEDGE

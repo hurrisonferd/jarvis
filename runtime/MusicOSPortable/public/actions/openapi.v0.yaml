@@ -1,0 +1,75 @@
+openapi: 3.1.0
+info:
+  title: MusicOS Public Compute API
+  version: 0.0.1-spec
+  description: SPEC ONLY. Read/compute seam for The Wizard. No persistence endpoints.
+servers:
+  - url: https://musicos.example.invalid
+paths:
+  /v1/status:
+    get:
+      operationId: musicosStatus
+      summary: Return public runtime readiness and claim ceiling.
+      responses:
+        '200':
+          description: Status response
+  /v1/compile:
+    post:
+      operationId: musicosCompile
+      summary: Compile a public MusicDNA/intent object into a generator-facing prompt object.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [intent]
+              properties:
+                intent: {type: string}
+                musicdna: {type: object}
+      responses:
+        '200': {description: Compilation object + receipt}
+  /v1/musicdna/validate:
+    post:
+      operationId: musicdnaValidate
+      summary: Validate MusicDNA shape and report locks/unknowns without mutation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200': {description: Validation result}
+  /v1/chaos/resolve:
+    post:
+      operationId: chaosResolve
+      summary: Resolve one bounded Chaos question using an explicit valid option set, method, locks, and optional seed.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required: [question_id, valid_options, method]
+              properties:
+                question_id: {type: string}
+                valid_options: {type: array, minItems: 1, items: {}}
+                method: {type: string, enum: [SCRABBLE, SMART_SCRABBLE]}
+                seed: {type: [string, integer, 'null']}
+                locked: {type: array, items: {type: string}}
+                context: {type: object}
+      responses:
+        '200': {description: Selected value + seed + receipt}
+  /v1/continuation/export:
+    post:
+      operationId: continuationExport
+      summary: Convert current MusicDNA and decisions into a portable continuation packet without storing it.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+      responses:
+        '200': {description: Continuation packet + receipt}

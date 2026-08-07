@@ -1,0 +1,32 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://example.invalid/musicos/chaos-session.v1.schema.json",
+  "title": "Chaos Session v1",
+  "type": "object",
+  "required": ["schema_version", "session_id", "distance", "answers"],
+  "properties": {
+    "schema_version": {"const": "musicos.chaos-session.v1"},
+    "session_id": {"type": "string", "minLength": 1},
+    "distance": {"enum": ["C1", "C2", "C3", "C4", "C5"]},
+    "seed": {"type": ["string", "integer", "null"]},
+    "answers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["question_id", "value", "valid_options", "chosen_by", "locked"],
+        "properties": {
+          "question_id": {"type": "string"},
+          "value": {},
+          "valid_options": {"type": "array", "minItems": 1},
+          "chosen_by": {"enum": ["USER", "SCRABBLE", "SMART_SCRABBLE", "INHERITED", "INFERRED"]},
+          "locked": {"type": "boolean"},
+          "accepted": {"type": "boolean"}
+        },
+        "additionalProperties": true
+      }
+    },
+    "prior_state_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"},
+    "result_state_sha256": {"type": ["string", "null"], "pattern": "^[0-9a-fA-F]{64}$"}
+  },
+  "additionalProperties": true
+}

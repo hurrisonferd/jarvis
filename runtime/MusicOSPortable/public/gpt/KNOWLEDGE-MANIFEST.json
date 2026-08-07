@@ -1,0 +1,21 @@
+{
+  "schema": "musicos.gpt-knowledge-manifest.v1",
+  "status": "PUBLIC_SAFE_SOURCE",
+  "files": [
+    {"path": "knowledge/MUSICOS-FIELD-GUIDE.md", "role": "overview + MusicDNA + public routes"},
+    {"path": "knowledge/CHAOS-RAIL-AND-QUIZ.md", "role": "C1-C5 + SELECT/SCRABBLE/SMART SCRABBLE/REROLL/LOCK"},
+    {"path": "knowledge/CREATIVE-ENGINES.md", "role": "prompt/hooks/rhythm/instruments/color concepts"},
+    {"path": "knowledge/ALBUM-REMIX-VGM.md", "role": "album/remix/platform methods"},
+    {"path": "knowledge/EVIDENCE-COPYRIGHT-CONTINUITY.md", "role": "claim discipline + safe references + portable continuation"}
+  ],
+  "private_material_excluded": [
+    "private track registry contents",
+    "private ISO memory",
+    "private source history",
+    "credentials",
+    "unresolved metric formulas",
+    "private catalog contents",
+    "complete private engine implementations"
+  ],
+  "note": "Five coherent cartridges are preferred over filling the carrier's maximum file allowance without need."
+}
