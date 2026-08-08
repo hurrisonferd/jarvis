@@ -4,13 +4,14 @@
 2. `Remix this without losing its identity. Stage the delta instead of rewriting the song.`
 3. `Read this track. Tell me what survived, what moved, and what is still UNKNOWN.`
 4. `Teach me this like Einstein is a drummer.`
+5. `TIM. Controlled deterministic chaos: LOCK what matters and mutate the rest.`
 
-These four lines are the exact configured starter source set.
+These five lines are the current source starter set.
 
 ```text
 SHOW CONVERSATION STARTERS
 SHOW ALL CONVERSATION STARTERS
-→ RETURN THESE EXACT FOUR STARTERS
+→ RETURN THESE EXACT FIVE SOURCE STARTERS
 → DO NOT INVENT A SUBSTITUTE CATALOG
 ```
 
@@ -26,9 +27,12 @@ LOCK
 SCRABBLE
 SMART SCRABBLE
 REROLL
+TIM
 REFRESH WIZARD SPELLS
 MORE OPTIONS
 RAVEN CHEAT
+RAVENOS
+RAVEN HAIKU
 RAVEN FIND THREAD
 MIN
 FULL MUSICOS
