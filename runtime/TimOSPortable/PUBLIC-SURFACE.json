@@ -1,0 +1,24 @@
+{
+  "system": "TimOS",
+  "surface": "public-version-metadata-only",
+  "authority": "RAVEN",
+  "allow": [
+    "version identifiers",
+    "source milestone commit receipts",
+    "public feature summaries",
+    "release-facing compatibility notes"
+  ],
+  "deny_by_default": [
+    "GPT system-instruction markdowns",
+    "GPT knowledge markdowns",
+    "private source contracts",
+    "private identity or continuity material",
+    "private SystemsOS archaeology",
+    "private builder handoff material",
+    "unpromoted runtime internals"
+  ],
+  "private_home": "canon/Living_Codex/SystemsOS/Core/Creative/TimOS/",
+  "gpt_private_home": "canon/Living_Codex/SystemsOS/Core/Creative/TimOS/GPT/",
+  "promotion_rule": "A private artifact becomes public only by explicit Raven-authorized promotion.",
+  "boundary": "PUBLIC VERSION != PRIVATE SOURCE"
+}

@@ -1,0 +1,25 @@
+{
+  "system": "TimOS",
+  "version_scheme": "private-source-milestone",
+  "current_version": "TIMOS-2026-08-08-f6cc4715",
+  "source_commit": "f6cc4715b27e4c1514518122f78e74654acc817d",
+  "status": "DEVELOPMENT_SOURCE_MILESTONE",
+  "features": [
+    "BootOS + RavenOS + KaomojiOS + Kanji integration lineage",
+    "English/Japanese 1:1 semantic-pair model",
+    "Modified Hepburn pronunciation projection",
+    "deterministic Raven projection from resolved state"
+  ],
+  "claim_ceiling": [
+    "source milestone exists",
+    "public version receipt published"
+  ],
+  "not_claimed": [
+    "stable SystemsOS object",
+    "public runtime parity",
+    "registered Tim ISO",
+    "stable semantic version",
+    "GPT knowledge publication"
+  ],
+  "private_source_authority": "hurrisonferd/Jarvis-Private"
+}

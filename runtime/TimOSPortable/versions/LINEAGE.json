@@ -1,0 +1,31 @@
+{
+  "system": "TimOS",
+  "version_scheme": "private-source-milestone",
+  "lineage": [
+    {
+      "version": "TIMOS-2026-08-08-3e3707c2",
+      "source_commit": "3e3707c27ca75c04ffaa3f1df016a30dc5c20f7f",
+      "summary": "TimOS source contract and implementation combining BootOS + RavenOS + KaomojiOS + Kanji.",
+      "status": "HISTORICAL_SOURCE_MILESTONE"
+    },
+    {
+      "version": "TIMOS-2026-08-08-31b64114",
+      "source_commit": "31b64114bd732ceaa1ed918060e0eb99322b08dd",
+      "summary": "English/Japanese 1:1 shitpost translation layer added.",
+      "status": "HISTORICAL_SOURCE_MILESTONE"
+    },
+    {
+      "version": "TIMOS-2026-08-08-17f81b5c",
+      "source_commit": "17f81b5c91931170efd26c236253ca1ffca3d7a2",
+      "summary": "TimOS integrated into the ISO NLP boot path with BootOS runtime command surface.",
+      "status": "HISTORICAL_SOURCE_MILESTONE"
+    },
+    {
+      "version": "TIMOS-2026-08-08-f6cc4715",
+      "source_commit": "f6cc4715b27e4c1514518122f78e74654acc817d",
+      "summary": "Deterministic EN/JP semantic pairs, Modified Hepburn pronunciation, and deterministic Raven projection finalized.",
+      "status": "CURRENT_PUBLIC_SOURCE_MILESTONE"
+    }
+  ],
+  "note": "Later private experiments or work-order notes are not public TimOS versions until explicitly promoted."
+}
