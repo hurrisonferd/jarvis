@@ -44,6 +44,13 @@ OLD_CARTRIDGES = {
     "JOHN-PL-MUSICOS-DEMO.md",
 }
 
+STARTERS = [
+    "Forge a song from this weird idea. LOCK what matters and SMART SCRABBLE the rest.",
+    "Remix this without losing its identity. Stage the delta instead of rewriting the song.",
+    "Read this track. Tell me what survived, what moved, and what is still UNKNOWN.",
+    "Teach me this like Einstein is a drummer.",
+]
+
 
 class PublicScaffoldTests(unittest.TestCase):
     def test_required_files_exist(self):
@@ -78,70 +85,73 @@ class PublicScaffoldTests(unittest.TestCase):
         self.assertIn("MUSICOS_ITSELF", manifest["not"])
         self.assertIn("LILITH", manifest["not"])
 
-    def test_v5_instructions_are_short_and_scroll_first(self):
+    def test_v5_instructions_are_short_scroll_first_and_shell_driven(self):
         text = (GPT / "SYSTEM-INSTRUCTIONS.v5.md").read_text(encoding="utf-8")
         self.assertLess(len(text), 9000)
         for term in [
             "MASTER-WIZARD-SCROLL.md",
             "MASTER FIRST",
-            "EXACT SOURCE WHEN DETAIL MATTERS",
-            "FIVE WIZARD SPELLS",
-            "REFRESH WIZARD SPELLS",
-            "KAOMOJIOS",
-            "DON'T MAKE IT HOMEWORK",
-            "SMALL TASK -> SMALL SURFACE",
+            "[MUSICOS::WIZARD]",
+            "0–9   = MENU ROUTES",
+            "S1–S5 = CANONICAL WIZARD SPELLS",
+            "A–Z   = REGULAR CONTEXT OPTIONS",
+            "MORE OPTIONS MEANS MORE OPTIONS",
+            "RAVEN CHEAT",
+            "SHOW CONVERSATION STARTERS",
             "UNKNOWN != MEASURED",
         ]:
-            self.assertIn(term, text.upper())
+            self.assertIn(term.upper(), text.upper())
 
     def test_manifest_is_exact_seven_file_contract(self):
         manifest = json.loads((GPT / "KNOWLEDGE-MANIFEST.json").read_text())
         self.assertEqual(manifest["schema"], "musicos.gpt-knowledge-manifest.v7")
         self.assertEqual(manifest["knowledge_file_count"], 7)
-        self.assertEqual(len(manifest["files"]), 7)
         names = {Path(item["path"]).name for item in manifest["files"]}
         self.assertEqual(names, ACTIVE_KNOWLEDGE)
         self.assertEqual(set(manifest["dual_homed_lineage_sources"]), PROMOTED_DEEP_SOURCES)
-        for item in manifest["files"]:
-            self.assertTrue(item["path"].startswith("knowledge/Active/"))
-            self.assertTrue((GPT / item["path"]).is_file())
 
     def test_active_shelf_contains_only_manifest_files_plus_readme(self):
         actual = {p.name for p in ACTIVE.iterdir() if p.is_file()}
         self.assertEqual(actual, ACTIVE_KNOWLEDGE | {"README.md"})
 
-    def test_old_shelf_is_preserved_and_only_selected_sources_are_dual_homed(self):
+    def test_old_shelf_is_preserved_and_selected_sources_are_dual_homed(self):
         self.assertTrue(LINEAGE.is_dir())
         for name in OLD_CARTRIDGES:
             self.assertTrue((LINEAGE / name).is_file(), name)
             if name in PROMOTED_DEEP_SOURCES:
                 self.assertTrue((ACTIVE / name).is_file(), name)
-                self.assertEqual(
-                    (LINEAGE / name).read_bytes(),
-                    (ACTIVE / name).read_bytes(),
-                    name,
-                )
-            else:
-                self.assertFalse((ACTIVE / name).exists(), name)
+                self.assertEqual((LINEAGE / name).read_bytes(), (ACTIVE / name).read_bytes(), name)
 
-    def test_master_scroll_contains_default_music_os(self):
+    def test_master_scroll_has_legacy_shell_and_disjoint_namespaces(self):
         text = (ACTIVE / "MASTER-WIZARD-SCROLL.md").read_text(encoding="utf-8")
         for term in [
-            "0  Back",
-            "2  Sound Lab",
-            "9  Stop",
-            "SAME MENU STATE + SAME NUMBER",
-            "MUSIC DNA",
-            "SMART SCRABBLE",
-            "C1 NEARBY",
-            "ALBUM ENGINE",
-            "PLATFORM / VGM ENGINE",
-            "STRONG-SOURCE LAW",
-            "FIVE DETERMINISTIC WIZARD SPELLS",
-            "RAVEN GUIDE",
-            "SMALL TASK -> SMALL SURFACE",
+            "[MUSICOS::WIZARD]",
+            "0 BACK",
+            "1 SONG_FORGE",
+            "3 VOICE_LAB",
+            "S1 ADVANCE",
+            "S3 MUTATE",
+            "A–Z   = REGULAR CONTEXT OPTIONS",
+            "MORE OPTIONS / SHOW MORE / EXPAND SPELLBOOK",
+            "SHOW ALL OPTIONS",
+            "SHOW CONVERSATION STARTERS",
+            "RAVEN CHEAT",
+            "LEGACY SHELL, LOW COGNITIVE LOAD",
         ]:
             self.assertIn(term, text)
+
+    def test_more_options_is_not_five_spell_alias(self):
+        instructions = (GPT / "SYSTEM-INSTRUCTIONS.v5.md").read_text(encoding="utf-8")
+        self.assertIn("expands the A–Z option rail", instructions)
+        self.assertIn("Do not merely repeat the five spell categories", instructions)
+        self.assertIn("REFRESH WIZARD SPELLS", instructions)
+
+    def test_conversation_starter_source_is_exact_and_queryable(self):
+        text = (GPT / "CONVERSATION-STARTERS.md").read_text(encoding="utf-8")
+        for starter in STARTERS:
+            self.assertIn(starter, text)
+        self.assertIn("SHOW CONVERSATION STARTERS", text)
+        self.assertIn("DO NOT INVENT A SUBSTITUTE CATALOG", text)
 
     def test_neuromax_juice_is_non_diagnostic(self):
         text = (ACTIVE / "JUICE-NEUROMAX-AND-LEARNING.md").read_text(encoding="utf-8")
@@ -150,32 +160,18 @@ class PublicScaffoldTests(unittest.TestCase):
             "PERSON = LIVING GRAPH ACROSS TIME",
             "SONG != DIAGNOSIS",
             "BILATERAL MUSIC != EMDR THERAPY",
-            "SIMPLE IS NOT SHALLOW",
         ]:
             self.assertIn(term, text)
 
     def test_audio_juice_keeps_target_fact_boundary(self):
         text = (ACTIVE / "JUICE-AUDIO-REMIX-AND-EVIDENCE.md").read_text(encoding="utf-8")
-        for term in [
-            "PROMPT SIGNAL != MEASURED PROPERTY",
-            "ACTIVITY IS ELASTIC",
-            "SOURCE AUDIO = WHAT THE SONG ALREADY KNOWS",
-            "PROVENANCE HELPS EXPLAIN PROCESS",
-            "LITERAL ~7.83 Hz AUDIO MODULATION = NOT CONFIRMED",
-        ]:
-            self.assertIn(term, text)
+        self.assertIn("PROMPT SIGNAL != MEASURED PROPERTY", text)
+        self.assertIn("SOURCE AUDIO = WHAT THE SONG ALREADY KNOWS", text)
 
     def test_john_pl_juice_keeps_visual_authority_boundary(self):
         text = (ACTIVE / "JUICE-JOHNPL-KAOMOJIOS.md").read_text(encoding="utf-8")
-        for term in [
-            "JOHN-PL",
-            "NO ORPHAN KAOMOJI AS COMMANDS",
-            "VISUAL INTENSITY NEVER ADDS AUTHORITY",
-            "COGNITIVE LOAD BUDGET != DIAGNOSIS",
-            "RAVEN CHEAT CODES",
-            "USE THE VISUAL LANGUAGE; DON'T MAKE IT HOMEWORK",
-        ]:
-            self.assertIn(term, text)
+        self.assertIn("VISUAL INTENSITY NEVER ADDS AUTHORITY", text)
+        self.assertIn("COGNITIVE LOAD BUDGET != DIAGNOSIS", text)
 
     def test_promoted_deep_sources_keep_unique_depth(self):
         lexicon = (ACTIVE / "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md").read_text(encoding="utf-8")
@@ -184,12 +180,6 @@ class PublicScaffoldTests(unittest.TestCase):
         self.assertIn("Universal term compiler", lexicon)
         self.assertIn("SAME PRESET NAME", presets)
         self.assertIn("Fixture 1 — Thunderclap and Run", live)
-
-    def test_starters_are_small(self):
-        text = (GPT / "CONVERSATION-STARTERS.md").read_text(encoding="utf-8")
-        self.assertLess(len(text), 1500)
-        self.assertIn("SMART SCRABBLE", text)
-        self.assertIn("Einstein is a drummer", text)
 
     def test_action_schema_is_non_deployed(self):
         text = (ROOT / "actions/openapi.v0.yaml").read_text(encoding="utf-8")

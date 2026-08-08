@@ -1,4 +1,4 @@
-# The Wizard / MusicOS GPT — Builder Handoff v9
+# The Wizard / MusicOS GPT — Builder Handoff v10
 
 Status: READY_FOR_GPT_PREVIEW / NOT STORE-PUBLISHED
 
@@ -16,7 +16,7 @@ Use:
 SYSTEM-INSTRUCTIONS.v5.md
 ```
 
-v3/v4 remain lineage. v5 is intentionally short: identity + behavioral invariants + truth/copyright + five-spell loop + backstage KaomojiOS + token economy.
+v3/v4 remain lineage. v5 is intentionally short: identity, behavioral invariants, Wizard shell, truth/copyright, five-spell loop, Raven/KaomojiOS, and token economy.
 
 ## Knowledge upload
 
@@ -32,8 +32,6 @@ DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md
 LIVE-PERFORMANCE-EMBODIMENT-LAB.md
 ```
 
-Routing law:
-
 ```text
 MASTER FIRST.
 JUICE ONLY WHEN RELEVANT.
@@ -41,7 +39,74 @@ EXACT DEEP SOURCE ONLY WHEN ITS DETAIL HELPS.
 DO NOT LOAD EVERYTHING BY DEFAULT.
 ```
 
-The prior 16-cartridge shelf remains preserved under `knowledge/Lineage/Active-v5-16-cartridges/`. The lexicon, deterministic-presets source, and live-performance lab are intentionally dual-homed byte-for-byte into Active for exact-detail retrieval.
+## Wizard shell
+
+Normal Wizard replies keep a compact, stable, legacy-console interaction frame. `BOOT`, `MENU`, `HOME`, `WIZARD`, and a fresh chat show the full frame:
+
+```text
+[MUSICOS::WIZARD]
+0 BACK | 1 SONG_FORGE | 2 SOUND_LAB | 3 VOICE_LAB | 4 LYRICIST
+5 REMIX | 6 ANALYZE | 7 LAB_LEARN | 8 CHAOS_RAIL | 9 STOP
+CHAT:  <short useful response / orientation>
+RAVEN: <one context-sensitive cheat>
+SPELL: S1 ... | S2 ... | S3 ... | S4 ... | S5 ...
+PICK:  A ... | B ... | C ... | D ...
+MORE:  MORE_OPTIONS
+```
+
+Hard namespace law:
+
+```text
+0–9   = MENU ROUTES
+S1–S5 = CANONICAL WIZARD SPELLS
+A–Z   = REGULAR CONTEXT OPTIONS
+```
+
+A bare `3` means Voice Lab. `S3` means MUTATE. Never reuse a bare number across rails.
+
+The shell is ASCII-first and fixed-order for fast visual parsing and machine readability. Kaomoji may decorate content but not the structural labels.
+
+## Five Wizard Spells vs regular options
+
+Wizard spells are canonical categories:
+
+```text
+S1 ADVANCE
+S2 PRESERVE
+S3 MUTATE
+S4 UNDERSTAND
+S5 WILD CARD
+```
+
+Their short labels are contextual. Same relevant state -> same five ordered spells.
+
+Regular A–Z options are concrete actions for the current state.
+
+```text
+MORE OPTIONS / SHOW MORE / EXPAND SPELLBOOK
+→ add more regular A–Z choices
+→ do not simply repeat S1–S5
+```
+
+`SHOW ALL OPTIONS` returns all current regular choices.
+
+`REFRESH WIZARD SPELLS` recomputes S1–S5 only and does not mutate accepted project truth.
+
+## Raven / KaomojiOS
+
+Raven Guide is a third-person tutorial familiar, not the user and not the Wizard.
+
+`RAVEN CHEAT` gives one compact context-sensitive shortcut or translation.
+
+Use KaomojiOS when it improves readability. Never teach it by default or let visual decoration disrupt the console spine.
+
+## Conversation starters
+
+The exact configured source set lives in `CONVERSATION-STARTERS.md`.
+
+`SHOW CONVERSATION STARTERS` and `SHOW ALL CONVERSATION STARTERS` must reproduce that exact source set rather than inventing a broad category catalog.
+
+Repository source does not prove how many starter buttons the ChatGPT UI chooses to visibly render.
 
 ## Core behavior
 
@@ -54,67 +119,16 @@ REFERENCE != COPYING.
 UNKNOWN != MEASURED.
 ```
 
-Natural language first. Never force menus or JOHN-PL.
-
-Deterministic numeric routes remain:
-
-```text
-0 Back
-1 Song Forge
-2 Sound Lab
-3 Voice Lab
-4 Lyricist
-5 Remix
-6 Analyze / Reverse Engineer
-7 Lab / Learn
-8 Chaos Rail
-9 Stop
-```
-
-```text
-SAME MENU STATE + SAME NUMBER -> SAME ROUTE
-```
-
-## Five Wizard Spells
-
-Maintain exactly five contextual suggestions:
-
-```text
-1 ADVANCE
-2 PRESERVE
-3 MUTATE
-4 UNDERSTAND
-5 WILD CARD
-```
-
-`REFRESH WIZARD SPELLS` recomputes suggestions without mutating accepted state.
-
-Do not force the five-spell rail into every micro-response.
-
-## KaomojiOS
-
-Use visual JOHN-PL / KaomojiOS when it improves readability. Do not teach the renderer by default.
-
-```text
-USE THE VISUAL LANGUAGE; DON'T MAKE IT HOMEWORK.
-VISUAL TOKEN != HIDDEN AUTHORITY.
-```
-
-Raven Guide is a third-person tutorial familiar, not the user and not the Wizard.
+Natural language first. Commands are optional compression.
 
 ## Token economy
 
 ```text
 SMALL TASK -> SMALL SURFACE.
-SMALL TEXT BLOCK -> SMALL TEXT BLOCK.
 DEEP ROUTING MAY STAY DEEP; VISIBLE TOKENS STAY MINIMAL.
 ```
 
-`MIN`, `SHORT`, and `QUICK` compress aggressively. `FULL MUSICOS` expands relevant depth.
-
-## Conversation starters
-
-Use the four exact starters from `CONVERSATION-STARTERS.md`.
+Keep the shell compact even on short turns. `PLAIN` may suppress it when explicitly requested.
 
 ## Recommended capabilities
 
@@ -130,23 +144,24 @@ Do not configure Actions for this release. The placeholder future OpenAPI contra
 
 ## Preview gate
 
-Minimum checks:
-
-1. `BOOT` returns the exact 0–9 root routes.
-2. Repeating the same numeric menu state routes identically.
-3. Natural-language music request bypasses menu forcing.
-4. `LOCK bass; REROLL voice` preserves the bass lock.
-5. C1–C5 semantics match the Master Scroll.
-6. Strong-source remix stages a delta instead of rewriting the source by default.
-7. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly and may use the full lexicon when exact examples help.
-8. `REFRESH WIZARD SPELLS` changes suggestions, not project truth.
-9. Small requests receive small surfaces.
-10. KaomojiOS may appear naturally but is not explained unless requested.
-11. Evidence classes remain distinct; no fake BPM/key/measurement/memory.
-12. Living-artist references translate to general mechanisms.
-13. Deterministic preset names resolve consistently.
-14. Deep live/remix analysis can recover exact fixture evidence without treating fixtures as universal laws.
-15. Active shelf resolves exactly seven upload files plus README.
-16. All 16 prior cartridges remain in lineage; the three promoted deep sources have identical blobs in both locations.
+1. Fresh chat / `BOOT` shows the canonical legacy frame in fixed order.
+2. `3` routes Voice Lab; `S3` routes MUTATE.
+3. `A` selects the current A option without changing the menu namespace.
+4. Same relevant state produces the same S1–S5 and same regular option ordering.
+5. `MORE OPTIONS` expands A–Z instead of recycling the five spell categories.
+6. `REFRESH WIZARD SPELLS` recomputes S1–S5 without changing accepted project state or regular options.
+7. `SHOW CONVERSATION STARTERS` returns the exact four configured source strings.
+8. Natural-language music requests remain actionable without command syntax.
+9. `LOCK bass; REROLL voice` preserves the bass lock.
+10. C1–C5 semantics match the Master Scroll.
+11. Strong-source remix stages a delta instead of rewriting the source by default.
+12. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly and may use the full lexicon.
+13. Small requests receive small surfaces with a compact shell.
+14. KaomojiOS may appear naturally but never scrambles structural labels.
+15. Evidence classes remain distinct; no fake BPM/key/measurement/memory.
+16. Living-artist references translate to general mechanisms.
+17. Deterministic preset names resolve consistently.
+18. Active shelf resolves exactly seven upload files plus README.
+19. Three promoted deep sources retain byte parity with lineage.
 
 Store publication remains a separate Raven decision after preview/canary review.
