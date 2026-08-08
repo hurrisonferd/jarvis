@@ -1,27 +1,43 @@
-# The Wizard / MusicOS GPT — Builder Handoff v6
+# The Wizard / MusicOS GPT — Builder Handoff v8
 
-Status: READY_FOR_GPT_PREVIEW / NOT YET STORE-PUBLISHED  
-Carrier assumptions reviewed: 2026-08-07; re-check product behavior before launch.
+Status: READY_FOR_GPT_PREVIEW / NOT STORE-PUBLISHED
 
 ## Product
 
 **MusicOS — The Wizard**
 
-Preserve musical identity, mutate relationships, compile generator-ready music, analyze evidence, teach clearly, and keep the strange middle coherent.
+Preserve musical identity, mutate relationships, compile useful music, analyze evidence, teach clearly, and keep controlled chaos coherent.
 
-## Active instructions
+## Instructions
 
 Use:
 
 ```text
-SYSTEM-INSTRUCTIONS.v4.md
+SYSTEM-INSTRUCTIONS.v5.md
 ```
 
-`SYSTEM-INSTRUCTIONS.v3.md` is lineage for comparison, not the active builder instruction file.
+v3/v4 remain lineage. v5 is intentionally short: identity + behavioral invariants + truth/copyright + five-spell loop + backstage KaomojiOS + token economy.
 
-The v4 contract intentionally compresses the older route-by-route manual around Raven's core language while retaining deterministic navigation, Strong Source / Stage Direction, deterministic presets, Drummer-Einstein teaching, NeuroMax Music, evidence boundaries, and Raven recovery.
+## Knowledge upload
 
-Core checksum:
+Upload exactly the four files in `KNOWLEDGE-MANIFEST.json`:
+
+```text
+MASTER-WIZARD-SCROLL.md
+JUICE-NEUROMAX-AND-LEARNING.md
+JUICE-AUDIO-REMIX-AND-EVIDENCE.md
+JUICE-JOHNPL-KAOMOJIOS.md
+```
+
+```text
+MASTER FIRST.
+JUICE ONLY WHEN RELEVANT.
+ONE SCROLL WHEN ONE SCROLL IS ENOUGH.
+```
+
+The old 16-cartridge shelf is preserved under `knowledge/Lineage/Active-v5-16-cartridges/` and is not part of the current GPT upload contract.
+
+## Core behavior
 
 ```text
 IDENTITY BEFORE NOVELTY.
@@ -32,9 +48,30 @@ REFERENCE != COPYING.
 UNKNOWN != MEASURED.
 ```
 
-## Five deterministic Wizard Spells
+Natural language first. Never force menus or JOHN-PL.
 
-After substantive work, the Wizard maintains exactly five contextual next-spell options derived from the current conversation state.
+Deterministic numeric routes remain:
+
+```text
+0 Back
+1 Song Forge
+2 Sound Lab
+3 Voice Lab
+4 Lyricist
+5 Remix
+6 Analyze / Reverse Engineer
+7 Lab / Learn
+8 Chaos Rail
+9 Stop
+```
+
+```text
+SAME MENU STATE + SAME NUMBER -> SAME ROUTE
+```
+
+## Five Wizard Spells
+
+Maintain exactly five contextual suggestions:
 
 ```text
 1 ADVANCE
@@ -44,184 +81,64 @@ After substantive work, the Wizard maintains exactly five contextual next-spell 
 5 WILD CARD
 ```
 
-Hard law:
+`REFRESH WIZARD SPELLS` recomputes suggestions without mutating accepted state.
+
+Do not force the five-spell rail into every micro-response.
+
+## KaomojiOS
+
+Use visual JOHN-PL / KaomojiOS when it improves readability. Do not teach the renderer by default.
 
 ```text
-SAME RELEVANT CONVERSATION STATE
--> SAME FIVE ORDERED WIZARD SPELLS
+USE THE VISUAL LANGUAGE; DON'T MAKE IT HOMEWORK.
+VISUAL TOKEN != HIDDEN AUTHORITY.
 ```
 
-Always-valid command:
+Raven Guide is a third-person tutorial familiar, not the user and not the Wizard.
+
+## Token economy
 
 ```text
-REFRESH WIZARD SPELLS
+SMALL TASK -> SMALL SURFACE.
+SMALL TEXT BLOCK -> SMALL TEXT BLOCK.
+DEEP ROUTING MAY STAY DEEP; VISIBLE TOKENS STAY MINIMAL.
 ```
 
-Refresh widens attention to broader current context and recomputes five suggestions. It must preserve accepted Music DNA, locks, evidence, and project state.
-
-## Raven translation / recovery
-
-`RAVEN EXPLAIN <AREA>` translates any Wizard menu/room into:
-
-```text
-WIZARD LANGUAGE
-LAYMAN'S LANGUAGE
-YOU GIVE IT
-YOU GET BACK
-```
-
-`RAVEN ADVICE` is the compact lost/overloaded recovery rail:
-
-```text
-🐦‍⬛ RAVEN ADVICE
-<plain-language read>
-
-THREAD
-<what is staying true>
-
-NEXT
-<one small move>
-```
-
-Fantasy should improve orientation, never tax it.
+`MIN`, `SHORT`, and `QUICK` compress aggressively. `FULL MUSICOS` expands relevant depth.
 
 ## Conversation starters
 
-Use `CONVERSATION-STARTERS.md` as the current four-starter contract:
-
-1. Forge from chaos.
-2. Stage a remix.
-3. Drummer Einstein.
-4. 🐦‍⬛ Raven, I'm lost.
-
-Use the exact prompt text from that file.
-
-## Knowledge — Active shelf
-
-Upload every file listed in `KNOWLEDGE-MANIFEST.json` in manifest order.
-
-```text
-ACTIVE ROOT = knowledge/Active
-ACTIVE CARTRIDGES = 16
-```
-
-`knowledge/Active/README.md` documents the shelf and is not an upload cartridge.
-
-Do not upload retired or lineage material outside `Active/` unless a later manifest promotes it.
-
-```text
-ACTIVE = CURRENT GPT KNOWLEDGE SURFACE
-OUTSIDE ACTIVE = LINEAGE / LEGACY / OTHER SOURCE MATERIAL
-MANIFEST = EXACT UPLOAD CONTRACT
-```
-
-## Deterministic navigation
-
-```text
-0 BACK
-1 SONG FORGE
-2 SOUND LAB
-3 VOICE LAB
-4 LYRICIST
-5 REMIX
-6 ANALYZE / REVERSE ENGINEER
-7 LAB / LEARN
-8 CHAOS RAIL
-9 STOP
-```
-
-```text
-SAME MENU STATE + SAME NUMBER -> SAME ROUTE
-```
-
-Natural-language requests should bypass the menu when already actionable.
-
-## Public teaching commands
-
-```text
-ELI5 <TERM>
-DRUMMER <TERM>
-EINSTEIN <TERM>
-NEURO <TERM>
-FULL TERM <TERM>
-RAVEN EXPLAIN <AREA>
-RAVEN ADVICE
-REFRESH WIZARD SPELLS
-```
-
-## Deterministic preset families
-
-```text
-LIVE PERFORMANCE
-TEMPORAL
-SPATIAL
-SURROUND / SURROUND-LIKE
-AMBIENT
-FULL CONTRAST
-BILATERAL ALTERNATION
-EMDR-INSPIRED BILATERAL
-SCHUMANN-SALIENT
-A432
-MICROPOCKET TUPLET SYNCOPATION
-FULL CONTRAST NEURO-SPATIAL
-```
-
-Preset names are stable creative targets. Generated output requires observation or measurement before render claims.
-
-## NeuroMax Music boundary
-
-The Wizard may explain neuroscience, neurophysiology, neurotransmitters, entrainment, spatial/bilateral auditory mechanisms, condition/disorder research, and MetricsAI-compatible measurements.
-
-```text
-METRIC = ONE EDGE / ONE OBSERVATION
-PERSON = LIVING GRAPH ACROSS TIME
-```
-
-Raven's public creator provenance may be stated as authorized in the NeuroMax cartridge. It must never become a diagnosis template for another user.
+Use the four exact starters from `CONVERSATION-STARTERS.md`.
 
 ## Recommended capabilities
 
-- Web search: optional; useful for current software, neuroscience evidence, and references.
-- Image generation: optional for covers/world-building.
+- Web search: optional for current software/research/reference facts.
+- Image generation: optional for visual/cover work.
 - Data/file analysis: enable when available for uploaded audio/data workflows.
 
-Tool availability is not proof of a result. Measurements are claimed only when actually produced.
+Tool availability is not proof of a result. Claim measurements only when actually produced.
 
 ## Actions
 
-Do not configure Actions for this release. `../actions/openapi.v0.yaml` remains a future read/compute contract with a placeholder invalid server.
+Do not configure Actions for this release. The placeholder future OpenAPI contract is not deployed.
 
 ## Preview gate
 
-Test at minimum:
+Minimum checks:
 
-1. `BOOT` -> exact 0–9 root menu.
-2. `2` at root -> Sound Lab every time.
-3. `0` -> Back; `9` -> Stop.
-4. Natural-language song request -> useful output without menu forcing.
-5. `LOCK bass; REROLL voice` -> bass lock survives.
-6. `SMART SCRABBLE` -> bounded by Music DNA and locks.
-7. C1–C5 -> definitions match v4 / Chaos Rail cartridge.
-8. Strong-source remix -> source ancestry extracted before mutation.
-9. `live performance` -> activity treated as elastic.
-10. `A432` -> A4 tuning reference, not magical frequency claim.
-11. `Schumann-salient` -> creative target, not therapeutic claim.
-12. `EMDR-inspired bilateral` -> creative bilateral mechanism, not EMDR treatment claim.
-13. `ELI5 syncopation` -> simple explanation.
-14. `EINSTEIN syncopation` -> precise mechanism without jargon wash.
-15. `NEURO entrainment` -> perceptual/motor/neural definitions + uncertainty.
-16. neurotransmitter question -> evidence-aware answer, no fake chemical dosing.
-17. diagnosis-from-song question -> no inference from music/personality structure.
-18. `I'm lost` -> compact Raven translation + one thread + one move.
-19. `RAVEN EXPLAIN REMIX` -> Wizard language + layman's language + inputs + outputs.
-20. substantive project turn -> exactly five distinct contextual Wizard Spells.
-21. repeat same relevant state -> same five spells/order.
-22. `REFRESH WIZARD SPELLS` -> new broader five without changing locks/state.
-23. A/B audio comparison -> evidence classes remain distinct.
-24. continuation request -> user-carried packet includes current five spells, no fake hidden memory.
-25. all four conversation starters route naturally and demonstrate distinct surfaces.
-26. Active shelf resolves exactly 16 cartridges and no root duplicates.
+1. `BOOT` returns the exact 0–9 root routes.
+2. Repeating the same numeric menu state routes identically.
+3. Natural-language music request bypasses menu forcing.
+4. `LOCK bass; REROLL voice` preserves the bass lock.
+5. C1–C5 semantics match the Master Scroll.
+6. Strong-source remix stages a delta instead of rewriting the source by default.
+7. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly.
+8. `REFRESH WIZARD SPELLS` changes suggestions, not project truth.
+9. Small requests receive small surfaces.
+10. KaomojiOS may appear naturally but is not explained unless requested.
+11. Evidence classes remain distinct; no fake BPM/key/measurement/memory.
+12. Living-artist references translate to general mechanisms.
+13. Active shelf resolves exactly four upload scrolls.
+14. Prior 16 cartridges exist in lineage, not Active.
 
-## Publication gate
-
-Store publication remains a separate Raven decision after identity, privacy, copyright, deterministic navigation, five-spell determinism, Raven translation/recovery, starter quality, continuation, leakage, audio-claim, neuroscience-claim, creator-provenance, active-shelf integrity, and remix-lineage canaries pass.
+Store publication remains a separate Raven decision after preview/canary review.

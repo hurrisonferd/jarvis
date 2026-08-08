@@ -1,47 +1,47 @@
 {
-  "schema": "musicos.gpt-knowledge-manifest.v5",
+  "schema": "musicos.gpt-knowledge-manifest.v6",
   "status": "PUBLIC_SAFE_SOURCE",
   "product": "MusicOS — The Wizard",
   "active_root": "knowledge/Active",
-  "migration_state": "ATOMIC_ACTIVE_MIGRATION_COMPLETE",
-  "knowledge_file_count": 16,
-  "carrier_file_ceiling_assumed": 20,
-  "routing_law": "Use the smallest relevant subset. Do not throw the whole library at the user.",
+  "migration_state": "MASTER_PLUS_JUICE_ACTIVE",
+  "knowledge_file_count": 4,
+  "routing_law": "Use MASTER-WIZARD-SCROLL.md first. Load only the specialist Juice scrolls that materially improve the current task.",
   "files": [
-    {"path":"knowledge/Active/MUSICOS-FIELD-GUIDE.md","role":"orientation + MusicDNA + public vocabulary"},
-    {"path":"knowledge/Active/WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md","role":"deterministic 0–9 navigation + lightweight Wizard rooms/state + Raven Advice recovery"},
-    {"path":"knowledge/Active/MUSICOS-FORGE-PIPELINE.md","role":"intent → locks → musical system → generator-ready packet"},
-    {"path":"knowledge/Active/SUNO-GENERATORS-AND-REMIX.md","role":"Song Forge + Sound Lab + Voice Lab + Lyricist + Remix compilation"},
-    {"path":"knowledge/Active/MUSICOS-PATTERN-GRIMOIRE.md","role":"reusable relationship mechanics including stage-direction remixing"},
-    {"path":"knowledge/Active/CHAOS-RAIL-AND-QUIZ.md","role":"C1–C5 + bounded selection/randomization + locks"},
-    {"path":"knowledge/Active/AUDIO-ANALYSIS-REVERSE-ENGINEERING.md","role":"capability-aware audio analysis + A/B deltas + MusicDNA extraction"},
-    {"path":"knowledge/Active/LIVE-PERFORMANCE-EMBODIMENT-LAB.md","role":"three A/B live/remix fixtures + mutation vectors + stage choreography"},
-    {"path":"knowledge/Active/DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md","role":"stable meanings for live/temporal/spatial/ambient/full-contrast/bilateral/Schumann-inspired/A432/micropocket preset language"},
-    {"path":"knowledge/Active/MUSICOS-LAB-QUESTIONS-AND-LEARNING.md","role":"creator Q&A + brainstorming + learning + tabs + tracker/FamiStudio planning"},
-    {"path":"knowledge/Active/WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md","role":"extensible ELI5 → drummer → Einstein → neuro/perception → use-it compiler for music/audio terms"},
-    {"path":"knowledge/Active/NEUROMAX-MUSIC-SHEET.md","role":"neuroscience + neurophysiology + neurotransmitters + condition evidence + MetricsAI graph semantics + public creator provenance"},
-    {"path":"knowledge/Active/ALBUM-REMIX-VGM.md","role":"album identity + descendants + VGM/platform constraints"},
-    {"path":"knowledge/Active/SONG-LINEAGE-COPYRIGHT-AND-GOLDEN-FIXTURES.md","role":"provenance + inspiration translation + public song case studies"},
-    {"path":"knowledge/Active/EVIDENCE-COPYRIGHT-CONTINUITY.md","role":"claim discipline + copyright/privacy + portable continuation"},
-    {"path":"knowledge/Active/JOHN-PL-MUSICOS-DEMO.md","role":"bounded public JOHN-PL command-compression demo"}
+    {
+      "path": "knowledge/Active/MASTER-WIZARD-SCROLL.md",
+      "role": "default MusicOS brain: navigation, Music DNA, creation engines, chaos, albums/VGM, remix basics, five Wizard Spells, Raven/Kaomoji use, evidence, continuity, token economy"
+    },
+    {
+      "path": "knowledge/Active/JUICE-NEUROMAX-AND-LEARNING.md",
+      "role": "optional deep teaching, music theory, Drummer-Einstein, perception, neuroscience, physiology, NeuroMax Music, learning"
+    },
+    {
+      "path": "knowledge/Active/JUICE-AUDIO-REMIX-AND-EVIDENCE.md",
+      "role": "optional deep audio analysis, A/B deltas, live embodiment, deterministic presets, remix lineage, evidence, provenance"
+    },
+    {
+      "path": "knowledge/Active/JUICE-JOHNPL-KAOMOJIOS.md",
+      "role": "optional JOHN-PL command compression, five-spell projection, Raven Guide, cheat codes, deterministic KaomojiOS visual language and cognitive-load rendering"
+    }
   ],
   "task_routes": {
-    "new_song": ["MUSICOS-FIELD-GUIDE.md","MUSICOS-FORGE-PIPELINE.md","SUNO-GENERATORS-AND-REMIX.md","MUSICOS-PATTERN-GRIMOIRE.md"],
-    "sound_voice_lyrics": ["SUNO-GENERATORS-AND-REMIX.md","MUSICOS-FORGE-PIPELINE.md","EVIDENCE-COPYRIGHT-CONTINUITY.md"],
-    "remix": ["SUNO-GENERATORS-AND-REMIX.md","MUSICOS-PATTERN-GRIMOIRE.md","LIVE-PERFORMANCE-EMBODIMENT-LAB.md","DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md","SONG-LINEAGE-COPYRIGHT-AND-GOLDEN-FIXTURES.md"],
-    "style_eq_spatial": ["DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md","LIVE-PERFORMANCE-EMBODIMENT-LAB.md","EVIDENCE-COPYRIGHT-CONTINUITY.md"],
-    "analysis": ["AUDIO-ANALYSIS-REVERSE-ENGINEERING.md","MUSICOS-PATTERN-GRIMOIRE.md","EVIDENCE-COPYRIGHT-CONTINUITY.md"],
-    "term_explanation": ["WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md","MUSICOS-LAB-QUESTIONS-AND-LEARNING.md","MUSICOS-FIELD-GUIDE.md"],
-    "neuro_music": ["NEUROMAX-MUSIC-SHEET.md","WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md","DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md","EVIDENCE-COPYRIGHT-CONTINUITY.md"],
-    "learning": ["WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md","MUSICOS-LAB-QUESTIONS-AND-LEARNING.md","MUSICOS-FIELD-GUIDE.md"],
-    "chaos": ["CHAOS-RAIL-AND-QUIZ.md","MUSICOS-PATTERN-GRIMOIRE.md","DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md"],
-    "album_vgm": ["ALBUM-REMIX-VGM.md","MUSICOS-PATTERN-GRIMOIRE.md","SONG-LINEAGE-COPYRIGHT-AND-GOLDEN-FIXTURES.md"],
-    "command_help": ["WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md","JOHN-PL-MUSICOS-DEMO.md","MUSICOS-FIELD-GUIDE.md"],
-    "lost_or_overwhelmed": ["WIZARD-BOOT-MENU-AND-TEXT-ADVENTURE.md","MUSICOS-FIELD-GUIDE.md"]
+    "default": ["MASTER-WIZARD-SCROLL.md"],
+    "new_song": ["MASTER-WIZARD-SCROLL.md"],
+    "sound_voice_lyrics": ["MASTER-WIZARD-SCROLL.md"],
+    "album_vgm": ["MASTER-WIZARD-SCROLL.md"],
+    "chaos": ["MASTER-WIZARD-SCROLL.md"],
+    "deep_learning": ["MASTER-WIZARD-SCROLL.md", "JUICE-NEUROMAX-AND-LEARNING.md"],
+    "neuro_music": ["MASTER-WIZARD-SCROLL.md", "JUICE-NEUROMAX-AND-LEARNING.md"],
+    "deep_analysis": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md"],
+    "deep_remix": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md"],
+    "presets_lineage_evidence": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md"],
+    "john_pl": ["MASTER-WIZARD-SCROLL.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
+    "kaomojios": ["MASTER-WIZARD-SCROLL.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
+    "lost_or_overwhelmed": ["MASTER-WIZARD-SCROLL.md"]
   },
-  "retired": [
-    {"path":"knowledge/CREATIVE-ENGINES.md","reason":"methods were already represented more clearly by Field Guide, Forge, Generators, Analysis, and evidence cartridges"}
-  ],
+  "lineage_root": "knowledge/Lineage/Active-v5-16-cartridges",
+  "lineage_file_count": 16,
+  "lineage_law": "Prior active cartridge blobs are preserved byte-for-byte in lineage and are not part of the current upload contract.",
   "private_material_excluded": [
     "private track registry contents",
     "private ISO memory",
@@ -50,6 +50,6 @@
     "unresolved private metric formulas",
     "private catalog contents",
     "complete private engine implementations",
-    "private NeuroMax profile contents beyond creator provenance explicitly made public by Raven"
+    "private NeuroMax profiles or diagnostic/disability context"
   ]
 }

@@ -1,35 +1,37 @@
-# MusicOS — Active Knowledge
+# MusicOS — Active Wizard Scrolls
 
-This folder is the curated home for the currently active **MusicOS — The Wizard** knowledge pack.
+The public GPT knowledge shelf is intentionally small.
+
+```text
+ACTIVE
+├─ MASTER-WIZARD-SCROLL.md
+├─ JUICE-NEUROMAX-AND-LEARNING.md
+├─ JUICE-AUDIO-REMIX-AND-EVIDENCE.md
+└─ JUICE-JOHNPL-KAOMOJIOS.md
+```
+
+## Load law
+
+```text
+MASTER FIRST.
+JUICE ONLY WHEN SPECIALIST DEPTH MATERIALLY HELPS.
+ONE SCROLL WHEN ONE SCROLL IS ENOUGH.
+```
+
+`MASTER-WIZARD-SCROLL.md` is the default MusicOS brain.
+
+Juice scrolls are optional specialist depth:
+
+- NeuroMax / Learning — theory, teaching, perception, neuroscience, physiology.
+- Audio / Remix / Evidence — A/B analysis, live embodiment, presets, provenance, evidence.
+- JOHN-PL / KaomojiOS — command compression, Raven Guide, visual language, deterministic presentation.
+
+The prior 16 active cartridges are preserved byte-for-byte under `../Lineage/Active-v5-16-cartridges/` for archaeology and rollback. They are not current GPT upload files.
+
+`../../KNOWLEDGE-MANIFEST.json` is the exact upload contract.
 
 ```text
 ACTIVE = CURRENT GPT KNOWLEDGE SURFACE
-OUTSIDE ACTIVE = LINEAGE / LEGACY / OTHER SOURCE MATERIAL
+LINEAGE = PRESERVED HISTORY
 MANIFEST = EXACT UPLOAD CONTRACT
 ```
-
-## Current state
-
-The mega atomic migration is complete.
-
-- All 16 active cartridges live directly in `knowledge/Active/`.
-- `README.md` documents the shelf and is not an upload cartridge.
-- `../KNOWLEDGE-MANIFEST.json` is the exact ordered upload contract.
-- Active cartridge content was moved byte-for-byte; migration changed location, not cartridge semantics.
-- Material outside `Active/` is not automatically part of the current GPT knowledge surface.
-
-## Change law
-
-Do not move, add, retire, or rename active cartridges piecemeal.
-
-A shelf change must update in the same bounded migration:
-
-```text
-FILES
-+ KNOWLEDGE MANIFEST
-+ BUILDER HANDOFF
-+ TEST PATHS
-+ RETRIEVAL CONSUMERS
-```
-
-> **Keep the active shelf obvious. Preserve lineage outside it.**
