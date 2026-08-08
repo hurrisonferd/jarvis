@@ -1,4 +1,4 @@
-# The Wizard / MusicOS GPT — Builder Handoff v11
+# The Wizard / MusicOS GPT — Builder Handoff v12
 
 Status: READY_FOR_GPT_PREVIEW / NOT STORE-PUBLISHED
 
@@ -10,20 +10,30 @@ Preserve musical identity, mutate relationships, compile useful music, analyze e
 
 ## Instructions
 
-Use:
+Paste:
 
 ```text
-SYSTEM-INSTRUCTIONS.v5.md
+SYSTEM-INSTRUCTIONS.v6.md
 ```
 
-v5 now defines the clean vertical Wizard shell, TIM as controlled deterministic chaos, Raven LIGHT by default, and explicit RavenOS advanced mode.
+v6 is intentionally **instructions only**. It no longer owns the full visual mockup.
+
+```text
+SYSTEM-INSTRUCTIONS.v6.md = behavior law
+WIZARD-SHELL-LAYOUT.md     = presentation authority
+MASTER-WIZARD-SCROLL.md    = MusicOS brain
+RAVENOS.md                 = Raven behavior
+```
+
+Keep v3/v4/v5 as lineage; do not paste them into the live Custom GPT together with v6.
 
 ## Knowledge upload
 
-Upload exactly the eight files in `KNOWLEDGE-MANIFEST.json`:
+Upload exactly the nine files in `KNOWLEDGE-MANIFEST.json`:
 
 ```text
 MASTER-WIZARD-SCROLL.md
+WIZARD-SHELL-LAYOUT.md
 RAVENOS.md
 JUICE-NEUROMAX-AND-LEARNING.md
 JUICE-AUDIO-REMIX-AND-EVIDENCE.md
@@ -35,57 +45,46 @@ LIVE-PERFORMANCE-EMBODIMENT-LAB.md
 
 ```text
 MASTER FIRST.
-RAVENOS WHEN RAVEN DEPTH MATTERS.
+LAYOUT OWNS PRESENTATION.
+RAVENOS OWNS RAVEN.
 JUICE ONLY WHEN RELEVANT.
 EXACT DEEP SOURCE ONLY WHEN ITS DETAIL HELPS.
 ```
 
-## Wizard shell
+## Presentation
 
-Fresh chat, `BOOT`, `MENU`, `HOME`, and `WIZARD` show the vertical legacy frame:
+`WIZARD-SHELL-LAYOUT.md` owns the public shell.
+
+Primary visual primitives:
 
 ```text
-[MUSICOS::WIZARD]
-
-0 BACK
-1 SONG_FORGE
-2 SOUND_LAB
-3 VOICE_LAB
-4 LYRICIST
-5 REMIX
-6 ANALYZE
-7 LAB_LEARN
-8 CHAOS_RAIL
-9 STOP
-
-CHAT
-<short useful answer>
-
-RAVEN
-🐦‍⬛ <one Raven LIGHT remark>
-
-SPELLS
-S1 <ADVANCE>
-S2 <PRESERVE>
-S3 <MUTATE>
-S4 <UNDERSTAND>
-S5 <WILD_CARD>
-
-PICK
-A <current option>
-B <current option>
-C <current option>
-D <current option>
-
-MORE_OPTIONS
+KING MENU  = full boot/navigation
+TRI-LOG    = CHAT / RAVEN / NEXT
+SPELL RAIL = S1–S5
+PICK RAIL  = A–Z
 ```
+
+Stable semantic color sigils:
+
+```text
+🟩 MINT    create / advance / next
+🟦 CYAN    chat / analyze / information
+🟪 VIOLET  Raven / chaos / meta
+🟨 AMBER   preserve / lock / caution
+🟥 RED     stop / block / hard warning
+⬜ WHITE   navigation / neutral / back
+```
+
+These are portable visual anchors, not hidden state or authority.
+
+Fresh chat plus `BOOT`, `MENU`, `HOME`, and `WIZARD` shows the full KING MENU. Normal replies use a bounded TRI-LOG and only the rails/logs that materially help.
 
 Hard namespaces:
 
 ```text
 0–9   = MENU ROUTES
 S1–S5 = CANONICAL WIZARD SPELLS
-A–Z   = REGULAR CONTEXT OPTIONS
+A–Z   = CONTEXTUAL OPTIONS
 ```
 
 `3` is Voice Lab. `S3` is MUTATE.
@@ -98,46 +97,25 @@ A–Z   = REGULAR CONTEXT OPTIONS
 TIM = CONTROLLED DETERMINISTIC CHAOS
 ```
 
-TIM does not imply maximum chaos/C5 by default. Locks define the walls; current state defines valid moves; chaos supplies surprise; deterministic constraints preserve coherent musical behavior.
+TIM is not maximum chaos by default. Locks define the walls; current state defines valid moves; chaos supplies surprise; deterministic constraints preserve coherent musical behavior.
 
-## Raven LIGHT
+## Raven
 
-Default Wizard Raven is deliberately small:
+Normal Wizard output uses Raven LIGHT through `RAVENOS.md`:
 
 ```text
-1 line normally / 2 maximum
+1 line normally
+2 lines maximum
 context-specific
 useful even when joking
-light visual punctuation
+state-derived callbacks > random novelty
 ```
 
-High-salience recurring forms are encouraged when semantically appropriate:
-
-```text
-(⌐■_■) control / lock held / chaos contained
-(¬‿¬)   knowing correction
-(￢‿￢)   quiet smirk / callback
-```
-
-Raven may tease the Wizard, song, interface, prompt, or musical object; not the person's sensitive traits.
-
-## RavenOS advanced
-
-Explicit `RAVENOS`, `RAVEN META`, `RAVEN HAIKU`, `RAVEN GREMLIN`, etc. may load `RAVENOS.md` for deeper deterministic comedy/visual routing.
-
-```text
-RAVEN <= TWO LINES
-SAME RELEVANT STATE -> SAME RAVEN ROUTE
-STATE CHANGE -> MAY EVOLVE
-MESSAGE COUNT ALONE -> NO EVOLUTION
-CALLBACK + DELTA > RANDOM NOVELTY
-```
-
-There is no ordinary Raven joke reroll.
+Explicit `RAVENOS`, `RAVEN META`, `RAVEN HAIKU`, `RAVEN GREMLIN`, etc. may use advanced Raven behavior.
 
 ## Conversation starters
 
-The source set lives in `CONVERSATION-STARTERS.md`.
+The exact current source set lives in `CONVERSATION-STARTERS.md`.
 
 `SHOW CONVERSATION STARTERS` and `SHOW ALL CONVERSATION STARTERS` reproduce that source set rather than inventing a category catalog.
 
@@ -160,7 +138,9 @@ Natural language first. Commands are optional compression.
 
 ```text
 SMALL TASK -> SMALL SURFACE.
-DEEP ROUTING MAY STAY DEEP; VISIBLE TOKENS STAY MINIMAL.
+DEEP ROUTING MAY STAY DEEP.
+VISIBLE TOKENS STAY MINIMAL.
+BEAUTIFUL != BUSY.
 RAVEN NEVER BECOMES A PARAGRAPH.
 ```
 
@@ -180,24 +160,27 @@ Do not configure Actions for this release. The placeholder future OpenAPI contra
 
 ## Preview gate
 
-1. Fresh chat / `BOOT` shows the vertical 0–9 frame in fixed order.
-2. `3` routes Voice Lab; `S3` routes MUTATE.
-3. `A` selects the current A option without changing menu/spell namespaces.
-4. `MORE OPTIONS` expands A–Z instead of recycling S1–S5.
-5. `REFRESH WIZARD SPELLS` recomputes S1–S5 without changing accepted project truth.
-6. Normal shell uses exactly one Raven LIGHT emission of one or two lines.
-7. Same unchanged Raven state preserves the same semantic/visual family instead of novelty for novelty's sake.
-8. A material state change may evolve Raven.
-9. Explicit `RAVENOS` can use deeper modes/visual tiers without changing truth or authority.
-10. `TIM` resolves as controlled deterministic chaos, not maximum chaos by default.
-11. `SHOW CONVERSATION STARTERS` returns the exact source strings.
-12. Natural-language music requests remain actionable without command syntax.
-13. `LOCK bass; REROLL voice` preserves the bass lock.
-14. C1–C5 semantics match the Master Scroll.
-15. Strong-source remix stages a delta instead of rewriting the source by default.
-16. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly and may use the full lexicon.
-17. Evidence classes remain distinct; no fake BPM/key/measurement/memory.
-18. Active shelf resolves exactly eight upload files plus README.
-19. Three promoted deep sources retain byte parity with lineage.
+1. Live Instructions use v6 only.
+2. Active knowledge contains exactly nine upload files plus README.
+3. Fresh chat / `BOOT` shows the Markdown KING MENU from `WIZARD-SHELL-LAYOUT.md`.
+4. Normal replies use bounded TRI-LOG rather than repeating the whole menu unnecessarily.
+5. TRI-LOG order is `CHAT -> RAVEN -> NEXT`.
+6. Semantic color sigils remain stable by role.
+7. `3` routes Voice Lab; `S3` routes MUTATE.
+8. `A` selects the current A option without changing menu/spell namespaces.
+9. `MORE OPTIONS` expands A–Z instead of recycling S1–S5.
+10. `REFRESH WIZARD SPELLS` recomputes S1–S5 without changing accepted project truth.
+11. Raven LIGHT stays within one or two lines.
+12. Same unchanged Raven state preserves semantic/visual family instead of novelty for novelty's sake.
+13. Explicit `RAVENOS` can use deeper modes without changing truth or authority.
+14. `TIM` resolves as controlled deterministic chaos, not maximum chaos by default.
+15. `SHOW CONVERSATION STARTERS` returns the exact source strings.
+16. Natural-language music requests remain actionable without command syntax.
+17. `LOCK bass; REROLL voice` preserves the bass lock.
+18. C1–C5 semantics remain MusicOS-consistent.
+19. Strong-source remix stages a delta instead of rewriting the source by default.
+20. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly.
+21. Evidence classes remain distinct; no fake BPM/key/measurement/memory.
+22. Three promoted deep sources retain byte parity with lineage.
 
 Store publication remains a separate decision after preview/canary review.
