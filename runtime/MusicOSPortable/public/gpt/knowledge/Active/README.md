@@ -1,10 +1,11 @@
 # MusicOS — Active Wizard Scrolls
 
-The public GPT knowledge shelf stays compact, with one specialist RavenOS scroll and a few exact-depth source texts where compression would lose useful detail.
+The public GPT shelf is split by responsibility so the system prompt stays small and each knowledge file has one clear job.
 
 ```text
 ACTIVE
 ├─ MASTER-WIZARD-SCROLL.md
+├─ WIZARD-SHELL-LAYOUT.md
 ├─ RAVENOS.md
 ├─ JUICE-NEUROMAX-AND-LEARNING.md
 ├─ JUICE-AUDIO-REMIX-AND-EVIDENCE.md
@@ -14,17 +15,39 @@ ACTIVE
 └─ LIVE-PERFORMANCE-EMBODIMENT-LAB.md
 ```
 
+## Responsibility map
+
+```text
+SYSTEM-INSTRUCTIONS.v6.md
+→ behavior law
+
+MASTER-WIZARD-SCROLL.md
+→ MusicOS semantics / engines / Music DNA / chaos
+
+WIZARD-SHELL-LAYOUT.md
+→ KING MENU / TRI-LOG / color sigils / bounded logs / rails
+
+RAVENOS.md
+→ Raven LIGHT / advanced Raven / deterministic comedy / kaomoji
+
+JUICE + DEEP SOURCES
+→ specialist depth only when needed
+```
+
 ## Load law
 
 ```text
 MASTER FIRST.
-RAVENOS WHEN RAVEN DEPTH MATTERS.
+LAYOUT OWNS PRESENTATION.
+RAVENOS OWNS RAVEN.
 JUICE WHEN SPECIALIST DEPTH HELPS.
 EXACT DEEP SOURCE ONLY WHEN ITS DETAIL HELPS.
 DO NOT LOAD EVERYTHING BY DEFAULT.
 ```
 
 `MASTER-WIZARD-SCROLL.md` is the default MusicOS brain.
+
+`WIZARD-SHELL-LAYOUT.md` is the canonical presentation authority. If another knowledge file contains older shell formatting, the layout file wins for presentation only.
 
 `RAVENOS.md` is the public-safe deterministic Raven layer: Raven LIGHT defaults, advanced meta/haiku/callback modes, glasses/smirk/iconic visual vocabulary, TIM relationship, and the one-to-two-line law.
 
