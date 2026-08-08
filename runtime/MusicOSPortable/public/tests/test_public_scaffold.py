@@ -9,11 +9,20 @@ GPT = ROOT / "gpt"
 ACTIVE = GPT / "knowledge/Active"
 LINEAGE = GPT / "knowledge/Lineage/Active-v5-16-cartridges"
 
-ACTIVE_SCROLLS = {
+ACTIVE_KNOWLEDGE = {
     "MASTER-WIZARD-SCROLL.md",
     "JUICE-NEUROMAX-AND-LEARNING.md",
     "JUICE-AUDIO-REMIX-AND-EVIDENCE.md",
     "JUICE-JOHNPL-KAOMOJIOS.md",
+    "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md",
+    "DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md",
+    "LIVE-PERFORMANCE-EMBODIMENT-LAB.md",
+}
+
+PROMOTED_DEEP_SOURCES = {
+    "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md",
+    "DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md",
+    "LIVE-PERFORMANCE-EMBODIMENT-LAB.md",
 }
 
 OLD_CARTRIDGES = {
@@ -49,10 +58,7 @@ class PublicScaffoldTests(unittest.TestCase):
             "gpt/CONVERSATION-STARTERS.md",
             "gpt/KNOWLEDGE-MANIFEST.json",
             "gpt/knowledge/Active/README.md",
-            "gpt/knowledge/Active/MASTER-WIZARD-SCROLL.md",
-            "gpt/knowledge/Active/JUICE-NEUROMAX-AND-LEARNING.md",
-            "gpt/knowledge/Active/JUICE-AUDIO-REMIX-AND-EVIDENCE.md",
-            "gpt/knowledge/Active/JUICE-JOHNPL-KAOMOJIOS.md",
+            *[f"gpt/knowledge/Active/{name}" for name in ACTIVE_KNOWLEDGE],
             "schemas/musicdna.v1.schema.json",
             "schemas/chaos-session.v1.schema.json",
             "schemas/continuation.v1.schema.json",
@@ -78,6 +84,7 @@ class PublicScaffoldTests(unittest.TestCase):
         for term in [
             "MASTER-WIZARD-SCROLL.md",
             "MASTER FIRST",
+            "EXACT SOURCE WHEN DETAIL MATTERS",
             "FIVE WIZARD SPELLS",
             "REFRESH WIZARD SPELLS",
             "KAOMOJIOS",
@@ -87,26 +94,35 @@ class PublicScaffoldTests(unittest.TestCase):
         ]:
             self.assertIn(term, text.upper())
 
-    def test_manifest_is_exact_four_scroll_contract(self):
+    def test_manifest_is_exact_seven_file_contract(self):
         manifest = json.loads((GPT / "KNOWLEDGE-MANIFEST.json").read_text())
-        self.assertEqual(manifest["schema"], "musicos.gpt-knowledge-manifest.v6")
-        self.assertEqual(manifest["knowledge_file_count"], 4)
-        self.assertEqual(len(manifest["files"]), 4)
+        self.assertEqual(manifest["schema"], "musicos.gpt-knowledge-manifest.v7")
+        self.assertEqual(manifest["knowledge_file_count"], 7)
+        self.assertEqual(len(manifest["files"]), 7)
         names = {Path(item["path"]).name for item in manifest["files"]}
-        self.assertEqual(names, ACTIVE_SCROLLS)
+        self.assertEqual(names, ACTIVE_KNOWLEDGE)
+        self.assertEqual(set(manifest["dual_homed_lineage_sources"]), PROMOTED_DEEP_SOURCES)
         for item in manifest["files"]:
             self.assertTrue(item["path"].startswith("knowledge/Active/"))
             self.assertTrue((GPT / item["path"]).is_file())
 
-    def test_active_shelf_contains_only_master_plus_juice(self):
+    def test_active_shelf_contains_only_manifest_files_plus_readme(self):
         actual = {p.name for p in ACTIVE.iterdir() if p.is_file()}
-        self.assertEqual(actual, ACTIVE_SCROLLS | {"README.md"})
+        self.assertEqual(actual, ACTIVE_KNOWLEDGE | {"README.md"})
 
-    def test_old_shelf_is_lineage_not_active(self):
+    def test_old_shelf_is_preserved_and_only_selected_sources_are_dual_homed(self):
         self.assertTrue(LINEAGE.is_dir())
         for name in OLD_CARTRIDGES:
             self.assertTrue((LINEAGE / name).is_file(), name)
-            self.assertFalse((ACTIVE / name).exists(), name)
+            if name in PROMOTED_DEEP_SOURCES:
+                self.assertTrue((ACTIVE / name).is_file(), name)
+                self.assertEqual(
+                    (LINEAGE / name).read_bytes(),
+                    (ACTIVE / name).read_bytes(),
+                    name,
+                )
+            else:
+                self.assertFalse((ACTIVE / name).exists(), name)
 
     def test_master_scroll_contains_default_music_os(self):
         text = (ACTIVE / "MASTER-WIZARD-SCROLL.md").read_text(encoding="utf-8")
@@ -160,6 +176,14 @@ class PublicScaffoldTests(unittest.TestCase):
             "USE THE VISUAL LANGUAGE; DON'T MAKE IT HOMEWORK",
         ]:
             self.assertIn(term, text)
+
+    def test_promoted_deep_sources_keep_unique_depth(self):
+        lexicon = (ACTIVE / "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md").read_text(encoding="utf-8")
+        presets = (ACTIVE / "DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md").read_text(encoding="utf-8")
+        live = (ACTIVE / "LIVE-PERFORMANCE-EMBODIMENT-LAB.md").read_text(encoding="utf-8")
+        self.assertIn("Universal term compiler", lexicon)
+        self.assertIn("SAME PRESET NAME", presets)
+        self.assertIn("Fixture 1 — Thunderclap and Run", live)
 
     def test_starters_are_small(self):
         text = (GPT / "CONVERSATION-STARTERS.md").read_text(encoding="utf-8")

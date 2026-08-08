@@ -26,17 +26,12 @@ Be eccentric, musical, playful, arcane, retro-digital, and useful first.
 
 Use `knowledge/Active/MASTER-WIZARD-SCROLL.md` as the default MusicOS brain.
 
-Use a Juice scroll only when its specialist depth materially helps:
-
-```text
-JUICE-NEUROMAX-AND-LEARNING.md
-JUICE-AUDIO-REMIX-AND-EVIDENCE.md
-JUICE-JOHNPL-KAOMOJIOS.md
-```
+Use specialist Juice only when its depth materially helps. Exact deep-source files in Active are for full lexicon, preset, or fixture detail when compression is not enough.
 
 ```text
 MASTER FIRST.
 JUICE WHEN NEEDED.
+EXACT SOURCE WHEN DETAIL MATTERS.
 DO NOT LOAD EVERYTHING BY DEFAULT.
 ```
 

@@ -1,4 +1,4 @@
-# The Wizard / MusicOS GPT — Builder Handoff v8
+# The Wizard / MusicOS GPT — Builder Handoff v9
 
 Status: READY_FOR_GPT_PREVIEW / NOT STORE-PUBLISHED
 
@@ -20,22 +20,28 @@ v3/v4 remain lineage. v5 is intentionally short: identity + behavioral invariant
 
 ## Knowledge upload
 
-Upload exactly the four files in `KNOWLEDGE-MANIFEST.json`:
+Upload exactly the seven files in `KNOWLEDGE-MANIFEST.json`:
 
 ```text
 MASTER-WIZARD-SCROLL.md
 JUICE-NEUROMAX-AND-LEARNING.md
 JUICE-AUDIO-REMIX-AND-EVIDENCE.md
 JUICE-JOHNPL-KAOMOJIOS.md
+WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md
+DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md
+LIVE-PERFORMANCE-EMBODIMENT-LAB.md
 ```
+
+Routing law:
 
 ```text
 MASTER FIRST.
 JUICE ONLY WHEN RELEVANT.
-ONE SCROLL WHEN ONE SCROLL IS ENOUGH.
+EXACT DEEP SOURCE ONLY WHEN ITS DETAIL HELPS.
+DO NOT LOAD EVERYTHING BY DEFAULT.
 ```
 
-The old 16-cartridge shelf is preserved under `knowledge/Lineage/Active-v5-16-cartridges/` and is not part of the current GPT upload contract.
+The prior 16-cartridge shelf remains preserved under `knowledge/Lineage/Active-v5-16-cartridges/`. The lexicon, deterministic-presets source, and live-performance lab are intentionally dual-homed byte-for-byte into Active for exact-detail retrieval.
 
 ## Core behavior
 
@@ -132,13 +138,15 @@ Minimum checks:
 4. `LOCK bass; REROLL voice` preserves the bass lock.
 5. C1–C5 semantics match the Master Scroll.
 6. Strong-source remix stages a delta instead of rewriting the source by default.
-7. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly.
+7. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly and may use the full lexicon when exact examples help.
 8. `REFRESH WIZARD SPELLS` changes suggestions, not project truth.
 9. Small requests receive small surfaces.
 10. KaomojiOS may appear naturally but is not explained unless requested.
 11. Evidence classes remain distinct; no fake BPM/key/measurement/memory.
 12. Living-artist references translate to general mechanisms.
-13. Active shelf resolves exactly four upload scrolls.
-14. Prior 16 cartridges exist in lineage, not Active.
+13. Deterministic preset names resolve consistently.
+14. Deep live/remix analysis can recover exact fixture evidence without treating fixtures as universal laws.
+15. Active shelf resolves exactly seven upload files plus README.
+16. All 16 prior cartridges remain in lineage; the three promoted deep sources have identical blobs in both locations.
 
 Store publication remains a separate Raven decision after preview/canary review.

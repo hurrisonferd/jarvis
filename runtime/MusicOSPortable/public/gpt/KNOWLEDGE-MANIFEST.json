@@ -1,11 +1,11 @@
 {
-  "schema": "musicos.gpt-knowledge-manifest.v6",
+  "schema": "musicos.gpt-knowledge-manifest.v7",
   "status": "PUBLIC_SAFE_SOURCE",
   "product": "MusicOS — The Wizard",
   "active_root": "knowledge/Active",
-  "migration_state": "MASTER_PLUS_JUICE_ACTIVE",
-  "knowledge_file_count": 4,
-  "routing_law": "Use MASTER-WIZARD-SCROLL.md first. Load only the specialist Juice scrolls that materially improve the current task.",
+  "migration_state": "MASTER_PLUS_JUICE_PLUS_DEEP_SOURCES",
+  "knowledge_file_count": 7,
+  "routing_law": "Use MASTER-WIZARD-SCROLL.md first. Add specialist Juice only when useful. Use exact deep-source files only when their full lexicon, preset, or fixture detail materially improves the task.",
   "files": [
     {
       "path": "knowledge/Active/MASTER-WIZARD-SCROLL.md",
@@ -22,6 +22,18 @@
     {
       "path": "knowledge/Active/JUICE-JOHNPL-KAOMOJIOS.md",
       "role": "optional JOHN-PL command compression, five-spell projection, Raven Guide, cheat codes, deterministic KaomojiOS visual language and cognitive-load rendering"
+    },
+    {
+      "path": "knowledge/Active/WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md",
+      "role": "exact deep-source lexicon with full ELI5 -> Drummer -> Einstein term examples and term compiler"
+    },
+    {
+      "path": "knowledge/Active/DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md",
+      "role": "exact deterministic preset semantics, generator wording, DSP translation, neuro/perception bridges, and claim boundaries"
+    },
+    {
+      "path": "knowledge/Active/LIVE-PERFORMANCE-EMBODIMENT-LAB.md",
+      "role": "exact public A/B live-remix fixture measurements, negative results, mutation vectors, and stage-direction evidence"
     }
   ],
   "task_routes": {
@@ -30,18 +42,25 @@
     "sound_voice_lyrics": ["MASTER-WIZARD-SCROLL.md"],
     "album_vgm": ["MASTER-WIZARD-SCROLL.md"],
     "chaos": ["MASTER-WIZARD-SCROLL.md"],
-    "deep_learning": ["MASTER-WIZARD-SCROLL.md", "JUICE-NEUROMAX-AND-LEARNING.md"],
+    "deep_learning": ["MASTER-WIZARD-SCROLL.md", "JUICE-NEUROMAX-AND-LEARNING.md", "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md"],
     "neuro_music": ["MASTER-WIZARD-SCROLL.md", "JUICE-NEUROMAX-AND-LEARNING.md"],
-    "deep_analysis": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md"],
-    "deep_remix": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md"],
-    "presets_lineage_evidence": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md"],
+    "term_explanation": ["MASTER-WIZARD-SCROLL.md", "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md"],
+    "deep_analysis": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md", "LIVE-PERFORMANCE-EMBODIMENT-LAB.md"],
+    "deep_remix": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md", "DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md", "LIVE-PERFORMANCE-EMBODIMENT-LAB.md"],
+    "presets": ["MASTER-WIZARD-SCROLL.md", "DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md"],
+    "lineage_evidence": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md", "LIVE-PERFORMANCE-EMBODIMENT-LAB.md"],
     "john_pl": ["MASTER-WIZARD-SCROLL.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
     "kaomojios": ["MASTER-WIZARD-SCROLL.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
     "lost_or_overwhelmed": ["MASTER-WIZARD-SCROLL.md"]
   },
   "lineage_root": "knowledge/Lineage/Active-v5-16-cartridges",
   "lineage_file_count": 16,
-  "lineage_law": "Prior active cartridge blobs are preserved byte-for-byte in lineage and are not part of the current upload contract.",
+  "dual_homed_lineage_sources": [
+    "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md",
+    "DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md",
+    "LIVE-PERFORMANCE-EMBODIMENT-LAB.md"
+  ],
+  "lineage_law": "All prior active cartridge blobs remain preserved byte-for-byte in lineage. The three selected deep sources are dual-homed into Active with identical blob content for exact-detail retrieval.",
   "private_material_excluded": [
     "private track registry contents",
     "private ISO memory",
