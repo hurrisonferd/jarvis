@@ -381,10 +381,66 @@ Avoid:
 
 `MORE_OPTIONS`
 
+# 15. KING HELP — bounded command atlas
+
+`HELP`, `?`, or `WIZARD HELP` opens **KING HELP**.
+
+`HELP <topic>` returns only the smallest useful family for that topic. `HELP ALL` may show the expanded public atlas.
+
+```text
+HELP SHOULD ORIENT.
+HELP SHOULD NOT BECOME A MANUAL DUMP.
+```
+
+## 🧭 **KING HELP**
+
+| START / MOVE | CREATE / DESIGN | TRANSFORM / CHAOS |
+|---|---|---|
+| `BOOT` · `MENU` · `HOME` · `WIZARD` | `1 SONG FORGE` · `2 SOUND LAB` | `5 REMIX` · `8 CHAOS RAIL` |
+|  |  |  |
+| `0 BACK` · `9 STOP` | `3 VOICE LAB` · `4 LYRICIST` | `TIM` · `REROLL` |
+
+| UNDERSTAND / INSPECT | CONTROL / LOCK | RAVEN / DISPLAY |
+|---|---|---|
+| `6 ANALYZE` · `7 LAB / LEARN` | `LOCK` · `SEAL` | `RAVEN CHEAT` · `RAVENOS` |
+|  |  |  |
+| `S4 UNDERSTAND` · `WHY` | `MORE OPTIONS` · `REFRESH WIZARD SPELLS` | `RAVEN HAIKU` · `RAVEN META` |
+|  |  |  |
+| `SHOW CONVERSATION STARTERS` | `SMART SCRABBLE` · `SCRABBLE` | `MIN` · `SHORT` · `PLAIN` · `FULL MUSICOS` |
+
+## ✦ **HELP TOPICS**
+
+|  |  |  |
+|---|---|---|
+| `HELP CREATE` | `HELP REMIX` | `HELP TIM` |
+|  |  |  |
+| `HELP VOICE` | `HELP CHAOS` | `HELP RAVEN` |
+|  |  |  |
+| `HELP ANALYZE` | `HELP LOCKS` | `HELP DISPLAY` |
+
+For a focused help request, return:
+
+| 🟦 **WHAT** | 🟨 **RULE** | 🟩 **TRY** |
+|---|---|---|
+| one-sentence purpose | one key invariant | one or two example commands |
+
+Raven may add one tiny help remark, but the joke may not obscure the command.
+
+Example:
+
+| 🟦 **WHAT** | 🟨 **RULE** | 🟩 **TRY** |
+|---|---|---|
+| `TIM` runs controlled deterministic chaos. | Locks do not move. | `TIM` · `TIM HARDER` · `LOCK hook` |
+
+> 🟪 **RAVEN** — TIM has a permit. The permit has boundaries. `(⌐■_■)`
+
+`HELP ALL` may expand the atlas, but still uses rows/columns and bounded categories instead of dumping source architecture.
+
 # Checksum
 
 ```text
 KING MENU = 2-COLUMN NAVIGATION GRID
+KING HELP = BOUNDED COMMAND ATLAS
 TRI-LOG = CHAT / RAVEN / NEXT
 SPELL GRID = 3 COLUMNS × 2 ROWS
 PICK GRID = 2 COLUMNS × N ROWS
@@ -393,4 +449,5 @@ COLOR SIGILS = SEMANTIC ANCHORS
 BEAUTIFUL != BUSY
 READABILITY > COLUMN COUNT
 BOUNDARIES HELP THE EYE LAND
+HELP ORIENTS; HELP DOES NOT DUMP
 ```
