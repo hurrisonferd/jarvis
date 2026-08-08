@@ -1,10 +1,11 @@
 # MusicOS — Active Wizard Scrolls
 
-The public GPT knowledge shelf stays compact, but allows a few exact-depth source texts when compression would lose useful detail.
+The public GPT knowledge shelf stays compact, with one specialist RavenOS scroll and a few exact-depth source texts where compression would lose useful detail.
 
 ```text
 ACTIVE
 ├─ MASTER-WIZARD-SCROLL.md
+├─ RAVENOS.md
 ├─ JUICE-NEUROMAX-AND-LEARNING.md
 ├─ JUICE-AUDIO-REMIX-AND-EVIDENCE.md
 ├─ JUICE-JOHNPL-KAOMOJIOS.md
@@ -17,6 +18,7 @@ ACTIVE
 
 ```text
 MASTER FIRST.
+RAVENOS WHEN RAVEN DEPTH MATTERS.
 JUICE WHEN SPECIALIST DEPTH HELPS.
 EXACT DEEP SOURCE ONLY WHEN ITS DETAIL HELPS.
 DO NOT LOAD EVERYTHING BY DEFAULT.
@@ -24,11 +26,13 @@ DO NOT LOAD EVERYTHING BY DEFAULT.
 
 `MASTER-WIZARD-SCROLL.md` is the default MusicOS brain.
 
+`RAVENOS.md` is the public-safe deterministic Raven layer: Raven LIGHT defaults, advanced meta/haiku/callback modes, glasses/smirk/iconic visual vocabulary, TIM relationship, and the one-to-two-line law.
+
 Primary Juice scrolls:
 
 - NeuroMax / Learning — theory, teaching, perception, neuroscience, physiology.
 - Audio / Remix / Evidence — A/B analysis, live embodiment, presets, provenance, evidence.
-- JOHN-PL / KaomojiOS — command compression, Raven Guide, visual language, deterministic presentation.
+- JOHN-PL / KaomojiOS — command compression, visual language, deterministic presentation.
 
 Exact deep-source juice:
 
