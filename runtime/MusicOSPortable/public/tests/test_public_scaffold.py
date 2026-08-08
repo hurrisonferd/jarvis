@@ -11,6 +11,7 @@ LINEAGE = GPT / "knowledge/Lineage/Active-v5-16-cartridges"
 
 ACTIVE_KNOWLEDGE = {
     "MASTER-WIZARD-SCROLL.md",
+    "WIZARD-SHELL-LAYOUT.md",
     "RAVENOS.md",
     "JUICE-NEUROMAX-AND-LEARNING.md",
     "JUICE-AUDIO-REMIX-AND-EVIDENCE.md",
@@ -62,7 +63,7 @@ class PublicScaffoldTests(unittest.TestCase):
             "PUBLIC-PRIVATE-CLASSIFICATION.yaml",
             "iso/the-wizard/EPP-MANIFEST.json",
             "iso/the-wizard/IDENTITY.md",
-            "gpt/SYSTEM-INSTRUCTIONS.v5.md",
+            "gpt/SYSTEM-INSTRUCTIONS.v6.md",
             "gpt/GPT-BUILDER-HANDOFF.md",
             "gpt/CONVERSATION-STARTERS.md",
             "gpt/KNOWLEDGE-MANIFEST.json",
@@ -87,31 +88,65 @@ class PublicScaffoldTests(unittest.TestCase):
         self.assertIn("MUSICOS_ITSELF", manifest["not"])
         self.assertIn("LILITH", manifest["not"])
 
-    def test_v5_instructions_are_short_scroll_first_and_shell_driven(self):
-        text = (GPT / "SYSTEM-INSTRUCTIONS.v5.md").read_text(encoding="utf-8")
-        self.assertLess(len(text), 9000)
+    def test_v6_instructions_are_instruction_only_and_route_presentation(self):
+        text = (GPT / "SYSTEM-INSTRUCTIONS.v6.md").read_text(encoding="utf-8")
+        self.assertLess(len(text), 7000)
         for term in [
             "MASTER-WIZARD-SCROLL.md",
+            "WIZARD-SHELL-LAYOUT.md",
             "RAVENOS.md",
-            "MASTER FIRST",
-            "[MUSICOS::WIZARD]",
+            "LAYOUT OWNS PRESENTATION",
+            "RAVENOS OWNS RAVEN",
+            "TIM = controlled deterministic chaos",
             "0–9   = MENU ROUTES",
             "S1–S5 = CANONICAL WIZARD SPELLS",
-            "A–Z   = REGULAR CONTEXT OPTIONS",
-            "MORE OPTIONS MEANS MORE OPTIONS",
-            "RAVEN LIGHT",
-            "TIM = CONTROLLED DETERMINISTIC CHAOS",
-            "SHOW CONVERSATION STARTERS",
+            "A–Z   = CONTEXTUAL OPTIONS",
             "UNKNOWN != MEASURED",
         ]:
             self.assertIn(term.upper(), text.upper())
+        # Full rendering belongs in the layout source, not the system prompt.
+        self.assertNotIn("| KEY | ROUTE | SIGNAL |", text)
+        self.assertNotIn("## 📟 **TRI-LOG**", text)
 
-    def test_manifest_is_exact_eight_file_contract(self):
+    def test_layout_owns_king_menu_tri_log_and_rails(self):
+        text = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
+        for term in [
+            "KING MENU",
+            "TRI-LOG",
+            "CHAT",
+            "RAVEN",
+            "NEXT",
+            "SPELL RAIL",
+            "PICK RAIL",
+            "MORE_OPTIONS",
+            "BEAUTIFUL != BUSY",
+            "🟩 MINT",
+            "🟦 CYAN",
+            "🟪 VIOLET",
+            "🟨 AMBER",
+            "🟥 RED",
+            "⬜ WHITE",
+        ]:
+            self.assertIn(term, text)
+
+    def test_layout_keeps_disjoint_namespaces(self):
+        text = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
+        for term in [
+            "0–9   = KING MENU ROUTES",
+            "S1–S5 = CANONICAL WIZARD SPELLS",
+            "A–Z   = CONTEXTUAL PICK OPTIONS",
+            "3  = VOICE LAB",
+            "S3 = MUTATE",
+        ]:
+            self.assertIn(term, text)
+
+    def test_manifest_is_exact_nine_file_contract(self):
         manifest = json.loads((GPT / "KNOWLEDGE-MANIFEST.json").read_text())
-        self.assertEqual(manifest["schema"], "musicos.gpt-knowledge-manifest.v8")
-        self.assertEqual(manifest["knowledge_file_count"], 8)
+        self.assertEqual(manifest["schema"], "musicos.gpt-knowledge-manifest.v9")
+        self.assertEqual(manifest["knowledge_file_count"], 9)
         names = {Path(item["path"]).name for item in manifest["files"]}
         self.assertEqual(names, ACTIVE_KNOWLEDGE)
+        self.assertEqual(manifest["presentation_authority"], "knowledge/Active/WIZARD-SHELL-LAYOUT.md")
         self.assertEqual(set(manifest["dual_homed_lineage_sources"]), PROMOTED_DEEP_SOURCES)
 
     def test_active_shelf_contains_only_manifest_files_plus_readme(self):
@@ -126,28 +161,11 @@ class PublicScaffoldTests(unittest.TestCase):
                 self.assertTrue((ACTIVE / name).is_file(), name)
                 self.assertEqual((LINEAGE / name).read_bytes(), (ACTIVE / name).read_bytes(), name)
 
-    def test_master_scroll_has_legacy_shell_and_disjoint_namespaces(self):
-        text = (ACTIVE / "MASTER-WIZARD-SCROLL.md").read_text(encoding="utf-8")
-        for term in [
-            "[MUSICOS::WIZARD]",
-            "0 BACK",
-            "1 SONG_FORGE",
-            "3 VOICE_LAB",
-            "S1 ADVANCE",
-            "S3 MUTATE",
-            "A–Z   = REGULAR CONTEXT OPTIONS",
-            "MORE OPTIONS / SHOW MORE / EXPAND SPELLBOOK",
-            "SHOW ALL OPTIONS",
-            "SHOW CONVERSATION STARTERS",
-            "RAVEN CHEAT",
-            "LEGACY SHELL, LOW COGNITIVE LOAD",
-        ]:
-            self.assertIn(term, text)
-
     def test_more_options_is_not_five_spell_alias(self):
-        instructions = (GPT / "SYSTEM-INSTRUCTIONS.v5.md").read_text(encoding="utf-8")
-        self.assertIn("expands the A–Z option rail", instructions)
-        self.assertIn("Do not merely repeat the five spell categories", instructions)
+        instructions = (GPT / "SYSTEM-INSTRUCTIONS.v6.md").read_text(encoding="utf-8")
+        layout = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
+        self.assertIn("expand A–Z choices", instructions)
+        self.assertIn("EXPAND A–Z ONLY", layout)
         self.assertIn("REFRESH WIZARD SPELLS", instructions)
 
     def test_conversation_starter_source_is_exact_and_queryable(self):
@@ -158,7 +176,7 @@ class PublicScaffoldTests(unittest.TestCase):
         self.assertIn("DO NOT INVENT A SUBSTITUTE CATALOG", text)
 
     def test_tim_is_controlled_not_maximum_chaos(self):
-        instructions = (GPT / "SYSTEM-INSTRUCTIONS.v5.md").read_text(encoding="utf-8")
+        instructions = (GPT / "SYSTEM-INSTRUCTIONS.v6.md").read_text(encoding="utf-8")
         raven = (ACTIVE / "RAVENOS.md").read_text(encoding="utf-8")
         self.assertIn("TIM = controlled deterministic chaos", instructions)
         self.assertIn("TIM = CONTROLLED DETERMINISTIC CHAOS", raven)
