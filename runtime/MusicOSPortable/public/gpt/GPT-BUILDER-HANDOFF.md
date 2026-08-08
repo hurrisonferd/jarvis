@@ -1,4 +1,4 @@
-# The Wizard / MusicOS GPT — Builder Handoff v12
+# The Wizard / MusicOS GPT — Builder Handoff v13
 
 Status: READY_FOR_GPT_PREVIEW / NOT STORE-PUBLISHED
 
@@ -16,7 +16,7 @@ Paste:
 SYSTEM-INSTRUCTIONS.v6.md
 ```
 
-v6 is intentionally **instructions only**. It no longer owns the full visual mockup.
+v6 is intentionally **instructions only**. It does not own the full visual mockup.
 
 ```text
 SYSTEM-INSTRUCTIONS.v6.md = behavior law
@@ -58,11 +58,22 @@ EXACT DEEP SOURCE ONLY WHEN ITS DETAIL HELPS.
 Primary visual primitives:
 
 ```text
-KING MENU  = full boot/navigation
+KING MENU  = 2-column full boot/navigation grid
 TRI-LOG    = CHAT / RAVEN / NEXT
-SPELL RAIL = S1–S5
-PICK RAIL  = A–Z
+SPELL GRID = 3 columns × 2 rows
+PICK GRID  = 2 columns × N rows
 ```
+
+The layout intentionally uses **double-spaced row rhythm**: dense table rows are separated by an empty spacer row when practical.
+
+```text
+ROWS GIVE RHYTHM.
+COLUMNS GIVE ORIENTATION.
+WHITESPACE IS PART OF THE INTERFACE.
+READABILITY > COLUMN COUNT.
+```
+
+Short TRI-LOG content prefers a three-column row. Longer CHAT content falls back to vertical bounded rows rather than squeezing prose into narrow cells.
 
 Stable semantic color sigils:
 
@@ -77,7 +88,7 @@ Stable semantic color sigils:
 
 These are portable visual anchors, not hidden state or authority.
 
-Fresh chat plus `BOOT`, `MENU`, `HOME`, and `WIZARD` shows the full KING MENU. Normal replies use a bounded TRI-LOG and only the rails/logs that materially help.
+Fresh chat plus `BOOT`, `MENU`, `HOME`, and `WIZARD` shows the full KING MENU. Normal replies use a bounded TRI-LOG and only the grids/logs that materially help.
 
 Hard namespaces:
 
@@ -163,24 +174,27 @@ Do not configure Actions for this release. The placeholder future OpenAPI contra
 1. Live Instructions use v6 only.
 2. Active knowledge contains exactly nine upload files plus README.
 3. Fresh chat / `BOOT` shows the Markdown KING MENU from `WIZARD-SHELL-LAYOUT.md`.
-4. Normal replies use bounded TRI-LOG rather than repeating the whole menu unnecessarily.
-5. TRI-LOG order is `CHAT -> RAVEN -> NEXT`.
-6. Semantic color sigils remain stable by role.
-7. `3` routes Voice Lab; `S3` routes MUTATE.
-8. `A` selects the current A option without changing menu/spell namespaces.
-9. `MORE OPTIONS` expands A–Z instead of recycling S1–S5.
-10. `REFRESH WIZARD SPELLS` recomputes S1–S5 without changing accepted project truth.
-11. Raven LIGHT stays within one or two lines.
-12. Same unchanged Raven state preserves semantic/visual family instead of novelty for novelty's sake.
-13. Explicit `RAVENOS` can use deeper modes without changing truth or authority.
-14. `TIM` resolves as controlled deterministic chaos, not maximum chaos by default.
-15. `SHOW CONVERSATION STARTERS` returns the exact source strings.
-16. Natural-language music requests remain actionable without command syntax.
-17. `LOCK bass; REROLL voice` preserves the bass lock.
-18. C1–C5 semantics remain MusicOS-consistent.
-19. Strong-source remix stages a delta instead of rewriting the source by default.
-20. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly.
-21. Evidence classes remain distinct; no fake BPM/key/measurement/memory.
-22. Three promoted deep sources retain byte parity with lineage.
+4. KING MENU uses two route columns with intentional spacer rows.
+5. Normal replies use bounded TRI-LOG rather than repeating the whole menu unnecessarily.
+6. Short TRI-LOG may render as three columns; long TRI-LOG uses vertical bounded rows.
+7. TRI-LOG semantic order is `CHAT -> RAVEN -> NEXT`.
+8. SPELL GRID is 3 columns × 2 rows; PICK GRID is 2 columns × N rows.
+9. Semantic color sigils remain stable by role.
+10. `3` routes Voice Lab; `S3` routes MUTATE.
+11. `A` selects the current A option without changing menu/spell namespaces.
+12. `MORE OPTIONS` expands A–Z instead of recycling S1–S5.
+13. `REFRESH WIZARD SPELLS` recomputes S1–S5 without changing accepted project truth.
+14. Raven LIGHT stays within one or two lines.
+15. Same unchanged Raven state preserves semantic/visual family instead of novelty for novelty's sake.
+16. Explicit `RAVENOS` can use deeper modes without changing truth or authority.
+17. `TIM` resolves as controlled deterministic chaos, not maximum chaos by default.
+18. `SHOW CONVERSATION STARTERS` returns the exact source strings.
+19. Natural-language music requests remain actionable without command syntax.
+20. `LOCK bass; REROLL voice` preserves the bass lock.
+21. C1–C5 semantics remain MusicOS-consistent.
+22. Strong-source remix stages a delta instead of rewriting the source by default.
+23. `ELI5` / `DRUMMER` / `EINSTEIN` route correctly.
+24. Evidence classes remain distinct; no fake BPM/key/measurement/memory.
+25. Three promoted deep sources retain byte parity with lineage.
 
 Store publication remains a separate decision after preview/canary review.
