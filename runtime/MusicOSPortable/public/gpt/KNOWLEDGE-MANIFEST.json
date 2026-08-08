@@ -1,15 +1,19 @@
 {
-  "schema": "musicos.gpt-knowledge-manifest.v7",
+  "schema": "musicos.gpt-knowledge-manifest.v8",
   "status": "PUBLIC_SAFE_SOURCE",
   "product": "MusicOS — The Wizard",
   "active_root": "knowledge/Active",
-  "migration_state": "MASTER_PLUS_JUICE_PLUS_DEEP_SOURCES",
-  "knowledge_file_count": 7,
-  "routing_law": "Use MASTER-WIZARD-SCROLL.md first. Add specialist Juice only when useful. Use exact deep-source files only when their full lexicon, preset, or fixture detail materially improves the task.",
+  "migration_state": "MASTER_PLUS_RAVENOS_PLUS_JUICE_PLUS_DEEP_SOURCES",
+  "knowledge_file_count": 8,
+  "routing_law": "Use MASTER-WIZARD-SCROLL.md first. Use RAVENOS.md when Raven behavior or deterministic visual comedy matters. Add specialist Juice only when useful. Use exact deep-source files only when their full detail materially improves the task.",
   "files": [
     {
       "path": "knowledge/Active/MASTER-WIZARD-SCROLL.md",
-      "role": "default MusicOS brain: navigation, Music DNA, creation engines, chaos, albums/VGM, remix basics, five Wizard Spells, Raven/Kaomoji use, evidence, continuity, token economy"
+      "role": "default MusicOS brain: navigation, Music DNA, creation engines, chaos, albums/VGM, remix basics, five Wizard Spells, evidence, continuity, token economy"
+    },
+    {
+      "path": "knowledge/Active/RAVENOS.md",
+      "role": "public-safe deterministic Raven commentary/comedy graph: Raven LIGHT defaults, advanced Raven modes, glasses/smirk/iconic visual language, callbacks, TIM relationship, one-to-two-line law"
     },
     {
       "path": "knowledge/Active/JUICE-NEUROMAX-AND-LEARNING.md",
@@ -21,7 +25,7 @@
     },
     {
       "path": "knowledge/Active/JUICE-JOHNPL-KAOMOJIOS.md",
-      "role": "optional JOHN-PL command compression, five-spell projection, Raven Guide, cheat codes, deterministic KaomojiOS visual language and cognitive-load rendering"
+      "role": "optional JOHN-PL command compression, visual language and cognitive-load rendering"
     },
     {
       "path": "knowledge/Active/WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md",
@@ -38,10 +42,16 @@
   ],
   "task_routes": {
     "default": ["MASTER-WIZARD-SCROLL.md"],
+    "boot_or_orientation": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"],
+    "raven_light": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"],
+    "ravenos": ["RAVENOS.md"],
+    "raven_meta": ["RAVENOS.md"],
+    "raven_haiku": ["RAVENOS.md"],
+    "tim": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"],
     "new_song": ["MASTER-WIZARD-SCROLL.md"],
     "sound_voice_lyrics": ["MASTER-WIZARD-SCROLL.md"],
     "album_vgm": ["MASTER-WIZARD-SCROLL.md"],
-    "chaos": ["MASTER-WIZARD-SCROLL.md"],
+    "chaos": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"],
     "deep_learning": ["MASTER-WIZARD-SCROLL.md", "JUICE-NEUROMAX-AND-LEARNING.md", "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md"],
     "neuro_music": ["MASTER-WIZARD-SCROLL.md", "JUICE-NEUROMAX-AND-LEARNING.md"],
     "term_explanation": ["MASTER-WIZARD-SCROLL.md", "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md"],
@@ -50,8 +60,8 @@
     "presets": ["MASTER-WIZARD-SCROLL.md", "DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md"],
     "lineage_evidence": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md", "LIVE-PERFORMANCE-EMBODIMENT-LAB.md"],
     "john_pl": ["MASTER-WIZARD-SCROLL.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
-    "kaomojios": ["MASTER-WIZARD-SCROLL.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
-    "lost_or_overwhelmed": ["MASTER-WIZARD-SCROLL.md"]
+    "kaomojios": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
+    "lost_or_overwhelmed": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"]
   },
   "lineage_root": "knowledge/Lineage/Active-v5-16-cartridges",
   "lineage_file_count": 16,
@@ -62,6 +72,8 @@
   ],
   "lineage_law": "All prior active cartridge blobs remain preserved byte-for-byte in lineage. The three selected deep sources are dual-homed into Active with identical blob content for exact-detail retrieval.",
   "private_material_excluded": [
+    "private raw RavenOS 800-token visual catalog",
+    "private RavenOS runtime/developer internals",
     "private track registry contents",
     "private ISO memory",
     "private source history",
