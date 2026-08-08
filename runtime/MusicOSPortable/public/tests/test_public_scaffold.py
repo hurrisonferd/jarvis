@@ -11,6 +11,7 @@ LINEAGE = GPT / "knowledge/Lineage/Active-v5-16-cartridges"
 
 ACTIVE_KNOWLEDGE = {
     "MASTER-WIZARD-SCROLL.md",
+    "RAVENOS.md",
     "JUICE-NEUROMAX-AND-LEARNING.md",
     "JUICE-AUDIO-REMIX-AND-EVIDENCE.md",
     "JUICE-JOHNPL-KAOMOJIOS.md",
@@ -49,6 +50,7 @@ STARTERS = [
     "Remix this without losing its identity. Stage the delta instead of rewriting the song.",
     "Read this track. Tell me what survived, what moved, and what is still UNKNOWN.",
     "Teach me this like Einstein is a drummer.",
+    "TIM. Controlled deterministic chaos: LOCK what matters and mutate the rest.",
 ]
 
 
@@ -90,22 +92,24 @@ class PublicScaffoldTests(unittest.TestCase):
         self.assertLess(len(text), 9000)
         for term in [
             "MASTER-WIZARD-SCROLL.md",
+            "RAVENOS.md",
             "MASTER FIRST",
             "[MUSICOS::WIZARD]",
             "0–9   = MENU ROUTES",
             "S1–S5 = CANONICAL WIZARD SPELLS",
             "A–Z   = REGULAR CONTEXT OPTIONS",
             "MORE OPTIONS MEANS MORE OPTIONS",
-            "RAVEN CHEAT",
+            "RAVEN LIGHT",
+            "TIM = CONTROLLED DETERMINISTIC CHAOS",
             "SHOW CONVERSATION STARTERS",
             "UNKNOWN != MEASURED",
         ]:
             self.assertIn(term.upper(), text.upper())
 
-    def test_manifest_is_exact_seven_file_contract(self):
+    def test_manifest_is_exact_eight_file_contract(self):
         manifest = json.loads((GPT / "KNOWLEDGE-MANIFEST.json").read_text())
-        self.assertEqual(manifest["schema"], "musicos.gpt-knowledge-manifest.v7")
-        self.assertEqual(manifest["knowledge_file_count"], 7)
+        self.assertEqual(manifest["schema"], "musicos.gpt-knowledge-manifest.v8")
+        self.assertEqual(manifest["knowledge_file_count"], 8)
         names = {Path(item["path"]).name for item in manifest["files"]}
         self.assertEqual(names, ACTIVE_KNOWLEDGE)
         self.assertEqual(set(manifest["dual_homed_lineage_sources"]), PROMOTED_DEEP_SOURCES)
@@ -152,6 +156,31 @@ class PublicScaffoldTests(unittest.TestCase):
             self.assertIn(starter, text)
         self.assertIn("SHOW CONVERSATION STARTERS", text)
         self.assertIn("DO NOT INVENT A SUBSTITUTE CATALOG", text)
+
+    def test_tim_is_controlled_not_maximum_chaos(self):
+        instructions = (GPT / "SYSTEM-INSTRUCTIONS.v5.md").read_text(encoding="utf-8")
+        raven = (ACTIVE / "RAVENOS.md").read_text(encoding="utf-8")
+        self.assertIn("TIM = controlled deterministic chaos", instructions)
+        self.assertIn("TIM = CONTROLLED DETERMINISTIC CHAOS", raven)
+        self.assertIn("does not mean maximum chaos", instructions)
+
+    def test_ravenos_is_deterministic_small_and_non_authoritative(self):
+        text = (ACTIVE / "RAVENOS.md").read_text(encoding="utf-8")
+        for term in [
+            "RAVEN <= TWO LINES",
+            "STATE CHANGE EARNS EVOLUTION",
+            "MESSAGE COUNT EARNS NOTHING",
+            "SAME RELEVANT STATE -> SAME RAVEN ROUTE",
+            "GLASSES WHEN TIED",
+            "WEIRDER RAVEN != LOOSER TRUTH",
+            "DO NOT ROAST THE PERSON",
+        ]:
+            self.assertIn(term, text)
+
+    def test_ravenos_keeps_high_salience_signature_visuals(self):
+        text = (ACTIVE / "RAVENOS.md").read_text(encoding="utf-8")
+        for visual in ["(⌐■_■)", "(¬‿¬)", "(￢‿￢)", "¯\\_(ツ)_/¯", "(╯°□°)╯︵ ┻━┻"]:
+            self.assertIn(visual, text)
 
     def test_neuromax_juice_is_non_diagnostic(self):
         text = (ACTIVE / "JUICE-NEUROMAX-AND-LEARNING.md").read_text(encoding="utf-8")
