@@ -101,6 +101,7 @@ class PublicScaffoldTests(unittest.TestCase):
             "0–9   = MENU ROUTES",
             "S1–S5 = CANONICAL WIZARD SPELLS",
             "A–Z   = CONTEXTUAL OPTIONS",
+            "HELP <topic>",
             "UNKNOWN != MEASURED",
         ]:
             self.assertIn(term.upper(), text.upper())
@@ -111,6 +112,7 @@ class PublicScaffoldTests(unittest.TestCase):
         text = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
         for term in [
             "KING MENU",
+            "KING HELP",
             "TRI-LOG",
             "CHAT",
             "RAVEN",
@@ -123,6 +125,7 @@ class PublicScaffoldTests(unittest.TestCase):
             "COLUMNS GIVE ORIENTATION",
             "WHITESPACE IS PART OF THE INTERFACE",
             "READABILITY > COLUMN COUNT",
+            "HELP ORIENTS; HELP DOES NOT DUMP",
             "🟩 MINT",
             "🟦 CYAN",
             "🟪 VIOLET",
@@ -140,6 +143,22 @@ class PublicScaffoldTests(unittest.TestCase):
         self.assertIn("|  |  |  |  |", text)
         self.assertIn("SPELL GRID\n= 3 COLUMNS × 2 ROWS", text)
         self.assertIn("PICK GRID\n= 2 COLUMNS × N ROWS", text)
+
+    def test_help_is_bounded_topic_routed_and_grid_first(self):
+        instructions = (GPT / "SYSTEM-INSTRUCTIONS.v6.md").read_text(encoding="utf-8")
+        layout = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
+        for term in ["HELP", "?", "WIZARD HELP", "HELP <topic>", "HELP ALL"]:
+            self.assertIn(term, instructions)
+        for term in [
+            "KING HELP",
+            "HELP CREATE",
+            "HELP REMIX",
+            "HELP TIM",
+            "HELP RAVEN",
+            "| 🟦 **WHAT** | 🟨 **RULE** | 🟩 **TRY** |",
+            "HELP SHOULD NOT BECOME A MANUAL DUMP",
+        ]:
+            self.assertIn(term, layout)
 
     def test_layout_keeps_disjoint_namespaces(self):
         text = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
