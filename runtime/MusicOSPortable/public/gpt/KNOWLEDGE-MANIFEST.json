@@ -1,15 +1,19 @@
 {
-  "schema": "musicos.gpt-knowledge-manifest.v8",
+  "schema": "musicos.gpt-knowledge-manifest.v9",
   "status": "PUBLIC_SAFE_SOURCE",
   "product": "MusicOS — The Wizard",
   "active_root": "knowledge/Active",
-  "migration_state": "MASTER_PLUS_RAVENOS_PLUS_JUICE_PLUS_DEEP_SOURCES",
-  "knowledge_file_count": 8,
-  "routing_law": "Use MASTER-WIZARD-SCROLL.md first. Use RAVENOS.md when Raven behavior or deterministic visual comedy matters. Add specialist Juice only when useful. Use exact deep-source files only when their full detail materially improves the task.",
+  "migration_state": "MASTER_PLUS_LAYOUT_PLUS_RAVENOS_PLUS_JUICE_PLUS_DEEP_SOURCES",
+  "knowledge_file_count": 9,
+  "routing_law": "Use MASTER-WIZARD-SCROLL.md first for MusicOS semantics. Use WIZARD-SHELL-LAYOUT.md for presentation. Use RAVENOS.md for Raven behavior. Add specialist Juice only when useful. Use exact deep-source files only when their full detail materially improves the task.",
   "files": [
     {
       "path": "knowledge/Active/MASTER-WIZARD-SCROLL.md",
-      "role": "default MusicOS brain: navigation, Music DNA, creation engines, chaos, albums/VGM, remix basics, five Wizard Spells, evidence, continuity, token economy"
+      "role": "default MusicOS brain: Music DNA, creation engines, chaos, albums/VGM, remix, evidence, continuity, token economy"
+    },
+    {
+      "path": "knowledge/Active/WIZARD-SHELL-LAYOUT.md",
+      "role": "canonical public presentation authority: KING MENU, TRI-LOG, semantic color sigils, bounded logs, spell rail, pick rail, Markdown rendering"
     },
     {
       "path": "knowledge/Active/RAVENOS.md",
@@ -41,15 +45,16 @@
     }
   ],
   "task_routes": {
-    "default": ["MASTER-WIZARD-SCROLL.md"],
-    "boot_or_orientation": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"],
-    "raven_light": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"],
+    "default": ["MASTER-WIZARD-SCROLL.md", "WIZARD-SHELL-LAYOUT.md"],
+    "boot_or_orientation": ["MASTER-WIZARD-SCROLL.md", "WIZARD-SHELL-LAYOUT.md", "RAVENOS.md"],
+    "presentation_or_menu": ["WIZARD-SHELL-LAYOUT.md"],
+    "raven_light": ["WIZARD-SHELL-LAYOUT.md", "RAVENOS.md"],
     "ravenos": ["RAVENOS.md"],
     "raven_meta": ["RAVENOS.md"],
     "raven_haiku": ["RAVENOS.md"],
-    "tim": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"],
-    "new_song": ["MASTER-WIZARD-SCROLL.md"],
-    "sound_voice_lyrics": ["MASTER-WIZARD-SCROLL.md"],
+    "tim": ["MASTER-WIZARD-SCROLL.md", "WIZARD-SHELL-LAYOUT.md", "RAVENOS.md"],
+    "new_song": ["MASTER-WIZARD-SCROLL.md", "WIZARD-SHELL-LAYOUT.md"],
+    "sound_voice_lyrics": ["MASTER-WIZARD-SCROLL.md", "WIZARD-SHELL-LAYOUT.md"],
     "album_vgm": ["MASTER-WIZARD-SCROLL.md"],
     "chaos": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"],
     "deep_learning": ["MASTER-WIZARD-SCROLL.md", "JUICE-NEUROMAX-AND-LEARNING.md", "WIZARD-MUSIC-LEXICON-DRUMMER-EINSTEIN.md"],
@@ -60,9 +65,10 @@
     "presets": ["MASTER-WIZARD-SCROLL.md", "DETERMINISTIC-STYLE-EQ-SPATIAL-NEURO-PRESETS.md"],
     "lineage_evidence": ["MASTER-WIZARD-SCROLL.md", "JUICE-AUDIO-REMIX-AND-EVIDENCE.md", "LIVE-PERFORMANCE-EMBODIMENT-LAB.md"],
     "john_pl": ["MASTER-WIZARD-SCROLL.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
-    "kaomojios": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
-    "lost_or_overwhelmed": ["MASTER-WIZARD-SCROLL.md", "RAVENOS.md"]
+    "kaomojios": ["WIZARD-SHELL-LAYOUT.md", "RAVENOS.md", "JUICE-JOHNPL-KAOMOJIOS.md"],
+    "lost_or_overwhelmed": ["WIZARD-SHELL-LAYOUT.md", "RAVENOS.md", "MASTER-WIZARD-SCROLL.md"]
   },
+  "presentation_authority": "knowledge/Active/WIZARD-SHELL-LAYOUT.md",
   "lineage_root": "knowledge/Lineage/Active-v5-16-cartridges",
   "lineage_file_count": 16,
   "dual_homed_lineage_sources": [
