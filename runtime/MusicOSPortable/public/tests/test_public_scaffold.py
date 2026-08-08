@@ -104,11 +104,10 @@ class PublicScaffoldTests(unittest.TestCase):
             "UNKNOWN != MEASURED",
         ]:
             self.assertIn(term.upper(), text.upper())
-        # Full rendering belongs in the layout source, not the system prompt.
-        self.assertNotIn("| KEY | ROUTE | SIGNAL |", text)
+        self.assertNotIn("| LEFT ROUTE | SIGNAL | RIGHT ROUTE | SIGNAL |", text)
         self.assertNotIn("## 📟 **TRI-LOG**", text)
 
-    def test_layout_owns_king_menu_tri_log_and_rails(self):
+    def test_layout_owns_king_menu_tri_log_and_grids(self):
         text = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
         for term in [
             "KING MENU",
@@ -116,10 +115,14 @@ class PublicScaffoldTests(unittest.TestCase):
             "CHAT",
             "RAVEN",
             "NEXT",
-            "SPELL RAIL",
-            "PICK RAIL",
+            "SPELL GRID",
+            "PICK GRID",
             "MORE_OPTIONS",
-            "BEAUTIFUL != BUSY",
+            "DOUBLE-SPACE ROW RHYTHM",
+            "ROWS GIVE RHYTHM",
+            "COLUMNS GIVE ORIENTATION",
+            "WHITESPACE IS PART OF THE INTERFACE",
+            "READABILITY > COLUMN COUNT",
             "🟩 MINT",
             "🟦 CYAN",
             "🟪 VIOLET",
@@ -128,6 +131,15 @@ class PublicScaffoldTests(unittest.TestCase):
             "⬜ WHITE",
         ]:
             self.assertIn(term, text)
+
+    def test_layout_uses_paired_columns_and_spacer_rows(self):
+        text = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
+        self.assertIn("| LEFT ROUTE | SIGNAL | RIGHT ROUTE | SIGNAL |", text)
+        self.assertIn("| `0` **BACK** |", text)
+        self.assertIn("| `5` **REMIX** |", text)
+        self.assertIn("|  |  |  |  |", text)
+        self.assertIn("SPELL GRID\n= 3 COLUMNS × 2 ROWS", text)
+        self.assertIn("PICK GRID\n= 2 COLUMNS × N ROWS", text)
 
     def test_layout_keeps_disjoint_namespaces(self):
         text = (ACTIVE / "WIZARD-SHELL-LAYOUT.md").read_text(encoding="utf-8")
