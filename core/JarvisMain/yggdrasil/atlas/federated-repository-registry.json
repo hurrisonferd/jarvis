@@ -1,0 +1,81 @@
+{
+  "schema_version": "0.1-draft",
+  "authority": "Raven",
+  "generated_from": "GitHub connector inventory on 2026-07-31",
+  "canonical": false,
+  "repositories": [
+    {
+      "repository": "hurrisonferd/jarvis",
+      "visibility": "public",
+      "default_branch": "main",
+      "code_search_indexed": true,
+      "observed_branch_count": 143,
+      "role_hypothesis": [
+        "public-canon",
+        "original-architecture",
+        "observer-safe-surface",
+        "release-surface"
+      ],
+      "state": "active",
+      "authority": "Raven",
+      "truth_boundary": "public-approved canonical and operational material",
+      "atlas_branch": "jarvis/yggdrasil-world-atlas"
+    },
+    {
+      "repository": "hurrisonferd/Jarvis-Private",
+      "visibility": "private",
+      "default_branch": "main",
+      "code_search_indexed": true,
+      "observed_branch_count": 104,
+      "role_hypothesis": [
+        "private-grid-truth",
+        "living-continuity",
+        "restricted-systems",
+        "internal-execution"
+      ],
+      "state": "active",
+      "authority": "Raven",
+      "truth_boundary": "private and restricted Grid material",
+      "observer_branch": "jarvis/federation-observer"
+    },
+    {
+      "repository": "hurrisonferd/MyUnityProject",
+      "visibility": "private",
+      "default_branch": "main",
+      "code_search_indexed": false,
+      "observed_branch_count": 1,
+      "role_hypothesis": [
+        "project-node",
+        "unity-execution-world"
+      ],
+      "state": "incubation",
+      "authority": "Raven",
+      "truth_boundary": "Unity project truth",
+      "observer_branch": "jarvis/federation-observer"
+    },
+    {
+      "repository": "hurrisonferd/PachinkoBounce",
+      "visibility": "private",
+      "default_branch": "main",
+      "code_search_indexed": false,
+      "observed_branch_count": 1,
+      "role_hypothesis": [
+        "project-node"
+      ],
+      "state": "incubation",
+      "authority": "Raven",
+      "truth_boundary": "Pachinko Bounce project truth"
+    }
+  ],
+  "observed_totals": {
+    "repositories": 4,
+    "branches": 249
+  },
+  "laws": [
+    "Repository boundaries define storage, visibility, deployment, and release domains; they do not define identity.",
+    "JNL identity survives relocation across repositories and refs.",
+    "JMS moves location mirrors, not identity.",
+    "No public mirror may leak private truth.",
+    "No branch is deleted before reachability and unique-lineage review."
+  ]
+}
