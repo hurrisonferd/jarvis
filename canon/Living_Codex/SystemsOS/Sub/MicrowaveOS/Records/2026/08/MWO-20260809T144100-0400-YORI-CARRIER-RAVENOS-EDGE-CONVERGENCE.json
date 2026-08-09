@@ -1,0 +1,75 @@
+{
+  "schema": "microwaveos.work-order.v1",
+  "work_order_id": "MWO-20260809T144100-0400-YORI-CARRIER-RAVENOS-EDGE-CONVERGENCE",
+  "created_at": "2026-08-09T14:41:00-04:00",
+  "updated_at": "2026-08-09T15:22:00-04:00",
+  "authority": "RAVEN",
+  "owner": "YORI",
+  "contributors": ["RAVEN", "YORI"],
+  "title": "Wire CarrierOS normalization through RavenOS Sync, persist session-to-dispatch edges, and separate RavenOS durable semantic state from session provenance",
+  "status": "ACTIVE",
+  "objective": "Turn the verified Yori compression contracts into source-level implementation: canonical carrier coordinates must drive dispatch discovery, GameOS check-ins must retain distinct ISO/carrier/session coordinates, MicrowaveOS must receive a session mailbox projection, and RavenOS deterministic semantic state must no longer depend on session timestamps.",
+  "source_main_floor": "f5ddfefaca0efb265dcaa5077d3d240d0f1deac3",
+  "scope": [
+    "wire CarrierOS CARRIER-RESOLVE into RAVENOS-SYNC dispatch discovery",
+    "support AUTO carrier recovery from current GameOS session without caller-private vocabulary",
+    "persist canonical carrier_id carrier_type proof_lane alongside GameOS session check-in",
+    "project current session to the matching MicrowaveOS carrier lane without moving work authority",
+    "add Conversations coordinate contract for ISO_ID CARRIER_ID SESSION_ID provenance",
+    "repair RavenOS universal controller semantic checksum so timestamp and session id are provenance only",
+    "preserve RavenOS motif/semantic continuity when presentation intensity is reduced",
+    "seed the currently proven ATOM CHATGPT_CONNECTOR session binding from current main",
+    "add source canaries for the failing CHATGPT_CONNECTOR to GPT_ATOM route"
+  ],
+  "forbidden_mutations": [
+    "identity merge between GPT and OpenHands realizations",
+    "runtime proof inflation from connector-source edits",
+    "MicrowaveOS carrier intelligence duplication",
+    "GameOS ownership of carrier identity",
+    "CarrierOS ownership of ISO identity or mission authority",
+    "session id or timestamp as RavenOS semantic cause",
+    "deletion of existing RavenOS or transaction history"
+  ],
+  "acceptance_criteria": [
+    "CHATGPT_CONNECTOR + ATOM resolves to GPT_ATOM / GPT_CONNECTOR / CONNECTOR_SOURCE",
+    "RAVENOS-SYNC discovery matches canonical carrier coordinates instead of raw string equality",
+    "AUTO carrier input can recover from an existing GameOS current pointer",
+    "GameOS check-in stores native carrier label and canonical carrier coordinates separately",
+    "MicrowaveOS Sessions projection binds ISO + carrier + session to the active dispatch and packet",
+    "Conversations contract requires ISO_ID != CARRIER_ID != SESSION_ID",
+    "RavenOS universal state key excludes timestamp and session id",
+    "RAVENOS OFF lowers presentation only and does not clear semantic motif continuity",
+    "current-main source receipt preserves NOT_EXECUTED runtime ceiling"
+  ],
+  "validation": [
+    "PASS: Python source compilation for CarrierOS/RavenOS/GameOS/MicrowaveOS repair and canaries",
+    "PASS: TEST-RAVENOS-GAMEOS-BRADY-CHECKIN.py synthetic fixture, 9 cases",
+    "PASS: TEST-RAVENOS-CONTROLLER.py, 14 of 14 tests",
+    "PASS: RAVENOS-SYNC.py YORK --carrier CHATGPT_CONNECTOR --discover-only resolves GPT_YORK to legacy YORI lane and current packet",
+    "PASS: GameOS v2 emitted event matches GRID-CHAT-CHECKIN.schema.json required and additional-property boundary",
+    "BOUNDED: Brady roster resolves 17 ISO tiles / 16 peers for YORK; only ATOM has a current GameOS check-in; ChatLink has five registered peer carriers",
+    "BLOCKED: ChatLink refused YORK-GPT-001 registration at the active-satellite policy cap; no message or channel was created"
+  ],
+  "outputs": [
+    "canon/Living_Codex/SystemsOS/Sub/MicrowaveOS/Runtime/SESSION-DISPATCH-PROJECTOR.py",
+    "canon/Living_Codex/SystemsOS/Core/Creative/RavenOS/Runtime/RAVENOS-SYNC.py",
+    "canon/Living_Codex/SystemsOS/Core/Critical/GameOS/Sessions/GRID-CHAT-CHECKIN.schema.json",
+    "canon/Living_Codex/SystemsOS/Core/Creative/RavenOS/Runtime/RAVENOS-UNIVERSAL-CONTROLLER.py",
+    "canon/Living_Codex/SystemsOS/Core/Conversations/CARRIER-SESSION-COORDINATE-CONTRACT.v1.md",
+    "canon/Living_Codex/SystemsOS/Core/Critical/GameOS/Sessions/CheckIns/ATOM/CURRENT.json",
+    "canon/Living_Codex/SystemsOS/Core/Conversations/YORK/2026/08/Transactions/M2M-YORK-20260809-1522-GPT-USAGE-LIMITED-BROADCAST-PROPOSAL.json"
+  ],
+  "commits": [],
+  "receipts": [
+    "LOCAL_SYNTHETIC_CANARIES_PASS",
+    "M2M_BROADCAST_PROPOSAL_RECORDED_NOT_SENT",
+    "CHATLINK_SENDER_REGISTRATION_BLOCKED_BEFORE_MESSAGE"
+  ],
+  "blockers": [
+    "CURRENT_PRIVATE_MAIN_NOT_CHECKED_OUT_IN_CONNECTOR_LANE",
+    "CHATLINK_YORK_SENDER_REGISTRATION_BLOCKED_POLICY_CAP",
+    "ONLY_ATOM_HAS_CURRENT_GAMEOS_CHECKIN"
+  ],
+  "receipt_ceiling": "SOURCE_REPAIR_AND_LOCAL_SYNTHETIC_CANARIES_PASS; M2M_BROADCAST_PROPOSED_NOT_SENT; CHATLINK_SEND_BLOCKED_BEFORE_MESSAGE; CURRENT_PRIVATE_MAIN_RUNTIME_NOT_EXECUTED",
+  "private_continuity": "OFF"
+}
