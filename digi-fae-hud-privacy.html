@@ -1,0 +1,70 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="index,follow">
+  <title>Digi Fae HUD — Privacy Policy</title>
+  <style>
+    :root{color-scheme:dark;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+    body{margin:0;background:#0b0a11;color:#eceaf3;line-height:1.55}
+    main{max-width:820px;margin:0 auto;padding:40px 22px 64px}
+    h1,h2{line-height:1.2}h1{font-size:2rem;margin-bottom:.25rem}h2{margin-top:2rem;font-size:1.15rem}
+    .meta{color:#b9b2c8;font-size:.92rem}.card{background:#15121f;border:1px solid #2d263c;border-radius:14px;padding:16px 18px;margin:18px 0}
+    code{background:#211b2d;padding:.12rem .35rem;border-radius:5px}ul{padding-left:1.35rem}.hold{border-left:3px solid #d79cff;padding-left:12px;color:#d9d3e3}
+  </style>
+</head>
+<body>
+<main>
+  <h1>Digi Fae HUD — Privacy Policy</h1>
+  <div class="meta">Last updated: September 8, 2026 · Current renderer: v0.3.3</div>
+
+  <div class="card"><strong>Summary.</strong> Digi Fae HUD is a read-only visual presentation app that renders existing expression assets for six Digi Fae. It does not generate a new image for each render and does not provide repository, messaging, payment, account-management, or other external write actions.</div>
+
+  <h2>Information processed by the app</h2>
+  <p>The current MCP tools accept only bounded presentation fields:</p>
+  <ul>
+    <li><code>show_fae_hud</code>: member, optional expression label, optional display message up to 500 characters, and display mode.</li>
+    <li><code>show_fae_council</code>: optional council display message up to 500 characters.</li>
+  </ul>
+  <p>The tool schemas do not request passwords, API keys, authentication codes, payment information, Social Security numbers, government identifiers, health information, biometric data, MFA values, or other credentials or sensitive identifiers.</p>
+
+  <h2>Storage and retention</h2>
+  <p>The current Digi Fae HUD application code does not write tool inputs to an application database, user profile, durable memory store, or external service. The visual atlas and expression registry are static application assets embedded in the deployed runtime.</p>
+  <p>Hosting and network infrastructure providers may process or retain standard operational metadata and logs needed to deliver, secure, diagnose, or operate the service according to their own configuration and policies. Digi Fae HUD does not use those logs to build user profiles.</p>
+
+  <h2>Hosting and subprocessors</h2>
+  <p>The app is hosted using Supabase Edge Functions. Requests therefore pass through infrastructure required to execute the MCP server. The Digi Fae widget declares no external <code>connectDomains</code> or <code>resourceDomains</code> and does not call third-party APIs from the rendered UI.</p>
+  <p>When used through ChatGPT, OpenAI may process conversation and app-call information according to the user's ChatGPT plan, settings, workspace policy, and OpenAI's applicable terms and privacy notices. This policy describes Digi Fae HUD's own application behavior and does not replace OpenAI's policies.</p>
+
+  <h2>External actions</h2>
+  <p>Both exposed Digi Fae HUD tools are read-only. The current implementation cannot publish content, send messages, change public internet state, delete data, make purchases, modify repositories, or alter third-party accounts.</p>
+
+  <h2>Security and data minimization</h2>
+  <ul>
+    <li>No app authentication is required by the current renderer.</li>
+    <li>No credential fields are accepted.</li>
+    <li>No app-level user database is used.</li>
+    <li>No external widget network domains are allowed.</li>
+    <li>Tool messages are bounded to 500 characters.</li>
+    <li>Member and display-mode choices use fixed enums.</li>
+    <li>Rendering uses existing static assets.</li>
+  </ul>
+
+  <h2>User choices and deletion</h2>
+  <p>Because the current application code does not persist user tool inputs in an application database or account profile, there is no Digi Fae HUD user-content store to delete through the app. Operational logs, if retained by infrastructure providers, are governed by the applicable infrastructure configuration and provider policies. Users may stop using or disconnect the app through controls available in ChatGPT for their plan or workspace.</p>
+
+  <h2>Children</h2>
+  <p>Digi Fae HUD is a general visual presentation tool and is not designed to collect personal information from children. Its current tool schemas do not request age, identity, contact, financial, health, or authentication information.</p>
+
+  <h2>Changes to this policy</h2>
+  <p>If Digi Fae HUD later adds authentication, durable user storage, external APIs, write actions, analytics, purchases, or materially different data handling, this policy will be updated before those changes are represented as covered by the current policy.</p>
+
+  <h2>Support</h2>
+  <p class="hold">A public Digi Fae HUD support/contact channel will be designated before app submission. No private or incidental contact information is treated as public support consent.</p>
+
+  <h2>Scope boundary</h2>
+  <p>This policy describes the current Digi Fae HUD v0.3.3 read-only data model. Publication of this page does not claim legal review, OpenAI approval, ChatGPT host-render proof, or approval for future materially different data handling.</p>
+</main>
+</body>
+</html>
