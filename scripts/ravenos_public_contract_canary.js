@@ -1,10 +1,14 @@
 'use strict';
-const fs = require('node:fs');
-const path = require('node:path');
-const contract = require('../ravenos-public-contract.js');
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+import '../ravenos-public-contract.js';
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const ROOT = path.resolve(__dirname, '..');
 const PACKET = path.join(ROOT, 'ravenos-public-haunt.json');
+const contract = globalThis.RavenOSPublicContract;
 const clone = value => JSON.parse(JSON.stringify(value));
 
 async function expectReject(packet, reason) {
@@ -15,6 +19,7 @@ async function expectReject(packet, reason) {
 }
 
 async function main() {
+  if (!contract) throw new Error('PUBLIC_CONTRACT_GLOBAL_UNAVAILABLE');
   const packet = JSON.parse(fs.readFileSync(PACKET, 'utf8'));
   const current = await contract.validatePacket(packet);
   if (!current.ok) throw new Error(`current packet rejected: ${current.reason}`);
