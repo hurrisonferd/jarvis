@@ -15,6 +15,9 @@ TARGETS = {
     "ravenos-public-haunt.json": ROOT / "ravenos-public-haunt.json",
     "ravenos-haunt.html": ROOT / "ravenos-haunt.html",
     "ravenos-gameboy.html": ROOT / "ravenos-gameboy.html",
+    "ravenos-home.html": ROOT / "ravenos-home.html",
+    "ravenos-home.webmanifest": ROOT / "ravenos-home.webmanifest",
+    "ravenos-home-sw.js": ROOT / "ravenos-home-sw.js",
     "ravenos-public-contract.js": ROOT / "ravenos-public-contract.js",
 }
 ATTEMPTS = 12
@@ -30,7 +33,7 @@ def fetch_live(name: str, nonce: str) -> bytes:
     req = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "RavenOS-Pages-Render-Canary/1.0",
+            "User-Agent": "RavenOS-Pages-Render-Canary/1.1",
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
         },
@@ -68,12 +71,27 @@ def main() -> int:
                 raise AssertionError("STALE_OR_DIFFERENT_BYTES:" + ",".join(sorted(mismatches)))
 
             packet = validate_packet(live["ravenos-public-haunt.json"])
-            for name in ("ravenos-haunt.html", "ravenos-gameboy.html"):
+            for name in ("ravenos-haunt.html", "ravenos-gameboy.html", "ravenos-home.html"):
                 text = live[name].decode("utf-8")
                 assert "./ravenos-public-contract.js" in text
                 assert "RavenOSPublicContract.validatePacket" in text
                 assert "Jarvis-Private" not in text
                 assert "./ravenos-public-haunt.json" in text
+
+            home = live["ravenos-home.html"].decode("utf-8")
+            assert "./ravenos-home.webmanifest" in home
+            assert "./ravenos-home-sw.js" in home
+            assert "RAVEN → JOKEROS → BOOTOS → OWNERS → FAIRYOS" in home
+            assert "https://github.com/hurrisonferd/RavenOS-Home/releases/latest" in home
+
+            manifest = json.loads(live["ravenos-home.webmanifest"].decode("utf-8"))
+            assert manifest["name"] == "RavenOS Home"
+            assert manifest["start_url"] == "./ravenos-home.html"
+            assert manifest["display"] == "standalone"
+
+            service_worker = live["ravenos-home-sw.js"].decode("utf-8")
+            assert "ravenos-public-haunt.json" in service_worker
+            assert "cache:'no-store'" in service_worker
 
             contract = live["ravenos-public-contract.js"].decode("utf-8")
             assert "ravenos.public-handheld.contract-validator.v1" in contract
@@ -85,14 +103,16 @@ def main() -> int:
             print(
                 json.dumps(
                     {
-                        "schema": "ravenos.public-handheld.pages-render-canary.v1",
+                        "schema": "ravenos.public-handheld.pages-render-canary.v2",
                         "state": "PASS",
                         "proof_head": head,
                         "host": BASE,
+                        "home_url": BASE + "/ravenos-home.html",
                         "packet_id": packet["packet_id"],
                         "http_targets_verified": sorted(TARGETS),
                         "served_bytes_match_deployment_head": True,
                         "strict_validator_served": True,
+                        "home_pwa_surface_verified": True,
                         "private_repo_literal_absent": True,
                         "automatic_host_invocation_proven": False,
                         "effect_authority": False,
