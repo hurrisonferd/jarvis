@@ -20,7 +20,7 @@ async function main() {
   if (!current.ok) throw new Error(`current packet rejected: ${current.reason}`);
 
   const legacyGod = clone(packet);
-  legacyGod.god_control.fair yos_power_mode = 'MAX_POWER';
+  legacyGod.god_control['fairyos_power_mode'] = 'MAX_POWER';
   await expectReject(legacyGod, 'GOD_CONTROL_KEYS');
 
   const privacyLeak = clone(packet);
