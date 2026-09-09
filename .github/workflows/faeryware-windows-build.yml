@@ -92,9 +92,13 @@ jobs:
         working-directory: Faeryware-Windows
         run: npm install
 
-      - name: Source canary
+      - name: Native carrier canary
         working-directory: Faeryware-Windows
         run: python Tests/FAERYWARE-DESKTOP-NATIVE-CARRIER-CANARY.py
+
+      - name: Swarm sense canary
+        working-directory: Faeryware-Windows
+        run: python Tests/FAERYWARE-DESKTOP-SWARM-SENSE-CANARY.py
 
       - name: Build NSIS installer
         working-directory: Faeryware-Windows
@@ -103,6 +107,6 @@ jobs:
       - name: Upload installer
         uses: actions/upload-artifact@v4
         with:
-          name: Faeryware-Windows-v0.6
+          name: Faeryware-Windows-v0.7
           path: Faeryware-Windows/src-tauri/target/release/bundle/nsis/*.exe
           if-no-files-found: error

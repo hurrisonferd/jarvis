@@ -1,7 +1,7 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "main-capability",
-  "description": "Faeryware Desktop visible HUD capability",
+  "description": "Faeryware Desktop visible portal capability",
   "windows": ["main"],
   "permissions": [
     "core:default",

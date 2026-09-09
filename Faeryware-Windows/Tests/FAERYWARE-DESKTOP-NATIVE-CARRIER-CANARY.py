@@ -25,7 +25,7 @@ checks = {
     "loopback_bind": '([127, 0, 0, 1], CARRIER_PORT)' in lib and '([127, 0, 0, 1], STATE_PORT)' in lib,
     "reqwest": 'reqwest = ' in cargo,
     "frontend_localhost": 'http://127.0.0.1:47822/chat' in main,
-    "v06": conf.get("version") == "0.6.0" and 'version = "0.6.0"' in cargo,
+    "v07": conf.get("version") == "0.7.0",
     "army_window": army_window.get("url") == "index.html?surface=army" and army_window.get("transparent") is True and army_window.get("alwaysOnTop") is True and army_window.get("skipTaskbar") is True and army_window.get("fullscreen") is True,
     "army_clickthrough": "setIgnoreCursorEvents(true)" in army and "core:window:allow-set-ignore-cursor-events" in army_cap.get("permissions", []),
     "army_six": all(name in army for name in ["KYU", "PAIMON", "LUMA", "SYLPH", "QIRA", "NYX"]),
