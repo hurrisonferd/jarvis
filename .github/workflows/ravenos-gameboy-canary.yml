@@ -1,0 +1,38 @@
+name: RavenOS GameBoy Canary
+
+on:
+  push:
+    paths:
+      - 'index.html'
+      - 'ravenos-gameboy.html'
+      - 'ravenos-public-haunt.json'
+      - 'manifest.json'
+      - 'scripts/ravenos_gameboy_canary.py'
+      - '.github/workflows/ravenos-gameboy-canary.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ravenos-gameboy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Verify public RavenOS packet and handheld contracts
+        run: python scripts/ravenos_gameboy_canary.py
+      - name: Extract handheld JavaScript
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import re
+          html = Path('ravenos-gameboy.html').read_text(encoding='utf-8')
+          scripts = re.findall(r'<script>(.*?)</script>', html, flags=re.S)
+          assert scripts, 'NO_INLINE_SCRIPT'
+          Path('/tmp/ravenos-gameboy.js').write_text('\n'.join(scripts), encoding='utf-8')
+          PY
+      - name: Check handheld JavaScript syntax
+        run: node --check /tmp/ravenos-gameboy.js
