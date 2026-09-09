@@ -1,0 +1,11 @@
+{
+  "name": "RavenOS Handheld // FairyOS God Object",
+  "short_name": "RavenOS",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#02030a",
+  "theme_color": "#080a12",
+  "description": "Public-safe RavenOS GameBoy cockpit with FairyOS bounded God Object projection.",
+  "icons": []
+}
