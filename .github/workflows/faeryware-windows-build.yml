@@ -60,6 +60,26 @@ jobs:
           print(f"FAERYWARE_ARCHIVE_EXTRACT PASS files={copied}")
           '@ | python -
 
+      - name: Create Windows icon
+        working-directory: Faeryware-Windows
+        shell: pwsh
+        run: |
+          python -m pip install --disable-pip-version-check pillow
+          @'
+          from pathlib import Path
+          from PIL import Image, ImageDraw
+
+          icons = Path("src-tauri/icons")
+          icons.mkdir(parents=True, exist_ok=True)
+          img = Image.new("RGBA", (256, 256), (7, 4, 14, 255))
+          draw = ImageDraw.Draw(img)
+          draw.ellipse((18, 18, 238, 238), fill=(255, 79, 186, 255), outline=(168, 85, 247, 255), width=14)
+          draw.ellipse((64, 64, 192, 192), fill=(14, 8, 25, 255), outline=(255, 209, 102, 255), width=7)
+          draw.polygon([(128, 78), (151, 112), (190, 128), (151, 144), (128, 178), (105, 144), (66, 128), (105, 112)], fill=(247, 242, 255, 255))
+          img.save(icons / "icon.ico", format="ICO", sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])
+          print("FAERYWARE_ICON PASS")
+          '@ | python -
+
       - name: Node
         uses: actions/setup-node@v4
         with:
