@@ -18,8 +18,13 @@ jobs:
       run:
         working-directory: Faeryware-Windows
     steps:
-      - name: Checkout
+      - name: Checkout Faeryware only
         uses: actions/checkout@v4
+        with:
+          sparse-checkout: |
+            Faeryware-Windows
+          sparse-checkout-cone-mode: true
+          fetch-depth: 1
       - name: Node
         uses: actions/setup-node@v4
         with:
