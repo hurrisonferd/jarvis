@@ -9,5 +9,12 @@
   "background_color": "#06040b",
   "theme_color": "#08050f",
   "categories": ["productivity", "utilities"],
-  "icons": []
+  "icons": [
+    {
+      "src": "./ravenos-home-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
 }
