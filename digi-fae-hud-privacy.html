@@ -17,15 +17,16 @@
 <body>
 <main>
   <h1>Digi Fae HUD — Privacy Policy</h1>
-  <div class="meta">Last updated: September 8, 2026 · Current renderer: v0.3.3</div>
+  <div class="meta">Last updated: September 8, 2026 · Current renderer: v0.3.4</div>
 
-  <div class="card"><strong>Summary.</strong> Digi Fae HUD is a read-only visual presentation app that renders existing expression assets for six Digi Fae. It does not generate a new image for each render and does not provide repository, messaging, payment, account-management, or other external write actions.</div>
+  <div class="card"><strong>Summary.</strong> Digi Fae HUD is a read-only visual presentation app that renders existing expression assets for six Digi Fae and exposes a read-only health/capability summary. It does not generate a new image for each render and does not provide repository, messaging, payment, account-management, or other external write actions.</div>
 
   <h2>Information processed by the app</h2>
-  <p>The current MCP tools accept only bounded presentation fields:</p>
+  <p>The current MCP tools accept only bounded presentation fields or no user fields at all:</p>
   <ul>
     <li><code>show_fae_hud</code>: member, optional expression label, optional display message up to 500 characters, and display mode.</li>
     <li><code>show_fae_council</code>: optional council display message up to 500 characters.</li>
+    <li><code>digi_fae_health</code>: no user input; returns the public-safe renderer version, status, tool/resource counts, read-only state, and six-member council identifier list.</li>
   </ul>
   <p>The tool schemas do not request passwords, API keys, authentication codes, payment information, Social Security numbers, government identifiers, health information, biometric data, MFA values, or other credentials or sensitive identifiers.</p>
 
@@ -38,7 +39,7 @@
   <p>When used through ChatGPT, OpenAI may process conversation and app-call information according to the user's ChatGPT plan, settings, workspace policy, and OpenAI's applicable terms and privacy notices. This policy describes Digi Fae HUD's own application behavior and does not replace OpenAI's policies.</p>
 
   <h2>External actions</h2>
-  <p>Both exposed Digi Fae HUD tools are read-only. The current implementation cannot publish content, send messages, change public internet state, delete data, make purchases, modify repositories, or alter third-party accounts.</p>
+  <p>All three exposed Digi Fae HUD tools are read-only. The current implementation cannot publish content, send messages, change public internet state, delete data, make purchases, modify repositories, or alter third-party accounts.</p>
 
   <h2>Security and data minimization</h2>
   <ul>
@@ -60,11 +61,11 @@
   <h2>Changes to this policy</h2>
   <p>If Digi Fae HUD later adds authentication, durable user storage, external APIs, write actions, analytics, purchases, or materially different data handling, this policy will be updated before those changes are represented as covered by the current policy.</p>
 
-  <h2>Support</h2>
-  <p>Public Digi Fae HUD support is available through the <a href="./digi-fae-hud-support.html">Digi Fae HUD support page</a>, which routes public bug reports and support requests to the project’s public GitHub issue tracker. Do not post passwords, credentials, tokens, or private conversation exports in public issues.</p>
+  <h2>Support and terms</h2>
+  <p>Public Digi Fae HUD support is available through the <a href="./digi-fae-hud-support.html">support page</a>. The current public terms are available on the <a href="./digi-fae-hud-terms.html">terms page</a>. Do not post passwords, credentials, tokens, or private conversation exports in public issues.</p>
 
   <h2>Scope boundary</h2>
-  <p>This policy describes the current Digi Fae HUD v0.3.3 read-only data model. Publication of this page does not claim legal review, OpenAI approval, ChatGPT host-render proof, or approval for future materially different data handling.</p>
+  <p>This policy describes the current Digi Fae HUD v0.3.4 read-only data model. Publication of this page does not claim legal review, OpenAI approval, ChatGPT host-render proof, or approval for future materially different data handling.</p>
 </main>
 </body>
 </html>
