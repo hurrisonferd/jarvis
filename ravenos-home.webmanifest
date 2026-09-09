@@ -1,0 +1,13 @@
+{
+  "name": "RavenOS Home",
+  "short_name": "RavenOS",
+  "description": "Haunted public God Map cockpit for RavenOS.",
+  "start_url": "./ravenos-home.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#06040b",
+  "theme_color": "#08050f",
+  "categories": ["productivity", "utilities"],
+  "icons": []
+}
