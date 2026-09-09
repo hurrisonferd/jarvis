@@ -1,6 +1,6 @@
 [package]
 name = "faeryware-desktop"
-version = "0.6.0"
+version = "0.7.0"
 description = "User-visible Windows resident body for RavenOS / FairyOS"
 authors = ["RavenOS"]
 edition = "2021"
