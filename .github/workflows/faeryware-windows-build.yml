@@ -14,29 +14,72 @@ permissions:
 jobs:
   build:
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: Faeryware-Windows
     steps:
-      - name: Checkout Faeryware only
-        uses: actions/checkout@v4
+      - name: Python
+        uses: actions/setup-python@v5
         with:
-          sparse-checkout: |
-            Faeryware-Windows
-          sparse-checkout-cone-mode: true
-          fetch-depth: 1
+          python-version: "3.13"
+
+      - name: Fetch Faeryware subtree without Git checkout
+        shell: pwsh
+        run: |
+          $archive = Join-Path $env:RUNNER_TEMP "jarvis-${{ github.sha }}.zip"
+          Invoke-WebRequest -Uri "https://codeload.github.com/${{ github.repository }}/zip/${{ github.sha }}" -OutFile $archive
+          $env:FAERYWARE_ARCHIVE = $archive
+          @'
+          import os
+          import pathlib
+          import shutil
+          import zipfile
+
+          archive = os.environ["FAERYWARE_ARCHIVE"]
+          workspace = pathlib.Path(os.environ["GITHUB_WORKSPACE"]).resolve()
+          subtree = "Faeryware-Windows/"
+          subtree_root = (workspace / "Faeryware-Windows").resolve()
+          copied = 0
+
+          with zipfile.ZipFile(archive) as zf:
+              for info in zf.infolist():
+                  name = info.filename.replace("\\", "/")
+                  parts = name.split("/", 1)
+                  if len(parts) != 2:
+                      continue
+                  relative = parts[1]
+                  if not relative.startswith(subtree) or relative.endswith("/"):
+                      continue
+                  target = (workspace / relative).resolve()
+                  if target != subtree_root and subtree_root not in target.parents:
+                      raise RuntimeError(f"unsafe archive path: {relative}")
+                  target.parent.mkdir(parents=True, exist_ok=True)
+                  with zf.open(info) as src, target.open("wb") as dst:
+                      shutil.copyfileobj(src, dst)
+                  copied += 1
+
+          if copied == 0:
+              raise RuntimeError("Faeryware-Windows subtree was not found in archive")
+          print(f"FAERYWARE_ARCHIVE_EXTRACT PASS files={copied}")
+          '@ | python -
+
       - name: Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
+
       - name: Rust
         uses: dtolnay/rust-toolchain@stable
+
       - name: Install JavaScript dependencies
+        working-directory: Faeryware-Windows
         run: npm install
+
       - name: Source canary
+        working-directory: Faeryware-Windows
         run: python Tests/FAERYWARE-DESKTOP-NATIVE-CARRIER-CANARY.py
+
       - name: Build NSIS installer
+        working-directory: Faeryware-Windows
         run: npm run windows:installer
+
       - name: Upload installer
         uses: actions/upload-artifact@v4
         with:
