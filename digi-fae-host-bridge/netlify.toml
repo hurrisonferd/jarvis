@@ -1,0 +1,14 @@
+[build]
+  publish = "."
+
+[[redirects]]
+  from = "/mcp"
+  to = "https://oexghfsvhnggddllgvrt.supabase.co/functions/v1/digi-fae-hud-mcp"
+  status = 200
+  force = true
+
+[[headers]]
+  for = "/mcp"
+  [headers.values]
+    Cache-Control = "no-store, no-cache, must-revalidate"
+    X-Content-Type-Options = "nosniff"
