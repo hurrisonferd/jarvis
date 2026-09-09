@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>JARVIS HANDHELD — RAVENOS HAUNT</title>
+<style>
+:root{color-scheme:dark;--bg:#020408;--panel:#07111b;--line:#1e3a52;--text:#a0c8e0;--dim:#4a7a99;--green:#00ffcc;--amber:#f5a623;--red:#ff3355}
+*{box-sizing:border-box} body{margin:0;min-height:100vh;background:radial-gradient(circle at 50% 20%,#0a1822 0,#020408 55%);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;padding:18px}
+main{max-width:760px;margin:0 auto;border:1px solid var(--line);background:rgba(7,17,27,.94);box-shadow:0 0 28px rgba(0,255,204,.08)}
+header{display:flex;justify-content:space-between;gap:12px;padding:12px 14px;border-bottom:1px solid var(--line);font-size:12px;letter-spacing:.08em}.title{color:var(--green)}
+section{padding:14px;border-bottom:1px solid #102537}.label{color:var(--dim);font-size:10px;letter-spacing:.12em;margin-bottom:8px}.state{font-size:20px;color:var(--amber)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:8px}.cell{border:1px solid #123047;padding:9px;background:#030910}.n{font-size:18px;color:var(--green)}.k{font-size:9px;color:var(--dim);margin-top:3px}
+.fae,.rooms{display:flex;flex-wrap:wrap;gap:7px}.fae-card,.room{border:1px solid #173449;padding:8px;background:#030910}.fae-card{min-width:120px}.room{min-width:150px}.stamp{font-size:15px}.small{font-size:10px;color:var(--dim);line-height:1.5}.hold{color:var(--red)}.ok{color:var(--green)}
+footer{padding:10px 14px;color:var(--dim);font-size:9px}.hidden{display:none}
+a{color:var(--green)}
+</style>
+</head>
+<body>
+<main>
+<header><span class="title">RAVENOS // PUBLIC HAUNT</span><span id="linkState">CHECKING</span></header>
+<section><div class="label">PUBLIC PROJECTION STATE</div><div id="state" class="state">NO PUBLIC HAUNT PACKET</div><div id="note" class="small">This page never reads Jarvis-Private. It accepts only an explicitly published same-origin sanitized packet.</div></section>
+<section id="countsSection" class="hidden"><div class="label">GOD CONTROL // PUBLIC COUNTS</div><div id="counts" class="grid"></div></section>
+<section id="faeSection" class="hidden"><div class="label">DIGI FAE // PUBLIC STAMPS</div><div id="fae" class="fae"></div></section>
+<section id="roomsSection" class="hidden"><div class="label">RAVENOS HOME // PUBLIC ROOM ATMOSPHERE</div><div id="rooms" class="rooms"></div></section>
+<section><div class="label">PRIVACY BOUNDARY</div><div class="small">Private source paths, transactions, event IDs, haunt IDs, flight rows, ledgers, receipts, hashes, secrets and tokens are not accepted as display fields. Missing packet = HOLD, not inference.</div></section>
+<footer><a href="./">BACK TO JARVIS HANDHELD</a> · PUBLIC CONSUMER ONLY · ZERO OWNER EFFECT AUTHORITY</footer>
+</main>
+<script>
+(() => {
+  const PACKET='./ravenos-public-haunt.json';
+  const allowedTop=new Set(['schema','target','host_url','state','god_control','fae','rooms','privacy','proof','packet_id']);
+  const esc=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  const setState=(text,good=false)=>{document.getElementById('state').textContent=text;document.getElementById('linkState').textContent=good?'PUBLIC LINK READY':'HOLD';document.getElementById('linkState').className=good?'ok':'hold';};
+  const countCell=(k,v)=>`<div class="cell"><div class="n">${esc(v)}</div><div class="k">${esc(k)}</div></div>`;
+  function valid(p){
+    if(!p||p.schema!=='ravenos.public-handheld.projection.v1'||p.target!=='JARVIS_HANDHELD') return false;
+    if(Object.keys(p).some(k=>!allowedTop.has(k))) return false;
+    const privacy=p.privacy||{};
+    return privacy.whitelist_only===true && privacy.source_paths_included===false && privacy.transaction_ids_included===false && privacy.secrets_or_tokens_included===false;
+  }
+  async function load(){
+    try{
+      const r=await fetch(PACKET,{cache:'no-store'});
+      if(!r.ok) throw new Error('NO_PACKET');
+      const p=await r.json();
+      if(!valid(p)) throw new Error('INVALID_PUBLIC_PACKET');
+      setState(p.state||'QUIET',true);
+      document.getElementById('note').textContent='Same-origin sanitized packet accepted. This consumer does not contact private RavenOS sources.';
+      const g=p.god_control||{};
+      const keys=[['BASE OBJECTS',g.base_object_count],['LIVE OBJECTS',g.effective_object_count],['GHOST PORTS',g.registered_ghost_ports],['NATIVE OWNERS',g.proven_native_owners],['STAGED',g.staged_native_candidates],['HOLDS',g.active_hold_count],['RESOLVED',g.resolved_hold_count]];
+      document.getElementById('counts').innerHTML=keys.map(([k,v])=>countCell(k,v??0)).join('');
+      document.getElementById('countsSection').classList.remove('hidden');
+      const fae=Array.isArray(p.fae)?p.fae:[];
+      if(fae.length){document.getElementById('fae').innerHTML=fae.map(x=>`<div class="fae-card"><div class="stamp">${esc(x.stamp||x.member)}</div><div class="small">${esc(x.member)} · ${esc(x.glyph)} · ${esc(x.accent)}</div></div>`).join('');document.getElementById('faeSection').classList.remove('hidden');}
+      const rooms=Array.isArray(p.rooms)?p.rooms:[];
+      if(rooms.length){document.getElementById('rooms').innerHTML=rooms.map(x=>`<div class="room"><div>${esc(x.room)}</div><div class="small">${esc(x.state)} · ${esc(x.atmosphere)}<br>ghosts ${esc(x.ghost_count||0)} · holds ${esc(x.hold_count||0)} · absences ${esc(x.absence_count||0)}</div></div>`).join('');document.getElementById('roomsSection').classList.remove('hidden');}
+    }catch(e){setState('NO PUBLIC HAUNT PACKET',false);document.getElementById('note').textContent='Consumer is live; sanitized packet is not published or failed validation. No private fallback is attempted.';}
+  }
+  load();
+})();
+</script>
+</body>
+</html>
