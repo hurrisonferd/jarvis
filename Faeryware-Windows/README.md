@@ -43,7 +43,11 @@ The API key is read by the native Rust process only. It is not embedded in the w
 
 or double-click `BUILD-INSTALLER.cmd`.
 
-The GitHub Actions workflow also builds an unsigned NSIS installer artifact on `windows-latest`.
+The GitHub Actions workflow also builds an unsigned NSIS installer artifact on `windows-latest`. The workflow uses sparse checkout of this subtree so unrelated repository paths that are invalid on Windows do not block the app build.
+
+## Proof boundary
+
+A successful source canary is not an installer proof. The hosted Windows workflow must complete the Rust/Tauri compile and upload the NSIS `.exe` before the build is called proven.
 
 ## Boundaries
 
