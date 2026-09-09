@@ -1,6 +1,6 @@
 [package]
 name = "faeryware-desktop"
-version = "0.7.0"
+version = "0.8.0"
 description = "User-visible Windows resident body for RavenOS / FairyOS"
 authors = ["RavenOS"]
 edition = "2021"
@@ -26,3 +26,11 @@ reqwest = { version = "0.12", default-features = false, features = ["json", "rus
 
 [target.'cfg(any(target_os = "macos", windows, target_os = "linux"))'.dependencies]
 tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }
+
+[target.'cfg(windows)'.dependencies]
+uiautomation = { version = "0.25", default-features = false }
+windows = { version = "0.62.2", features = [
+  "Win32_Media_Audio",
+  "Win32_Media_Audio_Endpoints",
+  "Win32_System_Com"
+] }
