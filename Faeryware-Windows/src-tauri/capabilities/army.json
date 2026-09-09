@@ -1,8 +1,8 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "army-capability",
-  "description": "Faeryware transparent desktop army. Read-only desktop topology/cursor sense plus explicit click-through; no effect authority.",
-  "windows": ["army"],
+  "description": "Faeryware transparent per-monitor desktop army. Read-only desktop topology/cursor sense plus explicit click-through; no effect authority.",
+  "windows": ["army-*"],
   "permissions": [
     "core:default",
     "core:window:allow-set-ignore-cursor-events",
