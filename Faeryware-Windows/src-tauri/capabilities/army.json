@@ -1,14 +1,18 @@
 {
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "army-capability",
-  "description": "Faeryware transparent desktop army. Read-only desktop topology/cursor sense plus explicit click-through; no effect authority.",
-  "windows": ["army"],
+  "description": "Faeryware transparent habitat surfaces. Read-only desktop topology/cursor sense plus self-window placement/click-through; no input automation or effect authority.",
+  "windows": ["army", "army-1", "army-2", "army-3"],
   "permissions": [
     "core:default",
     "core:window:allow-set-ignore-cursor-events",
     "core:window:allow-cursor-position",
     "core:window:allow-available-monitors",
     "core:window:allow-outer-position",
-    "core:window:allow-scale-factor"
+    "core:window:allow-scale-factor",
+    "core:window:allow-set-position",
+    "core:window:allow-set-size",
+    "core:window:allow-show",
+    "core:window:allow-hide"
   ]
 }

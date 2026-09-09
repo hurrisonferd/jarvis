@@ -1,10 +1,33 @@
 {
-  "$schema":"https://schema.tauri.app/config/2","productName":"Faeryware","version":"0.7.0","identifier":"com.ravenos.faeryware.desktop",
-  "build":{"beforeDevCommand":"npm run dev","devUrl":"http://localhost:1420","beforeBuildCommand":"npm run build","frontendDist":"../dist"},
-  "app":{"windows":[
-    {"label":"main","title":"Faeryware // RavenOS","width":520,"height":760,"minWidth":400,"minHeight":460,"resizable":true,"decorations":false,"transparent":true,"alwaysOnTop":true,"center":false,"shadow":false},
-    {"label":"army","title":"Faeryware // Desktop Army","url":"index.html?surface=army","fullscreen":true,"resizable":false,"decorations":false,"transparent":true,"alwaysOnTop":true,"skipTaskbar":true,"shadow":false,"focus":false,"focusable":false}
-  ],"security":{"csp":"default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ipc: http://ipc.localhost http://127.0.0.1:47821 http://127.0.0.1:47822"}},
-  "plugins":{"deep-link":{"desktop":{"schemes":["ravenos","faeryware"]}}},
-  "bundle":{"active":true,"targets":["nsis"],"publisher":"RavenOS","shortDescription":"A user-visible FairyOS presence shell and desktop swarm for Windows.","longDescription":"Faeryware gives RavenOS and FairyOS a resident Windows portal plus a transparent click-through desktop army with six deterministic Digi Fae bodies, eighteen echoes, cursor-aware swarm physics, monitor topology sensing, summon reactions, tray presence, local-only event ingress, notifications, continuity, and an embedded model carrier.","windows":{"nsis":{"installMode":"currentUser"}}}
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "Faeryware",
+  "version": "0.8.0",
+  "identifier": "com.ravenos.faeryware.desktop",
+  "build": {
+    "beforeDevCommand": "npm run dev",
+    "devUrl": "http://localhost:1420",
+    "beforeBuildCommand": "npm run build",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "windows": [
+      {"label":"main","title":"Faeryware // RavenOS","width":520,"height":760,"minWidth":400,"minHeight":460,"resizable":true,"decorations":false,"transparent":true,"alwaysOnTop":true,"center":false,"shadow":false},
+      {"label":"army","title":"Faeryware // Habitat 1","url":"index.html?surface=army","width":800,"height":600,"visible":true,"resizable":false,"decorations":false,"transparent":true,"alwaysOnTop":true,"skipTaskbar":true,"shadow":false,"focus":false,"focusable":false},
+      {"label":"army-1","title":"Faeryware // Habitat 2","url":"index.html?surface=army","width":800,"height":600,"visible":false,"resizable":false,"decorations":false,"transparent":true,"alwaysOnTop":true,"skipTaskbar":true,"shadow":false,"focus":false,"focusable":false},
+      {"label":"army-2","title":"Faeryware // Habitat 3","url":"index.html?surface=army","width":800,"height":600,"visible":false,"resizable":false,"decorations":false,"transparent":true,"alwaysOnTop":true,"skipTaskbar":true,"shadow":false,"focus":false,"focusable":false},
+      {"label":"army-3","title":"Faeryware // Habitat 4","url":"index.html?surface=army","width":800,"height":600,"visible":false,"resizable":false,"decorations":false,"transparent":true,"alwaysOnTop":true,"skipTaskbar":true,"shadow":false,"focus":false,"focusable":false}
+    ],
+    "security": {
+      "csp": "default-src 'self'; style-src 'self' 'unsafe-inline'; connect-src 'self' ipc: http://ipc.localhost http://127.0.0.1:47821 http://127.0.0.1:47822 http://127.0.0.1:47823"
+    }
+  },
+  "plugins": {"deep-link":{"desktop":{"schemes":["ravenos","faeryware"]}}},
+  "bundle": {
+    "active": true,
+    "targets": ["nsis"],
+    "publisher": "RavenOS",
+    "shortDescription": "A user-visible FairyOS habitat for Windows.",
+    "longDescription": "Faeryware gives RavenOS and FairyOS a resident portal plus transparent per-monitor habitat surfaces, six deterministic Digi Fae bodies, eighteen echoes, cursor-aware swarm physics, read-only Windows UI landmark perching, read-only system-output peak reactions for MusicOS, local-only event ingress, notifications, continuity, and an embedded model carrier.",
+    "windows": {"nsis":{"installMode":"currentUser"}}
+  }
 }

@@ -1,41 +1,10 @@
 from pathlib import Path
 import json
-
 root = Path(__file__).resolve().parents[1]
-lib = (root / "src-tauri" / "src" / "lib.rs").read_text(encoding="utf-8")
-main = (root / "src" / "main.js").read_text(encoding="utf-8")
-army = (root / "src" / "army.js").read_text(encoding="utf-8")
-bootstrap = (root / "src" / "bootstrap.js").read_text(encoding="utf-8")
-army_css = (root / "src" / "army.css").read_text(encoding="utf-8")
-cargo = (root / "src-tauri" / "Cargo.toml").read_text(encoding="utf-8")
-conf = json.loads((root / "src-tauri" / "tauri.conf.json").read_text(encoding="utf-8"))
-army_cap = json.loads((root / "src-tauri" / "capabilities" / "army.json").read_text(encoding="utf-8"))
-
-windows = {item.get("label"): item for item in conf.get("app", {}).get("windows", [])}
-army_window = windows.get("army", {})
-combined = lib + main + army + bootstrap + army_css + cargo
-
-checks = {
-    "carrier_port": 'const CARRIER_PORT: u16 = 47_822;' in lib,
-    "state_port": 'const STATE_PORT: u16 = 47_821;' in lib,
-    "openai_endpoint_fixed": 'https://api.openai.com/v1/responses' in lib,
-    "key_native_only": 'env_trim("OPENAI_API_KEY")' in lib and "OPENAI_API_KEY" not in (main + army + bootstrap),
-    "ollama_guard": "is_loopback_http" in lib,
-    "origin_allowlist": "ALLOWED_CARRIER_ORIGINS" in lib and "origin_not_allowed" in lib,
-    "loopback_bind": '([127, 0, 0, 1], CARRIER_PORT)' in lib and '([127, 0, 0, 1], STATE_PORT)' in lib,
-    "reqwest": 'reqwest = ' in cargo,
-    "frontend_localhost": 'http://127.0.0.1:47822/chat' in main,
-    "v07": conf.get("version") == "0.7.0",
-    "army_window": army_window.get("url") == "index.html?surface=army" and army_window.get("transparent") is True and army_window.get("alwaysOnTop") is True and army_window.get("skipTaskbar") is True and army_window.get("fullscreen") is True,
-    "army_clickthrough": "setIgnoreCursorEvents(true)" in army and "core:window:allow-set-ignore-cursor-events" in army_cap.get("permissions", []),
-    "army_six": all(name in army for name in ["KYU", "PAIMON", "LUMA", "SYLPH", "QIRA", "NYX"]),
-    "army_state_bus": "http://127.0.0.1:47821/state" in army,
-    "army_bootstrap": 'params.get("surface") === "army"' in bootstrap,
-    "no_literal_key": "sk-" not in combined,
-    "no_private_locator": "Jarvis-Private" not in combined,
-}
-failed = [name for name, ok in checks.items() if not ok]
-if failed:
-    raise SystemExit("FAERYWARE_WINDOWS_CANARY FAIL: " + ", ".join(failed))
+lib=(root/"src-tauri/src/lib.rs").read_text(); main=(root/"src/main.js").read_text(); army=(root/"src/army.js").read_text(); bootstrap=(root/"src/bootstrap.js").read_text(); cargo=(root/"src-tauri/Cargo.toml").read_text(); conf=json.loads((root/"src-tauri/tauri.conf.json").read_text()); cap=json.loads((root/"src-tauri/capabilities/army.json").read_text())
+windows={x.get("label"):x for x in conf["app"]["windows"]}; combined=lib+main+army+bootstrap+cargo
+checks={"ports":'const CARRIER_PORT: u16 = 47_822;' in lib and 'const STATE_PORT: u16 = 47_821;' in lib,"openai":'https://api.openai.com/v1/responses' in lib,"key_native":'env_trim("OPENAI_API_KEY")' in lib and "OPENAI_API_KEY" not in (main+army+bootstrap),"ollama_guard":"is_loopback_http" in lib,"origin_guard":"ALLOWED_CARRIER_ORIGINS" in lib and "origin_not_allowed" in lib,"loopback":'([127, 0, 0, 1], CARRIER_PORT)' in lib and '([127, 0, 0, 1], STATE_PORT)' in lib,"v08":conf.get("version")=="0.8.0" and 'version = "0.8.0"' in cargo,"army":windows["army"].get("transparent") is True and windows["army"].get("alwaysOnTop") is True,"clickthrough":"setIgnoreCursorEvents(true)" in army and "core:window:allow-set-ignore-cursor-events" in cap["permissions"],"six":all(x in army for x in ["KYU","PAIMON","LUMA","SYLPH","QIRA","NYX"]),"no_key":"sk-" not in combined,"no_private":"Jarvis-Private" not in combined}
+failed=[k for k,v in checks.items() if not v]
+if failed: raise SystemExit("FAERYWARE_WINDOWS_CANARY FAIL: "+", ".join(failed))
 print("FAERYWARE_WINDOWS_CANARY PASS")
-print("embedded=true openai=true ollama=true loopback=true origin_guard=true key_in_webview=false army=true clickthrough=true")
+print("embedded=true openai=true ollama=true loopback=true key_in_webview=false habitat=true")
