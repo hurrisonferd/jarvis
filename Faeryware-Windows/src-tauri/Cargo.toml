@@ -1,6 +1,6 @@
 [package]
 name = "faeryware-desktop"
-version = "0.7.0"
+version = "0.8.0"
 description = "User-visible Windows resident body for RavenOS / FairyOS"
 authors = ["RavenOS"]
 edition = "2021"
@@ -21,8 +21,12 @@ tauri-plugin-notification = "2"
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 axum = "0.8"
-tokio = { version = "1", features = ["net", "rt-multi-thread", "sync"] }
+tokio = { version = "1", features = ["net", "rt-multi-thread", "sync", "time"] }
 reqwest = { version = "0.12", default-features = false, features = ["json", "rustls-tls"] }
+
+[target.'cfg(windows)'.dependencies]
+uiautomation = { version = "0.25.1", default-features = false }
+wasapi = "0.24.0"
 
 [target.'cfg(any(target_os = "macos", windows, target_os = "linux"))'.dependencies]
 tauri-plugin-single-instance = { version = "2", features = ["deep-link"] }

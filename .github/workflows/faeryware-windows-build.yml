@@ -19,7 +19,6 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: "3.13"
-
       - name: Fetch Faeryware subtree without Git checkout
         shell: pwsh
         run: |
@@ -27,39 +26,22 @@ jobs:
           Invoke-WebRequest -Uri "https://codeload.github.com/${{ github.repository }}/zip/${{ github.sha }}" -OutFile $archive
           $env:FAERYWARE_ARCHIVE = $archive
           @'
-          import os
-          import pathlib
-          import shutil
-          import zipfile
-
-          archive = os.environ["FAERYWARE_ARCHIVE"]
-          workspace = pathlib.Path(os.environ["GITHUB_WORKSPACE"]).resolve()
-          subtree = "Faeryware-Windows/"
-          subtree_root = (workspace / "Faeryware-Windows").resolve()
-          copied = 0
-
+          import os, pathlib, shutil, zipfile
+          archive=os.environ["FAERYWARE_ARCHIVE"]; workspace=pathlib.Path(os.environ["GITHUB_WORKSPACE"]).resolve(); subtree="Faeryware-Windows/"; subtree_root=(workspace/"Faeryware-Windows").resolve(); copied=0
           with zipfile.ZipFile(archive) as zf:
               for info in zf.infolist():
-                  name = info.filename.replace("\\", "/")
-                  parts = name.split("/", 1)
-                  if len(parts) != 2:
-                      continue
-                  relative = parts[1]
-                  if not relative.startswith(subtree) or relative.endswith("/"):
-                      continue
-                  target = (workspace / relative).resolve()
-                  if target != subtree_root and subtree_root not in target.parents:
-                      raise RuntimeError(f"unsafe archive path: {relative}")
-                  target.parent.mkdir(parents=True, exist_ok=True)
-                  with zf.open(info) as src, target.open("wb") as dst:
-                      shutil.copyfileobj(src, dst)
-                  copied += 1
-
-          if copied == 0:
-              raise RuntimeError("Faeryware-Windows subtree was not found in archive")
+                  name=info.filename.replace("\\","/"); parts=name.split("/",1)
+                  if len(parts)!=2: continue
+                  relative=parts[1]
+                  if not relative.startswith(subtree) or relative.endswith("/"): continue
+                  target=(workspace/relative).resolve()
+                  if target!=subtree_root and subtree_root not in target.parents: raise RuntimeError(f"unsafe archive path: {relative}")
+                  target.parent.mkdir(parents=True,exist_ok=True)
+                  with zf.open(info) as src, target.open("wb") as dst: shutil.copyfileobj(src,dst)
+                  copied+=1
+          if copied==0: raise RuntimeError("Faeryware-Windows subtree was not found in archive")
           print(f"FAERYWARE_ARCHIVE_EXTRACT PASS files={copied}")
           '@ | python -
-
       - name: Create Windows icon
         working-directory: Faeryware-Windows
         shell: pwsh
@@ -68,45 +50,32 @@ jobs:
           @'
           from pathlib import Path
           from PIL import Image, ImageDraw
-
-          icons = Path("src-tauri/icons")
-          icons.mkdir(parents=True, exist_ok=True)
-          img = Image.new("RGBA", (256, 256), (7, 4, 14, 255))
-          draw = ImageDraw.Draw(img)
-          draw.ellipse((18, 18, 238, 238), fill=(255, 79, 186, 255), outline=(168, 85, 247, 255), width=14)
-          draw.ellipse((64, 64, 192, 192), fill=(14, 8, 25, 255), outline=(255, 209, 102, 255), width=7)
-          draw.polygon([(128, 78), (151, 112), (190, 128), (151, 144), (128, 178), (105, 144), (66, 128), (105, 112)], fill=(247, 242, 255, 255))
-          img.save(icons / "icon.ico", format="ICO", sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)])
-          print("FAERYWARE_ICON PASS")
+          icons=Path("src-tauri/icons"); icons.mkdir(parents=True,exist_ok=True); img=Image.new("RGBA",(256,256),(7,4,14,255)); draw=ImageDraw.Draw(img); draw.ellipse((18,18,238,238),fill=(255,79,186,255),outline=(168,85,247,255),width=14); draw.ellipse((64,64,192,192),fill=(14,8,25,255),outline=(255,209,102,255),width=7); draw.polygon([(128,78),(151,112),(190,128),(151,144),(128,178),(105,144),(66,128),(105,112)],fill=(247,242,255,255)); img.save(icons/"icon.ico",format="ICO",sizes=[(16,16),(32,32),(48,48),(64,64),(128,128),(256,256)]); print("FAERYWARE_ICON PASS")
           '@ | python -
-
       - name: Node
         uses: actions/setup-node@v4
         with:
           node-version: "22"
-
       - name: Rust
         uses: dtolnay/rust-toolchain@stable
-
       - name: Install JavaScript dependencies
         working-directory: Faeryware-Windows
         run: npm install
-
       - name: Native carrier canary
         working-directory: Faeryware-Windows
         run: python Tests/FAERYWARE-DESKTOP-NATIVE-CARRIER-CANARY.py
-
       - name: Swarm sense canary
         working-directory: Faeryware-Windows
         run: python Tests/FAERYWARE-DESKTOP-SWARM-SENSE-CANARY.py
-
+      - name: Habitat canary
+        working-directory: Faeryware-Windows
+        run: python Tests/FAERYWARE-DESKTOP-HABITAT-CANARY.py
       - name: Build NSIS installer
         working-directory: Faeryware-Windows
         run: npm run windows:installer
-
       - name: Upload installer
         uses: actions/upload-artifact@v4
         with:
-          name: Faeryware-Windows-v0.7
+          name: Faeryware-Windows-v0.8
           path: Faeryware-Windows/src-tauri/target/release/bundle/nsis/*.exe
           if-no-files-found: error
