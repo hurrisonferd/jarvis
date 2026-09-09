@@ -1,13 +1,16 @@
-name: RavenOS GameBoy Canary
+name: RavenOS Public Handheld Canary
 
 on:
   push:
     paths:
       - 'index.html'
       - 'ravenos-gameboy.html'
+      - 'ravenos-haunt.html'
       - 'ravenos-public-haunt.json'
+      - 'ravenos-public-contract.js'
       - 'manifest.json'
       - 'scripts/ravenos_gameboy_canary.py'
+      - 'scripts/ravenos_public_contract_canary.js'
       - '.github/workflows/ravenos-gameboy-canary.yml'
   workflow_dispatch:
 
@@ -15,24 +18,32 @@ permissions:
   contents: read
 
 jobs:
-  ravenos-gameboy:
+  ravenos-public-handheld:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify public RavenOS packet and handheld contracts
+      - name: Verify strict public packet and handheld contracts
         run: python scripts/ravenos_gameboy_canary.py
-      - name: Extract handheld JavaScript
+      - name: Check shared public validator syntax
+        run: node --check ravenos-public-contract.js
+      - name: Execute shared public validator canary
+        run: node scripts/ravenos_public_contract_canary.js
+      - name: Extract inline consumer JavaScript
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
-          html = Path('ravenos-gameboy.html').read_text(encoding='utf-8')
-          scripts = re.findall(r'<script>(.*?)</script>', html, flags=re.S)
-          assert scripts, 'NO_INLINE_SCRIPT'
-          Path('/tmp/ravenos-gameboy.js').write_text('\n'.join(scripts), encoding='utf-8')
+          for name in ('ravenos-gameboy.html','ravenos-haunt.html'):
+              html = Path(name).read_text(encoding='utf-8')
+              scripts = re.findall(r'<script>(.*?)</script>', html, flags=re.S)
+              assert scripts, f'NO_INLINE_SCRIPT:{name}'
+              out = '/tmp/' + name.replace('.html','.js')
+              Path(out).write_text('\n'.join(scripts), encoding='utf-8')
           PY
-      - name: Check handheld JavaScript syntax
+      - name: Check GameBoy inline JavaScript syntax
         run: node --check /tmp/ravenos-gameboy.js
+      - name: Check public haunt inline JavaScript syntax
+        run: node --check /tmp/ravenos-haunt.js
