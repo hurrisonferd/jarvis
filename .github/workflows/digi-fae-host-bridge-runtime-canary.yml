@@ -1,0 +1,27 @@
+name: Digi Fae Host Bridge Runtime Canary
+
+on:
+  push:
+    branches: ["main"]
+    paths:
+      - "digi-fae-host-bridge/**"
+      - "scripts/digi_fae_host_bridge_runtime_canary.mjs"
+      - ".github/workflows/digi-fae-host-bridge-runtime-canary.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime-proof:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      DIGI_FAE_BRIDGE_URL: https://digi-fae-host-bridge-johnbarber720-8778.vercel.app
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Probe deployed Vercel MCP bridge
+        run: node scripts/digi_fae_host_bridge_runtime_canary.mjs
