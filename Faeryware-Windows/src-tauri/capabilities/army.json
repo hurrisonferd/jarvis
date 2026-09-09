@@ -1,0 +1,10 @@
+{
+  "$schema": "../gen/schemas/desktop-schema.json",
+  "identifier": "army-capability",
+  "description": "Faeryware transparent desktop colony. Read/listen plus explicit click-through only.",
+  "windows": ["army"],
+  "permissions": [
+    "core:default",
+    "core:window:allow-set-ignore-cursor-events"
+  ]
+}
