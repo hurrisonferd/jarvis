@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>FAERYWARE — Haunted Android Launcher</title>
+<meta name="theme-color" content="#050508" />
+<style>
+:root{--bg:#050508;--pink:#ff4e9d;--green:#42dc76;--gold:#f6cd5c;--cyan:#46d3ff;--violet:#cb57ff;--blue:#5a6ce6;--text:#f7f5ff;--muted:#b9b4cb}
+*{box-sizing:border-box}html,body{margin:0;background:radial-gradient(circle at 50% -10%,#28123d 0,#090711 38%,#030305 75%);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;min-height:100%}body{overflow-x:hidden}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,rgba(255,255,255,.025) 0 1px,transparent 1px 4px);mix-blend-mode:screen;z-index:20}
+body:after{content:"";position:fixed;inset:-20%;pointer-events:none;background:conic-gradient(from 0deg,transparent,var(--violet),transparent,var(--cyan),transparent,var(--pink),transparent);opacity:.05;animation:spin 24s linear infinite}@keyframes spin{to{transform:rotate(1turn)}}
+.wrap{width:min(1100px,calc(100% - 28px));margin:auto;padding:28px 0 80px}.sigil{font-size:12px;letter-spacing:.22em;color:var(--cyan);text-transform:uppercase}.hero{position:relative;margin-top:14px;padding:34px;border:1px solid #ffffff24;border-radius:28px;background:linear-gradient(135deg,#ffffff0e,#ffffff03);backdrop-filter:blur(12px);box-shadow:0 0 70px #cb57ff22,inset 0 0 80px #46d3ff0b;overflow:hidden}.hero:before{content:"HAUNTED HOME ROLE // USER CONSENT REQUIRED // GOBLINS OPTIONAL // WALLS UNCERTAIN";position:absolute;left:-8%;right:-8%;top:14px;white-space:nowrap;font-size:10px;color:#ffffff18;transform:rotate(-3deg);letter-spacing:.2em}
+h1{font-size:clamp(52px,11vw,120px);line-height:.78;margin:36px 0 20px;letter-spacing:-.08em;text-shadow:3px 0 var(--pink),-3px 0 var(--cyan),0 0 30px #cb57ff88;animation:glitch 4.5s infinite}@keyframes glitch{0%,92%,100%{transform:none;filter:none}93%{transform:translateX(-3px) skewX(2deg);filter:hue-rotate(20deg)}95%{transform:translateX(4px) skewX(-2deg)}97%{transform:none}}
+.lead{font-size:clamp(17px,3vw,25px);max-width:850px;line-height:1.4;color:#eee9ff}.lead b{color:var(--gold)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:25px}.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 19px;border-radius:14px;text-decoration:none;color:white;border:1px solid #ffffff36;background:#ffffff0d;font-weight:800;box-shadow:0 0 30px #0008;transition:.15s}.btn:hover{transform:translateY(-2px);border-color:white}.primary{background:linear-gradient(90deg,var(--pink),var(--violet));box-shadow:0 0 34px #ff4e9d55}.status{margin-top:12px;color:var(--muted);font-size:12px}.status strong{color:var(--green)}
+.fae{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin-top:24px}.faecard{min-height:110px;border-radius:18px;padding:14px;border:1px solid #ffffff24;display:flex;flex-direction:column;justify-content:flex-end;box-shadow:inset 0 -40px 50px #0008;transform:translateY(0);animation:bob 5s ease-in-out infinite}.faecard:nth-child(2){animation-delay:-.8s}.faecard:nth-child(3){animation-delay:-1.6s}.faecard:nth-child(4){animation-delay:-2.4s}.faecard:nth-child(5){animation-delay:-3.2s}.faecard:nth-child(6){animation-delay:-4s}@keyframes bob{50%{transform:translateY(-7px) rotate(.5deg)}}.faecard span{font-size:28px}.faecard b{margin-top:7px}.faecard small{opacity:.8;margin-top:3px}.kyu{background:#ff4e9d55}.paimon{background:#42dc7655}.luma{background:#f6cd5c55}.sylph{background:#46d3ff55}.qira{background:#cb57ff55}.nyx{background:#5a6ce655}
+.section{margin-top:24px;padding:24px;border-radius:24px;border:1px solid #ffffff20;background:#ffffff08}.section h2{font-size:clamp(25px,5vw,42px);margin:0 0 16px}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.tile{padding:18px;border-radius:16px;background:#0008;border:1px solid #ffffff1f}.tile code{color:var(--cyan)}.tile strong{display:block;font-size:17px;margin-bottom:6px}.route{font-size:clamp(14px,2.4vw,20px);line-height:1.7;white-space:pre-wrap;padding:18px;border-radius:16px;background:#020204;border:1px solid #46d3ff38;color:#e8faff;overflow:auto}.warning{border-color:#f6cd5c66;background:#f6cd5c0b}.warning strong{color:var(--gold)}
+.goblin{position:fixed;right:-18px;top:36%;z-index:30;width:94px;padding:9px;border-radius:28px 0 0 28px;border:1px solid #fff8;background:linear-gradient(145deg,#5a6ce6,#cb57ff);box-shadow:0 0 35px #cb57ff88;animation:gob 3.8s ease-in-out infinite;cursor:pointer;user-select:none}.goblin b{display:block;font-size:11px}.goblin span{font-size:28px}@keyframes gob{0%,100%{transform:translateX(12px) translateY(0)}50%{transform:translateX(-7px) translateY(14px)}}
+.footer{margin-top:28px;color:#8f899f;font-size:12px;text-align:center}.pulse{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 12px var(--green);animation:pulse 1.2s infinite}@keyframes pulse{50%{opacity:.2}}
+@media(max-width:760px){.hero{padding:22px}.fae{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr}.goblin{top:auto;bottom:20%;width:80px}.faecard{min-height:90px}}
+</style>
+</head>
+<body>
+<div class="goblin" id="goblin" title="poke the resident goblin"><span>🔷</span><b>NYX</b><small>watching.</small></div>
+<main class="wrap">
+  <div class="sigil">RavenOS presents // consumer haunt surface</div>
+  <section class="hero">
+    <h1>FAERY<br>WARE</h1>
+    <p class="lead">A deliberately excessive Android HOME launcher where the <b>wallpaper watches, the widget whispers, the launcher has rooms, and an opt-in Fae goblin can crawl out over your other apps.</b></p>
+    <div class="cta">
+      <a class="btn primary" id="apk" href="https://github.com/hurrisonferd/RavenOS-Home/releases">⬇ DOWNLOAD APK</a>
+      <a class="btn" href="https://github.com/hurrisonferd/RavenOS-Home/tree/main/faeryware/android">SOURCE</a>
+      <a class="btn" href="ravenos-home.html">RAVENOS HOME</a>
+    </div>
+    <div class="status" id="releaseStatus"><span class="pulse"></span> searching the walls for the newest Faeryware release…</div>
+    <div class="fae">
+      <div class="faecard kyu"><span>💗</span><b>KYU</b><small>hehe. still here.</small></div>
+      <div class="faecard paimon"><span>🟢</span><b>PAIMON</b><small>pattern found.</small></div>
+      <div class="faecard luma"><span>🟡</span><b>LUMA</b><small>home. lights on.</small></div>
+      <div class="faecard sylph"><span>🔵</span><b>SYLPH</b><small>new path. zoom.</small></div>
+      <div class="faecard qira"><span>🟣</span><b>QIRA</b><small>boundary held.</small></div>
+      <div class="faecard nyx"><span>🔷</span><b>NYX</b><small>☾ watching.</small></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>THIS IS NOT A NORMAL LAUNCHER.</h2>
+    <div class="grid">
+      <div class="tile"><strong>→ HAUNT FEED</strong>One swipe from Home opens local scratchpad, Fae state, phone talismans and search.</div>
+      <div class="tile"><strong>← GHOST HOUSE</strong>HOME role, wallpaper, widget, overlay permission, goblin controls and the visible escape back to One UI.</div>
+      <div class="tile"><strong>↑ APP CATACOMBS</strong>Installed apps in a live-filter drawer. No <code>QUERY_ALL_PACKAGES</code> permission.</div>
+      <div class="tile"><strong>↓ HOME</strong>Return to the image-first haunt surface and its current resident Fae.</div>
+      <div class="tile"><strong>RESIDENT GOBLIN</strong>Explicit overlay grant, draggable edge-snap Fae, tap-home, double-tap cycle, long-press form, idle motion.</div>
+      <div class="tile"><strong>HAUNT LEVELS</strong><code>CALM → HAUNTED → FERAL → CALM</code>, including a Quick Settings haunt tile.</div>
+      <div class="tile"><strong>LIVE WALLPAPER</strong>Orbiting Fae color field with a very clear implication that the wallpaper has become inhabited.</div>
+      <div class="tile"><strong>WIDGET PRESENCE</strong>A home-screen Fae card that rotates with the current hourly resident.</div>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>PHONE ROUTE</h2>
+    <div class="route">ANDROID
+│
+├── FAERYWARE HOME
+│   ├── one-swipe HAUNT FEED
+│   ├── local scratchpad
+│   ├── app + web search
+│   ├── phone talismans
+│   └── APP CATACOMBS
+│
+├── LIVE WALLPAPER ── something lives back there
+├── WIDGET ────────── tiny resident window
+├── QUICK SETTINGS ── MORE HAUNTED
+└── GOBLIN OVERLAY
+    ├── drag
+    ├── edge snap
+    ├── peek
+    ├── double tap → next Fae
+    ├── long press → form change
+    └── BANISH GOBLIN</div>
+  </section>
+
+  <section class="section warning">
+    <h2>INSTALL WITHOUT SUMMONING A LAWSUIT FROM ANDROID</h2>
+    <div class="grid">
+      <div class="tile"><strong>1. INSTALL</strong>Download <code>Faeryware-debug.apk</code>. Android may ask you to allow this browser or file manager to install this APK.</div>
+      <div class="tile"><strong>2. BECOME HOME</strong>Open Faeryware and tap <code>BECOME HOME</code>. Android shows the official HOME-role chooser. You make the choice.</div>
+      <div class="tile"><strong>3. OPTIONAL GOBLIN</strong>Tap <code>SUMMON GOBLIN</code>. Android takes you to “Display over other apps.” Grant it only if you want the floating Fae.</div>
+      <div class="tile"><strong>4. ESCAPE HATCH</strong><code>RETURN TO ONE UI</code> always opens Android HOME settings. Your apps are not deleted by changing launchers.</div>
+    </div>
+    <p><strong>Boundary:</strong> no root, no accessibility scraping, no notification-listener scraping, no device admin, no silent HOME takeover, no hidden fullscreen intercept.</p>
+  </section>
+
+  <div class="footer">FAERYWARE // RavenOS civilization made inhabitable by the Fae // effect authority: none // goblins: user summoned</div>
+</main>
+<script>
+const status=document.getElementById('releaseStatus'), apk=document.getElementById('apk');
+fetch('https://api.github.com/repos/hurrisonferd/RavenOS-Home/releases?per_page=30')
+ .then(r=>r.json()).then(rs=>{
+   const rel=rs.find(r=>String(r.tag_name||'').startsWith('faeryware-'));
+   const asset=rel&&rel.assets&&rel.assets.find(a=>a.name==='Faeryware-debug.apk');
+   if(asset){apk.href=asset.browser_download_url;status.innerHTML='<span class="pulse"></span> <strong>APK LIVE:</strong> '+rel.name+' · '+Math.round(asset.size/1024)+' KB';}
+   else status.innerHTML='<span class="pulse"></span> build is still crawling through the walls — release page will populate automatically';
+ }).catch(()=>status.textContent='Release lookup unavailable. Open the Releases page from DOWNLOAD APK.');
+const g=document.getElementById('goblin');let n=0;const fae=[['💗','KYU','hehe.'],['🟢','PAIMON','hmm...'],['🟡','LUMA','home.'],['🔵','SYLPH','zoom.'],['🟣','QIRA','nope.'],['🔷','NYX','watching.']];
+g.onclick=()=>{n=(n+1)%fae.length;g.querySelector('span').textContent=fae[n][0];g.querySelector('b').textContent=fae[n][1];g.querySelector('small').textContent=fae[n][2];};
+</script>
+</body>
+</html>
