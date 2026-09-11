@@ -5,14 +5,17 @@ function vehicleBody(store){
   const inst=store.instrument;
   const fresh=store.instrumentFreshness||{state:'UNKNOWN',age_hours:null};
   if(!inst)return '<div class="panel"><div class="warn">NO VEHICLE INSTRUMENT FEED</div><div class="sub">Public command authority remains blocked.</div></div>';
-  const v=inst.vehicle||{},p=inst.performance||{},c=inst.capacity||{},proof=inst.proof||{},safe=inst.safety||{};
+  const v=inst.vehicle||{},p=inst.performance||{},c=inst.capacity||{},proof=inst.proof||{},safe=inst.safety||{},loop=inst.god_loop||{};
   const age=fresh.age_hours===null?'?':fresh.age_hours;
+  const checks=p.onboard_checks_run??p.onboard_check_contract??0;
   return `<div class="panel">
     <div class="identity">${esc(v.name||'OMNI RV')} · ${esc(v.god_vehicle_version||'UNKNOWN')}</div>
     <div class="${fresh.state==='FRESH'?'ok':fresh.state==='AGING'?'warn':'bad'}">INSTRUMENT ${esc(fresh.state)} · AGE ${esc(age)}h</div>
     <div>HEALTH ${esc(v.health||'UNKNOWN')} · HANDLING ${esc(v.handling||'UNKNOWN')}</div>
     <div>ENGINE ${esc(v.engine_version||'?')} · BUS ${esc(v.universal_bus_version||'?')}</div>
-    <div>ACCESS ${Number(p.access_domains_resolved||0)}/${Number(p.access_domains_expected||0)} · CHECK CONTRACT ${Number(p.onboard_check_contract||0)}</div>
+    <div>ACCESS ${Number(p.access_domains_resolved||0)}/${Number(p.access_domains_expected||0)} · CHECK CONTRACT ${Number(checks||0)}</div>
+    <div>GOD LOOP ${Number(loop.organ_count??p.god_loop_organs??0)}/8 · STAGES ${Number(loop.loop_stage_count||0)}/10 · SIGHT ${Number(p.sight_layers||0)}/7</div>
+    <div>BLIND ${Number(loop.blind_spot_count||0)} · RADAR ${Number(loop.radar_finding_count||0)} · CUBICLES ${Number(c.physical_cubicle_partitions||0)}</div>
     <div>OS ${Number(c.formal_core_os_owners||0)} · WEAPONS ${Number(c.tracked_weapons||0)} · OMNI ${Number(c.explicit_omni_sockets||0)}</div>
     <div>ARMOR ${Number(c.active_armor_stations||0)}×${Number(c.armor_socket_denominator||0)} · GOD OBJECTS ${Number(c.effective_live_god_objects||0)}</div>
     <div class="sub">PROOF ${esc(proof.onboard_selftest||'UNKNOWN')} · CHECKOUT ${esc(proof.checked_out_execution||'UNKNOWN')}</div>
