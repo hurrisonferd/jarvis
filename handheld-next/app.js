@@ -35,6 +35,9 @@ window.addEventListener('beforeinstallprompt',event=>{event.preventDefault();ins
 installButton.addEventListener('click',async()=>{if(!installPrompt)return;await installPrompt.prompt();installPrompt=null;installButton.hidden=true;});
 if('serviceWorker' in navigator)navigator.serviceWorker.register('./service-worker.js').catch(error=>bus.emit('service_worker_failed',{error:String(error)}));
 bus.on('omni_snapshot_loaded',({data})=>console.info('OMNI observer snapshot ready',data));
+bus.on('omni_instrument_loaded',({data})=>console.info('OMNI vehicle instrument ready',data));
+bus.on('omni_instrument_failed',({data})=>console.warn('OMNI vehicle instrument unavailable',data));
+bus.on('omni_vehicle_instrument_inspected',({data})=>console.info('OMNI vehicle instrument inspected',data));
 bus.on('omni_crew_loaded',({data})=>console.info('OMNI crew presence ready',data));
 router.go('menu');
 Promise.allSettled([store.load(),crew.load()]).then(()=>router.render());
