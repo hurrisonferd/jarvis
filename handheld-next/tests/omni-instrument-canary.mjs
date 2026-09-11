@@ -34,7 +34,7 @@ const crew={state:{crew:[],drafts:[],read_cursors:[]},load:async()=>null,propose
 const bus={emit:()=>({ok:true})};
 const screen=createOmniScreen({store,crew,bus});
 const html=screen.render({context:{cursor:0,layer:'vehicle'}});
-assert.match(html,/OMNI RV/);
+assert.match(html,/Omni RV/);
 assert.match(html,/ACCESS 16\/16/);
 assert.match(html,/PUBLIC MUTATION BLOCKED/);
 assert.match(html,/INSTRUMENT FRESH/);
