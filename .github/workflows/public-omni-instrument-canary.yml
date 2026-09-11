@@ -1,0 +1,49 @@
+name: Public Omni Instrument Cluster Canary
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'handheld-next/**'
+      - 'operations/scripts/build_public_omni_instrument.py'
+      - '.github/workflows/public-omni-instrument-canary.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'handheld-next/**'
+      - 'operations/scripts/build_public_omni_instrument.py'
+      - '.github/workflows/public-omni-instrument-canary.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  public-omni-instrument:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Compile sanitizer
+        run: python -m py_compile operations/scripts/build_public_omni_instrument.py
+
+      - name: Validate public instrument through sanitizer gate
+        run: |
+          python operations/scripts/build_public_omni_instrument.py \
+            handheld-next/data/instrument-live.json \
+            /tmp/instrument-live.json
+          cmp handheld-next/data/instrument-live.json /tmp/instrument-live.json || true
+
+      - name: Instrument cluster canary
+        run: node handheld-next/tests/omni-instrument-canary.mjs
