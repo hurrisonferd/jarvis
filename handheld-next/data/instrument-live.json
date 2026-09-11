@@ -1,0 +1,45 @@
+{
+  "schema_version": "omni.instrument.v2",
+  "generated_at": "2026-09-11T22:45:00Z",
+  "vehicle": {
+    "name": "SalviaOmniCar / Omni RV",
+    "vehicle_generation": "v4",
+    "god_vehicle_version": "v0.005.000-dev",
+    "engine_version": "v0.004.000-dev",
+    "universal_bus_version": "v0.002.000-dev",
+    "health": "SOURCE_BOUND",
+    "handling": "TIGHT_SOURCE_PATH"
+  },
+  "performance": {
+    "access_domains_resolved": 16,
+    "access_domains_expected": 16,
+    "onboard_check_contract": 31,
+    "onboard_selftest_current_generation": "UNPROVEN",
+    "missing_source_pointers": 0,
+    "owner_effect_leaks": 0,
+    "active_armor_gaps": 0
+  },
+  "capacity": {
+    "formal_core_os_owners": 76,
+    "tracked_weapons": 108,
+    "explicit_omni_sockets": 10,
+    "active_armor_stations": 29,
+    "armor_socket_denominator": 17,
+    "effective_live_god_objects": 31
+  },
+  "proof": {
+    "source_state": "SOURCE_RECONCILED_V0_005",
+    "onboard_selftest": "CURRENT_GENERATION_UNPROVEN",
+    "checked_out_execution": "NOT_CLAIMED",
+    "external_runner_required_for_diagnostics": false
+  },
+  "safety": {
+    "effect_authority": "NONE",
+    "effect_executed": false,
+    "public_mutation": "BLOCKED",
+    "owner_gated": true
+  },
+  "access_domains": ["ROOT", "SYSTEM", "UPDATE", "SYNC", "WEAPON", "OMNI", "ENGINE", "ARMOR", "MAP", "CONTROL", "VEHICLE", "OFFICE", "FAE", "ELF", "EVIDENCE", "PIPE"],
+  "public_safe": true,
+  "receipt_hash": "870c0733796fe3339002897bf16cea08e90f5109dbf38e0619499b6e18e3e04f"
+}
