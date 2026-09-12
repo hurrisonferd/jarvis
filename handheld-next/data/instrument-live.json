@@ -1,14 +1,14 @@
 {
   "schema_version": "omni.instrument.v2",
-  "generated_at": "2026-09-12T00:12:00Z",
+  "generated_at": "2026-09-12T00:28:00Z",
   "vehicle": {
     "name": "SalviaOmniCar / Omni RV",
     "vehicle_generation": "v4",
-    "god_vehicle_version": "v0.008.000-dev",
+    "god_vehicle_version": "v0.009.000-dev",
     "engine_version": "v0.004.000-dev",
-    "universal_bus_version": "v0.002.000-dev",
+    "universal_bus_version": "v0.003.000-dev",
     "health": "SOURCE_BOUND",
-    "handling": "GODFRAME_CLOSED_LOOP"
+    "handling": "VASCULAR_GODFRAME_CLOSED_LOOP"
   },
   "performance": {
     "access_domains_resolved": 16,
@@ -23,10 +23,7 @@
     "active_armor_gaps": 0,
     "god_loop_organs": 8,
     "god_loop_stages": 10,
-    "sight_layers": 7,
-    "typed_events": null,
-    "forecast_branches": null,
-    "actuator_bodies": null
+    "sight_layers": 7
   },
   "capacity": {
     "formal_core_os_owners": 76,
@@ -52,8 +49,19 @@
     "active_armor_gaps": 0,
     "effect_authority": "NONE"
   },
+  "vascular": {
+    "lanes": 4,
+    "route_classes": 13,
+    "services": 8,
+    "source_heartbeats": 29,
+    "socket_wiring_edges": 493,
+    "deadwire_missing": 0,
+    "omnipipe_role": "EVIDENCE_ONLY_NOT_GENERIC_TRANSPORT",
+    "muscle_default": "OWNER_HOLD",
+    "return_requires_receipt": true
+  },
   "proof": {
-    "source_state": "SOURCE_RECONCILED_V0_008_GODFRAME",
+    "source_state": "SOURCE_RECONCILED_V0_009_VASCULAR_GODFRAME",
     "onboard_selftest": "CURRENT_GENERATION_UNPROVEN",
     "checked_out_execution": "NOT_CLAIMED",
     "external_runner_required_for_diagnostics": false
@@ -64,7 +72,24 @@
     "public_mutation": "BLOCKED",
     "owner_gated": true
   },
-  "access_domains": ["ROOT", "SYSTEM", "UPDATE", "SYNC", "WEAPON", "OMNI", "ENGINE", "ARMOR", "MAP", "CONTROL", "VEHICLE", "OFFICE", "FAE", "ELF", "EVIDENCE", "PIPE"],
+  "access_domains": [
+    "ROOT",
+    "SYSTEM",
+    "UPDATE",
+    "SYNC",
+    "WEAPON",
+    "OMNI",
+    "ENGINE",
+    "ARMOR",
+    "MAP",
+    "CONTROL",
+    "VEHICLE",
+    "OFFICE",
+    "FAE",
+    "ELF",
+    "EVIDENCE",
+    "PIPE"
+  ],
   "public_safe": true,
-  "receipt_hash": "62cc8657d80dcfb7eca47e5b45d8632deedbdfab5ddf3827915311cbb7994372"
+  "receipt_hash": "70fcbb239a5b041e7544b47593e492e742fd7b6fd0462fc5ad5621d7f6fa0313"
 }
