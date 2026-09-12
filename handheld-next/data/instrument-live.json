@@ -1,14 +1,14 @@
 {
   "schema_version": "omni.instrument.v2",
-  "generated_at": "2026-09-12T00:28:00Z",
+  "generated_at": "2026-09-12T00:48:00Z",
   "vehicle": {
     "name": "SalviaOmniCar / Omni RV",
     "vehicle_generation": "v4",
-    "god_vehicle_version": "v0.009.000-dev",
-    "engine_version": "v0.004.000-dev",
+    "god_vehicle_version": "v0.010.000-dev",
+    "engine_version": "v0.005.000-dev",
     "universal_bus_version": "v0.003.000-dev",
     "health": "SOURCE_BOUND",
-    "handling": "VASCULAR_GODFRAME_CLOSED_LOOP"
+    "handling": "MAD_MAX_DAMAGE_CONTROL"
   },
   "performance": {
     "access_domains_resolved": 16,
@@ -60,8 +60,21 @@
     "muscle_default": "OWNER_HOLD",
     "return_requires_receipt": true
   },
+  "damage_control": {
+    "upgrade_count": 20,
+    "minimum_limp_home_godframes": 3,
+    "recovery_ladder": ["NORMAL", "DEGRADED", "LIMP_HOME", "HOLD", "SCRAM"],
+    "priority_spool_binding": true,
+    "thermal_derate": true,
+    "queue_load_shed": true,
+    "fae_sheds_before_proof_control": true,
+    "owner_gate_firebreak": true,
+    "redundant_return": true,
+    "automatic_bypass": false,
+    "automatic_effects": false
+  },
   "proof": {
-    "source_state": "SOURCE_RECONCILED_V0_009_VASCULAR_GODFRAME",
+    "source_state": "SOURCE_RECONCILED_V0_010_MAD_MAX_DAMAGE_CONTROL",
     "onboard_selftest": "CURRENT_GENERATION_UNPROVEN",
     "checked_out_execution": "NOT_CLAIMED",
     "external_runner_required_for_diagnostics": false
@@ -72,24 +85,7 @@
     "public_mutation": "BLOCKED",
     "owner_gated": true
   },
-  "access_domains": [
-    "ROOT",
-    "SYSTEM",
-    "UPDATE",
-    "SYNC",
-    "WEAPON",
-    "OMNI",
-    "ENGINE",
-    "ARMOR",
-    "MAP",
-    "CONTROL",
-    "VEHICLE",
-    "OFFICE",
-    "FAE",
-    "ELF",
-    "EVIDENCE",
-    "PIPE"
-  ],
+  "access_domains": ["ROOT", "SYSTEM", "UPDATE", "SYNC", "WEAPON", "OMNI", "ENGINE", "ARMOR", "MAP", "CONTROL", "VEHICLE", "OFFICE", "FAE", "ELF", "EVIDENCE", "PIPE"],
   "public_safe": true,
-  "receipt_hash": "70fcbb239a5b041e7544b47593e492e742fd7b6fd0462fc5ad5621d7f6fa0313"
+  "receipt_hash": "1c601698132695de63cf097b237cf1fa7569d0ec5cf645e5b6287921486519b8"
 }
