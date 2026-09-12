@@ -1,14 +1,14 @@
 {
   "schema_version": "omni.instrument.v2",
-  "generated_at": "2026-09-11T23:45:00Z",
+  "generated_at": "2026-09-12T00:12:00Z",
   "vehicle": {
     "name": "SalviaOmniCar / Omni RV",
     "vehicle_generation": "v4",
-    "god_vehicle_version": "v0.007.000-dev",
+    "god_vehicle_version": "v0.008.000-dev",
     "engine_version": "v0.004.000-dev",
     "universal_bus_version": "v0.002.000-dev",
     "health": "SOURCE_BOUND",
-    "handling": "GOD_LOOP_BOUND"
+    "handling": "GODFRAME_CLOSED_LOOP"
   },
   "performance": {
     "access_domains_resolved": 16,
@@ -22,7 +22,11 @@
     "owner_effect_leaks": 0,
     "active_armor_gaps": 0,
     "god_loop_organs": 8,
-    "sight_layers": 7
+    "god_loop_stages": 10,
+    "sight_layers": 7,
+    "typed_events": null,
+    "forecast_branches": null,
+    "actuator_bodies": null
   },
   "capacity": {
     "formal_core_os_owners": 76,
@@ -36,11 +40,20 @@
   "god_loop": {
     "organ_count": 8,
     "loop_stage_count": 10,
-    "blind_spot_count": 2,
-    "radar_finding_count": 4
+    "typed_observation_bus": true,
+    "persistent_world_ledger": "EXPLICIT_LOCAL_ONLY",
+    "forecast_is_fact": false
+  },
+  "godframe": {
+    "active_nodes": 29,
+    "socket_count": 17,
+    "bespoke_employee_suits": 12,
+    "forged_fallback_employee_suits": 13,
+    "active_armor_gaps": 0,
+    "effect_authority": "NONE"
   },
   "proof": {
-    "source_state": "SOURCE_RECONCILED_V0_007_GOD_LOOP",
+    "source_state": "SOURCE_RECONCILED_V0_008_GODFRAME",
     "onboard_selftest": "CURRENT_GENERATION_UNPROVEN",
     "checked_out_execution": "NOT_CLAIMED",
     "external_runner_required_for_diagnostics": false
@@ -53,5 +66,5 @@
   },
   "access_domains": ["ROOT", "SYSTEM", "UPDATE", "SYNC", "WEAPON", "OMNI", "ENGINE", "ARMOR", "MAP", "CONTROL", "VEHICLE", "OFFICE", "FAE", "ELF", "EVIDENCE", "PIPE"],
   "public_safe": true,
-  "receipt_hash": "1575e11ffa9e5da496fbdc9a04bebab028b67153957f454bccce577df17c7068"
+  "receipt_hash": "62cc8657d80dcfb7eca47e5b45d8632deedbdfab5ddf3827915311cbb7994372"
 }
