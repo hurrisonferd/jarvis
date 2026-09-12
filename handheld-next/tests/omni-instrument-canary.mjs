@@ -75,7 +75,7 @@ assert.match(html,/GODFRAME 29×17/);
 assert.match(html,/VASCULAR 4 LANES · 13 ROUTES · 8 SERVICES/);
 assert.match(html,/HEARTBEATS 29 · WIRING 493 · DEADWIRE 0/);
 assert.match(html,/MAD MAX 20 UPGRADES · LIMP MIN 3/);
-assert.match(html,/RECOVERY NORMAL>DEGRADED>LIMP_HOME>HOLD>SCRAM/);
+assert.match(html,/RECOVERY NORMAL&gt;DEGRADED&gt;LIMP_HOME&gt;HOLD&gt;SCRAM/);
 assert.match(html,/POWER\/SPOOL BOUND/);
 assert.match(html,/AUTO BYPASS NO/);
 assert.match(html,/AUTO EFFECTS NO/);
