@@ -8,7 +8,8 @@ assert.equal(instrument.schema_version,'omni.instrument.v2');
 assert.equal(instrument.public_safe,true);
 assert.equal(instrument.safety.public_mutation,'BLOCKED');
 assert.equal(instrument.safety.effect_authority,'NONE');
-assert.equal(instrument.vehicle.god_vehicle_version,'v0.008.000-dev');
+assert.equal(instrument.vehicle.god_vehicle_version,'v0.009.000-dev');
+assert.equal(instrument.vehicle.universal_bus_version,'v0.003.000-dev');
 assert.equal(instrument.access_domains.length,16);
 assert.equal(instrument.performance.access_domains_resolved,16);
 assert.equal(instrument.performance.active_armor_gaps,0);
@@ -25,7 +26,15 @@ assert.equal(instrument.godframe.socket_count,17);
 assert.equal(instrument.godframe.bespoke_employee_suits,12);
 assert.equal(instrument.godframe.forged_fallback_employee_suits,13);
 assert.equal(instrument.godframe.active_armor_gaps,0);
-assert.equal(instrument.godframe.effect_authority,'NONE');
+assert.equal(instrument.vascular.lanes,4);
+assert.equal(instrument.vascular.route_classes,13);
+assert.equal(instrument.vascular.services,8);
+assert.equal(instrument.vascular.source_heartbeats,29);
+assert.equal(instrument.vascular.socket_wiring_edges,493);
+assert.equal(instrument.vascular.deadwire_missing,0);
+assert.equal(instrument.vascular.omnipipe_role,'EVIDENCE_ONLY_NOT_GENERIC_TRANSPORT');
+assert.equal(instrument.vascular.muscle_default,'OWNER_HOLD');
+assert.equal(instrument.vascular.return_requires_receipt,true);
 assert.equal(instrument.capacity.formal_core_os_owners,76);
 assert.equal(instrument.capacity.tracked_weapons,108);
 assert.equal(instrument.capacity.explicit_omni_sockets,10);
@@ -41,36 +50,24 @@ assert.equal(classifyFreshness(instrument.generated_at,t+12*60*60*1000).state,'A
 assert.equal(classifyFreshness(instrument.generated_at,t+30*60*60*1000).state,'STALE');
 assert.equal(classifyFreshness(instrument.generated_at,t-60*60*1000).state,'FUTURE');
 
-const store={
-  room:{receipt_hash:'observer-canary',interventions:[],panels:[{system_id:'ATOM',role:'canary',state:'PRESENT',unread_work:0,last_delta:'OK'}]},
-  instrument,
-  instrumentFreshness:{state:'FRESH',age_hours:1},
-  load:async()=>null
-};
+const store={room:{receipt_hash:'observer-canary',interventions:[],panels:[{system_id:'ATOM',role:'canary',state:'PRESENT',unread_work:0,last_delta:'OK'}]},instrument,instrumentFreshness:{state:'FRESH',age_hours:1},load:async()=>null};
 const crew={state:{crew:[],drafts:[],read_cursors:[]},load:async()=>null,propose:x=>({...x,status:'DRAFT'})};
 const bus={emit:()=>({ok:true})};
 const screen=createOmniScreen({store,crew,bus});
 const html=screen.render({context:{cursor:0,layer:'vehicle'}});
 assert.match(html,/Omni RV/);
-assert.match(html,/v0\.008\.000-dev/);
+assert.match(html,/v0\.009\.000-dev/);
 assert.match(html,/ACCESS 16\/16/);
 assert.match(html,/GOD LOOP 8\/8/);
-assert.match(html,/STAGES 10\/10/);
-assert.match(html,/SIGHT 7\/7/);
 assert.match(html,/GODFRAME 29×17/);
-assert.match(html,/BESPOKE 12/);
-assert.match(html,/FALLBACK 13/);
-assert.match(html,/ARMOR GAPS 0/);
-assert.match(html,/CUBICLES 30/);
-assert.match(html,/TYPED BUS BOUND/);
-assert.match(html,/WORLD LEDGER EXPLICIT_LOCAL_ONLY/);
-assert.match(html,/FORECAST FACT NO/);
+assert.match(html,/VASCULAR 4 LANES · 13 ROUTES · 8 SERVICES/);
+assert.match(html,/HEARTBEATS 29 · WIRING 493 · DEADWIRE 0/);
+assert.match(html,/MUSCLE OWNER_HOLD/);
+assert.match(html,/RETURN RECEIPT REQUIRED/);
+assert.match(html,/OMNIPIPE EVIDENCE_ONLY_NOT_GENERIC_TRANSPORT/);
 assert.match(html,/PUBLIC MUTATION BLOCKED/);
 assert.match(html,/INSTRUMENT FRESH/);
 
 const encoded=JSON.stringify(instrument).toLowerCase();
-for(const bad of ['service_role','supabase_service_role_key','approval_digest','message_body','private_relationship']){
-  assert.equal(encoded.includes(bad),false,bad);
-}
-
-console.log('PUBLIC_OMNI_V008_GODFRAME_INSTRUMENT_CANARY_PASS');
+for(const bad of ['service_role','supabase_service_role_key','approval_digest','message_body','private_relationship']) assert.equal(encoded.includes(bad),false,bad);
+console.log('PUBLIC_OMNI_V009_VASCULAR_INSTRUMENT_CANARY_PASS');
