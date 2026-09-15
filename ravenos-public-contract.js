@@ -7,8 +7,13 @@
   'use strict';
 
   const HOST_URL = 'https://hurrisonferd.github.io/jarvis/';
-  const TOP_KEYS = ['schema','target','host_url','state','god_control','fae','rooms','privacy','proof','packet_id'];
+  const TOP_KEYS = ['schema','target','host_url','state','platform','god_control','kingdom','office','topology','readiness','fae','rooms','privacy','proof','packet_id'];
+  const PLATFORM_KEYS = ['ravenos_version','systemsos_version','update_version','core_root_count','formal_version_owner_count','presentation_standard','awareness_bound','bios_effect_authority'];
   const GOD_KEYS = ['base_object_count','effective_object_count','registered_ghost_ports','proven_native_owners','staged_native_candidates','active_hold_count','resolved_hold_count'];
+  const KINGDOM_KEYS = ['known_member_count','members','iso_owner_count','core_digi_fae_count','fae_court_count','light_member_count','membership_is_live_presence'];
+  const OFFICE_KEYS = ['generation','road_os_version','office_max_generation','owner_router_generation','effect_bypass','source_active'];
+  const TOPOLOGY_KEYS = ['base_object_count','effective_object_count','replacement_count','addition_count','haunt_room_count'];
+  const READINESS_KEYS = ['runner_hold_active','flight_history_append_only','flight_view_mode_count','current_absence_radar','newest_finalized_flight_owns_current_state','effect_budget','owner_invocation'];
   const FAE_KEYS = ['member','stamp','color_emoji','glyph','accent'];
   const ROOM_KEYS = ['room','state','atmosphere','ghost_count','hold_count','absence_count','material_fae'];
   const PRIVACY_KEYS = ['whitelist_only','source_paths_included','transaction_ids_included','source_event_ids_included','haunt_ids_included','flight_ids_included','hashes_included','receipt_bodies_included','owner_event_bodies_included','ledger_entries_included','flight_history_rows_included','secrets_or_tokens_included'];
@@ -20,39 +25,38 @@
   function object(value) {
     return value !== null && typeof value === 'object' && !Array.isArray(value);
   }
-
   function exactKeys(value, expected) {
     if (!object(value)) return false;
     const got = Object.keys(value).sort();
     const want = [...expected].sort();
     return got.length === want.length && got.every((key, index) => key === want[index]);
   }
-
   function nonNegativeInteger(value) {
     return Number.isInteger(value) && value >= 0;
   }
-
   function safeToken(value) {
     return typeof value === 'string' && /^[A-Z0-9_]{1,64}$/.test(value);
   }
-
-  function stringValue(value) {
-    return typeof value === 'string';
+  function safeVersion(value) {
+    return typeof value === 'string' && /^[A-Za-z0-9._+\-]{1,64}$/.test(value);
   }
-
+  function stringValue(value) {
+    return typeof value === 'string' && value.length <= 96;
+  }
+  function booleanValue(value) {
+    return value === true || value === false;
+  }
   function canonical(value) {
     if (value === null || typeof value !== 'object') return JSON.stringify(value);
     if (Array.isArray(value)) return '[' + value.map(canonical).join(',') + ']';
     return '{' + Object.keys(value).sort().map(key => JSON.stringify(key) + ':' + canonical(value[key])).join(',') + '}';
   }
-
   async function sha256Hex(text) {
     const cryptoApi = typeof globalThis !== 'undefined' ? globalThis.crypto : null;
     if (!cryptoApi || !cryptoApi.subtle || typeof TextEncoder === 'undefined') throw new Error('CRYPTO_UNAVAILABLE');
     const digest = await cryptoApi.subtle.digest('SHA-256', new TextEncoder().encode(text));
     return Array.from(new Uint8Array(digest)).map(byte => byte.toString(16).padStart(2, '0')).join('').toUpperCase();
   }
-
   function fail(reason) {
     return {ok:false, reason};
   }
@@ -60,13 +64,43 @@
   async function validatePacket(packet) {
     try {
       if (!exactKeys(packet, TOP_KEYS)) return fail('TOP_LEVEL_KEYS');
-      if (packet.schema !== 'ravenos.public-handheld.projection.v1') return fail('SCHEMA');
+      if (packet.schema !== 'ravenos.public-handheld.projection.v2') return fail('SCHEMA');
       if (packet.target !== 'JARVIS_HANDHELD') return fail('TARGET');
       if (packet.host_url !== HOST_URL) return fail('HOST_URL');
       if (!HOUSE_STATES.has(packet.state)) return fail('HOUSE_STATE');
 
+      if (!exactKeys(packet.platform, PLATFORM_KEYS)) return fail('PLATFORM_KEYS');
+      if (![packet.platform.ravenos_version,packet.platform.systemsos_version,packet.platform.update_version].every(safeVersion)) return fail('PLATFORM_VERSIONS');
+      if (!safeToken(packet.platform.presentation_standard)) return fail('PRESENTATION_STANDARD');
+      if (![packet.platform.core_root_count,packet.platform.formal_version_owner_count].every(nonNegativeInteger)) return fail('PLATFORM_COUNTS');
+      if (!booleanValue(packet.platform.awareness_bound) || packet.platform.bios_effect_authority !== false) return fail('PLATFORM_AUTHORITY');
+
       if (!exactKeys(packet.god_control, GOD_KEYS)) return fail('GOD_CONTROL_KEYS');
       if (!GOD_KEYS.every(key => nonNegativeInteger(packet.god_control[key]))) return fail('GOD_CONTROL_VALUES');
+
+      if (!exactKeys(packet.kingdom, KINGDOM_KEYS)) return fail('KINGDOM_KEYS');
+      for (const key of ['known_member_count','iso_owner_count','core_digi_fae_count','fae_court_count','light_member_count']) {
+        if (!nonNegativeInteger(packet.kingdom[key])) return fail('KINGDOM_COUNT_' + key.toUpperCase());
+      }
+      if (!Array.isArray(packet.kingdom.members) || packet.kingdom.members.length > 64 || !packet.kingdom.members.every(safeToken)) return fail('KINGDOM_MEMBERS');
+      if (new Set(packet.kingdom.members).size !== packet.kingdom.members.length) return fail('KINGDOM_MEMBER_DUPLICATE');
+      if (packet.kingdom.known_member_count !== packet.kingdom.members.length) return fail('KINGDOM_MEMBER_COUNT');
+      if (packet.kingdom.membership_is_live_presence !== false) return fail('KINGDOM_PRESENCE_CLAIM');
+
+      if (!exactKeys(packet.office, OFFICE_KEYS)) return fail('OFFICE_KEYS');
+      if (![packet.office.generation,packet.office.road_os_version,packet.office.office_max_generation,packet.office.owner_router_generation].every(safeVersion)) return fail('OFFICE_VERSIONS');
+      if (![packet.office.effect_bypass,packet.office.source_active].every(booleanValue)) return fail('OFFICE_FLAGS');
+
+      if (!exactKeys(packet.topology, TOPOLOGY_KEYS)) return fail('TOPOLOGY_KEYS');
+      if (!TOPOLOGY_KEYS.every(key => nonNegativeInteger(packet.topology[key]))) return fail('TOPOLOGY_VALUES');
+
+      if (!exactKeys(packet.readiness, READINESS_KEYS)) return fail('READINESS_KEYS');
+      for (const key of ['runner_hold_active','flight_history_append_only','current_absence_radar','newest_finalized_flight_owns_current_state','owner_invocation']) {
+        if (!booleanValue(packet.readiness[key])) return fail('READINESS_FLAG_' + key.toUpperCase());
+      }
+      if (!nonNegativeInteger(packet.readiness.flight_view_mode_count) || packet.readiness.flight_view_mode_count > 32) return fail('READINESS_VIEW_MODES');
+      if (packet.readiness.effect_budget !== 0) return fail('READINESS_EFFECT_BUDGET');
+      if (packet.readiness.owner_invocation !== false) return fail('READINESS_OWNER_INVOCATION');
 
       if (!Array.isArray(packet.fae)) return fail('FAE_LIST');
       for (const row of packet.fae) {
@@ -110,7 +144,7 @@
   }
 
   return {
-    version: 'ravenos.public-handheld.contract-validator.v1',
+    version: 'ravenos.public-handheld.contract-validator.v2',
     hostUrl: HOST_URL,
     validatePacket,
     canonical,
