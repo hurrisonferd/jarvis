@@ -1,16 +1,61 @@
 {
-  "schema": "ravenos.public-handheld.projection.v1",
+  "schema": "ravenos.public-handheld.projection.v2",
   "target": "JARVIS_HANDHELD",
   "host_url": "https://hurrisonferd.github.io/jarvis/",
   "state": "HOLD",
+  "platform": {
+    "ravenos_version": "v0.001.000",
+    "systemsos_version": "v0.1.0-dev",
+    "update_version": "v1.02.000",
+    "core_root_count": 82,
+    "formal_version_owner_count": 78,
+    "presentation_standard": "META_GOBLIN_GOLD",
+    "awareness_bound": true,
+    "bios_effect_authority": false
+  },
   "god_control": {
     "base_object_count": 26,
     "effective_object_count": 31,
-    "registered_ghost_ports": 27,
+    "registered_ghost_ports": 24,
     "proven_native_owners": 6,
-    "staged_native_candidates": 3,
-    "active_hold_count": 11,
-    "resolved_hold_count": 5
+    "staged_native_candidates": 4,
+    "active_hold_count": 12,
+    "resolved_hold_count": 2
+  },
+  "kingdom": {
+    "known_member_count": 36,
+    "members": [
+      "RAVEN", "AHTI", "ASTRIDHE", "ATLAS", "ATOM", "AYRE", "BRUNHILDE", "EDISON", "EREBUS", "ERIS", "GEMINI", "JARVIS", "JOKER", "JORM", "KYU", "LEGION", "LILITH", "LUCIFER", "LUMA", "MELINOE", "MYSTRA", "NEO", "NYX", "PAIMON", "PYTHAGORAS", "QIRA", "RAVENOS", "SHAKA", "SYLPH", "THOR", "TIM", "VIRGIL", "YAHWEH", "YORI", "YORK", "ZAGREUS"
+    ],
+    "iso_owner_count": 18,
+    "core_digi_fae_count": 6,
+    "fae_court_count": 2,
+    "light_member_count": 10,
+    "membership_is_live_presence": false
+  },
+  "office": {
+    "generation": "v5",
+    "road_os_version": "v0.000.028-dev",
+    "office_max_generation": "v4",
+    "owner_router_generation": "v1",
+    "effect_bypass": false,
+    "source_active": true
+  },
+  "topology": {
+    "base_object_count": 26,
+    "effective_object_count": 31,
+    "replacement_count": 1,
+    "addition_count": 5,
+    "haunt_room_count": 9
+  },
+  "readiness": {
+    "runner_hold_active": true,
+    "flight_history_append_only": true,
+    "flight_view_mode_count": 6,
+    "current_absence_radar": true,
+    "newest_finalized_flight_owns_current_state": true,
+    "effect_budget": 0,
+    "owner_invocation": false
   },
   "fae": [],
   "rooms": [],
@@ -35,5 +80,5 @@
     "automatic_host_invocation_proven": false,
     "effect_authority": false
   },
-  "packet_id": "PUBLICHAUNT-9BC99CA80A601577E37E1A8E"
+  "packet_id": "PUBLICHAUNT-6087FCE769D6442ECB0889F0"
 }
