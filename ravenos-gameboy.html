@@ -3,67 +3,39 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#080a12">
-<title>RavenOS GameBoy // Public God Object</title>
-<style>
-:root{--bg:#02030a;--screen:#030812;--line:#17283b;--text:#9fc9e6;--dim:#45657e;--raven:#b65cff;--green:#50ff9a;--cyan:#44dcff;--amber:#ffb22e;--red:#ff4e72}
-*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:radial-gradient(circle at 50% 10%,#171029 0,#04050b 50%,#010207 100%);color:var(--text);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;user-select:none}body{display:flex;justify-content:center;padding:10px 4px 40px}
-.gb{width:min(430px,calc(100vw - 8px));position:relative;padding:18px 18px 34px;border-radius:16px 16px 54px 54px;background:linear-gradient(145deg,#585861,#34343e 55%,#202028);box-shadow:7px 8px 0 #0c0c12,12px 14px 24px #000,inset 0 1px rgba(255,255,255,.14)}
-.led{position:absolute;right:24px;top:18px;width:7px;height:7px;border-radius:50%;background:var(--amber);box-shadow:0 0 10px var(--amber)}
-.housing{padding:10px;background:linear-gradient(145deg,#160d20,#070811);border:5px solid #2b1f37;border-radius:7px 7px 22px 7px;box-shadow:inset 0 0 0 2px #55366f,0 5px 14px #000}.label{display:flex;justify-content:space-between;padding:0 2px 7px;color:#9b73b8;font-size:10px;letter-spacing:1px}.screen{height:344px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 0,#0b1422,#02050b 75%);border:2px solid #000}.screen:after{content:'';position:absolute;inset:0;pointer-events:none;background:repeating-linear-gradient(0deg,transparent 0,transparent 2px,rgba(0,0,0,.12) 2px,rgba(0,0,0,.12) 4px)}
-#ui{position:absolute;inset:0;display:flex;flex-direction:column;font-size:11px;line-height:1.45}.head,.foot{flex:none;background:#050a12;padding:0 8px}.head{height:30px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;color:var(--raven)}.head b{font-size:10px;color:var(--green)}.foot{height:24px;border-top:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;color:var(--dim);font-size:9px}.body{flex:1;padding:8px;overflow-y:auto}
-.boot{height:100%;display:flex;flex-direction:column;justify-content:center;align-items:center;gap:12px;text-align:center}.logo{font-size:24px;color:var(--raven);letter-spacing:4px;text-shadow:0 0 16px rgba(182,92,255,.6)}.sub{font-size:10px;color:var(--cyan)}.bootlog{width:92%;font-size:9px;line-height:1.9;text-align:left;color:var(--green)}
-.title{margin:3px 0 7px;color:var(--raven);font-size:11px;letter-spacing:1px}.row{padding:6px 2px;border-bottom:1px solid #0d1b29}.row span{color:var(--dim)}.good{color:var(--green)}.warn{color:var(--amber)}.cyan{color:var(--cyan)}
-.menu{display:flex;flex-direction:column;gap:3px}.item{padding:7px;border:1px solid transparent;background:#040912}.item.sel{border-color:#6a3c89;background:rgba(182,92,255,.11);color:#fff}.item .s{margin-top:3px;color:var(--dim);font-size:9px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:5px;margin:5px 0 8px}.stat{border:1px solid #15283a;background:#040a11;padding:7px 3px;text-align:center}.stat .n{font-size:16px;color:var(--green)}.stat .k{margin-top:4px;font-size:8px;color:var(--dim)}
-.faegrid,.rooms{display:grid;grid-template-columns:1fr 1fr;gap:4px}.fae,.room{border:1px solid #17283a;background:#030810;padding:6px}.stamp{font-size:13px}.small{font-size:9px;color:var(--dim);line-height:1.5}.box{margin-top:7px;padding:7px;border:1px solid #3d2631;color:#ba7d92;font-size:9px;line-height:1.6}
-.brand{text-align:center;padding:8px 0 12px;font-size:11px;letter-spacing:4px;color:#22242d;text-shadow:0 1px #62626d}.brand b{color:#463153}.controls{display:flex;justify-content:space-between;align-items:center;padding:0 10px;margin-bottom:14px}.dpad{position:relative;width:112px;height:112px}.h,.v,.c{position:absolute;background:#17171c}.h{width:112px;height:38px;top:37px;border-radius:3px;box-shadow:0 4px #0b0b0e}.v{width:38px;height:112px;left:37px;border-radius:3px}.c{width:38px;height:38px;left:37px;top:37px}.d{position:absolute;border:0;background:transparent;color:#4d4d58;font-size:14px;z-index:3}.up{left:37px;width:38px;height:37px}.down{left:37px;bottom:0;width:38px;height:37px}.left{top:37px;width:37px;height:38px}.right{top:37px;right:0;width:37px;height:38px}.face{position:relative;width:116px;height:106px}.ab{position:absolute;width:50px;height:50px;border-radius:50%;border:0;color:#ddd;font:12px ui-monospace,monospace}.a{right:0;top:21px;background:#8d2856;box-shadow:0 4px #421228}.b{left:0;top:40px;background:#3d356f;box-shadow:0 4px #18132f}.smallbuttons{display:flex;justify-content:center;gap:26px}.smallbuttons button{border:1px solid #31313a;background:#1b1b21;color:#666;border-radius:10px;padding:5px 13px;font:9px ui-monospace,monospace}.engrave{text-align:center;color:#24242d;font-size:9px;letter-spacing:2px;margin-top:10px}
-</style>
+<meta name="theme-color" content="#08050f">
+<title>RavenOS Pocket // Public Handheld</title>
+<link rel="stylesheet" href="./ravenos-gameboy-v2.css">
 </head>
 <body>
-<div class="gb">
- <div id="led" class="led"></div>
- <div class="housing"><div class="label"><span>RAVENOS GRID // PUBLIC</span><span id="packet">BOOT</span></div><div class="screen"><div id="ui"></div></div></div>
- <div class="brand">RAVENOS <b>GOD OBJECT</b></div>
- <div class="controls"><div class="dpad"><div class="h"></div><div class="v"></div><div class="c"></div><button class="d up" onclick="nav(-1)">▲</button><button class="d down" onclick="nav(1)">▼</button><button class="d left" onclick="back()">◀</button><button class="d right" onclick="ok()">▶</button></div><div class="face"><button class="ab a" onclick="ok()">A</button><button class="ab b" onclick="back()">B</button></div></div>
- <div class="smallbuttons"><button onclick="back()">SELECT</button><button onclick="reloadPacket()">START</button></div>
- <div class="engrave">RAVEN FINAL AUTHORITY // EFFECT BUDGET 0</div>
-</div>
+<main class="gb" aria-label="RavenOS public handheld">
+  <div class="top-hardware"><div id="led" class="led" aria-label="packet status light"></div></div>
+  <section class="housing">
+    <div class="label"><span class="machine">RAVENOS POCKET // PUBLIC</span><span id="packet" class="packet">BOOT</span></div>
+    <div class="screen">
+      <div id="ui" tabindex="0" aria-live="polite"></div>
+      <div class="scroll-rail" aria-hidden="true"><div id="scrollThumb" class="scroll-thumb"></div></div>
+    </div>
+  </section>
+  <div class="brand">RAVENOS <b>POCKET</b><small>SHELL // NOT AUTHORITY</small></div>
+  <div class="controls">
+    <div class="dpad" aria-label="direction pad">
+      <div class="h"></div><div class="v"></div><div class="c"></div>
+      <button class="d up" aria-label="up" onclick="nav(-1)">▲</button>
+      <button class="d down" aria-label="down" onclick="nav(1)">▼</button>
+      <button class="d left" aria-label="back" onclick="back()">◀</button>
+      <button class="d right" aria-label="open" onclick="ok()">▶</button>
+    </div>
+    <div class="face">
+      <button class="ab a" aria-label="A open" onclick="ok()">A<em>OPEN</em></button>
+      <button class="ab b" aria-label="B back" onclick="back()">B<em>BACK</em></button>
+    </div>
+  </div>
+  <div class="smallbuttons"><button onclick="back()">SELECT · BACK</button><button onclick="reloadPacket()">START · SYNC</button></div>
+  <div class="speaker" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+  <div class="engrave">RAVEN FINAL AUTHORITY // PUBLIC EFFECT BUDGET 0</div>
+</main>
 <script src="./ravenos-public-contract.js"></script>
-<script>
-(() => {
-'use strict';
-const URL='./ravenos-public-haunt.json';
-const menu=[
- ['GOD CONTROL','coarse counts only','control'],
- ['GOD MAP','base / effective denominator','map'],
- ['FAIRYOS','sanitized public stamps only','fae'],
- ['RAVENOS HOME','sanitized room atmosphere only','office'],
- ['PUBLIC BOUNDARY','strict whitelist + packet identity','boundary'],
- ['PUBLIC HAUNT','projection diagnostic page','public']
-];
-let data=null,view='boot',cursor=0,holdReason='CHECKING';
-const q=id=>document.getElementById(id);
-const e=v=>String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-const gc=()=>data?data.god_control:{};
-const fl=()=>data?data.fae:[];
-const rl=()=>data?data.rooms:[];
-function frame(name,html,help='A OPEN · B BACK'){const tag=data?(data.state==='HOLD'?'VALID HOLD':'CURRENT'):'PUBLIC HOLD';q('ui').innerHTML=`<div class="head"><span>${e(name)}</span><b>${e(tag)}</b></div><div class="body">${html}</div><div class="foot"><span>${help}</span><span>RAVENOS</span></div>`;}
-function boot(){q('ui').innerHTML='<div class="boot"><div class="logo">RAVENOS</div><div class="sub">STRICT PUBLIC GOD OBJECT</div><div class="bootlog">[BOOT] Raven authority ... LOCKED<br>[BOOT] public validator ... REQUIRED<br>[BOOT] packet identity ... VERIFIED BEFORE USE<br>[LAW] public projection != private source root</div><div class="sub">PRESS A / START</div></div>';}
-function home(){const g=gc();frame('RAVENOS // HOME',`<div class="title">PUBLIC PROJECTION</div><div class="stats"><div class="stat"><div class="n">${e(g.registered_ghost_ports??'—')}</div><div class="k">GHOST PORTS</div></div><div class="stat"><div class="n">${e(g.proven_native_owners??'—')}</div><div class="k">NATIVE OWNERS</div></div><div class="stat"><div class="n">${e(g.active_hold_count??'—')}</div><div class="k">HOLDS</div></div></div><div class="row"><span>STATE</span> ${e(data?data.state:'HOLD')}</div><div class="row"><span>EFFECTIVE OBJECTS</span> ${e(g.effective_object_count??'—')}</div><div class="row"><span>STAGED NATIVE</span> ${e(g.staged_native_candidates??'—')}</div><div class="box">STRICT SAME-ORIGIN PUBLIC PACKET ONLY · NO PRIVATE REPO FALLBACK · EFFECT AUTHORITY = NONE</div><div class="title" style="margin-top:8px">SELECT SYSTEM</div><div class="menu">${menu.map((m,i)=>`<div class="item ${i===cursor?'sel':''}">${e(m[0])}<div class="s">${e(m[1])}</div></div>`).join('')}</div>`,'▲▼ SELECT · A OPEN · START RELOAD');}
-function control(){const g=gc();frame('GOD CONTROL',`<div class="title">COARSE PUBLIC COUNTS</div><div class="stats"><div class="stat"><div class="n">${e(g.base_object_count??'—')}</div><div class="k">BASE</div></div><div class="stat"><div class="n">${e(g.effective_object_count??'—')}</div><div class="k">EFFECTIVE</div></div><div class="stat"><div class="n">${e(g.registered_ghost_ports??'—')}</div><div class="k">PORTS</div></div></div><div class="row"><span>PROVEN NATIVE</span> ${e(g.proven_native_owners??'—')}</div><div class="row"><span>STAGED</span> ${e(g.staged_native_candidates??'—')}</div><div class="row"><span>ACTIVE HOLDS</span> ${e(g.active_hold_count??'—')}</div><div class="row"><span>RESOLVED HOLDS</span> ${e(g.resolved_hold_count??'—')}</div><div class="box">COUNTS != PRIVATE RECORDS · PUBLIC GOD CONTROL != OWNER AUTHORITY</div>`);}
-function map(){const g=gc();frame('GOD MAP',`<div class="title">PUBLIC DENOMINATOR</div><div class="row"><span>BASE OBJECTS</span> ${e(g.base_object_count??'—')}</div><div class="row"><span>EFFECTIVE OBJECTS</span> ${e(g.effective_object_count??'—')}</div><div class="row"><span>REGISTERED GHOST PORTS</span> ${e(g.registered_ghost_ports??'—')}</div><div class="box">NO PRIVATE PATHS, OBJECT IDS, SOURCE SNAPSHOTS OR CAUSAL EDGES ARE PUBLISHED HERE.</div>`);}
-function fae(){const list=fl();frame('FAIRYOS // PUBLIC',`<div class="title">SANITIZED FAE STAMPS</div>${list.length?`<div class="faegrid">${list.map(x=>`<div class="fae" style="border-color:${e(x.accent)}66"><div class="stamp">${e(x.stamp||x.member)}</div><div class="small">${e(x.member)} · ${e(x.glyph)} · ${e(x.color_emoji)}</div></div>`).join('')}</div>`:'<div class="box">FAE EVENT PROJECTION HELD. SOURCE-BOUND ROSTER DOES NOT IMPLY CURRENT MATERIAL PRESENCE.</div>'}`);}
-function office(){const rooms=rl();frame('RAVENOS HOME',`<div class="title">PUBLIC ROOM ATMOSPHERE</div>${rooms.length?`<div class="rooms">${rooms.map(x=>`<div class="room"><b>${e(x.room)}</b><div class="small">${e(x.state)} · ${e(x.atmosphere)}<br>ghosts ${e(x.ghost_count)} · holds ${e(x.hold_count)} · absences ${e(x.absence_count)}</div></div>`).join('')}</div>`:'<div class="box">ROOM RUNTIME PROJECTION HELD. NO ROOM STATE IS INFERRED FROM SOURCE PRESENCE.</div>'}`);}
-function boundary(){const pr=data?data.privacy:{},p=data?data.proof:{};frame('PUBLIC BOUNDARY',`<div class="title">STRICT POSITIVE WHITELIST</div><div class="row"><span>PACKET</span> ${e(data?data.packet_id:'NONE')}</div><div class="row"><span>SOURCE PATHS</span> ${pr.source_paths_included===false?'NO':'HOLD'}</div><div class="row"><span>TRANSACTION IDS</span> ${pr.transaction_ids_included===false?'NO':'HOLD'}</div><div class="row"><span>EVENT / HAUNT / FLIGHT IDS</span> ${pr.source_event_ids_included===false&&pr.haunt_ids_included===false&&pr.flight_ids_included===false?'NO':'HOLD'}</div><div class="row"><span>SECRETS / TOKENS</span> ${pr.secrets_or_tokens_included===false?'NO':'HOLD'}</div><div class="row"><span>HOST RENDER PROVEN</span> ${p.public_host_render_proven===true?'YES':'NO'}</div><div class="row"><span>AUTO HOST INVOCATION</span> ${p.automatic_host_invocation_proven===true?'YES':'NO'}</div><div class="box">UNKNOWN NESTED FIELDS OR PACKET-ID MISMATCH FAIL CLOSED · VALIDATOR = ravenos.public-handheld.contract-validator.v1</div>`);}
-function render(){if(view==='boot')return boot();if(view==='home')return home();({control,map,fae,office,boundary}[view]||home)();}
-function enter(id){if(id==='public'){location.href='./ravenos-haunt.html';return;}view=id;cursor=0;render();}
-window.nav=d=>{if(view==='boot')return;if(view==='home'){cursor=(cursor+d+menu.length)%menu.length;render();}else{const b=document.querySelector('.body');if(b)b.scrollTop+=d*50;}};
-window.ok=()=>{if(view==='boot'){view='home';render();return;}if(view==='home')enter(menu[cursor][2]);};
-window.back=()=>{if(view==='boot')return;if(view!=='home'){view='home';cursor=0;render();}else{view='boot';render();}};
-window.reloadPacket=async()=>{await load();view='home';cursor=0;render();};
-async function load(){q('packet').textContent='SYNC';try{if(!window.RavenOSPublicContract)throw new Error('VALIDATOR_UNAVAILABLE');const r=await fetch(URL,{cache:'no-store'});if(!r.ok)throw new Error('NO_PACKET');const p=await r.json();const result=await window.RavenOSPublicContract.validatePacket(p);if(!result.ok)throw new Error('REJECTED_'+result.reason);data=p;holdReason='';q('packet').textContent=p.state==='HOLD'?'VALID HOLD':'CURRENT';q('led').style.background=p.state==='HOLD'?'var(--amber)':'var(--green)';q('led').style.boxShadow=`0 0 10px ${p.state==='HOLD'?'var(--amber)':'var(--green)'}`;}catch(err){data=null;holdReason=String(err.message||'UNKNOWN');q('packet').textContent='HOLD';q('led').style.background='var(--amber)';q('led').style.boxShadow='0 0 10px var(--amber)';}}
-load().finally(render);
-})();
-</script>
+<script src="./ravenos-gameboy-v2.js"></script>
 </body>
 </html>
