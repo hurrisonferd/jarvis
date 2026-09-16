@@ -18,6 +18,15 @@ const lines={
     'Back to the cartridge rack. Nothing exploded, which is becoming suspicious.',
     'Returning home. The tiny office elevator has completed another shift.'
   ],
+  NATIVE_SCENE:[
+    'Native scene arrived from {subject}. The tiny office has acquired an actual window.',
+    '{subject} handed Pocket a fresh scene packet. Commentary is still downstream of evidence.',
+    'Scene accepted from {subject}. Goblin eyesight has paperwork now.'
+  ],
+  PROVIDER_HOLD:[
+    '{subject} provider packet was held. Better a blind goblin than a fictional one.',
+    'Native provider hold: {subject}. Sensor proof does not get promoted by enthusiasm.'
+  ],
   SYNC_START:[
     'Reseating the public packet and cartridge registry. Please keep arms inside the causality bus.',
     'Sync started. Checking whether reality still agrees with the menu.'
@@ -75,7 +84,8 @@ function init(listener){
   window.addEventListener('blur',()=>observe('WINDOW_BLUR','POCKET PAGE','BROWSER_STATE'));
   window.addEventListener('online',()=>observe('BROWSER_ONLINE','NETWORK','BROWSER_STATE'));
   window.addEventListener('offline',()=>observe('BROWSER_OFFLINE','NETWORK','BROWSER_STATE'));
+  window.addEventListener('ravenos:native-scene',ev=>{const x=ev&&ev.detail;if(!x||!x.scene)return;observe('NATIVE_SCENE',`${x.provider} · ${x.scene.task||'SCENE'}`,'NATIVE_PROVIDER_SCENE',{provider:x.provider,sequence:x.sequence,confidence:x.scene.confidence,source:x.scene.source});});
 }
-function snapshot(){return {episode_count:state.episodes.length,latest:state.latest,episodes:state.episodes.slice(),browser:{online:navigator.onLine,visible:!document.hidden,focused:document.hasFocus()},external_providers:{android_connected:false,windows_connected:false}};}
-window.RavenOSPocketGoblin=Object.freeze({schema:'ravenos.pocket.goblin-web.v1',init,observe,snapshot});
+function snapshot(){const native=window.RavenOSPocketNative?window.RavenOSPocketNative.snapshot():null;return {episode_count:state.episodes.length,latest:state.latest,episodes:state.episodes.slice(),browser:{online:navigator.onLine,visible:!document.hidden,focused:document.hasFocus()},external_providers:{android_connected:!!(native&&native.android&&native.android.connected),windows_connected:!!(native&&native.windows&&native.windows.connected)},native_provider_state:native};}
+window.RavenOSPocketGoblin=Object.freeze({schema:'ravenos.pocket.goblin-web.v2',init,observe,snapshot});
 })();

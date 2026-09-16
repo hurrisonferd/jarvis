@@ -13,6 +13,8 @@ HAUNT = ROOT / "ravenos-haunt.html"
 CONTRACT = ROOT / "ravenos-public-contract.js"
 POCKET_REGISTRY = ROOT / "ravenos-pocket-cartridges.json"
 POCKET_CONTRACT = ROOT / "ravenos-pocket-contract.js"
+POCKET_NATIVE = ROOT / "ravenos-pocket-native-provider.js"
+POCKET_NATIVE_CANARY = ROOT / "scripts" / "ravenos_pocket_native_provider_canary.js"
 POCKET_GOBLIN = ROOT / "ravenos-pocket-goblin.js"
 POCKET_RUNTIME = ROOT / "ravenos-gameboy-v4.js"
 INDEX = ROOT / "index.html"
@@ -74,34 +76,27 @@ def validate_packet(packet: dict) -> None:
     assert packet["target"] == "JARVIS_HANDHELD"
     assert packet["host_url"] == "https://hurrisonferd.github.io/jarvis/"
     assert packet["state"] in HOUSE_STATES
-
     require_exact(packet["platform"], PLATFORM, "PLATFORM")
     assert packet["platform"]["bios_effect_authority"] is False
-
     god = packet["god_control"]
     require_exact(god, GOD, "GOD_CONTROL")
     assert all(isinstance(god[key], int) and not isinstance(god[key], bool) and god[key] >= 0 for key in GOD)
-
     kingdom = packet["kingdom"]
     require_exact(kingdom, KINGDOM, "KINGDOM")
     assert isinstance(kingdom["members"], list) and all(isinstance(x, str) and x for x in kingdom["members"])
     assert kingdom["known_member_count"] == len(kingdom["members"])
     assert kingdom["membership_is_live_presence"] is False
-
     require_exact(packet["office"], OFFICE, "OFFICE")
     assert packet["office"]["effect_bypass"] is False
     require_exact(packet["topology"], TOPOLOGY, "TOPOLOGY")
-
     readiness = packet["readiness"]
     require_exact(readiness, READINESS, "READINESS")
     assert readiness["effect_budget"] == 0
     assert readiness["owner_invocation"] is False
-
     assert isinstance(packet["fae"], list)
     for row in packet["fae"]:
         require_exact(row, FAE, "FAE")
         assert all(isinstance(row[key], str) for key in FAE)
-
     assert isinstance(packet["rooms"], list)
     for row in packet["rooms"]:
         require_exact(row, ROOM, "ROOM")
@@ -109,19 +104,16 @@ def validate_packet(packet: dict) -> None:
         assert row["atmosphere"] in ATMOSPHERES
         assert all(isinstance(row[key], int) and not isinstance(row[key], bool) and row[key] >= 0 for key in ("ghost_count","hold_count","absence_count"))
         assert isinstance(row["material_fae"], list) and all(isinstance(name, str) for name in row["material_fae"])
-
     privacy = packet["privacy"]
     require_exact(privacy, PRIVACY, "PRIVACY")
     assert privacy["whitelist_only"] is True
     assert all(privacy[key] is False for key in PRIVACY if key != "whitelist_only")
-
     proof = packet["proof"]
     require_exact(proof, PROOF, "PROOF")
     assert proof["sanitized_projection_source_bound"] is True
     assert proof["public_write_executed"] is False
     assert proof["automatic_host_invocation_proven"] is False
     assert proof["effect_authority"] is False
-
     assert packet["packet_id"] == expected_packet_id(packet)
     assert packet["packet_id"].startswith("PUBLICHAUNT-")
     forbidden = LEGACY_OR_FORBIDDEN_KEYS.intersection(set(walk_keys(packet)))
@@ -136,8 +128,7 @@ def validate_registry(registry: dict) -> None:
     assert registry["browser_scene_scope"] == "POCKET_PAGE_ONLY"
     carts = registry["cartridges"]
     assert isinstance(carts, list) and 1 <= len(carts) <= 64
-    ids = []
-    orders = []
+    ids, orders = [], []
     for cart in carts:
         require_exact(cart, CARTRIDGE, "CARTRIDGE")
         assert isinstance(cart["id"], str) and cart["id"]
@@ -162,67 +153,65 @@ def validate_registry(registry: dict) -> None:
 
 
 def main() -> int:
-    paths = (PACKET, GAMEBOY, HAUNT, CONTRACT, POCKET_REGISTRY, POCKET_CONTRACT, POCKET_GOBLIN, POCKET_RUNTIME, INDEX)
+    paths = (PACKET, GAMEBOY, HAUNT, CONTRACT, POCKET_REGISTRY, POCKET_CONTRACT, POCKET_NATIVE, POCKET_NATIVE_CANARY, POCKET_GOBLIN, POCKET_RUNTIME, INDEX)
     for path in paths:
         assert path.is_file(), path
-
     packet = json.loads(PACKET.read_text(encoding="utf-8"))
     registry = json.loads(POCKET_REGISTRY.read_text(encoding="utf-8"))
     gameboy = GAMEBOY.read_text(encoding="utf-8")
     haunt = HAUNT.read_text(encoding="utf-8")
     contract = CONTRACT.read_text(encoding="utf-8")
     pocket_contract = POCKET_CONTRACT.read_text(encoding="utf-8")
+    pocket_native = POCKET_NATIVE.read_text(encoding="utf-8")
     pocket_goblin = POCKET_GOBLIN.read_text(encoding="utf-8")
     pocket_runtime = POCKET_RUNTIME.read_text(encoding="utf-8")
     launcher = INDEX.read_text(encoding="utf-8")
-
     validate_packet(packet)
     validate_registry(registry)
-
     assert "./ravenos-public-contract.js" in gameboy
     assert "./ravenos-pocket-contract.js" in gameboy
+    assert "./ravenos-pocket-native-provider.js" in gameboy
     assert "./ravenos-pocket-goblin.js" in gameboy
     assert "./ravenos-gameboy-v4.js" in gameboy
     assert "Jarvis-Private" not in gameboy
-
     assert "./ravenos-public-contract.js" in haunt
     assert "RavenOSPublicContract.validatePacket" in haunt
     assert "./ravenos-public-haunt.json" in haunt
     assert "Jarvis-Private" not in haunt
-
     assert "ravenos.public-handheld.contract-validator.v2" in contract
     assert "KINGDOM_PRESENCE_CLAIM" in contract
     assert "READINESS_EFFECT_BUDGET" in contract
     assert "PACKET_ID_MISMATCH" in contract
-
     assert "ravenos.pocket.cartridge-contract.v1" in pocket_contract
     assert "PUBLIC_EFFECT_ACTION" in pocket_contract
     assert "PROVIDER_CONNECTION_CLAIM" in pocket_contract
     assert "Jarvis-Private" not in pocket_contract
-
+    assert "ravenos.pocket.native-provider-bridge.v1" in pocket_native
+    assert "REPLAY_OR_REORDER" in pocket_native
+    assert "SENSITIVE_CONTENT" in pocket_native
+    assert "EFFECT_AUTHORITY" in pocket_native
+    assert "ANDROID_JS_INTERFACE" in pocket_native
+    assert "WEBVIEW2_WEB_MESSAGE" in pocket_native
+    assert "Jarvis-Private" not in pocket_native
     assert "ravenos.pocket.reaction-packet.v1" in pocket_goblin
-    assert "CARTRIDGE_OPEN" in pocket_goblin
-    assert "BROWSER_OFFLINE" in pocket_goblin
-    assert "android_connected:false" in pocket_goblin
-    assert "windows_connected:false" in pocket_goblin
+    assert "NATIVE_SCENE" in pocket_goblin
+    assert "native_provider_state" in pocket_goblin
     assert "Jarvis-Private" not in pocket_goblin
-
     assert "./ravenos-public-haunt.json" in pocket_runtime
     assert "./ravenos-pocket-cartridges.json" in pocket_runtime
     assert "RavenOSPublicContract.validatePacket" in pocket_runtime
     assert "RavenOSPocketContract.validateRegistry" in pocket_runtime
+    assert "RavenOSPocketNative" in pocket_runtime
     assert "EFFECT_BOUNDARY_MISMATCH" in pocket_runtime
     assert "Jarvis-Private" not in pocket_runtime
-
-    for script in (CONTRACT, POCKET_CONTRACT, POCKET_GOBLIN, POCKET_RUNTIME):
+    for script in (CONTRACT, POCKET_CONTRACT, POCKET_NATIVE, POCKET_GOBLIN, POCKET_RUNTIME, POCKET_NATIVE_CANARY):
         subprocess.run(["node", "--check", str(script)], check=True, capture_output=True, text=True)
-
+    subprocess.run(["node", str(POCKET_NATIVE_CANARY)], check=True, capture_output=True, text=True)
     assert "./ravenos-gameboy.html" in launcher
-
     print("RAVENOS_PUBLIC_HANDHELD_CANARY PASS")
     print(
         f"packet={packet['packet_id']} state={packet['state']} members={packet['kingdom']['known_member_count']} "
-        f"cartridges={len(registry['cartridges'])} browser_provider=true android_provider=false windows_provider=false "
+        f"cartridges={len(registry['cartridges'])} browser_provider=true native_bridge_strict=true "
         "effect_budget=0 strict_packet_v2=true strict_cartridge_registry=true pocket_v4_syntax=true authority_amplification=false"
     )
     return 0
