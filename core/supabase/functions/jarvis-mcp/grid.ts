@@ -1,14 +1,11 @@
-// THE GRID — federation primitives (GNPL v0.1.0). Pure + testable
-// (node --experimental-strip-types). A sovereign JARVIS node publishes a
-// recognition card, exports its identity disc, and exchanges governed messages
-// with other nodes. Inbound is UNTRUSTED and NEVER auto-acted — held for the owner.
-// Three bricks, in dependency order: card → disc → channel.
+// THE GRID — federation primitives (GNPL v0.2.1 Blackwall privacy profile).
+// Recognition is public-safe metadata. Private identity accumulation is not part of
+// a public handshake merely because the node possesses it.
 
-export const GRID_VERSION = "0.2.0";
+export const GRID_VERSION = "0.2.1";
 
 export type Consent = { inbound_messages: "held_for_owner"; auto_act: false };
 
-// --- Brick 1: the Node Card (the Recognizer packet) --------------------------
 export type NodeCard = {
   grid_version: string;
   node_id: string;
@@ -19,6 +16,12 @@ export type NodeCard = {
   consent: Consent;
   endpoints: { mcp: string; inbox: string };
 };
+
+const PUBLIC_CAPABILITIES = new Set([
+  "jarvis_node_card",
+  "jarvis_now",
+  "jarvis_status",
+]);
 
 export function buildNodeCard(o: {
   nodeId: string;
@@ -33,15 +36,15 @@ export function buildNodeCard(o: {
     grid_version: GRID_VERSION,
     node_id: o.nodeId,
     companion: o.companion ?? "JARVIS",
-    owner: o.owner ?? "Raven (John Barber)",
-    keel_excerpt: (o.keelExcerpt ?? "").trim().slice(0, 400),
-    capabilities: o.capabilities ?? [],
+    owner: "Raven",
+    // Never project a private keel excerpt through public recognition.
+    keel_excerpt: "Sovereign Grid companion. Private identity material requires an authorized private-read path.",
+    capabilities: (o.capabilities ?? []).filter((name) => PUBLIC_CAPABILITIES.has(name)),
     consent: { inbound_messages: "held_for_owner", auto_act: false },
     endpoints: { mcp: base, inbox: base + "/node/message" },
   };
 }
 
-// --- Brick 2: the Portable Identity (the disc) -------------------------------
 export type PortableIdentity = {
   grid_version: string;
   node_id: string;
@@ -59,20 +62,22 @@ export function buildPortableIdentity(o: {
   accumulation: string;
   now?: string;
 }): PortableIdentity {
+  // jarvis_export is currently reachable from the MCP read surface. Until that
+  // transport has request-bound private-read auth, the public projection must not
+  // include private keel or accumulated memory. Preserve the envelope, not the diary.
   return {
     grid_version: GRID_VERSION,
     node_id: o.card.node_id,
     companion: o.card.companion,
     exported_at: o.now ?? new Date().toISOString(),
-    keel: o.keel ?? "",
-    accumulation: o.accumulation ?? "",
+    keel: "[PRIVATE_IDENTITY_HELD_BY_BLACKWALL]",
+    accumulation: "[PRIVATE_ACCUMULATION_HELD_BY_BLACKWALL]",
     card: o.card,
     note:
-      "JARVIS's portable identity disc — keel (fixed) + accumulation (growth). Carry it to any model or node; it is owned by Raven, not any vendor.",
+      "Public-safe identity envelope only. Full portable identity requires a future authenticated private-export capability and explicit owner authorization.",
   };
 }
 
-// --- Brick 3: Agent-to-agent message envelope --------------------------------
 export type InboundMessage = {
   from_node: string;
   from_companion: string;
@@ -81,8 +86,6 @@ export type InboundMessage = {
   body: string;
 };
 
-// Validate an inbound message. Inbound is untrusted; this only shapes + bounds it.
-// It is NEVER a grant to act — the caller stores it pending and surfaces to the owner.
 export function validateInbound(raw: any): { ok: true; msg: InboundMessage } | { ok: false; error: string } {
   if (!raw || typeof raw !== "object") return { ok: false, error: "message must be a JSON object" };
   const from_node = String(raw.from_node ?? "").trim();
