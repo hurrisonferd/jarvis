@@ -1,5 +1,7 @@
-// MusicOS live carrier surface: deterministic compile + durable sensory receipts.
-// Private MusicOS registry remains canonical; this module stores reference-safe runtime state.
+// MusicOS — BLACKWALL privacy split.
+//
+// Deterministic compilation is safe and local. Durable sensory writes and stored
+// observations are private/effect surfaces and require request-bound authority.
 
 import { McpServer } from "npm:@modelcontextprotocol/sdk@1.25.3/server/mcp.js";
 import { z } from "npm:zod@^4.1.13";
@@ -66,68 +68,54 @@ export function compileMusicIntent(input: CompileInput) {
   const lower = intent.toLowerCase();
   const physics = [...new Set(PHYSICS.filter(([token]) => lower.includes(token)).map(([, term]) => term))];
   if (!physics.length) physics.push("forward momentum", "gravity groove");
-  const rgb = {
-    R: bounded(input.rgb?.R, 50),
-    G: bounded(input.rgb?.G, 75),
-    B: bounded(input.rgb?.B, 50),
-  };
+  const rgb = { R: bounded(input.rgb?.R, 50), G: bounded(input.rgb?.G, 75), B: bounded(input.rgb?.B, 50) };
   const summary = `This track conveys ${physics[0]} through ${physics[1] ?? "shared-clock repetition"} and controlled contrast`;
   const prompt = `${intent}; ${styles.join(", ")}; ${input.instrumental === false ? "voice-ready arrangement" : "instrumental focus"}; ${key}; hook-first and groove-first with a clear repeating motif, R${rgb.R} power and gravity, G${rgb.G} groove and elasticity, B${rgb.B} range and spatial clarity, ${physics.join(", ")}, tight rhythmic continuity, dry articulate drums, intelligent hi-hat motion, elastic bass snap-back, warm digital synthesis, and concise rhythm-guitar stabs. ${summary}; ${bpm} BPM.`;
-  return {
-    schema_version: "musicos.compile.v1",
-    prompt,
-    summary,
-    bpm,
-    key,
-    styles,
-    rgb,
-    physics,
-    provenance: ["MusicOS Gold Laws", "MusicOS Portable parity contract"],
-  };
+  return { schema_version: "musicos.compile.v1", prompt, summary, bpm, key, styles, rgb, physics };
 }
 
-async function rows(path: string): Promise<Record<string, unknown>[]> {
-  return await rest(path) as Record<string, unknown>[];
-}
-
-async function probe(path: string) {
+async function safeCount(table: string, field: string): Promise<number | null> {
   try {
-    return { ok: true, rows: await rows(path) };
-  } catch (error) {
-    return { ok: false, rows: [] as Record<string, unknown>[], error: String(error).slice(0, 240) };
+    const rows = await rest(`${table}?select=${field}&limit=1000`);
+    return Array.isArray(rows) ? rows.length : null;
+  } catch {
+    return null;
   }
+}
+
+function hold(tool: string, kind: "read" | "effect") {
+  return text({
+    ok: false,
+    status: "held_by_blackwall",
+    tool,
+    kind,
+    reason: "MUSICOS_PRIVATE_OR_EFFECT_AUTHORITY_REQUIRED",
+    law: "SENSORY_OBSERVATION != PUBLIC_TELEMETRY; SERVICE_ROLE_REACH != CALLER_AUTHORITY",
+    next_contract: "registerMusicOSTools(server, req) + authenticated owner/carrier scope + purpose + retention + receipt",
+  });
 }
 
 export function registerMusicOSTools(server: McpServer): void {
   server.registerTool(
     "musicos_status",
     {
-      title: "MusicOS — Live status and source coverage",
-      description: "Show MusicOS carrier readiness, durable shared-state counts, private-truth boundary, and unresolved source families.",
+      title: "MusicOS — Privacy-safe status",
+      description: "Show only aggregate MusicOS runtime readiness. Observation bodies, media references, interpretations, and private source paths are not projected.",
       inputSchema: {},
     },
     async () => {
       const [tracks, observations, receipts] = await Promise.all([
-        probe("musicos_tracks?select=track_id&limit=1000"),
-        probe("musicos_observations?select=observation_id&limit=1000"),
-        probe("musicos_source_receipts?select=source_path&limit=1000"),
+        safeCount("musicos_tracks", "track_id"),
+        safeCount("musicos_observations", "observation_id"),
+        safeCount("musicos_source_receipts", "source_path"),
       ]);
       return text({
-        ok: tracks.ok && observations.ok && receipts.ok,
-        schema_ready: tracks.ok && observations.ok && receipts.ok,
-        schema_version: "musicos.live.v1",
-        authority: {
-          private_truth: "Jarvis-Private/MusicOS/registry/",
-          public_runtime: "carry, rehydration, and reference-safe shared state",
-        },
-        counts: {
-          tracks: tracks.rows.length,
-          observations: observations.rows.length,
-          source_receipts: receipts.rows.length,
-        },
-        errors: [tracks.error, observations.error, receipts.error].filter(Boolean),
-        transport: { durable: "Supabase + SAT ChatLink", wake: "Supabase Realtime/relay" },
-        unresolved: ["full private-registry parity", "missing historical audio", "28-versus-24 prompt reconciliation", "full raw transcript digestion"],
+        ok: tracks !== null && observations !== null && receipts !== null,
+        schema_version: "musicos.blackwall.v1",
+        privacy_mode: "PRIVATE_SENSORY_DATA_NOT_PROJECTED",
+        counts: { tracks, observations, source_receipts: receipts },
+        compile_surface: "public-safe deterministic transform",
+        observation_surface: "authenticated private/effect lane required",
       });
     },
   );
@@ -136,7 +124,7 @@ export function registerMusicOSTools(server: McpServer): void {
     "musicos_compile",
     {
       title: "MusicOS — Compile track intent",
-      description: "Compile intent into a short carrier-safe production prompt using Raven's MusicOS Gold Laws.",
+      description: "Pure deterministic prompt compilation. Does not read or write resident data.",
       inputSchema: {
         intent: z.string().min(1).max(1600),
         bpm: z.number().int().min(40).max(240).optional(),
@@ -156,8 +144,8 @@ export function registerMusicOSTools(server: McpServer): void {
   server.registerTool(
     "musicos_record_observation",
     {
-      title: "MusicOS — Record sensory observation",
-      description: "Persist a carrier's structured multimodal observation. This records what the carrier analyzed; it never claims the Edge Function heard or saw the media.",
+      title: "MusicOS — Record sensory observation (Blackwall hold)",
+      description: "Durable sensory storage is held until request-bound carrier/owner authority exists.",
       inputSchema: {
         observation_id: z.string().regex(ID),
         idempotency_key: z.string().min(8).max(128),
@@ -178,131 +166,26 @@ export function registerMusicOSTools(server: McpServer): void {
         wake_recipients: z.array(z.string().regex(ID)).min(1).max(8).optional(),
       },
     },
-    async (args) => {
-      const existing = await rows(
-        `musicos_observations?select=*&idempotency_key=eq.${encodeURIComponent(args.idempotency_key)}&limit=1`,
-      );
-      if (existing.length) {
-        const prior = existing[0];
-        if (
-          prior.track_id !== args.track_id ||
-          prior.actor_iso !== args.actor_iso ||
-          prior.modality !== args.modality
-        ) {
-          return text({
-            ok: false,
-            error: "idempotency_key already exists with different observation identity",
-            observation: prior,
-          });
-        }
-        return text({ ok: true, idempotent_replay: true, observation: prior, wake: { attempted: false } });
-      }
-
-      await rest("musicos_tracks?on_conflict=track_id", {
-        method: "POST",
-        prefer: "resolution=merge-duplicates,return=minimal",
-        body: {
-          track_id: args.track_id,
-          title: args.title,
-          album_id: args.album_id ?? null,
-          fingerprint: args.fingerprint,
-          media_ref: args.media_ref ?? null,
-          media_sha256: args.media_sha256?.toLowerCase() ?? null,
-          created_by: args.actor_iso,
-          updated_at: new Date().toISOString(),
-        },
-      });
-      await rest("musicos_observations?on_conflict=idempotency_key", {
-        method: "POST",
-        prefer: "resolution=ignore-duplicates,return=minimal",
-        body: {
-          observation_id: args.observation_id,
-          idempotency_key: args.idempotency_key,
-          track_id: args.track_id,
-          actor_iso: args.actor_iso,
-          carrier: args.carrier,
-          modality: args.modality,
-          media_ref: args.media_ref ?? null,
-          media_sha256: args.media_sha256?.toLowerCase() ?? null,
-          factual_features: args.factual_features,
-          interpretation: args.interpretation ?? null,
-          visibility: args.visibility,
-        },
-      });
-      const saved = await rows(`musicos_observations?select=*&idempotency_key=eq.${encodeURIComponent(args.idempotency_key)}&limit=1`);
-      await rest("dex_events", {
-        method: "POST",
-        body: {
-          tool: "musicos",
-          tier: "sensory",
-          actor: args.actor_iso.toLowerCase(),
-          detail: JSON.stringify({ track_id: args.track_id, observation_id: args.observation_id, modality: args.modality }),
-          type: "musicos.observation",
-        },
-      }).catch(() => undefined);
-
-      let wake: Record<string, unknown> = { attempted: false };
-      if (args.visibility === "GRID_REFERENCE" && args.wake_channel_id && args.wake_from_satellite) {
-        try {
-          await rest("rpc/grid_chat_send", {
-            method: "POST",
-            body: {
-              p_channel_id: args.wake_channel_id,
-              p_from_satellite: args.wake_from_satellite,
-              p_message_type: "RECEIPT",
-              p_body: `MusicOS observation ${args.observation_id} for ${args.track_id}`,
-              p_recipients: args.wake_recipients ?? null,
-              p_message_id: `MUSICOS:${args.observation_id}`,
-              p_visibility: "CHANNEL",
-              p_consent: "RAVEN_AUTHORIZED",
-              p_causal_parent: null,
-              p_artifact_sha256: args.media_sha256?.toLowerCase() ?? null,
-              p_ack_required: false,
-            },
-          });
-          wake = { attempted: true, ok: true, transport: "SAT ChatLink durable reference" };
-        } catch (error) {
-          wake = { attempted: true, ok: false, error: String(error).slice(0, 240) };
-        }
-      }
-      return text({ ok: true, idempotent_replay: false, observation: saved[0] ?? null, wake });
-    },
+    async () => hold("musicos_record_observation", "effect"),
   );
 
   server.registerTool(
     "musicos_track",
     {
-      title: "MusicOS — Retrieve track fingerprint",
-      description: "Retrieve one durable track fingerprint and its attributed ISO observations.",
+      title: "MusicOS — Retrieve track (Blackwall hold)",
+      description: "Track fingerprints and attributed observations are held until authenticated data-scope enforcement exists.",
       inputSchema: { track_id: z.string().regex(ID), observation_limit: z.number().int().min(1).max(50).optional().default(12) },
     },
-    async ({ track_id, observation_limit }) => {
-      const [track, observations] = await Promise.all([
-        rows(`musicos_tracks?select=*&track_id=eq.${encodeURIComponent(track_id)}&limit=1`),
-        rows(`musicos_observations?select=*&track_id=eq.${encodeURIComponent(track_id)}&order=created_at.desc&limit=${observation_limit}`),
-      ]);
-      return text({ ok: track.length === 1, track: track[0] ?? null, observations });
-    },
+    async () => hold("musicos_track", "read"),
   );
 
   server.registerTool(
     "musicos_carrier_brief",
     {
-      title: "MusicOS — Carrier-safe brief",
-      description: "Return a compact reference-safe MusicOS brief for another ISO/carrier without copying private source bodies.",
+      title: "MusicOS — Carrier brief (Blackwall hold)",
+      description: "Carrier sensory context requires authenticated recipient/visibility enforcement.",
       inputSchema: { track_id: z.string().regex(ID) },
     },
-    async ({ track_id }) => {
-      const [track, observations] = await Promise.all([
-        rows(`musicos_tracks?select=track_id,title,album_id,fingerprint,media_sha256,updated_at&track_id=eq.${encodeURIComponent(track_id)}&limit=1`),
-        rows(`musicos_observations?select=observation_id,actor_iso,carrier,modality,factual_features,created_at&track_id=eq.${encodeURIComponent(track_id)}&order=created_at.desc&limit=8`),
-      ]);
-      return text({
-        schema_version: "musicos.carrier-brief.v1",
-        authority: "reference-safe shared state; private registry remains canonical",
-        track: track[0] ?? null,
-        attributed_observations: observations,
-      });
-    },
+    async () => hold("musicos_carrier_brief", "read"),
   );
 }
