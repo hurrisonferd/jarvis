@@ -25,6 +25,9 @@ const privateTok = () => (
   ""
 ).trim();
 
+const privateRepoEnabled = () =>
+  (Deno.env.get("MCP_PRIVATE_REPO_ENABLED") ?? "false").toLowerCase() === "true";
+
 // Compatibility export used by read/search helpers elsewhere in the MCP bundle.
 // Crucially, this can never return GITHUB_TOKEN_PRIVATE.
 export const ghTok = publicReadTok;
@@ -40,8 +43,6 @@ export async function gh(path: string): Promise<Response> {
   const res = await fetch(`${GH_REPO}${path}`, {
     headers: tok ? { ...base, authorization: `Bearer ${tok}` } : base,
   });
-  // hurrisonferd/jarvis is public. A read may degrade to anonymous access, but
-  // write/private credentials are never borrowed to rescue it.
   if (tok && (res.status === 401 || res.status === 403)) {
     return await fetch(`${GH_REPO}${path}`, { headers: base });
   }
@@ -64,8 +65,13 @@ export async function ghReq(method: string, path: string, body?: unknown): Promi
   });
 }
 
-// Private access is a separate authority domain. No public token fallback.
+// Private access is a separate authority domain and is OFF by default until the
+// MCP transport has universal request-bound private-read authorization.
+// This prevents an open read tool from turning a server-held PAT into data egress.
 export async function ghp(method: string, path: string, body?: unknown): Promise<Response> {
+  if (!privateRepoEnabled()) {
+    return new Response(null, { status: 403, statusText: "Private repo access held by Blackwall" });
+  }
   const headers: Record<string, string> = {
     "user-agent": "jarvis-mcp",
     accept: "application/vnd.github+json",
