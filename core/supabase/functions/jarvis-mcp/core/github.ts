@@ -1,69 +1,93 @@
-// core/github.ts — the GitHub API layer for both repos (forge slice 2). Req-independent (Deno.env
-// + fetch only), so it lives at module level and every tool imports it instead of closing over a
-// buildServer-local copy. Extracted verbatim from index.ts — zero behavior change.
-//   gh           — public read (token-optional; retries UNAUTH on 401/403 so reads never break)
-//   ghReq        — public write (needs a write-scoped token)
-//   ghp          — the private Jarvis-Private repo
-//   proposeFilePR— one file → branch → commit → PR
+// core/github.ts — GitHub API layer with Blackwall credential separation.
+//
+// One broad token must not silently become every GitHub authority in the Grid.
+// PUBLIC_READ, PUBLIC_WRITE, and PRIVATE_REPO are separate credential classes.
 
 export const GH_REPO = "https://api.github.com/repos/hurrisonferd/jarvis";
 export const GH_PRIV = "https://api.github.com/repos/hurrisonferd/Jarvis-Private";
 
-// Canonical GitHub credential resolver shared by public writes and private operations. Public reads
-// may retry anonymously on token failure; writes and private access remain fail-closed.
-export const ghTok = () =>
+const publicReadTok = () => (
+  Deno.env.get("GITHUB_TOKEN_PUBLIC_READ") ??
   Deno.env.get("GRID_GPT_TOKEN") ??
+  ""
+).trim();
+
+const publicWriteTok = () => (
+  Deno.env.get("GITHUB_TOKEN_PUBLIC_WRITE") ??
   Deno.env.get("JARVIS_GITHUB_TOKEN") ??
-  Deno.env.get("GITHUB_TOKEN_PRIVATE") ??
+  Deno.env.get("GRID_GPT_TOKEN") ??
   Deno.env.get("GITHUB_TOKEN") ??
-  "";
+  ""
+).trim();
+
+const privateTok = () => (
+  Deno.env.get("GITHUB_TOKEN_PRIVATE") ??
+  ""
+).trim();
+
+// Compatibility export used by read/search helpers elsewhere in the MCP bundle.
+// Crucially, this can never return GITHUB_TOKEN_PRIVATE.
+export const ghTok = publicReadTok;
 
 export const ghPath = (p: string) => p.split("/").map(encodeURIComponent).join("/");
 
 export async function gh(path: string): Promise<Response> {
-  const base: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json" };
-  const tok = ghTok();
-  const res = await fetch(`${GH_REPO}${path}`, { headers: tok ? { ...base, authorization: `Bearer ${tok}` } : base });
-  // The repo is PUBLIC. If a bad/expired/under-scoped token gets a READ rejected (401/403), retry
-  // UNAUTHENTICATED so reads (prs, files, identity, eyes) never break on a token problem. Writes
-  // (ghReq) still require a valid token — this only rescues reads.
+  const base: Record<string, string> = {
+    "user-agent": "jarvis-mcp",
+    accept: "application/vnd.github+json",
+  };
+  const tok = publicReadTok();
+  const res = await fetch(`${GH_REPO}${path}`, {
+    headers: tok ? { ...base, authorization: `Bearer ${tok}` } : base,
+  });
+  // hurrisonferd/jarvis is public. A read may degrade to anonymous access, but
+  // write/private credentials are never borrowed to rescue it.
   if (tok && (res.status === 401 || res.status === 403)) {
     return await fetch(`${GH_REPO}${path}`, { headers: base });
   }
   return res;
 }
 
-// Write-capable GitHub request (method + JSON body). Needs a write-scoped token and fails closed.
 export async function ghReq(method: string, path: string, body?: unknown): Promise<Response> {
   const headers: Record<string, string> = {
-    "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json",
+    "user-agent": "jarvis-mcp",
+    accept: "application/vnd.github+json",
+    "content-type": "application/json",
   };
-  const tok = ghTok();
-  if (!tok) return new Response(null, { status: 401, statusText: "GitHub credential unavailable" });
+  const tok = publicWriteTok();
+  if (!tok) return new Response(null, { status: 401, statusText: "Public GitHub write credential unavailable" });
   headers.authorization = `Bearer ${tok}`;
-  return await fetch(`${GH_REPO}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  return await fetch(`${GH_REPO}${path}`, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+  });
 }
 
-// JARVIS-PRIVATE — the private storage/scaffolding repo. Uses the canonical resolver and always
-// fails closed when no credential is configured. Separate from gh()/GH_REPO so public anonymous
-// fallback can never bleed into private access.
+// Private access is a separate authority domain. No public token fallback.
 export async function ghp(method: string, path: string, body?: unknown): Promise<Response> {
-  const headers: Record<string, string> = { "user-agent": "jarvis-mcp", accept: "application/vnd.github+json", "content-type": "application/json" };
-  const tok = ghTok();
-  if (!tok) return new Response(null, { status: 401, statusText: "GitHub credential unavailable" });
+  const headers: Record<string, string> = {
+    "user-agent": "jarvis-mcp",
+    accept: "application/vnd.github+json",
+    "content-type": "application/json",
+  };
+  const tok = privateTok();
+  if (!tok) return new Response(null, { status: 401, statusText: "Private GitHub credential unavailable" });
   headers.authorization = `Bearer ${tok}`;
-  return await fetch(`${GH_PRIV}${path}`, { method, headers, body: body ? JSON.stringify(body) : undefined });
+  return await fetch(`${GH_PRIV}${path}`, {
+    method,
+    headers,
+    body: body ? JSON.stringify(body) : undefined,
+  });
 }
 
-// Propose ONE file as a PR (branch → commit → PR). Returns {ok, pr_url, number, branch} or
-// {ok:false, step, status}.
 export async function proposeFilePR(path: string, content: string, message: string): Promise<any> {
   const ref = await ghReq("GET", `/git/ref/heads/main`);
   if (!ref.ok) return { ok: false, step: "base-ref", status: ref.status };
   const baseSha = (await ref.json() as any).object?.sha;
   const branch = `jarvis-jip-${Date.now().toString(36)}`;
   const br = await ghReq("POST", `/git/refs`, { ref: `refs/heads/${branch}`, sha: baseSha });
-  if (!br.ok) return { ok: false, step: "branch", status: br.status, note: "GitHub credential may lack write scope" };
+  if (!br.ok) return { ok: false, step: "branch", status: br.status, note: "Public GitHub write credential may lack scope" };
   const ex = await ghReq("GET", `/contents/${ghPath(path)}?ref=${branch}`);
   const existingSha = ex.ok ? (await ex.json() as any).sha : undefined;
   const put = await ghReq("PUT", `/contents/${ghPath(path)}`,
