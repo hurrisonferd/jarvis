@@ -31,6 +31,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Check Pocket native provider syntax
+        run: node --check ravenos-pocket-native-provider.js
+      - name: Execute Pocket native provider adversarial canary
+        run: node scripts/ravenos_pocket_native_provider_canary.js
       - name: Verify strict public packet, cartridges, native bridge and handheld contracts
         run: python scripts/ravenos_gameboy_canary.py
       - name: Check public packet validator syntax
@@ -39,10 +43,6 @@ jobs:
         run: node scripts/ravenos_public_contract_canary.js
       - name: Check Pocket cartridge validator syntax
         run: node --check ravenos-pocket-contract.js
-      - name: Check Pocket native provider syntax
-        run: node --check ravenos-pocket-native-provider.js
-      - name: Execute Pocket native provider adversarial canary
-        run: node scripts/ravenos_pocket_native_provider_canary.js
       - name: Check Pocket Goblin event throat syntax
         run: node --check ravenos-pocket-goblin.js
       - name: Check Pocket v4 runtime syntax
