@@ -1,5 +1,8 @@
 'use strict';
-const path=require('path');
+import path from 'node:path';
+import { fileURLToPath, pathToFileURL } from 'node:url';
+
+const __dirname=path.dirname(fileURLToPath(import.meta.url));
 global.CustomEvent=class CustomEvent{constructor(type,init={}){this.type=type;this.detail=init.detail;}};
 const listeners={};
 global.document={hidden:false,addEventListener:(name,fn)=>{listeners[name]=fn;}};
@@ -9,7 +12,7 @@ global.window={
   chrome:undefined,
   RavenOSPocketAndroid:undefined
 };
-require(path.join(__dirname,'..','ravenos-pocket-native-provider.js'));
+await import(pathToFileURL(path.join(__dirname,'..','ravenos-pocket-native-provider.js')).href);
 const bridge=window.RavenOSPocketNative;
 if(!bridge||bridge.schema!=='ravenos.pocket.native-provider-bridge.v1')throw new Error('BRIDGE_MISSING');
 const now=Date.now();
