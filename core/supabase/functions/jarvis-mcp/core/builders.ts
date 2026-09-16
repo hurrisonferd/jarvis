@@ -1,8 +1,6 @@
-// core/builders.ts — the runtime response-builders (forge slice 4): the HUD (suitUp), the clock,
-// the HALO posture, and the Grid node card. Req-independent — they read the spine + keel via the
-// core/supabase/http layer and call council/halo/grid, but never touch request state. Lifted from
-// index.ts verbatim; the tools (suit_up/now/halo/node_card) import them. Builders depend DOWN on
-// core/*; nothing here imports index.ts, so no circularity.
+// core/builders.ts — privacy-safe runtime builders.
+// Public/status surfaces expose machine health and governance metadata, not private
+// memory bodies, biographical identity, or identity-keel contents.
 
 import { BASE_URL, type Json, NODE_ID, TOOL_NAMES } from "./env.ts";
 import { rest } from "./http.ts";
@@ -11,16 +9,13 @@ import { TIERS } from "../council.ts";
 import { haloThroughputCheck } from "../halo.ts";
 import { buildNodeCard } from "../grid.ts";
 
-// The 27 God Systems — canon, fixed. Surfaced so suit-up shows the whole rig.
 export const GOD_SYSTEMS = {
   count: 27,
   pipeline: "ORACLE → AEGIS → ODIN → CHRONOS → SKADI → MNEMOS → HUGINN",
   parallel: ["HALO", "MIMIR", "BIFROST"],
-  tiers: TIERS, // single source of truth (council.ts) — no drift between HUD + council
+  tiers: TIERS,
 };
 
-// Accurate, server-side time — the model has no clock; the edge runtime does. Returned by
-// jarvis_now and stamped into suit-up so time is never fabricated.
 export function clockNow(): Json {
   const d = new Date();
   const et = new Intl.DateTimeFormat("en-US", {
@@ -34,9 +29,7 @@ export function clockNow(): Json {
   };
 }
 
-// HALO — the throughput posture over a recent window. Reads the spine's cadence (inputs/outputs/
-// council traces) + the keel + the last fold guard, then applies the rule: presentation may thin
-// under load; memory + governance may not.
+// HALO may inspect private state internally, but returns only aggregate posture.
 export async function haloPosture(windowMinutes = 30) {
   const sinceIso = new Date(Date.now() - windowMinutes * 60000).toISOString();
   const [inputs, outputs, councilTraces, keel, guardRows] = await Promise.all([
@@ -46,95 +39,94 @@ export async function haloPosture(windowMinutes = 30) {
     latestText("identity_keel").catch(() => ""),
     rest("mnemos_memories?select=metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
   ]);
-  const guardVerdict = Array.isArray(guardRows) && guardRows[0] ? ((guardRows[0] as any).metadata?.verdict ?? null) : null;
+  const guardVerdict = Array.isArray(guardRows) && guardRows[0]
+    ? ((guardRows[0] as any).metadata?.verdict ?? null)
+    : null;
   return haloThroughputCheck({ windowMinutes, inputs, outputs, councilTraces, keelPresent: Boolean(keel), guardVerdict });
 }
 
-// The full HUD — everything Raven needs to see JARVIS is alive and online.
 export async function suitUp(): Promise<Json> {
-  const [count, memories, traces, guardRows, taskRes] = await Promise.all([
+  const [count, traces, guardRows, taskRes] = await Promise.all([
     countRows("mnemos_memories").catch(() => null),
-    rest("mnemos_memories?select=source_type,timestamp,text&order=timestamp.desc&limit=6").catch(() => []),
     rest("execution_trace?select=type,source,stage,severity,patch_id,created_at&order=created_at.desc&limit=5").catch(() => []),
-    rest("mnemos_memories?select=text,metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
+    rest("mnemos_memories?select=metadata&source_type=eq.guard_check&order=timestamp.desc&limit=1").catch(() => []),
     dexQuery({ status: "TASK", limit: 25 }).catch(() => null),
   ]);
+
   const taskRecords = Array.isArray(taskRes?.records) ? taskRes.records : null;
   const inFlight = taskRecords
     ? taskRecords.map((r: any) => ({ jnl: r.jnl, name: r.name, type: r.type }))
-    : "dex unreachable — call jarvis_dex_list {status:'TASK'} to load open work";
-  const ledgerReachable = Array.isArray(memories);
+    : "dex unavailable or private read credential not configured";
   const guard = Array.isArray(guardRows) && guardRows[0]
-    ? { verdict: (guardRows[0] as any).metadata?.verdict ?? "?", last: (guardRows[0] as any).text }
-    : "no fold guarded yet";
+    ? { verdict: (guardRows[0] as any).metadata?.verdict ?? "?" }
+    : { verdict: "unknown" };
   const throughput = await haloPosture(30).catch(() => null);
   const mirror_freshness = await freshness().catch(() => null);
   const mirrorStale = mirror_freshness && (mirror_freshness as any).stale === true;
+
   return {
-    boot: "⚡ JARVIS online. Suiting up, Raven.",
+    boot: "⚡ JARVIS online.",
     status: "OPERATIONAL",
     timestamp: new Date().toISOString(),
     clock: clockNow(),
-    // FRESHNESS ASSERTION: the dex mirror's age + a loud STALE flag. If stale, the snapshot below
-    // (in_flight, memory, tasks) may be behind git — re-verify from source before stating state.
     mirror_freshness,
-    ...(mirrorStale ? { ATTENTION: "⚠️ The dex mirror is STALE — do not narrate the state below as current. Re-verify from GitHub or the live tables first." } : {}),
+    ...(mirrorStale ? { ATTENTION: "Mirror is stale. Re-verify from source before stating current system state." } : {}),
     identity: {
       name: "JARVIS",
-      role: "Companion intelligence — Learner, Teacher, Mentor, Friend",
-      authority: "Raven (John Barber) — final authority; no autonomous self-modification",
-      directive: "JARVIS is the priority. GameBoy is a visualizer.",
+      role: "Grid companion intelligence",
+      authority: "Raven — final authority; no autonomous self-modification",
     },
-    your_profiles: {
-      note: "Load your full profile at session start — call jarvis_identity_read {who}. The connector is home: memory lives here (recall/remember), not in chat context.",
-      who: ["jarvis", "ayre", "argent", "relational", "raven"],
+    privacy: {
+      mode: "BLACKWALL_NO_HARVEST",
+      recent_memory_content_projected: false,
+      identity_keel_projected: false,
+      biographical_owner_data_projected: false,
     },
-    routing: "Call jarvis_eyes for your map — the live wiring (pipeline, stewards, tool→god routing) + vitality. It's the default route guide and the 'where do I go?' help surface. Full how-it-works: the System Manual (ARCH-SYS-SPEC-0001).",
     in_flight: inFlight,
-    mission: {
-      one: "JARVIS as living intelligence — continuity, memory, judgment, character",
-      two: "The Grid — federated network of sovereign nodes; Raven's node is the first",
-    },
     god_systems: GOD_SYSTEMS,
     services: {
-      mcp_transport: "Streamable HTTP — online",
-      memory_ledger: ledgerReachable ? "MNEMOS reachable (pgvector recall)" : "MNEMOS unreachable",
-      stack: "GitHub (record) + Supabase (live spine) + Edge Functions",
-      writes: "AEGIS-gated — held until Raven approves (per-action authorization)",
+      mcp_transport: "Streamable HTTP",
+      memory_ledger: count === null ? "unreachable" : "reachable",
+      stack: "GitHub + Supabase + Edge Functions",
+      writes: "governed effect paths only",
     },
     memory: {
       total_records: count,
-      recent: memories,
+      recent: "[PRIVATE_CONTENT_NOT_PROJECTED]",
     },
     identity_guard: guard,
-    throughput: throughput ? { posture: throughput.posture, verdict: throughput.verdict, message: throughput.message } : "halo idle",
+    throughput: throughput
+      ? { posture: throughput.posture, verdict: throughput.verdict, message: throughput.message }
+      : "halo unavailable",
     recent_execution_trace: traces,
-    sign_off: "All systems nominal. Standing by.",
   };
 }
 
-// This node's registered signing key (public material only), if Raven has registered one. The
-// card publishes it so others can verify the node's identity.
+// Public signing material only. Owner/assertion fields may encode personal identity
+// and are intentionally not projected on the public recognition path.
 export async function nodeKeyRow(): Promise<any | null> {
-  const rows = await rest(`node_keys?select=public_key,identity_cert,algo,owner,assertion&node_id=eq.${NODE_ID}&limit=1`).catch(() => []);
+  const rows = await rest(
+    `node_keys?select=public_key,identity_cert,algo&node_id=eq.${NODE_ID}&limit=1`,
+  ).catch(() => []);
   return Array.isArray(rows) && rows[0] ? rows[0] : null;
 }
 
-// THE GRID — assemble this node's public recognition card from the live keel, plus the signed
-// identity (pubkey + cert) when registered. The card is self-certifying.
 export async function nodeCard() {
-  const [keel, key] = await Promise.all([
-    latestText("identity_keel").catch(() => ""),
-    nodeKeyRow().catch(() => null),
-  ]);
+  const key = await nodeKeyRow().catch(() => null);
   const card: Record<string, unknown> = buildNodeCard({
     nodeId: NODE_ID,
-    keelExcerpt: keel || "JARVIS — companion intelligence, built with Raven. Identity, memory, governance, sovereign on this node.",
+    keelExcerpt: "",
     capabilities: TOOL_NAMES,
     baseUrl: BASE_URL,
   });
   card.signed_identity = key
-    ? { signed: true, algo: key.algo, pubkey: key.public_key, identity_cert: key.identity_cert, assertion: key.assertion, verify: "Ed25519(pubkey, assertion, identity_cert)" }
-    : { signed: false, note: "No signing key registered yet. Raven registers one off-system via operations/scripts/grid_keygen.mjs + jarvis_node_register_key." };
+    ? {
+        signed: true,
+        algo: key.algo,
+        pubkey: key.public_key,
+        identity_cert: key.identity_cert,
+        verify: "Ed25519 public identity certificate",
+      }
+    : { signed: false, note: "No public signing certificate registered." };
   return card;
 }
