@@ -1,8 +1,11 @@
 name: deploy-edge-functions
 
-# CLEAN PATH: the repo is the single source of truth; merging to main auto-deploys the
-# connector. No manual trigger needed (Raven: "I didn't have to set it up last time").
-# Requires repo secret SUPABASE_ACCESS_TOKEN (a personal access token, sbp_…).
+# BLACKWALL DEPLOY LAW
+# - Source changes deploy only the Edge Functions whose source changed.
+# - A workflow-only change deploys zero functions.
+# - Platform JWT stays ON by default.
+# - Only explicitly reviewed custom-auth/public surfaces may use --no-verify-jwt.
+# - Manual dispatch deploys exactly one named function.
 
 on:
   push:
@@ -10,21 +13,7 @@ on:
     paths:
       - ".github/workflows/deploy-edge-functions.yml"
       - "operations/scripts/check_external_identifiers.py"
-      - "core/supabase/functions/jarvis-mcp/**"
-      - "core/supabase/functions/jarvis-dex/**"
-      - "core/supabase/functions/jarvis-jcs/**"
-      - "core/supabase/functions/jarvis-action/**"
-      - "core/supabase/functions/chronos-fold/**"
-      - "core/supabase/functions/grid-write/**"
-      - "core/supabase/functions/grid-event/**"
-      - "core/supabase/functions/bifrost/**"
-      - "core/supabase/functions/coop-broadcast/**"
-      - "core/supabase/functions/coop-sse-relay/**"
-      - "core/supabase/functions/jarvis-broadcast/**"
-      - "core/supabase/functions/jarvis-monitor/**"
-      - "core/supabase/functions/jarvis-respond/**"
-      - "core/supabase/functions/send-push/**"
-      - "core/supabase/functions/mnemos-*/**"
+      - "core/supabase/functions/**"
       - "core/supabase/migrations/**"
   workflow_dispatch:
     inputs:
@@ -37,8 +26,12 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
       - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
 
       - name: Guard external dependency identifiers
         run: python3 operations/scripts/check_external_identifiers.py
@@ -67,15 +60,17 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           REF: oexghfsvhnggddllgvrt
         run: |
-          PROJECT_REF="$REF"
-          if supabase link --project-ref "$PROJECT_REF" --workdir core 2>&1 | grep -q "Already linked"; then
+          if supabase link --project-ref "$REF" --workdir core 2>&1 | grep -q "Already linked"; then
             echo "✓ Project already linked"
           else
             echo "→ Linking project..."
-            supabase link --project-ref "$PROJECT_REF" --workdir core 2>&1 || echo "⚠ link failed"
+            supabase link --project-ref "$REF" --workdir core 2>&1 || {
+              echo "Supabase project link failed"
+              exit 1
+            }
           fi
 
-      - name: Set Supabase Edge Function secrets
+      - name: Set shared Edge Function secrets
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           REF: oexghfsvhnggddllgvrt
@@ -83,7 +78,6 @@ jobs:
           ATOM_MCP_TOKEN: ${{ secrets.ATOM_MCP_TOKEN }}
           OPENHANDS_API_KEY: ${{ secrets.OPENHANDS_API_KEY }}
         run: |
-          echo "Setting edge function secrets..."
           supabase secrets set \
             GRID_GPT_TOKEN="$GRID_GPT_TOKEN" \
             ATOM_MCP_TOKEN="$ATOM_MCP_TOKEN" \
@@ -95,19 +89,10 @@ jobs:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           REF: oexghfsvhnggddllgvrt
           DEPLOY_SHA: ${{ github.sha }}
-        run: |
-          echo "DEPLOY_SHA=$DEPLOY_SHA"
-          echo "Setting DEPLOY_SHA secret..."
-          supabase secrets set DEPLOY_SHA="$DEPLOY_SHA" --project-ref "$REF"
+        run: supabase secrets set DEPLOY_SHA="$DEPLOY_SHA" --project-ref "$REF"
 
-      - name: Deploy JARVIS MCP recovery surface
-        if: ${{ github.event_name != 'workflow_dispatch' || inputs.function == 'jarvis-mcp' }}
-        env:
-          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
-          REF: oexghfsvhnggddllgvrt
-        run: supabase functions deploy jarvis-mcp --project-ref "$REF" --no-verify-jwt --workdir core
-
-      - name: Apply migrations via Management API
+      - name: Apply pending migrations via Management API
+        if: ${{ github.event_name == 'workflow_dispatch' || contains(toJson(github.event.commits.*.modified), 'core/supabase/migrations') || contains(toJson(github.event.commits.*.added), 'core/supabase/migrations') }}
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
         run: |
@@ -124,72 +109,113 @@ jobs:
                   "-d", payload], capture_output=True, text=True)
               try:
                   return json.loads(r.stdout)
-              except:
+              except Exception:
                   return r.stdout
 
           def split_sql(content):
-              """Split SQL on semicolons, but preserve $$..$$ quoted strings (DO blocks, function bodies)."""
               stmts, buf, in_dollar = [], "", False
               for line in content.split("\n"):
                   stripped = line.rstrip()
                   count = stripped.count("$$")
                   if count == 1:
                       in_dollar = not in_dollar
-                  elif count >= 2:
-                      if count % 2 == 1:
-                          in_dollar = not in_dollar
+                  elif count >= 2 and count % 2 == 1:
+                      in_dollar = not in_dollar
                   if not in_dollar and stripped.endswith(";"):
-                      if buf.strip():
-                          stmts.append(buf.strip() + "\n" + stripped[:-1])
-                      else:
-                          stmts.append(stripped[:-1])
+                      stmts.append((buf + "\n" + stripped[:-1]).strip())
                       buf = ""
                   else:
                       if buf or stripped:
                           buf += "\n" + line
               if buf.strip():
                   stmts.append(buf.strip())
-              return stmts
+              return [s for s in stmts if s]
 
           for f in sorted(glob.glob("core/supabase/migrations/*.sql")):
               name = os.path.basename(f[:-4])
-              sql_content = open(f).read()
               check = api_query("SELECT 1 FROM supabase_migrations.schema_migrations WHERE version='{}' LIMIT 1".format(name))
               if isinstance(check, list) and len(check) > 0:
                   print(f"✓ {name} already applied")
                   continue
-              stmts = split_sql(sql_content)
               all_ok = True
-              for stmt in stmts:
-                  if not stmt.strip() or stmt.strip().startswith("--"):
+              for stmt in split_sql(open(f).read()):
+                  if stmt.lstrip().startswith("--"):
                       continue
                   result = api_query(stmt)
-                  if isinstance(result, list) and len(result) > 0 and isinstance(result[0], dict) and result[0].get("code"):
-                      msg = result[0].get("message", str(result))[:100]
-                      print(f"⚠ {name}: {msg}")
+                  if isinstance(result, list) and result and isinstance(result[0], dict) and result[0].get("code"):
+                      print(f"⚠ {name}: {result[0].get('message', str(result))[:100]}")
                       all_ok = False
               if all_ok:
-                  print(f"✓ {name} applied ({len(stmts)} statement(s))")
+                  print(f"✓ {name} applied")
           PYEOF
 
-      - name: Deploy edge functions
+      - name: Resolve deploy targets
+        id: targets
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE: ${{ github.event.before }}
+          AFTER: ${{ github.sha }}
+          MANUAL_FUNCTION: ${{ inputs.function }}
+        run: |
+          set -euo pipefail
+          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
+            NAME="$MANUAL_FUNCTION"
+            if [ ! -d "core/supabase/functions/$NAME" ]; then
+              echo "Unknown Edge Function: $NAME"
+              exit 1
+            fi
+            printf '%s\n' "$NAME" > /tmp/deploy-targets.txt
+          else
+            BASE="$BEFORE"
+            if [ -z "$BASE" ] || echo "$BASE" | grep -Eq '^0+$'; then
+              BASE="$(git rev-parse HEAD^)"
+            fi
+            git diff --name-only "$BASE" "$AFTER" \
+              | awk -F/ '/^core\/supabase\/functions\/[^/]+\// {print $4}' \
+              | sort -u \
+              | while read -r NAME; do
+                  [ -d "core/supabase/functions/$NAME" ] && printf '%s\n' "$NAME"
+                done > /tmp/deploy-targets.txt
+          fi
+          echo "Deploy targets:"
+          cat /tmp/deploy-targets.txt || true
+          COUNT=$(grep -c . /tmp/deploy-targets.txt || true)
+          echo "count=$COUNT" >> "$GITHUB_OUTPUT"
+
+      - name: Deploy changed Edge Functions with explicit auth policy
+        if: ${{ steps.targets.outputs.count != '0' }}
         env:
           SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
           REF: oexghfsvhnggddllgvrt
-          DEPLOY_SHA: ${{ github.sha }}
         run: |
-          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            if [ "${{ inputs.function }}" != "jarvis-mcp" ]; then
-              supabase functions deploy "${{ inputs.function }}" --project-ref "$REF" --no-verify-jwt --workdir core
-            fi
-          else
-            # Deploy all functions — new ones deploy automatically.
-            for fn in core/supabase/functions/*/; do
-              NAME=$(basename "$fn")
-              if [ "$NAME" = "jarvis-mcp" ]; then
-                continue
-              fi
-              echo "→ deploying $NAME @ $DEPLOY_SHA"
+          set -euo pipefail
+
+          # Custom-auth/public surfaces reviewed by Blackwall. Everything else
+          # keeps platform JWT verification ON by default.
+          no_jwt() {
+            case "$1" in
+              jarvis-mcp|jarvis-dex|jarvis-action|coop-broadcast|coop-sse-relay|atom-mcp|musicos-source-upload)
+                return 0 ;;
+              *)
+                return 1 ;;
+            esac
+          }
+
+          while read -r NAME; do
+            [ -n "$NAME" ] || continue
+            echo "→ deploying $NAME"
+            if no_jwt "$NAME"; then
               supabase functions deploy "$NAME" --project-ref "$REF" --no-verify-jwt --workdir core
-            done
+            else
+              supabase functions deploy "$NAME" --project-ref "$REF" --workdir core
+            fi
+          done < /tmp/deploy-targets.txt
+
+      - name: Deployment receipt
+        run: |
+          echo "Edge deploy count: ${{ steps.targets.outputs.count }}"
+          if [ -s /tmp/deploy-targets.txt ]; then
+            sed 's/^/- /' /tmp/deploy-targets.txt
+          else
+            echo "- none (workflow/source-only change)"
           fi
