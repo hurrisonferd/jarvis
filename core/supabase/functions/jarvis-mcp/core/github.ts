@@ -2,6 +2,8 @@
 //
 // One broad token must not silently become every GitHub authority in the Grid.
 // PUBLIC_READ, PUBLIC_WRITE, and PRIVATE_REPO are separate credential classes.
+// Public repository visibility is not consent for ambient projection of personal
+// identity/relationship profiles through a generic MCP reader.
 
 export const GH_REPO = "https://api.github.com/repos/hurrisonferd/jarvis";
 export const GH_PRIV = "https://api.github.com/repos/hurrisonferd/Jarvis-Private";
@@ -28,6 +30,21 @@ const privateTok = () => (
 const privateRepoEnabled = () =>
   (Deno.env.get("MCP_PRIVATE_REPO_ENABLED") ?? "false").toLowerCase() === "true";
 
+const personalProfilesEnabled = () =>
+  (Deno.env.get("MCP_PERSONAL_PROFILE_ENABLED") ?? "false").toLowerCase() === "true";
+
+const PERSONAL_PROFILE_PREFIXES = [
+  "/contents/core/JarvisMain/Architecture/identity/raven/",
+  "/contents/core/JarvisMain/Architecture/identity/relational/",
+] as const;
+
+function personalProfilePath(path: string): boolean {
+  const decoded = (() => {
+    try { return decodeURIComponent(path); } catch { return path; }
+  })();
+  return PERSONAL_PROFILE_PREFIXES.some((prefix) => decoded.startsWith(prefix));
+}
+
 // Compatibility export used by read/search helpers elsewhere in the MCP bundle.
 // Crucially, this can never return GITHUB_TOKEN_PRIVATE.
 export const ghTok = publicReadTok;
@@ -35,6 +52,13 @@ export const ghTok = publicReadTok;
 export const ghPath = (p: string) => p.split("/").map(encodeURIComponent).join("/");
 
 export async function gh(path: string): Promise<Response> {
+  if (personalProfilePath(path) && !personalProfilesEnabled()) {
+    return new Response(null, {
+      status: 403,
+      statusText: "Personal identity profile held by Blackwall",
+    });
+  }
+
   const base: Record<string, string> = {
     "user-agent": "jarvis-mcp",
     accept: "application/vnd.github+json",
