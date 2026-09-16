@@ -16,6 +16,7 @@ TARGETS = {
     "ravenos-public-contract.js": ROOT / "ravenos-public-contract.js",
     "ravenos-pocket-cartridges.json": ROOT / "ravenos-pocket-cartridges.json",
     "ravenos-pocket-contract.js": ROOT / "ravenos-pocket-contract.js",
+    "ravenos-pocket-native-provider.js": ROOT / "ravenos-pocket-native-provider.js",
     "ravenos-pocket-goblin.js": ROOT / "ravenos-pocket-goblin.js",
     "ravenos-haunt.html": ROOT / "ravenos-haunt.html",
     "ravenos-gameboy.html": ROOT / "ravenos-gameboy.html",
@@ -28,6 +29,7 @@ TARGETS = {
 JS_SYNTAX = [
     ROOT / "ravenos-public-contract.js",
     ROOT / "ravenos-pocket-contract.js",
+    ROOT / "ravenos-pocket-native-provider.js",
     ROOT / "ravenos-pocket-goblin.js",
     ROOT / "ravenos-gameboy-v4.js",
 ]
@@ -45,14 +47,7 @@ def canonical(value: object) -> bytes:
 
 def fetch_live(name: str, nonce: str) -> bytes:
     url = f"{BASE}/{name}?render_proof={nonce}"
-    req = urllib.request.Request(
-        url,
-        headers={
-            "User-Agent": "RavenOS-Pages-Render-Canary/3.0",
-            "Cache-Control": "no-cache",
-            "Pragma": "no-cache",
-        },
-    )
+    req = urllib.request.Request(url, headers={"User-Agent": "RavenOS-Pages-Render-Canary/4.0", "Cache-Control": "no-cache", "Pragma": "no-cache"})
     with urllib.request.urlopen(req, timeout=20) as response:
         if response.status != 200:
             raise RuntimeError(f"HTTP_{response.status}:{name}")
@@ -93,6 +88,7 @@ def validate_registry(data: bytes) -> dict:
     assert [c["order"] for c in carts] == sorted(c["order"] for c in carts)
     assert all("REQUEST_EFFECT" not in c["actions"] for c in carts)
     assert registry["providers"]["browser"]["connected"] is True
+    # Registry describes public-web defaults. Native host connection is runtime-only.
     assert registry["providers"]["android"]["connected"] is False
     assert registry["providers"]["windows"]["connected"] is False
     return registry
@@ -134,16 +130,27 @@ def main() -> int:
             assert "RavenOS Pocket // Cartridge Civilization Handheld" in gameboy
             assert "./ravenos-public-contract.js" in gameboy
             assert "./ravenos-pocket-contract.js" in gameboy
+            assert "./ravenos-pocket-native-provider.js" in gameboy
             assert "./ravenos-pocket-goblin.js" in gameboy
             assert "./ravenos-gameboy-v4.js" in gameboy
             assert "./ravenos-gameboy-v2.css" in gameboy
             assert "Jarvis-Private" not in gameboy
+
+            native = live["ravenos-pocket-native-provider.js"].decode("utf-8")
+            assert "ravenos.pocket.native-scene.v1" in native
+            assert "ANDROID_JS_INTERFACE" in native
+            assert "WEBVIEW2_WEB_MESSAGE" in native
+            assert "REPLAY_OR_REORDER" in native
+            assert "SENSITIVE_CONTENT" in native
+            assert "effect_authority:false" in native
+            assert "Jarvis-Private" not in native
 
             gameboy_js = live["ravenos-gameboy-v4.js"].decode("utf-8")
             assert "./ravenos-public-haunt.json" in gameboy_js
             assert "./ravenos-pocket-cartridges.json" in gameboy_js
             assert "RavenOSPublicContract.validatePacket" in gameboy_js
             assert "RavenOSPocketContract.validateRegistry" in gameboy_js
+            assert "RavenOSPocketNative" in gameboy_js
             assert "CARTRIDGE_OPEN" in gameboy_js
             assert "EFFECT_BOUNDARY_MISMATCH" in gameboy_js
             assert "Jarvis-Private" not in gameboy_js
@@ -155,11 +162,12 @@ def main() -> int:
             assert "Jarvis-Private" not in pocket_contract
 
             goblin = live["ravenos-pocket-goblin.js"].decode("utf-8")
-            assert "ravenos.pocket.reaction-packet.v1" in goblin
+            assert "ravenos.pocket.goblin-web.v2" in goblin
             assert "CARTRIDGE_OPEN" in goblin
             assert "BROWSER_OFFLINE" in goblin
-            assert "android_connected:false" in goblin
-            assert "windows_connected:false" in goblin
+            assert "NATIVE_SCENE" in goblin
+            assert "ravenos:native-scene" in goblin
+            assert "native_provider_state" in goblin
             assert "Jarvis-Private" not in goblin
 
             home = live["ravenos-home.html"].decode("utf-8")
@@ -189,7 +197,7 @@ def main() -> int:
 
             print("RAVENOS_PAGES_RENDER_CANARY PASS")
             print(json.dumps({
-                "schema": "ravenos.public-handheld.pages-render-canary.v4",
+                "schema": "ravenos.public-handheld.pages-render-canary.v5",
                 "state": "PASS",
                 "proof_head": head,
                 "host": BASE,
@@ -198,8 +206,9 @@ def main() -> int:
                 "packet_schema": packet["schema"],
                 "cartridge_schema": registry["schema"],
                 "cartridge_count": len(registry["cartridges"]),
-                "external_android_connected": registry["providers"]["android"]["connected"],
-                "external_windows_connected": registry["providers"]["windows"]["connected"],
+                "public_registry_android_default_connected": registry["providers"]["android"]["connected"],
+                "public_registry_windows_default_connected": registry["providers"]["windows"]["connected"],
+                "native_provider_module_served": True,
                 "effect_budget": packet["readiness"]["effect_budget"],
                 "http_targets_verified": sorted(TARGETS),
                 "served_bytes_match_deployment_head": True,
