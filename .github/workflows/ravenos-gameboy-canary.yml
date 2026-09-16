@@ -5,6 +5,10 @@ on:
     paths:
       - 'index.html'
       - 'ravenos-gameboy.html'
+      - 'ravenos-gameboy-v4.js'
+      - 'ravenos-pocket-cartridges.json'
+      - 'ravenos-pocket-contract.js'
+      - 'ravenos-pocket-goblin.js'
       - 'ravenos-haunt.html'
       - 'ravenos-public-haunt.json'
       - 'ravenos-public-contract.js'
@@ -25,25 +29,27 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Verify strict public packet and handheld contracts
+      - name: Verify strict public packet, cartridges and handheld contracts
         run: python scripts/ravenos_gameboy_canary.py
-      - name: Check shared public validator syntax
+      - name: Check public packet validator syntax
         run: node --check ravenos-public-contract.js
       - name: Execute shared public validator canary
         run: node scripts/ravenos_public_contract_canary.js
-      - name: Extract inline consumer JavaScript
+      - name: Check Pocket cartridge validator syntax
+        run: node --check ravenos-pocket-contract.js
+      - name: Check Pocket Goblin event throat syntax
+        run: node --check ravenos-pocket-goblin.js
+      - name: Check Pocket v4 runtime syntax
+        run: node --check ravenos-gameboy-v4.js
+      - name: Extract public haunt inline JavaScript
         run: |
           python - <<'PY'
           from pathlib import Path
           import re
-          for name in ('ravenos-gameboy.html','ravenos-haunt.html'):
-              html = Path(name).read_text(encoding='utf-8')
-              scripts = re.findall(r'<script>(.*?)</script>', html, flags=re.S)
-              assert scripts, f'NO_INLINE_SCRIPT:{name}'
-              out = '/tmp/' + name.replace('.html','.js')
-              Path(out).write_text('\n'.join(scripts), encoding='utf-8')
+          html = Path('ravenos-haunt.html').read_text(encoding='utf-8')
+          scripts = re.findall(r'<script>(.*?)</script>', html, flags=re.S)
+          assert scripts, 'NO_INLINE_SCRIPT:ravenos-haunt.html'
+          Path('/tmp/ravenos-haunt.js').write_text('\n'.join(scripts), encoding='utf-8')
           PY
-      - name: Check GameBoy inline JavaScript syntax
-        run: node --check /tmp/ravenos-gameboy.js
       - name: Check public haunt inline JavaScript syntax
         run: node --check /tmp/ravenos-haunt.js
