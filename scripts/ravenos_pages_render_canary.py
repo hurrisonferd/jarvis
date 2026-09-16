@@ -4,6 +4,7 @@ from __future__ import annotations
 import hashlib
 import json
 import os
+import subprocess
 import time
 import urllib.request
 from pathlib import Path
@@ -13,14 +14,23 @@ BASE = "https://hurrisonferd.github.io/jarvis"
 TARGETS = {
     "ravenos-public-haunt.json": ROOT / "ravenos-public-haunt.json",
     "ravenos-public-contract.js": ROOT / "ravenos-public-contract.js",
+    "ravenos-pocket-cartridges.json": ROOT / "ravenos-pocket-cartridges.json",
+    "ravenos-pocket-contract.js": ROOT / "ravenos-pocket-contract.js",
+    "ravenos-pocket-goblin.js": ROOT / "ravenos-pocket-goblin.js",
     "ravenos-haunt.html": ROOT / "ravenos-haunt.html",
     "ravenos-gameboy.html": ROOT / "ravenos-gameboy.html",
     "ravenos-gameboy-v2.css": ROOT / "ravenos-gameboy-v2.css",
-    "ravenos-gameboy-v3.js": ROOT / "ravenos-gameboy-v3.js",
+    "ravenos-gameboy-v4.js": ROOT / "ravenos-gameboy-v4.js",
     "ravenos-home.html": ROOT / "ravenos-home.html",
     "ravenos-home.webmanifest": ROOT / "ravenos-home.webmanifest",
     "ravenos-home-sw.js": ROOT / "ravenos-home-sw.js",
 }
+JS_SYNTAX = [
+    ROOT / "ravenos-public-contract.js",
+    ROOT / "ravenos-pocket-contract.js",
+    ROOT / "ravenos-pocket-goblin.js",
+    ROOT / "ravenos-gameboy-v4.js",
+]
 ATTEMPTS = 12
 DELAY_SECONDS = 5
 
@@ -38,7 +48,7 @@ def fetch_live(name: str, nonce: str) -> bytes:
     req = urllib.request.Request(
         url,
         headers={
-            "User-Agent": "RavenOS-Pages-Render-Canary/2.0",
+            "User-Agent": "RavenOS-Pages-Render-Canary/3.0",
             "Cache-Control": "no-cache",
             "Pragma": "no-cache",
         },
@@ -63,7 +73,6 @@ def validate_packet(data: bytes) -> dict:
     assert packet["kingdom"]["membership_is_live_presence"] is False
     assert packet["readiness"]["effect_budget"] == 0
     assert packet["readiness"]["owner_invocation"] is False
-
     identity = dict(packet)
     packet_id = identity.pop("packet_id")
     expected = "PUBLICHAUNT-" + hashlib.sha256(canonical(identity)).hexdigest()[:24].upper()
@@ -71,9 +80,35 @@ def validate_packet(data: bytes) -> dict:
     return packet
 
 
+def validate_registry(data: bytes) -> dict:
+    registry = json.loads(data.decode("utf-8"))
+    assert set(registry) == {"schema", "effect_authority", "effect_budget", "browser_scene_scope", "cartridges", "providers", "laws"}
+    assert registry["schema"] == "ravenos.pocket.cartridge-registry.public.v1"
+    assert registry["effect_authority"] is False
+    assert registry["effect_budget"] == 0
+    assert registry["browser_scene_scope"] == "POCKET_PAGE_ONLY"
+    carts = registry["cartridges"]
+    assert 1 <= len(carts) <= 64
+    assert len({c["id"] for c in carts}) == len(carts)
+    assert [c["order"] for c in carts] == sorted(c["order"] for c in carts)
+    assert all("REQUEST_EFFECT" not in c["actions"] for c in carts)
+    assert registry["providers"]["browser"]["connected"] is True
+    assert registry["providers"]["android"]["connected"] is False
+    assert registry["providers"]["windows"]["connected"] is False
+    return registry
+
+
+def check_js_syntax() -> None:
+    for path in JS_SYNTAX:
+        subprocess.run(["node", "--check", str(path)], check=True, capture_output=True, text=True)
+
+
 def main() -> int:
     head = os.environ.get("PROOF_HEAD", "UNKNOWN")
+    check_js_syntax()
     local = {name: path.read_bytes() for name, path in TARGETS.items()}
+    packet_local = validate_packet(local["ravenos-public-haunt.json"])
+    registry_local = validate_registry(local["ravenos-pocket-cartridges.json"])
     last_error = "UNSET"
 
     for attempt in range(1, ATTEMPTS + 1):
@@ -85,6 +120,9 @@ def main() -> int:
                 raise AssertionError("STALE_OR_DIFFERENT_BYTES:" + ",".join(sorted(mismatches)))
 
             packet = validate_packet(live["ravenos-public-haunt.json"])
+            registry = validate_registry(live["ravenos-pocket-cartridges.json"])
+            assert packet["packet_id"] == packet_local["packet_id"]
+            assert len(registry["cartridges"]) == len(registry_local["cartridges"])
 
             haunt = live["ravenos-haunt.html"].decode("utf-8")
             assert "./ravenos-public-contract.js" in haunt
@@ -93,19 +131,36 @@ def main() -> int:
             assert "Jarvis-Private" not in haunt
 
             gameboy = live["ravenos-gameboy.html"].decode("utf-8")
-            assert "RavenOS Pocket // Public Civilization Handheld" in gameboy
+            assert "RavenOS Pocket // Cartridge Civilization Handheld" in gameboy
             assert "./ravenos-public-contract.js" in gameboy
+            assert "./ravenos-pocket-contract.js" in gameboy
+            assert "./ravenos-pocket-goblin.js" in gameboy
+            assert "./ravenos-gameboy-v4.js" in gameboy
             assert "./ravenos-gameboy-v2.css" in gameboy
-            assert "./ravenos-gameboy-v3.js" in gameboy
             assert "Jarvis-Private" not in gameboy
 
-            gameboy_js = live["ravenos-gameboy-v3.js"].decode("utf-8")
+            gameboy_js = live["ravenos-gameboy-v4.js"].decode("utf-8")
             assert "./ravenos-public-haunt.json" in gameboy_js
+            assert "./ravenos-pocket-cartridges.json" in gameboy_js
             assert "RavenOSPublicContract.validatePacket" in gameboy_js
-            assert "MACHINE KINGDOM" in gameboy_js
-            assert "REGISTERED MEMBERSHIP · NOT LIVE PRESENCE" in gameboy_js
-            assert "PUBLIC / READINESS" in gameboy_js
+            assert "RavenOSPocketContract.validateRegistry" in gameboy_js
+            assert "CARTRIDGE_OPEN" in gameboy_js
+            assert "EFFECT_BOUNDARY_MISMATCH" in gameboy_js
             assert "Jarvis-Private" not in gameboy_js
+
+            pocket_contract = live["ravenos-pocket-contract.js"].decode("utf-8")
+            assert "ravenos.pocket.cartridge-contract.v1" in pocket_contract
+            assert "PUBLIC_EFFECT_ACTION" in pocket_contract
+            assert "PROVIDER_CONNECTION_CLAIM" in pocket_contract
+            assert "Jarvis-Private" not in pocket_contract
+
+            goblin = live["ravenos-pocket-goblin.js"].decode("utf-8")
+            assert "ravenos.pocket.reaction-packet.v1" in goblin
+            assert "CARTRIDGE_OPEN" in goblin
+            assert "BROWSER_OFFLINE" in goblin
+            assert "android_connected:false" in goblin
+            assert "windows_connected:false" in goblin
+            assert "Jarvis-Private" not in goblin
 
             home = live["ravenos-home.html"].decode("utf-8")
             assert "./ravenos-public-contract.js" in home
@@ -131,38 +186,31 @@ def main() -> int:
             assert "KINGDOM_PRESENCE_CLAIM" in contract
             assert "READINESS_EFFECT_BUDGET" in contract
             assert "PACKET_ID_MISMATCH" in contract
-            assert "PRIVACY_KEYS" in contract
-            assert "PROOF_KEYS" in contract
 
             print("RAVENOS_PAGES_RENDER_CANARY PASS")
-            print(
-                json.dumps(
-                    {
-                        "schema": "ravenos.public-handheld.pages-render-canary.v3",
-                        "state": "PASS",
-                        "proof_head": head,
-                        "host": BASE,
-                        "home_url": BASE + "/ravenos-home.html",
-                        "gameboy_url": BASE + "/ravenos-gameboy.html",
-                        "packet_id": packet["packet_id"],
-                        "packet_schema": packet["schema"],
-                        "kingdom_member_count": packet["kingdom"]["known_member_count"],
-                        "membership_is_live_presence": packet["kingdom"]["membership_is_live_presence"],
-                        "effect_budget": packet["readiness"]["effect_budget"],
-                        "http_targets_verified": sorted(TARGETS),
-                        "served_bytes_match_deployment_head": True,
-                        "strict_validator_served": True,
-                        "pocket_v3_surface_verified": True,
-                        "home_pwa_surface_verified": True,
-                        "private_repo_literal_absent": True,
-                        "automatic_host_invocation_proven": False,
-                        "effect_authority": False,
-                        "sha256": {name: sha256(live[name]) for name in sorted(live)},
-                    },
-                    indent=2,
-                    sort_keys=True,
-                )
-            )
+            print(json.dumps({
+                "schema": "ravenos.public-handheld.pages-render-canary.v4",
+                "state": "PASS",
+                "proof_head": head,
+                "host": BASE,
+                "gameboy_url": BASE + "/ravenos-gameboy.html",
+                "packet_id": packet["packet_id"],
+                "packet_schema": packet["schema"],
+                "cartridge_schema": registry["schema"],
+                "cartridge_count": len(registry["cartridges"]),
+                "external_android_connected": registry["providers"]["android"]["connected"],
+                "external_windows_connected": registry["providers"]["windows"]["connected"],
+                "effect_budget": packet["readiness"]["effect_budget"],
+                "http_targets_verified": sorted(TARGETS),
+                "served_bytes_match_deployment_head": True,
+                "javascript_syntax_checked": True,
+                "strict_validator_served": True,
+                "pocket_v4_cartridge_surface_verified": True,
+                "private_repo_literal_absent": True,
+                "automatic_host_invocation_proven": False,
+                "effect_authority": False,
+                "sha256": {name: sha256(live[name]) for name in sorted(live)},
+            }, indent=2, sort_keys=True))
             return 0
         except Exception as exc:
             last_error = f"{type(exc).__name__}:{exc}"

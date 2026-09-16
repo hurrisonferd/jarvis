@@ -1,0 +1,34 @@
+{
+  "schema": "ravenos.pocket.cartridge-registry.public.v1",
+  "effect_authority": false,
+  "effect_budget": 0,
+  "browser_scene_scope": "POCKET_PAGE_ONLY",
+  "cartridges": [
+    {"id":"home","label":"HOME","icon":"⌂","class":"PLATFORM","order":10,"status":"PUBLIC_PACKET_BOUND","owner_label":"RavenOS","copy":"NOW, holds, civilization posture and resident Goblin line","packet_sections":["platform","kingdom","office","readiness"],"views":["NOW","HOLDS","RESIDENT"],"actions":["READ","INSPECT"],"proof":"SANITIZED_PUBLIC_PACKET"},
+    {"id":"bios","label":"BIOS","icon":"R","class":"PLATFORM","order":20,"status":"PUBLIC_COARSE_SOURCE","owner_label":"RavenOS BIOS","copy":"root versions, census and readiness lamps","packet_sections":["platform","readiness"],"views":["VERSIONS","ROOT_COUNTS","READINESS","BOUNDARIES"],"actions":["READ","INSPECT"],"proof":"SANITIZED_PUBLIC_PACKET"},
+    {"id":"kingdom","label":"KINGDOM","icon":"♜","class":"CIVILIZATION","order":30,"status":"REGISTRY_MEMBERSHIP","owner_label":"Machine Kingdom registry","copy":"36-member registry without pretending anyone is live","packet_sections":["kingdom"],"views":["ROSTER","COUNTS","BOUNDARY"],"actions":["READ","INSPECT"],"proof":"MEMBERSHIP_NOT_PRESENCE"},
+    {"id":"office","label":"OFFICE","icon":"▣","class":"VEHICLE","order":40,"status":"PUBLIC_COARSE_SOURCE","owner_label":"THOR / RoadOS","copy":"OfficeOS and work-shell posture","packet_sections":["office"],"views":["OFFICE","ROAD_OS","OWNER_ROUTER"],"actions":["READ","INSPECT"],"proof":"SANITIZED_PUBLIC_PACKET"},
+    {"id":"omni_rv","label":"OMNI RV","icon":"◉","class":"VEHICLE","order":50,"status":"CAPABILITY_PREVIEW","owner_label":"SalviaOmniCar","copy":"NOW, NEXT, MAP, WHY, HUD, queue, graph, simulate, proof and recovery","packet_sections":["office","readiness","topology"],"views":["NOW","NEXT","MAP","WHY","HUD","QUEUE","GRAPH","SIMULATE","PROOF","RECOVER","FLIGHT"],"actions":["READ","INSPECT","SIMULATE"],"proof":"SOURCE_CAPABILITY_MESH_PUBLIC_PREVIEW"},
+    {"id":"armory","label":"ARMORY","icon":"⚡","class":"CAPABILITY","order":60,"status":"DENOMINATOR_108","owner_label":"WeaponsOS","copy":"weapon and instrument denominator, families, owners and readiness law","packet_sections":["readiness"],"views":["DENOMINATOR","OWNERS","FAMILIES","LOADOUT_PREVIEW"],"actions":["READ","INSPECT","SIMULATE"],"proof":"108_REGISTERED_SOURCE_ENTRIES_NO_EXECUTION"},
+    {"id":"brain","label":"BRAIN","icon":"🧠","class":"COGNITION","order":70,"status":"ADVISORY_ONLY","owner_label":"BrainOS","copy":"deterministic next move, route explanation, reuse and kit preview","packet_sections":["platform","readiness"],"views":["NEXT","ROUTE","REUSE","KIT"],"actions":["READ","INSPECT","SIMULATE"],"proof":"NO_EFFECT_AUTHORITY"},
+    {"id":"goblin","label":"GOBLIN","icon":"☠","class":"PERCEPTION","order":80,"status":"WEB_SAFE_SCENE_BUS","owner_label":"Goblin Brain / Goblin Vision donors","copy":"Pocket event throat, episode ledger, anti-repeat and external sensor readiness","packet_sections":["platform","readiness"],"views":["RESIDENT","SCENE","EPISODE","SENSORS","PROVIDERS"],"actions":["READ","INSPECT"],"proof":"WEB_EVENTS_ONLY"},
+    {"id":"gameos","label":"GAMEOS","icon":"🎮","class":"GAME","order":90,"status":"SOURCE_PROJECTION_ONLY","owner_label":"GameOS","copy":"library and launch-resolution surface with admission boundaries","packet_sections":["platform"],"views":["LIBRARY","LAUNCH_RESOLUTION","PARTICIPATION","RETURN"],"actions":["READ","INSPECT","SIMULATE"],"proof":"KNOWN_NE_LAUNCHABLE_NE_AUTHORIZED"},
+    {"id":"musicos","label":"MUSICOS","icon":"♫","class":"CREATIVE","order":100,"status":"TESTED_REFERENCE_SLICE","owner_label":"LILITH / MusicOS","copy":"track, hook, motif, prompt, remix, album and metrics command deck","packet_sections":["platform"],"views":["TRACK","HOOK","MOTIF","PROMPT","REMIX","ALBUM","METRICS"],"actions":["READ","INSPECT","SIMULATE"],"proof":"41_TEST_REFERENCE_SLICE_NOT_FULL_RUNTIME"},
+    {"id":"proof","label":"PROOF","icon":"◇","class":"PROOF","order":110,"status":"HOLD_AWARE","owner_label":"RavenOS proof composition","copy":"source, observed, proven, unknown and hold distinctions","packet_sections":["readiness","topology","privacy","proof"],"views":["SOURCE","OBSERVED","PROVEN","UNKNOWN","HOLDS"],"actions":["READ","INSPECT"],"proof":"PUBLIC_PACKET_CEILING"},
+    {"id":"recovery","label":"RECOVERY","icon":"↶","class":"RECOVERY","order":120,"status":"BOUNDED_PREVIEW","owner_label":"RecoveryOS / BootOS","copy":"BACK, WHY, last-good class and hold-aware recovery","packet_sections":["readiness"],"views":["BACK","WHY","LAST_GOOD","HOLD"],"actions":["READ","INSPECT"],"proof":"NO_REPLAY_NO_EFFECT"},
+    {"id":"boundary","label":"BOUNDARY","icon":"◆","class":"BOUNDARY","order":130,"status":"STRICT_PUBLIC_ZERO_EFFECT","owner_label":"RavenOS public host boundary","copy":"privacy, effect ceiling and provider boundaries","packet_sections":["privacy","proof","readiness"],"views":["PRIVACY","EFFECT_CEILING","PROVIDERS"],"actions":["READ","INSPECT"],"proof":"STRICT_VALIDATOR"}
+  ],
+  "providers": {
+    "browser": {"connected":true,"label":"Pocket Web","capabilities":["CARTRIDGE_NAVIGATION","SCROLL","SYNC","DOCUMENT_VISIBILITY","WINDOW_FOCUS","ONLINE_STATE"]},
+    "android": {"connected":false,"label":"RavenOS Launcher","capabilities":["NOTIFICATION_SENSE","MEDIA_SESSION_SENSE","USAGE_SENSE","OWNER_ARMED_ACCESSIBILITY_READ","WHOLE_PHONE_SCENE"]},
+    "windows": {"connected":false,"label":"Goblin Vision Windows 0.69.6","capabilities":["WGC_CAPTURE","UIA_CONTROL_VIEW","WINDOWS_OCR","DESKTOP_DELTA","PROCESS_AUDIO_SCOPE","NATIVE_PRESENCE","RESOURCE_PRESSURE","HDR_SENSE","OWNER_MODEL_VISUAL_CRITIC","GAME_BAR_SURFACE"]}
+  },
+  "laws": [
+    "CARTRIDGE_NE_OWNER",
+    "PUBLIC_POCKET_NE_PRIVATE_SOURCE_ROOT",
+    "EXTERNAL_PROVIDER_CAPABILITY_NE_CONNECTED_SENSOR",
+    "REGISTRY_MEMBERSHIP_NE_LIVE_PRESENCE",
+    "SIMULATE_NE_EXECUTE",
+    "EFFECT_BUDGET_ZERO_REMAINS_ZERO"
+  ]
+}
