@@ -167,6 +167,8 @@ def main() -> int:
             assert "window.runGridScout" in gameboy_js
             assert "NOT_CONTACTED" in gameboy_js
             assert "huggingface.co" in gameboy_js
+            assert "github.com" in grid_scout_bridge
+            assert "OPEN_SOURCE_REPOSITORY" in grid_scout_bridge
             assert "registry.modelcontextprotocol.io" in gameboy_js
             assert "CARTRIDGE_OPEN" in gameboy_js
             assert "EFFECT_BOUNDARY_MISMATCH" in gameboy_js
