@@ -111,7 +111,7 @@ if (!ui.innerHTML.includes("ggml-org/llama.cpp")) throw new Error("CANDIDATE_NOT
 if (!ui.innerHTML.includes("&lt;script&gt;alert(1)&lt;/script&gt;")) throw new Error("UNTRUSTED_DESCRIPTION_NOT_ESCAPED");
 if (ui.innerHTML.includes("<script>alert(1)</script>")) throw new Error("RAW_HTML_INJECTION");
 if (!ui.innerHTML.includes("NOT CONTACTED")) throw new Error("CONTACT_BOUNDARY_NOT_RENDERED");
-if (!ui.innerHTML.includes("huggingface_hub")) throw new Error("SOURCE_RECEIPT_NOT_RENDERED");
+if (!ui.innerHTML.includes("HUGGINGFACE_HUB") || !ui.innerHTML.includes("GITHUB_REPOSITORIES")) throw new Error("SOURCE_RECEIPT_NOT_RENDERED");
 if (ui.innerHTML.includes("PRIVATE CANDIDATE ROWS")) throw new Error("PRIVATE_REVIEW_LEAK");
 
 console.log("POCKET_GRID_SCOUT_DOM_HARNESS=PASS");
