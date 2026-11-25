@@ -4,13 +4,13 @@ const SCHEMA='ravenos.pocket.grid-scout-result.v1';
 const MAX_AGE_MS=15000,MAX_FUTURE_MS=30000,MAX_CANDIDATES=40;
 const state={latest:null,accepted:0,rejected:0,lastReject:'',lastSeq:-1};
 const TOP=['schema','provider','provider_version','sequence','captured_at_ms','fresh_for_ms','effect_authority','state','sources','candidates','proof'];
-const SOURCE_KEYS=['mcp_registry','huggingface_hub'];
+const SOURCE_KEYS=['mcp_registry','huggingface_hub','github_repositories'];
 const CANDIDATE_KEYS=['participant_type','name','version','author','license','description','pipeline_tag','library_name','downloads','likes','last_modified','gated','access_mode','source_uri','discovery_state','trust_state','contact_state','invocation_state'];
 const exact=(o,keys)=>!!o&&typeof o==='object'&&!Array.isArray(o)&&Object.keys(o).length===keys.length&&Object.keys(o).every(k=>keys.includes(k));
 const bounded=(s,n=500)=>typeof s==='string'&&s.length<=n;
 function reject(reason){state.rejected++;state.lastReject=reason;return {ok:false,reason};}
 function safeUri(raw){
- try{const u=new URL(raw);return u.protocol==='https:'&&['registry.modelcontextprotocol.io','huggingface.co'].includes(u.hostname)&&!u.username&&!u.password?u.href:'';}catch{return '';}
+ try{const u=new URL(raw);return u.protocol==='https:'&&['registry.modelcontextprotocol.io','huggingface.co','github.com'].includes(u.hostname)&&!u.username&&!u.password?u.href:'';}catch{return '';}
 }
 function validate(raw,transport){
  let x=raw;try{if(typeof raw==='string')x=JSON.parse(raw);}catch{return reject('INVALID_JSON');}
@@ -28,7 +28,7 @@ function validate(raw,transport){
  if(!Array.isArray(x.candidates)||x.candidates.length>MAX_CANDIDATES)return reject('CANDIDATE_COUNT');
  for(const c of x.candidates){
   if(!exact(c,CANDIDATE_KEYS))return reject('CANDIDATE_KEYS');
-  if(!['EXTERNAL_MCP_SERVER','OPEN_WEIGHT_MODEL'].includes(c.participant_type)||!bounded(c.name,180)||!bounded(c.version,80)||!bounded(c.author,120)||!bounded(c.license,80)||!bounded(c.description,700)||!bounded(c.pipeline_tag,100)||!bounded(c.library_name,100)||!bounded(c.last_modified,80))return reject('CANDIDATE_TEXT');
+  if(!['EXTERNAL_MCP_SERVER','OPEN_WEIGHT_MODEL','OPEN_SOURCE_REPOSITORY'].includes(c.participant_type)||!bounded(c.name,180)||!bounded(c.version,80)||!bounded(c.author,120)||!bounded(c.license,80)||!bounded(c.description,700)||!bounded(c.pipeline_tag,100)||!bounded(c.library_name,100)||!bounded(c.last_modified,80))return reject('CANDIDATE_TEXT');
   if(c.downloads!==null&&(!Number.isSafeInteger(c.downloads)||c.downloads<0))return reject('DOWNLOADS');
   if(c.likes!==null&&(!Number.isSafeInteger(c.likes)||c.likes<0))return reject('LIKES');
   if(typeof c.gated!=='boolean'||!['GATED','PUBLIC_READ','UNKNOWN'].includes(c.access_mode))return reject('ACCESS_MODE');
