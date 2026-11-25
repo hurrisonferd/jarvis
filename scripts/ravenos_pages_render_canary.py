@@ -165,6 +165,11 @@ def main() -> int:
             assert "PUBLIC_SCOUT_URL" in gameboy_js
             assert "grid-public-scout" in gameboy_js
             assert "window.runGridScout" in gameboy_js
+            assert "github_repositories" in gameboy_js
+            assert "OPEN_SOURCE_REPOSITORY" in gameboy_js
+            assert "NOT_CONTACTED" in gameboy_js
+            assert "grid-public-scout" in gameboy_js
+            assert "window.runGridScout" in gameboy_js
             assert "NOT_CONTACTED" in gameboy_js
             assert "huggingface.co" in gameboy_js
             assert "github.com" in grid_scout_bridge
