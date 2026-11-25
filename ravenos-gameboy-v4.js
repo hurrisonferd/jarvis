@@ -62,12 +62,12 @@ function grid_scout(c){
 }
 function validPublicScout(r){
   if(!r||r.schema!=='grid.public-scout.result.v1'||typeof r.query!=='string'||!r.sources||!Array.isArray(r.candidates)||r.candidates.length>10)return false;
-  for(const key of ['mcp_registry','huggingface_hub']){const x=r.sources[key];if(!x||!['READ_OK','UNAVAILABLE','NOT_QUERIED'].includes(x.status)||!Number.isInteger(x.count)||x.count<0||x.count>5)return false;}
+  for(const key of ['mcp_registry','huggingface_hub','github_repositories']){const x=r.sources[key];if(!x||!['READ_OK','UNAVAILABLE','NOT_QUERIED'].includes(x.status)||!Number.isInteger(x.count)||x.count<0||x.count>5)return false;}
   const keys=['participant_type','name','version','author','license','description','pipeline_tag','library_name','downloads','likes','last_modified','gated','access_mode','source_uri','discovery_state','trust_state','contact_state','invocation_state'];
   return r.candidates.every(x=>{
     if(!x||Object.keys(x).length!==keys.length||keys.some(k=>!Object.prototype.hasOwnProperty.call(x,k)))return false;
     let u;try{u=new URL(x.source_uri);}catch{return false;}
-    return ['EXTERNAL_MCP_SERVER','OPEN_WEIGHT_MODEL'].includes(x.participant_type)&&typeof x.name==='string'&&u.protocol==='https:'&&!u.username&&!u.password&&!u.port&&!u.search&&!u.hash&&['registry.modelcontextprotocol.io','huggingface.co'].includes(u.hostname)&&x.discovery_state==='DISCOVERED'&&x.trust_state==='UNASSESSED'&&x.contact_state==='NOT_CONTACTED'&&x.invocation_state==='NOT_INVOKED';
+    return ['EXTERNAL_MCP_SERVER','OPEN_WEIGHT_MODEL','OPEN_SOURCE_REPOSITORY'].includes(x.participant_type)&&typeof x.name==='string'&&u.protocol==='https:'&&!u.username&&!u.password&&!u.port&&!u.search&&!u.hash&&['registry.modelcontextprotocol.io','huggingface.co','github.com'].includes(u.hostname)&&x.discovery_state==='DISCOVERED'&&x.trust_state==='UNASSESSED'&&x.contact_state==='NOT_CONTACTED'&&x.invocation_state==='NOT_INVOKED';
   });
 }
 window.runGridScout=async()=>{
@@ -76,7 +76,7 @@ window.runGridScout=async()=>{
   publicScoutQuery=query;
   publicScoutBusy=true;grid_scout(cartridges().find(x=>x.id==='grid_scout'));
   try{
-    const response=await fetch(PUBLIC_SCOUT_URL,{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({query,limit:5,scope:'both'})});
+    const response=await fetch(PUBLIC_SCOUT_URL,{method:'POST',headers:{'Content-Type':'application/json'},cache:'no-store',body:JSON.stringify({query,limit:5,scope:'all'})});
     if(!response.ok)throw new Error('PUBLIC_SCOUT_HTTP_'+response.status);
     const result=await response.json();if(!validPublicScout(result))throw new Error('PUBLIC_SCOUT_SCHEMA_REJECTED');
     publicScoutResult=result;
