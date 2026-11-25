@@ -17,6 +17,7 @@ TARGETS = {
     "ravenos-pocket-cartridges.json": ROOT / "ravenos-pocket-cartridges.json",
     "ravenos-pocket-contract.js": ROOT / "ravenos-pocket-contract.js",
     "ravenos-pocket-native-provider.js": ROOT / "ravenos-pocket-native-provider.js",
+    "ravenos-pocket-grid-scout-bridge.js": ROOT / "ravenos-pocket-grid-scout-bridge.js",
     "ravenos-pocket-goblin.js": ROOT / "ravenos-pocket-goblin.js",
     "ravenos-haunt.html": ROOT / "ravenos-haunt.html",
     "ravenos-gameboy.html": ROOT / "ravenos-gameboy.html",
@@ -30,6 +31,7 @@ JS_SYNTAX = [
     ROOT / "ravenos-public-contract.js",
     ROOT / "ravenos-pocket-contract.js",
     ROOT / "ravenos-pocket-native-provider.js",
+    ROOT / "ravenos-pocket-grid-scout-bridge.js",
     ROOT / "ravenos-pocket-goblin.js",
     ROOT / "ravenos-gameboy-v4.js",
 ]
@@ -131,6 +133,7 @@ def main() -> int:
             assert "./ravenos-public-contract.js" in gameboy
             assert "./ravenos-pocket-contract.js" in gameboy
             assert "./ravenos-pocket-native-provider.js" in gameboy
+            assert "./ravenos-pocket-grid-scout-bridge.js" in gameboy
             assert "./ravenos-pocket-goblin.js" in gameboy
             assert "./ravenos-gameboy-v4.js" in gameboy
             assert "./ravenos-gameboy-v2.css" in gameboy
@@ -145,12 +148,33 @@ def main() -> int:
             assert "effect_authority:false" in native
             assert "Jarvis-Private" not in native
 
+            grid_scout_bridge = live["ravenos-pocket-grid-scout-bridge.js"].decode("utf-8")
+            assert "ravenos.pocket.grid-scout-result.v1" in grid_scout_bridge
+            assert "REPLAY_OR_REORDER" in grid_scout_bridge
+            assert "TRUST_BOUNDARY" in grid_scout_bridge
+            assert "effect_authority:false" in grid_scout_bridge
+            assert "service_role" not in grid_scout_bridge.lower()
+            assert "Jarvis-Private" not in grid_scout_bridge
+
             gameboy_js = live["ravenos-gameboy-v4.js"].decode("utf-8")
             assert "./ravenos-public-haunt.json" in gameboy_js
             assert "./ravenos-pocket-cartridges.json" in gameboy_js
             assert "RavenOSPublicContract.validatePacket" in gameboy_js
             assert "RavenOSPocketContract.validateRegistry" in gameboy_js
             assert "RavenOSPocketNative" in gameboy_js
+            assert "PUBLIC_SCOUT_URL" in gameboy_js
+            assert "grid-public-scout" in gameboy_js
+            assert "window.runGridScout" in gameboy_js
+            assert "github_repositories" in gameboy_js
+            assert "OPEN_SOURCE_REPOSITORY" in gameboy_js
+            assert "NOT_CONTACTED" in gameboy_js
+            assert "grid-public-scout" in gameboy_js
+            assert "window.runGridScout" in gameboy_js
+            assert "NOT_CONTACTED" in gameboy_js
+            assert "huggingface.co" in gameboy_js
+            assert "github.com" in grid_scout_bridge
+            assert "OPEN_SOURCE_REPOSITORY" in grid_scout_bridge
+            assert "registry.modelcontextprotocol.io" in gameboy_js
             assert "CARTRIDGE_OPEN" in gameboy_js
             assert "EFFECT_BOUNDARY_MISMATCH" in gameboy_js
             assert "Jarvis-Private" not in gameboy_js
