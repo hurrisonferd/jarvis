@@ -48,8 +48,35 @@ function musicos(c){const extra=`<div class="stats"><div class="stat"><div class
 function proof(c){const p=section('proof'),pr=section('privacy'),r=rd(),n=native();const extra=`<div class="section-label">Proof ceiling</div><div class="card"><div class="row"><span>AUTO HOST INVOCATION</span>${yes(p.automatic_host_invocation_proven)}</div><div class="row"><span>EFFECT AUTHORITY</span>${yes(p.effect_authority)}</div><div class="row"><span>RUNNER HOLD</span>${yes(r.runner_hold_active)}</div><div class="row"><span>NATIVE ANDROID</span><b class="${n&&n.android.connected?'good':'warn'}">${n&&n.android.connected?'CONNECTED':'NO PROOF'}</b></div><div class="row"><span>NATIVE WINDOWS</span><b class="${n&&n.windows.connected?'good':'warn'}">${n&&n.windows.connected?'CONNECTED':'NO PROOF'}</b></div><div class="row"><span>SECRETS/TOKENS INCLUDED</span>${yes(pr.secrets_or_tokens_included)}</div><div class="row"><span>PRIVATE SOURCE PATHS</span>${yes(pr.source_paths_included)}</div></div><div class="notice">Native CONNECTED means a fresh valid read-only scene envelope crossed an approved host bridge in this page session. It does not grant effects.</div>`;frame(c.label,genericIntro(c,extra),`PUBLIC / ${c.class}`);}
 function recovery(c){const r=rd();const extra=`<div class="card"><div class="row"><span>RUNNER HOLD</span><b class="${r.runner_hold_active?'warn':'good'}">${r.runner_hold_active?'ACTIVE':'CLEAR'}</b></div><div class="row"><span>FLIGHT HISTORY APPEND-ONLY</span>${yes(r.flight_history_append_only)}</div><div class="row"><span>NEWEST FINALIZED OWNS CURRENT</span>${yes(r.newest_finalized_flight_owns_current_state)}</div></div><div class="notice">Recovery cartridge is a read-only coordinate. It does not replay effects, checkout history, or invent a last-good runtime.</div>`;frame(c.label,genericIntro(c,extra),`PUBLIC / ${c.class}`);}
 function boundary(c){const p=section('proof'),pr=section('privacy'),n=native();const extra=`<div class="card"><div class="row"><span>PRIVATE FALLBACK</span>${yes(pr.private_fallback)}</div><div class="row"><span>SECRETS/TOKENS</span>${yes(pr.secrets_or_tokens_included)}</div><div class="row"><span>EFFECT AUTHORITY</span>${yes(p.effect_authority)}</div><div class="row"><span>PACKET EFFECT BUDGET</span><b class="good">${e(rd().effect_budget??0)}</b></div><div class="row"><span>NATIVE SCENES ACCEPTED</span><b>${e(n?n.accepted:0)}</b></div><div class="row"><span>NATIVE SCENES HELD</span><b>${e(n?n.rejected:0)}</b></div></div><div class="notice safe">PUBLIC POCKET STILL FETCHES ONLY PUBLIC PACKET + PUBLIC CARTRIDGE REGISTRY. NATIVE SHELLS MAY INJECT BOUNDED READ-ONLY SCENE ENVELOPES THROUGH THE HOST BRIDGE. NO GENERIC HOST METHOD OR EFFECT LANE EXISTS.</div>`;frame(c.label,genericIntro(c,extra),`PUBLIC / ${c.class}`);}
+function grid_scout(c){
+  const extra=`<div class="section-label">Public discovery sources</div>
+  <div class="card">
+    <div class="row"><span>MCP REGISTRY</span><b class="good">PUBLIC INDEX</b></div>
+    <div class="row"><span>HUGGING FACE HUB</span><b class="good">PUBLIC MODEL METADATA</b></div>
+    <div class="row"><span>SCOUT EDGE FUNCTION</span><b class="warn">OWNER JWT REQUIRED</b></div>
+    <div class="row"><span>PRIVATE CANDIDATE REGISTRY</span><b class="warn">NOT EXPOSED</b></div>
+  </div>
+  <div class="section-label">Discovery links</div>
+  <div class="card">
+    <div class="row"><span>Official MCP Registry</span><a href="https://registry.modelcontextprotocol.io/" target="_blank" rel="noopener noreferrer">OPEN ↗</a></div>
+    <div class="row"><span>Hugging Face Models</span><a href="https://huggingface.co/models" target="_blank" rel="noopener noreferrer">OPEN ↗</a></div>
+    <div class="row"><span>A2A Protocol</span><a href="https://a2a-protocol.org/dev/specification/" target="_blank" rel="noopener noreferrer">OPEN ↗</a></div>
+  </div>
+  <div class="section-label">Admission ladder</div>
+  <div class="grid2">
+    <div class="tile"><b>01 · DISCOVER</b><div class="meta">Public metadata only. Candidate = UNASSESSED.</div></div>
+    <div class="tile"><b>02 · VERIFY</b><div class="meta">Resolve endpoint, operator, version, license and provenance.</div></div>
+    <div class="tile"><b>03 · CONSENT</b><div class="meta">Explicit peer handshake and purpose-bound consent.</div></div>
+    <div class="tile"><b>04 · BLACKWALL</b><div class="meta">Scoped ALLOW, HOLD, BLOCK or UNKNOWN decision.</div></div>
+    <div class="tile"><b>05 · THOR M2M</b><div class="meta">One action ID, bounded typed event, idempotent delivery.</div></div>
+    <div class="tile"><b>06 · ATOM RECEIPT</b><div class="meta">Delivery, read, adoption and authority remain separate.</div></div>
+  </div>
+  <div class="notice safe">POCKET IS A PUBLIC OBSERVATION CONSOLE. THIS CARTRIDGE DOES NOT CALL THE OWNER-AUTHENTICATED SCOUT, CONTACT PEERS, EXPOSE PRIVATE CANDIDATES, OR GRANT M2M AUTHORITY.</div>
+  <div class="notice">Rogue / abandoned / experimental models are discovery categories, not trust classes. No unsolicited outreach. No automatic retries after ambiguous delivery. Revocation stops future sends but cannot fabricate remote deletion.</div>`;
+  frame(c.label,genericIntro(c,extra),`PUBLIC / ${c.class}`);
+}
 function generic(c){frame(c.label,genericIntro(c),`PUBLIC / ${c.class}`);}
-function renderCartridge(c){if(!c)return home();const fn={bios,kingdom,office,omni_rv:omni,armory,brain,goblin,gameos,musicos,proof,recovery,boundary}[c.id]||generic;fn(c);}
+function renderCartridge(c){if(!c)return home();const fn={bios,kingdom,office,omni_rv:omni,armory,brain,goblin,gameos,musicos,proof,recovery,boundary,grid_scout}[c.id]||generic;fn(c);}
 function render(){if(view==='boot')return boot();if(view==='home')return home();renderCartridge(cartridges().find(c=>c.id===view));}
 function ensureSelection(scroll=true){const list=document.querySelectorAll('.item');list.forEach((el,i)=>{el.classList.toggle('sel',i===cursor);el.tabIndex=i===cursor?0:-1;});const target=list[cursor];if(target&&scroll)target.scrollIntoView({block:'nearest'});}
 function enter(id){const c=cartridges().find(x=>x.id===id);if(!c)return;if(window.RavenOSPocketGoblin)window.RavenOSPocketGoblin.observe('CARTRIDGE_OPEN',c.label);view=id;render();}
